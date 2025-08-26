@@ -1,139 +1,62 @@
-<!-- SOCIAL CARD -->
+# プログラミングブートキャンプ研修教材
 
-![](docs/static/img/Pteranodon-social-card.jpg)
+本リポジトリは、プログラミングブートキャンプ用の研修教材をまとめたものです。  
+Java、Web 技術、Git などの学習コンテンツを体系的に整理しており、初心者から中級者までの学習をサポートします。
 
-# Pteranodon Docs — Docusaurus × GitHub Pages スターター
+## リポジトリ構成
 
-数分で **開発者フレンドリーなドキュメントサイト** を構築・バージョン管理・公開。
+```
+docs/
+├─ java/
+│ ├─ basics/
+│ └─ database/
+├─ web/
+│ ├─ basics/
+│ └─ web-app-development/
+├─ git/
+└─ others/
+```
 
-<p align="center">
-  <a href="https://github.com/Sunwood-ai-labs/docusaurus-gh-pages-starter/actions/workflows/gh_actions_deploy.yml"><img src="https://github.com/Sunwood-ai-labs/docusaurus-gh-pages-starter/actions/workflows/gh_actions_deploy.yml/badge.svg" alt="CI/CD"></a>
-  <a href="https://github.com/Sunwood-ai-labs/docusaurus-gh-pages-starter/releases"><img src="https://img.shields.io/github/v/release/Sunwood-ai-labs/docusaurus-gh-pages-starter?logo=github&label=release" alt="Latest release"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
-  <img src="https://img.shields.io/badge/Docusaurus-v3-2ecc71" alt="Docusaurus v3">
-  <img src="https://img.shields.io/badge/TypeScript-Ready-3178c6?logo=typescript" alt="TypeScript ready">
-</p>
+- **java/**: Java の基本文法、オブジェクト指向、標準ライブラリ、データベース操作など。
+- **web/**: HTML/CSS/JavaScript の基礎、Web アプリ開発、Spring フレームワーク、MVC、認証・認可など。
+- **git/**: Git の基本操作、ブランチとマージ、チーム開発での利用方法。
+- **others/**: トラブルシューティング集、リファレンス集。
 
-> **なぜ Pteranodon Docs なのか？** README だけでは検索・ナビゲーション・多言語対応・バージョニングなどの要求を満たせません。本リポジトリは **Docusaurus v3 + GitHub Actions** による自動デプロイ環境をワンクリックで提供します。
+## 利用方法
 
----
-
-## 目次
-
-[導入メリット](#導入メリット) ｜ [主な機能](#主な機能) ｜ [クイックスタート](#クイックスタート) ｜ [アーキテクチャ](#アーキテクチャ) ｜ [リポジトリ構成](#リポジトリ構成) ｜ [カスタマイズガイド](#カスタマイズガイド) ｜ [貢献](#貢献) ｜ [ライセンス](#ライセンス)
-
----
-
-## 導入メリット
-
-| 課題                 | 従来のアプローチ                 | **Pteranodon Docs**                               |
-| ------------------ | ------------------------ | ------------------------------------------------- |
-| `README.md` の表現力不足 | プレーン Markdown、検索なし、移動が煩雑 | **検索・サイドバー・テーマ** を備えた Docs サイト                    |
-| CI/CD の構築コスト       | Actions を 0 から記述         | **プリセット GitHub Actions** — `main` へ push → 自動デプロイ |
-| 導入ハードル             | Docs 専用レポやインフラが必要        | **テンプレートリポジトリ** — ワンクリックで開始                       |
-| ブランディングの一貫性        | CSS を一から実装               | **テーマトークン / Favicon 置換** で即反映                     |
-| パフォーマンス最適化         | 手動で画像圧縮・キャッシュ設定          | **ベストプラクティス** が初期状態で適用                            |
-
----
-
-## 主な機能
-
-* **テンプレートをインポートするだけ** — production ready で即始動
-* **TypeScript ベース設定** — `docusaurus.config.ts` で型安全に管理
-* **GitHub Actions パイプライン** — ビルド・テスト・デプロイ自動化
-* **Docs / Blog / 固定ページ** — 単一リポジトリで一元管理
-* **i18n & バージョニング** — 規模拡大に応じてスケール
-* **軽量テーマ** — メインカラーやロゴ置換は数分で完了
-
----
-
-## クイックスタート
+1. リポジトリをクローン
 
 ```bash
-# 1) 本テンプレートからリポジトリを作成 (Use this template → Create a new repository)
-
-# 2) ローカルで開発
-$ git clone https://github.com/<ORG>/<REPO>.git
-$ cd <REPO>/docs
-$ npm install
-$ npm start          # http://localhost:3000/
-
-# 3) デプロイ
-$ git add . && git commit -m "docs: 初期コミット"
-$ git push origin main   # 数分後 → https://<ORG>.github.io/<REPO>/ に公開
+git clone https://github.com/hash52/programming-bootcamp.git
 ```
 
-> `docs/` フォルダは独立した Docusaurus プロジェクトです。アプリケーションコードはルートや別ディレクトリに配置できます。
+2. 依存関係のインストール
 
----
-
-## アーキテクチャ
-
-```mermaid
-flowchart LR
-  subgraph オーサリング
-    A[Markdown / MDX]
-  end
-  subgraph サイトジェネレータ
-    B(Docusaurus v3)
-  end
-  subgraph CI/CD
-    C[GitHub Actions]
-  end
-  subgraph ホスティング
-    D[GitHub Pages CDN]
-  end
-  A --> B --> C --> D
-  B --> E[オプション: Algolia DocSearch]
-  B --> F[オプション: Google Analytics]
+```
+npm install
 ```
 
----
+3. Docusaurus 開発サーバの起動
 
-## リポジトリ構成 (抜粋)
-
-```text
-├─ docs/                 # Docusaurus ワークスペース
-│  ├─ docs/              # Markdown ドキュメント
-│  ├─ blog/              # ブログ記事
-│  ├─ src/               # React コンポーネント & CSS
-│  ├─ static/            # 画像・Favicon・OG 画像
-│  └─ docusaurus.config.ts
-├─ .github/workflows/    # CI/CD 設定
-└─ README.md             # このファイル
+```
+npm run start
 ```
 
----
-
-## カスタマイズガイド
-
-| 変更したい項目                   | 対象ファイル                                      |
-| ------------------------- | ------------------------------------------- |
-| サイトタイトル / タグライン           | `docs/docusaurus.config.ts`                 |
-| ロゴ / ソーシャルカード置換           | `docs/static/img/`                          |
-| カラーパレット                   | `docs/src/css/custom.css` (`--ifm-color-*`) |
-| サイドバー構成                   | `docs/sidebars.ts` またはフォルダ階層                |
-| Admonition / Code Tabs など | MDX または React コンポーネント                       |
+4. サイトにアクセス
+   ブラウザで http://localhost:3000 を開く
 
 ---
 
-## 貢献
+## 貢献方法
 
-Pull Request を歓迎します。基本フロー:
+- フォルダ構成と命名規則に従ってください。
+- 新しい教材や修正はプルリクエストで提出してください。
+- コード例やサンプルは動作確認を行ってください。
 
-1. **Fork** してブランチ作成: `git checkout -b feature/<topic>`
-2. 変更をコミット (意味のあるメッセージで)
-3. `npm run typecheck && npm run build` が通ることを確認
-4. **Pull Request** を作成 — CI に合格すればマージされます
+## ライセンスについて
 
-詳細ワークフローは [`./.claude/commands/gh-issue-workflow-from-diff-v3-lite.md`](./.claude/commands/gh-issue-workflow-from-diff-v3-lite.md) を参照してください。
+- 本リポジトリの教材コンテンツ（文章、図表、サンプルコードなど）はすべて執筆者に著作権があります。  
+  無断での複製、転載、配布を禁止します。
 
----
-
-## ライセンス
-
-本テンプレートは [MIT License](LICENSE) の下で公開されています。
-
----
-
-> *ドキュメントがプロフェッショナルなら、プロジェクトもプロフェッショナルに見える。* — Pteranodon Docs
+- 本教材の作成には [Docusaurus](https://docusaurus.io/) を使用しています。  
+  Docusaurus は MIT ライセンスで配布されており、ソフトウェア自体の使用や改変は MIT ライセンスの条件に従う必要があります。
