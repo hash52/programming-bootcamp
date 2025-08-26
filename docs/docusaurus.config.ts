@@ -44,7 +44,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl: "https://github.com/hash52/programming-bootcamp/tree/main/",
-          routeBasePath: "/", // "/" にアクセスすると docs が表示される
+          routeBasePath: "docs", // "/docs" にアクセスすると docs が表示
         },
         blog: false,
         theme: {
