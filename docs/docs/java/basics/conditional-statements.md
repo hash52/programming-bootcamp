@@ -3,3 +3,86 @@ sidebar_position: 4
 ---
 
 # 条件分岐（if / switch）
+
+プログラムでは、「もし〜ならこうする」という判断をさせたい場面がたくさんあります。  
+これを実現するのが「条件分岐」です。この章では、Java で条件分岐を使う方法を学び、実際にコードを変更して動作を確かめます。
+
+## if 文の基本
+
+if 文は「もし条件が正しいなら、特定の処理をする」という命令です。
+
+例えば、次のプログラムを見てください：
+
+<iframe src="https://paiza.io/projects/e/E2i3Nx9SwpDFM4oz2AqjYA?theme=cobalt" width="100%" height="500" scrolling="no" seamless="seamless"></iframe>
+
+このコードでは、`score` が 60 以上なら「合格です！」と表示されます。  
+その後、「テストが終了しました。」と必ず表示されます。
+
+### 実験してみよう
+
+- `score` の値を変えてみましょう。50 にするとどう表示が変わりますか？
+- 100 にするとどうなるでしょうか？
+- 実際に値を変えて、プログラムがどのように反応するか確認してみてください。
+
+## if-else 文
+
+if-else 文を使うと、「条件が正しい場合」と「条件が正しくない場合」で処理を分けることができます。
+
+次の例を見てください：
+
+<iframe src="https://paiza.io/projects/e/4x_WbroAGgYMDPTd166zXw?theme=cobalt" width="100%" height="500" scrolling="no" seamless="seamless"></iframe>
+
+ここでは、60 以上なら「合格です！」、それ以外なら「残念、不合格です。」と表示されます。
+
+### 実験してみよう
+
+- `score` の値をいろいろ変えて、出力がどう変わるか試してみてください。
+- 条件を `score > 80` に変えて、何点から合格になるか確認してみましょう。
+
+## else-if 文で複数条件
+
+複数の条件を順番に判定したい場合は、else-if を使います。
+
+例：
+
+<iframe src="https://paiza.io/projects/e/g_BbaCzLJRyuW4XP5vDTBQ?theme=cobalt" width="100%" height="500" scrolling="no" seamless="seamless"></iframe>
+
+このプログラムでは：
+
+- 90 以上 → 「とても優秀です！」
+- 60 以上 → 「合格です！」
+- それ以外 → 「残念、不合格です。」
+
+### 実験してみよう
+
+- `score` の値を 95、75、50 に変えて、出力がどのように変わるか確認しましょう。
+- 自分で新しい条件（例えば 80 点以上で「良い」など）を追加して試してみてください。
+
+## switch 文の基本
+
+switch 文は「ある変数の値ごとに処理を分ける」場合に使います。  
+if-else よりスッキリ書けることがあります。
+
+例：
+
+<iframe src="https://paiza.io/projects/e/ZeST4UiL-Vi0WyFVQOyraQ?theme=cobalt" width="100%" height="500" scrolling="no" seamless="seamless"></iframe>
+
+このプログラムでは、`day` の値に応じて曜日が表示されます。  
+3 なので「水曜日」と表示されます。
+
+### 実験してみよう
+
+- `day` の値を 1〜7 に変えて、表示がどう変わるか確認しましょう。
+- `default` の動作も確認してみてください。
+
+## まとめ
+
+- if 文：条件が正しい場合に処理を実行する
+- if-else 文：条件が正しい場合とそうでない場合を分ける
+- else-if 文：複数条件を順番に判定する
+- switch 文：変数の値ごとに処理を分ける
+
+### 実際に試すことが大切
+
+コードを編集して値を変えたり、新しい条件を追加したりすることで、条件分岐の仕組みをより理解できます。  
+ぜひ、自分でいじって試してみてください。
