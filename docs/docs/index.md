@@ -3,46 +3,41 @@ sidebar_position: 1
 slug: /
 ---
 
-# はじめに
+# プログラミングの世界へようこそ
 
-Let's discover **Docusaurus in less than 5 minutes**.
+プログラミングの学習は、算数や数学を学ぶのと同じように、**積み重ねの学習**です。  
+たとえば歴史の学習では、幕末だけ詳しく学ぶこともできますが、プログラミングは積み重ねが重要です。  
+足し算や引き算がわからないと掛け算や割り算が理解できないように、  
+プログラミングでも基本的な概念を理解していないと、応用的な内容を学んでもうまくついていけません。
 
-## Getting Started
+学習に苦手意識を持つことは自然なことです。  
+しかし諦めず、少しずつ理解を積み重ねていけば、必ず Web アプリケーション開発ができるようになります。  
+「今日は理解できなかったけれど、明日はもっとわかるかもしれない」という気持ちで学習を進めてください。
 
-Get started by **creating a new site**.
+# 学習ロードマップ
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+以下は Web アプリ開発までの学習ロードマップです。
 
-### What you'll need
+<!-- FIXME: 元々は mermaid のコードブロックで図表を描画しようとしていましたが、 -->
+<!-- エラー "Hook useColorMode is called outside the <ColorModeProvider>" が発生したため、 -->
+<!-- 現在はSVG画像として表示しています -->
 
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+![学習ロードマップ](./img/Programming-Bootcamp-Load-Map.svg)
 
-## Generate a new site
+# 学習の進め方のポイント
 
-Generate a new Docusaurus site using the **classic template**.
+1. **基本を理解することを最優先**  
+   プログラムの基本ルールや変数の扱いなど、基礎を飛ばすと後で苦労します。
 
-The classic template will automatically be added to your project after you run the command:
+2. **手を動かして確かめる**  
+   読むだけではなく、実際にプログラムを書いて挙動を確認することが大切です。
 
-```bash
-npm init docusaurus@latest my-website classic
-```
+3. **つまずいても焦らない**  
+   初学者は誰でもエラーや理解できない部分に出会います。  
+   そのときは少し戻って基礎を復習しましょう。
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+4. **小さな成功体験を積む**  
+   簡単なプログラムを完成させることで自信をつけ、次のステップに進みやすくなります。
 
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+プログラミングは最初は難しく感じるかもしれませんが、**少しずつ積み重ねることで確実にできるようになる**学習です。  
+あなたもこのロードマップに沿って学習を進めれば、必ず Web アプリ開発ができるようになります。

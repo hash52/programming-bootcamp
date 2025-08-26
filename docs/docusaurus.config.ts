@@ -92,6 +92,10 @@ const config: Config = {
       },
     ],
   ],
+  themes: ["@docusaurus/theme-mermaid"],
+  markdown: {
+    mermaid: true, // Markdown内でmermaidを有効化
+  },
 };
 
 export default config;
