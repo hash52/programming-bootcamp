@@ -3,6 +3,7 @@
   "position": 5,
   "link": {
     "type": "generated-index",
-    "description": "Webアプリ開発を学ぼう"
+    "description": "Spring Frameworkを使ったWebアプリ開発を学ぼう",
+    "slug": "/web-app"
   }
 }

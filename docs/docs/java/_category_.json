@@ -3,6 +3,7 @@
   "position": 2,
   "link": {
     "type": "generated-index",
-    "description": "Write once, run anywhere."
+    "description": "Write once, run anywhere.",
+    "slug": "/java"
   }
 }
