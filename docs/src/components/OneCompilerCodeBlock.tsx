@@ -20,10 +20,12 @@ type Language = "java" | "mysql" | "html";
  * />
  */
 type OneCompilerCodeBlockProps = {
-  /** 言語またはデフォルトエディタ ("java", "python", "javascript", ...) */
+  /** 実行するプログラムの言語 */
   language: Language;
   /** 埋め込み先のコードID */
   codeId: string;
+  /** 実行するコード。検索対象とするため不可視で描画する  */
+  code: string;
   /** 利用可能言語を制限するか */
   availableLanguages?: boolean;
   /** 言語選択ボタンを非表示にするか */
@@ -67,6 +69,7 @@ type OneCompilerCodeBlockProps = {
 export const OneCompilerCodeBlock: React.FC<OneCompilerCodeBlockProps> = ({
   language,
   codeId,
+  code,
   availableLanguages,
   hideLanguageSelection = true,
   hideNew = true,
@@ -129,6 +132,10 @@ export const OneCompilerCodeBlock: React.FC<OneCompilerCodeBlockProps> = ({
   if (queryString) src += `?${queryString}`;
 
   return (
-    <iframe id={id} src={src} width={width} height={height} style={style} />
+    <>
+      {/* 実行コードを検索対象とするため、HTMLに不可視で描画する  */}
+      <span style={{ display: "none" }}>{code}</span>
+      <iframe id={id} src={src} width={width} height={height} style={style} />
+    </>
   );
 };

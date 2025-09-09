@@ -15,12 +15,13 @@ HTML で文章を書き、CSS で色を指定する。
 
 例えば、次のように書く：
 
-{/* 
+<OneCompilerCodeBlock codeId="43w833ejp" language="html" code={`
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <title>文字色のサンプル</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
   <p class="hoge1">これはクラスにhoge1を指定したテキストです。</p>
@@ -28,13 +29,11 @@ HTML で文章を書き、CSS で色を指定する。
   <p class="hoge3">これはクラスにhoge3を指定したテキストです。</p>
 </body>
 </html>
-*/}
-{/*
+
 .hoge1 { color: red; }
 .hoge2 { color: blue; }
 .hoge3 { color: green; }
-*/}
-<OneCompilerCodeBlock codeId="43w833ejp" language="html" />
+`} />
 
 ### 実験してみよう
 

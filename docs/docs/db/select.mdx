@@ -24,31 +24,27 @@ SELECT 文は「データベースから必要な情報を取り出す」命令�
 
 このテーブルから全てのデータを取り出す場合は次のように書く：
 
-{/* SELECT * FROM students; */}
-<OneCompilerCodeBlock codeId="43w75xggv" language="mysql" />
+<OneCompilerCodeBlock codeId="43w75xggv" language="mysql" code={`SELECT * FROM students;`} />
 
 ここで `*` は「全ての列」を意味する。  
 実行すると、テーブルのすべての行と列が表示される。
 
 ### 実験してみよう
 
-- `students` テーブルを作り、上記のデータを挿入して実行してみる。  
+- `students` テーブルを作り、上記のデータを挿入して実行してみる。
 - `*` の代わりに `name, score` と書くとどうなるか確認してみる。
 
-## 条件をつけて取得（WHERE句）
+## 条件をつけて取得（WHERE 句）
 
 特定の条件に合うデータだけを取り出すには、`WHERE` を使う。
 
 例えば、点数が 60 以上の学生だけを取り出す場合は次の通りである：
 
-{/* SELECT * FROM students WHERE score >= 60; */}
-<OneCompilerCodeBlock codeId="43w826hyg" language="mysql" />
-
+<OneCompilerCodeBlock codeId="43w826hyg" language="mysql" code={`SELECT * FROM students WHERE score >= 60;`} />
 
 この場合、75 と 85 の点数を持つ Taro と Hanako のみが表示される。
 
 ### 実験してみよう
 
-- 条件を `score < 60` に変えて、誰が表示されるか確認する。  
+- 条件を `score < 60` に変えて、誰が表示されるか確認する。
 - `name = 'Jiro'` のように特定の名前で検索することもできる。
-
