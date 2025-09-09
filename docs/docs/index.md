@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 0
 slug: /
 ---
 
@@ -18,11 +18,49 @@ slug: /
 
 以下は Web アプリ開発までの学習ロードマップです。
 
-<!-- FIXME: 元々は mermaid のコードブロックで図表を描画しようとしていましたが、 -->
-<!-- エラー "Hook useColorMode is called outside the <ColorModeProvider>" が発生したため、 -->
-<!-- 現在はSVG画像として表示しています -->
+```mermaid
+flowchart TD
 
-![学習ロードマップ](./img/Programming-Bootcamp-Load-Map.svg)
+    %% ゴール
+    Z[Webアプリ開発]:::goal
+
+    %% Java基礎
+    A[プログラムの基本ルール<br>ブロックやインデントなど]:::basic --> B[変数と型]:::basic
+    B --> C[条件分岐と繰り返し]:::basic
+    C --> D[メソッド 引数と戻り値]:::basic
+
+    %% オブジェクト指向
+    D --> E[クラスとインスタンス]:::basic
+    E --> F[継承・インターフェース]:::basic
+
+    %% データベース（独立）
+    G[データベース基礎とSQL]:::db --> J[SpringでJavaとDBをつなぐ]:::spring
+
+    %% Web基礎（HTML/CSSを独立）
+    I[HTML/CSSの基礎]:::web --> K["Springで画面とJavaをつなぐ"]:::spring
+
+    %% JavaScript基礎（メソッドから生やす）
+    D -..-> H[JavaScriptの基礎]:::web
+    H -. "必須ではない" .-> K["SpringでJavaと画面をつなぐ"]:::spring
+
+    %% Spring
+    F --> J
+    J --> K
+    K --> Z
+
+    %% Gitは横断
+    L[Gitによるバージョン管理]:::tool --> Z
+
+    %% スタイル
+    classDef basic fill:#fdf5e6,stroke:#333,stroke-width:1px;
+    classDef db fill:#e6f7ff,stroke:#333,stroke-width:1px;
+    classDef web fill:#f9e6ff,stroke:#333,stroke-width:1px;
+    classDef spring fill:#e6e6ff,stroke:#333,stroke-width:1px;
+    classDef tool fill:#eeeeee,stroke:#333,stroke-width:1px;
+    classDef goal fill:#ffd700,stroke:#333,stroke-width:2px;
+```
+
+<br/>
 
 # 学習の進め方のポイント
 
