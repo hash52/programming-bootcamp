@@ -44,7 +44,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl: "https://github.com/hash52/programming-bootcamp/tree/main/",
-          routeBasePath: "docs", // "/docs" にアクセスすると docs が表示
+          routeBasePath: "/",
         },
         blog: false,
         theme: {
@@ -87,8 +87,10 @@ const config: Config = {
     [
       require.resolve("@easyops-cn/docusaurus-search-local"),
       {
+        indexDocs: true,
         hashed: true,
         language: ["ja"],
+        docsRouteBasePath: "/",
       },
     ],
   ],
