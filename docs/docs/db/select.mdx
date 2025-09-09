@@ -1,0 +1,54 @@
+---
+sidebar_position: 5
+---
+
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# データの取得（SELECT 文）
+
+データベースにはさまざまな情報が保存されている。  
+プログラムでは、そのデータを取り出して利用することがよくある。  
+この章では、MySQL を使ったデータ取得の基本「SELECT 文」を学ぶ。
+
+## SELECT 文の基本
+
+SELECT 文は「データベースから必要な情報を取り出す」命令である。
+
+例えば、次のようなテーブル `students` があるとする：
+
+| id  | name   | score |
+| --- | ------ | ----- |
+| 1   | Taro   | 75    |
+| 2   | Hanako | 85    |
+| 3   | Jiro   | 55    |
+
+このテーブルから全てのデータを取り出す場合は次のように書く：
+
+{/* SELECT * FROM students; */}
+<OneCompilerCodeBlock codeId="43w75xggv" language="mysql" />
+
+ここで `*` は「全ての列」を意味する。  
+実行すると、テーブルのすべての行と列が表示される。
+
+### 実験してみよう
+
+- `students` テーブルを作り、上記のデータを挿入して実行してみる。  
+- `*` の代わりに `name, score` と書くとどうなるか確認してみる。
+
+## 条件をつけて取得（WHERE句）
+
+特定の条件に合うデータだけを取り出すには、`WHERE` を使う。
+
+例えば、点数が 60 以上の学生だけを取り出す場合は次の通りである：
+
+{/* SELECT * FROM students WHERE score >= 60; */}
+<OneCompilerCodeBlock codeId="43w826hyg" language="mysql" />
+
+
+この場合、75 と 85 の点数を持つ Taro と Hanako のみが表示される。
+
+### 実験してみよう
+
+- 条件を `score < 60` に変えて、誰が表示されるか確認する。  
+- `name = 'Jiro'` のように特定の名前で検索することもできる。
+

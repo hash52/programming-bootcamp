@@ -2,6 +2,8 @@
 sidebar_position: 4
 ---
 
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
 # 条件分岐（if / switch）
 
 プログラムでは、「もし〜ならこうする」という判断をさせたい場面がたくさんあります。  
@@ -13,7 +15,23 @@ if 文は「もし条件が正しいなら、特定の処理をする」とい�
 
 例えば、次のプログラムを見てください：
 
-<iframe src="https://paiza.io/projects/e/E2i3Nx9SwpDFM4oz2AqjYA?theme=cobalt" width="100%" height="500" scrolling="no" seamless="seamless"></iframe>
+
+{/*
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        int score = 75;
+
+        if (score >= 60) {
+            System.out.println("合格です！");
+        }
+
+        System.out.println("テストが終了しました。");
+    }
+}
+*/}
+<OneCompilerCodeBlock codeId="43w72hmhr" language="java" />
 
 このコードでは、`score` が 60 以上なら「合格です！」と表示されます。  
 その後、「テストが終了しました。」と必ず表示されます。
@@ -30,7 +48,13 @@ if-else 文を使うと、「条件が正しい場合」と「条件が正しく
 
 次の例を見てください：
 
-<iframe src="https://paiza.io/projects/e/4x_WbroAGgYMDPTd166zXw?theme=cobalt" width="100%" height="500" scrolling="no" seamless="seamless"></iframe>
+<iframe
+  src="https://paiza.io/projects/e/4x_WbroAGgYMDPTd166zXw?theme=cobalt"
+  width="100%"
+  height="500"
+  scrolling="no"
+  seamless="seamless"
+></iframe>
 
 ここでは、60 以上なら「合格です！」、それ以外なら「残念、不合格です。」と表示されます。
 
@@ -45,7 +69,13 @@ if-else 文を使うと、「条件が正しい場合」と「条件が正しく
 
 例：
 
-<iframe src="https://paiza.io/projects/e/g_BbaCzLJRyuW4XP5vDTBQ?theme=cobalt" width="100%" height="500" scrolling="no" seamless="seamless"></iframe>
+<iframe
+  src="https://paiza.io/projects/e/g_BbaCzLJRyuW4XP5vDTBQ?theme=cobalt"
+  width="100%"
+  height="500"
+  scrolling="no"
+  seamless="seamless"
+></iframe>
 
 このプログラムでは：
 
@@ -65,7 +95,13 @@ if-else よりスッキリ書けることがあります。
 
 例：
 
-<iframe src="https://paiza.io/projects/e/ZeST4UiL-Vi0WyFVQOyraQ?theme=cobalt" width="100%" height="500" scrolling="no" seamless="seamless"></iframe>
+<iframe
+  src="https://paiza.io/projects/e/ZeST4UiL-Vi0WyFVQOyraQ?theme=cobalt"
+  width="100%"
+  height="500"
+  scrolling="no"
+  seamless="seamless"
+></iframe>
 
 このプログラムでは、`day` の値に応じて曜日が表示されます。  
 3 なので「水曜日」と表示されます。
