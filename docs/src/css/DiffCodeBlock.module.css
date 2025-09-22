@@ -1,0 +1,32 @@
+.line {
+  display: flex;
+  white-space: pre;
+}
+
+.symbol {
+  width: 1em;
+  user-select: none; /* コピー禁止 */
+}
+
+.added .symbol::before {
+  content: "+";
+  color: green;
+}
+.removed .symbol::before {
+  content: "-";
+  color: red;
+}
+.context .symbol::before {
+  content: " ";
+}
+
+.added {
+  background: #e6ffed;
+}
+.removed {
+  background: #ffeef0;
+}
+
+.code {
+  flex: 1;
+}

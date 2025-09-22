@@ -1,0 +1,17 @@
+---
+sidebar_position: 1
+---
+
+
+import { DiffCodeBlock } from "@site/src/components/DiffCodeBlock";
+
+# Web アプリケーションとは
+
+
+<DiffCodeBlock code={`
+public String greet(String name) {
+-   return "Hello, " + name;
++   // null安全にする
++   var safe = (name == null ? "World" : name);
++   return "Hello, " + safe + "!";
+}`} language="java" />
