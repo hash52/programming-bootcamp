@@ -20,8 +20,12 @@
     "@docusaurus/theme-common": "3.8.0",
     "@docusaurus/theme-mermaid": "3.8.0",
     "@easyops-cn/docusaurus-search-local": "^0.52.1",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@mdx-js/react": "^3.0.0",
+    "@mui/material": "^7.3.4",
     "clsx": "^2.0.0",
+    "mdi-material-ui": "^7.9.4",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

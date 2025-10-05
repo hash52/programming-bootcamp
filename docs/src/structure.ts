@@ -15,12 +15,12 @@ const ALL_CATEGORIES = [
 ] as const;
 type Category = (typeof ALL_CATEGORIES)[number];
 
-/** カテゴリの日本語ラベル */
-const ALL_CATEGORIES_LABELS: Record<Category, string> = {
-  "java/basics": "基本文法",
-  "java/oop": "オブジェクト指向",
-  "java/stdlib": "標準ライブラリ",
-  spring: "Spring基礎",
+/** ダッシュボードで表示するカテゴリの日本語ラベル */
+export const CATEGORIES_LABELS: Record<Category, string> = {
+  "java/basics": "Java - 基本文法",
+  "java/oop": "Java - オブジェクト指向",
+  "java/stdlib": "Java - 標準ライブラリ",
+  spring: "Spring",
   db: "データベース",
   frontend: "フロントエンド",
   git: "Git",
@@ -39,7 +39,7 @@ type QuestionType = "KNOW" | "READ" | "WRITE";
 /** 各設問の基本構造（ID生成前） */
 // IDは自動付与だが、ID付与前はタイトルなどの情報だけを持つ
 interface QuestionBase {
-  /** 設問文(一覧表示用) */
+  /** ダッシュボードで表示するタイトル。必ずしも設問文と一致しない */
   title: string;
   /** 設問の種類 */
   type: QuestionType;
