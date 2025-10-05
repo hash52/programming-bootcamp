@@ -1,0 +1,443 @@
+# コントローラからビューへの値の受け渡しとThymeleaf
+
+この章では、Spring MVCでコントローラからビューに値を渡し、Thymeleafを使って動的にHTMLを生成する方法を学ぶ。  
+静的なHTMLだけではなく、リクエストごとに異なる値を画面に表示できるようになることで、動的にページを表示する仕組みを理解する。
+
+## 学習のゴール
+- `Model` と `addAttribute` を使ってコントローラからビューに値を渡せる  
+- `${...}` / `[[...]]` / `th:text` による動的な値の表示方法を理解する  
+- `th:utext` の危険性（XSS脆弱性）と安全な表示方法を理解する  
+- `th:if` や `th:switch` による条件分岐、`th:each` による繰り返し表示を実装できる  
+- Javaオブジェクトのgetterを通じてフィールドを参照する仕組みを理解する  
+- `th:object` を使ってオブジェクト参照を省略し、テンプレートを簡潔に書ける  
+- ユーティリティオブジェクト（#strings, #numbers, #dates）を使って文字列・数値・日付を処理できる  
+- フラグメントとレイアウトの仕組みを使って、共通部分を再利用し保守性を高められる  
+
+---
+
+## Thymeleafの概要
+
+Thymeleaf（タイムリーフ）は、Spring Bootのデフォルトビューエンジン。  
+HTMLファイルに「動的な表記」を埋め込むことで、サーバ側の値をブラウザに表示する仕組みを提供する。  
+
+- 特徴  
+  - 普通のHTMLとしてブラウザで開ける（デザインと開発を分けやすい）  
+  - `${...}` を使ってサーバから渡された値を埋め込める  
+  - if文やfor文のような制御も可能  
+
+### サンプル：変数をHTMLに埋め込む
+
+```html
+<p>こんにちは、[[${name}]] さん！</p>
+```
+
+- `${name}` はコントローラから渡された変数を参照している  
+
+コントローラからどのように値を渡すのかを次で学ぶ  
+
+---
+
+## Modelと値の受け渡し
+
+コントローラからビューへ値を渡すには、`Model` に値を追加する。  
+
+> **注意**  
+> ここで扱う `Model` は「コントローラからビューに値を渡すための入れ物」を指す。  
+> MVCの「Model層（ドメインモデルや業務ロジックを担う部分）」とは別物であることに注意。  
+
+```java showLineNumbers
+@Controller
+public class HelloController {
+
+    @GetMapping("/hello")
+    public String hello(Model model) { // Modelを引数に受け取ることで、ビューに値を渡せるようになる
+        model.addAttribute("name", "太郎");
+        return "hello"; // templates/hello.html を返す
+    }
+}
+```
+
+ビュー（hello.html）では `${name}` を使って表示できる。  
+
+```html
+<p>こんにちは、[[${name}]] さん！</p>
+```
+
+- `model.addAttribute("name", "太郎")` → `${name}` が "太郎" に置き換わる  
+- `${}` 内の変数名と `addAttribute` の第1引数が対応している  
+
+---
+
+## th:text と [[...]] の違い
+
+Thymeleafには値を表示する方法が複数ある。  
+
+```html
+<p th:text="${msg}">dummy</p>
+```
+
+これは属性で値を出力する方法。公式の書き方に忠実。  
+
+もう一つはインライン式 `[[...]]` を使う方法。こちらの方がシンプルで推奨。  
+
+```html showLineNumbers
+<p>[[${msg}]]</p>
+<p>ようこそ [[${msg}]] さん！</p>
+```
+
+- `th:text` … 属性に書く。プレースホルダの `dummy` が置き換わる  
+- `[[...]]` … 本文に直接埋め込めるため、直感的でシンプル  
+
+---
+
+## th:utext と XSS脆弱性
+
+`th:utext` を使うと、値が「HTMLとして解釈」されて埋め込まれる。  
+そのため、タグがそのまま展開される。  
+
+
+```java
+model.addAttribute("msg", "<b>太郎</b>");
+```
+
+```html
+<p th:utext="${msg}"></p>
+```
+
+↓
+
+```html
+<p><b>太郎</b></p>
+```
+
+→ 結果、太字で **太郎** と表示される。  
+
+しかし、もしユーザ入力をそのまま `th:utext` で表示すると、次のように **悪意のあるJavaScriptが埋め込まれる危険** がある。  
+
+```java
+model.addAttribute("msg", "<script>alert('XSS');</script>");
+```
+
+```html
+<p th:utext="${msg}"></p>
+```
+
+↓
+
+```html
+<p><script>alert('XSS');</script></p>
+```
+
+→ ページを開いたときに `alert` が実行される。これが **XSS（クロスサイトスクリプティング）攻撃**。  
+
+### 安全に表示するには
+
+- **通常は `th:text` や `[[...]]` を使う**  
+  - 値は自動的にHTMLエスケープ（サニタイズ）され、タグとして解釈されない  
+  - 例: `<b>太郎</b>` → `&lt;b&gt;太郎&lt;/b&gt;` と変換され、ただの文字列として表示される  
+
+👉 `th:utext` を使うのは、信頼できる静的なHTMLを埋め込みたい特別な場合に限る。  
+
+---
+
+## 条件分岐
+
+### th:if
+
+条件が成立した場合のみ、その要素を表示する。  
+
+```html showLineNumbers
+<p th:if="${age >= 20}">あなたは成人です。</p>
+<p th:if="${age < 20}">あなたは未成年です。</p>
+```
+
+- age が 20以上なら「成人です。」が表示される  
+- age が 20未満なら「未成年です。」が表示される  
+
+### th:switch
+
+Javaの `switch` 文のように、値に応じて分岐処理を行える。  
+
+```html showLineNumbers
+<div th:switch="${role}">
+  <p th:case="'admin'">管理者です</p>
+  <p th:case="'user'">一般ユーザーです</p>
+  <p th:case="*">その他</p>
+</div>
+```
+
+- role が "admin" なら「管理者です」が表示される  
+- role が "user" なら「一般ユーザーです」が表示される  
+- どちらでもなければ `th:case="*"` が選ばれ「その他」が表示される  
+
+---
+
+## 繰り返し（th:each）
+
+リストや配列を繰り返し表示するには `th:each` を使う。  
+
+```html showLineNumbers
+<ul>
+  <li th:each="user : ${users}" th:text="${user}">dummy</li>
+</ul>
+```
+
+`users` が ["Taro", "Hanako"] の場合 → 出力結果は次のようになる。  
+
+```html showLineNumbers
+<ul>
+  <li>Taro</li>
+  <li>Hanako</li>
+</ul>
+```
+
+ループの状態を表すステータスも取得できる。  
+
+```html showLineNumbers
+<li th:each="user, stat : ${users}">
+  [[${stat.index}]]: [[${user}]]
+</li>
+```
+
+- `stat.index` : 0から始まるインデックス  
+- `stat.count` : 1から始まるカウント  
+
+`users` が ["Taro", "Hanako"] の場合、出力結果は次のようになる。  
+
+```html showLineNumbers
+<li>0: Taro</li>
+<li>1: Hanako</li>
+```
+
+---
+
+## オブジェクトとフィールドアクセス
+
+Thymeleafでは、Javaオブジェクトの **getterメソッド** を通じて値にアクセスできる。  
+
+```java showLineNumbers
+public class User {
+    // フィールドは private で隠蔽
+    private String name;
+    private int age;
+    
+    //getter
+    public String getName() { return name; }
+    public int getAge() { return age; }
+
+    //setter
+    public void setName(String name) { this.name = name; }
+    public void setAge(int age) { this.age = age; }
+}
+```
+
+コントローラで `model.addAttribute("user", user);` と渡した場合、ビューでは次のように書ける。  
+
+- `user.name` → `getName()` が呼び出される  
+- `user.age` → `getAge()` が呼び出される  
+
+つまり、`user.フィールド名` の形で、getterを経由して値を参照できる。  
+
+```html
+<p>[[${user.name}]] ([[${user.age}]])</p>
+```
+
+### th:object を使ったオブジェクト名の省略
+
+`th:object` を使うと、そのブロック内で指定したオブジェクトを「基準」として扱える。  
+
+```html showLineNumbers
+<div th:object="${user}">
+  <p>[[*{name}]] ([[*{age}]])</p>
+</div>
+```
+
+- `th:object="${user}"` で、このブロック内の参照対象を `user` に設定  
+- `*{name}` → `user.getName()` を呼び出す  
+- `*{age}` → `user.getAge()` を呼び出す  
+
+👉 `user.name` と毎回書かずに、`*{フィールド名}` の形で簡潔にアクセスできる。  
+
+---
+
+## ユーティリティオブジェクト
+
+Thymeleafには便利なユーティリティが組み込まれており、`#` から始まる名前で呼び出せる。  
+文字列操作・数値フォーマット・日付処理などを簡単に行える。  
+
+### 文字列（#strings）
+
+```html
+<p>[[${#strings.toUpperCase('spring')}]]</p>
+```
+
+- 文字列を大文字に変換する  
+- 出力例: `<p>SPRING</p>`
+
+```html
+<p th:if="${#strings.isEmpty(msg)}">空文字です</p>
+```
+
+- 文字列が空かどうかを判定する  
+- msg が空文字なら `<p>空文字です</p>` が表示される  
+
+```html
+<p>[[${#strings.length('abc')}]]</p>
+```
+
+- 文字列の長さを返す  
+- 出力例: `<p>3</p>`  
+
+### 数値（#numbers）
+
+```html
+<p>[[${#numbers.formatDecimal(12345.678, 1, 'POINT', 2, 'COMMA')}]]</p>
+```
+
+- 数値をフォーマットする  
+- 第2引数: 整数部の最小桁数  
+- 第3引数: 小数点の区切り文字  
+- 第4引数: 小数部の桁数  
+- 第5引数: 整数部の区切り文字  
+- 出力例: `<p>12,345.68</p>`  
+
+### 日付（#dates）
+
+```html
+<p>[[${#dates.createNow()}]]</p>
+```
+
+- 現在時刻を返す  
+- 出力例: `<p>2025-10-04T10:15:30.123+09:00</p>` のようなISO形式  
+
+```html
+<p>[[${#dates.format(today, 'yyyy/MM/dd')}]]</p>
+```
+
+- 日付を指定フォーマットで表示する  
+- today に 2000-01-01 が渡された場合 → `<p>2000/01/01</p>`  
+
+---
+
+## フラグメントとレイアウト
+
+複数のHTMLファイルで同じヘッダーやフッターを繰り返し書いていると、修正時に管理が大変になる。  
+Thymeleafの「フラグメント」や「レイアウト」を使うと、共通部分を切り出して再利用できる。  
+
+- **フラグメント** : 部品ごと（ヘッダーやフッター単位）に共通化したいときに便利  
+- **レイアウトのベース化** : ページ全体の枠組み（共通デザイン）を統一したいときに便利  
+
+👉 フラグメントは「部品の再利用」、レイアウトは「ページ全体の統一」という違いがある。  
+
+### 重複したデザインの例
+
+```html showLineNumbers
+<!-- page1.html -->
+<html>
+  <body>
+    <header>共通ヘッダー</header>
+    <main>ページ1の内容</main>
+    <footer>共通フッター</footer>
+  </body>
+</html>
+```
+
+```html showLineNumbers
+<!-- page2.html -->
+<html>
+  <body>
+    <header>共通ヘッダー</header>
+    <main>ページ2の内容</main>
+    <footer>共通フッター</footer>
+  </body>
+</html>
+```
+
+上記のように `<header>` と `<footer>` が重複してしまっている。  
+これをフラグメントやレイアウトで共通化する。  
+
+### フラグメントの定義と利用
+
+定義：
+
+```html showLineNumbers
+<!-- templates/fragments/header.html -->
+<div th:fragment="siteHeader">
+  共通ヘッダー
+</div>
+```
+
+```html showLineNumbers
+<!-- templates/fragments/footer.html -->
+<div th:fragment="siteFooter">
+  共通フッター
+</div>
+```
+
+利用：
+
+```html showLineNumbers
+<!-- templates/page.html -->
+<html>
+  <body>
+    <div th:replace="fragments/header :: siteHeader"></div>
+    <main>ページごとの内容</main>
+    <div th:replace="fragments/footer :: siteFooter"></div>
+  </body>
+</html>
+```
+
+- `th:fragment="siteHeader"` : フラグメントとして名前を付ける  
+- `th:replace="fragments/header :: siteHeader"` : そのフラグメントを呼び出す  
+
+👉 フラグメントは「ヘッダーやフッターなどの共通パーツを複数のページで再利用したいとき」に使う。  
+
+### レイアウトのベース化
+
+定義：
+
+```html showLineNumbers
+<!-- templates/layout/base.html -->
+<html>
+  <body>
+    <header>共通ヘッダー</header>
+    <main th:replace="${content}"></main>
+    <footer>共通フッター</footer>
+  </body>
+</html>
+```
+
+利用：
+
+```html showLineNumbers
+<!-- templates/page.html -->
+<div th:replace="layout/base :: layout (~{::main})">
+  <main>ページごとのコンテンツ</main>
+</div>
+```
+
+- ベースレイアウトを1つ作り、`<main>` の部分だけ各ページで差し替える  
+- これにより「共通部分の保守性」が大きく向上する  
+
+👉 レイアウトは「サイト全体の枠組みを共通化したいとき」に使う。  
+
+### まとめ
+
+- **フラグメント** : 部分的な共通化（ヘッダー・フッター・メニューなど）に適している  
+- **レイアウトのベース化** : ページ全体の統一デザインに適している  
+
+両方を組み合わせて使うと、保守性の高いビュー構造を作れる。  
+例えば、レイアウトの中でヘッダー・フッターをフラグメントとして呼び出すことも可能。
+
+## 本章のまとめ
+
+- コントローラからビューへの値渡しは `Model#addAttribute` を使う  
+- `${...}` 内の変数はコントローラから渡された値であり、MVCのModel層とは別物  
+- 値の出力には `th:text` や `[[...]]` を用いる。`th:utext` はXSSリスクがあるため注意  
+- 条件分岐は `th:if` / `th:switch`、繰り返しは `th:each` を使える  
+- `th:each` のループには `stat.index` や `stat.count` などのステータスが使える  
+- Javaオブジェクトのフィールドは `obj.field` と書くとgetterを通じて参照される  
+- `th:object` を使うとオブジェクト名を省略して `*{フィールド名}` でアクセスできる  
+- ユーティリティオブジェクト（#strings, #numbers, #dates）で文字列・数値・日付処理が簡単にできる  
+- **フラグメント** は部品の共通化（ヘッダーやフッター）に、**レイアウトのベース化** はページ全体の共通化に適している  
+- 両者を組み合わせることで、保守性が高く再利用性のあるビュー構造を作れる  

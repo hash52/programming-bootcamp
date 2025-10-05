@@ -1,0 +1,367 @@
+# セッションとログインの仕組み
+
+
+この章では、Webアプリケーションにおける **セッション（Session）** の役割を理解し、  
+Springを使ってログイン状態の保持や、買い物カート機能などを自力で実装できるようにする。  
+
+Webアプリでは、ページを移動してもユーザー情報を保持する必要がある。  
+たとえば「ログイン中のユーザ情報」や「非ログインユーザのカートに入れた商品一覧」など、**リクエストをまたいで継続的に利用するデータ** を扱うためにセッションが使われる。  
+
+この章では、セッションの仕組みを自分の手で実装して理解することを目的とする。  
+
+## 学習のゴール
+
+- セッションとは「ブラウザごとに保持される一時的なサーバー側の保存領域」であることを理解する  
+- リクエストスコープとセッションスコープの違い、およびその使い分けを説明できる  
+- Springで `HttpSession`、`@SessionAttributes`、`@SessionAttribute` を使ってデータを保持・取得できる  
+- セッションを利用して、ログイン状態やカート情報を保持する仕組みを実装できる  
+- コントローラとビューで同じキー名を使ってデータをやり取りできる  
+- セッションに保存してよい情報・保存すべきでない情報を区別できる  
+- セッションのタイムアウトや破棄の仕組みを理解し、安全に扱えるようになる  
+
+---
+
+## スコープとは何か
+
+Spring MVCでは、オブジェクトが「どの範囲（スコープ）」で有効かを制御できる。  
+スコープとは、「そのデータがどのくらいの期間・範囲で保持されるか」を表す考え方である。
+
+| スコープ名 | 有効期間 | 主な用途 |
+|-------------|-----------|-----------|
+| **リクエストスコープ** | 1回のリクエスト（ページ表示の1回分） | フォーム送信やページ遷移時の一時データ |
+| **セッションスコープ** | ブラウザを閉じるまで（または明示的に削除するまで） | ログイン情報、買い物カートなど「ユーザーごとに保持する情報」 |
+
+---
+
+## リクエストスコープとセッションスコープの違い
+
+リクエストスコープでは、ページを移動するたびに情報が消える。
+
+1. `/login` にアクセス → コントローラが `name="Taro"` を保存（リクエストスコープ）
+2. `/home` にアクセス → 別リクエストになるため、`"Taro"` は消える
+
+
+一方で、セッションスコープではブラウザごとに情報が保持される。
+
+1. `/login` にアクセス → `"Taro"` をセッションに保存
+2. `/home` にアクセス → 別リクエストでもセッションに保存された `"Taro"` を参照できる
+
+
+👉 つまり、**セッションは「ユーザーごとに長く使われる入れ物」** である。  
+ログイン状態やカート情報など、ページをまたいで保持すべきデータはセッションに保存する。
+
+---
+
+## Springでセッションを扱う方法
+
+Spring MVCでは、セッションを直接扱うための `HttpSession` と、  
+Spring独自の方法でセッションを管理する `@SessionAttributes` という2つの方法がある。  
+
+それぞれの使い方と、どんな場合にどちらを使うべきかを見ていこう。
+
+---
+
+### 方法1：`HttpSession` を使う（最も基本的でわかりやすい方法）
+
+`HttpSession` は **Servlet（サーブレット）という仕組み** にもともと用意されている標準的なクラスで、  
+Spring Bootでもそのまま利用できる。  
+
+セッションに値を保存・取得する処理を、自分で書くイメージ。
+
+```java showLineNumbers
+@Controller
+public class LoginController {
+
+    @PostMapping("/login")
+    public String login(@RequestParam String username, HttpSession session) {
+        // セッションに値を保存
+        session.setAttribute("loginUser", username);
+        return "redirect:/home";
+    }
+
+    @GetMapping("/home")
+    public String home(HttpSession session, Model model) {
+        // セッションから値を取り出す
+        String user = (String) session.getAttribute("loginUser");
+        model.addAttribute("user", user);
+        return "home";
+    }
+}
+```
+
+- `session.setAttribute("loginUser", username)`  
+  → `"loginUser"` というキーで値をセッションに保存  
+- `session.getAttribute("loginUser")`  
+  → 同じキーで値を取り出す  
+- このキー名（文字列）はコントローラとビューで一致している必要がある  
+
+ビュー例：
+
+```html showLineNumbers title="home.html"
+<h1>ようこそ！</h1>
+<p>[[${session.loginUser}]] さんとしてログイン中です。</p>
+<a href="/logout">ログアウト</a>
+```
+
+- `[[${session.loginUser}]]` はセッション内の `"loginUser"` にアクセスして表示している  
+
+**特徴と使いどころ**
+
+- ✅ すべてのコントローラから同じセッション情報にアクセスできる  
+- ✅ ログイン状態やショッピングカートなど、**アプリ全体で共有したい情報** に向いている  
+- ❌ 手動で `setAttribute` / `getAttribute` を呼ぶ必要がある  
+- ❌ 大量に使うとキーの管理が煩雑になる  
+
+---
+
+### 方法2：`@SessionAttributes` を使う（Spring流のセッション管理）
+
+`@SessionAttributes` は **「Model（ビューへ渡す値）」のうち、特定の名前をセッションにも保持してくれる** 仕組み。  
+Springが自動でセッションにコピーしてくれるので、コードがすっきりする。
+
+```java showLineNumbers
+@Controller
+// highlight-start
+@SessionAttributes("loginUser") // ← "loginUser"というModel属性をセッションにも保存
+// highlight-end
+public class LoginController {
+
+    @PostMapping("/login")
+    public String login(@RequestParam String username, Model model) {
+        // Modelに追加した値が、自動的にセッションにもコピーされる
+        model.addAttribute("loginUser", username);
+        return "redirect:/home";
+    }
+
+    @GetMapping("/home")
+    public String home(
+        // highlight-start
+        @ModelAttribute("loginUser") String user // ← セッションから自動的に取得
+        // highlight-end
+    ) {
+        return "home";
+    }
+
+    @GetMapping("/logout")
+    public String logout(SessionStatus status) {
+        // セッションに保持している@SessionAttributesの情報を破棄
+        status.setComplete();
+        return "redirect:/login";
+    }
+}
+```
+
+**特徴**
+
+- ✅ `@SessionAttributes("loginUser")` と書いた名前（キー）だけが自動でセッションに保存される  
+- ✅ `@ModelAttribute("loginUser")` と書くと、セッションから自動的に値を取得できる  
+- ✅ `SessionStatus#setComplete()` を呼ぶと、このコントローラのセッション情報だけを破棄できる  
+- ⚠️ **この仕組みは、そのコントローラの中でしか有効にならない**  
+  - つまり、別のコントローラではこのセッション属性を自動では参照できない  
+  - （ただし、`HttpSession` から手動で取り出すことは可能）  
+
+**補足：`@SessionAttribute`（最後に s がつかない）との違い**
+
+名前が似ているが、全く別のもの。  
+
+- `@SessionAttributes`（複数形） … *Model属性をセッションに「保存」する* ためのアノテーション  
+- `@SessionAttribute`（単数形） … *すでにセッションに保存済みの値を「取り出す」* ためのアノテーション  
+
+たとえば、先ほどの `"loginUser"` を `HttpSession` で保存している場合、  
+別のコントローラでこう書けば簡単に取り出せる。
+
+```java showLineNumbers
+@GetMapping("/mypage")
+public String myPage(@SessionAttribute("loginUser") String user, Model model) {
+    model.addAttribute("user", user);
+    return "mypage";
+}
+```
+
+**`@SessionAttributes` と `HttpSession` の違いまとめ**
+
+| 比較項目 | `HttpSession` | `@SessionAttributes` |
+|-----------|----------------|----------------------|
+| 範囲 | アプリ全体（全コントローラで共有） | コントローラ単位 |
+| 保存方法 | 手動 (`setAttribute`) | 自動（`model.addAttribute`） |
+| 取得方法 | 手動 (`getAttribute`) | 自動（`@ModelAttribute`） |
+| 破棄方法 | `session.invalidate()` | `SessionStatus#setComplete()` |
+| 主な用途 | ログイン情報・カートなど長期保持 | 入力画面の途中保持・一時的な値 |
+| 学習レベル感 | 基本（Servlet標準） | Spring的な応用 |
+
+**使い分けの目安**
+
+| ケース | 適した方法 |
+|--------|-------------|
+| ログイン状態の保持 | ✅ `HttpSession` |
+| ショッピングカートの保持 | ✅ `HttpSession` |
+| 入力フォームの途中保持（確認画面→完了画面など） | ✅ `@SessionAttributes` |
+| すでにセッションにある値を簡単に読み取りたいだけ | ✅ `@SessionAttribute` |
+
+**まとめ**
+
+- `HttpSession` … 最も基本でどのコントローラからも使える  
+- `@SessionAttributes` … コントローラ単位でSpringが自動管理するセッション（Modelとの橋渡し）  
+- `@SessionAttribute` … 既に保存されたセッション値を取り出すときに使う  
+
+ログイン状態やカート情報のような「全体で共有する情報」は `HttpSession`、  
+画面遷移中の一時的な入力情報などは `@SessionAttributes` を使うのが基本である。
+
+---
+
+## セッションを使った買い物カートの例
+
+セッションを利用すれば、ログイン情報だけでなく、買い物カートのように
+`「ログイン前のユーザーがページをまたいでも保持される情報」` を扱うこともできる。
+
+```java showLineNumbers
+package com.example.demo.controller;
+
+import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Controller
+public class CartController {
+
+    @GetMapping("/cart")
+    public String viewCart(HttpSession session, Model model) {
+        List<String> cart = (List<String>) session.getAttribute("cart");
+        if (cart == null) {
+            cart = new ArrayList<>();
+            session.setAttribute("cart", cart);
+        }
+        model.addAttribute("cart", cart);
+        return "cart";
+    }
+
+    @PostMapping("/cart/add")
+    public String addToCart(@RequestParam String item, HttpSession session) {
+        List<String> cart = (List<String>) session.getAttribute("cart");
+        if (cart == null) {
+            cart = new ArrayList<>();
+        }
+        cart.add(item);
+        session.setAttribute("cart", cart);
+        return "redirect:/cart";
+    }
+
+    @GetMapping("/cart/clear")
+    public String clearCart(HttpSession session) {
+        session.removeAttribute("cart");
+        return "redirect:/cart";
+    }
+}
+```
+
+ビュー例
+
+```html showLineNumbers title="cart.html"
+<h2>ショッピングカート</h2>
+<form action="/cart/add" method="post">
+  <input type="text" name="item" placeholder="商品名">
+  <button type="submit">追加</button>
+</form>
+
+<ul>
+  <li th:each="item : ${cart}">[[${item}]]</li>
+</ul>
+
+<a href="/cart/clear">カートを空にする</a>
+```
+
+- セッションキー `"cart"` を通じて、リクエストをまたいでもカート内容が保持される
+- ユーザーごとに異なるセッションが作られるため、他のユーザーのカートと混ざらない
+
+## セッションを使う際の注意点
+
+セッションは便利な仕組みだが、使い方を誤るとパフォーマンス低下やセキュリティ上の問題を引き起こすことがある。  
+そのため、以下のような注意点を理解しておくことが重要である。
+
+---
+
+### 1. 保存しすぎに注意（メモリを圧迫する）
+
+セッションはサーバー側のメモリに保存されるため、大量のデータを入れると負荷がかかる。
+
+- ✅ セッションに入れるのは「必要最小限の情報」にとどめる  
+  例：ユーザーIDや名前など、画面間で共通して使う小さなデータ  
+- ❌ 大量のリスト・画像・検索結果などをセッションに保存しない  
+- 💡 一時的に使う大量データは、リクエストスコープやDB側に保存する
+
+---
+
+### 2. 個人情報の取り扱いに注意
+
+セッションはユーザーごとの情報を保持するため、**個人情報を直接保存しない** ことが望ましい。
+
+- ✅ IDや参照キーだけを保持し、詳細情報は必要なときにDBから取得する  
+- ❌ 住所やメールアドレスなど、個人情報そのものをセッションに保持しない  
+
+---
+
+### 3. タイムアウトに注意
+
+多くのWebアプリでは、一定時間操作がないとセッションが切れる（タイムアウト）。  
+これはセキュリティ対策として重要だが、切れた後の動作も設計しておく必要がある。
+
+- Spring Bootではデフォルトで **30分** が有効期限  
+- `application.properties` で変更できる  
+
+```properties
+server.servlet.session.timeout=20m
+```
+
+- タイムアウト後は `session.getAttribute()` で値を取得できなくなる  
+- ログイン状態をセッションで保持している場合、ログイン画面へリダイレクトさせる処理を実装する  
+
+---
+
+### 4. ログアウト時は必ずセッションを破棄する
+
+ログアウト後にセッションを残したままにすると、別ユーザーが同じブラウザを使った場合に前の情報が残る危険がある。
+
+- ✅ ログアウト処理で `session.invalidate()` を呼び出す  
+- ✅ セキュリティ上重要なデータは、ログアウト前に明示的に削除してもよい  
+
+---
+
+### 5. 複数タブの扱いに注意
+
+セッションは「ブラウザごと」に共有される。  
+そのため、**同じブラウザで複数タブを開くとセッション内容も共有される**。
+
+- カート機能やログイン情報などは問題ないが、フォーム入力の途中保存などは競合の原因になる  
+- 画面ごとに別の情報を持たせたい場合は、リクエストスコープやトークンを併用する  
+
+---
+
+### 6. セッション固定攻撃（Session Fixation）への対策
+
+攻撃者がセッションIDを固定し、不正ログインを狙う手法に注意。
+
+- Spring Securityを導入すると自動で防止される（次章で扱う）  
+- もし自前でログイン処理を実装する場合は、ログイン時にセッションIDを再発行する対策が必要  
+
+```java showLineNumbers
+session.invalidate();          // 古いセッションを破棄
+HttpSession newSession = request.getSession(true); // 新しいセッションを発行
+newSession.setAttribute("loginUser", username);
+```
+### 7. 分散環境ではセッションの扱いに注意（上級）
+
+複数サーバーで構成されるシステムでは、**セッションをどのサーバーで保持するか** を考慮する必要がある。  
+ただし、初学者の段階では「セッションはサーバー側で保持される仕組み」だけ理解しておけば十分。
+
+## まとめ
+
+- **リクエストスコープ** は1回限りの通信で有効、**セッションスコープ** はユーザー単位で継続的に有効  
+- セッションを使うと、ログイン状態やカートの中身などをリクエストをまたいで保持できる  
+- Springでは `HttpSession` と `@SessionAttributes` の2通りの方法でセッションを扱える  
+  - `HttpSession`：アプリ全体で共通利用（ログイン情報・カートなどに最適）  
+  - `@SessionAttributes`：コントローラ単位での一時的な情報保持（入力フォームなどに最適）  
+- セッションに保存する値は、コントローラとビューで **キー名（例："loginUser"）を一致させる必要がある**  
+- ログアウト時やタイムアウト時には `session.invalidate()` などで必ず破棄する  
+- 不要なデータや個人情報を入れすぎないようにし、**セッションは軽く・安全に保つ** のが基本である  

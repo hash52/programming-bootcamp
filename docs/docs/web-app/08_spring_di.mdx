@@ -1,0 +1,258 @@
+# SpringのDI（依存性注入）
+
+この章では、Spring Frameworkが持つ **DI（Dependency Injection: 依存性注入）** の仕組みを学ぶ。  
+普段のJavaでは `new` を使って自分でインスタンスを作るが、Springでは「フレームワークが代わりにインスタンスを作り、必要な場所に渡してくれる」。  
+これにより、依存関係を意識せずに部品を組み合わせられるようになる。  
+
+DIの理解は、Springアプリケーション全体の構造を理解する上での前提となる。  
+この章を通じて、**なぜコントローラやMyBatisのMapperが自分で `new` しなくても動くのか** がわかるようになる。
+
+## 学習のゴール
+- DI（依存性注入）の基本概念と目的を理解できる  
+- Springがインスタンスを生成・管理・注入する仕組みを説明できる  
+- `@Controller` / `@Service` / `@Repository` / `@Component` の役割を区別できる  
+- コンストラクタインジェクション（`@Autowired`）で依存を受け取る方法を理解できる  
+- 「自分で `new` するケース」と「DIに任せるケース」を区別できる  
+- インターフェースとDIを組み合わせることで、コントローラを変更せずに実装を切り替えられる理由を説明できる  
+- DIがアプリ全体の保守性・拡張性を高める仕組みを理解できる  
+
+
+---
+
+## この章の前置き：なぜDIは理解が難しいのか？
+
+**DI（依存性注入）は初学者にとって非常に理解しづらい概念** である。  
+
+- そもそも**依存性注入**という言葉自体が難解で、イメージしづらい<span style={{opacity:0.6}}>*(い、いぞんせい・・？？ちゅうにゅう？？？？)*</span>
+- DI以前の問題として、初学者にとって難しい `interface` の理解が前提知識として必要
+- DIは「設計」の話であり、コードの動作を直接変えるものではない  
+- DIは「なぜそうするのか」の理由が分かりづらい
+  - DIは **テストコードを書く際に大きなメリット** を発揮するが、初学者がテストコードを書く機会はほぼない  
+  - **インターフェースを使った設計のありがたみ** は、長年運用されていて仕様変更が多発するようなシステムでこそ実感できるが、初学者はそうしたプロジェクトに触れる機会が少ない  
+
+それでも、この章 <span style={{opacity:0.6}}>(そして世のすべてのSpring教材)</span> でDIを学ぶ理由は、**「なぜSpringでは `new` しなくてもクラスが勝手に使えるのか」** を理解してもらうためである。  
+この理解があるかないかで、コントローラやMyBatisのコードを追うときの理解度が大きく変わる。
+
+---
+
+## DIとは何か？
+
+普段のJavaでは、必要なクラスを自分で `new` してインスタンスを作成する。  
+
+```java showLineNumbers
+GreetingService service = new GreetingService();
+String msg = service.getMessage();
+```
+
+小さなプログラムならこれで十分だが、**アプリが大きくなると「どのクラスがどのクラスを new しているか」の管理が複雑になる**。  
+さらに、クラスを差し替えたいときに、`new` を書いている場所をすべて修正しなければならない。
+
+Springでは、この「インスタンスの生成と受け渡し」を **DIコンテナ** に任せられる。  
+
+- 必要なクラスはSpringが自動でインスタンス化して管理する  
+- 必要な場所に自動で「注入（Injection）」してくれる  
+
+これを **依存性注入（Dependency Injection, DI）** と呼ぶ。  
+
+👉 **自分で new しなくても、Springが必要なクラスを用意してくれる仕組み**。  
+
+このおかげで、コードの修正が少なく済み、複雑になっても整理しやすい。  
+初学者にとって最初は「ただの魔法」に見えるかもしれないが、  
+まずは **「DIとは使いたいクラスを宣言しておけばSpringが渡してくれる仕組みのこと」** と理解すればOK。
+
+---
+
+## Springにインスタンス化を任せる仕組み（コンポーネントスキャン）
+
+Springは起動時にプロジェクトをスキャンし、アノテーションの付いたクラスを自動でインスタンス化する。
+
+- `@Controller` : Web層（リクエストを受けるクラス）  
+- `@Service` : ビジネスロジック層（処理を担当するクラス）  
+- `@Repository` : データアクセス層（DBとやりとりするクラス）  
+- `@Component` : 上記以外の汎用コンポーネント  
+
+👉 これらのアノテーションが**インスタンスが「作られる側」の目印**になる。  
+※こうして生成され、Springのコンテナで管理されるインスタンスを **Bean** と呼ぶ。  
+
+Springでは、**インスタンスを「使う側」のクラスに `@Autowired` を付けることで、DIコンテナが自動的にインスタンスを渡してくれる**。  
+
+
+```java showLineNumbers
+// 作られる側（サービス）
+//highlight-start
+@Service
+//highlight-end
+public class GreetingService {
+    public String getMessage() {
+        return "こんにちは！";
+    }
+}
+```
+
+```java showLineNumbers
+// 使う側（コントローラ）
+@Controller
+public class GreetingController {
+
+    private final GreetingService service;
+
+    // highlight-start
+    @Autowired // SpringがGreetingServiceのBeanを注入
+    // highlight-end
+    public GreetingController(GreetingService service) {
+        this.service = service;
+    }
+
+    @GetMapping("/greet")
+    public String greet(Model model) {
+        model.addAttribute("msg", service.getMessage());
+        return "greet";
+    }
+}
+```
+
+- `@Service` が付いた `GreetingService` は、Springが起動時にBeanとして自動登録する  
+- `GreetingController` のコンストラクタに `@Autowired` を付けると、Springが `GreetingService` を見つけて自動的に渡してくれる  
+- `new GreetingService()` を自分で書く必要はない  
+
+👉 言い換えると、**「このクラスが必要」と宣言しておけば、Springが代わりに作って渡してくれる**。  
+これがDIの基本的な仕組みであり、コードをシンプルに保ち、使う側が余計なことを考えずに済むようにしてくれる。
+
+
+
+## 自分で `new` するケース / DIに任せるケース
+
+Springを使っているからといって、**すべてのインスタンスをDIに任せるわけではない**。  
+「自分で `new` するもの」と「DIに任せるもの」を区別することが大切である。
+
+
+```java showLineNumbers
+List<String> tags = new ArrayList<>();
+User user = new User("Taro", 20);
+```
+
+### 自分で `new` する（コンテナ管理の外でOK）
+
+- **一時的なオブジェクト**  
+  例: コレクション（`ArrayList` や `HashMap`）  
+- **DTO（データ転送オブジェクト）**  
+  単に値を保持するだけのクラス  
+- **依存管理やライフサイクル管理が不要なもの**  
+  その場で作って、その場で捨てるオブジェクト  
+
+👉 「その処理の中で完結するだけのインスタンス」は自分で `new` する。
+
+### DIに任せる（コンテナ管理に載せるべき）
+
+- **アプリ全体で使う部品**  
+  コントローラ / サービス / リポジトリ など  
+- **差し替えやテストが必要な対象**  
+  例: 実運用時は本物のDBに接続、テスト時はモックDBを注入  
+- **フレームワークと連携して管理が必要なもの**  
+  DB接続、トランザクション、HTTPクライアント など  
+
+👉 `@Controller` / `@Service` / `@Repository` / `@Component` が付いたクラスは、Springが自動で管理する。  
+自分で `new` せずに、Springに任せておけばよい。
+
+### まとめ
+
+- **自分で new** : その場かぎり、単純なデータ保持や計算処理に使うもの  
+- **DIに任せる** : アプリ横断で利用される部品や、ライフサイクル管理が必要なもの  
+
+👉 簡単に言うと、  
+**「すぐ捨てるものは自分で new」「アプリの部品はDIに任せる」** と覚えるとよい。
+
+---
+
+## インターフェースで実装を差し替える（コントローラを触らずに切替可能）
+
+ここでは、**DIの最大のメリットのひとつ**を体感する。  
+それは「**使う側（コントローラなど）を一切変更せずに、使われる側（サービスなど）の実装を差し替えられる**」という点である。  
+
+- 初学者にはまだ実感が湧きにくいが、実際のシステム開発では「処理内容を途中で切り替えたい」ケースは多い  
+  - 例：**ある処理を行うプログラムがまだ完成していない**ため、一時的にモック（仮の処理）を使う  
+  - 例：仕様の大幅変更により、処理内容をまるごと差し替えたい  
+- 通常Javaで `new` を使って依存クラスを直接呼び出していると、切り替え時に**呼び出し元コードを書き換えなければならない**  
+- しかしDIとインターフェースを組み合わせれば、**呼び出し元を一切触らずに差し替えられる**  
+- これが「拡張性」と「保守性」を高める大きなポイントである。  
+
+```java showLineNumbers
+// 1) サービスのインターフェース
+public interface GreetingService {
+    String getMessage();
+}
+```
+
+```java showLineNumbers
+// 2) GreetingServiceの実装A
+@Service
+@Primary // ← これがポイント①：複数実装があるときの優先指定
+public class FormalGreetingService implements GreetingService {
+    @Override
+    public String getMessage() {
+        return "こんにちは。ご来訪ありがとうございます。";
+    }
+}
+```
+
+```java showLineNumbers
+// 3) GreetingServiceの実装B
+@Service
+public class CasualGreetingService implements GreetingService {
+    @Override
+    public String getMessage() {
+        return "やっほー！";
+    }
+}
+```
+
+```java showLineNumbers
+// 4) コントローラ（インターフェースにのみ依存）※このコードは変えない
+@Controller
+public class GreetingController {
+
+    // highlight-start
+    private final GreetingService service; // ← 実装ではなく、インターフェースに依存させているところがポイント
+    // highlight-end
+
+    @Autowired
+    public GreetingController(GreetingService service) {
+        this.service = service;
+    }
+
+    @GetMapping("/greet")
+    public String greet(Model model) {
+        model.addAttribute("msg", service.getMessage());
+        return "greet";
+    }
+}
+```
+
+### どうやって切り替わるの？
+
+- Springは起動時に、`GreetingService` を実装したクラスを探す  
+- 複数ある場合、`@Primary` が付いたインスタンスが **優先** される  
+- 上記では `FormalGreetingService` に `@Primary` を付けているため、フォーマルな挨拶文が使われる  
+- `@Primary` を別の実装（例：`CasualGreetingService`）に付け替えれば、そのまま切り替わる  
+
+👉 **コントローラのコードは一切変更しなくてよい**。  
+これこそが「DIとインターフェース設計が組み合わさったときの威力」である。  
+
+**ポイント**  
+- 依存するのは「実装」ではなく「インターフェース」  
+- 切り替えはSpringのDIが担当するため、利用側コードに影響なし  
+- 将来の拡張やテストが圧倒的に容易になる  
+
+---
+
+## 本章のまとめ
+
+- **DI（依存性注入）** とは、インスタンスを自分で `new` する代わりに、Springが作って渡してくれる仕組み  
+- `@Controller` / `@Service` / `@Repository` / `@Component` を付けたクラスは、Springが起動時に探して自動でインスタンス化（Bean化）する  
+- 使う側は **コンストラクタインジェクション**（`@Autowired`）で受け取るのが基本  
+- すべてを任せるわけではない：アプリ全体で使う部品はDI、一時的なデータ保持やコレクションなどは自分で `new`  
+- **インターフェースに依存** しておけば、`@Primary` の付け替えだけで実装を差し替えられる  
+  - 例：Repository層の実装がまだ完成していない間はモックを使い、完成したら本物の実装に切り替える  
+  - 例：仕様変更で処理内容をまるごと新しいクラスに差し替える  
+- こうして「使う側を一切変えずに差し替え可能」にできるのがDIの大きなメリット  
+- この仕組みのおかげで、後のMyBatisなどでも「コードに `new` がないのにインスタンスが用意されている」ように見える  

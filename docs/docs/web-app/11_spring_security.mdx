@@ -1,0 +1,476 @@
+# Spring Securityでのログイン実装
+
+この章では、**Spring Security** を使って、データベースと連携した安全なログイン機能を実装する。  
+前章で学んだように、セッションを使えばユーザーのログイン状態を保持できる。  
+しかし、実際の業務では、**パスワードの保存・照合・ログアウト** を自前で実装するのは危険であり、  
+Spring Securityを使うことで、これらを安全かつ簡潔に自動化できる。
+
+## 学習のゴール
+
+- Spring Securityがどのようにユーザー認証を自動化しているか理解できる  
+- DBに保存されたユーザー情報を使ってログイン認証を行える  
+- `UserDetailsService` と MyBatis を組み合わせてユーザー情報を取得できる  
+- パスワードをハッシュ化（暗号化）して安全に管理できる  
+- セッション管理やログアウト処理をSpring Securityで自動化できる  
+
+---
+
+## 1. Spring Securityとは
+
+Spring Securityは、**認証（Authentication）** と **認可（Authorization）** を担当するセキュリティフレームワークである。
+
+| 用語 | 意味 |
+|------|------|
+| 認証（Authentication） | 「誰なのか」を確認する（ログイン） |
+| 認可（Authorization） | 「何をしてよいか」を確認する（アクセス制限） |
+
+この章ではまず、「認証」、つまりログインの仕組みを中心に学ぶ。
+
+---
+
+## 2. 依存関係の追加
+
+Spring Securityを利用するには、依存関係(pom.xml)に`spring-boot-starter-security` を追加する。
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+```
+
+これを追加してアプリを起動すると、自動的にログイン画面が表示され、  
+すべてのURLが保護される（＝ログインしないとアクセスできない状態になる）。  
+
+初期状態では、ユーザー名は `user`、パスワードはコンソールに一時的に表示される。
+
+---
+
+## 3. DBにユーザー情報を用意する
+
+実際のアプリでは、ユーザー情報はデータベースに保存される。  
+ここでは、次のようなテーブルを作成する。
+
+```sql title="schema.sql"
+CREATE TABLE users (
+  username VARCHAR(50) PRIMARY KEY,
+  password VARCHAR(200) NOT NULL,
+  role VARCHAR(50) NOT NULL
+);
+```
+
+```sql title="data.sql"
+INSERT INTO users (username, password, role) VALUES
+('taro', '$2a$10$h9x0uJfV7bE1i0MhyZq8UuHK7Qqz3aZrF6hTqCqYtBzMSqFELwXb6', 'USER'),
+('admin', '$2a$10$vN5W8b0vT4v5mXK1C9Ox3eB/zAcA8ZP8QmT0OGAFpxm0xXU.cVN7G', 'ADMIN');
+```
+
+> ※これらのパスワードは「`pass`」を `BCryptPasswordEncoder` でハッシュ化したもの。
+
+---
+
+## 4. エンティティとMapperの作成
+
+ユーザー情報を扱うためのエンティティとMyBatisのMapperを作成する。
+
+```java showLineNumbers
+package com.example.demo.entity;
+
+public class User {
+    private String username;
+    private String password;
+    private String role;
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
+}
+```
+
+```java showLineNumbers
+package com.example.demo.mapper;
+
+import com.example.demo.entity.User;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+@Mapper
+public interface UserMapper {
+
+    @Select("SELECT username, password, role FROM users WHERE username = #{username}")
+    User findByUsername(String username);
+}
+```
+
+---
+
+## 5. UserDetailsServiceの実装
+
+Spring Securityは、ログイン時に `UserDetailsService` を呼び出して  
+ユーザー情報を取得・照合する。  
+
+MyBatisを利用してDBからユーザー情報を取得するサービスを作る。
+
+```java showLineNumbers
+package com.example.demo.service;
+
+import com.example.demo.mapper.UserMapper;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Service;
+
+@Service
+//highlight-start
+public class CustomUserDetailsService implements UserDetailsService { // ← UserDetailsServiceを実装
+//highlight-end
+
+    private final UserMapper userMapper;
+
+    public CustomUserDetailsService(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
+    //highlight-start
+    @Override // ← UserDetailsServiceのメソッドの実装であることの明示
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    //highlight-end
+        //どのようにユーザー情報を取得するかは自由に実装できる
+        var user = userMapper.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found: " + username);
+        }
+        return User.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .roles(user.getRole())
+                .build();
+    }
+}
+```
+
+**ポイント**
+
+- Spring Securityが自動的に `loadUserByUsername()` を呼び出す  
+- DBからユーザー情報を取得し、Springの `User` オブジェクトとして返す  
+- パスワードの比較は `PasswordEncoder` が自動で行う  
+
+---
+
+## 6. SecurityConfigの設定
+
+次に、Spring Securityに「このサービスを使って認証してね」と教える。
+
+```java showLineNumbers
+package com.example.demo.config;
+
+import com.example.demo.service.CustomUserDetailsService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+public class SecurityConfig {
+
+    //highlight-start
+    private final CustomUserDetailsService userDetailsService; // ← 先ほど作成したUserDetailsService
+    //highlight-end
+
+    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    //highlight-start
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); // ← パスワードのハッシュ化にBCryptを使う
+    }
+    //highlight-end
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
+    //highlight-start
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        //認証・認可の設定を宣言する
+        http
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/login", "/css/**", "/js/**").permitAll()
+                .anyRequest().authenticated()
+            )
+            .formLogin(login -> login
+                .loginPage("/login")
+                .defaultSuccessUrl("/home")
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
+            );
+        return http.build();
+    }
+    //highlight-end
+}
+```
+
+**ポイント**
+
+- `SecurityConfig`のフィールドに `CustomUserDetailsService` を注入
+- `SecurityFilterChain`：Spring Securityの動作ルールを定義する設定クラス  
+    メソッドチェーン形式で「どのURLを保護するか」「どのページをログイン画面にするか」などを宣言的に記述できる  
+    設定するだけで実装不要（認証処理そのものはSpring Securityが自動で実行してくれるのがポイント）  
+  - `.formLogin()`：フォームによるログイン認証を有効化  
+  - `.loginPage("/login")`：自作したログイン画面のURLを指定  
+  - `.defaultSuccessUrl("/home")`：ログイン成功後に遷移するページを指定  
+  - `.logout()`：ログアウト処理の設定（セッション破棄やリダイレクト先の指定など）  
+
+---
+
+## 7. コントローラとビューの作成
+
+```java showLineNumbers
+package com.example.demo.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class LoginController {
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
+
+    @GetMapping("/home")
+    public String home() {
+        return "home";
+    }
+}
+```
+
+```html showLineNumbers title="login.html"
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>ログイン</title>
+</head>
+<body>
+  <h2>ログイン</h2>
+  <form th:action="@{/login}" method="post">
+    <p>ユーザー名: <input type="text" name="username"></p>
+    <p>パスワード: <input type="password" name="password"></p>
+    <button type="submit">ログイン</button>
+  </form>
+  <p th:if="${param.error}">ログインに失敗しました。</p>
+  <p th:if="${param.logout}">ログアウトしました。</p>
+</body>
+</html>
+```
+
+```html showLineNumbers title="home.html"
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>ホーム</title>
+</head>
+<body>
+  <h1>ホーム画面</h1>
+  <p>ログイン成功！</p>
+  <a th:href="@{/logout}">ログアウト</a>
+</body>
+</html>
+```
+
+### 注意：`POST /login` に対応するコントローラは不要
+
+フォームの送信先は `/login` だが、このPOSTリクエストを受け取るコントローラは不要である。  
+**Spring Securityが内部で自動的に処理するため**、実装は不要。
+
+| 処理 | 実装要否 | 備考 |
+|------|-----------|------|
+| `/login` の POST | ❌ 不要 | Spring Securityが処理 |
+| 認証成功時 | ✅ `.defaultSuccessUrl("/home")` で設定 |
+| 認証失敗時 | ✅ 自動で `/login?error` に戻る |
+
+---
+
+## 8. パスワードのハッシュ化
+
+DBに保存するパスワードは、**絶対に平文（そのままの文字列）で保存してはいけない。**  
+もしそのまま保存してしまうと、万が一データベースが流出した場合、  
+全てのユーザーのパスワードがそのまま盗まれてしまう。
+
+これを防ぐために、Spring Securityでは **ハッシュ化（不可逆変換）** を行う。
+
+```java showLineNumbers
+package com.example.demo.util;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+public class PasswordGenerator {
+    public static void main(String[] args) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        System.out.println(encoder.encode("pass"));
+    }
+}
+```
+
+このプログラムを実行すると、次のようにハッシュ化されたパスワードが表示される。
+
+```
+$2a$10$h9x0uJfV7bE1i0MhyZq8UuHK7Qqz3aZrF6hTqCqYtBzMSqFELwXb6
+```
+
+この値を `INSERT` 文で `users` テーブルに登録すればよい。
+
+### 「ハッシュ化」とは？
+
+ハッシュ化とは、「同じ入力文字列を、一定の規則で元に戻せない形に変換する」処理である。
+
+| 入力 | ハッシュ化後 |
+|------|---------------|
+| pass | `$2a$10$h9x0uJf...` |
+| 1234 | `$2a$10$vN5W8b0...` |
+
+特徴：
+- 元の文字列を**復元できない**
+- 同じパスワードでも、ハッシュ化するたびに**異なる文字列**が生成される（ソルトが付加される）
+
+### 暗号化との違い
+
+| 項目 | ハッシュ化 | 暗号化 |
+|------|-------------|--------|
+| 戻せるか | ❌ 戻せない（一方向） | ⭕ 戻せる（復号可能） |
+| 主な用途 | パスワードなど | 通信・ファイル保護 |
+| 例 | BCrypt, SHA-256 | AES, RSA |
+
+ログイン時には、入力したパスワードを再びハッシュ化して、  
+DBに保存されたハッシュ値と一致するかを比較するだけで良い。
+
+### ソルト付きでも照合できる理由: なぜ毎回ハッシュ値が違っても照合できるのか？
+
+BCryptは、パスワードをハッシュ化する際に「ソルト（salt）」と呼ばれる**ランダムな文字列**を自動的に付加してから処理する。
+
+#### ソルトの役割
+- 同じパスワードでも、ユーザーごとに違うソルトを付けることで、生成されるハッシュ値が異なる
+- これにより、攻撃者が「同じハッシュ値＝同じパスワード」と推測できなくなる
+
+たとえば：
+
+| 入力パスワード | ソルト | 結果のハッシュ |
+|----------------|--------|----------------|
+| `pass` | `A1B2C3...` | `$2a$10$A1B2C3...` |
+| `pass` | `Z9Y8X7...` | `$2a$10$Z9Y8X7...` |
+
+→ ハッシュ値は違うが、どちらも元は同じ `"pass"`。
+
+### どうやって照合するの？
+
+ログイン時にSpring Securityが行う処理は次のような流れになる。
+
+1. ユーザーがフォームで `"pass"` と入力する  
+2. DBに保存されているハッシュ値（例：`$2a$10$A1B2C3...`）を取得  
+3. BCryptはこのハッシュ値の中から「ソルト部分」を読み取る  
+4. 入力された `"pass"` に同じソルトを使って再計算  
+5. 再計算結果とDBのハッシュ値を比較  
+
+つまり、**BCryptはハッシュ値の中にソルト情報を埋め込んでおり、再計算時に自動で取り出して使う** 仕組みになっている。  
+これ以上の詳細は難しすぎるので割愛。**Bcryptを使うだけで安全にパスワード管理ができる**と覚えれば十分。
+
+### まとめると
+
+- 同じパスワードでもハッシュ値が毎回異なるのは「ソルト」が原因  
+- ソルトはハッシュ値に含まれており、照合時に自動で利用される  
+- したがって、**異なるハッシュ値でも正しいパスワードであれば認証が成功する**  
+- これにより、パスワードの「安全性」と「照合の正確さ」の両立ができている  
+
+---
+
+## 9. Spring Securityとセッションの関係
+
+Spring Securityは、ログイン成功後に自動的にユーザー情報を `HttpSession` に保存する。  
+そのため、自分で `session.setAttribute()` を書く必要はない。
+
+### セッションで管理されている主な情報
+
+- ログイン中のユーザー名  
+- 権限情報（例：`ROLE_USER`, `ROLE_ADMIN`）  
+- ログイン状態の有効期限（タイムアウト）
+
+ログアウト時には `session.invalidate()` が自動で呼ばれ、  
+セッションが破棄されるため、安全にログアウトできる。
+
+### セッション利用時の注意点
+
+1. **保存しすぎない**  
+   セッションはサーバーのメモリに保存されるため、  
+   大量のデータ（リスト・画像など）を入れると負荷がかかる。  
+   → 必要最小限のデータ（ユーザーIDなど）だけを保存する。
+
+2. **個人情報を直接保存しない**  
+   住所やメールアドレスなどの個人情報は入れず、  
+   IDなどのキー情報でDBから取得するのが基本。
+
+3. **タイムアウトを理解する**  
+   Spring Bootのデフォルトでは、セッションの有効期限は30分。  
+   変更したい場合は `application.properties` に次のように設定できる。
+
+```properties
+server.servlet.session.timeout=20m
+```
+
+---
+
+## 10. ログアウトの仕組み
+
+Spring Securityでは、`/logout` にアクセスするだけでログアウトできる。
+
+- `/logout`：セッションを破棄してログアウト処理を実行  
+- `/login?logout`：ログアウト後にリダイレクトされるURL  
+
+開発者が `session.invalidate()` を書かなくても、  
+Spring Securityが安全にセッション破棄を処理してくれる。
+
+---
+
+## 11. 認証の流れまとめ
+
+1. ログインフォームから `/login` に `username` と `password` が送信される  
+2. Spring Securityが `UserDetailsService#loadUserByUsername()` を呼び出す  
+3. DBからユーザー情報を取得  
+4. 入力パスワードとDBのハッシュ値を `PasswordEncoder` が比較  
+5. 一致すれば認証成功 → セッションにユーザー情報を保存  
+6. `/home` にリダイレクト  
+
+これらはすべてSpring Securityが自動で行う。
+
+---
+
+## まとめ
+
+- Spring Securityは、認証とセッション管理を自動化する仕組み  
+- `.formLogin()` により、自作のログインページを簡単に設定できる  
+- DB連携時は `UserDetailsService` でユーザー情報を取得して照合する  
+- パスワードは `BCryptPasswordEncoder` でハッシュ化して保存する  
+- Spring Securityがセッション管理・ログアウト処理を自動で実行してくれる  
+- 開発者は認証処理を実装する必要がなく、安全な仕組みを“設定”だけで利用できる  

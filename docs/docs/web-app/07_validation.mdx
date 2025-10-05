@@ -1,0 +1,256 @@
+# 入力値のバリデーション
+
+## この章の目的とゴール
+
+この章では、Webアプリケーションにおいて **入力値のバリデーション（検証）** を行う方法を学ぶ。  
+ユーザーが送信した値をそのまま受け入れると、システムの誤動作やセキュリティ事故につながるため、  
+入力値が正しいかをチェックすることは必須である。  
+
+この章では、Spring MVCで入力値のバリデーション（検証）を行う方法を学ぶ。  
+フォーム入力のチェックを自動化し、安全で信頼性の高いアプリケーションを作る基礎を身につける。
+
+## 学習のゴール
+- バリデーションの目的と種類（単項目チェック / 相関項目チェック）を理解できる  
+- フォームオブジェクトのフィールドにアノテーションを付けて自動検証を実装できる  
+- `@AssertTrue` を使って複数項目の関係（相関チェック）を実装できる  
+- コントローラで `@Validated` と `BindingResult` を用いて検証結果を処理できる  
+- `th:object` / `th:field` を使ってフォーム入力とエラーメッセージを連携できる  
+- フロントエンドだけではなく、サーバサイドでもバリデーションが必要な理由を理解できる  
+
+---
+
+## バリデーションとは
+
+バリデーションとは、**入力された値が正しいかどうかを検証する仕組み**である。  
+
+- 数字が入るべきところに文字列が入力されていないか  
+- 必須項目が空になっていないか  
+- 2つの項目（パスワードと確認用パスワード）が一致しているか  
+
+などをチェックする。  
+
+---
+
+## 単項目チェックと相関項目チェック
+
+### 単項目チェック
+
+1つの入力値が正しいかどうかを確認する。  
+例: 名前が空でないか、年齢が0以上か、メールアドレス形式か。  
+
+### 相関項目チェック
+
+複数の入力値の関係が正しいかどうかを確認する。  
+例: パスワードと確認用パスワードが一致しているか、開始日が終了日より前か。  
+
+---
+
+## 単項目チェックの実装
+
+単項目チェックは、フォームオブジェクトのフィールドにアノテーションを付与することで実現できる。  
+
+```java showLineNumbers
+public class UserForm {
+
+    @NotNull(message = "名前は必須です")
+    private String name;
+
+    @Min(value = 0, message = "年齢は0以上で入力してください")
+    @Max(value = 120, message = "年齢は120以下で入力してください")
+    private Integer age;
+
+    @Email(message = "メールアドレスの形式が正しくありません")
+    private String email;
+
+    // getter / setter
+}
+```
+
+- `@NotNull` : 値が null でないことを保証する  
+- `@Min`, `@Max` : 数値の範囲を指定する  
+- `@Email` : メールアドレス形式かどうかを確認する  
+
+👉 独自アノテーションを作ることも可能だが、本研修では扱わない。  
+
+---
+
+## 相関項目チェックの実装
+
+複数項目の関係をチェックするには `@AssertTrue` を用いる。  
+
+```java showLineNumbers
+public class PasswordForm {
+
+    private String password;
+    private String confirmPassword;
+
+    @AssertTrue(message = "パスワードが一致しません")
+    public boolean isPasswordConfirmed() {
+        return password != null && password.equals(confirmPassword);
+    }
+
+    // (省略) getter / setter 
+}
+```
+
+- `@AssertTrue` が付いたメソッドは、trueを返すと検証成功、falseを返すと失敗  
+- この例では、`password` と `confirmPassword` が一致しなければエラーとなる  
+
+👉 より柔軟に実装するには `Validator` インターフェースを実装する方法もあるが、本研修では扱わない。  
+
+---
+
+## コントローラでのバリデーション
+
+フォームオブジェクトを受け取るコントローラのメソッドに `@Validated` を付与する。  
+忘れるとバリデーションが実行されないので注意。  
+
+バリデーション結果は `BindingResult` から取得できる。  
+
+```java showLineNumbers
+@Controller
+public class UserController {
+
+    @PostMapping("/register")
+    public String register(
+        @Validated UserForm form, // フォームオブジェクトに @Validated を付与するとバリデーションが実行される
+        BindingResult bindingResult, // バリデーション結果を受け取る
+        Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "registerForm"; // エラー時はフォーム画面に戻す
+        }
+
+        // 正常処理
+        model.addAttribute("msg", "登録完了");
+        return "result";
+    }
+}
+```
+
+- `@Validated` : このオブジェクトに対してバリデーションを行う  
+- `BindingResult` : 検証結果（エラーの有無・内容）を保持する  
+
+---
+
+## フォーム定義とエラーメッセージ表示
+
+Spring MVCでは、**コントローラでフォームオブジェクトを受け取り、ビューに返す** ことでバリデーションとエラーメッセージ表示を行う。  
+フォーム側では `th:object` / `th:field` を使うことで、フォームオブジェクトとHTMLを簡潔にバインドできる。  
+
+
+```java showLineNumbers
+@Controller
+public class UserController {
+
+    @GetMapping("/register")
+    public String showForm(UserForm form) {
+        // 空のフォームをビューに渡す
+        //model.addAttribute("userForm", form); // ← これは不要
+        return "registerForm";
+    }
+
+    @PostMapping("/register")
+    public String register(
+        @Validated UserForm form,
+        BindingResult bindingResult,
+        Model model) {
+
+        if (bindingResult.hasErrors()) {
+            // バリデーション失敗 → 入力画面に戻す
+            return "registerForm";
+        }
+
+        // 正常処理
+        model.addAttribute("msg", "登録完了");
+        return "result";
+    }
+}
+```
+
+- `@GetMapping("/register")` : 入力フォームを表示する  
+- `@PostMapping("/register")` : 入力送信を受け取る  
+- `@Validated` : バリデーションを有効化  
+- `BindingResult` : バリデーション結果を保持。エラーがあればフォームに戻す  
+
+👉 ポイント  
+- `showForm(UserForm form)` の引数は、明示的に `model.addAttribute("userForm", form)` と書かなくてもビューに渡される。  
+- Spring MVCの仕様として、**フォームオブジェクトはクラス名の先頭を小文字にした名前で自動的にModelへ追加される**。  
+  - `UserForm` → `userForm`  
+- そのため、ビュー側で `${userForm}` としてアクセスできる。  
+- もし別名を使いたい場合は `@ModelAttribute("form")` のように指定する。  
+
+
+### th:object と th:field を使う場合
+
+```html showLineNumbers
+<!-- registerForm.html -->
+<form th:action="@{/register}" th:object="${userForm}" method="post">
+  <p>名前: <input type="text" th:field="*{name}" /></p>
+  <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+
+  <p>年齢: <input type="number" th:field="*{age}" /></p>
+  <p th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></p>
+
+  <p>メール: <input type="email" th:field="*{email}" /></p>
+  <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+
+  <button type="submit">登録</button>
+</form>
+```
+
+- `th:object="${userForm}"` : このフォームが `UserForm` にバインドされることを示す  
+- `th:field="*{name}"` : `userForm.name` に対応する。フォーム送信時に値が自動的にセットされる  
+- `th:errors="*{name}"` : name フィールドにエラーがあればメッセージを表示する  
+
+### th:object / th:field を使わない場合
+
+```html showLineNumbers
+<!-- registerForm.html -->
+<form action="/register" method="post">
+  <p>名前: <input type="text" name="name" value="[[${userForm.name}]]" /></p>
+  <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+
+  <p>年齢: <input type="number" name="age" value="[[${userForm.age}]]" /></p>
+  <p th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></p>
+
+  <p>メール: <input type="email" name="email" value="[[${userForm.email}]]" /></p>
+  <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+
+  <button type="submit">登録</button>
+</form>
+```
+
+- フィールド名 (`name`, `age`, `email`) を手動で合わせる必要がある  
+- 入力値の保持（再表示）を `${userForm.xxx}` と書かねばならず、記述が冗長になる  
+- エラーメッセージ表示は `th:errors` を使う点は同じ
+
+### th:object / th:field を使うメリット
+
+- 入力フォームとフォームオブジェクトのフィールドが自動的にバインドされる  
+- 入力エラーがあっても、入力値を保持して再表示できる（自動）  
+- フィールド名のズレを防げる（Java側で `name` を変更すれば、自動的にフォームも連動する）  
+
+👉 実務では **必ず `th:object` と `th:field` を使うのが基本**。  
+
+---
+
+## なぜフロントエンドのバリデーションだけでは不十分なのか
+
+- フロントエンド（JavaScriptやHTML5）のバリデーションは、ブラウザ上で無効化することが可能  
+- 攻撃者が意図的にリクエストを送れば、チェックを回避できてしまう  
+- セキュリティやデータの整合性を守るため、**必ずサーバサイドでもバリデーションを行う必要がある**  
+
+👉 フロントエンドのバリデーションは「ユーザーに優しい補助機能」であり、**最後の砦はサーバ側**。  
+
+//TODO: フロントエンドのバリデーションを突破させる演習
+
+---
+
+## 本章のまとめ
+
+- バリデーションは入力値の正しさを保証するために必要  
+- 単項目チェック（`@NotNull`, `@Max`, `@Email` など）と相関項目チェック（`@AssertTrue`）がある  
+- コントローラでは `@Validated` を付与し、`BindingResult` で結果を受け取る  
+- フォームは `th:object` と `th:field` で定義し、`#fields` を使ってエラーメッセージを表示する  
+- フロントエンドのバリデーションだけでは不十分。サーバサイドで必ず検証を行うこと  

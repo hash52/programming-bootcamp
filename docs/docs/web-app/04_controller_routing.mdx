@@ -1,0 +1,171 @@
+# コントローラとルーティング
+
+Webアプリケーションでは、**ブラウザからのリクエストをどの処理に結びつけるか** が最も基本的な仕組みである。  
+この章では、Spring MVCの「コントローラ」と「ルーティング」について学ぶ。  
+URLの指定に応じてJavaの処理を呼び出し、結果としてHTMLを返すまでの一連の流れを理解する。
+
+## 学習のゴール
+- ルーティングの役割を理解し、URLと処理を結びつけられる  
+- `@Controller` を使ってWebリクエストを処理するクラスを作成できる  
+- `@GetMapping` / `@PostMapping` を使い、特定のURLに対応するメソッドを定義できる  
+- `return` で指定したビュー名に対応するHTMLを表示できる  
+- コントローラやビューの配置場所のルールを理解し、正しい構成で実装できる  
+
+---
+
+## ルーティングとは
+
+ルーティングとは、**ブラウザから送られてきたURLから「どの処理を呼び出すか」を読み取る仕組み**である。  
+
+例：`http://localhost:8080/welcome`  
+
+```
+http://localhost:8080/welcome
+        |        |     |
+        |        |     └─ パス (アプリ側で処理を振り分ける対象部分)
+        |        └─ ポート番号
+        └─ ホスト名
+```
+
+この場合、ルーティングで指定する文字列は **`/welcome`** にあたる。  
+Spring MVCでは、この「パス」とプログラム（処理）を結びつけるために **コントローラ** を利用する。
+
+---
+
+## コントローラの基本
+
+Spring MVCにおける「コントローラ」とは、  
+**ルーティングで読み取ったURLパスに対応する処理を実行し、結果としてビューを返す役割**を持つクラスである。  
+
+- `@Controller` アノテーションを付けたクラスは、リクエストを処理する役割を持つ  
+- **クラス自体は自分で `new` しない**。Springが自動的にインスタンス化して管理する（詳細はDIの章で解説）  
+- Spring Bootでは、`@SpringBootApplication` が置かれているパッケージ **またはそのサブパッケージ** にコントローラを置く必要がある  
+  - それ以外に置くと、Springが検出できずリクエストは404になる  
+  - （高度な設定で`@ComponentScan`を使えば変更可能。ただし今回は扱わない）  
+
+例：  
+
+```
+com.example.demo         ← ここに@SpringBootApplicationが置かれている
+ ├ DemoApplication.java
+ └ controller/           ← コントローラは com.example.demo またはそのサブパッケージに置く必要がある
+    └ HelloController.java
+```
+
+---
+
+## @RequestMapping と @GetMapping / @PostMapping
+
+リクエストを処理するメソッドを決めるために、Spring MVCではアノテーションを使う。  
+最も基本的なのが **`@RequestMapping`** だが、よく使われるGETやPOSTに関しては省略形の **`@GetMapping`** / **`@PostMapping`** が用意されている。  
+
+### 例：URL `/welcome` に対応する処理を作る
+
+```
+http://localhost:8080/welcome
+                        └─── この「/welcome」に対応するメソッドを決めたい
+```
+
+### 方法1：@RequestMapping を使う場合
+
+```java showLineNumbers
+@Controller
+public class SampleController {
+    
+    @RequestMapping(value = "/welcome", method = RequestMethod.GET) // /welcome へのGETリクエストを処理する
+    public String welcome() { //メソッド名は任意。welcomeにする必要はないが、わかりやすい名前にするのが望ましい
+        return "greet"; // → templates/greet.html を返す
+    }
+}
+```
+
+- `value = "/welcome"` : このメソッドが `/welcome` へのリクエストを処理することを示す  
+- `method = RequestMethod.GET` : HTTPのGETメソッドに対応することを明示している  
+
+---
+
+### 方法2：@GetMapping / @PostMapping を使う場合
+
+よく使うGETやPOSTについては、省略形アノテーションを使うとさらにシンプルに書ける。  
+先ほどのコードは、`@GetMapping` を使うと次のようになる。  
+
+```java showLineNumbers
+@Controller
+public class SampleController {
+
+    @GetMapping("/welcome") // /welcome へのGETリクエストを処理する
+    public String welcome() {
+        return "greet"; // → templates/greet.html を返す
+    }
+}
+```
+
+同様に、POSTリクエストを処理する場合は `@PostMapping("/path")` を使う。  
+
+つまり  
+- **@RequestMapping** … すべてのHTTPメソッドに対応できる汎用的な指定方法  
+- **@GetMapping / @PostMapping** … よく使うGETやPOSTの書き方を短縮した省略形  
+
+として理解しておけばよい。  
+
+---
+
+## ビューの置き場所
+
+Spring Bootでは、ビューとして返すHTMLファイルは **必ず** 以下の場所に配置する。
+
+```
+src/
+ └ main/
+    ├ java/          … Javaコード
+    └ resources/
+       └ templates/   … Thymeleaf(後述)のHTMLファイル
+          ├ greet.html
+          └ other.html
+```
+
+コントローラから `return "greet";` と書くと、  
+Springは `src/main/resources/templates/greet.html` を探す。  
+
+別の場所に置いた場合、**テンプレートが見つからないエラー**（`TemplateInputException`）が発生する。  
+（高度な設定で `spring.thymeleaf.prefix` を変更すれば別の場所も使えるが、今回は扱わない）  
+
+また、`templates` 以下にディレクトリを作ることも可能である。  
+
+```
+src/
+ └ main/
+    └ resources/
+       └ templates/
+          └ user/
+             └ detail.html
+```
+
+この場合、コントローラから `return "user/detail";` と書けば  
+`templates/user/detail.html` が呼び出される。
+
+```java showLineNumbers
+@Controller
+public class UserController {
+    @GetMapping("/user")
+    public String userDetail() {
+        return "user/detail"; // → templates/user/detail.html を返す
+    }
+}
+```
+
+---
+
+## 本章のまとめ
+
+- ルーティングとは、URLのパス部分と処理を結びつける仕組み  
+- `http://localhost:8080/welcome` の「/welcome」が、`@RequestMapping` や `@GetMapping` の `value` と対応する  
+- `@Controller` を付けたクラスはSpringにより自動でインスタンス化される（自分で `new` はしない）  
+- コントローラは `@SpringBootApplication` のパッケージまたはそのサブパッケージに置かないと認識されない  
+- ビューは `src/main/resources/templates/` 配下に配置し、`return` の文字列で指定する  
+- ディレクトリを切る場合は、`return "user/detail";` のようにスラッシュ区切りで指定できる  
+- `@RequestMapping` は汎用的に使えるが、`@GetMapping` / `@PostMapping` を使うと簡潔に書ける  
+
+---
+
+## 演習

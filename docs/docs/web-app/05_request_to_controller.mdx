@@ -1,0 +1,267 @@
+# リクエストからコントローラへの値の受け渡し（リンク・パラメータ・フォーム）
+
+Webアプリケーションでは、ブラウザからサーバに「値」を送る場面が頻繁にある。  
+この章では、リンク・クエリパラメータ・パスパラメータ・フォームを用いて、値をコントローラに渡す方法を学ぶ。  
+実際のURLの仕組みやフォーム送信の流れを理解し、入力値をサーバ側で処理できるようになることを目指す。
+
+## 学習のゴール
+- クエリパラメータを `@RequestParam` で受け取れる  
+- パスパラメータを `@PathVariable` で受け取れる  
+- パスパラメータとクエリパラメータの違いと使い分けを理解できる  
+- HTMLフォームを使ってPOSTで値を送信し、コントローラで受け取れる  
+- フォームオブジェクトを定義して、複数の入力項目をまとめて扱える  
+- URLやフォーム送信を通して、リクエストから値を安全かつ整理された形で取得できる  
+
+---
+
+## クエリパラメータによる値の受け渡し
+
+URLの「?」以降を **クエリパラメータ** と呼ぶ。  
+形式は `?key=value` であり、複数の場合は `&` でつなぐ。  
+
+例：  
+
+```
+http://localhost:8080/show?user=Taro
+http://localhost:8080/show?user=Taro&age=20
+```
+
+### クエリパラメータとコントローラの対応
+
+```
+http://localhost:8080/show?user=Taro
+                        └─── @GetMapping("/show") に対応
+                               └─── user=Taro が @RequestParam("user") に渡される
+```
+
+### コントローラで受け取るコード例
+
+```java showLineNumbers
+@Controller
+public class ShowController {
+
+    @GetMapping("/show") // /show へのGETリクエストを処理する
+    public String show(
+        @RequestParam("user") String user, // ?user=... の値を受け取る
+        @RequestParam("age") int age, // ?age=... の値を受け取る
+    ) {
+        System.out.println("message: " + user + " さんは " + age + " 歳です。");
+        return "display"; // templates/display.html
+    }
+}
+```
+
+- `@RequestParam("user")` : `?user=...` の値を受け取る  
+- `@RequestParam("age")` : `?age=...` の値を受け取る  
+
+🛠️ [ハンズオン演習（手順つき体験）に進む](#クエリパラメータによる値の受け渡し-1)  
+🎯 [練習問題（自力で挑戦）に進む](#クエリパラメータによる値の受け渡し-2)  
+
+---
+
+## パスパラメータによる値の受け渡し
+
+URLのパスに直接値を埋め込む方法を **パスパラメータ** と呼ぶ。  
+
+例：  
+
+```
+http://localhost:8080/users/1 
+```
+
+### パスパラメータとコントローラの対応
+
+```
+http://localhost:8080/users/1
+                            └─── {id} に対応
+```
+
+### コントローラで受け取るコード例
+
+```java showLineNumbers
+@Controller
+public class UserController {
+
+    @GetMapping("/users/{id}") // /users/1, /users/2 などに対応
+    public String detail(
+      @PathVariable("id") int id,  // {id} の値をint型で受け取る
+    ) {
+        System.out.println("message: " + "ユーザーIDは " + id + " です。");
+        return "user-detail"; // templates/user-detail.html
+    }
+}
+```
+
+---
+
+## クエリパラメータとパスパラメータの使い分け
+
+どちらも「値をサーバに渡す方法」だが、役割や用途が異なる。  
+
+### パスパラメータ
+- **どのリソースを指定するか** を表すときに使う  
+- URLそのものが「異なるページ」として扱われる  
+- 例： 商品詳細ページ  
+  - `https://shop.example.com/items/1`  
+  - `https://shop.example.com/items/2`
+- `/items/1` と `/items/2` は **別の商品ページ**  
+- **キャッシュ**：URLが固定なのでキャッシュが効きやすい  
+- **SEO**：検索エンジンは異なるURLを別ページとして評価するため、個別の商品や記事に最適  
+
+### クエリパラメータ
+- **どのように表示するか、どの条件で検索するか** を表すときに使う  
+- URLは同じページで、表示内容だけが変わる  
+- 例： 商品検索 
+  - `https://shop.example.com/items?category=books&sort=price_asc`   
+  - `https://shop.example.com/items?category=music&sort=price_desc`    
+- `/items?category=books&sort=price_asc` と `/items?category=music&sort=price_desc` は **同じ検索ページ**  
+- **キャッシュ**：パラメータの組み合わせが無数にあるため、キャッシュが効きにくい  
+- **SEO**：検索エンジンからは「同じ検索ページの派生」と見なされやすく、検索条件ごとに個別ページとして強く評価されにくい  
+
+### まとめ
+
+「リソース＝パスパラメータ」 「条件＝クエリパラメータ」が基本ルール
+
+- **パスパラメータ**  
+  - リソースを一意に特定するために使う（ユーザーID、商品IDなど）  
+  - URLごとに別ページとして扱われる  
+  - キャッシュに向いており、SEOでも個別ページとして評価されやすい  
+
+- **クエリパラメータ**  
+  - 表示条件や検索オプションを指定するために使う（検索キーワード、ページ番号など）  
+  - 同じページの中で表示内容だけが変わる  
+  - キャッシュが効きにくく、SEO評価も限定的になりやすい  
+
+---
+
+## フォームによる値の受け渡し
+
+HTMLフォームを使って値を入力し、サーバに送る場合は通常 **POSTリクエスト** が使われる。  
+そのためコントローラ側では `@PostMapping` を用いる。  
+
+### フォームの例
+
+```html showLineNumbers
+<form action="/submit" method="post"> <!-- /submit にPOSTで送信 -->
+  <label>名前: <input type="text" name="username"></label>
+  <label>年齢: <input type="number" name="age"></label>
+  <button type="submit">送信</button>
+</form>
+```
+
+### コントローラで受け取る例（RequestParamを使う）
+
+```java showLineNumbers
+@Controller
+public class SubmitController {
+
+    @PostMapping("/submit") // /submit へのPOSTリクエストを処理
+    public String submit(
+        @RequestParam("username") String username, // フォームの name="username" の値を受け取る
+        @RequestParam("age") int age, // フォームの name="age" の値を受け取る
+    ) {
+        System.out.println("message: " + "こんにちは " + username + " さん（" + age + "歳）");
+        return "result"; // templates/result.html
+    }
+}
+```
+
+---
+
+### フォームオブジェクトを使った受け取り
+
+入力項目が増えると `@RequestParam` を1つずつ書くのは大変。  
+Springでは **フォームオブジェクト** を定義し、まとめて受け取るのが一般的。  
+
+#### フォームオブジェクトの置き場所
+- 通常は `form` や `dto` といった専用のパッケージに配置する  
+- 例:  
+
+```
+src/main/java/com/example/demo/
+ ├ controller/   … コントローラ
+ ├ form/         … フォームオブジェクトを置く
+ │   └ UserForm.java
+ └ service/      … ビジネスロジック
+```
+
+#### フォームオブジェクトの例
+
+```java showLineNumbers
+package com.example.demo.form;
+
+public class UserForm {
+    private String username;
+    private int age;
+
+    // getter / setter を必ず用意
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age = age; }
+}
+```
+
+#### HTMLフォームとフィールドの対応
+
+```html showLineNumbers
+<form action="/submit" method="post">
+  <input type="text" name="username"> <!-- UserForm.username に対応 -->
+  <input type="number" name="age">    <!-- UserForm.age に対応 -->
+  <button type="submit">送信</button>
+</form>
+```
+
+- `<input name="username">` → `UserForm` の `username` フィールドに自動で値が入る  
+- `<input name="age">` → `UserForm` の `age` フィールドに自動で値が入る  
+
+#### コントローラでフォームオブジェクトを使う例
+
+```java showLineNumbers
+package com.example.demo.controller;
+
+import com.example.demo.form.UserForm;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+public class SubmitController {
+
+    @PostMapping("/submit")
+    public String submit(UserForm form, Model model) {
+        model.addAttribute("message", "こんにちは " 
+            + form.getUsername() + " さん（" + form.getAge() + "歳）");
+        return "result";
+    }
+}
+```
+
+- フォームの `<input>` の `name` 属性とオブジェクトのフィールド名が一致していれば、自動で値がセットされる  
+- 入力項目が増えても引数がシンプルに保てるため、保守性が高い  
+
+---
+
+## 本章のまとめ
+
+- クエリパラメータは `?key=value` 形式で渡し、複数は `&` でつなぐ  
+- `@RequestParam("key")` で受け取れる  
+- パスパラメータは `/path/{id}` の形式で、`@PathVariable` で受け取れる  
+- 使い分け：リソースの識別はパスパラメータ、条件指定はクエリパラメータ  
+- フォーム送信はPOSTであり、`@PostMapping` で処理する  
+- フォームオブジェクトを使うと、`<input name="...">` とフィールド名を対応させてまとめて受け取れる  
+
+---
+
+## 🛠️ハンズオン演習（手順つき体験）
+
+### [クエリパラメータによる値の受け渡し](#クエリパラメータによる値の受け渡し)
+### [パスパラメータによる値の受け渡し](#パスパラメータによる値の受け渡し)
+### [フォームによる値の受け渡し](#フォームによる値の受け渡し)
+
+## 🎯演習問題（自力で挑戦）
+
+### [クエリパラメータによる値の受け渡し](#クエリパラメータによる値の受け渡し)
+### [パスパラメータによる値の受け渡し](#パスパラメータによる値の受け渡し)
+### [フォームによる値の受け渡し](#フォームによる値の受け渡し)
