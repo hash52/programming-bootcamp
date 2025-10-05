@@ -8,31 +8,138 @@ import {
   LinearProgress,
   Paper,
   Stack,
-  Tooltip,
   Typography,
 } from "@mui/material";
-import {
-  ALL_TOPIC_STRUCTURE,
-  CATEGORIES_LABELS,
-  Difficulty,
-} from "@site/src/structure";
+import { ALL_TOPIC_STRUCTURE, CATEGORIES_LABELS } from "@site/src/structure";
 import { ChevronDown } from "mdi-material-ui";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Tooltip as ChartTooltip,
+  Legend,
+} from "chart.js";
 
-/** ローカルストレージに保存する際のキー名 */
-const STORAGE_KEY = "questionProgress";
+// Chart.js 登録
+ChartJS.register(
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  ChartTooltip,
+  Legend
+);
 
-/**
- * 各設問の達成状態を表すデータ構造
- * - `checked`: チェック済みかどうか
- * - `lastCheckedAt`: 最後にチェックをつけた日付（ISO文字列）
- */
+/** localStorage キー */
+const STORAGE_KEY_PROGRESS = "questionProgress";
+const STORAGE_KEY_HISTORY = "progressHistory";
+
+/** 設問ごとの進捗状態 */
 interface QuestionProgress {
+  /** チェック済みかどうか */
   checked: boolean;
+  /** 最後にチェックした日（ISO文字列） */
   lastCheckedAt: string | null;
 }
 
 /** 全設問分の進捗をまとめたレコード（questionId -> 状態） */
 type ProgressRecord = Record<string, QuestionProgress>;
+
+/** 折れ線グラフ用履歴データ */
+type ProgressHistory = Record<string, number>; // 例: { "2025-10-01": 45, ... }
+
+/**
+ * 折れ線グラフ表示コンポーネント
+ * @param history localStorageから取得した日別達成率
+ */
+const ProgressLineChart: FC<{ history: ProgressHistory }> = ({ history }) => {
+  const entries = Object.entries(history).sort(([a], [b]) =>
+    a.localeCompare(b)
+  );
+  if (entries.length === 0)
+    return (
+      <Paper sx={{ p: 3, textAlign: "center", mb: 3 }}>
+        <Typography color="text.secondary">
+          進捗の記録がまだありません
+        </Typography>
+      </Paper>
+    );
+
+  // 最初の1日前を0%で追加する ---
+  const firstDate = new Date(entries[0][0]);
+  const dayBefore = new Date(firstDate);
+  dayBefore.setDate(firstDate.getDate() - 1);
+  const zeroDate = dayBefore.toISOString().split("T")[0];
+
+  // グラフ描画データ
+  const labels = [zeroDate, ...entries.map(([date]) => date)];
+  const data = [0, ...entries.map(([, value]) => value)];
+
+  const chartData = {
+    labels,
+    datasets: [
+      {
+        label: "全体達成率（％）",
+        data,
+        borderColor: "#1976d2",
+        backgroundColor: "#1976d2",
+        tension: 0.3,
+        pointRadius: 4,
+        pointBackgroundColor: "#1976d2",
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        min: 0,
+        max: 100,
+        ticks: {
+          stepSize: 20,
+          color: "#555",
+        },
+        grid: {
+          color: "#eee",
+        },
+      },
+      x: {
+        ticks: {
+          color: "#555",
+        },
+        grid: {
+          color: "#fafafa",
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        callbacks: {
+          label: (ctx: any) => `達成率：${ctx.raw}%`,
+        },
+      },
+    },
+  };
+
+  return (
+    <Paper sx={{ p: 2, mb: 3, height: 300 }}>
+      <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
+        全体達成率の推移
+      </Typography>
+      <Box sx={{ height: 240 }}>
+        <Line data={chartData} options={options} />
+      </Box>
+    </Paper>
+  );
+};
 
 /**
  * 指定された日付からの経過日数を文字列で返す
@@ -108,7 +215,7 @@ const ProgressWithLabel: FC<{ value: number }> = ({ value }) => {
           right: 0,
           textAlign: "center",
           fontWeight: "bold",
-          color: value == 100 ? "#fff" : "#333",
+          color: value === 100 ? "#fff" : "#333",
           lineHeight: "10px",
           fontSize: "0.75rem",
         }}
@@ -122,20 +229,51 @@ const ProgressWithLabel: FC<{ value: number }> = ({ value }) => {
 /**
  * 学習進捗ダッシュボード
  *
+ * - 全体の学習進捗を折れ線グラフで表示
  * - トピック・カテゴリ別に学習状況を一覧表示
  * - チェックボックスで達成状況を更新
  * - localStorageに永続保存
  * - 達成率をLinearProgress＋％表示で可視化
  */
 export const Dashboard: FC = () => {
-  /** 設問ごとの進捗情報（localStorage永続化対象） */
   const [progress, setProgress] = useState<ProgressRecord>({});
+  const [history, setHistory] = useState<ProgressHistory>({});
+  /** モックデータ: 学習進捗履歴テスト用（日別達成率） */
+  const mockedHistory: ProgressHistory = {
+    "2025-10-01": 10,
+    "2025-10-02": 25,
+    "2025-10-03": 40,
+    "2025-10-05": 60,
+    "2025-10-06": 75,
+    "2025-10-07": 80,
+    "2025-10-08": 90,
+    "2025-10-09": 100,
+  };
 
-  /** 初回マウント時にlocalStorageから進捗を復元 */
+  // 初期化: localStorageから読み込み
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) setProgress(JSON.parse(stored));
+    const storedProgress = localStorage.getItem(STORAGE_KEY_PROGRESS);
+    if (storedProgress) setProgress(JSON.parse(storedProgress));
+    const storedHistory = localStorage.getItem(STORAGE_KEY_HISTORY);
+    if (storedHistory) setHistory(JSON.parse(storedHistory));
   }, []);
+
+  /** 全体達成率を算出 */
+  const calcOverallProgress = (data: ProgressRecord): number => {
+    const allQuestions = ALL_TOPIC_STRUCTURE.flatMap((t) => t.questions);
+    const done = allQuestions.filter((q) => data[q.id]?.checked).length;
+    return allQuestions.length
+      ? Math.round((done / allQuestions.length) * 100)
+      : 0;
+  };
+
+  /** 当日の履歴を更新 */
+  const updateProgressHistory = (ratio: number) => {
+    const today = new Date().toISOString().split("T")[0];
+    const updated: ProgressHistory = { ...history, [today]: ratio };
+    setHistory(updated);
+    localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(updated));
+  };
 
   /**
    * チェックボックス操作時に進捗を更新
@@ -151,7 +289,12 @@ export const Dashboard: FC = () => {
       },
     };
     setProgress(updated);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    localStorage.setItem(STORAGE_KEY_PROGRESS, JSON.stringify(updated));
+
+    // 最新のupdatedデータを使って正しい進捗率を計算
+    // 非同期更新のため、stateのprogressを使うと1回遅れになる
+    const overall = calcOverallProgress(updated);
+    updateProgressHistory(overall);
   };
 
   /**
@@ -162,9 +305,8 @@ export const Dashboard: FC = () => {
   const getTopicProgress = (topicId: string) => {
     const topic = ALL_TOPIC_STRUCTURE.find((t) => t.id === topicId);
     if (!topic) return 0;
-    const total = topic.questions.length;
     const done = topic.questions.filter((q) => progress[q.id]?.checked).length;
-    return total ? done / total : 0;
+    return topic.questions.length ? done / topic.questions.length : 0;
   };
 
   /**
@@ -176,9 +318,8 @@ export const Dashboard: FC = () => {
     const allQuestions = ALL_TOPIC_STRUCTURE.flatMap((t) =>
       t.category === category ? t.questions : []
     );
-    const total = allQuestions.length;
     const done = allQuestions.filter((q) => progress[q.id]?.checked).length;
-    return total ? done / total : 0;
+    return allQuestions.length ? done / allQuestions.length : 0;
   };
 
   /** 全カテゴリ一覧を重複除去して抽出 */
@@ -188,9 +329,13 @@ export const Dashboard: FC = () => {
 
   return (
     <Box sx={{ p: 3 }}>
+      {/* 折れ線グラフ */}
+      {/* ここを mockedHistory に変更するとテスト表示可能 */}
+      <ProgressLineChart history={history} />
+
+      {/* 進捗一覧 */}
       <Stack spacing={3}>
         {categories.map((cat) => {
-          // 該当カテゴリのトピック一覧を抽出
           const topics = ALL_TOPIC_STRUCTURE.filter((t) => t.category === cat);
           const catRatio = getCategoryProgress(cat);
           const catValue = catRatio * 100;
@@ -243,16 +388,16 @@ export const Dashboard: FC = () => {
                               cursor: "pointer",
                               transition: "color 0.2s, text-decoration 0.2s",
                               "&:hover": {
-                                color: "#0d47a1", // 濃い青
                                 textDecoration: "underline",
+                                color: "#0d47a1",
                               },
                             }}
-                            onClick={() => {
+                            onClick={() =>
                               window.open(
                                 `${topic.category}/${topic.id}`,
                                 "_blank"
-                              );
-                            }}
+                              )
+                            }
                           >
                             {topic.label}
                           </Typography>
@@ -266,67 +411,58 @@ export const Dashboard: FC = () => {
 
                       {/* 設問リスト */}
                       <AccordionDetails>
-                        {topic.questions
-                          .sort(
-                            (a, b) =>
-                              a.difficulty - b.difficulty ||
-                              a.title.localeCompare(b.title)
-                          )
-                          .map((q) => {
-                            const qProg = progress[q.id];
-                            return (
+                        {topic.questions.map((q) => {
+                          const qProg = progress[q.id];
+                          return (
+                            <Box
+                              key={q.id}
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                borderBottom: "1px solid #eee",
+                                py: 0.5,
+                              }}
+                            >
+                              {/* 設問タイトル＋チェックボックス */}
                               <Box
-                                key={q.id}
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "space-between",
-                                  borderBottom: "1px solid #eee",
-                                  py: 0.5,
-                                }}
+                                sx={{ display: "flex", alignItems: "center" }}
                               >
-                                {/* 設問タイトル＋チェックボックス */}
-                                <Box
-                                  sx={{ display: "flex", alignItems: "center" }}
-                                >
-                                  <Checkbox
-                                    checked={qProg?.checked || false}
-                                    onChange={(e) =>
-                                      updateProgress(q.id, e.target.checked)
-                                    }
-                                  />
-                                  <Typography
-                                    noWrap
-                                    sx={{
-                                      maxWidth: 400,
-                                      cursor: "pointer",
-                                      "&:hover": {
-                                        color: "#0d47a1",
-                                        textDecoration: "underline",
-                                      },
-                                    }}
-                                    onClick={() => {
-                                      // 別タブで問題ページを開く
-                                      window.open(q.id, "_blank");
-                                    }}
-                                  >
-                                    {q.title}
-                                  </Typography>
-                                </Box>
-                                {/* 経過日数表示（色付き） */}
+                                <Checkbox
+                                  checked={qProg?.checked || false}
+                                  onChange={(e) =>
+                                    updateProgress(q.id, e.target.checked)
+                                  }
+                                />
                                 <Typography
-                                  variant="body2"
+                                  noWrap
                                   sx={{
-                                    color: getDateColor(
-                                      qProg?.lastCheckedAt || null
-                                    ),
+                                    maxWidth: 400,
+                                    cursor: "pointer",
+                                    "&:hover": {
+                                      textDecoration: "underline",
+                                      color: "#0d47a1",
+                                    },
                                   }}
+                                  onClick={() => window.open(q.id, "_blank")} // 別タブで問題ページを開く
                                 >
-                                  {daysSince(qProg?.lastCheckedAt || null)}
+                                  {q.title}
                                 </Typography>
                               </Box>
-                            );
-                          })}
+                              {/* 経過日数表示（色付き） */}
+                              <Typography
+                                variant="body2"
+                                sx={{
+                                  color: getDateColor(
+                                    qProg?.lastCheckedAt || null
+                                  ),
+                                }}
+                              >
+                                {daysSince(qProg?.lastCheckedAt || null)}
+                              </Typography>
+                            </Box>
+                          );
+                        })}
                       </AccordionDetails>
                     </Accordion>
                   );
