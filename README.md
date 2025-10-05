@@ -12,7 +12,7 @@ docs/
 │ └─ object-oriented/
 ├─ db/
 ├─ frontend/
-├─ web-app/
+├─ spring/
 ├─ git/
 └─ others/
 ```
@@ -20,7 +20,7 @@ docs/
 - **java/**: Java の基本文法、オブジェクト指向、標準ライブラリなど。
 - **db/**: SQL によるデータベース操作、正規化によるテーブル設計など。
 - **frontend/**: HTML/CSS/JavaScript の基礎。
-- **web-app/**: Web アプリ開発、Spring フレームワーク、MVC、認証・認可など。
+- **spring/**: Web アプリ開発、Spring フレームワーク、MVC、認証・認可など。
 - **git/**: Git の基本操作、ブランチとマージ、チーム開発での利用方法。
 - **others/**: トラブルシューティング集、リファレンス集。
 

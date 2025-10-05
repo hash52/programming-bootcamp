@@ -1,6 +1,7 @@
 ---
-sidebar_position: 0
-slug: /
+sidebar_position: 1
+slug: /roadmap
+title: ロードマップ
 ---
 
 # WEB 開発学習ロードマップ
