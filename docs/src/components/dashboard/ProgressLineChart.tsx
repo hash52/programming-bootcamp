@@ -1,4 +1,4 @@
-import { Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import { FC } from "react";
 import { Line } from "react-chartjs-2";
 import {
@@ -104,5 +104,9 @@ export const ProgressLineChart: FC<{ history: ProgressHistory }> = ({
     },
   };
 
-  return <Line data={chartData} options={options} />;
+  return (
+    <Box sx={{ height: 240 }}>
+      <Line data={chartData} options={options} />
+    </Box>
+  );
 };

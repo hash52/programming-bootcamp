@@ -106,10 +106,8 @@ export const Dashboard: FC = () => {
       {/* 折れ線グラフ */}
       <OverAllProgressCard>
         <OverAllProgressTitle>全体達成率の推移</OverAllProgressTitle>
-        <OverAllProgressChartBox>
-          {/* ここを mockedHistory に変更するとテスト表示可能 */}
-          <ProgressLineChart history={storedProgress.history} />
-        </OverAllProgressChartBox>
+        {/* ここを mockedHistory に変更するとテスト表示可能 */}
+        <ProgressLineChart history={storedProgress.history} />
       </OverAllProgressCard>
 
       {/* 進捗一覧 */}
@@ -211,7 +209,6 @@ const PageContainer = styled(Box)(({ theme }) => ({
 const OverAllProgressCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   marginBottom: theme.spacing(3),
-  height: 300,
   boxShadow: theme.shadows[2],
 }));
 
@@ -224,11 +221,6 @@ const OverAllProgressTitle: FC<PropsWithChildren> = ({ children }) => {
 
   return <StyledTypography variant="h6">{children}</StyledTypography>;
 };
-
-/** 折れ線グラフエリア */
-const OverAllProgressChartBox = styled(Box)({
-  height: 240,
-});
 
 /** カテゴリごとの進捗一覧エリア */
 const CategoryProgressStack: FC<PropsWithChildren> = ({ children }) => {
