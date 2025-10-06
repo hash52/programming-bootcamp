@@ -72,6 +72,11 @@ const config: Config = {
         },
       ],
     },
+    docs: {
+      sidebar: {
+        hideable: true, // 開閉ボタン
+      },
+    },
     footer: {
       style: "dark",
       links: [],
