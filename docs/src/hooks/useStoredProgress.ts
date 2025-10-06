@@ -55,7 +55,7 @@ function useStoredProgress(): UseStoredProgressReturn {
 
   /** 当日の進捗率を履歴に保存する */
   const updateProgressHistory = (ratio: number) => {
-    const today = new Date().toISOString().split("T")[0];
+    const today = getLocalDateString(); // JST日付
     const updated: ProgressHistory = { ...history, [today]: ratio };
     setHistory(updated);
   };
@@ -66,7 +66,7 @@ function useStoredProgress(): UseStoredProgressReturn {
 
     if (checked) {
       // チェックON → 現在日時を登録
-      updated[id] = { lastCheckedAt: new Date().toISOString() };
+      updated[id] = { lastCheckedAt: getLocalISOString() }; // JST ISO
     } else {
       // チェックOFF → 該当レコードを削除
       delete updated[id];
@@ -83,3 +83,19 @@ function useStoredProgress(): UseStoredProgressReturn {
 }
 
 export { useStoredProgress };
+
+/** JSTの "YYYY-MM-DD" 文字列を返す */
+function getLocalDateString(): string {
+  const now = new Date();
+  const jstOffsetMs = 9 * 60 * 60 * 1000; // UTC+9時間
+  const jstDate = new Date(now.getTime() + jstOffsetMs);
+  return jstDate.toISOString().split("T")[0]; // YYYY-MM-DD形式を維持
+}
+
+/** JST基準での現在日時をISO形式で返す（保存用） */
+function getLocalISOString(): string {
+  const now = new Date();
+  const jstOffsetMs = 9 * 60 * 60 * 1000;
+  const jstDate = new Date(now.getTime() + jstOffsetMs);
+  return jstDate.toISOString();
+}
