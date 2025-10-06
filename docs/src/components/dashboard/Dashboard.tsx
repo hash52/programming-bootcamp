@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, PropsWithChildren, useEffect, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -8,6 +8,7 @@ import {
   LinearProgress,
   Paper,
   Stack,
+  styled,
   Typography,
 } from "@mui/material";
 import { ALL_TOPIC_STRUCTURE, CATEGORIES_LABELS } from "@site/src/structure";
@@ -129,16 +130,7 @@ const ProgressLineChart: FC<{ history: ProgressHistory }> = ({ history }) => {
     },
   };
 
-  return (
-    <Paper sx={{ p: 2, mb: 3, height: 300 }}>
-      <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
-        全体達成率の推移
-      </Typography>
-      <Box sx={{ height: 240 }}>
-        <Line data={chartData} options={options} />
-      </Box>
-    </Paper>
-  );
+  return <Line data={chartData} options={options} />;
 };
 
 /**
@@ -188,7 +180,7 @@ function getProgressColor(ratio: number): string {
  * LinearProgressに中央ラベル（％）を重ねたプログレスバー
  * @param value - 進捗率（0〜100）
  */
-const ProgressWithLabel: FC<{ value: number }> = ({ value }) => {
+const ProgressBarWithLabel: FC<{ value: number }> = ({ value }) => {
   const color = getProgressColor(value / 100);
   return (
     <Box sx={{ position: "relative", width: "100%" }}>
@@ -239,15 +231,37 @@ export const Dashboard: FC = () => {
   const [progress, setProgress] = useState<ProgressRecord>({});
   const [history, setHistory] = useState<ProgressHistory>({});
   /** モックデータ: 学習進捗履歴テスト用（日別達成率） */
+  /** モックデータ: 学習進捗履歴テスト用（日別達成率） */
   const mockedHistory: ProgressHistory = {
-    "2025-10-01": 10,
-    "2025-10-02": 25,
-    "2025-10-03": 40,
-    "2025-10-05": 60,
-    "2025-10-06": 75,
-    "2025-10-07": 80,
-    "2025-10-08": 90,
-    "2025-10-09": 100,
+    "2025-10-01": 3,
+    "2025-10-02": 5,
+    "2025-10-03": 8,
+    "2025-10-04": 10,
+    "2025-10-05": 12,
+    "2025-10-06": 15,
+    "2025-10-07": 18,
+    "2025-10-08": 22,
+    "2025-10-09": 27,
+    "2025-10-10": 32,
+    "2025-10-11": 36,
+    "2025-10-12": 40,
+    "2025-10-13": 45,
+    "2025-10-14": 48,
+    "2025-10-15": 52,
+    "2025-10-16": 57,
+    "2025-10-17": 61,
+    "2025-10-18": 64,
+    "2025-10-19": 69,
+    "2025-10-20": 73,
+    "2025-10-21": 77,
+    "2025-10-22": 82,
+    "2025-10-23": 85,
+    "2025-10-24": 88,
+    "2025-10-25": 91,
+    "2025-10-26": 94,
+    "2025-10-27": 96,
+    "2025-10-28": 98,
+    "2025-10-29": 100,
   };
 
   // 初期化: localStorageから読み込み
@@ -328,13 +342,18 @@ export const Dashboard: FC = () => {
   );
 
   return (
-    <Box sx={{ p: 3 }}>
+    <PageContainer>
       {/* 折れ線グラフ */}
-      {/* ここを mockedHistory に変更するとテスト表示可能 */}
-      <ProgressLineChart history={history} />
+      <OverAllProgressCard>
+        <OverAllProgressTitle>全体達成率の推移</OverAllProgressTitle>
+        <OverAllProgressChartBox>
+          {/* ここを mockedHistory に変更するとテスト表示可能 */}
+          <ProgressLineChart history={history} />
+        </OverAllProgressChartBox>
+      </OverAllProgressCard>
 
       {/* 進捗一覧 */}
-      <Stack spacing={3}>
+      <CategoryProgressStack>
         {categories.map((cat) => {
           const topics = ALL_TOPIC_STRUCTURE.filter((t) => t.category === cat);
           const catRatio = getCategoryProgress(cat);
@@ -342,56 +361,22 @@ export const Dashboard: FC = () => {
           const categoryLabel = CATEGORIES_LABELS[cat];
 
           return (
-            <Paper
-              key={cat}
-              sx={{
-                p: 2,
-                boxShadow: 3,
-                borderRadius: 2,
-                background: "linear-gradient(135deg, #f7f7f7, #fafafa)",
-              }}
-            >
+            <CategoryProgressCard key={cat}>
               {/* カテゴリ名＋進捗バー */}
-              <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
-                {categoryLabel}
-              </Typography>
-              <ProgressWithLabel value={catValue} />
+              <CategoryTitle>{categoryLabel}</CategoryTitle>
+              <ProgressBarWithLabel value={catValue} />
 
               {/* トピックごとのAccordion */}
-              <Stack sx={{ mt: 2 }}>
+              <TopicProgressStack>
                 {topics.map((topic) => {
                   const topicRatio = getTopicProgress(topic.id);
                   const topicValue = topicRatio * 100;
                   return (
-                    <Accordion
-                      key={topic.id}
-                      sx={{
-                        mt: 1,
-                        borderRadius: 2,
-                        "&:before": { display: "none" }, // デフォルト線を消す
-                        boxShadow: 1,
-                      }}
-                    >
+                    <TopicProgressAccordion key={topic.id}>
                       <AccordionSummary expandIcon={<ChevronDown />}>
-                        <Box
-                          sx={{
-                            flexGrow: 1,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
+                        <TopicProgressBox>
                           {/* トピックタイトル */}
-                          <Typography
-                            sx={{
-                              fontWeight: 500,
-                              cursor: "pointer",
-                              transition: "color 0.2s, text-decoration 0.2s",
-                              "&:hover": {
-                                textDecoration: "underline",
-                                color: "#0d47a1",
-                              },
-                            }}
+                          <TopicTitle
                             onClick={() =>
                               window.open(
                                 `${topic.category}/${topic.id}`,
@@ -400,13 +385,13 @@ export const Dashboard: FC = () => {
                             }
                           >
                             {topic.label}
-                          </Typography>
+                          </TopicTitle>
 
                           {/* トピック進捗バー */}
-                          <Box sx={{ width: 150 }}>
-                            <ProgressWithLabel value={topicValue} />
-                          </Box>
-                        </Box>
+                          <TopicProgressBarBox>
+                            <ProgressBarWithLabel value={topicValue} />
+                          </TopicProgressBarBox>
+                        </TopicProgressBox>
                       </AccordionSummary>
 
                       {/* 設問リスト */}
@@ -414,64 +399,164 @@ export const Dashboard: FC = () => {
                         {topic.questions.map((q) => {
                           const qProg = progress[q.id];
                           return (
-                            <Box
-                              key={q.id}
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                borderBottom: "1px solid #eee",
-                                py: 0.5,
-                              }}
-                            >
+                            <QuestionRowBox key={q.id}>
                               {/* 設問タイトル＋チェックボックス */}
-                              <Box
-                                sx={{ display: "flex", alignItems: "center" }}
-                              >
+                              <QuestionRowLeftBox>
                                 <Checkbox
                                   checked={qProg?.checked || false}
                                   onChange={(e) =>
                                     updateProgress(q.id, e.target.checked)
                                   }
                                 />
-                                <Typography
-                                  noWrap
-                                  sx={{
-                                    maxWidth: 400,
-                                    cursor: "pointer",
-                                    "&:hover": {
-                                      textDecoration: "underline",
-                                      color: "#0d47a1",
-                                    },
-                                  }}
+                                <QuestionTitle
                                   onClick={() => window.open(q.id, "_blank")} // 別タブで問題ページを開く
                                 >
                                   {q.title}
-                                </Typography>
-                              </Box>
+                                </QuestionTitle>
+                              </QuestionRowLeftBox>
                               {/* 経過日数表示（色付き） */}
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: getDateColor(
-                                    qProg?.lastCheckedAt || null
-                                  ),
-                                }}
-                              >
-                                {daysSince(qProg?.lastCheckedAt || null)}
-                              </Typography>
-                            </Box>
+                              <QuestionDaysSinceText
+                                lastCheckedAt={qProg?.lastCheckedAt}
+                              />
+                            </QuestionRowBox>
                           );
                         })}
                       </AccordionDetails>
-                    </Accordion>
+                    </TopicProgressAccordion>
                   );
                 })}
-              </Stack>
-            </Paper>
+              </TopicProgressStack>
+            </CategoryProgressCard>
           );
         })}
-      </Stack>
-    </Box>
+      </CategoryProgressStack>
+    </PageContainer>
   );
+};
+
+const PageContainer = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(3),
+}));
+
+/** 全体進捗の表示エリア */
+const OverAllProgressCard = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(2),
+  marginBottom: theme.spacing(3),
+  height: 300,
+}));
+
+/** 全体進捗タイトル */
+const OverAllProgressTitle: FC<PropsWithChildren> = ({ children }) => {
+  const StyledTypography = styled(Typography)(({ theme }) => ({
+    marginBottom: theme.spacing(1),
+    fontWeight: "bold",
+  }));
+
+  return <StyledTypography variant="h6">{children}</StyledTypography>;
+};
+
+/** 折れ線グラフエリア */
+const OverAllProgressChartBox = styled(Box)({
+  height: 240,
+});
+
+/** カテゴリごとの進捗一覧エリア */
+const CategoryProgressStack: FC<PropsWithChildren> = ({ children }) => {
+  return <Stack spacing={3}>{children}</Stack>;
+};
+
+/** カテゴリの表示エリア */
+const CategoryProgressCard = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(2),
+  boxShadow: theme.shadows[3],
+  borderRadius: `${Number(theme.shape.borderRadius) * 2}px`,
+  background: "linear-gradient(135deg, #f7f7f7, #fafafa)",
+}));
+
+/** カテゴリタイトル */
+const CategoryTitle: FC<PropsWithChildren> = ({ children }) => {
+  const StyledTypography = styled(Typography)(({ theme }) => ({
+    marginBottom: theme.spacing(1),
+    fontWeight: "bold",
+  }));
+  return <StyledTypography variant="h6">{children}</StyledTypography>;
+};
+
+/** トピックごとの進捗一覧エリア */
+const TopicProgressStack = styled(Stack)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+}));
+
+/** トピックタイトル＋進捗バーエリア */
+const TopicProgressBox = styled(Box)(({ theme }) => ({
+  flexGrow: 1,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+}));
+
+/** トピックタイトル */
+const TopicTitle = styled(Typography)(({ theme }) => ({
+  fontWeight: 500,
+  cursor: "pointer",
+  transition: "color 0.2s, text-decoration 0.2s",
+  "&:hover": {
+    textDecoration: "underline",
+    color: "#0d47a1",
+  },
+}));
+
+const TopicProgressBarBox = styled(Box)({
+  width: 150,
+});
+
+/** トピックごとの進捗エリア */
+const TopicProgressAccordion = styled(Accordion)(({ theme }) => ({
+  marginTop: theme.spacing(1),
+  borderRadius: theme.shape.borderRadius,
+  "&:before": { display: "none" }, // デフォルト線を消す
+  boxShadow: theme.shadows[1],
+}));
+
+/** 設問表示エリア */
+const QuestionRowBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  borderBottom: "1px solid #eee",
+  paddingTop: theme.spacing(0.5),
+  paddingBottom: theme.spacing(0.5),
+}));
+
+const QuestionRowLeftBox = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+});
+
+/** 設問タイトル（クリックで問題ページを開く） */
+const QuestionTitle = styled(Typography)({
+  maxWidth: 400,
+  cursor: "pointer",
+  whiteSpace: "normal", // 折り返しを許可
+  wordBreak: "break-word", // 長文時の改行制御
+  transition: "color 0.2s, text-decoration 0.2s",
+  "&:hover": {
+    textDecoration: "underline",
+    color: "#0d47a1",
+  },
+});
+
+/** 経過日数表示（色付き） */
+const QuestionDaysSinceText: FC<{ lastCheckedAt: string | undefined }> = ({
+  lastCheckedAt,
+}) => {
+  const color = getDateColor(lastCheckedAt ?? null);
+  const daysSinceText = daysSince(lastCheckedAt ?? null);
+  const StyledTypography = styled(Typography)({
+    color,
+    flexShrink: 0, // はみ出し防止
+    marginLeft: "auto", // 常に右端に配置
+    alignSelf: "center", // 垂直方向中央
+  });
+  return <StyledTypography variant="body2">{daysSinceText}</StyledTypography>;
 };
