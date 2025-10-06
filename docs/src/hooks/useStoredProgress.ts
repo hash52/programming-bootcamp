@@ -6,19 +6,19 @@ const STORAGE_KEY_HISTORY = "progressHistory";
 
 /** 設問ごとの進捗状態 */
 interface QuestionProgress {
-  /** 最後にチェックした日（ISO文字列） */
+  /** 最後にチェックした日（UTC基準 ISO文字列） */
   lastCheckedAt: string;
 }
 
 /**
- * 全設問分の進捗をまとめたレコード（questionId -> 最後にチェックした日）
+ * 進捗がある設問のみをまとめたレコード（questionId -> 最後にチェックした日）
  * 例: { "question-1": { lastCheckedAt: "2024-01-01T12:00:00Z" }, ... }
  * チェック済み設問のみ登録される
  */
 export type ProgressRecord = Record<string, QuestionProgress>;
 
 /**
- * 進捗履歴。日付ごとの進捗率のマッピング
+ * 進捗履歴。日付ごとの進捗率マッピング（ロケール基準の年月日文字列）
  * 例: { "2025-10-01": 45, ... }
  * 当日の進捗率のみ編集可能
  */
@@ -55,7 +55,7 @@ function useStoredProgress(): UseStoredProgressReturn {
 
   /** 当日の進捗率を履歴に保存する */
   const updateProgressHistory = (ratio: number) => {
-    const today = getLocalDateString(); // JST日付
+    const today = getLocaleDateString();
     const updated: ProgressHistory = { ...history, [today]: ratio };
     setHistory(updated);
   };
@@ -66,7 +66,7 @@ function useStoredProgress(): UseStoredProgressReturn {
 
     if (checked) {
       // チェックON → 現在日時を登録
-      updated[id] = { lastCheckedAt: getLocalISOString() }; // JST ISO
+      updated[id] = { lastCheckedAt: new Date().toISOString() }; // JST ISO
     } else {
       // チェックOFF → 該当レコードを削除
       delete updated[id];
@@ -84,18 +84,26 @@ function useStoredProgress(): UseStoredProgressReturn {
 
 export { useStoredProgress };
 
-/** JSTの "YYYY-MM-DD" 文字列を返す */
-function getLocalDateString(): string {
+/**
+ * ブラウザのロケールを元に "YYYY-MM-DD" を返す
+ * → ProgressHistory 用
+ */
+function getLocaleDateString(): string {
   const now = new Date();
-  const jstOffsetMs = 9 * 60 * 60 * 1000; // UTC+9時間
-  const jstDate = new Date(now.getTime() + jstOffsetMs);
-  return jstDate.toISOString().split("T")[0]; // YYYY-MM-DD形式を維持
-}
 
-/** JST基準での現在日時をISO形式で返す（保存用） */
-function getLocalISOString(): string {
-  const now = new Date();
-  const jstOffsetMs = 9 * 60 * 60 * 1000;
-  const jstDate = new Date(now.getTime() + jstOffsetMs);
-  return jstDate.toISOString();
+  // Intl.DateTimeFormatで各要素を安定して抽出
+  const locale = navigator.language || "ja-JP";
+  const fmt = new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+  const parts = fmt.formatToParts(now);
+  const year = parts.find((p) => p.type === "year")?.value;
+  const month = parts.find((p) => p.type === "month")?.value;
+  const day = parts.find((p) => p.type === "day")?.value;
+
+  // YYYY-MM-DD 形式で返す（ロケールに依存せず安定）
+  return `${year}-${month}-${day}`;
 }

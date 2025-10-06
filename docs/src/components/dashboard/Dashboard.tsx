@@ -31,7 +31,7 @@ function daysSince(dateString: string | null): string {
     (Date.now() - new Date(dateString).getTime()) / (1000 * 60 * 60 * 24);
   const days = Math.floor(diff);
   if (days === 0) return "今日";
-  if (days === 1) return "1日前";
+  if (days === 1) return "昨日";
   return `${days}日前`;
 }
 
@@ -46,8 +46,8 @@ function getDateColor(dateString: string | null): string {
   if (!dateString) return "#999";
   const diff =
     (Date.now() - new Date(dateString).getTime()) / (1000 * 60 * 60 * 24);
-  if (diff > 10) return "#e53935"; // 赤系
-  if (diff > 5) return "#fb8c00"; // オレンジ系
+  if (diff >= 7) return "#e53935"; // 赤系
+  if (diff >= 3) return "#fb8c00"; // オレンジ系
   return "#43a047"; // 緑系
 }
 
