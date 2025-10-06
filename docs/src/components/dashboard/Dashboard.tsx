@@ -212,6 +212,7 @@ const OverAllProgressCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   marginBottom: theme.spacing(3),
   height: 300,
+  boxShadow: theme.shadows[2],
 }));
 
 /** 全体進捗タイトル */
@@ -237,9 +238,12 @@ const CategoryProgressStack: FC<PropsWithChildren> = ({ children }) => {
 /** カテゴリの表示エリア */
 const CategoryProgressCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
-  boxShadow: theme.shadows[3],
+  boxShadow: theme.shadows[2],
   borderRadius: `${Number(theme.shape.borderRadius) * 2}px`,
-  background: "linear-gradient(135deg, #f7f7f7, #fafafa)",
+  background:
+    theme.palette.mode === "dark"
+      ? "#1b263b" // ← ダーク時：背景が黒でも浮かない深めの紺
+      : "linear-gradient(135deg, #f7f7f7, #fafafa)", // ← ライト時：既存の明るいグラデーション
 }));
 
 /** カテゴリタイトル */
