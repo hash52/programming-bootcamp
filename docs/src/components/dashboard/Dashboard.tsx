@@ -19,20 +19,26 @@ import {
   calcCategoryProgressRate,
   calcTopicProgressRate,
 } from "../lib/calcProgressRate";
+import { daysAgo } from "../lib/date";
 
 /**
- * 指定された日付からの経過日数を文字列で返す
+ * dateStringからの経過日数を文字列で返す
+ * 現在日時が2025-10-02T00:00:00の場合
+ * - 2025-10-01T23:59:59 → "昨日"
  * @param dateString ISO文字列の日付またはnull
- * @returns "未チェック" / "今日" / "X日前"
+ * @returns "未チェック" / "今日" / "昨日" / "X日前"
  */
 function daysSince(dateString: string | null): string {
   if (!dateString) return "未チェック";
-  const diff =
-    (Date.now() - new Date(dateString).getTime()) / (1000 * 60 * 60 * 24);
-  const days = Math.floor(diff);
-  if (days === 0) return "今日";
-  if (days === 1) return "昨日";
-  return `${days}日前`;
+
+  const target = new Date(dateString);
+  const now = new Date();
+
+  const diffDays = daysAgo(now, target);
+
+  if (diffDays === 0) return "今日";
+  if (diffDays === 1) return "昨日";
+  return `${diffDays}日前`;
 }
 
 /**
