@@ -108,33 +108,572 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
   }),
   // Spring
   withAutoIds({
-    id: "mvc_intro",
+    id: "02_mvc_intro",
     label: "MVCモデルの基本",
     category: "spring",
     questions: [
+      // KNOW
       {
         title: "MVCモデルの3つの役割（Model / View / Controller）を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
+      {
+        title: "MVCでModel・View・Controllerを分ける目的を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "MVCモデルを使うメリットを3つ以上挙げられる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "フレームワークが共通処理を肩代わりする意味を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "AOP（アスペクト指向プログラミング）の役割を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // READ
+      {
+        title:
+          "MVCの流れ図を見てユーザー操作から画面表示までの処理順を説明できる",
+        type: "READ",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "悪例のコードからMVCが崩れている点を指摘できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // WRITE
+      {
+        title:
+          "Model・View・Controllerを分けて処理を整理したJavaコードを記述できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
     ],
   }),
   withAutoIds({
-    id: "request_to_controller",
-    label:
-      "リクエストからコントローラへの値の受け渡し（リンク・パラメータ・フォーム）",
+    id: "04_controller_routing",
+    label: "コントローラとルーティング",
     category: "spring",
     questions: [
+      // k1
+      {
+        title: "URLパスと処理の対応関係を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      // k2
+      {
+        title: "コントローラの配置ルール（パッケージ構成）を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // k3
+      {
+        title: "ビュー（HTML）の検索パスを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      // k4
       {
         title:
-          "リンク・パラメータ・フォームからの値の受け渡しのコードリーディングができる",
+          "@RequestMapping / @GetMapping / @PostMapping の違いを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // r1
+      {
+        title: "URLから実行メソッドと表示HTMLを読み取れる",
+        type: "READ",
+        difficulty: Difficulty.Easy,
+      },
+      // r2
+      {
+        title: "コントローラ検出エラーの原因を推定できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // r3
+      {
+        title: "@RequestMapping と @GetMapping の関係を説明できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // w1
+      {
+        title: "@GetMapping を使った基本的なルーティングを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      // w2
+      {
+        title:
+          "サブディレクトリ構成のビューを正しく返すコントローラを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      // w3
+      {
+        title: "@PostMapping を使ってフォーム送信を処理できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
+  withAutoIds({
+    id: "05_request_to_controller",
+    label: "リクエストからコントローラへの値の受け渡し",
+    category: "spring",
+    questions: [
+      // k1
+      {
+        title: "@RequestParam の仕組みと用途を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      // k2
+      {
+        title: "@PathVariable の仕組みと用途を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      // k3
+      {
+        title: "クエリパラメータとパスパラメータの使い分けを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // r1
+      {
+        title: "クエリパラメータを使ったリクエストをコードから読み取れる",
+        type: "READ",
+        difficulty: Difficulty.Easy,
+      },
+      // r2
+      {
+        title: "パスパラメータを使ったリクエストをコードから読み取れる",
+        type: "READ",
+        difficulty: Difficulty.Easy,
+      },
+      // w1
+      {
+        title:
+          "@RequestParam を使ってクエリパラメータを受け取るコントローラを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      // w2
+      {
+        title:
+          "@PathVariable を使ってパスパラメータを受け取るコントローラを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      // w3
+      {
+        title:
+          "フォームオブジェクトを使って複数の入力値をまとめて受け取るコントローラを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
+  withAutoIds({
+    id: "06_controller_to_view_thymeleaf",
+    label: "コントローラからビューへの値の受け渡しとThymeleaf",
+    category: "spring",
+    questions: [
+      // k1
+      {
+        title:
+          "ModelとaddAttributeを使って値をビューに渡す仕組みを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      // k2
+      {
+        title: "th:textと[[...]]の違いを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      // k3
+      {
+        title: "th:utextによるXSSリスクと安全な表示方法を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // r1
+      {
+        title:
+          "Modelで渡した値がテンプレートにどのように埋め込まれるかを読み取れる",
+        type: "READ",
+        difficulty: Difficulty.Easy,
+      },
+      // r2
+      {
+        title: "th:ifによる条件分岐の表示結果を予測できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // r3
+      {
+        title: "th:switchによる分岐処理の結果を理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // r4
+      {
+        title: "th:eachによる繰り返し表示の仕組みを理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // r5
+      {
+        title: "ユーティリティオブジェクト #strings の使用例を理解している",
+        type: "READ",
+        difficulty: Difficulty.Easy,
+      },
+      // r6
+      {
+        title: "ユーティリティオブジェクト #numbers の使用例を理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // r7
+      {
+        title: "ユーティリティオブジェクト #dates の使用例を理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // w1
+      {
+        title: "Modelに値を追加しThymeleafで動的に表示するコードを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      // w2
+      {
+        title:
+          "th:objectを使ってオブジェクトのフィールドを簡潔に参照するテンプレートを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      // w3
+      {
+        title:
+          "フラグメントを利用して共通ヘッダーとフッターを再利用するビューを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
+  withAutoIds({
+    id: "07_validation",
+    label: "入力値のバリデーション",
+    category: "spring",
+    questions: [
+      // k1
+      {
+        title: "単項目チェックと相関項目チェックの違いを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      // k2
+      {
+        title:
+          "@NotNull, @Min, @Max, @Email などの基本的なバリデーションアノテーションの役割を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // k3
+      {
+        title: "@AssertTrue を用いた相関項目チェックの仕組みを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // r1
+      {
+        title: "@Validated と BindingResult の役割と実行順序を理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // r2
+      {
+        title: "th:object と th:field の対応関係を理解している",
+        type: "READ",
+        difficulty: Difficulty.Easy,
+      },
+      // r3
+      {
+        title:
+          "#fields.hasErrors と th:errors によるエラーメッセージ表示の仕組みを理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // w1
+      {
+        title:
+          "フォームオブジェクトにバリデーションアノテーションを付与して入力チェックを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      // w2
+      {
+        title:
+          "コントローラで @Validated と BindingResult を使ってエラー処理を実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      // w3
+      {
+        title:
+          "th:object と th:field を用いてフォーム入力とエラーメッセージを連携させたHTMLを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
+  withAutoIds({
+    id: "08_spring_di",
+    label: "SpringのDI（依存性注入）",
+    category: "spring",
+    questions: [
+      // k1
+      {
+        title: "DI（依存性注入）の目的と仕組みを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // k2
+      {
+        title:
+          "@Controller / @Service / @Repository / @Component の役割を区別できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // k3
+      {
+        title: "コンストラクタインジェクションの仕組みを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // r1
+      {
+        title: "@Autowired の挙動と依存関係解決の流れを理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // r2
+      {
+        title: "自分で new するケースとDIに任せるケースを判断できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // r3
+      {
+        title: "@Primary によるBeanの優先選択を理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // w1
+      {
+        title: "@Service クラスをDIで利用するコントローラを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      // w2
+      {
+        title:
+          "インターフェースと複数実装を用いてDIで切り替えられる構成を実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Hard,
+      },
+    ],
+  }),
+  withAutoIds({
+    id: "09_spring_mybatis",
+    label: "MyBatisによるDBアクセス",
+    category: "spring",
+    questions: [
+      // k1
+      {
+        title: "O/Rマッパー（Object Relational Mapper）の概念を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      // k2
+      {
+        title: "MyBatisがO/Rマッパーであることを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // k3
+      {
+        title: "application.propertiesでのDB接続設定を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // k4
+      {
+        title: "schema.sqlとdata.sqlの役割を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // r1
+      {
+        title: "アノテーションMapperの動作を理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // r2
+      {
+        title: "XMLマッパーファイルのnamespaceとidの対応関係を理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // r3
+      {
+        title: "1対多リレーションのresultMapを読み取れる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // w1
+      {
+        title: "MapperインターフェースとXMLを用いた検索処理を実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      // w2
+      {
+        title: "resultMapを用いた1対多リレーションの取得を実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Hard,
+      },
+    ],
+  }),
+  withAutoIds({
+    id: "10_spring_session",
+    label: "セッションとログインの仕組み",
+    category: "spring",
+    questions: [
+      // KNOW
+      {
+        title: "リクエストスコープとセッションスコープの違いを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "HttpSession の基本的な使い方を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "@SessionAttributes と @SessionAttribute の違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // READ
+      {
+        title:
+          "セッションに保存されたデータがどのようにビューで参照されるかを読み取れる",
+        type: "READ",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "セッションを利用したログイン保持処理の流れを理解している",
         type: "READ",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "リンク・パラメータ・フォームからの値の受け渡しのコードを書ける",
+        title: "SessionStatus を使ったセッション破棄の仕組みを理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // WRITE
+      {
+        title:
+          "HttpSession を用いてログイン状態を保持するコントローラを実装できる",
         type: "WRITE",
-        difficulty: Difficulty.Hard,
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title:
+          "@SessionAttributes を利用してフォーム情報をセッションに保持する処理を実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "セッションを使った簡単なカート機能を実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
+  withAutoIds({
+    id: "11_spring_security_login",
+    label: "Spring Securityでのログイン実装",
+    category: "spring",
+    questions: [
+      // KNOW
+      {
+        title: "認証(Authentication)と認可(Authorization)の違いを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "UserDetailsService の役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title:
+          "BCryptPasswordEncoder によるパスワードハッシュ化の仕組みを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      // READ
+      {
+        title: "SecurityFilterChain の設定内容から認証フローを読み取れる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title:
+          "UserDetailsService 実装クラスの loadUserByUsername() の動作を理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title:
+          "Spring Securityがログイン成功後にセッションへ保存する情報を理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      // WRITE
+      {
+        title:
+          "Spring SecurityとMyBatisを組み合わせてDB認証を行う構成を実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title:
+          "SecurityConfigを作成してログイン・ログアウト画面のルートを設定できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "BCryptPasswordEncoderを使って安全なパスワードを生成できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
       },
     ],
   }),

@@ -1,0 +1,230 @@
+# MyBatisによるDBアクセス — 演習問題
+
+---
+
+## 🧠 KNOW（知識確認）
+
+### KNOW-1：O/Rマッパー（Object Relational Mapper）の概念を理解している
+
+**問題：**  
+O/Rマッパー（Object Relational Mapper）とは何か、次の選択肢の中から最も適切な説明を選べ。
+
+> ① Javaのオブジェクトとデータベースのテーブルを対応付けて扱えるようにする仕組み  
+> ② SQL文を使わずにすべての処理を自動化するフレームワーク  
+> ③ HTMLテンプレートに動的データを埋め込む仕組み  
+> ④ データベースに直接アクセスするコマンドラインツール  
+
+**回答：**  
+① Javaのオブジェクトとデータベースのテーブルを対応付けて扱えるようにする仕組み
+
+**解説：**  
+O/Rマッパー（Object Relational Mapper）は、オブジェクト指向のプログラムと  
+リレーショナルデータベースのデータ構造を橋渡しする技術である。  
+Javaのクラスをテーブルに、フィールドをカラムに対応付けて操作できるようにする。  
+MyBatisやHibernateが代表的なO/Rマッパーの例である。
+
+
+### KNOW-2：MyBatisがO/Rマッパーであることを理解している（穴埋め）
+
+**問題：**  
+次の文の（A）（B）を埋めよ。
+
+> MyBatisは（A）と（B）を対応付ける仕組みを持つO/Rマッパーである。
+
+**回答：**  
+- （A）Javaのオブジェクト  
+- （B）データベースのレコード
+
+**解説：**  
+O/Rマッピングとは、JavaのクラスとRDBのテーブルを対応付ける仕組み。  
+MyBatisはSQLを自分で書くスタイルのO/Rマッパーである。
+
+---
+
+### KNOW-3：application.propertiesでのDB接続設定を理解している
+
+**問題：**  
+次の設定項目の役割を答えよ。
+
+```properties
+spring.datasource.url=jdbc:h2:mem:testdb
+mybatis.mapper-locations=classpath*:mapper/*.xml
+```
+
+**回答：**  
+- `spring.datasource.url`：H2データベースの接続先URLを指定する  
+- `mybatis.mapper-locations`：マッパーファイル(XML)の配置場所を指定する  
+
+**解説：**  
+`spring.datasource.url` はDB接続設定、`mybatis.mapper-locations` はSQLを記述したXMLファイルの読込場所を示す。
+
+---
+
+### KNOW-4：schema.sqlとdata.sqlの役割を理解している
+
+**問題：**  
+Spring Boot起動時に自動実行されるSQLファイルとして、  
+テーブル定義を行うファイルと初期データ登録を行うファイルの名前を答えよ。
+
+**回答：**  
+- テーブル定義：`schema.sql`  
+- 初期データ：`data.sql`
+
+**解説：**  
+`schema.sql` がテーブル作成、`data.sql` が初期データ挿入を担当する。
+
+---
+
+## 👀 READ（コード理解）
+
+### READ-1：アノテーションMapperの動作を理解している
+
+**問題：**  
+次のMapperを呼び出すとき、どのようにSQLが実行されるか説明せよ。
+
+```java
+@Mapper
+public interface UserMapper {
+    @Select("SELECT * FROM users WHERE id = #{id}")
+    User findById(int id);
+}
+```
+
+**回答：**  
+MyBatisが `UserMapper` の実装クラスを自動生成し、  
+`@Select` のSQLを実行して結果をUserオブジェクトにマッピングする。
+
+**解説：**  
+`@Mapper` によりSpringが自動登録、`@Select` のSQLが実行される。
+
+---
+
+### READ-2：XMLマッパーファイルのnamespaceとidの対応関係を理解している
+
+**問題：**  
+次のUserMapper.xmlにおいて、`namespace` と `<select id="findAll">` はそれぞれ何と対応しているか答えよ。
+
+```xml
+<mapper namespace="com.example.demo.mapper.UserMapper">
+  <select id="findAll" resultType="com.example.demo.entity.User">
+    SELECT * FROM users
+  </select>
+</mapper>
+```
+
+**回答：**  
+- `namespace`：Mapperインターフェースの完全修飾名  
+- `id`：インターフェースのメソッド名  
+
+**解説：**  
+`namespace` はJavaインターフェースと紐づける識別子、`id` は呼び出すメソッド名と一致させる必要がある。
+
+---
+
+### READ-3：1対多リレーションのresultMapを読み取れる
+
+**問題：**  
+次のresultMap定義において、`<collection>` 要素はどのような役割を持つか説明せよ。
+
+```xml
+<collection property="posts" ofType="com.example.demo.entity.Post">
+  <id property="id" column="post_id"/>
+  <result property="content" column="content"/>
+</collection>
+```
+
+**回答：**  
+
+`User` が複数のPostを持つ1対多関係を表現し、  
+JOIN結果の複数行を`List<Post>`としてマッピングする。
+
+**解説：**  
+`<collection>` は親子関係を表現し、JOIN結果からリストを組み立てるために使用される。
+
+---
+
+## ✍️ WRITE（実装）
+
+### WRITE-1：MapperインターフェースとXMLを用いた検索処理を実装できる
+
+**問題：**  
+全ユーザーを取得してThymeleafで表示するためのMapperとXML、Controllerを作成せよ。
+
+**回答：**
+
+```java
+// UserMapper.java
+@Mapper
+public interface UserMapper {
+    List<User> findAll();
+}
+```
+
+```xml
+<!-- UserMapper.xml -->
+<mapper namespace="com.example.demo.mapper.UserMapper">
+  <select id="findAll" resultType="com.example.demo.entity.User">
+    SELECT id, name, age FROM users
+  </select>
+</mapper>
+```
+
+```java
+// UserController.java
+@Controller
+public class UserController {
+    private final UserMapper userMapper;
+    public UserController(UserMapper userMapper) { this.userMapper = userMapper; }
+
+    @GetMapping("/users")
+    public String list(Model model) {
+        model.addAttribute("users", userMapper.findAll());
+        return "user-list";
+    }
+}
+```
+
+**解説：**  
+MapperインターフェースとXMLのidを一致させ、SQL結果を`List<User>`として受け取りビューへ渡す。
+
+---
+
+### WRITE-2：resultMapを用いた1対多リレーションの取得を実装できる
+
+**問題：**  
+`User` に紐づく投稿一覧を一度のSQLで取得できるようにMapperとXMLを作成せよ。
+
+**回答：**
+
+```java
+// UserMapper.java
+@Mapper
+public interface UserMapper {
+    User findUserWithPosts(int id);
+}
+```
+
+```xml
+<!-- UserMapper.xml -->
+<mapper namespace="com.example.demo.mapper.UserMapper">
+  <resultMap id="UserWithPostsResultMap" type="com.example.demo.entity.User">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="age" column="age"/>
+    <collection property="posts" ofType="com.example.demo.entity.Post">
+      <id property="id" column="post_id"/>
+      <result property="userId" column="user_id"/>
+      <result property="content" column="content"/>
+    </collection>
+  </resultMap>
+  <select id="findUserWithPosts" parameterType="int" resultMap="UserWithPostsResultMap">
+    SELECT u.id, u.name, u.age, p.id AS post_id, p.user_id, p.content
+    FROM users u LEFT JOIN posts p ON u.id = p.user_id
+    WHERE u.id = #{id}
+  </select>
+</mapper>
+```
+
+**解説：**  
+`resultMap` でUserに`List<Post>`をマッピングし、JOINで関連データをまとめて取得する。  
+これにより1対多の構造を自然なオブジェクトとして扱える。

@@ -1,0 +1,244 @@
+# コントローラとルーティング — 演習問題
+
+---
+
+## 🧠 KNOW（知識確認）
+
+### KNOW-1：URLパスと処理の対応関係を理解している
+**問題：**  
+ルーティングとは、ブラウザから送られてきた（　）を読み取り、どの（　）を呼び出すかを決める仕組みである。  
+
+選択肢：  
+A. HTMLファイル / HTTPメソッド / URLパス / テンプレート名  
+B. クラス / 処理 / ビュー / データベース  
+
+**回答：**  
+A = URLパス  
+B = 処理  
+
+**解説：**  
+ルーティングはURLのパス部分（例：`/welcome`）から、アプリケーション内のどの処理を呼び出すかを判断する仕組みである。  
+URLパスと処理（メソッド）を結びつけることで、ブラウザのリクエストを正しく処理できる。
+
+---
+
+### KNOW-2：コントローラの配置ルール（パッケージ構成）を理解している
+**問題：**  
+次のうち、Springが自動で検出できるコントローラの配置場所をすべて選べ。  
+（`@SpringBootApplication` は `com.example.demo` にある）
+
+1. `com.example.demo.controller`  
+2. `com.example.demo.sub.controller`  
+3. `com.other.demo.controller`  
+4. `resources.controller`
+
+**回答：**  
+1, 2  
+
+**解説：**  
+Spring Bootは、`@SpringBootApplication` が定義されたパッケージとその**サブパッケージ**のみ自動スキャンする。  
+別のパッケージに置くと、Springが検出できずリクエストが404となる。
+
+---
+
+### KNOW-3：ビュー（HTML）の検索パスを理解している
+**問題：**  
+コントローラで `return "hello";` としたとき、Spring Bootが探すHTMLファイルの正しい場所はどれか。
+
+1. `src/main/java/templates/hello.html`  
+2. `src/main/resources/static/hello.html`  
+3. `src/main/resources/templates/hello.html`  
+4. `src/main/resources/views/hello.html`
+
+**回答：**  
+3  
+
+**解説：**  
+Spring Bootでは、テンプレートエンジン（Thymeleafなど）のHTMLは  
+`src/main/resources/templates/` 以下に配置するルールになっている。  
+`return "hello"` はこのフォルダ内の `hello.html` を指す。
+
+---
+
+### KNOW-4：@RequestMapping / @GetMapping / @PostMapping の違いを理解している
+**問題：**  
+それぞれの説明に合うアノテーションを答えよ。
+
+| 内容 | アノテーション |
+|------|----------------|
+| すべてのHTTPメソッドに対応できる汎用的な指定方法 | ? |
+| GETメソッドに対応する省略形 | ? |
+| POSTメソッドに対応する省略形 | ? |
+
+**回答：**  
+- 汎用的：`@RequestMapping`  
+- GET：`@GetMapping`  
+- POST：`@PostMapping`
+
+**解説：**  
+`@RequestMapping` はあらゆるHTTPメソッドを扱えるが、  
+よく使うGETとPOSTには専用の省略形が用意されている。  
+`@GetMapping("/path")` は `@RequestMapping(value="/path", method=RequestMethod.GET)` と等価。
+
+---
+
+## 👀 READ（コード理解）
+
+### READ-1：URLから実行メソッドと表示HTMLを読み取れる
+
+**問題：**  
+次のコードがどのURLに反応し、どのHTMLを返すか答えよ。
+
+```java
+@Controller
+public class HelloController {
+
+    @GetMapping("/greet")
+    public String greetPage() {
+        return "hello";
+    }
+}
+```
+
+**回答：**  
+- URL：`http://localhost:8080/greet`  
+- 表示されるHTML：`templates/hello.html`
+
+**解説：**  
+`@GetMapping("/greet")` により `/greet` へのGETリクエストを処理する。  
+`return "hello"` によって、`templates/hello.html` が表示される。
+
+---
+
+### READ-2：コントローラ検出エラーの原因を推定できる
+
+**問題：**  
+次のコードで `/hi` にアクセスしても404エラーになる。原因を1つ挙げよ。  
+（`@SpringBootApplication` は `com.example.demo` にある）
+
+```java
+package com.example.demo.web;
+
+@Controller
+public class HiController {
+
+    @GetMapping("/hi")
+    public String hi() {
+        return "hi";
+    }
+}
+```
+
+**回答：**  
+`HiController` が Spring Boot のスキャン対象外にあるため、  
+コントローラとして登録されていない。  
+
+**解説：**  
+Springは `@SpringBootApplication` のパッケージ配下しか自動検出しない。  
+`com.example.demo.web` がスキャン対象外なら、404になる。
+
+---
+
+### READ-3：@RequestMapping と @GetMapping の関係を説明できる
+
+**問題：**  
+次の2つのメソッドの違いを簡潔に説明せよ。
+
+```java
+@GetMapping("/sample")
+public String sample1() { return "sample"; }
+
+@RequestMapping(value="/sample", method=RequestMethod.GET)
+public String sample2() { return "sample"; }
+```
+
+**回答：**  
+どちらも同じ動作をする。  
+`@GetMapping` は `@RequestMapping` のGET専用の省略形である。
+
+**解説：**  
+`@RequestMapping` は汎用的な指定方法で、  
+`@GetMapping` は `method = RequestMethod.GET` を省略した短縮記法。
+
+---
+
+## ✍️ WRITE（実装）
+
+### WRITE-1：@GetMapping を使った基本的なルーティングを実装できる
+
+**問題：**  
+次の要件を満たすコントローラクラスを作成せよ。  
+
+- クラス名：`WelcomeController`  
+- URL：`/welcome` にアクセスすると  
+- 表示するHTML：`templates/welcome.html`
+
+```java
+@Controller
+public class WelcomeController {
+
+    @GetMapping("/welcome")
+    public String showWelcome() {
+        return "welcome";
+    }
+}
+```
+
+**解説：**  
+`@GetMapping("/welcome")` で `/welcome` に対応するGET処理を指定している。  
+`return "welcome"` により、`templates/welcome.html` が返される。
+
+---
+
+### WRITE-2：サブディレクトリ構成のビューを正しく返すコントローラを実装できる
+
+**問題：**  
+次の要件を満たすコントローラを作成せよ。  
+
+- クラス名：`UserController`  
+- URL：`/user/profile` にアクセスすると  
+- 表示するHTML：`templates/user/profile.html`
+
+```java
+@Controller
+public class UserController {
+
+    @GetMapping("/user/profile")
+    public String showProfile() {
+        return "user/profile";
+    }
+}
+```
+
+**解説：**  
+`return` にスラッシュ区切りのパスを指定すると、  
+`templates/user/profile.html` のようなサブディレクトリ配下のビューも呼び出せる。
+
+---
+
+### WRITE-3：@PostMapping を使ってフォーム送信を処理できる
+
+**問題：**  
+次のフォームからPOST送信されたデータを受け取り、`templates/result.html` を返すメソッドを実装せよ。
+
+```html
+<form action="/submit" method="post">
+  <button>送信</button>
+</form>
+```
+
+```java
+@Controller
+public class FormController {
+
+    @PostMapping("/submit")
+    public String handleSubmit() {
+        return "result";
+    }
+}
+```
+
+**解説：**  
+`@PostMapping` はフォーム送信（POSTリクエスト）を受け取るアノテーション。  
+`return "result"` により、`templates/result.html` を表示する。  
+`@GetMapping` と使い分けることで、表示と送信処理を分離できる。

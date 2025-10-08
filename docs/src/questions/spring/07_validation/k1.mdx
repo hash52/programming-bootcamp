@@ -1,0 +1,243 @@
+# 入力値のバリデーション — 演習問題
+
+---
+
+## 🧠 KNOW（知識確認）
+
+### KNOW-1：単項目チェックと相関項目チェックの違いを理解している
+
+**問題：**  
+次の2種類のバリデーションについて、説明を埋めよ。  
+
+1. **（A）** チェック：1つの入力値が正しいかを確認する（例：名前が空でないか）  
+2. **（B）** チェック：複数の入力値の関係が正しいかを確認する（例：パスワードと確認用パスワードの一致）
+
+**回答：**  
+- （A） 単項目  
+- （B） 相関項目  
+
+**解説：**  
+単項目は1つのフィールド単体の検証、相関項目は複数フィールド間の整合性確認を行う。
+
+---
+
+### KNOW-2：@NotNull, @Min, @Max, @Email などの基本的なバリデーションアノテーションの役割を理解している
+
+**問題：**  
+次のフォーム定義を見て、それぞれのアノテーションの役割を答えよ。
+
+```java
+public class UserForm {
+    @NotNull(message = "名前は必須です")
+    private String name;
+
+    @Min(value = 0, message = "年齢は0以上で入力してください")
+    @Max(value = 120, message = "年齢は120以下で入力してください")
+    private Integer age;
+
+    @Email(message = "メールアドレスの形式が正しくありません")
+    private String email;
+}
+```
+
+**回答：**  
+- `@NotNull`：値がnullでないことを保証する  
+- `@Min` / `@Max`：数値の範囲を指定する  
+- `@Email`：メールアドレス形式であることを検証する  
+
+**解説：**  
+アノテーションはJava Bean Validation（JSR-380）仕様に基づく。複数指定で複合チェックが可能。
+
+---
+
+### KNOW-3：@AssertTrue を用いた相関項目チェックの仕組みを理解している
+
+**問題：**  
+次のフォームで、バリデーションが成功する条件を答えよ。
+
+```java
+public class PasswordForm {
+    private String password;
+    private String confirmPassword;
+
+    @AssertTrue(message = "パスワードが一致しません")
+    public boolean isPasswordConfirmed() {
+        return password != null && password.equals(confirmPassword);
+    }
+}
+```
+
+**回答：**  
+`password` と `confirmPassword` の両方がnullでなく、かつ同じ値である場合に成功。
+
+**解説：**  
+`@AssertTrue` が付いたメソッドが `true` を返すと検証成功、`false` なら失敗。複数項目の関係を確認できる。
+
+---
+
+## 👀 READ（コード理解）
+
+### READ-1：@Validated と BindingResult の役割と実行順序を理解している
+
+**問題：**  
+次のコントローラを読んで、（A）と（B）に当てはまる説明を選べ。  
+
+```java
+@PostMapping("/register")
+public String register(
+    @Validated UserForm form, // （A）
+    BindingResult bindingResult, // （B）
+    Model model) {
+
+    if (bindingResult.hasErrors()) {
+        return "registerForm";
+    }
+
+    model.addAttribute("msg", "登録完了");
+    return "result";
+}
+```
+
+> - ① フォームオブジェクトに対してバリデーションを実行する
+> - ② 検証結果を受け取り、エラーを保持する
+
+**回答：**  
+- （A） ①  
+- （B） ②  
+
+**解説：**  
+`@Validated` により自動で検証が走り、結果が `BindingResult` に格納される。  
+エラーがある場合、`hasErrors()` が `true` になる。
+
+---
+
+### READ-2：th:object と th:field の対応関係を理解している
+
+**問題：**  
+次のHTMLコードを読み、入力項目がバインドされるフォームオブジェクトのフィールド名を答えよ。
+
+```html
+<form th:action="@{/register}" th:object="${userForm}" method="post">
+  <p>名前: <input type="text" th:field="*{name}" /></p>
+  <p>年齢: <input type="number" th:field="*{age}" /></p>
+</form>
+```
+
+**回答：**  
+`userForm.name` と `userForm.age`
+
+**解説：**  
+`th:object="${userForm}"` により、このフォーム全体が `UserForm` に対応する。  
+`th:field="*{name}"` は `userForm.name` フィールドを意味する。
+
+---
+
+### READ-3：#fields.hasErrors と th:errors によるエラーメッセージ表示の仕組みを理解している
+
+**問題：**  
+次のHTMLを見て、どのようなときに `<p>` タグのメッセージが表示されるか説明せよ。
+
+```html
+<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+```
+
+**回答：**  
+`name` フィールドにバリデーションエラーがあるとき。
+
+**解説：**  
+`#fields.hasErrors('name')` はその項目にエラーがあるかを判定し、  
+`th:errors` は対応するエラーメッセージを表示する。
+
+---
+
+## ✍️ WRITE（実装）
+
+### WRITE-1：フォームオブジェクトにバリデーションアノテーションを付与して入力チェックを実装できる
+
+**問題：**  
+名前は必須・年齢は0〜100・メールはメール形式であることを検証するフォーム `UserForm` を定義せよ。
+
+**回答：**
+
+```java
+public class UserForm {
+
+    @NotNull(message = "名前は必須です")
+    private String name;
+
+    @Min(value = 0, message = "年齢は0以上で入力してください")
+    @Max(value = 100, message = "年齢は100以下で入力してください")
+    private Integer age;
+
+    @Email(message = "メールアドレスの形式が正しくありません")
+    private String email;
+
+    // getter / setter
+}
+```
+
+**解説：**  
+単項目チェックではフィールドに直接アノテーションを付与する。
+
+---
+
+### WRITE-2：コントローラで @Validated と BindingResult を使ってエラー処理を実装できる
+
+**問題：**  
+上記の `UserForm` を受け取り、  
+エラー時は `registerForm.html` に戻り、成功時は `result.html` に遷移するコントローラを実装せよ。
+
+**回答：**
+
+```java
+@Controller
+public class UserController {
+
+    @PostMapping("/register")
+    public String register(
+        @Validated UserForm form,
+        BindingResult bindingResult,
+        Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "registerForm";
+        }
+
+        model.addAttribute("msg", "登録完了");
+        return "result";
+    }
+}
+```
+
+**解説：**  
+`BindingResult` は `@Validated` 引数の直後に記述する必要がある。  
+位置が異なると例外が発生する。
+
+---
+
+### WRITE-3：th:object と th:field を用いてフォーム入力とエラーメッセージを連携させたHTMLを実装できる
+
+**問題：**  
+`UserForm` に対応する入力フォームを作成せよ。  
+名前・年齢・メールを入力し、各フィールドの下にエラーメッセージを表示できるようにすること。
+
+**回答：**
+
+```html
+<form th:action="@{/register}" th:object="${userForm}" method="post">
+  <p>名前: <input type="text" th:field="*{name}" /></p>
+  <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+
+  <p>年齢: <input type="number" th:field="*{age}" /></p>
+  <p th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></p>
+
+  <p>メール: <input type="email" th:field="*{email}" /></p>
+  <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+
+  <button type="submit">登録</button>
+</form>
+```
+
+**解説：**  
+`th:object` によりフォーム全体とオブジェクトがバインドされ、  
+`th:field` で値の送受信を自動化、`th:errors` で該当項目のエラーメッセージを表示する。

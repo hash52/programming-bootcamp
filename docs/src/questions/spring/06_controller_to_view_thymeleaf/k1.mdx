@@ -1,0 +1,298 @@
+# コントローラからビューへの値の受け渡しとThymeleaf — 演習問題
+
+---
+
+## 🧠 KNOW（知識確認）
+
+### KNOW-1：ModelとaddAttributeを使って値をビューに渡す仕組みを理解している（穴埋め）
+
+**問題：**  
+次のコードの動作について、文中の（A）（B）（C）を埋めよ。
+
+```java
+@GetMapping("/welcome")
+public String hello(Model model) {
+    model.addAttribute("name", "太郎");
+    return "hello";
+}
+```
+
+> **（A）** に、**（B）** という名前で **（C）** が渡される。
+
+**回答：**  
+- （A）`hello.html`（※ビュー名 `hello` でも可）  
+- （B）`name`  
+- （C）`"太郎"`
+
+**解説：**  
+`model.addAttribute("name", "太郎")` により、テンプレートの `${name}` へ `"太郎"` が供給される。  
+`return "hello"` は `templates/hello.html` を指す。
+
+---
+
+### KNOW-2：th:textと[[...]]の違いを理解している
+
+**問題：**  
+次の2つのコードの違いを簡潔に説明せよ。
+
+```html
+<p th:text="${msg}">dummy</p>
+<p>[[${msg}]]</p>
+```
+
+**回答：**  
+どちらも同じ値を表示するが、`th:text` は属性で埋め込み、`[[...]]` はインラインで埋め込む（簡潔）。
+
+**解説：**  
+`th:text` は `dummy` を置換、`[[...]]` は本文へ直接展開。
+
+---
+
+### KNOW-3：th:utextによるXSSリスクと安全な表示方法を理解している
+
+**問題：**  
+次のコードを実行すると、何が起こるか説明せよ。
+
+```java
+model.addAttribute("msg", "<script>alert('XSS');</script>");
+```
+
+```html
+<p th:utext="${msg}"></p>
+```
+
+**回答：**  
+JavaScriptが実行され、XSSとなる。
+
+**解説：**  
+`th:utext` はHTMLをそのまま解釈する。ユーザー入力は `th:text` / `[[...]]` でエスケープ表示。
+
+---
+
+## 👀 READ（コード理解）
+
+### READ-1：Modelで渡した値がテンプレートにどのように埋め込まれるかを読み取れる
+
+**問題：**  
+次のコントローラとテンプレートを実行すると、ブラウザには何と表示されるか答えよ。
+
+```java
+@GetMapping("/hello")
+public String hello(Model model) {
+    model.addAttribute("msg", "Spring MVC");
+    return "hello";
+}
+```
+
+```html
+<p>ようこそ [[${msg}]] へ！</p>
+```
+
+**回答：**  
+`ようこそ Spring MVC へ！`
+
+**解説：**  
+`${msg}` が `"Spring MVC"` に置き換わる。
+
+---
+
+### READ-2：th:ifによる条件分岐の表示結果を予測できる
+
+**問題：**  
+次のテンプレートに `age = 19` が渡されたときの出力を答えよ。
+
+```html
+<p th:if="${age >= 20}">成人です。</p>
+<p th:if="${age < 20}">未成年です。</p>
+```
+
+**回答：**  
+`未成年です。`
+
+**解説：**  
+true の要素のみ表示。19 は下行のみ。
+
+---
+
+### READ-3：th:switchによる分岐処理の結果を理解している
+
+**問題：**  
+次のテンプレートに `role = "admin"` が渡されたとき、何が表示されるか。
+
+```html
+<div th:switch="${role}">
+  <p th:case="'admin'">管理者です</p>
+  <p th:case="'user'">一般ユーザーです</p>
+  <p th:case="*">その他</p>
+</div>
+```
+
+**回答：**  
+`管理者です`
+
+**解説：**  
+一致した case のみ表示。
+
+---
+
+### READ-4：th:eachによる繰り返し表示の仕組みを理解している
+
+**問題：**  
+次のテンプレートに `users = ["Taro", "Hanako"]` が渡されたとき、生成されるHTMLを答えよ。
+
+```html
+<ul>
+  <li th:each="user : ${users}" th:text="${user}">dummy</li>
+</ul>
+```
+
+**回答：**
+
+```html
+<ul>
+  <li>Taro</li>
+  <li>Hanako</li>
+</ul>
+```
+
+**解説：**  
+要素を順に展開。
+
+---
+
+### READ-5：ユーティリティ #strings の使用例を理解している
+
+**問題：**  
+次のテンプレートの出力結果を答えよ。
+
+```html
+<p>[[${#strings.toUpperCase('spring')}]]</p>
+```
+
+**回答：**  
+`SPRING`
+
+**解説：**  
+`#strings.toUpperCase()` は文字列を大文字に変換する。
+
+---
+
+### READ-6：ユーティリティ #numbers の使用例を理解している
+
+**問題：**  
+次のテンプレートを実行すると、ブラウザには何と表示されるか。
+
+```html
+<p>[[${#numbers.formatDecimal(12345.678, 1, 'POINT', 2, 'COMMA')}]]</p>
+```
+
+**回答：**  
+`12,345.68`
+
+**解説：**  
+小数点以下2桁、整数部カンマ区切りで表示。
+
+---
+
+### READ-7：ユーティリティ #dates の使用例を理解している
+
+**問題：**  
+次のテンプレートに `today = 2000-01-01` が渡されたときの出力を答えよ。
+
+```html
+<p>[[${#dates.format(today, 'yyyy/MM/dd')}]]</p>
+```
+
+**回答：**  
+`2000/01/01`
+
+**解説：**  
+`#dates.format()` は日付を指定フォーマットで整形する。
+
+---
+
+## ✍️ WRITE（実装）
+
+### WRITE-1：Modelに値を追加しThymeleafで動的に表示するコードを実装できる
+
+**問題：**  
+ブラウザで `/welcome` にアクセスしたとき、  
+「こんにちは Spring さん！」と表示されるようなコントローラとテンプレートを作成せよ。
+
+```java
+@Controller
+public class WelcomeController {
+
+    @GetMapping("/welcome")
+    public String welcome(Model model) {
+        model.addAttribute("name", "Spring");
+        return "welcome";
+    }
+}
+```
+
+```html
+<p>こんにちは [[${name}]] さん！</p>
+```
+
+**解説：**  
+`Model` に追加した `"name"` がテンプレートで `${name}` として参照される。
+
+---
+
+### WRITE-2：th:objectでオブジェクトのフィールドを簡潔に参照するテンプレートを実装できる
+
+**問題：**  
+次の `User` クラスがあり、コントローラで `model.addAttribute("user", user)` が渡された。  
+`name` と `age` を `th:object` を使って表示するテンプレートを作成せよ。
+
+```java
+public class User {
+    private String name;
+    private int age;
+    // getter / setter 省略
+}
+```
+
+**回答：**
+
+```html
+<div th:object="${user}">
+  <p>[[*{name}]] ([[*{age}]])</p>
+</div>
+```
+
+**解説：**  
+`th:object="${user}"` により `user` が基準オブジェクトとなり、  
+`*{name}` → `user.getName()`、`*{age}` → `user.getAge()` を意味する。
+
+---
+
+### WRITE-3：フラグメントで共通ヘッダーとフッターを再利用するビューを実装できる
+
+**問題：**  
+`fragments/header.html` と `fragments/footer.html` に共通部分を定義し、  
+それを `page.html` で読み込むように実装せよ。
+
+**回答：**
+
+```html
+<!-- templates/fragments/header.html -->
+<div th:fragment="siteHeader">共通ヘッダー</div>
+
+<!-- templates/fragments/footer.html -->
+<div th:fragment="siteFooter">共通フッター</div>
+
+<!-- templates/page.html -->
+<html>
+  <body>
+    <div th:replace="fragments/header :: siteHeader"></div>
+    <main>ページ内容</main>
+    <div th:replace="fragments/footer :: siteFooter"></div>
+  </body>
+</html>
+```
+
+**解説：**  
+`th:replace="fragments/header :: siteHeader"` でヘッダーを挿入し、  
+フッターも同様に再利用することで保守性が向上する。

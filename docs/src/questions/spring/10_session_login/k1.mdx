@@ -1,0 +1,244 @@
+# セッションとログインの仕組み — 演習問題
+
+---
+
+## 🧠 KNOW（知識確認）
+
+### KNOW-1：リクエストスコープとセッションスコープの違いを理解している（穴埋め）
+
+**問題：**  
+次の文の（A）（B）を埋めよ。
+
+> リクエストスコープは（A）間で有効だが、セッションスコープは（B）間でもデータが保持される。
+
+**回答：**  
+- （A）1回のリクエスト  
+- （B）同一ブラウザでの複数リクエスト
+
+**解説：**  
+リクエストスコープは1回の通信で消えるが、セッションスコープはブラウザ単位で継続的に保持される。  
+ログイン情報やカート内容などに利用される。
+
+---
+
+### KNOW-2：HttpSession の基本的な使い方を理解している
+
+**問題：**  
+次のコードを読み、セッションに値を保存する行と、取得する行を答えよ。
+
+```java
+session.setAttribute("loginUser", username);
+String user = (String) session.getAttribute("loginUser");
+```
+
+**回答：**  
+- 保存：`session.setAttribute("loginUser", username);`  
+- 取得：`session.getAttribute("loginUser");`
+
+**解説：**  
+`setAttribute()` は保存、`getAttribute()` は取得。  
+キー `"loginUser"` でコントローラとビューを連携させる。
+
+---
+
+### KNOW-3：@SessionAttributes と @SessionAttribute の違いを説明できる
+
+**問題：**  
+次のうち正しい説明をすべて選べ。
+
+> ① `@SessionAttributes` は Model に追加した値をセッションにも保存する。  
+> ② `@SessionAttribute` は既にセッションに保存されている値を取得する。  
+> ③ 両者は全く同じ動作をする。  
+> ④ `@SessionAttributes` はコントローラ単位で有効。
+
+**回答：**  
+①、②、④
+
+**解説：**  
+`@SessionAttributes` は「保存用」、`@SessionAttribute` は「取得用」。  
+`@SessionAttributes` の有効範囲はそのコントローラ内に限定される。
+
+---
+
+## 👀 READ（コード理解）
+
+### READ-1：セッションに保存されたデータがビューでどのように参照されるかを読み取れる
+
+**問題：**  
+次のコントローラとテンプレートを実行したとき、ブラウザに何と表示されるか。
+
+```java
+@GetMapping("/home")
+public String home(HttpSession session, Model model) {
+    session.setAttribute("loginUser", "Taro");
+    model.addAttribute("user", session.getAttribute("loginUser"));
+    return "home";
+}
+```
+
+```html
+<h1>ようこそ！</h1>
+<p>[[${session.loginUser}]] さんとしてログイン中です。</p>
+```
+
+**回答：**  
+`ようこそ！`  
+`Taro さんとしてログイン中です。`
+
+**解説：**  
+セッション属性 `"loginUser"` がテンプレートで `${session.loginUser}` により参照される。
+
+---
+
+### READ-2：セッションを利用したログイン保持処理の流れを理解している
+
+**問題：**  
+次のコードの流れを説明せよ。
+
+```java
+@PostMapping("/login")
+public String login(@RequestParam String username, HttpSession session) {
+    session.setAttribute("loginUser", username);
+    return "redirect:/home";
+}
+```
+
+**回答：**  
+フォームから受け取った `username` を `"loginUser"` というキーでセッションに保存し、  
+`/home` にリダイレクトしてログイン状態を維持する。
+
+**解説：**  
+セッションに保存することで、リダイレクト後の別リクエストでもユーザー情報を保持できる。
+
+---
+
+### READ-3：SessionStatus を使ったセッション破棄の仕組みを理解している
+
+**問題：**  
+次の `logout` メソッドの動作を説明せよ。
+
+```java
+@GetMapping("/logout")
+public String logout(SessionStatus status) {
+    status.setComplete();
+    return "redirect:/login";
+}
+```
+
+**回答：**  
+`@SessionAttributes` で管理していたセッション情報を破棄し、ログイン画面へ戻る。
+
+**解説：**  
+`SessionStatus#setComplete()` はそのコントローラに紐づくセッション属性を削除する。  
+`HttpSession#invalidate()` と違い、アプリ全体のセッションを破棄しない。
+
+---
+
+## ✍️ WRITE（実装）
+
+### WRITE-1：HttpSession を用いてログイン状態を保持するコントローラを実装できる
+
+**問題：**  
+ユーザー名を入力してログインし、ホーム画面に「○○さんとしてログイン中」と表示されるような  
+コントローラを実装せよ。
+
+**回答：**
+
+```java
+@Controller
+public class LoginController {
+
+    @PostMapping("/login")
+    public String login(@RequestParam String username, HttpSession session) {
+        session.setAttribute("loginUser", username);
+        return "redirect:/home";
+    }
+
+    @GetMapping("/home")
+    public String home(HttpSession session, Model model) {
+        model.addAttribute("user", session.getAttribute("loginUser"));
+        return "home";
+    }
+}
+```
+
+**解説：**  
+`HttpSession` にユーザー名を保持し、複数ページ間でログイン状態を維持する。
+
+---
+
+### WRITE-2：@SessionAttributes を利用してフォーム情報をセッションに保持する処理を実装できる
+
+**問題：**  
+`@SessionAttributes("form")` を使い、フォーム入力内容を確認画面まで保持するコントローラを作成せよ。
+
+**回答：**
+
+```java
+@Controller
+@SessionAttributes("form")
+public class FormController {
+
+    @GetMapping("/input")
+    public String showForm(Model model) {
+        model.addAttribute("form", new UserForm());
+        return "input";
+    }
+
+    @PostMapping("/confirm")
+    public String confirm(@ModelAttribute("form") UserForm form) {
+        return "confirm";
+    }
+
+    @GetMapping("/complete")
+    public String complete(SessionStatus status) {
+        status.setComplete(); // セッション破棄
+        return "complete";
+    }
+}
+```
+
+**解説：**  
+入力画面 → 確認画面 → 完了画面の流れで、同一フォームデータをセッションに保持できる。
+
+---
+
+### WRITE-3：セッションを使った簡単なカート機能を実装できる
+
+**問題：**  
+セッションに保存されるショッピングカート機能を実装せよ。  
+追加・表示・クリアの3つの操作ができること。
+
+**回答：**
+
+```java
+@Controller
+public class CartController {
+
+    @GetMapping("/cart")
+    public String viewCart(HttpSession session, Model model) {
+        List<String> cart = (List<String>) session.getAttribute("cart");
+        if (cart == null) cart = new ArrayList<>();
+        model.addAttribute("cart", cart);
+        return "cart";
+    }
+
+    @PostMapping("/cart/add")
+    public String addItem(@RequestParam String item, HttpSession session) {
+        List<String> cart = (List<String>) session.getAttribute("cart");
+        if (cart == null) cart = new ArrayList<>();
+        cart.add(item);
+        session.setAttribute("cart", cart);
+        return "redirect:/cart";
+    }
+
+    @GetMapping("/cart/clear")
+    public String clearCart(HttpSession session) {
+        session.removeAttribute("cart");
+        return "redirect:/cart";
+    }
+}
+```
+
+**解説：**  
+`HttpSession` に `cart` を保存しておくことで、リロードやページ遷移をしてもデータが保持される。

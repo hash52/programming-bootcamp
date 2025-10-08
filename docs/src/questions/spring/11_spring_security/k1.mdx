@@ -1,0 +1,233 @@
+# Spring Securityでのログイン実装 — 演習問題
+
+---
+
+## 🧠 KNOW（知識確認）
+
+### KNOW-1：認証(Authentication)と認可(Authorization)の違いを理解している
+
+**問題：**  
+次の説明のうち、正しい組み合わせを選べ。
+
+> （A）認証（Authentication）とは、誰なのかを確認すること  
+> （B）認可（Authorization）とは、何をしてよいかを確認すること  
+
+**回答：**  
+（A）＝ログイン、（B）＝アクセス制限の確認
+
+**解説：**  
+認証は「本人確認」、認可は「操作権限の確認」。  
+Spring Securityでは両方を一元管理できる。
+
+---
+
+### KNOW-2：UserDetailsService の役割を説明できる
+
+**問題：**  
+Spring Securityにおける `UserDetailsService` の役割を簡潔に説明せよ。
+
+**回答：**  
+ログイン時に入力されたユーザー名を基にDBからユーザー情報を取得し、認証処理に渡す役割を持つ。
+
+**解説：**  
+Spring Securityは `UserDetailsService#loadUserByUsername()` を自動で呼び出し、  
+返却された `UserDetails` オブジェクトを使って認証を行う。
+
+---
+
+### KNOW-3：BCryptPasswordEncoder によるパスワードハッシュ化の仕組みを理解している
+
+**問題：**  
+次の選択肢から、BCryptの特徴として正しいものを選べ。
+
+> ① 同じパスワードでも毎回異なるハッシュ値になる  
+> ② ソルトを自動生成してハッシュ化する  
+> ③ 復号（もとに戻す）ことができる  
+> ④ Spring Securityが自動で照合してくれる  
+
+**回答：**  
+①、②、④
+
+**解説：**  
+BCryptはソルトを含む一方向ハッシュで安全性が高い。  
+照合は `PasswordEncoder.matches()` が内部で自動実行される。
+
+---
+
+## 👀 READ（コード理解）
+
+### READ-1：SecurityFilterChain の設定内容から認証フローを読み取れる
+
+**問題：**  
+次の設定クラスの動作を説明せよ。
+
+```java
+http
+  .authorizeHttpRequests(auth -> auth
+      .requestMatchers("/login", "/css/**").permitAll()
+      .anyRequest().authenticated()
+  )
+  .formLogin(login -> login
+      .loginPage("/login")
+      .defaultSuccessUrl("/home")
+  )
+  .logout(logout -> logout
+      .logoutUrl("/logout")
+      .logoutSuccessUrl("/login?logout")
+  );
+```
+
+**回答：**  
+- `/login` や `/css/**` は認証不要  
+- それ以外のページはログインが必要  
+- `/login` フォーム送信でログインし、成功時は `/home` へ遷移  
+- `/logout` でセッションを破棄してログアウトできる
+
+**解説：**  
+この設定だけで、認証・ログイン画面遷移・ログアウト処理が自動化される。
+
+---
+
+### READ-2：UserDetailsService 実装クラスの loadUserByUsername() の動作を理解している
+
+**問題：**  
+次のコードで、ユーザー名 `"taro"` が存在しなかった場合どうなるか。
+
+```java
+@Override
+public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    var user = userMapper.findByUsername(username);
+    if (user == null) {
+        throw new UsernameNotFoundException("User not found: " + username);
+    }
+    return User.builder()
+            .username(user.getUsername())
+            .password(user.getPassword())
+            .roles(user.getRole())
+            .build();
+}
+```
+
+**回答：**  
+`UsernameNotFoundException` が送出され、ログイン失敗となる。
+
+**解説：**  
+Spring Securityがこの例外を検知し、自動的に `/login?error` にリダイレクトする。
+
+---
+
+### READ-3：Spring Securityがログイン成功後にセッションへ保存する情報を理解している
+
+**問題：**  
+Spring Securityがログイン成功後に `HttpSession` に自動で保存する主な情報を2つ挙げよ。
+
+**回答：**  
+- ログインユーザーの名前（`Principal`）  
+- 権限（`ROLE_USER` など）
+
+**解説：**  
+Spring Securityはセッションを通して認証済みユーザー情報を保持し、  
+次のリクエストで自動的にアクセス制御を行う。
+
+---
+
+## ✍️ WRITE（実装）
+
+### WRITE-1：Spring SecurityとMyBatisを組み合わせてDB認証を行う構成を実装できる
+
+**問題：**  
+MyBatisを使ってユーザー情報を取得し、Spring Securityで認証できるようにするには、  
+`UserDetailsService` をどのように実装するか示せ。
+
+**回答：**
+
+```java
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+
+    private final UserMapper userMapper;
+
+    public CustomUserDetailsService(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException {
+        var user = userMapper.findByUsername(username);
+        if (user == null) throw new UsernameNotFoundException(username);
+        return User.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .roles(user.getRole())
+                .build();
+    }
+}
+```
+
+**解説：**  
+`UserDetailsService` がSpring Securityの認証入口。  
+`User` オブジェクトに変換して返すことで、SecurityConfigから認証可能になる。
+
+---
+
+### WRITE-2：SecurityConfigを作成してログイン・ログアウト画面のルートを設定できる
+
+**問題：**  
+Spring Securityで `/login` と `/logout` のルートを設定するSecurityConfigを記述せよ。
+
+**回答：**
+
+```java
+@Configuration
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+          .authorizeHttpRequests(auth -> auth
+              .requestMatchers("/login").permitAll()
+              .anyRequest().authenticated()
+          )
+          .formLogin(login -> login
+              .loginPage("/login")
+              .defaultSuccessUrl("/home", true)
+              .permitAll()
+          )
+          .logout(logout -> logout
+              .logoutUrl("/logout")
+              .logoutSuccessUrl("/login?logout")
+              .permitAll()
+          );
+        return http.build();
+    }
+}
+```
+
+**解説：**  
+フォームログイン・認証必須URL・ログアウト処理を  
+`SecurityFilterChain` で宣言的に設定する。
+
+---
+
+### WRITE-3：BCryptPasswordEncoderを使って安全なパスワードを生成できる
+
+**問題：**  
+Javaコードで文字列 `"pass"` をハッシュ化し、コンソールに出力するプログラムを書け。
+
+**回答：**
+
+```java
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+public class PasswordGenerator {
+    public static void main(String[] args) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        System.out.println(encoder.encode("pass"));
+    }
+}
+```
+
+**解説：**  
+BCryptは一方向ハッシュであり、同じ文字列でも異なるハッシュを生成する。  
+この値をDBに登録すれば安全にパスワードを扱える。
