@@ -319,6 +319,27 @@ Thymeleafには便利なユーティリティが組み込まれており、`#` �
 
 ---
 
+## staticリソースの参照
+CSSやJavaScript、画像などの静的リソースを参照するには `@{...}` を使う。  
+
+```html showLineNumbers
+<link rel="stylesheet" th:href="@{/css/styles.css}" />
+<script th:src="@{/js/scripts.js}"></script>
+<img th:src="@{/images/logo.png}" alt="Logo" />
+```
+
+## staticディレクトリとは
+Spring Bootでは、静的リソースは **必ず** 以下の場所に配置する。
+
+```
+src/main/resources/static
+```
+
+TODO: コントローラを介さないでもアクセスできることの説明 & structure.tsに設問の作成
+
+
+---
+
 ## フラグメントとレイアウト
 
 複数のHTMLファイルで同じヘッダーやフッターを繰り返し書いていると、修正時に管理が大変になる。  

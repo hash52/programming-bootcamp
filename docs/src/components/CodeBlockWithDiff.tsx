@@ -8,12 +8,12 @@ import { useColorMode } from "@docusaurus/theme-common";
  * - `"removed"`: 削除された行（-）
  * - `"context"`: 変更されていない文脈行
  */
-export type DiffLineType = "added" | "removed" | "context";
+type DiffLineType = "added" | "removed" | "context";
 
 /**
  * 差分1行を表すデータ型。
  */
-export interface DiffLine {
+interface DiffLine {
   /**
    * 行の種類。
    * - 追加/削除/文脈 のいずれか
@@ -29,7 +29,7 @@ export interface DiffLine {
 /**
  * コンポーネントのProps型。
  */
-export interface DiffCodeBlockProps {
+interface DiffCodeBlockProps {
   /**
    * 差分を含むコード文字列。
    * 行頭の `+` や `-` が差分行として解釈される。

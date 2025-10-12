@@ -12,7 +12,7 @@ import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
 ## 1. これまでの仕組みを振り返る
 前の章では、次のようにして「Hello, Spring!」を表示していた。
 
-```java
+```java showLineNumbers
 @GetMapping("/")
 // highlight-start
 @ResponseBody
@@ -22,9 +22,9 @@ public String home() {
 }
 ```
 
-ここでは、最もシンプルな構成とするため `@ResponseBody` を使っていた。  
-これは「戻り値をそのままブラウザに出力する」という意味である。  
-つまり、**ブラウザに文字列をそのまま返すだけ**の動きだった。
+このときは構成をシンプルにするため、`@ResponseBody` を使っていた。  
+これは「戻り値をそのままブラウザに出力する」ことを意味する。  
+つまり、ブラウザへ文字列を直接返すだけの仕組みである（今後は使わないため覚えなくてよい）。
 
 今回は HTML ファイルを画面として表示したい。  
 そのため、`@ResponseBody` を外し、テンプレートファイルを返すように変更する。
