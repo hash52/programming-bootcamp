@@ -1,1 +1,145 @@
+import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
+
 # 商品詳細ページを作成する
+
+## この章のゴール  
+- `/product/{id}` のような URL の `{id}` に含まれる値（PathVariable）をコントローラで受け取れるようにする
+
+---
+
+## 1. Controller メソッドの追加 
+前章で作成した `ProductController` に、商品詳細ページを表示するメソッドを追加する。  
+URL に含まれる `{id}` の値を受け取り、固定の内容を表示する。
+
+<CodeBlockWithDiff
+code={`package com.example.ecsample.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
++import org.springframework.web.bind.annotation.PathVariable;
+
+@Controller
+ public class ProductController {
+
+     @GetMapping("/products")
+     public String showList() {
+         // 商品一覧ページを表示する
+         return "product/list";
+     }
+
++   @GetMapping("/product/{id}")
++   public String showDetail(@PathVariable("id") int id) {
++       // URL で指定された id を受け取る
++       System.out.println("アクセスされたID：" + id);
++
++       // 商品詳細ページを表示する
++       return "product/detail";
++   }
+ }
+`}
+language="java"
+startLineNumber={1}
+/>
+
+📘 **ポイント**  
+- `/product/1` にアクセスすると、Eclipse の「コンソール」タブに  `アクセスされたID：1` と出力される。  
+- これで、`@PathVariable` によって URL の値を取得できていることを確認できる。  
+- 出力したこの `id` は、今後の**商品情報の切り替え機能で使用する。**
+
+> **※補足**  
+> この時点ではブラウザ上ではエラー（Whitelabel Error Page）が表示される。これはまだ `product/detail.html` が存在しないためである。  
+> 同様にコンソールにも多くのエラーログが出力され、目的のメッセージが見つけづらい。  
+> その場合は、Eclipseのコンソールをクリックした後 **Ctrl + F（Macでは Command + F）** を押して検索ダイアログを開き、`"アクセスされたID"` などのキーワードで検索すると素早く確認できる。  
+> （**Ctrl + F = 検索** は、Eclipse だけでなくブラウザなど多くのアプリでも共通のショートカットである）
+---
+
+## 2. View（HTML）の作成
+`src/main/resources/templates/product` に `detail.html` を作成する。  
+今回はまだ動的な値は扱わず、固定の内容を表示する。
+
+```html showLineNumbers
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>商品詳細</title>
+</head>
+<body>
+  <h1>商品詳細ページ</h1>
+
+  <p>商品ID：1</p>
+  <p>商品名：サンプル商品</p>
+  <p>価格：1200円</p>
+
+  <a href="/products">▶ 商品一覧へ戻る</a>
+</body>
+</html>
+```
+
+---
+
+## 3. トップページにリンクを追加
+トップページ（`home.html`）から、サンプル商品の詳細ページへ遷移できるようリンクを追加する。
+
+<CodeBlockWithDiff
+code={`<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>EC Sample - トップページ</title>
+</head>
+<body>
+    <h1>ようこそ EC Sample へ</h1>
+    <p>このサイトでは商品一覧を閲覧し、カートに追加・購入する体験ができます。</p>
+    <a href="/products">▶ 商品一覧を見る</a>
++  <p><a href="/product/1">▶ サンプル商品の詳細を見る</a></p>
+</body>
+</html>
+`}
+language="html"
+startLineNumber={1}
+/>
+
+---
+
+## 4. 動作確認
+1. Eclipse の **実行 > Spring Boot アプリケーション** でアプリを起動する。  
+2. ブラウザで [http://localhost:8080/product/1](http://localhost:8080/product/1) にアクセスする。  
+3. 「商品詳細ページ」として固定の内容が表示されれば成功。  
+4. コンソールには `アクセスされたID：1` と表示されることを確認する。  
+5. `/product/2` や `/product/999` にアクセスすると、コンソールにIDが変わって表示される。  
+
+---
+
+## 6. 現時点の課題
+この状態では、**どの ID にアクセスしても同じ商品情報**が表示される。  
+ただし、受け取った `id` の値はコンソールで確認できている。  
+今後の章では、この値に応じて表示内容を動的に変える仕組みを実装する。
+
+---
+
+## 7. Gitでコミットを作成する
+ここまでの変更を保存し、コミットを取る。
+
+```bash
+git add .
+git commit -m "商品詳細ページを追加（PathVariableの値を取得してコンソール出力）"
+```
+
+## 練習問題
+**商品詳細ページにクーポンコード付きでアクセスできる**機能を追加してみよう。  
+
+動作仕様：URLの末尾に `?coupon=SPRINGSALE` のような形式で値を渡すと、コンソールに `クーポン：SPRINGSALE` と出力される。
+- 入力例：  
+  ```
+  http://localhost:8080/product/1?coupon=SPRINGSALE
+  ```  
+- 出力例
+  ```
+  アクセスされたID：1
+  クーポン：SPRINGSALE
+  ```
+
+💡 ヒント：  
+`@RequestParam` を使うと、`?key=value` 形式の値を取得できる。  
+`@PathVariable` と組み合わせて使えることを確認しよう。

@@ -101,87 +101,103 @@ export const CodeBlockWithDiff: React.FC<DiffCodeBlockProps> = ({
 
   // TODO: 前後のコードブロックの表示、かつ折りたたみ可能な別コンポーネントの実装。文字サイズも変えられるといいかも
   return (
-    <Highlight code={pureCode} language={language} theme={theme}>
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre
-          className={className}
-          style={{
-            ...style,
-            padding: "1em",
-            overflowX: "auto",
-            backgroundColor: theme.plain.backgroundColor,
-            color: theme.plain.color,
-          }}
-        >
-          {tokens.map((line, i) => {
-            const { type } = parsed[i];
+    <div style={{ marginBottom: "1em" }}>
+      {/* 簡潔な注釈（凡例） */}
+      <div
+        style={{
+          fontSize: "0.85em",
+          marginBottom: "0.5em",
+          opacity: 0.8,
+          display: "flex",
+          gap: "1em",
+        }}
+      >
+        <span style={{ color: "green" }}>緑：追加行</span>
+        <span style={{ color: "red" }}>赤：削除行</span>
+      </div>
 
-            // removed / context のみ行番号を表示する
-            const showLineNumber = type === "removed" || type === "context";
+      <Highlight code={pureCode} language={language} theme={theme}>
+        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+          <pre
+            className={className}
+            style={{
+              ...style,
+              padding: "1em",
+              overflowX: "auto",
+              backgroundColor: theme.plain.backgroundColor,
+              color: theme.plain.color,
+            }}
+          >
+            {tokens.map((line, i) => {
+              const { type } = parsed[i];
 
-            // 表示する行番号を決定（removed行では空白のまま）
-            const lineNumber = showLineNumber ? currentLineNumber++ : "";
+              // removed / context のみ行番号を表示する
+              const showLineNumber = type === "removed" || type === "context";
 
-            return (
-              <div
-                key={i}
-                {...getLineProps({ line })}
-                style={{
-                  display: "flex",
-                  background:
-                    type === "added"
-                      ? "rgba(0,255,0,0.08)" // 追加行: 薄い緑
-                      : type === "removed"
-                      ? "rgba(255,0,0,0.08)" // 削除行: 薄い赤
-                      : undefined,
-                }}
-              >
-                {/* 差分記号 (+/-/空白) を見た目だけで表示。コピー対象には含めない */}
-                <span
+              // 表示する行番号を決定（removed行では空白のまま）
+              const lineNumber = showLineNumber ? currentLineNumber++ : "";
+
+              return (
+                <div
+                  key={i}
+                  {...getLineProps({ line })}
                   style={{
-                    width: "1em",
-                    userSelect: "none",
-                    color:
+                    display: "flex",
+                    background:
                       type === "added"
-                        ? "green"
+                        ? "rgba(0,255,0,0.08)" // 追加行: 薄い緑
                         : type === "removed"
-                        ? "red"
-                        : "transparent",
+                        ? "rgba(255,0,0,0.08)" // 削除行: 薄い赤
+                        : undefined,
                   }}
-                  aria-hidden="true"
                 >
-                  {type === "added" ? "+" : type === "removed" ? "-" : " "}
-                </span>
+                  {/* 差分記号 (+/-/空白) を見た目だけで表示。コピー対象には含めない */}
+                  <span
+                    style={{
+                      width: "1em",
+                      userSelect: "none",
+                      color:
+                        type === "added"
+                          ? "green"
+                          : type === "removed"
+                          ? "red"
+                          : "transparent",
+                    }}
+                    aria-hidden="true"
+                  >
+                    {type === "added" ? "+" : type === "removed" ? "-" : " "}
+                  </span>
 
-                {/* 行番号（removed / context のみ表示） */}
-                <span
-                  style={{
-                    width: "3em",
-                    textAlign: "right",
-                    paddingRight: "0.5em",
-                    userSelect: "none",
-                    opacity: showLineNumber ? 0.5 : 0, // removed行は透明化
-                    color:
-                      colorMode === "dark"
-                        ? "rgba(255,255,255,0.5)" // ダークモード: 明るい半透明
-                        : "rgba(0,0,0,0.5)", // ライトモード: 暗い半透明
-                  }}
-                  aria-hidden="true"
-                >
-                  {lineNumber}
-                </span>
+                  {/* 行番号（removed / context のみ表示） */}
+                  <span
+                    style={{
+                      width: "3em",
+                      textAlign: "right",
+                      paddingRight: "0.5em",
+                      userSelect: "none",
+                      opacity: showLineNumber ? 0.5 : 0, // removed行は透明化
+                      color:
+                        colorMode === "dark"
+                          ? "rgba(255,255,255,0.5)" // ダークモード: 明るい半透明
+                          : "rgba(0,0,0,0.5)", // ライトモード: 暗い半透明
+                    }}
+                    aria-hidden="true"
+                  >
+                    {lineNumber}
+                  </span>
 
-                {/* Prismでハイライトされたコードトークン群 */}
-                <span style={{ flex: 1 }}>
-                  {line.map((token, key) => (
-                    <span key={key} {...getTokenProps({ token })} />
-                  ))}
-                </span>
-              </div>
-            );
-          })}
-        </pre>
-      )}
-    </Highlight>
+                  {/* Prismでハイライトされたコードトークン群 */}
+                  <span style={{ flex: 1 }}>
+                    {line.map((token, key) => (
+                      <span key={key} {...getTokenProps({ token })} />
+                    ))}
+                  </span>
+                </div>
+              );
+            })}
+          </pre>
+        )}
+      </Highlight>
+    </div>
   );
 };

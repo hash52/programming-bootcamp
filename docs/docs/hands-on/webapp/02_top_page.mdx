@@ -1,1 +1,181 @@
+import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
+
 # トップページを表示する
+
+## この章のゴール
+- `/` にアクセスしたときにトップページを表示できる  
+- HTML ファイル（テンプレート）を返す方法を理解する  
+- Controller が画面表示の入り口であることを学ぶ  
+
+---
+
+## 1. これまでの仕組みを振り返る
+前の章では、次のようにして「Hello, Spring!」を表示していた。
+
+```java
+@GetMapping("/")
+// highlight-start
+@ResponseBody
+// highlight-end
+public String home() {
+    return "Hello, Spring!";
+}
+```
+
+ここでは、最もシンプルな構成とするため `@ResponseBody` を使っていた。  
+これは「戻り値をそのままブラウザに出力する」という意味である。  
+つまり、**ブラウザに文字列をそのまま返すだけ**の動きだった。
+
+今回は HTML ファイルを画面として表示したい。  
+そのため、`@ResponseBody` を外し、テンプレートファイルを返すように変更する。
+
+---
+
+## 2. コントローラで画面を返す
+1. `src/main/java/com/example/ecsample/controller/` にある `HomeController.java` を修正する。  
+
+<CodeBlockWithDiff
+code={`package com.example.ecsample.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+-import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+public class HomeController {
+
+    @GetMapping("/")
+-  @ResponseBody
+    public String home() {
+-       return "Hello, Spring!";
++       // templates/home.html を表示する
++       return "home";
+    }
+}
+`}
+language="java"
+startLineNumber={1}
+/>
+
+`return "home";` は、`src/main/resources/templates/home.html` というテンプレートを探して表示することを意味する。
+
+---
+
+## 3. テンプレートファイルを作成する
+1. `src/main/resources/templates` フォルダに `home.html` を作成する。  
+2. 次の内容を記述する。
+
+```html showLineNumbers
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>EC Sample - トップページ</title>
+</head>
+<body>
+  <h1>ようこそ EC Sample へ</h1>
+  <p>このサイトでは商品一覧を閲覧し、カートに追加・購入する体験ができます。</p>
+  <a href="/products">▶ 商品一覧を見る</a>
+</body>
+</html>
+```
+
+---
+
+## 4. 起動して確認する
+1. Eclipse のメニューから **実行 > Spring Boot アプリケーション** を選択。  
+2. ブラウザで [http://localhost:8080/](http://localhost:8080/) にアクセス。  
+3. 「ようこそ EC Sample へ」と表示され、リンクが見えたら成功。  
+
+---
+
+## 5. 商品一覧リンクをクリックしてみる
+1. トップページの「▶ 商品一覧を見る」をクリックする。  
+2. ブラウザに **Whitelabel Error Page** が表示されることを確認する。  
+   これは、`/products` に対応するコントローラやテンプレートがまだ存在しないためである。  
+3. このエラーを解消するため、商品一覧ページを新たに追加する。
+
+---
+
+## 6. 商品一覧ページを表示する
+1. `src/main/java/com/example/ecsample/controller/` に `ProductController.java` を新規作成する。  
+
+```java showLineNumbers
+package com.example.ecsample.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class ProductController {
+
+    @GetMapping("/products")
+    public String showList() {
+        // 商品一覧ページを表示する
+        return "product/list";
+    }
+}
+```
+
+2. `src/main/resources/templates/product/` フォルダを作成し、その中に `list.html` を作成する。  
+
+```html showLineNumbers
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>商品一覧</title>
+</head>
+<body>
+  <h1>商品一覧ページ</h1>
+
+  <ul>
+    <li>サンプル商品A</li>
+    <li>サンプル商品B</li>
+    <li>サンプル商品C</li>
+  </ul>
+
+  <a href="/">▶ トップページに戻る</a>
+</body>
+</html>
+```
+
+---
+
+## 7. 動作確認
+1. アプリを再起動する。  
+2. トップページにアクセスし、「商品一覧を見る」をクリックする。  
+3. 「商品一覧ページ」が表示されれば成功。  
+4. URL を直接 [http://localhost:8080/products](http://localhost:8080/products) に入力しても同じページが表示される。  
+
+---
+
+## 8. ファイル構成の確認
+```
+ecsample/
+ ├─ src/
+ │   ├─ main/
+ │   │   ├─ java/com/example/ecsample/controller/
+ │   │   │   ├─ HomeController.java
+ │   │   │   └─ ProductController.java
+ │   │   └─ resources/templates/
+ │   │       ├─ home.html
+ │   │       └─ product/
+ │   │           └─ list.html
+ └─ pom.xml
+```
+
+---
+
+## 9. Gitでコミットを作成する
+ここまでの変更を保存し、コミットを取る。  
+この状態に戻せるようにしておこう。
+
+```bash
+git add .
+git commit -m "トップページと商品一覧ページを表示するController・テンプレートを追加"
+```
+
+---
+
+次の章では、URL に含まれる ID を使って「商品詳細ページ」を表示する方法を学ぶ。
