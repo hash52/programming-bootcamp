@@ -1,0 +1,190 @@
+# Spring Boot プロジェクトの作成と動作確認
+
+## この章のゴール
+- Spring Initializr でプロジェクトを作成できる  
+- Eclipse でインポートして起動し、ブラウザで `Hello, Spring!` を表示できる  
+- 生成物のフォルダ構成を把握できる  
+
+---
+
+
+## 1. プロジェクトの作成（ZIP を取得）
+1. ブラウザで [https://start.spring.io](https://start.spring.io) を開く。  
+2. 以下の設定を入力する。  
+
+    | 設定項目 | 値 |
+    |---|---|
+    | Project | Maven |
+    | Language | Java |
+    | Spring Boot | 3.x（安定版 ※=`SNAPSHOT`**ではない**選択肢） |
+    | Group | `com.example` |
+    | Artifact | `ecsample` |
+    | Packaging | Jar |
+    | Java | 21 |
+
+3. 下部の「Add Dependencies（依存関係を追加）」ボタンをクリックし、次の3つを追加する。  
+
+   | 依存名 | 用途 | 使用章 |
+   |---|---|---|
+   | **Spring Web** | コントローラなどの Web 機能を使う | 第2章以降 |
+   | **Thymeleaf** | HTML テンプレートで動的ページを作る | 第2章以降 |
+   | **Spring Boot DevTools** | 保存時に自動リロードする開発補助機能 | 全章共通 |
+
+   （以下は後の章で追加する予定。ここで入れても問題ないが、**依存追加の手順を学ぶため**あえて省いている。効率重視なら今入れてもよい）  
+
+   | 依存名 | 用途 | 使用章 |
+   |---|---|---|
+   | **Spring Security** | ログイン・認証処理を行う | 第10章 |
+   | **PostgreSQL Driver** | DB 接続を行う | 第8章 |
+   | **MyBatis Framework** | SQL と Java を連携させる | 第8章 |
+
+
+
+4. 「Generate」ボタンを押し、`ecsample.zip` をダウンロードする。
+
+---
+
+## 2. ZIP の展開と Eclipse への取り込み
+1. ダウンロードした `ecsample.zip` を任意の作業フォルダに解凍する（例：`C:\workspace\ecsample`）。  
+2. Eclipse を起動する。  
+3. ワークスペースを選ぶダイアログが表示されたら、任意の場所を指定して「Launch」。  
+4. メニューから **ファイル > インポート...** を選ぶ。  
+5. ダイアログで **Maven > 既存 Maven プロジェクト** を選び「次へ」。  
+6. **ルート・ディレクトリ** に解凍先フォルダ（例：`C:\workspace\ecsample`）を指定する。  
+7. **プロジェクト** に `ecsample`の`pom.xml` が表示されていることを確認し「完了」。  
+8. 初回は依存解決が走る。パッケージ・エクスプローラー の `ecsample` に赤バツが無いことを確認する。
+
+---
+
+## 3. フォルダ構成を確認
+```
+ecsample/
+ ├─ src/
+ │   ├─ main/
+ │   │   ├─ java/com/example/ecsample/
+ │   │   │   └─ EcsampleApplication.java   ← エントリポイント
+ │   │   └─ resources/
+ │   │       ├─ static/                    ← CSS/JS
+ │   │       ├─ templates/                 ← Thymeleaf HTML
+ │   │       └─ application.properties
+ │   └─ test/
+ └─ pom.xml                                 ← 依存定義
+```
+
+---
+
+## 4. アプリを起動してみる
+
+1. パッケージ・エクスプローラー（画面左のプロジェクト一覧）で、プロジェクト名 `ecsample` を右クリックする。  
+2. メニューから **実行 > Spring Boot アプリケーション** を選ぶ。  
+3. コンソールに `Started EcsampleApplication` と表示され、ポート番号 `8080` で起動する。  
+4. ブラウザで `http://localhost:8080/` にアクセスし、デフォルトの 404 ページ `Whitelabel Error Page` が表示されればサーバは正常に起動している。
+
+---
+
+#### Gitでコミットを作成する
+起動確認ができたら、バージョン管理を始める。  
+バージョン管理を行うことで、**コードをいつでもこの状態に戻せるようにする**のが目的である。
+
+1. Git を初期化して、現在の状態をコミットする。  
+
+   ```bash
+   cd C:\workspace\ecsample
+   git init
+   git add .
+   git commit -m "Spring Boot プロジェクトを作成し、起動確認を完了"
+   ```
+
+※1.  `git init` は初回のみ実行。  
+※2.  `.gitignore` は Spring Initializr により自動生成されているため、新規作成は不要。  
+
+---
+
+
+## 5. 最初のページを表示する（Hello, Spring!）
+1. `src/main/java/com/example/ecsample/` 配下に `controller` パッケージを作成する。  
+2. `HomeController.java` を作成し、次を貼り付ける。
+
+```java showLineNumbers
+package com.example.ecsample.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+public class HomeController {
+
+    @GetMapping("/")
+    @ResponseBody
+    public String home() {
+        return "Hello, Spring!";
+    }
+}
+```
+
+3. 変更を保存する（DevTools が有効なら再起動は不要。必要なら再度 **Run As > Java Application**）。  
+4. ブラウザで `http://localhost:8080/` を開き、`Hello, Spring!` が表示されれば完了である。
+
+---
+
+#### Gitでコミットを作成する
+`Hello, Spring!` が表示できたら、ここまでの変更を記録する。  
+この段階を区切りとして保存しておくことで、今後問題が起きても戻せるようになる。
+
+```bash
+git add .
+git commit -m "HomeControllerを追加し、Hello, Springを表示"
+```
+
+※ 以降の章でも、指示がある箇所で、同じ手順でコミットを取ること。
+Git の操作説明はこの章以降では省略する。
+
+---
+
+## 6. これから実装する機能一覧（全体像）
+| 機能名 | 概要 | 実装予定章 |
+|---|---|---|
+| トップページ表示 | `/` にトップを表示 | 02 |
+| 商品詳細ページ | `/product/{id}` を表示 | 03 |
+| ユーザ登録フォーム | 入力送信と受け取り | 04 |
+| 商品一覧表示 | Controller→View 連携 | 05 |
+| 入力値検証 | エラー表示と検証 | 06 |
+| Service 層導入 | ビジネスロジック分離 | 07 |
+| DB 連携（MyBatis） | 商品一覧・詳細取得 | 08 |
+| カート機能 | セッション保持 | 09 |
+| ログイン機能 | 認証・認可 | 10 |
+| 購入処理 | 注文保存と完了画面 | 11 |
+| 共通レイアウト | ヘッダー/フッターのフラグメント化 | 12 |
+| 検索機能 | MVC〜DB 総復習 | 13 |
+
+---
+
+## 7. URL 一覧（予定）
+| 画面名 | URL | 説明 |
+|---|---|---|
+| トップ | `/` | 商品一覧への導線 |
+| 商品一覧 | `/products` | 一覧表示 |
+| 商品詳細 | `/product/{id}` | 詳細表示 |
+| ユーザ登録 | `/register` | 新規登録フォーム |
+| ログイン | `/login` | 認証フォーム |
+| カート | `/cart` | 追加・削除・購入へ |
+| 注文完了 | `/order/complete` | 確定後の完了表示 |
+
+---
+
+## 8. テーブル一覧（予定）
+| テーブル | 主なカラム | 概要 |
+|---|---|---|
+| `users` | id, name, email, password | 会員 |
+| `products` | id, name, price, description | 商品 |
+| `orders` | id, user_id, created_at | 注文 |
+| `order_items` | id, order_id, product_id, quantity | 注文明細 |
+
+
+---
+
+## まとめ
+- Initializr で ZIP を作成し、Eclipse へ **Existing Maven Projects** で取り込んだ。  
+- `HomeController` を追加し、`/` で `Hello, Spring!` を表示した。  
+- 次章では `@Controller` と `@GetMapping` によるテンプレート表示へ進む。
