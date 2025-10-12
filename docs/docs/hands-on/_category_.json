@@ -1,0 +1,9 @@
+{
+  "label": "ハンズオン演習",
+  "position": 7,
+  "link": {
+    "type": "generated-index",
+    "description": "手を動かしてプログラミングを体得しよう",
+    "slug": "/hands-on"
+  }
+}

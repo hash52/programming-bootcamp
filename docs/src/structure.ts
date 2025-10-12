@@ -69,23 +69,39 @@ interface Topic {
 
 /**
  * IDを自動生成するユーティリティ関数
- * category と topic.id から question.id を `{category}/{topicId}#q{番号}` 形式で生成する
+ * category と topic.id と question.type から question.id を `{category}/{topicId}#q{番号}` 形式で生成する
+ *
+ * 例:
+ * - category: `spring`
+ * - topic.id: `02_mvc_intro`
+ * - question.type: `KNOW`
+ * - question index: 0 (1問目)
+ *
+ *  => `spring/02_mvc_intro#k1`
  */
 function withAutoIds(
   topic: Omit<Topic, "questions"> & { questions: QuestionBase[] }
 ): Topic {
   return {
     ...topic,
-    questions: topic.questions.map((q, index) => ({
-      ...q,
-      id: `${topic.category}/${topic.id}#q${index + 1}`,
-    })),
+    questions: topic.questions.map((q, index) => {
+      const qPrefix = (() => {
+        if (q.type == "KNOW") return "k";
+        if (q.type == "READ") return "r";
+        if (q.type == "WRITE") return "w";
+      })();
+      const qNum = index + 1;
+      return {
+        ...q,
+        id: `${topic.category}/${topic.id}#${qPrefix}${qNum}`,
+      };
+    }),
   };
 }
 
 /**
  * 全トピック一覧
- * ダッシュボードに表示されるデータのマスター
+ * ダッシュボードに表示されるデータのマスタ
  */
 export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
   // Java
