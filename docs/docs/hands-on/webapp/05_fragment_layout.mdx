@@ -1,1 +1,226 @@
+import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
+
 # 共通レイアウトを整える
+
+## この章のゴール
+- Thymeleaf の **フラグメント機能** を使って共通レイアウトを作成する  
+- 各ページの共通部分（ヘッダー・フッター）を分離し、HTML を整理する  
+- ページが増えても修正箇所を最小限にできるようにする  
+
+---
+
+## 1. ヘッダー/フッターを追加する
+
+これまでに作成した `product/list.html` と `product/detail.html` に  
+ヘッダーとフッターを追加すると、以下のようになる。
+
+### product/list.html（一部抜粋）
+
+<CodeBlockWithDiff
+language="html"
+showLineNumbers={false}
+code={`<body>
++<header>
++  <h1>EC Sample</h1>
++  <nav>
++    <a href="/">トップ</a> |
++    <a href="/products">商品一覧</a> |
++    <a href="/cart">カート</a>
++  </nav>
++  <hr />
++</header>
++
++<main>
+  <h1>商品一覧ページ</h1>
+  <ul>
+    <li th:each="product : \${products}">
+      <a th:href="'/product/' + \${product.id}">
+        [[\${product.name}]]（[[\${\#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]円）
+      </a>
+    </li>
+  </ul>
+  <a href="/">▶ トップページに戻る</a>
++</main>
++
++<footer>
++  <hr />
++  <p>&copy; 2025 EC Sample</p>
++</footer>
+</body>
+`}
+/>
+
+### product/detail.html（一部抜粋）
+
+<CodeBlockWithDiff
+language="html"
+showLineNumbers={false}
+code={`<body>
++<header>
++  <h1>EC Sample</h1>
++  <nav>
++    <a href="/">トップ</a> |
++    <a href="/products">商品一覧</a> |
++    <a href="/cart">カート</a>
++  </nav>
++  <hr />
++</header>
++
++<main>
+  <h1>商品詳細ページ</h1>
+  <p>商品ID：[[\${product.id}]]</p>
+  <p>商品名：[[\${product.name}]]</p>
+   <p>価格：[[\${\#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]円</p>
+  <a href="/products">▶ 商品一覧へ戻る</a>
++</main>
++
++<footer>
++  <hr />
++  <p>&copy; 2025 EC Sample</p>
++</footer>
+</body>
+`}
+/>
+
+このように、全ページに同じ `<header>` と `<footer>` を書く必要があり、  
+デザイン変更のたびに**複数のファイルを同時に修正**しなければならない。  
+
+---
+
+## 2. 解決策：Thymeleaf のフラグメント機能
+
+Thymeleaf では、HTML の一部を別ファイルに分けておき、  
+`th:replace` を使って呼び出すことができる。  
+
+これにより、「共通部分を1箇所で管理」できるようになる。
+
+```
+共通パーツ（_header.html, _footer.html）
+　↓
+各ページで呼び出し（th:replace）
+```
+
+---
+
+## 3. 共通パーツの作成
+
+`src/main/resources/templates/layout/` フォルダを作成し、  
+その中に `_header.html` と `_footer.html` を作る。
+
+### `_header.html`
+```html showLineNumbers
+<header th:fragment="header">
+  <h1>EC Sample</h1>
+  <nav>
+    <a href="/">トップ</a> |
+    <a href="/products">商品一覧</a> |
+    <a href="/cart">カート</a>
+  </nav>
+  <hr />
+</header>
+```
+
+### `_footer.html`
+```html showLineNumbers
+<footer th:fragment="footer">
+  <hr />
+  <p>&copy; 2025 EC Sample</p>
+</footer>
+```
+
+---
+
+## 4. ページから共通部分を呼び出す
+
+`th:replace` でフラグメントを読み込み、重複をなくす。  
+まず `product/list.html` を修正する。
+
+<CodeBlockWithDiff
+language="html"
+showLineNumbers={false}
+code={`<body>
+-<header>
+-  <h1>EC Sample</h1>
+-  <nav>
+-    <a href="/">トップ</a> |
+-    <a href="/products">商品一覧</a> |
+-    <a href="/cart">カート</a>
+-  </nav>
+-  <hr />
+-</header>
++<header th:replace="layout/_header :: header"></header>
+<main>
+  <h1>商品一覧ページ</h1>
+  <ul>
+    <li th:each="product : \${products}">
+      <a th:href="'/product/' + \${product.id}">
+        [[\${product.name}]]（[[\${\#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]円）
+      </a>
+    </li>
+  </ul>
+  <a href="/">▶ トップページに戻る</a>
+</main>
+-<footer>
+-  <hr />
+-  <p>&copy; 2025 EC Sample</p>
+-</footer>
++<footer th:replace="layout/_footer :: footer"></footer>
+</body>
+`}
+/>
+
+---
+
+### product/detail.html
+
+<CodeBlockWithDiff
+language="html"
+showLineNumbers={false}
+code={`<body>
+-<header>
+-  <h1>EC Sample</h1>
+-  <nav>
+-    <a href="/">トップ</a> |
+-    <a href="/products">商品一覧</a> |
+-    <a href="/cart">カート</a>
+-  </nav>
+-  <hr />
+-</header>
++<header th:replace="layout/_header :: header"></header>
+<main>
+  <h1>商品詳細ページ</h1>
+  <p>商品ID：[[\${product.id}]]</p>
+  <p>商品名：[[\${product.name}]]</p>
+  <p>価格：[[\${\#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]円</p>
+  <a href="/products">▶ 商品一覧へ戻る</a>
+</main>
+-<footer>
+-  <hr />
+-  <p>&copy; 2025 EC Sample</p>
+-</footer>
++<footer th:replace="layout/_footer :: footer"></footer>
+</body>
+`}
+/>
+
+---
+
+## 5. 動作確認
+1. アプリを再起動し、`/products` と `/product/1` にアクセスする。  
+2. 両方のページにヘッダーとフッターが共通して表示されることを確認する。  
+3. ヘッダーのリンク（トップ／商品一覧／カート）が全ページで共通になっていることを確認する。
+
+---
+
+## 6. フラグメント化の効果
+
+📘 **ここでの学び**
+- 共通部分を **フラグメント化** することで、修正箇所を1箇所に集約できる。  
+- HTML の重複がなくなり、メンテナンス性が大幅に向上する。  
+- 今後ページを追加しても、`th:replace` 一行で共通レイアウトを適用できる。  
+
+## Gitでコミットを作成する
+```bash
+git add .
+git commit -m "Thymeleafフラグメントを導入し、共通レイアウト（ヘッダー・フッター）を作成"
+```

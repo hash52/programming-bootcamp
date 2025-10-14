@@ -1,1 +1,381 @@
-# トップページに商品一覧を表示する
+import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
+
+# 商品情報を表示する
+
+## この章のゴール
+- Controller から View にデータを渡せるようになる  
+- Thymeleaf の基本（変数展開、繰り返し、条件分岐）を理解する  
+- Java のオブジェクトを使ってコードを整理できるようになる  
+
+---
+
+## 1. 前章の課題を振り返る
+前の章では `/product/{id}` にアクセスすると  
+URL の ID に応じてコンソールに出力されることを確認した。
+
+ただし、**表示されるページ内容は固定**だった。  
+たとえば `/product/1` と `/product/2` にアクセスしても同じ内容だった。
+
+この章では、`id` に応じて **異なる商品情報を表示できるようにする。**
+
+---
+
+## 2. Controller から View に値を渡す
+Spring では、`Model` に値を登録することで View に渡せる。  
+`model.addAttribute("キー", 値)` の形で指定し、Thymeleaf で表示できる。
+
+### ProductController の修正
+前章で作成した `ProductController` に、`Model` を利用するコードを追加する。
+
+<CodeBlockWithDiff
+code={`package com.example.ecsample.controller;
+
+import org.springframework.stereotype.Controller;
++import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+@Controller
+public class ProductController {
+
+      @GetMapping("/products")
+      public String showList() {
+          return "product/list";
+      }
+
+      @GetMapping("/product/{id}")
+-    public String showDetail(@PathVariable("id") int id) {
+-        System.out.println("アクセスされたID：" + id);
++    public String showDetail(@PathVariable("id") int id, Model model) {
++        String name;
++        int price;
++
++        // ID によって商品を切り替える（仮のデータ）
++        if (id == 1) {
++            name = "コーヒーカップ";
++            price = 1200;
++        } else if (id == 2) {
++            name = "ティーポット";
++            price = 2400;
++        } else {
++            name = "未登録の商品";
++            price = 0;
++        }
++
++        model.addAttribute("id", id);
++        model.addAttribute("name", name);
++        model.addAttribute("price", price);
++
+        return "product/detail";
+      }
+}
+`}
+language="java"
+startLineNumber={1}
+/>
+
+📘 **ポイント**
+- `Model` に登録した値は View（HTML）で `${キー}` として使える。
+- ここでは仮のデータをべた書きしている。
+- ID が 1、2 以外の場合は「未登録の商品」として表示する。
+
+---
+
+## 3. 商品詳細ページ（detail.html）を修正する
+`src/main/resources/templates/product/detail.html` を修正し、  
+`Model` で渡した値を Thymeleaf で表示する。
+
+```html showLineNumbers
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="'商品詳細 - ' + ${name}">商品詳細</title>
+</head>
+<body>
+  <h1>商品詳細ページ</h1>
+
+  <p>商品ID：[[${id}]]</p>
+  <p>商品名：[[${name}]]</p>
+  <p>価格：[[${#numbers.formatDecimal(price, 0, 'COMMA', 0, 'POINT')}]]円</p>
+
+  <a href="/products">▶ 商品一覧へ戻る</a>
+</body>
+</html>
+```
+
+📘 **ポイント**
+- `[[${...}]]` で変数を埋め込む。
+- `#numbers.formatDecimal` により金額をカンマ区切りで表示できる。
+- この時点で `/product/1` と `/product/2` にアクセスすると表示が変わる。
+
+---
+
+## 4. 商品一覧ページを動的にする
+同様に、`/products` の一覧ページも動的にしてみる。  
+ここでは Thymeleaf の `th:each`（繰り返し）を使う。
+
+### ProductController に一覧データを追加
+
+`com.example.ecsample.controller.ProductController` の `showList` メソッドを以下のように修正。
+
+<CodeBlockWithDiff
+code={`@GetMapping("/products")
+- public String showList() {
++ public String showList(Model model) {
++     // 仮のデータをべた書き
++     String[][] products = {
++         {"1", "コーヒーカップ", "1200"},
++         {"2", "ティーポット", "2400"},
++         {"3", "マグカップ", "1500"}
++     };
++     model.addAttribute("products", products);
+       return "product/list";
+  }
+`}
+language="java"
+showLineNumbers={false}
+startLineNumber={1}
+/>
+
+### list.html の修正
+`src/main/resources/templates/product/list.html` を以下のように修正。
+
+```html showLineNumbers
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>商品一覧</title>
+</head>
+<body>
+  <h1>商品一覧ページ</h1>
+
+  <ul>
+    <li th:each="product : ${products}">
+      <a th:href="'/product/' + ${product[0]}">
+        [[${product[1]}]]（[[${#numbers.formatDecimal(product[2], 0, 'COMMA', 0, 'POINT')}]]円）
+      </a>
+    </li>
+  </ul>
+
+  <a href="/">▶ トップページに戻る</a>
+</body>
+</html>
+```
+
+📘 **ポイント**
+- `th:each` はコレクションや配列をループする。
+- `product[0]` は ID、`product[1]` は商品名、`product[2]` は価格。
+- `/product/{id}` にリンクして詳細ページに遷移できる。
+
+---
+
+## 5. Productクラスを作成してリファクタリングする
+
+これまでの商品データは、配列で直接値を持たせていた。  
+たとえば次のように、何が何の値かが **見ただけでは分かりにくい** 状態だった。
+
+```java
+String[][] products = {
+    {"1", "コーヒーカップ", "1200"},
+    {"2", "ティーポット", "2400"},
+    {"3", "マグカップ", "1500"}
+};
+```
+
+このように数値や文字列を並べると、  
+`"1"` が ID なのか価格なのか、コードを読まないと判断できない。  
+フィールドが増えるたびに修正箇所も増え、ミスが起きやすい。  
+
+また、ビュー側でも「`product[0]` がIDで `product[2]` が価格」と覚えていなければならず、  
+修正や拡張の際に間違いが起きやすい。  
+
+---
+
+### 💡 改善：商品を「1つのオブジェクト」として扱う
+そこで、商品を「1つのまとまり」として表すために、`Product` クラスを定義する。    
+これにより、`product.getName()` や `product.getPrice()` のように  
+**意味のある名前でデータを扱える**ようになる。
+
+また、Thymeleaf では `[[${product.name}]]` のように書くと、  
+自動的に `product.getName()` を呼び出して値を取得できる。
+
+---
+
+### Product.java の作成  
+`src/main/java/com/example/ecsample/entity/Product.java` を作成する。
+
+```java showLineNumbers
+package com.example.ecsample.entity;
+
+public class Product {
+    private int id;
+    private String name;
+    private int price;
+
+    public Product(int id, String name, int price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
+
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public int getPrice() { return price; }
+}
+```
+
+---
+
+### ProductController の修正  
+リストや詳細ページの処理を `Product` オブジェクトで表現するように変更する。
+
+<CodeBlockWithDiff
+code={`+import com.example.ecsample.entity.Product;
++import java.util.List;
++import java.util.Arrays;
+
+@GetMapping("/products")
+public String showList(Model model) {
+-    String[][] products = {
+-        {"1", "コーヒーカップ", "1200"},
+-        {"2", "ティーポット", "2400"},
+-        {"3", "マグカップ", "1500"}
+-    };
+-    model.addAttribute("products", products);
++    List<Product> products = Arrays.asList(
++        new Product(1, "コーヒーカップ", 1200),
++        new Product(2, "ティーポット", 2400),
++        new Product(3, "マグカップ", 1500)
++    );
++    model.addAttribute("products", products);
+     return "product/list";
+}
+
+@GetMapping("/product/{id}")
+public String showDetail(@PathVariable("id") int id, Model model) {
+-    String name;
+-    int price;
+-    if (id == 1) { ... } else if (...) { ... }
+-    model.addAttribute("id", id);
+-    model.addAttribute("name", name);
+-    model.addAttribute("price", price);
++    Product product;
++    if (id == 1) {
++        product = new Product(1, "コーヒーカップ", 1200);
++    } else if (id == 2) {
++        product = new Product(2, "ティーポット", 2400);
++    } else {
++        product = new Product(0, "未登録の商品", 0);
++    }
++    model.addAttribute("product", product);
+     return "product/detail";
+}
+`}
+language="java"
+startLineNumber={1}
+/>
+
+---
+
+### detail.html の修正  
+Thymeleaf では、`[[${product.field}]]` で `Product` の getter を呼び出せる。  
+これにより、より意味のあるコードで表示できる。
+
+<CodeBlockWithDiff
+code={`-<p>商品ID：[[\${id}]]</p>
+-<p>商品名：[[\${name}]]</p>
+-<p>価格：[[\${\#numbers.formatDecimal(price, 0, 'COMMA', 0, 'POINT')}]]円</p>
++<p>商品ID：[[\${product.id}]]</p>
++<p>商品名：[[\${product.name}]]</p>
++<p>価格：[[\${\#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]円</p>
+`}
+language="html"
+showLineNumbers={false}
+startLineNumber={1}
+/>
+
+---
+
+### list.html の修正
+`th:each` を使って、`List<Product>` の内容をループ処理で表示できるようにする。
+
+<CodeBlockWithDiff
+code={`<ul>
+  <li th:each="product : \${products}">
+-    <a th:href="'/product/' + \${product[0]}">
+-      [[\${product[1]}]]（[[\${\#numbers.formatDecimal(product[2], 0, 'COMMA', 0, 'POINT')}]]円）
++    <a th:href="'/product/' + \${product.id}">
++      [[\${product.name}]]（[[\${\#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]円）
+      </a>
+  </li>
+</ul>
+`}
+language="html"
+showLineNumbers={false}
+/>
+
+---
+
+
+📘 **ここでの学び**
+- 商品データをクラス化すると、**コードの意味が明確**になり、変更にも強くなる。  
+- Thymeleaf では `product.field` の形で getter を呼び出せるため、テンプレートも読みやすい。  
+- これが **オブジェクト指向** の基本的な考え方であり、  
+  この後の章で **Service層** に処理を分離して、さらに整理していく。
+
+---
+
+## 6. まとめ
+- `Model` に値を追加して View に渡す方法を学んだ。  
+- Thymeleaf で変数展開、繰り返し、条件分岐を実践した。  
+- Java クラスを導入し、オブジェクト指向で整理する流れを体験した。  
+
+---
+
+## 7. Gitでコミットを作成する
+ここまでの変更を保存し、コミットを取る。
+
+```bash
+git add .
+git commit -m "Modelを使って商品情報を表示、Productクラスを導入してリファクタ"
+```
+
+## 練習問題
+
+### 商品詳細ページに「在庫メッセージ」を表示しよう
+
+#### 仕様  
+- 各商品に在庫数を追加し、在庫数に応じて表示内容を変える。  
+- 表示メッセージの条件は次の通り：
+
+| 在庫数 | 表示メッセージ |
+|---------|----------------|
+| 0個     | 「在庫切れです」 |
+| 1〜9個  | 「残りわずかです」 |
+| 10個以上 | 「在庫あり」 |
+
+#### 実装ヒント  
+1. `Product` クラスに `stock` フィールドを追加し、getterを用意する。  
+2. コントローラで在庫数を設定した `Product` オブジェクトを渡す。  
+3. Thymeleaf の `th:if` / `th:unless` を使って在庫メッセージを条件分岐する。  
+
+#### 出力例  
+URL：`http://localhost:8080/product/1`  
+
+表示：
+```html
+<p>商品名：コーヒーカップ</p>
+<p>価格：1,200円</p>
+<p>在庫状況：残りわずかです</p>
+```
+
+💡 **補足**  
+Thymeleafでは、条件分岐を次のように書ける。
+
+```html
+<p th:if="${product.stock == 0}">在庫切れです</p>
+<p th:if="${product.stock > 0 and product.stock < 10}">残りわずかです</p>
+<p th:if="${product.stock >= 10}">在庫あり</p>
+```

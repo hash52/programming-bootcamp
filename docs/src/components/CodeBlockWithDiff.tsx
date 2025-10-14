@@ -50,6 +50,13 @@ interface DiffCodeBlockProps {
    * 省略時は1から開始する。
    */
   startLineNumber?: number;
+
+  /**
+   * 行番号を表示するかどうか。
+   * false の場合、行番号を非表示にする。
+   * デフォルトは true。
+   */
+  showLineNumbers?: boolean;
 }
 
 /**
@@ -69,6 +76,7 @@ interface DiffCodeBlockProps {
  * + return "Hello, " + safe + "!";`}
  *   language="java"
  *   startLineNumber={42}
+ *   showLineNumbers={false}
  * />
  * ```
  */
@@ -76,6 +84,7 @@ export const CodeBlockWithDiff: React.FC<DiffCodeBlockProps> = ({
   code,
   language = "java",
   startLineNumber = 1, // 行番号の開始位置（デフォルトは1）
+  showLineNumbers = true, // デフォルトで行番号を表示
 }) => {
   // Docusaurusのカラーモード（light/dark）を取得
   const { colorMode } = useColorMode();
@@ -132,10 +141,11 @@ export const CodeBlockWithDiff: React.FC<DiffCodeBlockProps> = ({
               const { type } = parsed[i];
 
               // removed / context のみ行番号を表示する
-              const showLineNumber = type === "removed" || type === "context";
+              const displayLineNumber =
+                type === "removed" || type === "context";
 
               // 表示する行番号を決定（removed行では空白のまま）
-              const lineNumber = showLineNumber ? currentLineNumber++ : "";
+              const lineNumber = displayLineNumber ? currentLineNumber++ : "";
 
               return (
                 <div
@@ -169,22 +179,24 @@ export const CodeBlockWithDiff: React.FC<DiffCodeBlockProps> = ({
                   </span>
 
                   {/* 行番号（removed / context のみ表示） */}
-                  <span
-                    style={{
-                      width: "3em",
-                      textAlign: "right",
-                      paddingRight: "0.5em",
-                      userSelect: "none",
-                      opacity: showLineNumber ? 0.5 : 0, // removed行は透明化
-                      color:
-                        colorMode === "dark"
-                          ? "rgba(255,255,255,0.5)" // ダークモード: 明るい半透明
-                          : "rgba(0,0,0,0.5)", // ライトモード: 暗い半透明
-                    }}
-                    aria-hidden="true"
-                  >
-                    {lineNumber}
-                  </span>
+                  {showLineNumbers && (
+                    <span
+                      style={{
+                        width: "3em",
+                        textAlign: "right",
+                        paddingRight: "0.5em",
+                        userSelect: "none",
+                        opacity: displayLineNumber ? 0.5 : 0, // removed行は透明化
+                        color:
+                          colorMode === "dark"
+                            ? "rgba(255,255,255,0.5)" // ダークモード: 明るい半透明
+                            : "rgba(0,0,0,0.5)", // ライトモード: 暗い半透明
+                      }}
+                      aria-hidden="true"
+                    >
+                      {lineNumber}
+                    </span>
+                  )}
 
                   {/* Prismでハイライトされたコードトークン群 */}
                   <span style={{ flex: 1 }}>

@@ -1,1 +1,303 @@
+import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
+
 # 入力値の検証を行う
+
+## この章のゴール
+- `@Validated` を使って入力チェック（単項目検証）を有効化できるようにする  
+- `BindingResult` を使って検証結果をフォームに戻す処理を理解する  
+- `@AssertTrue` を使った相関項目チェック（メール再入力確認）を実装する  
+
+---
+
+ここまでで、フォーム入力値を `UserForm` クラスで受け取れるようになった。  
+この章では、入力された値が正しいかをチェックする「バリデーション」を追加する。  
+
+---
+
+## 1. バリデーション用ライブラリの追加
+
+まず、Spring Boot で入力値の検証を行うには、**Jakarta Validation API** が必要である。  
+通常は `spring-boot-starter-web` に含まれているが、念のため `pom.xml` を確認する。
+
+`pom.xml` を開き、`<dependencies>` タグの中に次の記述があるか確認する。  
+（存在しない場合は、下記を追加する）
+
+```xml showLineNumbers
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+```
+
+> **ポイント**  
+> - `<dependencies>` タグは `pom.xml` の中央付近にある。  
+> - `<dependency>` のブロックは複数並んでいるが、順不同であり、どの位置に追加しても構わない。  
+> - 記述後は必ず **Spring Boot アプリを停止し、Maven install を実行** する。  
+>   - Eclipseの場合：  
+>     1. 上部メニューから「実行 → 実行の停止」  
+>     2. プロジェクトを右クリック → 「実行 → Maven install」  
+>     3. 完了後、再度 Spring Boot を起動  
+
+---
+
+## 2. `UserForm` にバリデーションを付与する（@Validated 対応）
+
+`UserForm` クラスに単項目チェックのアノテーションを追加する。
+
+<CodeBlockWithDiff
+code={` package com.example.ecsample.form;
+
++ import jakarta.validation.constraints.Email;
++ import jakarta.validation.constraints.NotBlank;
++ import jakarta.validation.constraints.Size;
+
+ public class UserForm {
+- private String name;
+- private String email;
+- private String password;
++ @NotBlank(message = "名前は必須です")
++ private String name;
++
++ @NotBlank(message = "メールアドレスは必須です")
++ @Email(message = "メールアドレスの形式が正しくありません")
++ private String email;
++
++ @NotBlank(message = "パスワードは必須です")
++ @Size(min = 6, message = "パスワードは6文字以上で入力してください")
++ private String password;
+`}
+language="java"
+startLineNumber={1}
+/>
+
+> **ポイント**  
+> - `@NotBlank`：空文字やスペースのみを禁止  
+> - `@Email`：メール形式のチェック  
+> - `@Size(min=6)`：パスワードの長さ制限  
+
+---
+
+## 3. Controllerで `@Validated` を使って検証を有効にする
+
+`@Validated` を付けるだけで、`UserForm` に設定したアノテーションが自動でチェックされる。
+
+<CodeBlockWithDiff
+code={`+import org.springframework.validation.annotation.Validated;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+
+  @PostMapping("/register")
+- public String submitForm(@ModelAttribute UserForm form, Model model) {
++ public String submitForm(@Validated @ModelAttribute UserForm form, Model model) {
+    System.out.println("name = " + form.getName());
+    System.out.println("email = " + form.getEmail());
+    System.out.println("password = " + form.getPassword());
+ 
+    model.addAttribute("form", form);
+    return "user/result";
+  }
+`}
+language="java"
+showLineNumbers={false}
+/>
+
+> **ポイント**  
+> - `@Validated` は Spring 独自のアノテーションで、`@Valid` と同様に Jakarta Validation を起動する。  
+> - 今後グループバリデーションなどを使う可能性がある場合は、`@Validated` を使用するのが推奨である。  
+
+---
+
+## 4. 動作確認①（@Validated）
+
+1. `/register` にアクセスし、**名前**を空欄のまま送信する  
+2. ブラウザにエラー画面が表示され、`System.out.println`の内容はコンソールに表示されないことを確認する  
+3. これは、バリデーションのチェックは実行されているが、**結果を処理していない**ためである  
+
+次に、`BindingResult` を使ってエラーを受け取り、画面に戻す処理を実装する。
+
+---
+
+## 5. `BindingResult` を追加して、エラーをフォームへ戻す
+
+<CodeBlockWithDiff
+code={`@PostMapping("/register")
+- public String submitForm(@Validated @ModelAttribute UserForm form, Model model) {
++public String submitForm(
++     @Validated @ModelAttribute("form") UserForm form,
++     BindingResult bindingResult,
++     Model model) {
++
++   if (bindingResult.hasErrors()) {
++     return "user/register"; // エラー時はフォームに戻す
++   }
+
+    System.out.println("name = " + form.getName());
+    System.out.println("email = " + form.getEmail());
+    System.out.println("password = " + form.getPassword());
+
+    model.addAttribute("form", form);
+    return "user/result";
+  }
+`}
+language="java"
+showLineNumbers={false}
+/>
+
+> **ポイント**  
+> - `BindingResult` は `@Validated` の直後に書く（順序が違うと無効）  
+> - エラーがある場合は `bindingResult.hasErrors()` が `true` となる  
+> - `return "user/register"` としてフォーム画面に戻せば、再入力できる  
+> - `@ModelAttribute("form")` は、フォームオブジェクトを `"form"` という名前で Model に登録する指定である。  
+>   これにより、Thymeleaf 側の `<form th:object="${form}">` と名前が一致し、エラー時も同じオブジェクトを再表示できる。  
+> - `@ModelAttribute` の `"form"` を省略した場合、Spring はクラス名をもとに自動命名する。  
+>   たとえばクラス名が `UserForm` の場合は、`userForm` という名前で登録される。  
+>   このときはテンプレート側で `<form th:object="${userForm}">` と記述すれば同じように動作する。  
+
+---
+
+## 6. HTMLにエラーメッセージを表示する
+
+<CodeBlockWithDiff
+code={`- <p>名前：<input type="text" th:field="*{name}" /></p>
++ <p>
++   名前：<input type="text" th:field="*{name}" />
++         <span th:if="\${#fields.hasErrors('name')}" th:errors="*{name}"></span>
++ </p>
+- <p>メールアドレス：<input type="email" th:field="*{email}" /></p>
++ <p>
++   メールアドレス：<input type="email" th:field="*{email}" />
++         <span th:if="\${#fields.hasErrors('email')}" th:errors="*{email}"></span>
++ </p>
+- <p>パスワード：<input type="password" th:field="*{password}" /></p>
++ <p>
++   パスワード：<input type="password" th:field="*{password}" />
++         <span th:if="\${#fields.hasErrors('password')}" th:errors="*{password}"></span>
++ </p>`}
+language="html"
+startLineNumber={13}
+/>
+
+---
+
+## 7. 動作確認②（BindingResult）
+
+1. `/register` にアクセスし、空欄のまま送信する  
+2. 各入力欄の下にエラーメッセージが表示されることを確認  
+3. すべて正しく入力して送信すると、結果画面に進む  
+
+> **ポイント**  
+> - `th:errors` は、対象フィールドのエラーメッセージを自動的に表示する  
+> - メッセージ内容は `UserForm` のアノテーションで指定した `message` 属性が使われる  
+
+---
+
+## 8. 相関項目チェック（メール再入力確認）
+
+次に、**相関チェック**として「メール再入力欄」を追加する。  
+2つの入力値が一致しなければエラーとする。
+
+---
+
+### ① UserForm に確認用フィールドを追加
+
+<CodeBlockWithDiff
+code={` public class UserForm {
+     @NotBlank(message = "名前は必須です")
+     private String name;
+
+     @NotBlank(message = "メールアドレスは必須です")
+     @Email(message = "メールアドレスの形式が正しくありません")
+     private String email;
+
++   @NotBlank(message = "メール確認用アドレスを入力してください")
++   private String emailConfirm;
+
+     @NotBlank(message = "パスワードは必須です")
+     @Size(min = 6, message = "パスワードは6文字以上で入力してください")
+     private String password;
+
++   @AssertTrue(message = "メールアドレスが一致しません")
++   public boolean isEmailConfirmed() {
++     return email != null && email.equals(emailConfirm);
++   }
++
++   public String getEmailConfirm() {
++     return emailConfirm;
++   }
++
++   public void setEmailConfirm(String emailConfirm) {
++     this.emailConfirm = emailConfirm;
++   }
+`}
+language="java"
+startLineNumber={1}
+/>
+
+> **ポイント**  
+> - `@AssertTrue` は **クラスレベルの検証**（フィールド単位ではない）。  
+> - `isEmailConfirmed()` が `false` を返すと、「メールアドレスが一致しません」というメッセージが生成される。  
+> - メソッド名が `isEmailConfirmed` であるため、Thymeleaf では `*{emailConfirmed}` として参照される。  
+
+---
+
+### ② HTMLフォームを修正
+
+`@AssertTrue` による検証結果は `emailConfirmed` という論理プロパティ名で扱われる。  
+したがって、確認欄の下に以下のようにエラー出力を追加する。
+
+<CodeBlockWithDiff
+code={` <p>
+     メールアドレス：<input type="email" th:field="*{email}" />
+     <span th:if="\${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+   </p>
++ <p>
++   メールアドレス（確認用）：<input type="email" th:field="*{emailConfirm}" />
++   <span th:if="\${#fields.hasErrors('emailConfirm')}" th:errors="*{emailConfirm}"></span>
++ </p>
++
++ <p th:if="\${#fields.hasErrors('emailConfirmed')}" th:errors="*{emailConfirmed}"></p>`}
+language="html"
+showLineNumbers={false}
+/>
+
+> **ポイント**  
+> - `isEmailConfirmed()` メソッドのエラーメッセージは、Thymeleaf では `emailConfirmed` という名前で参照される。  
+> - `th:errors="*{emailConfirmed}"` と指定すると、`@AssertTrue` のエラーメッセージ（「メールアドレスが一致しません」）が表示される。  
+> - `th:if` によって、エラーが存在するときだけ `<p>` 要素が出力される。  
+
+---
+
+## 9. 動作確認③（相関チェック）
+
+1. メールアドレスと確認用メール欄に異なる値を入力して送信  
+2. 「メールアドレスが一致しません」というメッセージが表示されることを確認  
+3. 一致させて再送信すると、エラーが消え、登録完了画面に遷移する  
+
+---
+
+> **補足**  
+> - `@AssertTrue` の検証結果は「論理プロパティ」として扱われるため、  
+>   `th:errors="*{emailConfirmed}"` のように、メソッド名から先頭の `is` を除いた名前で参照する必要がある。  
+> - この仕組みにより、フィールド同士の関係を簡単に検証できる。  
+
+---
+
+## 📘 この章での学び
+- `@Validated` で入力チェックを自動実行できる  
+- `BindingResult` で検証結果を取得し、フォームへ戻す処理を学んだ  
+- `@AssertTrue` により、2つのフィールドの一致確認（相関チェック）を実装できた  
+
+---
+
+## 練習問題
+1. パスワードにも確認欄を追加し、2つのパスワードが一致していない場合にエラーを出すようにせよ。  
+2. メールアドレスが「example.com」ドメインのみ許可されるように条件を追加してみよ。  
+
+---
+
+## Gitでコミットを作成する
+```bash
+git add .
+git commit -m "フォーム入力値のバリデーションと相関チェックを@Validatedで実装"
+```

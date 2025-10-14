@@ -1,1 +1,338 @@
+import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
+
 # ユーザ登録フォームを作成する
+
+## この章のゴール
+- HTMLフォームで入力した値を、Controllerで受け取れるようにする  
+- `@RequestParam`を使って**inputのname属性**から値を取得する仕組みを理解する  
+- フィールド数が増えた場合に備え、`UserForm`クラスでオブジェクトとして受け取るリファクタを行う  
+- `System.out.println`でサーバ側に値が届いていることを確認する  
+
+---
+
+ここまでで商品一覧や詳細ページを表示できるようになった。  
+次は、ユーザが会員登録を行うためのフォームを作成する。  
+
+この章では、まず「inputのname属性を使って値を受け取る」方法を学び、  
+その後に「複数の値をまとめて扱う」方法へと発展させる。
+
+---
+
+## 1. フォーム送信の流れ
+
+フォーム送信は以下の流れで進む。
+
+1. HTMLフォームに入力し、「送信」ボタンを押す  
+2. ブラウザがPOSTリクエストを送信（リクエストパラメータ付き）  
+3. Controllerが`@RequestParam`で値を受け取り処理を実行  
+4. 結果画面で入力内容を表示  
+
+ここで重要なのは、**inputのname属性**がリクエストパラメータ名となり、  
+Controllerで同名の変数に値をマッピングできる点である。
+
+---
+
+## 2. フォーム画面を作成する
+
+`templates/user/register.html` を作成する。
+
+```html showLineNumbers
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>ユーザ登録</title>
+</head>
+<body>
+  <header th:replace="layout/_header :: header"></header>
+
+  <main>
+  <h1>ユーザ登録フォーム</h1>
+
+  <form th:action="@{/register}" method="post">
+  <p>名前：<input type="text" name="name" /></p>
+  <p>メールアドレス：<input type="email" name="email" /></p>
+  <p>パスワード：<input type="password" name="password" /></p>
+  <p><button type="submit">登録</button></p>
+  </form>
+
+  <a href="/">▶ トップページへ戻る</a>
+  </main>
+
+  <footer th:replace="layout/_footer :: footer"></footer>
+</body>
+</html>
+```
+
+---
+
+## 3. Controllerを作成して、name属性から値を受け取る
+
+`UserController`を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+public class UserController {
+
+  @GetMapping("/register")
+  public String showForm() {
+  return "user/register";
+  }
+
+  @PostMapping("/register")
+  public String submitForm(
+  @RequestParam("name") String name,
+  @RequestParam("email") String email,
+  @RequestParam("password") String password,
+  Model model) {
+
+  // name属性に対応した値が受け取れることを確認
+  System.out.println("name = " + name);
+  System.out.println("email = " + email);
+  System.out.println("password = " + password);
+
+  model.addAttribute("name", name);
+  model.addAttribute("email", email);
+  model.addAttribute("password", password);
+  return "user/result";
+  }
+}
+```
+
+> **ポイント**  
+> - `@GetMapping("/register")` は、フォーム画面を開いたとき（HTTP GET）に呼ばれる。  
+>   つまり「ページを開くリクエスト」に対応する。  
+> - `@PostMapping("/register")` は、フォーム送信時（HTTP POST）に呼ばれる。  
+>   フォームの `method="post"` によって送信されたデータを受け取る。  
+> - 同じパス文字列 `/register` でも、**HTTPメソッドの違い（GETかPOSTか）** によって呼び分けられる。  
+> - `@RequestParam("email")` は、HTMLフォームの `<input name="email">` の値を受け取る。  
+>   HTMLフォームの **name属性** と一致する名前を指定することで、リクエストの中の値を取得できる。
+
+---
+
+
+## 4. 結果画面を作成する
+
+`templates/user/result.html` を作成する。
+
+```html showLineNumbers
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>登録結果</title>
+</head>
+<body>
+  <header th:replace="layout/_header :: header"></header>
+
+  <main>
+  <h1>登録結果</h1>
+  <ul>
+  <li>名前：[[${name}]]</li>
+  <li>メール：[[${email}]]</li>
+  <li>パスワード：[[${password}]]</li>
+  </ul>
+  <a href="/register">▶ 戻る</a>
+  </main>
+
+  <footer th:replace="layout/_footer :: footer"></footer>
+</body>
+</html>
+```
+
+---
+
+## 5. 動作確認①（個別値）
+
+1. `http://localhost:8080/register` にアクセス  
+2. 名前・メール・パスワードを入力して送信  
+3. コンソールに以下のような出力が表示されることを確認  
+
+```
+name = 山田太郎
+email = taro@example.com
+password = abc123
+```
+
+4. 結果画面に同じ内容が表示されれば成功である  
+
+---
+
+## 6. フォーム入力値をまとめて扱えるように `UserForm` クラスを定義する
+
+フォーム項目が増えるたびに、`@RequestParam`を1つずつ追加すると次のような問題がある。
+
+- Controllerの引数が多くなり可読性が下がる  
+- 同じ入力項目を他の画面でも使いたい場合、重複コードになる  
+- 1つのフォームを「入力」「確認」「登録完了」で共通して扱いにくい  
+
+これを解決するために、入力データをまとめる**フォームクラス（DTO）**を用意し、  
+Controllerではそのオブジェクトを1つ受け取る形に変更する。
+
+`src/main/java/com/example/ecsample/form` に `UserForm` クラスを作成する。
+ 
+```java showLineNumbers
+package com.example.ecsample.form;
+
+public class UserForm {
+  private String name;
+  private String email;
+  private String password;
+
+  public String getName() {
+    return name;
+  }
+  public void setName(String name) {
+    this.name = name;
+  }
+  public String getEmail() {
+    return email;
+  }
+  public void setEmail(String email) {
+    this.email = email;
+  }
+  public String getPassword() {
+    return password;
+  }
+  public void setPassword(String password) {
+    this.password = password;
+  }
+}
+```
+
+---
+
+## 7. Controllerをリファクタする
+
+<CodeBlockWithDiff
+code={`- import org.springframework.web.bind.annotation.RequestParam;
++ import org.springframework.web.bind.annotation.ModelAttribute;
++ import com.example.ecsample.form.UserForm;
+
+   @GetMapping("/register")
+- public String showForm() {
++ public String showForm(Model model) {
++   model.addAttribute("form", new UserForm());
+     return "user/register";
+   }
+
+   @PostMapping("/register")
+- public String submitForm(
+-       @RequestParam("name") String name,
+-       @RequestParam("email") String email,
+-       @RequestParam("password") String password,
+-       Model model) {
+-
+-   System.out.println("name = " + name);
+-   System.out.println("email = " + email);
+-   System.out.println("password = " + password);
+-
+-   model.addAttribute("name", name);
+-   model.addAttribute("email", email);
+-   model.addAttribute("password", password);
++ public String submitForm(@ModelAttribute UserForm form, Model model) {
++   // まとめて受け取れているか確認
++   System.out.println("name = " + form.getName());
++   System.out.println("email = " + form.getEmail());
++   System.out.println("password = " + form.getPassword());
++
++   model.addAttribute("form", form);
+     return "user/result";
+   }
+`}
+language="java"
+showLineNumbers={false}
+/>
+
+---
+
+## 8. フォーム画面をUserForm対応にリファクタする
+
+これまでのフォームでは、`name`属性を直接使って値を受け渡していた。  
+`UserForm`クラスと`@ModelAttribute`を利用して、  
+フォーム全体をオブジェクトとして扱えるように変更する。
+
+`th:object` でフォーム全体を `UserForm` にバインドし、  
+各項目には `th:field="*{プロパティ名}"` を指定する。
+
+<CodeBlockWithDiff
+code={`- <form th:action="@{/register}" method="post">
+-   <p>名前：<input type="text" name="name" /></p>
+-   <p>メールアドレス：<input type="email" name="email" /></p>
+-   <p>パスワード：<input type="password" name="password" /></p>
+-   <p><button type="submit">登録</button></p>
+- </form>
++ <form th:action="@{/register}" th:object="\${form}" method="post">
++   <p>名前：<input type="text" th:field="*{name}" /></p>
++   <p>メールアドレス：<input type="email" th:field="*{email}" /></p>
++   <p>パスワード：<input type="password" th:field="*{password}" /></p>
++   <p><button type="submit">登録</button></p>
++ </form>`}
+language="html"
+startLineNumber={13}
+/>
+
+> **ポイント**  
+> - `th:object="\${form}"` は、Controllerで受け渡した `UserForm` オブジェクトをフォーム全体に紐づける。  
+> - `th:field="*{name}"` のように指定すると、`UserForm` の `name` プロパティに自動でマッピングされる。  
+> - これにより、HTMLフォームとJavaオブジェクトの対応関係が明確になり、項目が増えてもコードが整理される。  
+> - `@ModelAttribute UserForm form` とセットで利用することで、双方向にデータを受け渡せる。
+
+---
+
+## 9. 結果画面の修正
+
+<CodeBlockWithDiff
+code={`- <li>名前：[[\${name}]]</li>
+- <li>メール：[[\${email}]]</li>
+- <li>パスワード：[[\${password}]]</li>
++ <li>名前：[[\${form.name}]]</li>
++ <li>メール：[[\${form.email}]]</li>
++ <li>パスワード：[[\${form.password}]]</li>`}
+language="html"
+startLineNumber={11}
+/>
+
+---
+
+## 10. 動作確認②（フォームオブジェクト）
+
+1. 再度 `/register` へアクセスしフォーム送信  
+2. コンソールに以下のように出力されれば成功  
+
+```
+name = 山田太郎
+email = taro@example.com
+password = abc123
+```
+
+3. 結果画面でも同じ値が`[[${form.xxx}]]`で表示される  
+
+---
+
+## 📘 この章での学び
+- `input`タグの`name`属性が、サーバ側の`@RequestParam`と対応して値を受け渡すことを理解した  
+- フィールドをまとめる`UserForm`クラスを導入し、`@ModelAttribute`で受け取るリファクタを行った  
+- `System.out.println`で、フォーム入力値がサーバに届いていることを確認した  
+
+---
+
+## 練習問題
+1. `UserForm`に「住所」フィールドを追加し、フォーム・結果画面の両方で扱えるようにせよ。  
+2. 結果画面に「編集する」リンクを追加し、再入力できるようにせよ。  
+
+---
+
+## Gitでコミットを作成する
+```bash
+git add .
+git commit -m "ユーザ登録フォームを作成し、UserFormでリファクタ"
+```
