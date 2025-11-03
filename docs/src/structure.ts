@@ -293,6 +293,58 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
     ],
   }),
+  withAutoIds({
+    id: "05_loops",
+    label: "繰り返し",
+    category: "java/basics",
+    questions: [
+      {
+        title: "for文の基本的な書き方を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "while文の使い方を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "do-while文とwhile文の違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "break文とcontinue文の違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "ネストしたループの動作を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "ループのコードの実行結果を予測できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "for文を使ったプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "while文を使ったプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "ネストしたループを使ったプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
   // Spring
   withAutoIds({
     id: "02_mvc_intro",
