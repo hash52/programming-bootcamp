@@ -1,0 +1,511 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# カプセル化
+
+この章では、オブジェクト指向の重要な概念である **カプセル化** について学ぶ。
+カプセル化を使うことで、データを保護し、安全で保守性の高いプログラムを作ることができる。
+
+---
+
+## 学習のゴール
+
+- カプセル化とは何か、なぜ必要かを説明できる
+- アクセス修飾子（`public`, `private`, `protected`, デフォルト）を理解している
+- getter/setterメソッドの役割を理解している
+- カプセル化を使ったクラスを設計できる
+- 適切なアクセス制御ができる
+
+---
+
+## なぜこの技術が必要か
+
+**カプセル化がないとどうなるか？**
+
+カプセル化がないと、クラスの内部データが外部から自由に変更できてしまう。
+これにより、不正な値が設定されたり、意図しない動作を引き起こす可能性がある。
+
+**例:**
+
+```java
+// カプセル化がないと...
+class BankAccount {
+    int balance;  // publicなので外部から直接変更可能
+}
+
+BankAccount account = new BankAccount();
+account.balance = -1000;  // マイナスの残高を設定できてしまう！
+
+// カプセル化があると...
+class BankAccount {
+    private int balance;  // privateで保護
+
+    public void deposit(int amount) {
+        if (amount > 0) {
+            balance += amount;
+        }
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+}
+// 不正な値の設定を防げる
+```
+
+カプセル化を使うことで、データの整合性を保ち、安全なプログラムを作れる。
+
+---
+
+## 1. カプセル化とは
+
+### カプセル化の概念
+
+**カプセル化** は、**データ（フィールド）とそれを操作するメソッドを1つにまとめ、外部から直接アクセスできないようにする仕組み** である。
+
+### カプセル化の3つの原則
+
+1. **フィールドは`private`にする**
+   - 外部から直接アクセスできないようにする
+
+2. **公開メソッドを用意する**
+   - getter/setterを使ってフィールドにアクセスする
+
+3. **データの整合性を保つ**
+   - setterで値のチェックを行う
+
+:::info 【共通】
+カプセル化は、ほとんどのオブジェクト指向プログラミング言語で共通の概念である。
+:::
+
+---
+
+## 2. アクセス修飾子
+
+### アクセス修飾子とは
+
+**アクセス修飾子** は、**クラス、フィールド、メソッドのアクセス範囲を制御するキーワード** である。
+
+### 4つのアクセス修飾子
+
+| 修飾子 | アクセス範囲 | 説明 |
+|--------|-------------|------|
+| **`public`** | どこからでも | 全てのクラスからアクセス可能 |
+| **`protected`** | 同じパッケージ + サブクラス | 同じパッケージまたは継承先からアクセス可能 |
+| **（なし）** | 同じパッケージ | 同じパッケージ内のみアクセス可能（デフォルト） |
+| **`private`** | 同じクラス | 同じクラス内のみアクセス可能 |
+
+### アクセス範囲の比較
+
+```
+広い ← → 狭い
+public > protected > （なし） > private
+```
+
+:::tip ポイント
+**フィールドは基本的に`private`にする** ことが推奨される。
+これにより、外部から直接変更されるのを防げる。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Person {
+    // privateフィールド：外部からアクセス不可
+    private String name;
+    private int age;
+
+    // publicメソッド：外部からアクセス可能
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setAge(int age) {
+        // 値のチェックができる
+        if (age >= 0 && age <= 150) {
+            this.age = age;
+        } else {
+            System.out.println("不正な年齢です");
+        }
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person person = new Person();
+
+        // フィールドに直接アクセスできない
+        // person.name = "太郎";  // エラー！
+
+        // メソッド経由でアクセス
+        person.setName("太郎");
+        person.setAge(20);
+
+        System.out.println(person.getName() + "さん、" + person.getAge() + "歳");
+
+        // 不正な値を設定しようとする
+        person.setAge(200);  // エラーメッセージが表示される
+        System.out.println("年齢: " + person.getAge());  // 20のまま
+    }
+}`}
+/>
+
+**やってみよう:**
+- `setAge()`で負の値を設定してみて、チェックが機能するか確認しよう
+
+---
+
+## 3. getter/setterメソッド
+
+### getter/setterとは
+
+- **getter**：フィールドの値を **取得** するメソッド
+- **setter**：フィールドの値を **設定** するメソッド
+
+### 命名規則
+
+```java
+class Person {
+    private String name;  // フィールド
+
+    // getter：get + フィールド名（先頭大文字）
+    public String getName() {
+        return name;
+    }
+
+    // setter：set + フィールド名（先頭大文字）
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
+:::caution 重要
+getter/setterの命名規則は、JavaBeansの仕様に従っている。
+この規則に従うことで、多くのフレームワーク（Springなど）が自動的にこれらのメソッドを認識できる。
+:::
+
+### booleanのgetter
+
+`boolean`型のフィールドは、**`is`で始まるgetter** を使うことが多い。
+
+```java
+class Person {
+    private boolean student;
+
+    // getStudentではなく、isStudentを使うのが一般的
+    public boolean isStudent() {
+        return student;
+    }
+
+    public void setStudent(boolean student) {
+        this.student = student;
+    }
+}
+```
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class BankAccount {
+    private String accountNumber;
+    private int balance;
+
+    // コンストラクタ
+    public BankAccount(String accountNumber) {
+        this.accountNumber = accountNumber;
+        this.balance = 0;
+    }
+
+    // getter
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    // 入金（setter的な役割）
+    public void deposit(int amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println(amount + "円を入金しました");
+        } else {
+            System.out.println("入金額は正の値である必要があります");
+        }
+    }
+
+    // 出金（setter的な役割）
+    public void withdraw(int amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.println(amount + "円を出金しました");
+        } else {
+            System.out.println("出金できません");
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount("123-456");
+
+        System.out.println("口座番号: " + account.getAccountNumber());
+        System.out.println("残高: " + account.getBalance() + "円");
+
+        account.deposit(10000);
+        System.out.println("残高: " + account.getBalance() + "円");
+
+        account.withdraw(3000);
+        System.out.println("残高: " + account.getBalance() + "円");
+
+        // 不正な操作を試みる
+        account.withdraw(10000);  // 残高不足
+        account.deposit(-500);    // 負の値
+    }
+}`}
+/>
+
+**やってみよう:**
+- `withdraw()`で残高以上の金額を引き出そうとして、エラーメッセージを確認しよう
+
+---
+
+## 4. カプセル化の利点
+
+### 1. データの保護
+
+外部から不正な値を設定されるのを防ぐ。
+
+```java
+public void setAge(int age) {
+    if (age >= 0 && age <= 150) {
+        this.age = age;
+    }
+}
+```
+
+### 2. 内部実装の隠蔽
+
+クラスの内部構造を変更しても、外部への影響を最小限にできる。
+
+```java
+class Temperature {
+    private double celsius;  // 内部ではセ氏で保持
+
+    public double getFahrenheit() {
+        return celsius * 9 / 5 + 32;  // 華氏に変換して返す
+    }
+
+    public void setFahrenheit(double fahrenheit) {
+        celsius = (fahrenheit - 32) * 5 / 9;  // セ氏に変換して保存
+    }
+}
+```
+
+### 3. コードの保守性向上
+
+フィールドに直接アクセスされないため、後から仕様を変更しやすい。
+
+:::info 【共通】
+カプセル化の利点は、他のオブジェクト指向言語でも共通である。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Rectangle {
+    private int width;
+    private int height;
+
+    // getter/setter
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        if (width > 0) {
+            this.width = width;
+        }
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        if (height > 0) {
+            this.height = height;
+        }
+    }
+
+    // 面積を計算（内部実装）
+    public int getArea() {
+        return width * height;
+    }
+
+    // 周の長さを計算（内部実装）
+    public int getPerimeter() {
+        return 2 * (width + height);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Rectangle rect = new Rectangle();
+        rect.setWidth(10);
+        rect.setHeight(5);
+
+        System.out.println("幅: " + rect.getWidth());
+        System.out.println("高さ: " + rect.getHeight());
+        System.out.println("面積: " + rect.getArea());
+        System.out.println("周の長さ: " + rect.getPerimeter());
+
+        // 不正な値を設定しようとする
+        rect.setWidth(-5);  // 無視される
+        System.out.println("幅（変更後）: " + rect.getWidth());  // 10のまま
+    }
+}`}
+/>
+
+**やってみよう:**
+- `Circle`クラスを作成して、`radius`（半径）を`private`にし、getter/setterと`getArea()`メソッドを実装してみよう
+
+---
+
+## 5. カプセル化の設計
+
+### 基本方針
+
+1. **フィールドは基本的に`private`にする**
+   - 例外：定数（`public static final`）
+
+2. **必要に応じてgetter/setterを提供する**
+   - 全てのフィールドにgetter/setterを用意する必要はない
+
+3. **setterで値のチェックを行う**
+   - 不正な値を受け付けないようにする
+
+4. **ビジネスロジックはメソッドで実装する**
+   - getter/setterだけでなく、意味のあるメソッドを提供する
+
+### 良い例と悪い例
+
+#### ✅ 良い例
+
+```java
+class Product {
+    private String name;
+    private int price;
+
+    // getter
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    // setterで値チェック
+    public void setPrice(int price) {
+        if (price >= 0) {
+            this.price = price;
+        } else {
+            throw new IllegalArgumentException("価格は0以上である必要があります");
+        }
+    }
+
+    // ビジネスロジック
+    public int getTaxIncludedPrice() {
+        return (int) (price * 1.1);
+    }
+}
+```
+
+#### ❌ 悪い例
+
+```java
+class Product {
+    public String name;   // publicなので直接変更可能
+    public int price;     // 不正な値を設定される可能性
+
+    // getter/setterがないので値チェックできない
+}
+```
+
+:::warning 注意
+**getter/setterを機械的に全て作る** のではなく、**必要なものだけ作る** ことが重要である。
+読み取り専用にしたい場合は、getterのみを提供する。
+:::
+
+---
+
+## 6. protectedの使い方
+
+### protectedとは
+
+**`protected`** は、**同じパッケージまたは継承先のクラス** からアクセス可能にする修飾子である。
+
+```java
+class Animal {
+    protected String name;  // サブクラスからアクセス可能
+
+    protected void eat() {
+        System.out.println(name + "が食べる");
+    }
+}
+
+class Dog extends Animal {
+    public void bark() {
+        System.out.println(name + "がワンと鳴く");  // protectedなのでアクセス可能
+        eat();  // protectedメソッドも呼べる
+    }
+}
+```
+
+:::tip ポイント
+`protected`は、継承を前提とした設計で使われる。
+基本的には`private`を使い、継承先でアクセスが必要な場合のみ`protected`を使う。
+:::
+
+---
+
+## まとめ
+
+この章では、**カプセル化** について学んだ。
+
+### 学んだ内容
+
+- **カプセル化** はデータとメソッドをまとめ、外部から直接アクセスできないようにする仕組みである
+- **アクセス修飾子** で、フィールドやメソッドのアクセス範囲を制御できる
+  - `public`：どこからでもアクセス可能
+  - `protected`：同じパッケージまたは継承先からアクセス可能
+  - （なし）：同じパッケージ内のみアクセス可能
+  - `private`：同じクラス内のみアクセス可能
+- **getter/setter** でフィールドにアクセスする
+- **フィールドは基本的に`private`にする** ことが推奨される
+- **setterで値のチェック** を行うことで、データの整合性を保てる
+- カプセル化により、**データの保護、内部実装の隠蔽、保守性の向上** が実現できる
+
+### 次のステップ
+
+次の章では、**例外処理** について学ぶ。
+プログラムでエラーが発生した際の適切な処理方法を学び、より堅牢なプログラムを作る方法を学ぶ。
+
+---
+
+## 演習
+
+演習問題は、[ダッシュボード](/dashboard)から確認できる。
