@@ -482,7 +482,59 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     ],
   }),
   withAutoIds({
-    id: "09_oop_basics",
+    id: "09_exception_handling",
+    label: "例外処理",
+    category: "java/basics",
+    questions: [
+      {
+        title: "例外とは何か、なぜ必要かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "try-catch文で例外を捕捉できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "finally句の役割を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "throwsキーワードを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "検査例外と非検査例外の違いを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Hard,
+      },
+      {
+        title: "例外処理を含むコードを読んで理解できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "try-catch-finallyを使った例外処理を実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "throwキーワードで例外をスローできる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "適切な例外処理を持つプログラムを設計できる",
+        type: "WRITE",
+        difficulty: Difficulty.Hard,
+      },
+    ],
+  }),
+  withAutoIds({
+    id: "10_oop_basics",
     label: "オブジェクト指向の基礎",
     category: "java/oop",
     questions: [
@@ -529,7 +581,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     ],
   }),
   withAutoIds({
-    id: "10_constructors",
+    id: "11_constructors",
     label: "コンストラクタ",
     category: "java/oop",
     questions: [
@@ -576,7 +628,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     ],
   }),
   withAutoIds({
-    id: "11_inheritance",
+    id: "12_inheritance",
     label: "継承",
     category: "java/oop",
     questions: [
@@ -628,7 +680,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     ],
   }),
   withAutoIds({
-    id: "12_interfaces",
+    id: "13_interfaces",
     label: "インターフェース",
     category: "java/oop",
     questions: [
@@ -680,7 +732,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     ],
   }),
   withAutoIds({
-    id: "13_encapsulation",
+    id: "14_encapsulation",
     label: "カプセル化",
     category: "java/oop",
     questions: [
@@ -726,58 +778,6 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
       {
         title: "適切なアクセス制御を持つクラスを設計できる",
-        type: "WRITE",
-        difficulty: Difficulty.Hard,
-      },
-    ],
-  }),
-  withAutoIds({
-    id: "14_exception_handling",
-    label: "例外処理",
-    category: "java/oop",
-    questions: [
-      {
-        title: "例外とは何か、なぜ必要かを説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "try-catch文で例外を捕捉できる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "finally句の役割を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "throwsキーワードを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "検査例外と非検査例外の違いを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Hard,
-      },
-      {
-        title: "例外処理を含むコードを読んで理解できる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "try-catch-finallyを使った例外処理を実装できる",
-        type: "WRITE",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "throwキーワードで例外をスローできる",
-        type: "WRITE",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "適切な例外処理を持つプログラムを設計できる",
         type: "WRITE",
         difficulty: Difficulty.Hard,
       },
