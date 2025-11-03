@@ -1,0 +1,417 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# 演算子
+
+この章では、Javaで計算や比較を行うための **演算子** について学ぶ。
+演算子を使うことで、数値計算、条件判定、論理演算など、プログラムの基礎となる処理を実現できる。
+
+---
+
+## 学習のゴール
+
+- 算術演算子（+, -, *, /, %）を使いこなせる
+- 括弧`()`で演算の優先順位を制御できる
+- 比較演算子（==, !=, <, >, <=, >=）を理解している
+- 論理演算子（&&, ||, !）を理解している
+- インクリメント・デクリメント（++, --）を使える
+
+---
+
+## なぜこの技術が必要か
+
+**演算子がないとどうなるか？**
+
+演算子がないと、計算や条件判定ができず、プログラムで複雑な処理ができない。
+
+**例:**
+
+```java
+// 演算子がないと...
+// 「合計金額が1000円以上なら送料無料」という処理ができない
+
+// 演算子があると...
+int total = 1200;
+if (total >= 1000) {
+    System.out.println("送料無料");
+}
+```
+
+演算子を使うことで、数値の計算、値の比較、条件の組み合わせなど、
+プログラムに必要な様々な処理を簡潔に記述できる。
+
+---
+
+## 1. 算術演算子
+
+### 四則演算
+
+プログラムでは、以下の演算子を使って計算を行う：
+
+| 演算子 | 意味 | 例 | 結果 |
+|--------|------|-----|------|
+| **+** | 足し算 | `5 + 3` | `8` |
+| **-** | 引き算 | `5 - 3` | `2` |
+| **\*** | 掛け算 | `5 * 3` | `15` |
+| **/** | 割り算 | `6 / 3` | `2` |
+
+:::info 【共通】
+これらの算術演算子は、ほとんどのプログラミング言語で共通である。
+:::
+
+### 剰余演算子（%）
+
+**剰余演算子** `%` は、割り算の **余り** を求める演算子である。
+
+```java
+int remainder = 10 % 3;  // 10を3で割った余りは1
+```
+
+**剰余演算子の用途:**
+- 偶数・奇数の判定（`number % 2 == 0` なら偶数）
+- 特定の間隔での処理（例：3回に1回処理を実行）
+
+### 整数同士の割り算の注意点
+
+**整数同士の割り算は、結果も整数になる**（小数点以下は切り捨て）。
+
+```java
+int result = 7 / 2;  // 結果は3（3.5ではない）
+```
+
+小数を含む結果を得たい場合は、`double`型を使う：
+
+```java
+double result = 7.0 / 2.0;  // 結果は3.5
+```
+
+### 括弧で優先順位を制御
+
+数学と同じように、括弧`()`を使って計算の順序を制御できる。
+
+```java
+int result1 = 2 + 3 * 4;    // 14（掛け算が先）
+int result2 = (2 + 3) * 4;  // 20（括弧が先）
+```
+
+**括弧を使うことで、計算の順番を明示的に指定できる。**
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class ArithmeticExample {
+    public static void main(String[] args) {
+        int a = 10;
+        int b = 3;
+
+        System.out.println("a + b = " + (a + b));
+        System.out.println("a - b = " + (a - b));
+        System.out.println("a * b = " + (a * b));
+        System.out.println("a / b = " + (a / b));  // 整数同士の割り算
+        System.out.println("a % b = " + (a % b));  // 剰余
+
+        // 小数を含む割り算
+        double c = 10.0;
+        double d = 3.0;
+        System.out.println("c / d = " + (c / d));
+
+        // 括弧の使い方
+        System.out.println("2 + 3 * 4 = " + (2 + 3 * 4));
+        System.out.println("(2 + 3) * 4 = " + ((2 + 3) * 4));
+    }
+}`}
+/>
+
+**やってみよう:**
+- `a`と`b`の値を変えて実行してみよう
+- 剰余演算子で偶数・奇数を判定してみよう（`a % 2 == 0` なら偶数）
+
+---
+
+## 2. 比較演算子
+
+**比較演算子** は、2つの値を比較し、**真（true）または偽（false）** を返す演算子である。
+
+### 比較演算子の種類
+
+| 演算子 | 意味 | 例 | 結果 |
+|--------|------|-----|------|
+| **==** | 等しい | `5 == 5` | `true` |
+| **!=** | 異なる | `5 != 3` | `true` |
+| **<** | より小さい | `3 < 5` | `true` |
+| **>** | より大きい | `5 > 3` | `true` |
+| **<=** | 以下 | `5 <= 5` | `true` |
+| **>=** | 以上 | `5 >= 3` | `true` |
+
+:::info 【共通】
+比較演算子は、ほとんどのプログラミング言語で共通である。
+:::
+
+:::warning 注意
+等しいかどうかを調べるときは、`==`を使う（`=`ではない）。
+`=`は代入、`==`は比較である。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class ComparisonExample {
+    public static void main(String[] args) {
+        int x = 10;
+        int y = 20;
+
+        System.out.println("x == y: " + (x == y));
+        System.out.println("x != y: " + (x != y));
+        System.out.println("x < y: " + (x < y));
+        System.out.println("x > y: " + (x > y));
+        System.out.println("x <= 10: " + (x <= 10));
+        System.out.println("y >= 20: " + (y >= 20));
+    }
+}`}
+/>
+
+**やってみよう:**
+- `x`と`y`の値を変えて、比較結果がどう変わるか試してみよう
+
+---
+
+## 3. 論理演算子
+
+**論理演算子** は、複数の条件を組み合わせるための演算子である。
+結果は **真（true）または偽（false）** になる。
+
+### 論理演算子の種類
+
+| 演算子 | 意味 | 例 | 結果 |
+|--------|------|-----|------|
+| **&&** | AND（かつ） | `true && true` | `true` |
+| **\|\|** | OR（または） | `true \|\| false` | `true` |
+| **!** | NOT（否定） | `!true` | `false` |
+
+### AND演算子（&&）
+
+**両方の条件が真のとき、結果が真になる。**
+
+```java
+int age = 25;
+boolean hasLicense = true;
+
+if (age >= 18 && hasLicense) {
+    System.out.println("運転できます");
+}
+```
+
+### OR演算子（||）
+
+**どちらか一方でも真のとき、結果が真になる。**
+
+```java
+int day = 0;
+
+if (day == 0 || day == 6) {
+    System.out.println("週末です");
+}
+```
+
+### NOT演算子（!）
+
+**条件を反転させる（真を偽に、偽を真に）。**
+
+```java
+boolean isRaining = false;
+
+if (!isRaining) {
+    System.out.println("傘は不要です");
+}
+```
+
+:::info 【共通】
+論理演算子は、ほとんどのプログラミング言語で共通である。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class LogicalExample {
+    public static void main(String[] args) {
+        boolean a = true;
+        boolean b = false;
+
+        System.out.println("a && b: " + (a && b));
+        System.out.println("a || b: " + (a || b));
+        System.out.println("!a: " + (!a));
+        System.out.println("!b: " + (!b));
+
+        // 実践的な例
+        int age = 25;
+        boolean hasLicense = true;
+
+        if (age >= 18 && hasLicense) {
+            System.out.println("運転できます");
+        } else {
+            System.out.println("運転できません");
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- `a`、`b`、`age`、`hasLicense`の値を変えて、結果がどう変わるか試してみよう
+
+---
+
+## 4. インクリメント・デクリメント
+
+### インクリメント（++）
+
+**変数の値を1増やす** 演算子である。
+
+```java
+int count = 5;
+count++;  // count = count + 1; と同じ
+// countは6になる
+```
+
+### デクリメント（--）
+
+**変数の値を1減らす** 演算子である。
+
+```java
+int count = 5;
+count--;  // count = count - 1; と同じ
+// countは4になる
+```
+
+### 前置と後置の違い
+
+**前置**（`++count`）と **後置**（`count++`）では、動作が微妙に異なる。
+
+- **後置**（`count++`）：現在の値を使ってから、値を増やす
+- **前置**（`++count`）：値を増やしてから、新しい値を使う
+
+```java
+int x = 5;
+int y = x++;  // yには5が代入され、その後xが6になる
+
+int a = 5;
+int b = ++a;  // aが6になり、その後bに6が代入される
+```
+
+:::info 【共通】
+インクリメント・デクリメントは、多くのプログラミング言語で共通である（ただし、一部の言語には存在しない）。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class IncrementExample {
+    public static void main(String[] args) {
+        int count = 5;
+        System.out.println("最初のcount: " + count);
+
+        count++;
+        System.out.println("count++後: " + count);
+
+        count--;
+        System.out.println("count--後: " + count);
+
+        // 前置と後置の違い
+        int x = 5;
+        int y = x++;
+        System.out.println("x++の場合: x=" + x + ", y=" + y);
+
+        int a = 5;
+        int b = ++a;
+        System.out.println("++aの場合: a=" + a + ", b=" + b);
+    }
+}`}
+/>
+
+**やってみよう:**
+- 前置と後置の違いを確認してみよう
+
+---
+
+## 5. 演算子の優先順位
+
+演算子には **優先順位** があり、優先順位が高いものから順に計算される。
+
+### 主要な演算子の優先順位（高い順）
+
+1. **括弧** `()`
+2. **インクリメント・デクリメント** `++`, `--`
+3. **NOT** `!`
+4. **乗除剰余** `*`, `/`, `%`
+5. **加減** `+`, `-`
+6. **比較** `<`, `>`, `<=`, `>=`
+7. **等価** `==`, `!=`
+8. **AND** `&&`
+9. **OR** `||`
+
+### 括弧で明示的に制御
+
+優先順位を覚えるより、**括弧を使って意図を明確にする** ことが推奨される。
+
+```java
+int result = (a + b) * c;  // 括弧で計算順序を明確にする
+```
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class PrecedenceExample {
+    public static void main(String[] args) {
+        int a = 10;
+        int b = 5;
+        int c = 2;
+
+        // 優先順位の例
+        int result1 = a + b * c;      // 20（掛け算が先）
+        int result2 = (a + b) * c;    // 30（括弧が先）
+
+        System.out.println("a + b * c = " + result1);
+        System.out.println("(a + b) * c = " + result2);
+
+        // 複雑な式
+        boolean condition = a > 5 && b < 10 || c == 2;
+        System.out.println("条件の結果: " + condition);
+
+        // 括弧で明確にした方が読みやすい
+        boolean condition2 = (a > 5 && b < 10) || (c == 2);
+        System.out.println("括弧を使った条件: " + condition2);
+    }
+}`}
+/>
+
+**やってみよう:**
+- 括弧を追加したり削除したりして、結果がどう変わるか試してみよう
+
+---
+
+## まとめ
+
+この章では、Javaの **演算子** について学んだ。
+
+### 学んだ内容
+
+- **算術演算子**（+, -, *, /, %）で計算ができる
+- **括弧**（）で演算の優先順位を制御できる
+- **比較演算子**（==, !=, <, >, <=, >=）で値を比較できる
+- **論理演算子**（&&, ||, !）で条件を組み合わせられる
+- **インクリメント・デクリメント**（++, --）で値を1増減できる
+- **演算子の優先順位** があり、括弧で明示的に制御できる
+
+### 次のステップ
+
+次の章では、**条件分岐**（if文、switch文）について学ぶ。
+演算子で得た真偽値を使って、プログラムの処理を分岐させる方法を学ぶ。
+
+---
+
+## 演習
+
+演習問題は、[ダッシュボード](/dashboard)から確認できる。

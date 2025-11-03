@@ -195,6 +195,53 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     ],
   }),
   withAutoIds({
+    id: "03_operators",
+    label: "演算子",
+    category: "java/basics",
+    questions: [
+      {
+        title: "算術演算子を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "括弧で演算の優先順位を制御できることを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "剰余演算子（%）の使い方を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "比較演算子を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "論理演算子（&&, ||, !）を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "インクリメント・デクリメントの動作を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "演算子を使った式の結果を予測できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "演算子を使ったプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+    ],
+  }),
+  withAutoIds({
     id: "if",
     label: "if文",
     category: "java/basics",
