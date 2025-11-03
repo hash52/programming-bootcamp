@@ -627,6 +627,58 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
     ],
   }),
+  withAutoIds({
+    id: "12_interfaces",
+    label: "インターフェース",
+    category: "java/oop",
+    questions: [
+      {
+        title: "インターフェースとは何か、なぜ必要かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "インターフェースと継承の違いを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "インターフェースの定義方法を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "implementsキーワードを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "複数のインターフェースを実装できることを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "デフォルトメソッドを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "インターフェースを使ったコードを読んで理解できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "インターフェースを定義して実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "複数のインターフェースを実装したクラスを作成できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
   // Spring
   withAutoIds({
     id: "02_mvc_intro",

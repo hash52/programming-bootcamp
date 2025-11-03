@@ -1,0 +1,511 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# インターフェース
+
+この章では、クラスに共通の振る舞いを定義する **インターフェース** について学ぶ。
+インターフェースを使うことで、柔軟で保守性の高い設計を実現できる。
+
+---
+
+## 学習のゴール
+
+- インターフェースとは何か、なぜ必要かを説明できる
+- インターフェースと継承の違いを理解している
+- インターフェースの定義方法を理解している
+- `implements`キーワードでインターフェースを実装できる
+- 複数のインターフェースを実装できる
+- インターフェースを使った設計ができる
+
+---
+
+## なぜこの技術が必要か
+
+**インターフェースがないとどうなるか？**
+
+継承だけでは、異なるクラス階層間で共通の振る舞いを定義できない。
+また、Javaでは1つのクラスしか継承できないため、柔軟性に欠ける。
+
+**例:**
+
+```java
+// 継承だけでは...
+class Bird {
+    void fly() { System.out.println("飛ぶ"); }
+}
+class Airplane {
+    void fly() { System.out.println("飛ぶ"); }
+}
+// BirdとAirplaneは無関係なので、共通の型として扱えない
+
+// インターフェースがあると...
+interface Flyable {
+    void fly();
+}
+class Bird implements Flyable {
+    public void fly() { System.out.println("鳥が飛ぶ"); }
+}
+class Airplane implements Flyable {
+    public void fly() { System.out.println("飛行機が飛ぶ"); }
+}
+// Flyable型として統一的に扱える
+```
+
+インターフェースを使うことで、異なるクラス階層間でも共通の型として扱える。
+
+---
+
+## 1. インターフェースとは
+
+### インターフェースの概念
+
+**インターフェース** は、**クラスが実装すべきメソッドを定義する仕組み** である。
+「何をするか」を定義し、「どうするか」は実装クラスに任せる。
+
+### 継承との違い
+
+| 比較項目 | 継承（extends） | インターフェース（implements） |
+|---------|----------------|------------------------------|
+| **目的** | is-a関係（〜は〜である） | can-do関係（〜できる） |
+| **実装** | 親クラスの実装を引き継ぐ | メソッドの実装は持たない |
+| **複数** | 1つのクラスのみ継承可能 | 複数のインターフェースを実装可能 |
+| **用途** | 共通の実装を共有 | 共通の振る舞いを定義 |
+
+**例：**
+- **継承**: Dog **is a** Animal（犬は動物である）
+- **インターフェース**: Bird **can** Fly（鳥は飛べる）
+
+:::info 【共通】
+インターフェースは、多くのプログラミング言語で共通の概念である（言語によって呼び方は異なる）。
+:::
+
+---
+
+## 2. インターフェースの定義
+
+### 基本的な書き方
+
+```java
+interface インターフェース名 {
+    // メソッドの宣言（実装は書かない）
+    戻り値の型 メソッド名(引数);
+}
+```
+
+### 例：Flyableインターフェース
+
+```java
+interface Flyable {
+    void fly();  // 実装は書かない
+}
+```
+
+### インターフェースのルール
+
+1. **メソッドは自動的に`public abstract`になる**
+   - `public`と`abstract`は省略できる
+2. **実装を持たない**（抽象メソッドのみ）
+   - ただし、Java 8以降は`default`メソッドで実装を持てる
+3. **フィールドは自動的に`public static final`になる**
+   - 定数として扱われる
+
+:::tip ポイント
+インターフェースのメソッドは「何をするか」だけを定義し、「どうするか」は実装クラスが決める。
+:::
+
+---
+
+## 3. インターフェースの実装
+
+### implementsキーワード
+
+インターフェースを実装するには、**`implements`キーワード** を使う。
+
+```java
+class クラス名 implements インターフェース名 {
+    // インターフェースのメソッドを実装
+}
+```
+
+### 例：BirdクラスとAirplaneクラス
+
+```java
+interface Flyable {
+    void fly();
+}
+
+class Bird implements Flyable {
+    @Override
+    public void fly() {
+        System.out.println("鳥が羽ばたいて飛ぶ");
+    }
+}
+
+class Airplane implements Flyable {
+    @Override
+    public void fly() {
+        System.out.println("飛行機がエンジンで飛ぶ");
+    }
+}
+```
+
+:::caution 重要
+インターフェースのメソッドを実装するときは、**`public`を明示** する必要がある。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`interface Flyable {
+    void fly();
+}
+
+class Bird implements Flyable {
+    @Override
+    public void fly() {
+        System.out.println("鳥が羽ばたいて飛ぶ");
+    }
+}
+
+class Airplane implements Flyable {
+    @Override
+    public void fly() {
+        System.out.println("飛行機がエンジンで飛ぶ");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Flyable bird = new Bird();
+        bird.fly();
+
+        Flyable airplane = new Airplane();
+        airplane.fly();
+
+        // Flyable型として統一的に扱える
+        Flyable[] flyables = {new Bird(), new Airplane()};
+        for (Flyable f : flyables) {
+            f.fly();
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- 新しいクラス（例：`Drone`）を追加して、`Flyable`を実装してみよう
+
+---
+
+## 4. 複数のインターフェースの実装
+
+### 複数実装の書き方
+
+クラスは **複数のインターフェースを実装** できる（カンマ区切り）。
+
+```java
+class クラス名 implements インターフェース1, インターフェース2 {
+    // 全てのインターフェースのメソッドを実装
+}
+```
+
+### 例：SwimmableとFlyable
+
+```java
+interface Flyable {
+    void fly();
+}
+
+interface Swimmable {
+    void swim();
+}
+
+class Duck implements Flyable, Swimmable {
+    @Override
+    public void fly() {
+        System.out.println("アヒルが飛ぶ");
+    }
+
+    @Override
+    public void swim() {
+        System.out.println("アヒルが泳ぐ");
+    }
+}
+```
+
+:::tip ポイント
+継承は1つのクラスのみだが、インターフェースは複数実装できる。これがインターフェースの大きな利点である。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`interface Flyable {
+    void fly();
+}
+
+interface Swimmable {
+    void swim();
+}
+
+class Duck implements Flyable, Swimmable {
+    String name;
+
+    Duck(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void fly() {
+        System.out.println(name + "が飛ぶ");
+    }
+
+    @Override
+    public void swim() {
+        System.out.println(name + "が泳ぐ");
+    }
+}
+
+class Fish implements Swimmable {
+    String name;
+
+    Fish(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void swim() {
+        System.out.println(name + "が泳ぐ");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Duck duck = new Duck("アヒル");
+        duck.fly();
+        duck.swim();
+
+        System.out.println("---");
+
+        Fish fish = new Fish("金魚");
+        fish.swim();
+
+        System.out.println("---");
+
+        // Swimmable型として統一的に扱える
+        Swimmable[] swimmers = {new Duck("カモ"), new Fish("マグロ")};
+        for (Swimmable s : swimmers) {
+            s.swim();
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- `Runnable`インターフェースを追加して、走れる動物を実装してみよう
+
+---
+
+## 5. 継承とインターフェースの組み合わせ
+
+### extendsとimplementsの併用
+
+クラスは、**1つのクラスを継承** しながら、**複数のインターフェースを実装** できる。
+
+```java
+class クラス名 extends 親クラス implements インターフェース1, インターフェース2 {
+    // 実装
+}
+```
+
+:::warning 注意
+`extends`は`implements`の前に書く必要がある。
+:::
+
+### 例：Animalを継承しつつFlyableを実装
+
+```java
+class Animal {
+    String name;
+    Animal(String name) {
+        this.name = name;
+    }
+}
+
+interface Flyable {
+    void fly();
+}
+
+class Bird extends Animal implements Flyable {
+    Bird(String name) {
+        super(name);
+    }
+
+    @Override
+    public void fly() {
+        System.out.println(name + "が飛ぶ");
+    }
+}
+```
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Animal {
+    String name;
+
+    Animal(String name) {
+        this.name = name;
+    }
+
+    void eat() {
+        System.out.println(name + "が食べる");
+    }
+}
+
+interface Flyable {
+    void fly();
+}
+
+interface Swimmable {
+    void swim();
+}
+
+class Duck extends Animal implements Flyable, Swimmable {
+    Duck(String name) {
+        super(name);
+    }
+
+    @Override
+    public void fly() {
+        System.out.println(name + "が飛ぶ");
+    }
+
+    @Override
+    public void swim() {
+        System.out.println(name + "が泳ぐ");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Duck duck = new Duck("アヒル");
+        duck.eat();   // 親クラスのメソッド
+        duck.fly();   // Flyableのメソッド
+        duck.swim();  // Swimmableのメソッド
+    }
+}`}
+/>
+
+**やってみよう:**
+- `Penguin`クラスを追加して、`Animal`を継承し、`Swimmable`のみを実装してみよう
+
+---
+
+## 6. デフォルトメソッド（Java 8以降）
+
+### デフォルトメソッドとは
+
+**デフォルトメソッド** は、インターフェースに **実装を持つメソッド** を定義できる機能である（Java 8以降）。
+
+```java
+interface インターフェース名 {
+    // 通常のメソッド（実装を持たない）
+    void メソッド1();
+
+    // デフォルトメソッド（実装を持つ）
+    default void メソッド2() {
+        // 実装
+    }
+}
+```
+
+### 例：Greetableインターフェース
+
+```java
+interface Greetable {
+    String getName();
+
+    // デフォルトメソッド
+    default void greet() {
+        System.out.println("こんにちは、" + getName() + "さん");
+    }
+}
+
+class Person implements Greetable {
+    String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+    // greet()は実装しなくてもデフォルトの実装が使われる
+}
+```
+
+:::info 【共通】
+デフォルトメソッドは、インターフェースに後から機能を追加する際に、既存の実装クラスを壊さないために導入された。
+:::
+
+---
+
+## 7. インターフェースの設計
+
+### can-do関係
+
+インターフェースを使う際は、**can-do関係**（「〜できる」という関係）が成り立つか確認する。
+
+**良い例（can-do関係が成り立つ）：**
+- Bird **can** Fly（鳥は飛べる）→ `Flyable`が適切
+- Duck **can** Swim（アヒルは泳げる）→ `Swimmable`が適切
+
+**悪い例（can-do関係が成り立たない）：**
+- Person **can** Name（人は名前できる）→ 意味不明
+
+### 適切なインターフェースの使い方
+
+1. **共通の振る舞いを定義**
+   - 異なるクラス階層でも、同じ振る舞いを共有できる
+
+2. **複数の能力を組み合わせる**
+   - 1つのクラスが複数のインターフェースを実装できる
+
+3. **柔軟な設計**
+   - インターフェースを使うことで、実装の詳細を隠蔽できる
+
+:::warning 注意
+インターフェースは強力な機能だが、過度に使うと設計が複雑になる。
+必要な場合のみ使うことが重要である。
+:::
+
+---
+
+## まとめ
+
+この章では、**インターフェース** について学んだ。
+
+### 学んだ内容
+
+- **インターフェース** はクラスが実装すべきメソッドを定義する仕組みである
+- インターフェースは **「何をするか」を定義** し、「どうするか」は実装クラスに任せる
+- **`implements`キーワード** でインターフェースを実装できる
+- **複数のインターフェースを実装** できる（継承は1つのみ）
+- **継承とインターフェースを組み合わせる** ことができる
+- **デフォルトメソッド** でインターフェースに実装を持たせられる
+- インターフェースを使う際は **can-do関係** が成り立つか確認する
+
+### 次のステップ
+
+次の章では、**カプセル化** について学ぶ。
+フィールドやメソッドのアクセス制御を理解し、より安全で保守性の高いプログラムを作る方法を学ぶ。
+
+---
+
+## 演習
+
+演習問題は、[ダッシュボード](/dashboard)から確認できる。
