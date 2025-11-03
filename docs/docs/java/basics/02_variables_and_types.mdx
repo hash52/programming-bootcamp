@@ -551,6 +551,118 @@ public static void main(String[] args) {  // ブロック1
 
 ---
 
+## 8. 定数
+
+### 定数とは
+
+**定数** は、**一度値を設定したら変更できない変数** である。
+`final`キーワードを使って宣言する。
+
+```java
+final int MAX_SCORE = 100;  // 最大スコア（定数）
+MAX_SCORE = 200;  // エラー！定数は変更できない
+```
+
+### 定数の使い方
+
+```java
+final int TAX_RATE = 10;  // 消費税率（定数）
+int price = 1000;
+int taxAmount = price * TAX_RATE / 100;  // 消費税額を計算
+```
+
+### 定数の命名規則
+
+定数は **全て大文字** で、単語の区切りに **アンダースコア（`_`）** を使うのが慣例である。
+
+```java
+final int MAX_STUDENTS = 30;      // 最大生徒数
+final double PI = 3.14159;        // 円周率
+final String COMPANY_NAME = "ABC Company";  // 会社名
+```
+
+:::tip ポイント
+定数を使うことで、プログラム内で繰り返し使う値に名前を付けられる。
+値を変更する必要がある場合、定数の宣言部分だけを変更すれば良いため、メンテナンスが楽になる。
+:::
+
+### なぜ定数が必要か
+
+**定数がないとどうなるか？**
+
+```java
+// 定数を使わない場合
+int taxAmount1 = 1000 * 10 / 100;
+int taxAmount2 = 2000 * 10 / 100;
+int taxAmount3 = 3000 * 10 / 100;
+// 税率が変わったら、全ての「10」を探して変更する必要がある
+
+// 定数を使う場合
+final int TAX_RATE = 10;
+int taxAmount1 = 1000 * TAX_RATE / 100;
+int taxAmount2 = 2000 * TAX_RATE / 100;
+int taxAmount3 = 3000 * TAX_RATE / 100;
+// 税率が変わっても、定数の宣言部分だけ変更すれば良い
+```
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 定数の定義
+        final int MAX_SCORE = 100;
+        final int PASSING_SCORE = 60;
+        final String GRADE_A = "A";
+        final String GRADE_B = "B";
+        final String GRADE_C = "C";
+        final String GRADE_D = "D";
+
+        // テストの点数
+        int score = 85;
+
+        // 点数の表示
+        System.out.println("あなたの点数: " + score + " / " + MAX_SCORE);
+
+        // 合格判定
+        if (score >= PASSING_SCORE) {
+            System.out.println("合格です！");
+        } else {
+            System.out.println("不合格です。");
+        }
+
+        // 成績判定
+        String grade;
+        if (score >= 80) {
+            grade = GRADE_A;
+        } else if (score >= 70) {
+            grade = GRADE_B;
+        } else if (score >= PASSING_SCORE) {
+            grade = GRADE_C;
+        } else {
+            grade = GRADE_D;
+        }
+        System.out.println("成績: " + grade);
+    }
+}`}
+/>
+
+**やってみよう:**
+- 円周率（`PI`）を定数で定義して、円の面積を計算してみよう
+- `MAX_SCORE`の値を変更して、プログラムの動作を確認してみよう
+
+:::warning よくあるエラー
+定数を変更しようとするとコンパイルエラーになる。
+```java
+final int MAX = 100;
+MAX = 200;  // エラー: 定数は変更できない
+```
+定数は、プログラムの実行中に値が変わらないことが保証される。
+:::
+
+---
+
 ## まとめ
 
 この章では、以下のことを学んだ：
@@ -570,6 +682,11 @@ public static void main(String[] args) {  // ブロック1
   - 小さい型 → 大きい型：自動変換
   - 大きい型 → 小さい型：明示的な変換（キャスト）が必要
 - **スコープ**：変数はブロック内でのみ有効
+- **定数**：
+  - `final`キーワードで宣言
+  - 一度値を設定したら変更できない
+  - 全て大文字でアンダースコア区切り（例：`MAX_SCORE`）
+  - プログラム内で繰り返し使う値に名前を付けられる
 
 次の章では、**演算子** について学ぶ。
 演算子を使うことで、変数を使った計算や比較ができるようになる。
