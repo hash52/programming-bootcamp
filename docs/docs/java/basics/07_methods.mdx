@@ -46,65 +46,15 @@ public static void greet(String name) {
 
 メソッドを使うことで、同じ処理を簡潔に再利用できる。
 
-### 引数がないと何が困るか？
-
-引数がないと、似たような処理でも別々のメソッドを作る必要がある。
-
-```java
-// 引数がないと...
-public static void greetTaro() {
-    System.out.println("こんにちは、太郎さん");
-}
-public static void greetHanako() {
-    System.out.println("こんにちは、花子さん");
-}
-public static void greetJiro() {
-    System.out.println("こんにちは、次郎さん");
-}
-// 人数分のメソッドが必要！
-
-// 引数があると...
-public static void greet(String name) {
-    System.out.println("こんにちは、" + name + "さん");
-}
-// 1つのメソッドで全員に対応できる
-```
-
-**引数を使うことで、メソッドに情報を渡して処理を柔軟にできる。**
-
-### 戻り値がないと何が困るか？
-
-戻り値がないと、メソッドで計算した結果を受け取れない。
-
-```java
-// 戻り値がないと...
-public static void calculateSum(int a, int b) {
-    int sum = a + b;
-    System.out.println(sum);  // 表示するだけ
-}
-// この結果を他の計算に使えない！
-
-// 戻り値があると...
-public static int calculateSum(int a, int b) {
-    int sum = a + b;
-    return sum;  // 結果を返す
-}
-// 呼び出し側
-int result = calculateSum(10, 20);  // 結果を受け取れる
-int doubleResult = result * 2;      // 受け取った結果を使える
-```
-
-**戻り値を使うことで、メソッドの計算結果を他の処理で活用できる。**
-
-このように、メソッドは **引数で情報を受け取り、処理を行い、戻り値で結果を返す** という仕組みで、プログラムを柔軟かつ効率的にする。
-
 ---
 
 ## 1. メソッドとは
 
 ### メソッドの概念
 
-**メソッド** は、**処理をまとめたもの** である。
+**メソッド** は、**処理を括り出して何らかの名前をつけて、つけた名前で呼び出せる仕組み** である。
+
+例えば、「こんにちは」と表示する処理を何度も書く代わりに、`greet()`という名前のメソッドにまとめることで、`greet()`と書くだけで同じ処理を呼び出せる。
 特定の処理を1つの名前でまとめることで、何度でも呼び出して使える。
 
 ### メソッドの利点
@@ -257,12 +207,76 @@ Javaプログラムは、`main`メソッドから実行が始まる。
 ### 引数とは
 
 **引数**（ひきすう）は、メソッドに渡す値である。
+引数を使うことで、メソッドに異なるデータを渡して、同じ処理を柔軟に実行できる。
 
 ```java
 public static void greet(String name) {  // nameが引数
     System.out.println("こんにちは、" + name + "さん");
 }
 ```
+
+### 引数がないとどうなるか
+
+引数がないと、同じような処理でも、それぞれ別のメソッドを作らなければならない。
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class NoArgumentExample {
+    public static void main(String[] args) {
+        // 引数がないと、人ごとにメソッドを作る必要がある
+        greetTaro();
+        greetHanako();
+        greetJiro();
+        // 新しい人が増えるたびに、新しいメソッドが必要...
+    }
+
+    public static void greetTaro() {
+        System.out.println("こんにちは、太郎さん");
+    }
+
+    public static void greetHanako() {
+        System.out.println("こんにちは、花子さん");
+    }
+
+    public static void greetJiro() {
+        System.out.println("こんにちは、次郎さん");
+    }
+}`}
+/>
+
+このように、名前ごとにメソッドを作る必要があり、コードが長くなる。
+
+### 引数が問題を解決
+
+引数を使うことで、1つのメソッドで様々な値に対応できる。
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class WithArgumentExample {
+    public static void main(String[] args) {
+        // 引数を使えば、1つのメソッドで様々な名前に対応できる
+        greet("太郎");
+        greet("花子");
+        greet("次郎");
+        greet("美咲");
+        greet("健太");
+        // 新しい名前を渡すだけでOK！
+    }
+
+    public static void greet(String name) {
+        System.out.println("こんにちは、" + name + "さん");
+    }
+}`}
+/>
+
+引数を使うことで、コードがシンプルになり、保守性が向上する。
+
+**やってみよう:**
+- 自分の名前や好きな名前で`greet()`を呼び出してみよう
 
 ### 複数の引数
 
@@ -274,15 +288,93 @@ public static int add(int a, int b) {  // aとbが引数
 }
 ```
 
+複数の引数を渡すことで、より複雑な処理にも対応できる。
+
+---
+
 ### 戻り値とは
 
 **戻り値** は、メソッドから返す値である。
+メソッドが計算した結果を、呼び出し元で使えるようにするために戻り値を使う。
 
 ```java
 public static int add(int a, int b) {
     return a + b;  // a + bの結果を戻り値として返す
 }
 ```
+
+### 戻り値がないとどうなるか
+
+戻り値がないメソッド（`void`）は、処理の結果を返せない。
+そのため、計算結果を再利用することができない。
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class NoReturnExample {
+    public static void main(String[] args) {
+        // 戻り値がないメソッド（void）
+        addAndPrint(10, 20);
+        addAndPrint(5, 15);
+
+        // 問題：計算結果を再利用できない
+        // 例えば、2つの計算結果を比較したり、さらに計算したりできない
+        // int result = addAndPrint(10, 20);  // エラー！voidなので値を返さない
+    }
+
+    // 戻り値がないメソッド：結果を表示するだけ
+    public static void addAndPrint(int a, int b) {
+        int sum = a + b;
+        System.out.println(a + " + " + b + " = " + sum);
+        // 結果を返せない
+    }
+}`}
+/>
+
+このように、戻り値がないと、計算結果を他の処理で使うことができない。
+
+### 戻り値が問題を解決
+
+戻り値を使うことで、メソッドの計算結果を呼び出し元で受け取り、再利用できる。
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class WithReturnExample {
+    public static void main(String[] args) {
+        // 戻り値を使えば、計算結果を受け取れる
+        int result1 = add(10, 20);
+        int result2 = add(5, 15);
+
+        System.out.println("1つ目の計算結果: " + result1);
+        System.out.println("2つ目の計算結果: " + result2);
+
+        // 計算結果を再利用できる
+        int total = result1 + result2;
+        System.out.println("合計: " + total);
+
+        // さらに別のメソッドに渡すこともできる
+        int doubled = multiply(result1, 2);
+        System.out.println(result1 + " の2倍: " + doubled);
+    }
+
+    // 戻り値があるメソッド：結果を返す
+    public static int add(int a, int b) {
+        return a + b;
+    }
+
+    public static int multiply(int a, int b) {
+        return a * b;
+    }
+}`}
+/>
+
+戻り値を使うことで、メソッドの結果を柔軟に活用できる。
+
+**やってみよう:**
+- `add()`の結果を3つ計算して、その合計を表示してみよう
 
 ### voidとreturn
 
@@ -292,53 +384,6 @@ public static int add(int a, int b) {
 :::warning 注意
 戻り値の型を指定した場合、必ず`return`文が必要である。
 :::
-
-**実行してみよう:**
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`public class ArgumentReturnExample {
-    public static void main(String[] args) {
-        // 引数なし、戻り値なし
-        printMessage();
-
-        // 引数あり、戻り値なし
-        printMessage("Hello");
-
-        // 引数あり、戻り値あり
-        int result = multiply(5, 3);
-        System.out.println("5 × 3 = " + result);
-
-        // 複数の引数、戻り値あり
-        String fullName = makeFullName("山田", "太郎");
-        System.out.println("フルネーム: " + fullName);
-    }
-
-    // 引数なし、戻り値なし
-    public static void printMessage() {
-        System.out.println("メッセージを表示します");
-    }
-
-    // 引数あり、戻り値なし
-    public static void printMessage(String message) {
-        System.out.println(message);
-    }
-
-    // 引数あり、戻り値あり
-    public static int multiply(int a, int b) {
-        return a * b;
-    }
-
-    // 複数の引数、戻り値あり
-    public static String makeFullName(String lastName, String firstName) {
-        return lastName + " " + firstName;
-    }
-}`}
-/>
-
-**やってみよう:**
-- `multiply()`に別の数値を渡してみよう
-- `makeFullName()`に自分の名前を渡してみよう
 
 ---
 
