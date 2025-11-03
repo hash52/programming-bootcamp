@@ -731,6 +731,58 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
     ],
   }),
+  withAutoIds({
+    id: "14_exception_handling",
+    label: "例外処理",
+    category: "java/oop",
+    questions: [
+      {
+        title: "例外とは何か、なぜ必要かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "try-catch文で例外を捕捉できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "finally句の役割を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "throwsキーワードを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "検査例外と非検査例外の違いを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Hard,
+      },
+      {
+        title: "例外処理を含むコードを読んで理解できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "try-catch-finallyを使った例外処理を実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "throwキーワードで例外をスローできる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "適切な例外処理を持つプログラムを設計できる",
+        type: "WRITE",
+        difficulty: Difficulty.Hard,
+      },
+    ],
+  }),
   // Spring
   withAutoIds({
     id: "02_mvc_intro",

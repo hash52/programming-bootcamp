@@ -1,0 +1,570 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# 例外処理
+
+この章では、プログラム実行中に発生するエラーを適切に処理する **例外処理** について学ぶ。
+例外処理を使うことで、エラーが発生してもプログラムが適切に動作し続けるようにできる。
+
+---
+
+## 学習のゴール
+
+- 例外とは何か、なぜ必要かを説明できる
+- `try-catch`文で例外を捕捉できる
+- `finally`句の役割を理解している
+- `throws`キーワードを理解している
+- 検査例外と非検査例外の違いを理解している
+- 例外処理を使った堅牢なプログラムを実装できる
+
+---
+
+## なぜこの技術が必要か
+
+**例外処理がないとどうなるか？**
+
+例外処理がないと、エラーが発生した時点でプログラムが停止してしまう。
+ユーザーに適切なメッセージを表示したり、エラーから回復したりできない。
+
+**例:**
+
+```java
+// 例外処理がないと...
+int result = 10 / 0;  // エラーでプログラムが停止
+System.out.println("この行は実行されない");
+
+// 例外処理があると...
+try {
+    int result = 10 / 0;
+} catch (ArithmeticException e) {
+    System.out.println("0で割ることはできません");
+}
+System.out.println("プログラムは継続できる");
+```
+
+例外処理を使うことで、エラーが発生してもプログラムを適切に制御できる。
+
+---
+
+## 1. 例外とは
+
+### 例外の概念
+
+**例外**（Exception）は、**プログラム実行中に発生する予期しない問題** である。
+
+### 例外が発生する例
+
+```java
+// 0で割る
+int result = 10 / 0;  // ArithmeticException
+
+// 配列の範囲外アクセス
+int[] numbers = {1, 2, 3};
+int value = numbers[10];  // ArrayIndexOutOfBoundsException
+
+// null参照
+String text = null;
+int length = text.length();  // NullPointerException
+```
+
+:::info 【共通】
+例外処理は、ほとんどのプログラミング言語で共通の概念である（言語によって文法は異なる）。
+:::
+
+---
+
+## 2. try-catch文
+
+### 基本的な書き方
+
+```java
+try {
+    // 例外が発生する可能性のあるコード
+} catch (例外の型 変数名) {
+    // 例外が発生した時の処理
+}
+```
+
+### 例：0で割る例外を捕捉
+
+```java
+try {
+    int result = 10 / 0;
+    System.out.println("結果: " + result);
+} catch (ArithmeticException e) {
+    System.out.println("エラー: 0で割ることはできません");
+}
+System.out.println("プログラムは継続します");
+```
+
+:::tip ポイント
+`try`ブロック内で例外が発生すると、直ちに`catch`ブロックに移動する。
+`try`ブロックの残りのコードは実行されない。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        System.out.println("プログラム開始");
+
+        try {
+            int a = 10;
+            int b = 0;
+            int result = a / b;  // ここで例外が発生
+            System.out.println("結果: " + result);  // この行は実行されない
+        } catch (ArithmeticException e) {
+            System.out.println("エラー: 0で割ることはできません");
+            System.out.println("例外メッセージ: " + e.getMessage());
+        }
+
+        System.out.println("プログラム終了");
+    }
+}`}
+/>
+
+**やってみよう:**
+- `b`を`2`に変更して、例外が発生しない場合の動作を確認しよう
+
+---
+
+## 3. 複数の例外を捕捉
+
+### 複数のcatchブロック
+
+複数の種類の例外を捕捉できる。
+
+```java
+try {
+    // 例外が発生する可能性のあるコード
+} catch (例外の型1 変数名1) {
+    // 例外1が発生した時の処理
+} catch (例外の型2 変数名2) {
+    // 例外2が発生した時の処理
+}
+```
+
+### 例：複数の例外を処理
+
+```java
+try {
+    int[] numbers = {1, 2, 3};
+    int index = 10;
+    int value = numbers[index];  // ArrayIndexOutOfBoundsException
+    int result = value / 0;      // ArithmeticException
+} catch (ArrayIndexOutOfBoundsException e) {
+    System.out.println("配列の範囲外です");
+} catch (ArithmeticException e) {
+    System.out.println("0で割ることはできません");
+}
+```
+
+:::warning 注意
+複数の`catch`ブロックを書く場合、**より具体的な例外を先に書く** 必要がある。
+親クラスの例外を先に書くと、子クラスの例外が捕捉されなくなる。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // ケース1: 配列の範囲外
+        try {
+            int[] numbers = {1, 2, 3};
+            System.out.println(numbers[10]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("エラー: 配列の範囲外です");
+        } catch (ArithmeticException e) {
+            System.out.println("エラー: 0で割ることはできません");
+        }
+
+        System.out.println("---");
+
+        // ケース2: 0で割る
+        try {
+            int result = 10 / 0;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("エラー: 配列の範囲外です");
+        } catch (ArithmeticException e) {
+            System.out.println("エラー: 0で割ることはできません");
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- `NullPointerException`を捕捉するコードを追加してみよう
+
+---
+
+## 4. finally句
+
+### finallyとは
+
+**`finally`句** は、**例外の有無に関わらず必ず実行される** ブロックである。
+
+```java
+try {
+    // 例外が発生する可能性のあるコード
+} catch (例外の型 変数名) {
+    // 例外が発生した時の処理
+} finally {
+    // 必ず実行される処理
+}
+```
+
+### finallyの用途
+
+- ファイルのクローズ
+- データベース接続の解放
+- リソースの後片付け
+
+```java
+FileReader reader = null;
+try {
+    reader = new FileReader("file.txt");
+    // ファイルを読む処理
+} catch (IOException e) {
+    System.out.println("ファイルの読み込みエラー");
+} finally {
+    if (reader != null) {
+        reader.close();  // 必ずファイルを閉じる
+    }
+}
+```
+
+:::caution 重要
+`finally`ブロックは、`return`文があっても実行される。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        System.out.println("ケース1: 例外が発生する場合");
+        try {
+            System.out.println("tryブロック開始");
+            int result = 10 / 0;  // 例外が発生
+            System.out.println("tryブロック終了");  // 実行されない
+        } catch (ArithmeticException e) {
+            System.out.println("catchブロック実行");
+        } finally {
+            System.out.println("finallyブロック実行");
+        }
+
+        System.out.println("\\n---\\n");
+
+        System.out.println("ケース2: 例外が発生しない場合");
+        try {
+            System.out.println("tryブロック開始");
+            int result = 10 / 2;
+            System.out.println("tryブロック終了");
+        } catch (ArithmeticException e) {
+            System.out.println("catchブロック実行");  // 実行されない
+        } finally {
+            System.out.println("finallyブロック実行");
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- `finally`ブロックを削除して、動作の違いを確認しよう
+
+---
+
+## 5. throwsキーワード
+
+### throwsとは
+
+**`throws`キーワード** は、**メソッドが例外をスローする可能性があることを宣言する** キーワードである。
+
+```java
+void メソッド名() throws 例外の型 {
+    // 例外が発生する可能性のあるコード
+}
+```
+
+### 例：throwsの使い方
+
+```java
+class FileProcessor {
+    // このメソッドはIOExceptionをスローする可能性がある
+    void readFile(String filename) throws IOException {
+        FileReader reader = new FileReader(filename);
+        // ファイルを読む処理
+    }
+}
+
+// 呼び出し側で例外を処理する
+try {
+    FileProcessor processor = new FileProcessor();
+    processor.readFile("data.txt");
+} catch (IOException e) {
+    System.out.println("ファイル読み込みエラー");
+}
+```
+
+:::tip ポイント
+`throws`を使うことで、例外処理の責任を呼び出し側に委譲できる。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Calculator {
+    // このメソッドはArithmeticExceptionをスローする可能性がある
+    int divide(int a, int b) throws ArithmeticException {
+        if (b == 0) {
+            throw new ArithmeticException("0で割ることはできません");
+        }
+        return a / b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+
+        try {
+            int result1 = calc.divide(10, 2);
+            System.out.println("10 / 2 = " + result1);
+
+            int result2 = calc.divide(10, 0);  // 例外が発生
+            System.out.println("10 / 0 = " + result2);  // 実行されない
+        } catch (ArithmeticException e) {
+            System.out.println("エラー: " + e.getMessage());
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- `Calculator`クラスに`multiply()`メソッドを追加して、負の数の掛け算で例外をスローしてみよう
+
+---
+
+## 6. 例外の種類
+
+### 検査例外と非検査例外
+
+Javaの例外には、**検査例外** と **非検査例外** の2種類がある。
+
+| 種類 | 英語名 | 説明 | 例 | 処理の義務 |
+|------|--------|------|-----|-----------|
+| **検査例外** | Checked Exception | コンパイル時にチェックされる | `IOException`, `SQLException` | **必須**（try-catchまたはthrows） |
+| **非検査例外** | Unchecked Exception | 実行時に発生する | `NullPointerException`, `ArithmeticException` | **任意** |
+
+### 例外クラスの階層
+
+```
+Throwable
+├─ Error（システムエラー、通常は処理しない）
+└─ Exception
+    ├─ RuntimeException（非検査例外）
+    │   ├─ NullPointerException
+    │   ├─ ArithmeticException
+    │   └─ ArrayIndexOutOfBoundsException
+    └─ IOException（検査例外）
+        ├─ FileNotFoundException
+        └─ ...
+```
+
+:::info 【共通】
+検査例外と非検査例外の区別は、Javaに特有の概念である。
+他の言語では、全ての例外が非検査例外として扱われることが多い。
+:::
+
+---
+
+## 7. 例外をスローする
+
+### throwキーワード
+
+**`throw`キーワード** で、意図的に例外をスローできる。
+
+```java
+if (条件) {
+    throw new 例外の型("エラーメッセージ");
+}
+```
+
+### 例：カスタム例外をスロー
+
+```java
+class BankAccount {
+    private int balance;
+
+    void withdraw(int amount) {
+        if (amount > balance) {
+            throw new IllegalArgumentException("残高不足です");
+        }
+        balance -= amount;
+    }
+}
+```
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class BankAccount {
+    private String accountNumber;
+    private int balance;
+
+    BankAccount(String accountNumber, int initialBalance) {
+        this.accountNumber = accountNumber;
+        this.balance = initialBalance;
+    }
+
+    void deposit(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("入金額は正の値である必要があります");
+        }
+        balance += amount;
+        System.out.println(amount + "円を入金しました。残高: " + balance + "円");
+    }
+
+    void withdraw(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("出金額は正の値である必要があります");
+        }
+        if (amount > balance) {
+            throw new IllegalArgumentException("残高不足です。残高: " + balance + "円");
+        }
+        balance -= amount;
+        System.out.println(amount + "円を出金しました。残高: " + balance + "円");
+    }
+
+    int getBalance() {
+        return balance;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount("123-456", 10000);
+
+        try {
+            account.deposit(5000);
+            account.withdraw(3000);
+            account.withdraw(20000);  // 残高不足で例外が発生
+        } catch (IllegalArgumentException e) {
+            System.out.println("エラー: " + e.getMessage());
+        }
+
+        System.out.println("現在の残高: " + account.getBalance() + "円");
+    }
+}`}
+/>
+
+**やってみよう:**
+- `deposit()`に負の値を渡して、例外が発生することを確認しよう
+
+---
+
+## 8. 例外処理のベストプラクティス
+
+### 1. 具体的な例外を捕捉する
+
+```java
+// ❌ 悪い例
+try {
+    // ...
+} catch (Exception e) {  // 全ての例外を捕捉してしまう
+    // ...
+}
+
+// ✅ 良い例
+try {
+    // ...
+} catch (IOException e) {  // 具体的な例外を捕捉
+    // ...
+}
+```
+
+### 2. 例外メッセージを適切に記録する
+
+```java
+catch (IOException e) {
+    System.out.println("ファイル読み込みエラー: " + e.getMessage());
+    e.printStackTrace();  // デバッグ用にスタックトレースを出力
+}
+```
+
+### 3. 例外を無視しない
+
+```java
+// ❌ 悪い例
+try {
+    // ...
+} catch (Exception e) {
+    // 何もしない（例外を無視している）
+}
+
+// ✅ 良い例
+try {
+    // ...
+} catch (Exception e) {
+    System.out.println("エラー: " + e.getMessage());
+}
+```
+
+### 4. finallyでリソースを解放する
+
+```java
+FileReader reader = null;
+try {
+    reader = new FileReader("file.txt");
+    // 処理
+} catch (IOException e) {
+    // エラー処理
+} finally {
+    if (reader != null) {
+        try {
+            reader.close();
+        } catch (IOException e) {
+            // クローズ時のエラー処理
+        }
+    }
+}
+```
+
+:::warning 注意
+例外を捕捉しても何もしない（空の`catch`ブロック）のは、デバッグを困難にする。
+最低限、エラーメッセージを出力することが推奨される。
+:::
+
+---
+
+## まとめ
+
+この章では、**例外処理** について学んだ。
+
+### 学んだ内容
+
+- **例外** はプログラム実行中に発生する予期しない問題である
+- **`try-catch`文** で例外を捕捉し、適切に処理できる
+- **`finally`句** は例外の有無に関わらず必ず実行される
+- **`throws`キーワード** でメソッドが例外をスローすることを宣言できる
+- **検査例外** はコンパイル時にチェックされ、処理が必須である
+- **非検査例外** は実行時に発生し、処理は任意である
+- **`throw`キーワード** で意図的に例外をスローできる
+- 例外処理により、エラーが発生してもプログラムを適切に制御できる
+
+### 次のステップ
+
+次の章では、**コレクション** について学ぶ。
+複数のデータを効率的に管理するための仕組みを学び、より実用的なプログラムを作る方法を学ぶ。
+
+---
+
+## 演習
+
+演習問題は、[ダッシュボード](/dashboard)から確認できる。
