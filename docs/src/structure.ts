@@ -345,6 +345,53 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
     ],
   }),
+  withAutoIds({
+    id: "06_arrays",
+    label: "配列",
+    category: "java/basics",
+    questions: [
+      {
+        title: "配列とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "配列のインデックスは0から始まることを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "配列の宣言と初期化の方法を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "拡張for文（for-each）の使い方を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "2次元配列の基礎を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "配列を使ったコードの実行結果を予測できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "配列を宣言・初期化するプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "配列とループを組み合わせたプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
   // Spring
   withAutoIds({
     id: "02_mvc_intro",

@@ -1,0 +1,445 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# 配列
+
+この章では、同じ型のデータをまとめて管理する **配列** について学ぶ。
+配列を使うことで、大量のデータを効率的に扱うことができる。
+
+---
+
+## 学習のゴール
+
+- 配列とは何か、なぜ必要かを説明できる
+- 配列の宣言と初期化を理解している
+- 配列の要素にアクセスできる
+- 配列とループを組み合わせて使える
+- 多次元配列の基礎を理解している
+
+---
+
+## なぜこの技術が必要か
+
+**配列がないとどうなるか？**
+
+配列がないと、同じ種類のデータを100個保存するために100個の変数が必要になる。
+データの管理が煩雑になり、ループで処理できない。
+
+**例:**
+
+```java
+// 配列がないと...
+int score1 = 80;
+int score2 = 90;
+int score3 = 75;
+// ... 100個の変数が必要
+// 平均を計算するのも大変
+
+// 配列があると...
+int[] scores = {80, 90, 75};
+// ループで簡単に処理できる
+int sum = 0;
+for (int score : scores) {
+    sum += score;
+}
+int average = sum / scores.length;
+```
+
+配列を使うことで、大量のデータを1つの変数で管理し、ループで効率的に処理できる。
+
+---
+
+## 1. 配列とは
+
+### 配列の概念
+
+**配列** は、**同じ型のデータをまとめて管理する仕組み** である。
+
+### インデックス（添字）
+
+配列の各要素には、**インデックス**（添字）という番号が付けられている。
+**インデックスは0から始まる**（最初の要素がインデックス0）。
+
+```
+scores[0]  scores[1]  scores[2]
+  80         90         75
+  ↑          ↑          ↑
+インデックス0  インデックス1  インデックス2
+```
+
+:::info 【共通】
+配列のインデックスが0から始まることは、ほとんどのプログラミング言語で共通である。
+:::
+
+---
+
+## 2. 配列の宣言と初期化
+
+### 宣言
+
+配列の宣言は、以下のように行う：
+
+```java
+int[] scores;  // int型の配列を宣言
+```
+
+### 初期化
+
+配列を使う前に、**初期化**（メモリの確保）が必要である。
+
+**方法1：サイズを指定して初期化**
+
+```java
+int[] scores = new int[5];  // 5個の要素を持つ配列
+```
+
+この場合、すべての要素は **初期値**（int型なら0）で初期化される。
+
+**方法2：値を指定して初期化**
+
+```java
+int[] scores = {80, 90, 75, 85, 95};
+```
+
+この場合、配列のサイズは自動的に決まる（この例では5）。
+
+### 配列の長さ
+
+配列の長さ（要素数）は、`配列名.length`で取得できる。
+
+```java
+int[] scores = {80, 90, 75};
+System.out.println(scores.length);  // 3
+```
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class ArrayExample {
+    public static void main(String[] args) {
+        // 方法1: サイズを指定して初期化
+        int[] numbers = new int[5];
+        System.out.println("配列のサイズ: " + numbers.length);
+        System.out.println("初期値: " + numbers[0]);  // 0
+
+        System.out.println("---");
+
+        // 方法2: 値を指定して初期化
+        int[] scores = {80, 90, 75, 85, 95};
+        System.out.println("配列のサイズ: " + scores.length);
+        System.out.println("最初の要素: " + scores[0]);
+        System.out.println("2番目の要素: " + scores[1]);
+
+        System.out.println("---");
+
+        // 文字列の配列
+        String[] names = {"太郎", "花子", "次郎"};
+        System.out.println("名前の配列のサイズ: " + names.length);
+        System.out.println("最初の名前: " + names[0]);
+    }
+}`}
+/>
+
+**やってみよう:**
+- `new int[5]`を`new int[10]`に変えて、サイズを変更してみよう
+- `scores`配列に別の値を追加してみよう
+
+---
+
+## 3. 配列の要素へのアクセス
+
+### 要素の読み取り
+
+配列の要素を読み取るには、**インデックス**を指定する。
+
+```java
+int[] scores = {80, 90, 75};
+int firstScore = scores[0];  // 80
+int secondScore = scores[1];  // 90
+```
+
+### 要素の書き換え
+
+配列の要素を書き換えるには、インデックスを指定して代入する。
+
+```java
+int[] scores = {80, 90, 75};
+scores[0] = 100;  // 最初の要素を100に変更
+```
+
+### インデックスの範囲
+
+**インデックスは0から始まり、配列の長さ-1まで**（長さ3の配列なら、0, 1, 2）。
+
+:::warning 注意：配列の範囲外アクセス
+存在しないインデックスにアクセスすると、**ArrayIndexOutOfBoundsException**（配列の範囲外エラー）が発生する。
+
+```java
+int[] scores = {80, 90, 75};
+int value = scores[5];  // エラー！（インデックス5は存在しない）
+```
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class ArrayAccessExample {
+    public static void main(String[] args) {
+        int[] scores = {80, 90, 75, 85, 95};
+
+        // 要素の読み取り
+        System.out.println("最初の点数: " + scores[0]);
+        System.out.println("最後の点数: " + scores[4]);
+
+        System.out.println("---");
+
+        // 要素の書き換え
+        System.out.println("変更前: " + scores[0]);
+        scores[0] = 100;
+        System.out.println("変更後: " + scores[0]);
+
+        System.out.println("---");
+
+        // 配列の全要素を表示
+        System.out.println("全要素:");
+        for (int i = 0; i < scores.length; i++) {
+            System.out.println("scores[" + i + "] = " + scores[i]);
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- `scores[2]`を別の値に変更してみよう
+- `scores[10]`にアクセスしてエラーを確認してみよう（エラーが発生します）
+
+---
+
+## 4. 配列とループ
+
+### for文で配列を処理
+
+配列とfor文を組み合わせると、すべての要素を効率的に処理できる。
+
+```java
+int[] scores = {80, 90, 75, 85, 95};
+
+for (int i = 0; i < scores.length; i++) {
+    System.out.println(scores[i]);
+}
+```
+
+### 拡張for文（for-each）
+
+**拡張for文**（for-each文）は、配列のすべての要素を順番に処理するための簡潔な構文である。
+
+```java
+for (型 変数名 : 配列) {
+    // 変数に要素が順番に代入される
+}
+```
+
+**例:**
+
+```java
+int[] scores = {80, 90, 75};
+
+for (int score : scores) {
+    System.out.println(score);
+}
+```
+
+### for文と拡張for文の使い分け
+
+| for文 | 拡張for文（for-each） |
+|-------|---------------------|
+| インデックスが必要な場合 | 要素だけが必要な場合 |
+| 要素を書き換える場合 | 要素を読み取るだけの場合 |
+| 特定の範囲を処理する場合 | すべての要素を処理する場合 |
+
+:::info 【共通】
+拡張for文は、多くのプログラミング言語で共通である（言語によって構文は異なる）。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class ArrayLoopExample {
+    public static void main(String[] args) {
+        int[] scores = {80, 90, 75, 85, 95};
+
+        // 通常のfor文
+        System.out.println("通常のfor文:");
+        for (int i = 0; i < scores.length; i++) {
+            System.out.println("scores[" + i + "] = " + scores[i]);
+        }
+
+        System.out.println("---");
+
+        // 拡張for文
+        System.out.println("拡張for文:");
+        for (int score : scores) {
+            System.out.println(score);
+        }
+
+        System.out.println("---");
+
+        // 配列の合計と平均を計算
+        int sum = 0;
+        for (int score : scores) {
+            sum += score;
+        }
+        double average = (double) sum / scores.length;
+        System.out.println("合計: " + sum);
+        System.out.println("平均: " + average);
+
+        System.out.println("---");
+
+        // 最大値を探す
+        int max = scores[0];
+        for (int score : scores) {
+            if (score > max) {
+                max = score;
+            }
+        }
+        System.out.println("最大値: " + max);
+    }
+}`}
+/>
+
+**やってみよう:**
+- 最小値を探すプログラムを追加してみよう
+- `scores`配列に別の値を追加して、平均や最大値を確認してみよう
+
+---
+
+## 5. 多次元配列
+
+### 2次元配列とは
+
+**2次元配列** は、**配列の配列** である。
+表形式のデータ（例：行列、座席表）を扱うときに使う。
+
+### 2次元配列の宣言と初期化
+
+```java
+int[][] matrix = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+```
+
+この配列は、3行3列の表として考えることができる：
+
+```
+1  2  3
+4  5  6
+7  8  9
+```
+
+### 2次元配列の要素へのアクセス
+
+```java
+int value = matrix[0][0];  // 1（1行目、1列目）
+int value2 = matrix[1][2];  // 6（2行目、3列目）
+```
+
+### 2次元配列とループ
+
+2次元配列を処理するには、**ネストしたループ** を使う。
+
+```java
+for (int i = 0; i < matrix.length; i++) {         // 行
+    for (int j = 0; j < matrix[i].length; j++) {  // 列
+        System.out.print(matrix[i][j] + " ");
+    }
+    System.out.println();
+}
+```
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class MultiDimensionalArrayExample {
+    public static void main(String[] args) {
+        // 2次元配列の初期化
+        int[][] matrix = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+
+        // 要素へのアクセス
+        System.out.println("matrix[0][0] = " + matrix[0][0]);
+        System.out.println("matrix[1][2] = " + matrix[1][2]);
+
+        System.out.println("---");
+
+        // 2次元配列の全要素を表示
+        System.out.println("2次元配列:");
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        System.out.println("---");
+
+        // 実践例：成績表
+        String[] students = {"太郎", "花子", "次郎"};
+        int[][] scores = {
+            {80, 90, 75},  // 太郎の成績（国語、数学、英語）
+            {85, 95, 80},  // 花子の成績
+            {70, 85, 90}   // 次郎の成績
+        };
+
+        System.out.println("成績表:");
+        for (int i = 0; i < students.length; i++) {
+            System.out.print(students[i] + ": ");
+            int sum = 0;
+            for (int j = 0; j < scores[i].length; j++) {
+                System.out.print(scores[i][j] + " ");
+                sum += scores[i][j];
+            }
+            double average = (double) sum / scores[i].length;
+            System.out.println("(平均: " + average + ")");
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- 成績表に新しい生徒を追加してみよう
+- 各教科の平均点を計算してみよう（列方向の合計）
+
+---
+
+## まとめ
+
+この章では、Javaの **配列** について学んだ。
+
+### 学んだ内容
+
+- **配列** は同じ型のデータをまとめて管理する仕組みである
+- **インデックスは0から始まる**
+- 配列の宣言と初期化の方法（サイズ指定、値指定）
+- **`配列名.length`** で配列の長さを取得できる
+- 配列の要素へのアクセス（読み取り、書き換え）
+- **for文** と **拡張for文** で配列を処理できる
+- **2次元配列** で表形式のデータを扱える
+
+### 次のステップ
+
+次の章では、**メソッド** について学ぶ。
+メソッドと配列を組み合わせることで、より複雑なデータ処理を整理して書けるようになる。
+
+---
+
+## 演習
+
+演習問題は、[ダッシュボード](/dashboard)から確認できる。
