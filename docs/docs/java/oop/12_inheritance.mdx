@@ -30,39 +30,113 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 プログラムが大きくなると、多くのクラスが必要になる。
 それらのクラスに共通する部分があれば、継承を使ってまとめることで、効率的に管理できる。
 
-**例:**
+**実行してみよう:**
 
-```java
-// 継承がないと...
+継承がない場合とある場合を比較してみよう。
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// 継承がない場合（コードの重複）
 class Dog {
     String name;
-    void eat() { System.out.println("食べる"); }
-    void sleep() { System.out.println("寝る"); }
-    void bark() { System.out.println("ワン"); }
+
+    void eat() {
+        System.out.println(name + "が食べる");
+    }
+
+    void sleep() {
+        System.out.println(name + "が寝る");
+    }
+
+    void bark() {
+        System.out.println(name + "がワンと鳴く");
+    }
 }
+
 class Cat {
     String name;
-    void eat() { System.out.println("食べる"); } // Dogと同じ
-    void sleep() { System.out.println("寝る"); } // Dogと同じ
-    void meow() { System.out.println("ニャー"); }
+
+    // 同じコードを繰り返している
+    void eat() {
+        System.out.println(name + "が食べる");
+    }
+
+    void sleep() {
+        System.out.println(name + "が寝る");
+    }
+
+    void meow() {
+        System.out.println(name + "がニャーと鳴く");
+    }
 }
 
-// 継承があると...
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.name = "ポチ";
+        dog.eat();
+        dog.bark();
+
+        Cat cat = new Cat();
+        cat.name = "タマ";
+        cat.eat();
+        cat.meow();
+    }
+}
+`}
+/>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// 継承がある場合（共通部分をまとめる）
 class Animal {
     String name;
-    void eat() { System.out.println("食べる"); }
-    void sleep() { System.out.println("寝る"); }
-}
-class Dog extends Animal {
-    void bark() { System.out.println("ワン"); } // 固有のメソッドだけ追加
-}
-class Cat extends Animal {
-    void meow() { System.out.println("ニャー"); }
-}
-// 共通部分はAnimalにまとめられている
-```
 
-継承を使うことで、共通部分を1箇所にまとめ、コードの重複を減らせる。
+    // 共通のメソッド
+    void eat() {
+        System.out.println(name + "が食べる");
+    }
+
+    void sleep() {
+        System.out.println(name + "が寝る");
+    }
+}
+
+// Animalクラスを継承
+class Dog extends Animal {
+    // 固有のメソッドだけ追加
+    void bark() {
+        System.out.println(name + "がワンと鳴く");
+    }
+}
+
+class Cat extends Animal {
+    // 固有のメソッドだけ追加
+    void meow() {
+        System.out.println(name + "がニャーと鳴く");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.name = "ポチ";
+        dog.eat();    // Animalから継承
+        dog.bark();   // Dog固有
+
+        Cat cat = new Cat();
+        cat.name = "タマ";
+        cat.eat();    // Animalから継承
+        cat.meow();   // Cat固有
+    }
+}
+`}
+/>
+
+**継承の利点:**
+- 共通部分（`eat`、`sleep`）を1箇所にまとめられる
+- コードの重複がなくなる
+- 共通部分を変更するときは親クラスだけ修正すればよい
 
 ---
 

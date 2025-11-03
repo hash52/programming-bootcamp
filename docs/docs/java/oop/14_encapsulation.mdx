@@ -24,35 +24,96 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 カプセル化がないと、クラスの内部データが外部から自由に変更できてしまう。
 これにより、不正な値が設定されたり、意図しない動作を引き起こす可能性がある。
 
-**例:**
+**実行してみよう:**
 
-```java
-// カプセル化がないと...
-class BankAccount {
+カプセル化がない場合とある場合を比較してみよう。
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// カプセル化がない場合（危険！）
+class BankAccountBad {
     int balance;  // publicなので外部から直接変更可能
 }
 
-BankAccount account = new BankAccount();
-account.balance = -1000;  // マイナスの残高を設定できてしまう！
+public class Main {
+    public static void main(String[] args) {
+        BankAccountBad account = new BankAccountBad();
+        account.balance = 10000;
+        System.out.println("初期残高: " + account.balance + "円");
 
-// カプセル化があると...
-class BankAccount {
+        // 問題1: マイナスの残高を設定できてしまう
+        account.balance = -5000;
+        System.out.println("残高: " + account.balance + "円（おかしい！）");
+
+        // 問題2: 意図しない値の変更
+        account.balance = 999999999;
+        System.out.println("残高: " + account.balance + "円（バグ？不正？）");
+    }
+}
+`}
+/>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// カプセル化がある場合（安全）
+class BankAccountGood {
     private int balance;  // privateで保護
 
+    // コンストラクタ
+    public BankAccountGood() {
+        this.balance = 0;
+    }
+
+    // 入金（正の値のみ）
     public void deposit(int amount) {
         if (amount > 0) {
             balance += amount;
+            System.out.println(amount + "円を入金しました");
+        } else {
+            System.out.println("入金額は正の値である必要があります");
         }
     }
 
+    // 出金（残高以下のみ）
+    public void withdraw(int amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.println(amount + "円を出金しました");
+        } else {
+            System.out.println("出金できません");
+        }
+    }
+
+    // 残高確認
     public int getBalance() {
         return balance;
     }
 }
-// 不正な値の設定を防げる
-```
 
-カプセル化を使うことで、データの整合性を保ち、安全なプログラムを作れる。
+public class Main {
+    public static void main(String[] args) {
+        BankAccountGood account = new BankAccountGood();
+
+        account.deposit(10000);
+        System.out.println("残高: " + account.getBalance() + "円");
+
+        account.withdraw(3000);
+        System.out.println("残高: " + account.getBalance() + "円");
+
+        // 不正な操作は防がれる
+        account.deposit(-5000);  // 拒否される
+        account.withdraw(20000); // 残高不足で拒否される
+
+        System.out.println("最終残高: " + account.getBalance() + "円");
+    }
+}
+`}
+/>
+
+**カプセル化の利点:**
+- 不正な値の設定を防げる（マイナスの残高など）
+- データの整合性を保てる
+- 安全なプログラムを作れる
 
 ---
 

@@ -25,32 +25,97 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 継承だけでは、異なるクラス階層間で共通の振る舞いを定義できない。
 また、Javaでは1つのクラスしか継承できないため、柔軟性に欠ける。
 
-**例:**
+**実行してみよう:**
 
-```java
-// 継承だけでは...
+インターフェースがない場合とある場合を比較してみよう。
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// インターフェースがない場合
 class Bird {
-    void fly() { System.out.println("飛ぶ"); }
-}
-class Airplane {
-    void fly() { System.out.println("飛ぶ"); }
-}
-// BirdとAirplaneは無関係なので、共通の型として扱えない
+    String name;
 
-// インターフェースがあると...
+    void fly() {
+        System.out.println(name + "が飛ぶ");
+    }
+}
+
+class Airplane {
+    String name;
+
+    void fly() {
+        System.out.println(name + "が飛ぶ");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Bird bird = new Bird();
+        bird.name = "スズメ";
+        bird.fly();
+
+        Airplane airplane = new Airplane();
+        airplane.name = "ボーイング747";
+        airplane.fly();
+
+        // 問題：BirdとAirplaneを統一的に扱えない
+        // どちらも「飛べる」のに、共通の型がない
+    }
+}
+`}
+/>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// インターフェースがある場合
 interface Flyable {
     void fly();
 }
-class Bird implements Flyable {
-    public void fly() { System.out.println("鳥が飛ぶ"); }
-}
-class Airplane implements Flyable {
-    public void fly() { System.out.println("飛行機が飛ぶ"); }
-}
-// Flyable型として統一的に扱える
-```
 
-インターフェースを使うことで、異なるクラス階層間でも共通の型として扱える。
+class Bird implements Flyable {
+    String name;
+
+    public void fly() {
+        System.out.println(name + "が羽ばたいて飛ぶ");
+    }
+}
+
+class Airplane implements Flyable {
+    String name;
+
+    public void fly() {
+        System.out.println(name + "がエンジンで飛ぶ");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Flyable型として統一的に扱える
+        Flyable bird = new Bird();
+        ((Bird) bird).name = "スズメ";
+
+        Flyable airplane = new Airplane();
+        ((Airplane) airplane).name = "ボーイング747";
+
+        // どちらもFlyable型なので、同じ方法で呼び出せる
+        bird.fly();
+        airplane.fly();
+
+        // 配列にまとめることもできる
+        Flyable[] flyables = {bird, airplane};
+        System.out.println("\\n全ての飛べるものを飛ばす:");
+        for (Flyable f : flyables) {
+            f.fly();
+        }
+    }
+}
+`}
+/>
+
+**インターフェースの利点:**
+- 異なるクラス階層間でも共通の型として扱える
+- 「〜できる」という能力を定義できる（Flyable = 飛べる）
+- 複数のクラスを統一的に扱える（配列やリストにまとめられる）
 
 ---
 
