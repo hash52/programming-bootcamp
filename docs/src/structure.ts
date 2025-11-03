@@ -783,6 +783,58 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
     ],
   }),
+  withAutoIds({
+    id: "15_collections",
+    label: "コレクション",
+    category: "java/stdlib",
+    questions: [
+      {
+        title: "コレクションとは何か、配列との違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "ArrayListの基本的な使い方を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "HashSetの基本的な使い方を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "HashMapの基本的な使い方を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "ジェネリクスの役割を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "適切なコレクションを選択できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "ArrayListを使ったプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "HashMapを使ったプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "状況に応じてコレクションを使い分けたプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Hard,
+      },
+    ],
+  }),
   // Spring
   withAutoIds({
     id: "02_mvc_intro",
