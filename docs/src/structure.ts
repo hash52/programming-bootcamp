@@ -242,8 +242,8 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     ],
   }),
   withAutoIds({
-    id: "if",
-    label: "if文",
+    id: "04_if_statement",
+    label: "条件分岐",
     category: "java/basics",
     questions: [
       {
@@ -252,9 +252,44 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "if-else文の基本的な書き方を説明できる",
+        title: "if-else文の書き方を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
+      },
+      {
+        title: "if-else if-elseの構造を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "条件式にboolean型の変数を使えることを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "switch文の使い方を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "break文の役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "条件分岐のコードの実行結果を予測できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "if-else文を使ったプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "switch文を使ったプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
       },
     ],
   }),
