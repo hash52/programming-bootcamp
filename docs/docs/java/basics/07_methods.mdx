@@ -46,6 +46,58 @@ public static void greet(String name) {
 
 メソッドを使うことで、同じ処理を簡潔に再利用できる。
 
+### 引数がないと何が困るか？
+
+引数がないと、似たような処理でも別々のメソッドを作る必要がある。
+
+```java
+// 引数がないと...
+public static void greetTaro() {
+    System.out.println("こんにちは、太郎さん");
+}
+public static void greetHanako() {
+    System.out.println("こんにちは、花子さん");
+}
+public static void greetJiro() {
+    System.out.println("こんにちは、次郎さん");
+}
+// 人数分のメソッドが必要！
+
+// 引数があると...
+public static void greet(String name) {
+    System.out.println("こんにちは、" + name + "さん");
+}
+// 1つのメソッドで全員に対応できる
+```
+
+**引数を使うことで、メソッドに情報を渡して処理を柔軟にできる。**
+
+### 戻り値がないと何が困るか？
+
+戻り値がないと、メソッドで計算した結果を受け取れない。
+
+```java
+// 戻り値がないと...
+public static void calculateSum(int a, int b) {
+    int sum = a + b;
+    System.out.println(sum);  // 表示するだけ
+}
+// この結果を他の計算に使えない！
+
+// 戻り値があると...
+public static int calculateSum(int a, int b) {
+    int sum = a + b;
+    return sum;  // 結果を返す
+}
+// 呼び出し側
+int result = calculateSum(10, 20);  // 結果を受け取れる
+int doubleResult = result * 2;      // 受け取った結果を使える
+```
+
+**戻り値を使うことで、メソッドの計算結果を他の処理で活用できる。**
+
+このように、メソッドは **引数で情報を受け取り、処理を行い、戻り値で結果を返す** という仕組みで、プログラムを柔軟かつ効率的にする。
+
 ---
 
 ## 1. メソッドとは
@@ -449,6 +501,107 @@ public static int add(int a, int b, int c) {
 
 ---
 
+## 7. メソッドのドキュメント（Javadoc）
+
+### メソッドにもJavadocが書ける
+
+第2章で学んだ **Javadoc** は、メソッドにも書くことができる。
+メソッドの役割、引数、戻り値を説明することで、他の人（または将来の自分）が理解しやすくなる。
+
+### Javadocの書き方
+
+```java
+/**
+ * 2つの整数を足す。
+ * 
+ * @param a 1つ目の整数
+ * @param b 2つ目の整数
+ * @return aとbの合計
+ */
+public static int add(int a, int b) {
+    return a + b;
+}
+```
+
+### Javadocのタグ
+
+| タグ | 説明 | 例 |
+|------|------|-----|
+| `@param` | 引数の説明 | `@param name 名前` |
+| `@return` | 戻り値の説明 | `@return 合計値` |
+| `@throws` | 例外の説明 | `@throws IOException ファイルエラー` |
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class JavadocExample {
+    public static void main(String[] args) {
+        int sum = add(10, 20);
+        System.out.println("合計: " + sum);
+
+        double average = calculateAverage(80, 90, 75);
+        System.out.println("平均: " + average);
+
+        String message = greet("太郎", 18);
+        System.out.println(message);
+    }
+
+    /**
+     * 2つの整数を足す。
+     * 
+     * @param a 1つ目の整数
+     * @param b 2つ目の整数
+     * @return aとbの合計
+     */
+    public static int add(int a, int b) {
+        return a + b;
+    }
+
+    /**
+     * 3つの整数の平均を計算する。
+     * 
+     * @param num1 1つ目の数値
+     * @param num2 2つ目の数値
+     * @param num3 3つ目の数値
+     * @return 3つの数値の平均
+     */
+    public static double calculateAverage(int num1, int num2, int num3) {
+        return (num1 + num2 + num3) / 3.0;
+    }
+
+    /**
+     * 挨拶メッセージを生成する。
+     * 
+     * @param name 名前
+     * @param age 年齢
+     * @return 挨拶メッセージ
+     */
+    public static String greet(String name, int age) {
+        return "こんにちは、" + name + "さん（" + age + "歳）";
+    }
+}`}
+/>
+
+**やってみよう:**
+- 自分でメソッドを作成して、Javadocを書いてみよう
+
+### なぜドキュメントが重要か
+
+メソッドのドキュメントは、以下の理由で重要である：
+
+1. **チーム開発での協力**：他の人がメソッドの使い方を理解できる
+2. **将来の自分のため**：数ヶ月後に見返しても理解できる
+3. **保守性の向上**：メソッドの変更時に影響範囲を把握しやすい
+
+:::tip AI時代のドキュメント
+現代のAI開発ツール（GitHub CopilotやChatGPTなど）は、Javadocを読んで適切なコードを生成する。
+**良いドキュメントを書くことで、AIがより正確なコードを提案してくれる** ようになる。
+ドキュメントを書く習慣は、AI時代においてますます重要になっている。
+:::
+
+---
+
 ## まとめ
 
 この章では、Javaの **メソッド** について学んだ。
@@ -462,6 +615,10 @@ public static int add(int a, int b, int c) {
 - **void** は戻り値がないことを意味する
 - メソッド内の変数は外からアクセスできない（**スコープ**）
 - **オーバーロード** で同じ名前のメソッドを複数定義できる
+- **Javadoc** でメソッドのドキュメントを書ける
+  - `@param`で引数を説明
+  - `@return`で戻り値を説明
+  - AI時代にはドキュメントがさらに重要
 
 ### 次のステップ
 
