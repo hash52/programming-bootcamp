@@ -1,0 +1,380 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# 複数クラスの連携
+
+この章では、複数のクラスを組み合わせてプログラムを作成する方法を学ぶ。
+クラスを適切に分割することで、コードの見通しが良くなり、チームでの開発もしやすくなる。
+
+---
+
+## 学習のゴール
+
+- パッケージの役割を理解している
+- import文の使い方を理解している
+- Eclipseの補完機能を活用できる
+- 複数のクラスを組み合わせてプログラムを作成できる
+- クラスの分割の意義を説明できる
+
+---
+
+## なぜこの技術が必要か
+
+**クラスを分割しないとどうなるか？**
+
+クラスを分割しないと、1つのファイルが長くなりすぎ、コードの見通しが悪くなる。
+チームで開発しにくくなる。
+
+**例:**
+
+```java
+// 1つのクラスに全て書くと...
+public class Main {
+    public static void main(String[] args) {
+        // 処理1
+        // 処理2
+        // 処理3
+        // ... 1000行以上
+    }
+}
+
+// クラスを分割すると...
+public class Main {
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        int result = calc.add(10, 20);
+    }
+}
+
+// 別ファイル: Calculator.java
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+```
+
+クラスを分割することで、役割ごとにコードを整理し、保守しやすいプログラムを作れる。
+
+---
+
+## 1. パッケージとは
+
+### パッケージの役割
+
+**パッケージ** は、**クラスを整理するための仕組み** である。
+複数のクラスを論理的にグループ化することで、大規模なプログラムでもクラスを管理しやすくなる。
+
+### パッケージの構造
+
+パッケージは、ディレクトリ（フォルダ）の階層構造に対応する。
+
+```
+src/
+  com/
+    example/
+      myapp/
+        Main.java
+        Calculator.java
+```
+
+この場合、`Main.java`と`Calculator.java`は、
+`com.example.myapp`パッケージに属する。
+
+### パッケージの宣言
+
+Javaファイルの先頭に、パッケージ名を宣言する。
+
+```java
+package com.example.myapp;
+
+public class Main {
+    // ...
+}
+```
+
+### パッケージ名の命名規則
+
+パッケージ名は、通常 **すべて小文字** で、ドット（`.`）で区切る。
+
+- 例：`com.example.myapp`
+- 例：`jp.co.company.project`
+
+:::info 【共通】
+パッケージ（またはモジュール、名前空間）の概念は、多くのプログラミング言語で共通である。
+:::
+
+---
+
+## 2. import文
+
+### import文とは
+
+**import文** は、**他のパッケージのクラスを使うための宣言** である。
+
+### 基本的な書き方
+
+```java
+import パッケージ名.クラス名;
+```
+
+### 例
+
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+    }
+}
+```
+
+### ワイルドカードimport
+
+パッケージ内のすべてのクラスをimportする場合、`*`（ワイルドカード）を使う。
+
+```java
+import java.util.*;
+```
+
+:::caution 注意
+ワイルドカードimportは便利だが、どのクラスを使っているか分かりにくくなるため、
+特定のクラスだけをimportする方が推奨される。
+:::
+
+---
+
+## 3. Eclipseの補完機能
+
+### Eclipseの補完機能とは
+
+**Eclipseの補完機能** は、コードを効率的に書くための強力なツールである。
+タイプミスを減らし、コーディング速度を大幅に向上させることができる。
+
+### 自動import（Ctrl + Shift + O）
+
+クラス名を書いた後、`Ctrl + Shift + O`（Macは`Cmd + Shift + O`）を押すと、
+**必要なimport文が自動的に追加される**。
+
+**手順:**
+1. クラス名を書く（例：`ArrayList`）
+2. `Ctrl + Shift + O`を押す
+3. 必要なimport文が追加される
+
+### コード補完（Ctrl + Space）
+
+コードの途中で`Ctrl + Space`を押すと、**候補が表示される**。
+
+**使える場面:**
+- **クラス名の補完**：`Array`と入力して`Ctrl + Space`→ `ArrayList`が候補に出る
+- **メソッド名の補完**：`list.a`と入力して`Ctrl + Space`→ `add`が候補に出る
+- **変数名の補完**：宣言済みの変数名が候補に出る
+
+### テンプレート補完
+
+特定のキーワードを入力して`Ctrl + Space`を押すと、コードテンプレートが展開される。
+
+**便利なテンプレート:**
+- **for文**：`for`と入力して`Ctrl + Space`→ for文のテンプレートが展開
+- **if文**：`if`と入力して`Ctrl + Space`→ if文のテンプレートが展開
+- **sysout**：`sysout`と入力して`Ctrl + Space`→ `System.out.println()`に展開
+
+:::tip ポイント
+Eclipseの補完機能を積極的に活用することで、コーディングが格段に効率的になる。
+最初は意識して使うようにし、慣れてくると自然に使えるようになる。
+:::
+
+---
+
+## 4. 複数クラスの連携
+
+### Mainクラスと処理クラス
+
+プログラムを整理するため、以下のように役割を分担することが多い：
+
+- **Mainクラス**：プログラムの起点（`main`メソッド）
+- **処理クラス**：具体的な処理を担当
+
+### クラス間のメソッド呼び出し
+
+あるクラスから別のクラスのメソッドを呼び出すには、以下のようにする：
+
+1. **クラスのインスタンスを作成**（`new`キーワード）
+2. **インスタンスのメソッドを呼び出す**
+
+```java
+Calculator calc = new Calculator();  // インスタンス作成
+int result = calc.add(10, 20);       // メソッド呼び出し
+```
+
+:::note 補足
+`new`キーワードとインスタンスについては、次章（オブジェクト指向）で詳しく学ぶ。
+ここでは「クラスを使うための準備」として理解しておけば良い。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// Calculatorクラス
+class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int subtract(int a, int b) {
+        return a - b;
+    }
+
+    public int multiply(int a, int b) {
+        return a * b;
+    }
+
+    public int divide(int a, int b) {
+        return a / b;
+    }
+}
+
+// Mainクラス
+public class Main {
+    public static void main(String[] args) {
+        // Calculatorクラスのインスタンスを作成
+        Calculator calc = new Calculator();
+
+        // Calculatorクラスのメソッドを呼び出す
+        int sum = calc.add(10, 20);
+        int diff = calc.subtract(20, 10);
+        int product = calc.multiply(5, 3);
+        int quotient = calc.divide(20, 4);
+
+        System.out.println("10 + 20 = " + sum);
+        System.out.println("20 - 10 = " + diff);
+        System.out.println("5 × 3 = " + product);
+        System.out.println("20 ÷ 4 = " + quotient);
+    }
+}`}
+/>
+
+**やってみよう:**
+- `Calculator`クラスに新しいメソッド（例：`power`で累乗計算）を追加してみよう
+- `Main`クラスから新しいメソッドを呼び出してみよう
+
+---
+
+## 5. クラスの分割の設計
+
+### 役割ごとにクラスを分ける
+
+プログラムを設計するとき、**役割ごとにクラスを分ける** ことが重要である。
+
+**例：成績管理システム**
+- **Student**クラス：生徒の情報を管理
+- **Grade**クラス：成績の計算を担当
+- **Main**クラス：プログラムの起点
+
+### 見通しの良いコード
+
+クラスを適切に分割することで、以下のメリットがある：
+
+1. **役割が明確**：各クラスが何をするのかが分かりやすい
+2. **変更が簡単**：1つのクラスを変更しても、他のクラスに影響しにくい
+3. **チーム開発しやすい**：クラスごとに担当を分けられる
+
+### クラス分割の例
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// Studentクラス（生徒の情報を管理）
+class Student {
+    String name;
+    int age;
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void introduce() {
+        System.out.println("名前: " + name + ", 年齢: " + age);
+    }
+}
+
+// Gradeクラス（成績の計算を担当）
+class Grade {
+    public double calculateAverage(int[] scores) {
+        int sum = 0;
+        for (int score : scores) {
+            sum += score;
+        }
+        return (double) sum / scores.length;
+    }
+
+    public String getGradeLevel(double average) {
+        if (average >= 90) {
+            return "優";
+        } else if (average >= 70) {
+            return "良";
+        } else if (average >= 60) {
+            return "可";
+        } else {
+            return "不可";
+        }
+    }
+}
+
+// Mainクラス（プログラムの起点）
+public class Main {
+    public static void main(String[] args) {
+        // Studentクラスを使う
+        Student student = new Student("太郎", 18);
+        student.introduce();
+
+        // Gradeクラスを使う
+        Grade grade = new Grade();
+        int[] scores = {80, 90, 75};
+        double average = grade.calculateAverage(scores);
+        String level = grade.getGradeLevel(average);
+
+        System.out.println("平均点: " + average);
+        System.out.println("成績: " + level);
+    }
+}`}
+/>
+
+**やってみよう:**
+- `Student`クラスに新しい属性（例：`studentId`）を追加してみよう
+- `Grade`クラスに新しいメソッド（例：`getMaxScore`で最高点を返す）を追加してみよう
+
+:::tip ポイント
+クラス分割は、最初から完璧にする必要はない。
+プログラムが大きくなってきたら、「この部分は独立したクラスにした方が良いかも」と考えて、
+少しずつリファクタリング（コードの整理）していくと良い。
+:::
+
+---
+
+## まとめ
+
+この章では、**複数クラスの連携** について学んだ。
+
+### 学んだ内容
+
+- **パッケージ** はクラスを整理する仕組みである
+- **import文** で他のパッケージのクラスを使える
+- **Eclipseの補完機能**（`Ctrl + Shift + O`、`Ctrl + Space`）を活用すると効率的にコードを書ける
+- **複数のクラス** を組み合わせてプログラムを作成できる
+- **役割ごとにクラスを分ける** ことで、見通しの良いコードになる
+
+### 次のステップ
+
+次の章では、**オブジェクト指向の基礎** について学ぶ。
+ここまで使ってきた`new`キーワードやインスタンスの概念を深く理解し、
+オブジェクト指向プログラミングの基本を学ぶ。
+
+---
+
+## 演習
+
+演習問題は、[ダッシュボード](/dashboard)から確認できる。
