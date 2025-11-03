@@ -1,0 +1,368 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# 変数と型
+
+この章では、プログラムでデータを扱うための **変数** と **型** について学ぶ。
+
+変数は、プログラムの中でデータを一時的に保存するための「箱」のようなものである。
+変数を理解することで、計算結果を保存したり、同じ値を何度も使い回したりできるようになる。
+
+## 学習のゴール
+
+- 変数とは何か、なぜ必要かを説明できる
+- 基本データ型（int, double, boolean, String）を理解している
+- 変数の宣言と初期化を正しく実装できる
+- 型変換（キャスト）の基礎を理解している
+- 変数のスコープを理解している
+
+---
+
+## 1. 変数とは
+
+### なぜ変数が必要か
+
+**変数がないとどうなるか？**
+
+変数がないと、計算結果を保存できず、同じ値を何度も書く必要がある。
+プログラムが非常に非効率になる。
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Example {
+    public static void main(String[] args) {
+        // 変数がない場合（実際にはこう書くしかない）
+        System.out.println(100 + 200);
+        System.out.println(100 + 200); // 同じ計算を繰り返す
+        System.out.println(100 + 200);
+    }
+}`}
+/>
+
+**実行してみよう:**
+上のコードを実行すると、同じ計算を3回繰り返している。
+
+これを変数を使って書き直すと：
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Example {
+    public static void main(String[] args) {
+        // 変数を使った場合
+        int sum = 100 + 200;
+        System.out.println(sum);
+        System.out.println(sum); // 簡単に再利用できる
+        System.out.println(sum);
+    }
+}`}
+/>
+
+**実行してみよう:**
+変数`sum`に計算結果を保存することで、何度でも使い回すことができる。
+
+### 変数とは
+
+**変数** は、データを一時的に保存するための「箱」である。
+
+変数には **名前** と **型** がある：
+
+- **名前**：変数を識別するためのラベル（例：`age`、`price`、`name`）
+- **型**：変数に入れられるデータの種類（例：整数、小数、文字列）
+
+```java
+int age = 20;
+```
+
+この例では：
+- `age`が **変数名**
+- `int`が **型**（整数を扱う型）
+- `20`が **値**
+
+---
+
+## 2. 基本データ型
+
+Javaには、以下のような基本データ型がある：
+
+| 型 | 扱えるデータ | 例 |
+|------|--------------|-----|
+| **int** | 整数 | `10`, `-5`, `0` |
+| **double** | 小数 | `3.14`, `-0.5`, `2.0` |
+| **boolean** | 真偽値（trueまたはfalse） | `true`, `false` |
+| **String** | 文字列 | `"Hello"`, `"Java"` |
+
+### int（整数）
+
+**int** は、整数を扱う型である。
+
+```java
+int age = 20;
+int temperature = -5;
+int zero = 0;
+```
+
+**扱える範囲:**
+約-21億 〜 約21億（正確には -2,147,483,648 〜 2,147,483,647）
+
+### double（小数）
+
+**double** は、小数を扱う型である。
+
+```java
+double price = 3.14;
+double temperature = -0.5;
+double pi = 3.141592;
+```
+
+### boolean（真偽値）
+
+**boolean** は、真（true）か偽（false）のどちらかを扱う型である。
+
+```java
+boolean isAdult = true;
+boolean isRaining = false;
+```
+
+### String（文字列）
+
+**String** は、文字列を扱う型である。
+
+```java
+String name = "太郎";
+String message = "Hello World";
+```
+
+**注意:**
+`String`は **大文字のS** で始まる。他の型（int, double, boolean）は小文字で始まるが、Stringは例外である。
+
+---
+
+## 3. 変数の宣言と初期化
+
+### 宣言
+
+**宣言** は、変数を作ることである。
+
+```java
+int age;  // int型のageという変数を宣言
+```
+
+この時点では、`age`には何も入っていない（使えない状態）。
+
+### 初期化
+
+**初期化** は、変数に最初の値を入れることである。
+
+```java
+age = 20;  // ageに20を代入
+```
+
+これで`age`が使える状態になった。
+
+### 宣言と初期化を同時に行う
+
+通常は、宣言と初期化を同時に行う：
+
+```java
+int age = 20;  // 宣言と初期化を同時に
+```
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Example {
+    public static void main(String[] args) {
+        // 宣言と初期化を同時に
+        int age = 20;
+        double price = 1500.5;
+        boolean isAdult = true;
+        String name = "太郎";
+
+        System.out.println("年齢: " + age);
+        System.out.println("価格: " + price);
+        System.out.println("成人: " + isAdult);
+        System.out.println("名前: " + name);
+    }
+}`}
+/>
+
+**やってみよう:**
+- 変数の値を変えて実行してみよう
+- 新しい変数を追加してみよう
+
+---
+
+## 4. 変数の命名規則
+
+変数には、わかりやすい名前をつける必要がある。
+Javaの変数名には、以下のルールがある：
+
+### 基本ルール
+
+1. **英字、数字、アンダースコア（_）が使える**
+   - ✅ `age`, `price1`, `user_name`
+   - ❌ `価格`（日本語は使えない）
+
+2. **数字から始めることはできない**
+   - ✅ `price1`
+   - ❌ `1price`
+
+3. **予約語は使えない**
+   - ❌ `int`, `class`, `public`（これらはJavaの予約語）
+
+### 推奨される命名規則
+
+**キャメルケース（camelCase）** を使う：
+
+- 最初の単語は小文字、2つ目以降の単語の最初は大文字
+- 例：`firstName`、`totalPrice`、`isAdult`
+
+**良い例:**
+```java
+int totalPrice = 1000;
+String firstName = "太郎";
+boolean isLoggedIn = true;
+```
+
+**悪い例:**
+```java
+int a = 1000;  // 何の変数か分からない
+String s = "太郎";  // 何の文字列か分からない
+```
+
+**わかりやすい名前をつけることが大切である。**
+
+---
+
+## 5. 型変換
+
+### 暗黙の型変換
+
+**小さい型から大きい型** への変換は、自動的に行われる。
+
+```java
+int num = 10;
+double decimal = num;  // int → double（自動変換）
+System.out.println(decimal);  // 10.0
+```
+
+`int`（整数）から`double`（小数）への変換は、情報が失われないため、自動的に行われる。
+
+### 明示的な型変換（キャスト）
+
+**大きい型から小さい型** への変換は、明示的に行う必要がある。
+
+```java
+double decimal = 3.14;
+int num = (int) decimal;  // double → int（キャスト）
+System.out.println(num);  // 3（小数点以下が切り捨てられる）
+```
+
+`(int)`をつけることで、`double`を`int`に変換できる。
+ただし、**小数点以下は切り捨てられる**。
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Example {
+    public static void main(String[] args) {
+        // 暗黙の型変換
+        int num1 = 10;
+        double decimal1 = num1;
+        System.out.println("int → double: " + decimal1);
+
+        // 明示的な型変換（キャスト）
+        double decimal2 = 3.14;
+        int num2 = (int) decimal2;
+        System.out.println("double → int: " + num2);
+
+        // 小数点以下が切り捨てられる
+        double decimal3 = 9.99;
+        int num3 = (int) decimal3;
+        System.out.println("9.99 → int: " + num3);
+    }
+}`}
+/>
+
+**やってみよう:**
+- `decimal3`の値を`9.1`や`9.9`に変えて、結果を確認してみよう
+- 小数点以下が切り捨てられることを確認しよう
+
+---
+
+## 6. 変数のスコープ
+
+### スコープとは
+
+**スコープ** とは、変数が有効な範囲のことである。
+
+ブロック（`{}`）の中で宣言した変数は、そのブロック内でのみ使える。
+
+### 基本的なスコープ
+
+第1章で学んだ「ブロック」を思い出そう：
+
+```java
+public class Example {
+    public static void main(String[] args) {
+        int x = 10;  // mainブロック内で宣言
+        System.out.println(x);  // OK: mainブロック内で使える
+    }  // ここでxは消える
+
+    // System.out.println(x);  // エラー: mainブロックの外では使えない
+}
+```
+
+変数`x`は、`main`メソッドのブロック`{}`の中で宣言されている。
+そのため、`main`メソッドのブロック内でのみ使える。
+
+ブロックが終わる`}`の位置で、変数`x`は消えてしまう。
+
+### スコープの重要性
+
+**なぜスコープを理解する必要があるか？**
+
+次章以降で、`if文`や`for文`など、複数のブロックが登場する：
+
+```java
+public static void main(String[] args) {  // ブロック1
+    int x = 10;
+
+    if (x > 5) {  // ブロック2（if文のブロック）
+        int y = 20;  // ブロック2内で宣言
+        System.out.println(x);  // OK: ブロック1のxを使える
+        System.out.println(y);  // OK: ブロック2のyを使える
+    }  // ここでyは消える
+
+    System.out.println(x);  // OK: ブロック1のxを使える
+    // System.out.println(y);  // エラー: yはブロック2で消えた
+}
+```
+
+それぞれのブロックに独自のスコープがあることを理解しておく。
+
+**今は「変数はブロック内でのみ有効」ということが分かれば十分である。**
+
+---
+
+## まとめ
+
+この章では、以下のことを学んだ：
+
+- **変数** は、データを一時的に保存するための「箱」である
+- 変数を使うことで、値を保存し、何度でも使い回すことができる
+- **基本データ型**：
+  - `int`（整数）
+  - `double`（小数）
+  - `boolean`（真偽値）
+  - `String`（文字列）
+- **宣言** は変数を作ること、**初期化** は変数に最初の値を入れること
+- **変数の命名規則**：キャメルケースを使い、わかりやすい名前をつける
+- **型変換**：
+  - 小さい型 → 大きい型：自動変換
+  - 大きい型 → 小さい型：明示的な変換（キャスト）が必要
+- **スコープ**：変数はブロック内でのみ有効
+
+次の章では、**演算子** について学ぶ。
+演算子を使うことで、変数を使った計算や比較ができるようになる。

@@ -143,6 +143,58 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     ],
   }),
   withAutoIds({
+    id: "02_variables_and_types",
+    label: "変数と型",
+    category: "java/basics",
+    questions: [
+      {
+        title: "変数とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "基本データ型（int, double, boolean, String）を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "変数の宣言と初期化の違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "変数の命名規則を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "型変換（キャスト）の基礎を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "変数のスコープを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "変数を使ったプログラムのコードを読み取れる",
+        type: "READ",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "変数を宣言・初期化するプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "型変換を使ったプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
+  withAutoIds({
     id: "if",
     label: "if文",
     category: "java/basics",
