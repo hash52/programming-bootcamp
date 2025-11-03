@@ -20,20 +20,25 @@
 | 第6章 | 配列 | Day 3後半 | java/basics | 0.5日 |
 | 第7章 | メソッド | Day 6 | java/basics | 1日 |
 | 第8章 | 複数クラスの連携 | Day 7 | java/basics | 1日 |
-| 第9章 | オブジェクト指向の基礎 | Day 8 | java/oop | 1日 |
-| 第10章 | コンストラクタ | Day 9 | java/oop | 1日 |
-| 第11章 | 継承 | Day 11前半 | java/oop | 0.5日 |
-| 第12章 | インターフェース | Day 11後半 | java/oop | 0.5日 |
-| 第13章 | カプセル化 | Day 12 | java/oop | 1日 |
-| 第14章 | 例外処理 | Day 13 | java/oop | 1日 |
+| 第9章 | 例外処理 | Day 13 | java/basics | 1日 |
+| 第10章 | オブジェクト指向の基礎 | Day 8 | java/oop | 1日 |
+| 第11章 | コンストラクタ | Day 9 | java/oop | 1日 |
+| 第12章 | 継承 | Day 11前半 | java/oop | 0.5日 |
+| 第13章 | インターフェース | Day 11後半 | java/oop | 0.5日 |
+| 第14章 | カプセル化 | Day 12 | java/oop | 1日 |
 | 第15章 | コレクション | Day 14 | java/stdlib | 1日 |
 | 第16章 | 日時操作 | Day 15 | java/stdlib | 0.5日 |
 
 **合計:** 16章、約11.5日分
 
+**改訂履歴:**
+- 2025年11月4日: 第9章「例外処理」をjava/oopからjava/basicsに移動（OOPの前に基礎として学習）
+- 2025年11月4日: 全章に実行可能コード（OneCompilerCodeBlock）と初学者向け警告（:::warning）を追加
+- 2025年11月4日: 第10章にMermaid図解と用語表を追加
+
 ### 1.2 カテゴリ分類
-- **java/basics**（第1-8章）: Java基礎文法
-- **java/oop**（第9-14章）: オブジェクト指向
+- **java/basics**（第1-9章）: Java基礎文法（例外処理を含む）
+- **java/oop**（第10-14章）: オブジェクト指向
 - **java/stdlib**（第15-16章）: Java標準ライブラリ
 
 ---

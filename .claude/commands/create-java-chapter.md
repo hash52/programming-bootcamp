@@ -56,16 +56,27 @@
   - 強調記号`**`の前後に半角スペース
   - 表内の特殊文字はバッククォートで囲む
 - **admonitions**:
-  - `:::info 【言語による違い】`は言語によって異なる場合のみ使用
-  - `:::tip`、`:::caution`、`:::warning`、`:::note`を適度に活用
-- **図解**: 必要に応じてMermaid図を活用
+  - `:::info 【共通】`は他言語でも共通の概念を示す時に使用
+  - `:::tip ポイント`で学習のコツを強調
+  - `:::warning よくあるエラー`を積極的に活用し、初学者が遭遇しやすいエラーを説明
+  - エラーメッセージ、原因、解決策をセットで提示
+  - 1章あたり3-5個程度を目安に配置
+- **図解**:
+  - 概念的な説明にはMermaid図を積極的に活用
+  - 特にOOP章ではクラス図やフローチャートが有効
+  - 用語が多い章では用語整理表を追加
+- **実行可能コード**:
+  - 各セクションに最低1つのOneCompilerCodeBlockを配置
+  - 「実行してみよう」「やってみよう」で受講生に実践を促す
+  - コードには丁寧なコメントを付ける
 
 #### ファイル配置
 
 章のカテゴリに応じて適切なディレクトリに配置：
 
-- java/basics（第1-8章）: `docs/docs/java/basics/XX_章名.mdx`
-- java/oop（第9-14章）: `docs/docs/java/oop/XX_章名.mdx`
+- java/basics（第1-9章）: `docs/docs/java/basics/XX_章名.mdx`
+  - 第9章は例外処理（OOPの前に基礎として学習）
+- java/oop（第10-14章）: `docs/docs/java/oop/XX_章名.mdx`
 - java/stdlib（第15-16章）: `docs/docs/java/stdlib/XX_章名.mdx`
 
 ### 3. structure.tsへのTopic追加
