@@ -25,23 +25,93 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 例外処理がないと、エラーが発生した時点でプログラムが停止してしまう。
 ユーザーに適切なメッセージを表示したり、エラーから回復したりできない。
 
-**例:**
+**実行してみよう:**
 
-```java
-// 例外処理がないと...
-int result = 10 / 0;  // エラーでプログラムが停止
-System.out.println("この行は実行されない");
+例外処理がない場合とある場合を比較してみよう。
 
-// 例外処理があると...
-try {
-    int result = 10 / 0;
-} catch (ArithmeticException e) {
-    System.out.println("0で割ることはできません");
+<OneCompilerCodeBlock
+  language="java"
+  code={`// 例外処理がない場合
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("プログラム開始");
+
+        int[] numbers = {10, 20, 30};
+        System.out.println("配列の要素: " + numbers[0]);
+        System.out.println("配列の要素: " + numbers[1]);
+
+        // 範囲外アクセス → プログラムが停止
+        System.out.println("配列の要素: " + numbers[10]);
+
+        // ここは実行されない
+        System.out.println("プログラム終了");
+    }
 }
-System.out.println("プログラムは継続できる");
-```
+`}
+/>
 
-例外処理を使うことで、エラーが発生してもプログラムを適切に制御できる。
+<OneCompilerCodeBlock
+  language="java"
+  code={`// 例外処理がある場合
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("プログラム開始");
+
+        int[] numbers = {10, 20, 30};
+
+        try {
+            System.out.println("配列の要素: " + numbers[0]);
+            System.out.println("配列の要素: " + numbers[1]);
+
+            // 範囲外アクセス
+            System.out.println("配列の要素: " + numbers[10]);
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("エラー: 配列の範囲外にアクセスしようとしました");
+            System.out.println("配列の長さ: " + numbers.length);
+        }
+
+        // プログラムは継続できる
+        System.out.println("プログラム終了");
+    }
+}
+`}
+/>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// 実用例：ユーザー入力を安全に処理
+public class Main {
+    public static void main(String[] args) {
+        String[] inputs = {"10", "20", "abc", "30"};  // 3番目は数値ではない
+
+        int sum = 0;
+        int successCount = 0;
+
+        for (String input : inputs) {
+            try {
+                int number = Integer.parseInt(input);
+                sum += number;
+                successCount++;
+                System.out.println(input + " を数値に変換しました");
+
+            } catch (NumberFormatException e) {
+                System.out.println(input + " は数値ではありません（スキップ）");
+            }
+        }
+
+        System.out.println("\\n処理完了:");
+        System.out.println("成功: " + successCount + "件");
+        System.out.println("合計: " + sum);
+    }
+}
+`}
+/>
+
+**例外処理の利点:**
+- エラーが発生してもプログラムが停止しない
+- ユーザーにわかりやすいエラーメッセージを表示できる
+- エラーから回復して処理を続行できる
 
 ---
 

@@ -74,15 +74,54 @@ int remainder = 10 % 3;  // 10を3で割った余りは1
 
 **整数同士の割り算は、結果も整数になる**（小数点以下は切り捨て）。
 
-```java
-int result = 7 / 2;  // 結果は3（3.5ではない）
-```
+**実行してみよう:**
 
-小数を含む結果を得たい場合は、`double`型を使う：
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 整数同士の割り算（注意！）
+        int result1 = 7 / 2;
+        System.out.println("7 / 2 = " + result1);  // 3（3.5ではない）
 
-```java
-double result = 7.0 / 2.0;  // 結果は3.5
-```
+        int result2 = 10 / 3;
+        System.out.println("10 / 3 = " + result2);  // 3（3.333...ではない）
+
+        System.out.println("---");
+
+        // 小数を含む結果を得る方法
+        double result3 = 7.0 / 2.0;
+        System.out.println("7.0 / 2.0 = " + result3);  // 3.5
+
+        // どちらか一方がdoubleでもOK
+        double result4 = 7.0 / 2;
+        System.out.println("7.0 / 2 = " + result4);  // 3.5
+
+        double result5 = 7 / 2.0;
+        System.out.println("7 / 2.0 = " + result5);  // 3.5
+
+        System.out.println("---");
+
+        // 実用例：平均点の計算
+        int score1 = 80;
+        int score2 = 90;
+        int score3 = 75;
+
+        // 間違った方法（整数の割り算）
+        int averageWrong = (score1 + score2 + score3) / 3;
+        System.out.println("平均点（間違い）: " + averageWrong);  // 81
+
+        // 正しい方法（doubleで計算）
+        double averageCorrect = (score1 + score2 + score3) / 3.0;
+        System.out.println("平均点（正しい）: " + averageCorrect);  // 81.666...
+    }
+}
+`}
+/>
+
+**やってみよう:**
+- `int result = 5 / 2;` と `double result = 5.0 / 2;` の結果を比較してみよう
+- 成績の平均を計算する際、整数の割り算とdoubleの割り算でどう違うか確認してみよう
 
 ### 括弧で優先順位を制御
 
