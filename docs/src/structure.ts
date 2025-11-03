@@ -528,6 +528,53 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
     ],
   }),
+  withAutoIds({
+    id: "10_constructors",
+    label: "コンストラクタ",
+    category: "java/oop",
+    questions: [
+      {
+        title: "コンストラクタとは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "コンストラクタの定義方法を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "デフォルトコンストラクタを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "コンストラクタのオーバーロードを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "thisキーワードの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "コンストラクタを使ったコードの動きを理解できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "コンストラクタを定義したクラスを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "コンストラクタのオーバーロードを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
   // Spring
   withAutoIds({
     id: "02_mvc_intro",
