@@ -242,6 +242,28 @@ public class Main {
 前章のメソッドは「同じファイル内の関数」、今回は「別ファイルの関数」という違いだけである。
 :::
 
+:::warning よくあるエラー：クラス名のスペルミス
+
+**別クラスのメソッドを呼び出す時、クラス名のスペルを間違えるとエラーになる。**
+
+```java
+int result = MathUtil.add(10, 20);  // エラー！MathUtils ではなく MathUtil
+```
+
+**エラーメッセージ例：**
+```
+error: cannot find symbol
+  symbol:   variable MathUtil
+```
+
+**原因：** クラス名のスペルが間違っている、またはクラスが存在しない。
+
+**解決策：**
+- クラス名のスペルを確認する（大文字・小文字も区別される）
+- Eclipseの補完機能（`Ctrl + Space`）を使うと、正しいクラス名が候補に出る
+- `Ctrl + Shift + O`で自動的にimport文を追加できる
+:::
+
 **実行してみよう:**
 
 <OneCompilerCodeBlock
