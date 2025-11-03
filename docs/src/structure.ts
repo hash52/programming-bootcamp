@@ -104,7 +104,44 @@ function withAutoIds(
  * ダッシュボードに表示されるデータのマスタ
  */
 export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
-  // Java
+  // Java - 基本文法
+  withAutoIds({
+    id: "01_java_basics",
+    label: "Javaとプログラミングの基礎",
+    category: "java/basics",
+    questions: [
+      {
+        title: "プログラミング言語とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "Javaを学ぶメリットを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "プログラムは上から下に実行されることを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "インデントの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "`{}`（波括弧）でブロックを作り、処理をまとめることを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "EclipseでHello Worldプログラムを書いて実行できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+    ],
+  }),
   withAutoIds({
     id: "if",
     label: "if文",
