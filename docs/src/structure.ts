@@ -575,6 +575,58 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
     ],
   }),
+  withAutoIds({
+    id: "11_inheritance",
+    label: "継承",
+    category: "java/oop",
+    questions: [
+      {
+        title: "継承とは何か、なぜ必要かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "継承は複数のクラスを上手く扱うための仕組みであることを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "継承の実装方法（extendsキーワード）を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "superキーワードの役割を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "メソッドのオーバーライドを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "継承を使ったコードを読んで理解できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "継承を使ったプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "is-a関係を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "適切な継承設計ができる",
+        type: "WRITE",
+        difficulty: Difficulty.Hard,
+      },
+    ],
+  }),
   // Spring
   withAutoIds({
     id: "02_mvc_intro",

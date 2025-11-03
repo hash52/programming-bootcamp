@@ -1,0 +1,431 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# 継承
+
+この章では、既存のクラスを拡張して新しいクラスを作る **継承** について学ぶ。
+継承を使うことで、コードの重複を減らし、複数のクラスを効率的に管理できる。
+
+---
+
+## 学習のゴール
+
+- 継承とは何か、なぜ必要かを説明できる
+- 継承は複数のクラスを上手く扱うための仕組みであることを理解している
+- 継承の実装方法（extendsキーワード）を理解している
+- superキーワードの役割を理解している
+- メソッドのオーバーライドを理解している
+- 継承を使ったプログラムを実装できる
+
+---
+
+## なぜこの技術が必要か
+
+**継承がないとどうなるか？**
+
+継承がないと、似たようなクラスを何度も書く必要がある。
+共通部分を変更するときに全てのクラスを修正する必要があり、コードの重複が増える。
+
+**継承は「複数のクラスをどう上手く扱っていくか」という話である。**
+
+プログラムが大きくなると、多くのクラスが必要になる。
+それらのクラスに共通する部分があれば、継承を使ってまとめることで、効率的に管理できる。
+
+**例:**
+
+```java
+// 継承がないと...
+class Dog {
+    String name;
+    void eat() { System.out.println("食べる"); }
+    void sleep() { System.out.println("寝る"); }
+    void bark() { System.out.println("ワン"); }
+}
+class Cat {
+    String name;
+    void eat() { System.out.println("食べる"); } // Dogと同じ
+    void sleep() { System.out.println("寝る"); } // Dogと同じ
+    void meow() { System.out.println("ニャー"); }
+}
+
+// 継承があると...
+class Animal {
+    String name;
+    void eat() { System.out.println("食べる"); }
+    void sleep() { System.out.println("寝る"); }
+}
+class Dog extends Animal {
+    void bark() { System.out.println("ワン"); } // 固有のメソッドだけ追加
+}
+class Cat extends Animal {
+    void meow() { System.out.println("ニャー"); }
+}
+// 共通部分はAnimalにまとめられている
+```
+
+継承を使うことで、共通部分を1箇所にまとめ、コードの重複を減らせる。
+
+---
+
+## 1. 継承とは
+
+### 継承の概念
+
+**継承** は、**既存のクラスを拡張する仕組み** である。
+複数のクラスを効率的に管理するために使う。
+
+### 親クラス（スーパークラス）と子クラス（サブクラス）
+
+- **親クラス**（スーパークラス、基底クラス）：継承される側のクラス
+- **子クラス**（サブクラス、派生クラス）：継承する側のクラス
+
+子クラスは、親クラスの **フィールドとメソッドを引き継ぐ**。
+
+### 継承の関係
+
+```
+[Animal]（親クラス）
+  ↑
+  └─ extends
+      ↓
+  [Dog]（子クラス）
+```
+
+DogクラスはAnimalクラスを継承し、Animalのフィールドとメソッドを引き継ぐ。
+
+:::info 【共通】
+継承は、ほとんどのオブジェクト指向プログラミング言語で共通の概念である。
+:::
+
+---
+
+## 2. 継承の実装
+
+### extendsキーワード
+
+継承を実装するには、**`extends`キーワード** を使う。
+
+```java
+class 子クラス extends 親クラス {
+    // 子クラス固有のフィールドやメソッド
+}
+```
+
+### 例：AnimalとDog
+
+```java
+class Animal {
+    String name;
+
+    void eat() {
+        System.out.println(name + "が食べています");
+    }
+
+    void sleep() {
+        System.out.println(name + "が寝ています");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println(name + "がワンと鳴きます");
+    }
+}
+```
+
+DogクラスはAnimalクラスを継承しているので、`name`フィールドや`eat()`、`sleep()`メソッドを使える。
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Animal {
+    String name;
+
+    void eat() {
+        System.out.println(name + "が食べています");
+    }
+
+    void sleep() {
+        System.out.println(name + "が寝ています");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println(name + "がワンと鳴きます");
+    }
+}
+
+class Cat extends Animal {
+    void meow() {
+        System.out.println(name + "がニャーと鳴きます");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.name = "ポチ";
+        dog.eat();    // 親クラスのメソッド
+        dog.sleep();  // 親クラスのメソッド
+        dog.bark();   // 子クラス固有のメソッド
+
+        System.out.println("---");
+
+        Cat cat = new Cat();
+        cat.name = "タマ";
+        cat.eat();    // 親クラスのメソッド
+        cat.sleep();  // 親クラスのメソッド
+        cat.meow();   // 子クラス固有のメソッド
+    }
+}`}
+/>
+
+**やってみよう:**
+- 新しい動物クラス（例：`Bird`）を作成して、`fly()`メソッドを追加してみよう
+
+---
+
+## 3. superキーワード
+
+### superキーワードとは
+
+**`super`キーワード** は、**親クラスを指す** キーワードである。
+
+### 用途1：親クラスのメソッドを呼ぶ
+
+```java
+class Animal {
+    void greet() {
+        System.out.println("こんにちは");
+    }
+}
+
+class Dog extends Animal {
+    void greet() {
+        super.greet();  // 親クラスのgreet()を呼ぶ
+        System.out.println("ワン");
+    }
+}
+```
+
+### 用途2：親クラスのコンストラクタを呼ぶ
+
+子クラスのコンストラクタから、親クラスのコンストラクタを呼ぶことができる。
+
+```java
+class Animal {
+    String name;
+
+    Animal(String name) {
+        this.name = name;
+    }
+}
+
+class Dog extends Animal {
+    Dog(String name) {
+        super(name);  // 親クラスのコンストラクタを呼ぶ
+    }
+}
+```
+
+:::caution 重要
+`super()`でコンストラクタを呼ぶ場合、**コンストラクタの最初の行**に書く必要がある（`this()`と同じ）。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Animal {
+    String name;
+
+    Animal(String name) {
+        this.name = name;
+        System.out.println("Animalのコンストラクタが呼ばれました");
+    }
+
+    void introduce() {
+        System.out.println("私の名前は" + name + "です");
+    }
+}
+
+class Dog extends Animal {
+    String breed;
+
+    Dog(String name, String breed) {
+        super(name);  // 親クラスのコンストラクタを呼ぶ
+        this.breed = breed;
+        System.out.println("Dogのコンストラクタが呼ばれました");
+    }
+
+    void introduce() {
+        super.introduce();  // 親クラスのintroduce()を呼ぶ
+        System.out.println("犬種は" + breed + "です");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog("ポチ", "柴犬");
+        dog.introduce();
+    }
+}`}
+/>
+
+**やってみよう:**
+- `Cat`クラスを追加して、`super()`を使ってみよう
+
+---
+
+## 4. メソッドのオーバーライド
+
+### オーバーライドとは
+
+**オーバーライド** は、**親クラスのメソッドを子クラスで上書きすること** である。
+
+### 基本的な書き方
+
+```java
+class Animal {
+    void makeSound() {
+        System.out.println("何か鳴く");
+    }
+}
+
+class Dog extends Animal {
+    @Override  // オーバーライドのアノテーション
+    void makeSound() {
+        System.out.println("ワン");
+    }
+}
+```
+
+### @Overrideアノテーション
+
+**`@Override`アノテーション** は、「このメソッドは親クラスのメソッドをオーバーライドしている」と明示するものである。
+
+:::tip ポイント
+`@Override`は省略可能だが、付けることでタイプミスを防げる。
+親クラスに同名のメソッドがない場合、コンパイルエラーになるため、間違いに気づきやすい。
+:::
+
+### オーバーロードとの違い
+
+- **オーバーロード**：同じクラス内で、同じ名前で異なる引数のメソッドを複数定義
+- **オーバーライド**：親クラスのメソッドを子クラスで上書き
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Animal {
+    String name;
+
+    Animal(String name) {
+        this.name = name;
+    }
+
+    void makeSound() {
+        System.out.println("何か鳴く");
+    }
+}
+
+class Dog extends Animal {
+    Dog(String name) {
+        super(name);
+    }
+
+    @Override
+    void makeSound() {
+        System.out.println("ワン");
+    }
+}
+
+class Cat extends Animal {
+    Cat(String name) {
+        super(name);
+    }
+
+    @Override
+    void makeSound() {
+        System.out.println("ニャー");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal animal = new Animal("動物");
+        animal.makeSound();
+
+        Dog dog = new Dog("ポチ");
+        dog.makeSound();
+
+        Cat cat = new Cat("タマ");
+        cat.makeSound();
+    }
+}`}
+/>
+
+**やってみよう:**
+- `Bird`クラスを追加して、`makeSound()`をオーバーライドしてみよう
+
+---
+
+## 5. 継承の設計
+
+### is-a関係
+
+継承を使う際は、**is-a関係**（「〜は〜である」という関係）が成り立つか確認する。
+
+**良い例（is-a関係が成り立つ）：**
+- Dog **is a** Animal（犬は動物である）→ 継承が適切
+- Cat **is a** Animal（猫は動物である）→ 継承が適切
+
+**悪い例（is-a関係が成り立たない）：**
+- Car **is a** Engine（車はエンジンである）→ 継承は不適切
+  - 正しくは、CarがEngineを**持つ**（has-a関係）
+
+### 適切な継承の使い方
+
+1. **共通部分を親クラスにまとめる**
+   - 複数のクラスに共通するフィールドやメソッドを親クラスに定義
+
+2. **子クラス固有の部分だけを追加**
+   - 子クラスには、固有のフィールドやメソッドだけを追加
+
+3. **is-a関係を確認**
+   - 継承を使う前に、「〜は〜である」が成り立つか確認
+
+:::warning 注意
+継承は強力な機能だが、過度に使うとクラス間の関係が複雑になる。
+シンプルな設計を心がけることが重要である。
+:::
+
+---
+
+## まとめ
+
+この章では、**継承** について学んだ。
+
+### 学んだ内容
+
+- **継承** は既存のクラスを拡張する仕組みである
+- 継承は **複数のクラスを効率的に管理** するために使う
+- **`extends`キーワード** で継承を実装できる
+- 子クラスは親クラスの **フィールドとメソッドを引き継ぐ**
+- **`super`キーワード** で親クラスのメソッドやコンストラクタを呼べる
+- **オーバーライド** で親クラスのメソッドを上書きできる
+- **`@Override`アノテーション** でオーバーライドを明示できる
+- 継承を使う際は **is-a関係** が成り立つか確認する
+
+### 次のステップ
+
+次の章では、**インターフェース** について学ぶ。
+継承とは異なるアプローチで、クラスに共通の振る舞いを定義する方法を学ぶ。
+
+---
+
+## 演習
+
+演習問題は、[ダッシュボード](/dashboard)から確認できる。
