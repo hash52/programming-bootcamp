@@ -1,0 +1,475 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# メソッド
+
+この章では、処理をまとめて再利用可能にする **メソッド** について学ぶ。
+メソッドを使うことで、コードの重複を減らし、読みやすく保守しやすいプログラムを作ることができる。
+
+---
+
+## 学習のゴール
+
+- メソッドとは何か、なぜ必要かを説明できる
+- メソッドの定義と呼び出しができる
+- 引数と戻り値の役割を理解している
+- 戻り値と変数のスコープの関係を理解している
+- メソッドのオーバーロードを理解している
+- メソッドを使ったプログラムを実装できる
+
+---
+
+## なぜこの技術が必要か
+
+**メソッドがないとどうなるか？**
+
+メソッドがないと、同じコードを何度もコピペする必要がある。
+コードの変更が大変で、プログラムが長く読みにくくなる。
+
+**例:**
+
+```java
+// メソッドがないと...
+System.out.println("こんにちは、太郎さん");
+System.out.println("こんにちは、花子さん");
+System.out.println("こんにちは、次郎さん");
+// 同じパターンを繰り返す
+
+// メソッドがあると...
+greet("太郎");
+greet("花子");
+greet("次郎");
+
+public static void greet(String name) {
+    System.out.println("こんにちは、" + name + "さん");
+}
+```
+
+メソッドを使うことで、同じ処理を簡潔に再利用できる。
+
+---
+
+## 1. メソッドとは
+
+### メソッドの概念
+
+**メソッド** は、**処理をまとめたもの** である。
+特定の処理を1つの名前でまとめることで、何度でも呼び出して使える。
+
+### メソッドの利点
+
+1. **コードの再利用**：同じ処理を何度も書かなくて良い
+2. **可読性の向上**：処理に名前を付けることで、何をしているかが分かりやすくなる
+3. **保守性の向上**：処理を1箇所にまとめることで、修正が簡単になる
+
+:::info 【共通】
+メソッド（または関数）は、ほとんどのプログラミング言語で共通の概念である。
+言語によって「メソッド」「関数」「プロシージャ」など呼び方は異なる。
+:::
+
+---
+
+## 2. メソッドの定義
+
+### 基本的な書き方
+
+```java
+public static 戻り値の型 メソッド名(引数) {
+    // 処理
+    return 戻り値;
+}
+```
+
+- **public static**：今は「おまじない」として理解（詳細は後の章で学ぶ）
+- **戻り値の型**：メソッドが返す値の型（例：`int`, `String`, `void`）
+- **メソッド名**：メソッドの名前（キャメルケースで命名）
+- **引数**：メソッドに渡す値（なくても良い）
+- **return**：メソッドの実行結果を返す（戻り値がない場合は不要）
+
+### 例：戻り値がないメソッド
+
+```java
+public static void sayHello() {
+    System.out.println("Hello!");
+}
+```
+
+- `void`は「戻り値なし」を意味する
+- `return`は不要
+
+### 例：戻り値があるメソッド
+
+```java
+public static int add(int a, int b) {
+    return a + b;
+}
+```
+
+- `int`型の値を返す
+- `return`で結果を返す
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class MethodExample {
+    public static void main(String[] args) {
+        // 戻り値がないメソッドの定義と呼び出し
+        sayHello();
+
+        // 戻り値があるメソッドの定義と呼び出し
+        int result = add(10, 20);
+        System.out.println("10 + 20 = " + result);
+    }
+
+    // 戻り値がないメソッド
+    public static void sayHello() {
+        System.out.println("Hello!");
+    }
+
+    // 戻り値があるメソッド
+    public static int add(int a, int b) {
+        return a + b;
+    }
+}`}
+/>
+
+**やってみよう:**
+- `sayHello()`を複数回呼び出してみよう
+- `add(5, 15)`を追加で呼び出してみよう
+
+---
+
+## 3. メソッドの呼び出し
+
+### メソッド呼び出しの書き方
+
+```java
+メソッド名(引数);
+```
+
+### 戻り値の受け取り
+
+戻り値があるメソッドは、結果を変数で受け取ることができる。
+
+```java
+int result = add(10, 20);  // addメソッドの戻り値を受け取る
+```
+
+### main メソッドからの呼び出し
+
+Javaプログラムは、`main`メソッドから実行が始まる。
+`main`メソッド内で他のメソッドを呼び出すことができる。
+
+:::tip ポイント
+メソッドの定義は、`main`メソッドの外（クラスの中）に書く。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class MethodCallExample {
+    public static void main(String[] args) {
+        // メソッドの呼び出し
+        greet("太郎");
+        greet("花子");
+
+        int sum = add(5, 10);
+        System.out.println("5 + 10 = " + sum);
+
+        double average = calculateAverage(80, 90, 75);
+        System.out.println("平均点: " + average);
+    }
+
+    // 挨拶するメソッド
+    public static void greet(String name) {
+        System.out.println("こんにちは、" + name + "さん");
+    }
+
+    // 足し算するメソッド
+    public static int add(int a, int b) {
+        return a + b;
+    }
+
+    // 平均を計算するメソッド
+    public static double calculateAverage(int score1, int score2, int score3) {
+        int sum = score1 + score2 + score3;
+        return (double) sum / 3;
+    }
+}`}
+/>
+
+**やってみよう:**
+- 自分の名前で`greet()`を呼び出してみよう
+- `calculateAverage()`に別の点数を渡してみよう
+
+---
+
+## 4. 引数と戻り値
+
+### 引数とは
+
+**引数**（ひきすう）は、メソッドに渡す値である。
+
+```java
+public static void greet(String name) {  // nameが引数
+    System.out.println("こんにちは、" + name + "さん");
+}
+```
+
+### 複数の引数
+
+メソッドは、複数の引数を持つことができる。
+
+```java
+public static int add(int a, int b) {  // aとbが引数
+    return a + b;
+}
+```
+
+### 戻り値とは
+
+**戻り値** は、メソッドから返す値である。
+
+```java
+public static int add(int a, int b) {
+    return a + b;  // a + bの結果を戻り値として返す
+}
+```
+
+### voidとreturn
+
+- **void**：戻り値なし（`return`不要）
+- **それ以外の型**：戻り値あり（`return`必須）
+
+:::warning 注意
+戻り値の型を指定した場合、必ず`return`文が必要である。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class ArgumentReturnExample {
+    public static void main(String[] args) {
+        // 引数なし、戻り値なし
+        printMessage();
+
+        // 引数あり、戻り値なし
+        printMessage("Hello");
+
+        // 引数あり、戻り値あり
+        int result = multiply(5, 3);
+        System.out.println("5 × 3 = " + result);
+
+        // 複数の引数、戻り値あり
+        String fullName = makeFullName("山田", "太郎");
+        System.out.println("フルネーム: " + fullName);
+    }
+
+    // 引数なし、戻り値なし
+    public static void printMessage() {
+        System.out.println("メッセージを表示します");
+    }
+
+    // 引数あり、戻り値なし
+    public static void printMessage(String message) {
+        System.out.println(message);
+    }
+
+    // 引数あり、戻り値あり
+    public static int multiply(int a, int b) {
+        return a * b;
+    }
+
+    // 複数の引数、戻り値あり
+    public static String makeFullName(String lastName, String firstName) {
+        return lastName + " " + firstName;
+    }
+}`}
+/>
+
+**やってみよう:**
+- `multiply()`に別の数値を渡してみよう
+- `makeFullName()`に自分の名前を渡してみよう
+
+---
+
+## 5. 戻り値と変数のスコープ
+
+### メソッド内の変数はメソッドの外からアクセスできない
+
+メソッド内で宣言された変数は、**そのメソッドの中でしか使えない**（スコープの原則）。
+
+```java
+public static int add(int a, int b) {
+    int result = a + b;  // メソッド内の変数
+    return result;
+}
+
+public static void main(String[] args) {
+    int sum = add(10, 20);
+    // resultにはアクセスできない（スコープ外）
+    // だから戻り値で受け取る必要がある
+}
+```
+
+### 戻り値の重要性
+
+メソッド内で計算した結果を外に渡すには、**戻り値** を使う必要がある。
+
+:::tip ポイント
+メソッド内の変数は外からアクセスできないので、戻り値で結果を返す。
+これにより、メソッド同士が独立し、コードが整理される。
+:::
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class ScopeExample {
+    public static void main(String[] args) {
+        int result = calculate(10, 5);
+        System.out.println("結果: " + result);
+
+        // ここではメソッド内の変数にアクセスできない
+        // System.out.println(sum);  // エラー！
+
+        // 戻り値を受け取ることで、メソッドの結果を使える
+    }
+
+    public static int calculate(int a, int b) {
+        int sum = a + b;      // メソッド内のローカル変数
+        int product = a * b;  // メソッド内のローカル変数
+        return sum + product; // 計算結果を戻り値として返す
+    }
+}`}
+/>
+
+**やってみよう:**
+- `calculate()`の計算内容を変えてみよう
+- `main`メソッドで`sum`にアクセスしようとして、エラーを確認してみよう（コメントを外す）
+
+---
+
+## 6. メソッドのオーバーロード
+
+### オーバーロードとは
+
+**オーバーロード** は、**同じ名前で異なる引数のメソッド** を定義することである。
+
+### シグネチャの違い
+
+メソッドの **シグネチャ**（識別子）は、以下で決まる：
+- メソッド名
+- **引数の数**
+- **引数の型**
+
+:::caution 重要
+戻り値の型だけが異なるメソッドは、オーバーロードできない。
+:::
+
+### オーバーロードの例
+
+```java
+public static int add(int a, int b) {
+    return a + b;
+}
+
+public static double add(double a, double b) {
+    return a + b;
+}
+
+public static int add(int a, int b, int c) {
+    return a + b + c;
+}
+```
+
+これらは、引数の型や数が異なるので、すべて共存できる。
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class OverloadExample {
+    public static void main(String[] args) {
+        // 引数が2つのint型
+        int result1 = add(10, 20);
+        System.out.println("add(10, 20) = " + result1);
+
+        // 引数が2つのdouble型
+        double result2 = add(10.5, 20.3);
+        System.out.println("add(10.5, 20.3) = " + result2);
+
+        // 引数が3つのint型
+        int result3 = add(10, 20, 30);
+        System.out.println("add(10, 20, 30) = " + result3);
+
+        // 引数が1つのString型
+        greet("太郎");
+
+        // 引数が2つのString型
+        greet("山田", "太郎");
+    }
+
+    // int型の足し算（2つの引数）
+    public static int add(int a, int b) {
+        return a + b;
+    }
+
+    // double型の足し算（2つの引数）
+    public static double add(double a, double b) {
+        return a + b;
+    }
+
+    // int型の足し算（3つの引数）
+    public static int add(int a, int b, int c) {
+        return a + b + c;
+    }
+
+    // 挨拶（1つの引数）
+    public static void greet(String name) {
+        System.out.println("こんにちは、" + name + "さん");
+    }
+
+    // 挨拶（2つの引数）
+    public static void greet(String lastName, String firstName) {
+        System.out.println("こんにちは、" + lastName + " " + firstName + "さん");
+    }
+}`}
+/>
+
+**やってみよう:**
+- `add()`に別の数値を渡してみよう
+- 新しいオーバーロードを追加してみよう（例：4つの引数を足すメソッド）
+
+:::info 【共通】
+メソッドのオーバーロードは、多くのプログラミング言語で共通である。
+:::
+
+---
+
+## まとめ
+
+この章では、Javaの **メソッド** について学んだ。
+
+### 学んだ内容
+
+- **メソッド** は処理をまとめたものである
+- メソッドを使うことで、コードの再利用、可読性、保守性が向上する
+- **引数** でメソッドに値を渡せる
+- **戻り値** でメソッドから結果を返せる
+- **void** は戻り値がないことを意味する
+- メソッド内の変数は外からアクセスできない（**スコープ**）
+- **オーバーロード** で同じ名前のメソッドを複数定義できる
+
+### 次のステップ
+
+次の章では、**複数クラスの連携** について学ぶ。
+メソッドをさらに発展させ、クラスを分割してプログラムを整理する方法を学ぶ。
+
+---
+
+## 演習
+
+演習問題は、[ダッシュボード](/dashboard)から確認できる。

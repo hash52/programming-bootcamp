@@ -392,6 +392,58 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
     ],
   }),
+  withAutoIds({
+    id: "07_methods",
+    label: "メソッド",
+    category: "java/basics",
+    questions: [
+      {
+        title: "メソッドとは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "引数と戻り値の役割を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "voidの意味を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "戻り値と変数のスコープの関係を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "メソッドのオーバーロードを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "メソッドを使ったコードの実行結果を予測できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "メソッドを定義して呼び出すプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "引数と戻り値を持つメソッドを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "メソッドのオーバーロードを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
   // Spring
   withAutoIds({
     id: "02_mvc_intro",
