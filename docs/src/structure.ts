@@ -835,6 +835,58 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
     ],
   }),
+  withAutoIds({
+    id: "16_datetime",
+    label: "日時操作",
+    category: "java/stdlib",
+    questions: [
+      {
+        title: "日時操作の必要性を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "LocalDateで日付を扱える",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "LocalTimeで時刻を扱える",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "LocalDateTimeで日時を扱える",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "PeriodとDurationの違いを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "DateTimeFormatterで日時のフォーマットができる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "日時オブジェクトがイミュータブルであることを理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "日時の計算（加算・減算）を実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "日時を使った実用的なプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Hard,
+      },
+    ],
+  }),
   // Spring
   withAutoIds({
     id: "02_mvc_intro",
