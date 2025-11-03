@@ -481,6 +481,53 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
     ],
   }),
+  withAutoIds({
+    id: "09_oop_basics",
+    label: "オブジェクト指向の基礎",
+    category: "java/oop",
+    questions: [
+      {
+        title: "オブジェクト指向とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "クラスとオブジェクト（インスタンス）の関係を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "フィールドの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "インスタンスメソッドとstaticメソッドの違いを理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "newキーワードの役割を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "クラスを使ったコードの動きを理解できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "クラスを定義してインスタンスを生成するプログラムを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "フィールドとメソッドを持つクラスを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
   // Spring
   withAutoIds({
     id: "02_mvc_intro",
