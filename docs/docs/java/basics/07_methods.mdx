@@ -2,72 +2,113 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 
 # メソッド
 
-この章では、処理をまとめて再利用可能にする **メソッド** について学ぶ。
-メソッドを使うことで、コードの重複を減らし、読みやすく保守しやすいプログラムを作ることができる。
+この章で得られるスキル：
+- ✅ 処理をまとめて再利用可能にできる
+- ✅ 引数と戻り値を使いこなせる
+- ✅ コードの重複を減らし、読みやすいプログラムが書ける
+- ✅ 実務でよく使うメソッドのパターンを理解できる
 
 ---
 
-## 学習のゴール
+## Step 0: まず体験してみよう
 
-- メソッドとは何か、なぜ必要かを説明できる
-- メソッドの定義と呼び出しができる
-- 引数と戻り値の役割を理解している
-- 戻り値と変数のスコープの関係を理解している
-- メソッドのオーバーロードを理解している
-- メソッドを使ったプログラムを実装できる
+説明の前に、まず **メソッドがないと何が困るのか** を体験しよう。
+
+### シナリオ：SNSアプリの投稿機能を作りたい
+
+あなたはSNSアプリを作っている。ユーザーの投稿を表示する機能を実装したい。
+
+**仕様：**
+- ユーザー名と投稿内容を表示
+- いいね数を表示
+- 投稿時刻を表示
+
+**実行してみよう（メソッドなし）:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 投稿1を表示
+        System.out.println("==================");
+        System.out.println("【投稿】");
+        System.out.println("投稿者: 太郎");
+        System.out.println("内容: 今日はいい天気だ！");
+        System.out.println("いいね: 12");
+        System.out.println("時刻: 10:30");
+        System.out.println("==================");
+
+        // 投稿2を表示
+        System.out.println("==================");
+        System.out.println("【投稿】");
+        System.out.println("投稿者: 花子");
+        System.out.println("内容: ランチなう");
+        System.out.println("いいね: 8");
+        System.out.println("時刻: 12:15");
+        System.out.println("==================");
+
+        // 投稿3を表示
+        System.out.println("==================");
+        System.out.println("【投稿】");
+        System.out.println("投稿者: 次郎");
+        System.out.println("内容: 勉強中...");
+        System.out.println("いいね: 5");
+        System.out.println("時刻: 14:20");
+        System.out.println("==================");
+
+        // 100個の投稿を表示したら？
+        // 同じコードを100回書く必要がある...
+    }
+}`}
+/>
+
+**問題点：**
+- 同じパターンのコードを何度も書く必要がある
+- 表示形式を変えたくなったら、全箇所を修正する必要がある
+- コードが長く、読みにくい
+- バグが混入しやすい
+
+**では、メソッドを使うとどうなるか？**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // わずか3行で完成！
+        showPost("太郎", "今日はいい天気だ！", 12, "10:30");
+        showPost("花子", "ランチなう", 8, "12:15");
+        showPost("次郎", "勉強中...", 5, "14:20");
+
+        // 表示形式を変えても、メソッド1箇所を直すだけ！
+    }
+
+    // 投稿を表示するメソッド
+    public static void showPost(String author, String content, int likes, String time) {
+        System.out.println("==================");
+        System.out.println("【投稿】");
+        System.out.println("投稿者: " + author);
+        System.out.println("内容: " + content);
+        System.out.println("いいね: " + likes);
+        System.out.println("時刻: " + time);
+        System.out.println("==================");
+    }
+}`}
+/>
+
+**解決できたこと：**
+- ✅ 同じ処理を1箇所にまとめられた
+- ✅ 表示形式の変更が1箇所で済む
+- ✅ コードが短く読みやすくなった
+- ✅ バグが減らせる
 
 ---
 
-## なぜこの技術が必要か
+## Step 1: メソッドの基本を理解する
 
-**メソッドがないとどうなるか？**
+**メソッド** は、**処理をまとめて名前を付けたもの** である。
+名前を呼び出すだけで、その処理を実行できる。
 
-メソッドがないと、同じコードを何度もコピペする必要がある。
-コードの変更が大変で、プログラムが長く読みにくくなる。
-
-**例:**
-
-```java
-// メソッドがないと...
-System.out.println("こんにちは、太郎さん");
-System.out.println("こんにちは、花子さん");
-System.out.println("こんにちは、次郎さん");
-// 同じパターンを繰り返す
-
-// メソッドがあると...
-greet("太郎");
-greet("花子");
-greet("次郎");
-
-public static void greet(String name) {
-    System.out.println("こんにちは、" + name + "さん");
-}
-```
-
-メソッドを使うことで、同じ処理を簡潔に再利用できる。
-
----
-
-## 1. メソッドとは
-
-### メソッドの概念
-
-**メソッド** は、**処理を括り出して何らかの名前をつけて、つけた名前で呼び出せる仕組み** である。
-
-例えば、「こんにちは」と表示する処理を何度も書く代わりに、`greet()`という名前のメソッドにまとめることで、`greet()`と書くだけで同じ処理を呼び出せる。
-特定の処理を1つの名前でまとめることで、何度でも呼び出して使える。
-
-### メソッドの利点
-
-1. **コードの再利用**：同じ処理を何度も書かなくて良い
-2. **可読性の向上**：処理に名前を付けることで、何をしているかが分かりやすくなる
-3. **保守性の向上**：処理を1箇所にまとめることで、修正が簡単になる
-
----
-
-## 2. メソッドの定義
-
-### 基本的な書き方
+### メソッドの書き方
 
 ```java
 public static 戻り値の型 メソッド名(引数) {
@@ -76,179 +117,70 @@ public static 戻り値の型 メソッド名(引数) {
 }
 ```
 
-- **public static**：今は理解しなくても構わない（後の章で詳しく扱う）
-- **戻り値の型**：メソッドが返す値の型（例：`int`, `String`, `void`）
-- **メソッド名**：メソッドの名前（キャメルケースで命名）
-- **引数**：メソッドに渡す値（なくても良い）
-- **return**：メソッドの実行結果を返す（戻り値がない場合は不要）
+### 各部分の意味
+
+| 部分 | 意味 | 例 |
+|------|------|-----|
+| **public static** | 今は理解不要（おまじない） | `public static` |
+| **戻り値の型** | 返す値の型（なければ`void`） | `int`, `String`, `void` |
+| **メソッド名** | 処理の名前（動詞で始める） | `add`, `calculate`, `show` |
+| **引数** | メソッドに渡す値 | `int a, int b` |
+| **return** | 結果を返す（`void`なら不要） | `return a + b;` |
 
 :::info public staticについて
-`public static`は、今の段階では **「メソッドを定義するときに必要なおまじない」** と思っておけば良い。  
-この章では、 **戻り値の型、メソッド名、引数、returnの理解に集中** しよう。  
+`public static`は、今の段階では **「メソッドを定義するときに必要なおまじない」** と思っておけば良い。
+この章では、 **戻り値の型、メソッド名、引数、returnの理解に集中** しよう。
 `public`や`static`の詳しい意味は、第8章「複数クラスの連携」と第10章「オブジェクト指向の基礎」で学ぶ。
 :::
 
-### 例：戻り値がないメソッド
-
-```java
-public static void sayHello() {
-    System.out.println("Hello!");
-}
-```
-
-- `void`は「戻り値なし」を意味する
-- `return`は不要
-
-### 例：戻り値があるメソッド
-
-```java
-public static int add(int a, int b) {
-    return a + b;
-}
-```
-
-- `int`型の値を返す
-- `return`で結果を返す
+### 最もシンプルなメソッド
 
 **実行してみよう:**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`public class MethodExample {
+  code={`public class Main {
     public static void main(String[] args) {
-        // 戻り値がないメソッドの定義と呼び出し
+        // メソッドを呼び出す
         sayHello();
-
-        // 戻り値があるメソッドの定義と呼び出し
-        int result = add(10, 20);
-        System.out.println("10 + 20 = " + result);
+        sayHello();
+        sayHello();
     }
 
-    // 戻り値がないメソッド
+    // メソッドの定義
     public static void sayHello() {
         System.out.println("Hello!");
     }
-
-    // 戻り値があるメソッド
-    public static int add(int a, int b) {
-        return a + b;
-    }
 }`}
 />
 
 **やってみよう:**
-- `sayHello()`を複数回呼び出してみよう
-- `add(5, 15)`を追加で呼び出してみよう
+- `sayHello()`の中身を変えてみよう（例：「こんにちは！」）
+- `sayHello()`を10回呼び出してみよう
+
+:::tip ポイント
+メソッドを定義しても、**呼び出さないと実行されない**。
+`main`メソッド内で呼び出すことで、初めて実行される。
+:::
 
 ---
 
-## 3. メソッドの呼び出し
+## Step 2: 引数の役割を理解する
 
-### メソッド呼び出しの書き方
-
-```java
-メソッド名(引数);
-```
-
-### 戻り値の受け取り
-
-戻り値があるメソッドは、 **結果を変数で受け取ることができる**。  
-メソッドは **呼び出し元で使えるように結果を返している** のである。
-
-```java
-int result = add(10, 20);  // addメソッドの戻り値を受け取る
-System.out.println(result);  // 受け取った値を使える
-```
-
-**処理の流れ:**
-1. `add(10, 20)`が実行される
-2. メソッド内で`10 + 20`が計算され、`30`が返される（`return`される）
-3. 返された`30`が変数`result`に代入される
-4. `result`を使って、他の処理ができる
-
-:::tip ポイント
-メソッドが値を`return`するのは、 **呼び出し元でその値を使えるようにするため** である。  
-変数で受け取らなくても良いが、受け取ることで結果を再利用できる。
-:::
-
-### main メソッドからの呼び出し
-
-Javaプログラムは、`main`メソッドから実行が始まる。
-`main`メソッド内で他のメソッドを呼び出すことができる。
-
-:::tip ポイント
-メソッドの定義は、`main`メソッドの外（クラスの中）に書く。
-:::
-
-**実行してみよう:**
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`public class MethodCallExample {
-    public static void main(String[] args) {
-        // メソッドの呼び出し
-        greet("太郎");
-        greet("花子");
-
-        int sum = add(5, 10);
-        System.out.println("5 + 10 = " + sum);
-
-        double average = calculateAverage(80, 90, 75);
-        System.out.println("平均点: " + average);
-    }
-
-    // 挨拶するメソッド
-    public static void greet(String name) {
-        System.out.println("こんにちは、" + name + "さん");
-    }
-
-    // 足し算するメソッド
-    public static int add(int a, int b) {
-        return a + b;
-    }
-
-    // 平均を計算するメソッド
-    public static double calculateAverage(int score1, int score2, int score3) {
-        int sum = score1 + score2 + score3;
-        return (double) sum / 3;
-    }
-}`}
-/>
-
-**やってみよう:**
-- 自分の名前で`greet()`を呼び出してみよう
-- `calculateAverage()`に別の点数を渡してみよう
-
----
-
-## 4. 引数と戻り値
-
-### 引数とは
-
-**引数**（ひきすう）は、メソッドに渡す値である。
-引数を使うことで、メソッドに異なるデータを渡して、同じ処理を柔軟に実行できる。
-
-```java
-public static void greet(String name) {  // nameが引数
-    System.out.println("こんにちは、" + name + "さん");
-}
-```
+**引数**（ひきすう）は、**メソッドに渡す値** である。
+引数を使うことで、同じメソッドで異なる値に対応できる。
 
 ### 引数がないとどうなるか
 
-引数がないと、同じような処理でも、それぞれ別のメソッドを作らなければならない。
-
-**実行してみよう:**
-
 <OneCompilerCodeBlock
   language="java"
-  code={`public class NoArgumentExample {
+  code={`public class Main {
     public static void main(String[] args) {
-        // 引数がないと、人ごとにメソッドを作る必要がある
+        // 引数がないと、名前ごとにメソッドが必要
         greetTaro();
         greetHanako();
         greetJiro();
-        // 新しい人が増えるたびに、新しいメソッドが必要...
+        // 新しい人が増えるたびに、新しいメソッドを作る必要がある...
     }
 
     public static void greetTaro() {
@@ -265,17 +197,13 @@ public static void greet(String name) {  // nameが引数
 }`}
 />
 
-このように、名前ごとにメソッドを作る必要があり、コードが長くなる。
+これでは、名前が増えるたびに新しいメソッドを作る必要がある。
 
 ### 引数が問題を解決
 
-引数を使うことで、1つのメソッドで様々な値に対応できる。
-
-**実行してみよう:**
-
 <OneCompilerCodeBlock
   language="java"
-  code={`public class WithArgumentExample {
+  code={`public class Main {
     public static void main(String[] args) {
         // 引数を使えば、1つのメソッドで様々な名前に対応できる
         greet("太郎");
@@ -283,55 +211,58 @@ public static void greet(String name) {  // nameが引数
         greet("次郎");
         greet("美咲");
         greet("健太");
-        // 新しい名前を渡すだけでOK！
+        // 何人増えても、メソッドは1つでOK！
     }
 
+    // 引数を受け取るメソッド
     public static void greet(String name) {
         System.out.println("こんにちは、" + name + "さん");
     }
 }`}
 />
 
-引数を使うことで、コードがシンプルになり、保守性が向上する。
-
 **やってみよう:**
 - 自分の名前や好きな名前で`greet()`を呼び出してみよう
 
 ### 複数の引数
 
-メソッドは、複数の引数を持つことができる。
-
-```java
-public static int add(int a, int b) {  // aとbが引数
-    return a + b;
-}
-```
-
-複数の引数を渡すことで、より複雑な処理にも対応できる。
-
----
-
-### 戻り値とは
-
-**戻り値** は、メソッドから返す値である。
-メソッドが計算した結果を、呼び出し元で使えるようにするために戻り値を使う。
-
-```java
-public static int add(int a, int b) {
-    return a + b;  // a + bの結果を戻り値として返す
-}
-```
-
-### 戻り値がないとどうなるか
-
-戻り値がないメソッド（`void`）は、処理の結果を返せない。
-そのため、計算結果を再利用することができない。
-
-**実行してみよう:**
+メソッドは、複数の引数を受け取ることができる。
 
 <OneCompilerCodeBlock
   language="java"
-  code={`public class NoReturnExample {
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 複数の引数を渡す
+        introduce("太郎", 25, "東京");
+        introduce("花子", 22, "大阪");
+        introduce("次郎", 30, "福岡");
+    }
+
+    // 複数の引数を受け取るメソッド
+    public static void introduce(String name, int age, String city) {
+        System.out.println("名前: " + name);
+        System.out.println("年齢: " + age + "歳");
+        System.out.println("出身: " + city);
+        System.out.println("---");
+    }
+}`}
+/>
+
+**やってみよう:**
+- 自分の情報で`introduce()`を呼び出してみよう
+
+---
+
+## Step 3: 戻り値の役割を理解する
+
+**戻り値** は、**メソッドから返す値** である。
+戻り値を使うことで、メソッドの計算結果を呼び出し元で使える。
+
+### 戻り値がないとどうなるか
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
     public static void main(String[] args) {
         // 戻り値がないメソッド（void）
         addAndPrint(10, 20);
@@ -339,7 +270,6 @@ public static int add(int a, int b) {
 
         // 問題：計算結果を再利用できない
         // 例えば、2つの計算結果を比較したり、さらに計算したりできない
-        // int result = addAndPrint(10, 20);  // エラー！voidなので値を返さない
     }
 
     // 戻り値がないメソッド：結果を表示するだけ
@@ -355,13 +285,9 @@ public static int add(int a, int b) {
 
 ### 戻り値が問題を解決
 
-戻り値を使うことで、メソッドの計算結果を呼び出し元で受け取り、再利用できる。
-
-**実行してみよう:**
-
 <OneCompilerCodeBlock
   language="java"
-  code={`public class WithReturnExample {
+  code={`public class Main {
     public static void main(String[] args) {
         // 戻り値を使えば、計算結果を受け取れる
         int result1 = add(10, 20);
@@ -390,88 +316,133 @@ public static int add(int a, int b) {
 }`}
 />
 
-戻り値を使うことで、メソッドの結果を柔軟に活用できる。
-
 **やってみよう:**
 - `add()`の結果を3つ計算して、その合計を表示してみよう
+- `multiply()`を使って、結果を3倍にしてみよう
 
-### voidとreturn
+### 処理の流れ
 
-- **void**：戻り値なし（`return`不要）
-- **それ以外の型**：戻り値あり（`return`必須）
+戻り値の処理の流れを理解しよう：
 
-:::warning 注意
-戻り値の型を指定した場合、必ず`return`文が必要である。
+```
+1. add(10, 20) が実行される
+2. メソッド内で 10 + 20 が計算され、30 が返される（return される）
+3. 返された 30 が変数 result に代入される
+4. result を使って、他の処理ができる
+```
+
+:::tip ポイント
+メソッドが値を`return`するのは、 **呼び出し元でその値を使えるようにするため** である。
+変数で受け取らなくても良いが、受け取ることで結果を再利用できる。
 :::
 
 ---
 
-## 5. 戻り値と変数のスコープ
+## Step 4: 実践例 - ゲームのダメージ計算
 
-### メソッド内の変数はメソッドの外からアクセスできない
-
-メソッド内で宣言された変数は、**そのメソッドの中でしか使えない**（スコープの原則）。
-
-```java
-public static int add(int a, int b) {
-    int result = a + b;  // メソッド内の変数
-    return result;
-}
-
-public static void main(String[] args) {
-    int sum = add(10, 20);
-    // resultにはアクセスできない（スコープ外）
-    // だから戻り値で受け取る必要がある
-}
-```
-
-### 戻り値の重要性
-
-メソッド内で計算した結果を外に渡すには、**戻り値** を使う必要がある。
-
-:::tip ポイント
-メソッド内の変数は外からアクセスできないので、戻り値で結果を返す。
-これにより、メソッド同士が独立し、コードが整理される。
-:::
-
-**実行してみよう:**
+メソッドを使って、RPGゲームのダメージ計算を実装してみよう。
 
 <OneCompilerCodeBlock
   language="java"
-  code={`public class ScopeExample {
+  code={`public class Main {
+    public static void main(String[] args) {
+        // プレイヤーの攻撃
+        System.out.println("【戦闘開始】");
+        int damage1 = calculateDamage(50, 20, true);   // 攻撃力50, 防御力20, クリティカル
+        System.out.println("プレイヤーの攻撃！ダメージ: " + damage1);
+
+        int damage2 = calculateDamage(50, 20, false);  // 通常攻撃
+        System.out.println("プレイヤーの攻撃！ダメージ: " + damage2);
+
+        // 敵の攻撃
+        int damage3 = calculateDamage(40, 30, false);
+        System.out.println("敵の攻撃！ダメージ: " + damage3);
+
+        // 合計ダメージ
+        int totalDamage = damage1 + damage2 - damage3;
+        System.out.println("---");
+        System.out.println("HP差分: " + totalDamage);
+    }
+
+    /**
+     * ダメージを計算する。
+     *
+     * @param attack 攻撃力
+     * @param defense 防御力
+     * @param isCritical クリティカルヒットかどうか
+     * @return 計算されたダメージ
+     */
+    public static int calculateDamage(int attack, int defense, boolean isCritical) {
+        int baseDamage = attack - defense;
+        if (baseDamage < 0) {
+            baseDamage = 0;  // ダメージは0未満にならない
+        }
+
+        if (isCritical) {
+            baseDamage = baseDamage * 2;  // クリティカルは2倍
+            System.out.println("  → クリティカルヒット！");
+        }
+
+        return baseDamage;
+    }
+}`}
+/>
+
+**このコードで学べること:**
+- 複数の引数を使った計算
+- `boolean`型の引数で条件分岐
+- 戻り値を使った結果の再利用
+- Javadocでメソッドの説明
+
+**やってみよう:**
+- 攻撃力と防御力を変えて、ダメージの変化を確認してみよう
+- クリティカルの倍率を3倍に変えてみよう
+
+---
+
+## Step 5: スコープを理解する
+
+**スコープ** とは、**変数が使える範囲** のことである。
+
+### メソッド内の変数はメソッドの外からアクセスできない
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
     public static void main(String[] args) {
         int result = calculate(10, 5);
         System.out.println("結果: " + result);
 
         // ここではメソッド内の変数にアクセスできない
-        // System.out.println(sum);  // エラー！
-
-        // 戻り値を受け取ることで、メソッドの結果を使える
+        // System.out.println(sum);  // エラー！sumはcalculateメソッド内でしか使えない
     }
 
     public static int calculate(int a, int b) {
         int sum = a + b;      // メソッド内のローカル変数
         int product = a * b;  // メソッド内のローカル変数
+        System.out.println("calculate内部: sum = " + sum + ", product = " + product);
         return sum + product; // 計算結果を戻り値として返す
     }
 }`}
 />
 
 **やってみよう:**
-- `calculate()`の計算内容を変えてみよう
 - `main`メソッドで`sum`にアクセスしようとして、エラーを確認してみよう（コメントを外す）
+
+:::tip ポイント
+メソッド内の変数は外からアクセスできないので、戻り値で結果を返す。
+これにより、メソッド同士が独立し、コードが整理される。
+:::
 
 ---
 
-## 6. メソッドのオーバーロード
-
-### オーバーロードとは
+## Step 6: オーバーロードを理解する
 
 **オーバーロード** は、**同じ名前で異なる引数のメソッド** を定義することである。
 
-### シグネチャの違い
+### オーバーロードの条件
 
-メソッドの **シグネチャ**（識別子）は、以下で決まる：
+メソッドの識別は、以下で決まる：
 - メソッド名
 - **引数の数**
 - **引数の型**
@@ -480,29 +451,11 @@ public static void main(String[] args) {
 戻り値の型だけが異なるメソッドは、オーバーロードできない。
 :::
 
-### オーバーロードの例
-
-```java
-public static int add(int a, int b) {
-    return a + b;
-}
-
-public static double add(double a, double b) {
-    return a + b;
-}
-
-public static int add(int a, int b, int c) {
-    return a + b + c;
-}
-```
-
-これらは、引数の型や数が異なるので、すべて共存できる。
-
 **実行してみよう:**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`public class OverloadExample {
+  code={`public class Main {
     public static void main(String[] args) {
         // 引数が2つのint型
         int result1 = add(10, 20);
@@ -516,10 +469,8 @@ public static int add(int a, int b, int c) {
         int result3 = add(10, 20, 30);
         System.out.println("add(10, 20, 30) = " + result3);
 
-        // 引数が1つのString型
+        // 異なる引数パターンの挨拶
         greet("太郎");
-
-        // 引数が2つのString型
         greet("山田", "太郎");
     }
 
@@ -551,27 +502,23 @@ public static int add(int a, int b, int c) {
 />
 
 **やってみよう:**
-- `add()`に別の数値を渡してみよう
 - 新しいオーバーロードを追加してみよう（例：4つの引数を足すメソッド）
 
 ---
 
-## 7. メソッドのドキュメント（Javadoc）
+## Step 7: Javadocでドキュメントを書く
 
-### メソッドにもJavadocが書ける
-
-第2章で学んだ **Javadoc** は、メソッドにも書くことができる。
-メソッドの役割、引数、戻り値を説明することで、他の人（または将来の自分）が理解しやすくなる。
+**Javadoc** は、メソッドの説明を書くための標準的な方法である。
 
 ### Javadocの書き方
 
 ```java
 /**
- * 2つの整数を足す。
- * 
- * @param a 1つ目の整数
- * @param b 2つ目の整数
- * @return aとbの合計
+ * メソッドの説明。
+ *
+ * @param a 引数の説明
+ * @param b 引数の説明
+ * @return 戻り値の説明
  */
 public static int add(int a, int b) {
     return a + b;
@@ -590,7 +537,7 @@ public static int add(int a, int b) {
 
 <OneCompilerCodeBlock
   language="java"
-  code={`public class JavadocExample {
+  code={`public class Main {
     public static void main(String[] args) {
         int sum = add(10, 20);
         System.out.println("合計: " + sum);
@@ -598,13 +545,16 @@ public static int add(int a, int b) {
         double average = calculateAverage(80, 90, 75);
         System.out.println("平均: " + average);
 
-        String message = greet("太郎", 18);
-        System.out.println(message);
+        boolean isValid = isValidPassword("abc123");
+        System.out.println("パスワード \"abc123\" は有効か: " + isValid);
+
+        isValid = isValidPassword("SecurePass123");
+        System.out.println("パスワード \"SecurePass123\" は有効か: " + isValid);
     }
 
     /**
      * 2つの整数を足す。
-     * 
+     *
      * @param a 1つ目の整数
      * @param b 2つ目の整数
      * @return aとbの合計
@@ -615,7 +565,7 @@ public static int add(int a, int b) {
 
     /**
      * 3つの整数の平均を計算する。
-     * 
+     *
      * @param num1 1つ目の数値
      * @param num2 2つ目の数値
      * @param num3 3つ目の数値
@@ -626,28 +576,20 @@ public static int add(int a, int b) {
     }
 
     /**
-     * 挨拶メッセージを生成する。
-     * 
-     * @param name 名前
-     * @param age 年齢
-     * @return 挨拶メッセージ
+     * パスワードが有効かどうかを判定する。
+     * パスワードは8文字以上である必要がある。
+     *
+     * @param password 検証するパスワード
+     * @return パスワードが有効ならtrue、無効ならfalse
      */
-    public static String greet(String name, int age) {
-        return "こんにちは、" + name + "さん（" + age + "歳）";
+    public static boolean isValidPassword(String password) {
+        return password.length() >= 8;
     }
 }`}
 />
 
 **やってみよう:**
 - 自分でメソッドを作成して、Javadocを書いてみよう
-
-### なぜドキュメントが重要か
-
-メソッドのドキュメントは、以下の理由で重要である：
-
-1. **チーム開発での協力**：他の人がメソッドの使い方を理解できる
-2. **将来の自分のため**：数ヶ月後に見返しても理解できる
-3. **保守性の向上**：メソッドの変更時に影響範囲を把握しやすい
 
 :::tip AI時代のドキュメント
 現代のAI開発ツール（GitHub CopilotやChatGPTなど）は、Javadocを読んで適切なコードを生成する。
@@ -657,31 +599,244 @@ public static int add(int a, int b) {
 
 ---
 
+## Step 8: 実践課題
+
+これまで学んだことを組み合わせて、実践的なプログラムを作ってみよう。
+
+### 課題1：温度変換プログラム
+
+**仕様：**
+- 摂氏（℃）を華氏（℉）に変換
+- 華氏を摂氏に変換
+- 公式：
+  - ℉ = ℃ × 9/5 + 32
+  - ℃ = (℉ - 32) × 5/9
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 摂氏を華氏に変換
+        double fahrenheit = celsiusToFahrenheit(0);
+        System.out.println("0℃ = " + fahrenheit + "℉");
+
+        fahrenheit = celsiusToFahrenheit(100);
+        System.out.println("100℃ = " + fahrenheit + "℉");
+
+        // 華氏を摂氏に変換
+        double celsius = fahrenheitToCelsius(32);
+        System.out.println("32℉ = " + celsius + "℃");
+
+        celsius = fahrenheitToCelsius(212);
+        System.out.println("212℉ = " + celsius + "℃");
+    }
+
+    /**
+     * 摂氏を華氏に変換する。
+     *
+     * @param celsius 摂氏温度
+     * @return 華氏温度
+     */
+    public static double celsiusToFahrenheit(double celsius) {
+        return celsius * 9 / 5 + 32;
+    }
+
+    /**
+     * 華氏を摂氏に変換する。
+     *
+     * @param fahrenheit 華氏温度
+     * @return 摂氏温度
+     */
+    public static double fahrenheitToCelsius(double fahrenheit) {
+        return (fahrenheit - 32) * 5 / 9;
+    }
+}`}
+/>
+
+**やってみよう:**
+- 20℃、25℃、30℃を華氏に変換してみよう
+
+---
+
+### 課題2：消費税計算プログラム
+
+**仕様：**
+- 税抜き価格から税込み価格を計算
+- 税込み価格から税抜き価格を計算
+- 消費税率は10%
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 税抜き価格から税込み価格を計算
+        int priceWithTax = addTax(1000);
+        System.out.println("1000円（税抜） → " + priceWithTax + "円（税込）");
+
+        priceWithTax = addTax(5000);
+        System.out.println("5000円（税抜） → " + priceWithTax + "円（税込）");
+
+        // 税込み価格から税抜き価格を計算
+        int priceWithoutTax = removeTax(1100);
+        System.out.println("1100円（税込） → " + priceWithoutTax + "円（税抜）");
+
+        priceWithoutTax = removeTax(5500);
+        System.out.println("5500円（税込） → " + priceWithoutTax + "円（税抜）");
+    }
+
+    /**
+     * 税抜き価格から税込み価格を計算する（消費税10%）。
+     *
+     * @param price 税抜き価格
+     * @return 税込み価格
+     */
+    public static int addTax(int price) {
+        return (int) (price * 1.1);
+    }
+
+    /**
+     * 税込み価格から税抜き価格を計算する（消費税10%）。
+     *
+     * @param priceWithTax 税込み価格
+     * @return 税抜き価格
+     */
+    public static int removeTax(int priceWithTax) {
+        return (int) (priceWithTax / 1.1);
+    }
+}`}
+/>
+
+**やってみよう:**
+- 3000円、10000円の税込み価格を計算してみよう
+
+---
+
+### 課題3：BMI計算プログラム
+
+**仕様：**
+- 体重（kg）と身長（cm）からBMIを計算
+- BMIの判定結果を返す
+- BMI = 体重(kg) ÷ (身長(m) × 身長(m))
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // BMIを計算
+        double bmi1 = calculateBMI(65, 170);
+        System.out.println("体重65kg、身長170cm → BMI: " + bmi1);
+        System.out.println("判定: " + judgeBMI(bmi1));
+        System.out.println();
+
+        double bmi2 = calculateBMI(80, 170);
+        System.out.println("体重80kg、身長170cm → BMI: " + bmi2);
+        System.out.println("判定: " + judgeBMI(bmi2));
+        System.out.println();
+
+        double bmi3 = calculateBMI(50, 160);
+        System.out.println("体重50kg、身長160cm → BMI: " + bmi3);
+        System.out.println("判定: " + judgeBMI(bmi3));
+    }
+
+    /**
+     * BMIを計算する。
+     *
+     * @param weight 体重（kg）
+     * @param height 身長（cm）
+     * @return BMI値
+     */
+    public static double calculateBMI(double weight, double height) {
+        double heightInMeters = height / 100;  // cmをmに変換
+        return weight / (heightInMeters * heightInMeters);
+    }
+
+    /**
+     * BMI値から判定結果を返す。
+     *
+     * @param bmi BMI値
+     * @return 判定結果
+     */
+    public static String judgeBMI(double bmi) {
+        if (bmi < 18.5) {
+            return "低体重";
+        } else if (bmi < 25) {
+            return "普通体重";
+        } else if (bmi < 30) {
+            return "肥満（1度）";
+        } else {
+            return "肥満（2度以上）";
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- 自分の体重と身長でBMIを計算してみよう
+
+---
+
 ## まとめ
 
 この章では、Javaの **メソッド** について学んだ。
 
-### 学んだ内容
+### 🎯 達成できたこと
 
-- **メソッド** は処理をまとめたものである
-- メソッドを使うことで、コードの再利用、可読性、保守性が向上する
-- **引数** でメソッドに値を渡せる
-- **戻り値** でメソッドから結果を返せる
-- **void** は戻り値がないことを意味する
-- メソッド内の変数は外からアクセスできない（**スコープ**）
-- **オーバーロード** で同じ名前のメソッドを複数定義できる
-- **Javadoc** でメソッドのドキュメントを書ける
-  - `@param`で引数を説明
-  - `@return`で戻り値を説明
-  - AI時代にはドキュメントがさらに重要
+- ✅ 処理をまとめて再利用可能にできるようになった
+- ✅ 引数と戻り値を使いこなせるようになった
+- ✅ コードの重複を減らし、読みやすいプログラムが書けるようになった
+- ✅ 実務でよく使うメソッドのパターンを理解できた
 
-### 次のステップ
+### 📚 学んだ内容
+
+| 概念 | 説明 | 例 |
+|------|------|-----|
+| **メソッド** | 処理をまとめたもの | `sayHello()` |
+| **引数** | メソッドに渡す値 | `greet(String name)` |
+| **戻り値** | メソッドから返す値 | `return a + b;` |
+| **void** | 戻り値がないことを示す | `public static void show()` |
+| **スコープ** | 変数が使える範囲 | メソッド内の変数は外から見えない |
+| **オーバーロード** | 同じ名前で異なる引数 | `add(int, int)`, `add(double, double)` |
+| **Javadoc** | メソッドの説明を書く | `@param`, `@return` |
+
+### 🚀 次のステップ
 
 次の章では、**複数クラスの連携** について学ぶ。
 メソッドをさらに発展させ、クラスを分割してプログラムを整理する方法を学ぶ。
 
 ---
 
-## 演習
+## 💡 よくある質問
 
-未作成
+### Q1: voidと戻り値あり、どっちを使えばいい？
+
+**A:** 「結果を呼び出し元で使いたいか」で判断する。
+
+- ✅ **戻り値あり**：計算結果を返したい、値を再利用したい → `int add(int a, int b)`
+- ✅ **void**：表示するだけ、処理するだけ → `void showMessage(String msg)`
+
+### Q2: メソッド名はどう付ければいい？
+
+**A:** **動詞で始める** のが基本。処理内容が分かる名前にする。
+
+- ✅ 良い例：`calculateTotal()`, `showResult()`, `isValid()`, `getUserName()`
+- ❌ 悪い例：`method1()`, `doIt()`, `temp()`
+
+### Q3: 引数が多すぎる場合はどうすればいい？
+
+**A:** 引数が4つ以上になったら、以下を検討する：
+
+1. **クラスにまとめる**（第10章で学ぶ）
+2. **メソッドを分割する**
+3. **本当に全部必要か見直す**
+
+### Q4: メソッドはどれくらいの長さが適切？
+
+**A:** 目安は **10〜20行程度**。長すぎる場合は、処理を分割することを検討する。
+
+- ✅ 1つのメソッドは1つの役割
+- ✅ 画面に収まる長さ（スクロール不要）
+
+### Q5: public staticは今後も必ず書く必要がある？
+
+**A:** 第10章（オブジェクト指向）以降は、 **`static`なしのメソッド** が主流になる。
+今の段階では `public static` を書いておき、オブジェクト指向を学んだ後に違いを理解しよう。
