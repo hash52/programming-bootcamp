@@ -1,66 +1,126 @@
-import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
-
 # コンストラクタ
+
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
 
 この章では、インスタンス生成時に自動的に実行される特別なメソッドである **コンストラクタ** について学ぶ。
 コンストラクタを使うことで、インスタンスの初期化を効率的かつ安全に行うことができる。
 
 ---
 
-## 学習のゴール
+## Step 0: コンストラクタがないとどうなる？
 
-- コンストラクタとは何か、なぜ必要かを説明できる
-- コンストラクタの定義と使用ができる
-- デフォルトコンストラクタを説明できる
-- コンストラクタのオーバーロードを理解している
-- thisキーワードの役割を理解している
+まず、コンストラクタを使わずにインスタンスを初期化してみよう。
 
----
+### 問題シナリオ：銀行口座の管理
 
-## なぜこの技術が必要か
+銀行口座を表す`BankAccount`クラスを作り、口座名義人と残高を管理したいとする。
 
-**コンストラクタがないとどうなるか？**
+**コンストラクタを使わない場合：**
 
-コンストラクタがないと、インスタンス生成時に初期化を忘れる可能性がある。
-初期化のコードが散在し、必須の値を設定し忘れる。
+<OneCompilerCodeBlock
+  language="java"
+  code={`class BankAccount {
+    String owner;
+    int balance;
 
-**例:**
+    void showInfo() {
+        System.out.println("口座名義: " + owner + ", 残高: " + balance + "円");
+    }
+}
 
-```java
-// コンストラクタがないと...
-Person p = new Person();
-p.name = "太郎"; // 設定し忘れる可能性
-p.age = 20;
+public class Main {
+    public static void main(String[] args) {
+        // インスタンス生成後、手動で初期化
+        BankAccount account1 = new BankAccount();
+        account1.owner = "太郎";
+        account1.balance = 10000;
+        account1.showInfo();
 
-// コンストラクタがあると...
-Person p = new Person("太郎", 20); // 必ず設定される
+        // 初期化を忘れた場合
+        BankAccount account2 = new BankAccount();
+        // account2.ownerとbalanceを設定し忘れた！
+        account2.showInfo();  // null と 0 が表示される
+    }
+}`}
+/>
+
+**実行結果：**
+```
+口座名義: 太郎, 残高: 10000円
+口座名義: null, 残高: 0円
 ```
 
-コンストラクタを使うことで、インスタンス生成時に必要な値を確実に設定できる。
+### 問題点
+
+このコードには、いくつかの深刻な問題がある：
+
+**1. 初期化を忘れる可能性**
+
+- `account2`のように、フィールドの設定を忘れると`null`や`0`のままになる
+- 銀行口座で名義人が`null`なのは致命的
+
+**2. 不完全な状態のインスタンスが存在できる**
+
+- インスタンス生成と初期化が分離しているため、「生成されたが初期化されていない」状態が存在する
+- これはバグの温床になる
+
+**3. 初期化コードの重複**
+
+- 口座を作るたびに、同じ初期化コードを書く必要がある
+- コピペが増え、保守性が低下する
+
+**4. 必須フィールドの強制ができない**
+
+- 「口座名義人は必須」というルールをコードで強制できない
+- 実行時まで気づかず、バグになる
+
+### 理想的な形
+
+こうできたら良いのに：
+
+```java
+BankAccount account = new BankAccount("太郎", 10000);
+// 生成時に必ず名義人と残高を設定される
+```
+
+これを実現するのが **コンストラクタ** である。
 
 ---
 
-## 1. コンストラクタとは
+## Step 1: コンストラクタという解決策
 
-### コンストラクタの役割
+### コンストラクタとは
 
 **コンストラクタ** は、**インスタンス生成時に自動的に呼ばれる特別なメソッド** である。
 主な役割は、インスタンスの **初期化**（フィールドに初期値を設定すること）である。
 
 ### コンストラクタの特徴
 
-1. **クラス名と同じ名前** を持つ
-2. **戻り値がない**（`void`も書かない）
-3. **`new`キーワードと一緒に呼ばれる**
+| 特徴 | 説明 |
+|------|------|
+| **クラス名と同じ名前** | `BankAccount`クラスなら、コンストラクタ名も`BankAccount` |
+| **戻り値がない** | `void`すら書かない |
+| **`new`と一緒に呼ばれる** | `new BankAccount()`で自動的に実行される |
+| **初期化専用** | フィールドに初期値を設定するのが主な役割 |
+
+### コンストラクタのメリット
+
+1. **初期化の強制**：インスタンス生成時に必ず初期化される
+2. **不完全な状態の排除**：生成と初期化が同時に行われる
+3. **コードの簡潔化**：初期化コードを一箇所にまとめられる
+4. **必須フィールドの明示**：引数で「何が必須か」が明確になる
 
 ---
 
-## 2. コンストラクタの定義
+## Step 2: コンストラクタの基本的な定義
 
 ### 基本的な書き方
 
 ```java
 class クラス名 {
+    // フィールド
+    型 フィールド名;
+
     // コンストラクタ
     クラス名(引数) {
         // 初期化処理
@@ -68,29 +128,76 @@ class クラス名 {
 }
 ```
 
-### 例：Personクラス
+### 例：BankAccountクラス
 
-```java
-class Person {
-    String name;
-    int age;
+<OneCompilerCodeBlock
+  language="java"
+  code={`class BankAccount {
+    String owner;
+    int balance;
 
     // コンストラクタ
-    Person(String name, int age) {
-        this.name = name;
-        this.age = age;
+    BankAccount(String owner, int balance) {
+        this.owner = owner;
+        this.balance = balance;
+        System.out.println("口座を作成しました");
     }
+
+    void showInfo() {
+        System.out.println("口座名義: " + owner + ", 残高: " + balance + "円");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // コンストラクタを使ってインスタンスを作成
+        BankAccount account1 = new BankAccount("太郎", 10000);
+        account1.showInfo();
+
+        BankAccount account2 = new BankAccount("花子", 5000);
+        account2.showInfo();
+
+        // 初期化を忘れることができない！
+        // BankAccount account3 = new BankAccount(); // エラー！
+    }
+}`}
+/>
+
+### コードの解説
+
+```java
+BankAccount(String owner, int balance) {
+    this.owner = owner;
+    this.balance = balance;
 }
 ```
 
-### コンストラクタの使用
+- **`BankAccount`**：クラス名と同じ名前
+- **引数**：`owner`と`balance`を受け取る
+- **`this.owner`**：フィールドの`owner`
+- **`owner`**：引数の`owner`
+
+`this`キーワードで、フィールドと引数を区別している。
+
+### コンストラクタの呼び出し
 
 ```java
-Person p = new Person("太郎", 20);
-// コンストラクタが自動的に呼ばれ、nameとageが設定される
+BankAccount account = new BankAccount("太郎", 10000);
 ```
 
-**実行してみよう:**
+`new`キーワードでインスタンスを生成すると、自動的にコンストラクタが呼ばれる。
+
+---
+
+## Step 3: thisキーワードの役割
+
+### thisキーワードとは
+
+**`this`キーワード** は、**自分自身のインスタンス** を指す。
+
+### 用途1：フィールドと引数を区別
+
+フィールドと引数が同じ名前の場合、`this`でフィールドを明示する。
 
 <OneCompilerCodeBlock
   language="java"
@@ -98,43 +205,100 @@ Person p = new Person("太郎", 20);
     String name;
     int age;
 
-    // コンストラクタ
+    // 引数とフィールドが同じ名前
     Person(String name, int age) {
-        this.name = name;
-        this.age = age;
-        System.out.println("Personインスタンスが作成されました");
+        this.name = name;  // this.nameはフィールド、nameは引数
+        this.age = age;    // this.ageはフィールド、ageは引数
     }
 
     void introduce() {
-        System.out.println("私の名前は" + name + "で、" + age + "歳です。");
+        System.out.println("私の名前は" + name + "で、" + age + "歳です");
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        // コンストラクタを使ってインスタンスを作成
-        Person person1 = new Person("太郎", 18);
-        person1.introduce();
-
-        Person person2 = new Person("花子", 20);
-        person2.introduce();
+        Person person = new Person("太郎", 18);
+        person.introduce();
     }
 }`}
 />
 
-**やってみよう:**
-- 新しいPersonを作成して、別の名前と年齢を設定してみよう
+### thisがないとどうなるか
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Person {
+    String name;
+    int age;
+
+    // thisを付けない場合
+    Person(String name, int age) {
+        name = name;  // 引数のnameに引数のnameを代入（意味がない）
+        age = age;    // 引数のageに引数のageを代入（意味がない）
+    }
+
+    void introduce() {
+        System.out.println("私の名前は" + name + "で、" + age + "歳です");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person person = new Person("太郎", 18);
+        person.introduce();  // null と 0 が表示される
+    }
+}`}
+/>
+
+**実行結果：**
+```
+私の名前はnullで、0歳です
+```
+
+フィールドが初期化されていない！`this`は必須である。
+
+### 用途2：自分自身を返す（メソッドチェーン）
+
+```java
+class Person {
+    String name;
+    int age;
+
+    Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    Person setName(String name) {
+        this.name = name;
+        return this;  // 自分自身を返す
+    }
+
+    Person setAge(int age) {
+        this.age = age;
+        return this;  // 自分自身を返す
+    }
+}
+
+// メソッドチェーン
+Person person = new Person("太郎", 18)
+    .setName("次郎")
+    .setAge(20);
+```
+
+これは発展的な内容なので、今は理解しなくても良い。
 
 ---
 
-## 3. デフォルトコンストラクタ
+## Step 4: デフォルトコンストラクタ
 
 ### デフォルトコンストラクタとは
 
 **デフォルトコンストラクタ** は、**引数がないコンストラクタ** である。
 
 ```java
-Person() {
+クラス名() {
     // 引数なし
 }
 ```
@@ -143,23 +307,33 @@ Person() {
 
 **コンストラクタを1つも定義しなかった場合**、Javaコンパイラが自動的にデフォルトコンストラクタを用意してくれる。
 
-```java
-// コンストラクタを定義していない
-class Person {
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Person {
     String name;
     int age;
+
+    // コンストラクタを定義していない
 }
 
-// 自動的にデフォルトコンストラクタが用意される
-Person p = new Person(); // OK
-```
+public class Main {
+    public static void main(String[] args) {
+        // 自動的にデフォルトコンストラクタが用意される
+        Person person = new Person();  // OK
+        person.name = "太郎";
+        person.age = 18;
+        System.out.println(person.name + "は" + person.age + "歳です");
+    }
+}`}
+/>
 
 ### 自動で用意されない場合
 
 **引数ありのコンストラクタを定義した場合**、デフォルトコンストラクタは自動で用意されない。
 
-```java
-class Person {
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Person {
     String name;
     int age;
 
@@ -170,15 +344,21 @@ class Person {
     }
 }
 
-// デフォルトコンストラクタは用意されない
-Person p = new Person(); // エラー！
-```
+public class Main {
+    public static void main(String[] args) {
+        // デフォルトコンストラクタは用意されない
+        // Person person = new Person();  // エラー！
 
-:::warning 注意
-引数ありのコンストラクタを定義した場合、デフォルトコンストラクタも使いたいなら、明示的に定義する必要がある。
-:::
+        // 引数ありのコンストラクタを使う必要がある
+        Person person = new Person("太郎", 18);
+        System.out.println(person.name + "は" + person.age + "歳です");
+    }
+}`}
+/>
 
-**実行してみよう:**
+### 明示的にデフォルトコンストラクタを定義
+
+引数ありのコンストラクタを定義しつつ、デフォルトコンストラクタも使いたい場合は、明示的に定義する。
 
 <OneCompilerCodeBlock
   language="java"
@@ -186,7 +366,7 @@ Person p = new Person(); // エラー！
     String name;
     int age;
 
-    // デフォルトコンストラクタ
+    // デフォルトコンストラクタ（明示的に定義）
     Person() {
         this.name = "名無し";
         this.age = 0;
@@ -201,7 +381,7 @@ Person p = new Person(); // エラー！
     }
 
     void introduce() {
-        System.out.println("私の名前は" + name + "で、" + age + "歳です。");
+        System.out.println("私の名前は" + name + "で、" + age + "歳です");
     }
 }
 
@@ -211,6 +391,8 @@ public class Main {
         Person person1 = new Person();
         person1.introduce();
 
+        System.out.println("---");
+
         // 引数ありのコンストラクタを使用
         Person person2 = new Person("太郎", 18);
         person2.introduce();
@@ -218,57 +400,32 @@ public class Main {
 }`}
 />
 
-**やってみよう:**
-- デフォルトコンストラクタで設定される初期値を変えてみよう
+:::warning 注意
+引数ありのコンストラクタを定義した場合、デフォルトコンストラクタも使いたいなら、明示的に定義する必要がある。
+:::
 
 ---
 
-## 4. コンストラクタのオーバーロード
+## Step 5: コンストラクタのオーバーロード
 
 ### オーバーロードとは
 
 メソッドと同様に、**コンストラクタもオーバーロードできる**。
 異なる引数のコンストラクタを複数定義できる。
 
-### 例：Carクラス
-
-```java
-class Car {
-    String color;
-    int speed;
-
-    // コンストラクタ1：色のみ指定
-    Car(String color) {
-        this.color = color;
-        this.speed = 0;
-    }
-
-    // コンストラクタ2：色と速度を指定
-    Car(String color, int speed) {
-        this.color = color;
-        this.speed = speed;
-    }
-}
-```
-
-### 使用例
-
-```java
-Car car1 = new Car("赤");          // コンストラクタ1を使用
-Car car2 = new Car("青", 50);      // コンストラクタ2を使用
-```
-
-**実行してみよう:**
+### 例：複数のコンストラクタ
 
 <OneCompilerCodeBlock
   language="java"
   code={`class Car {
     String color;
+    String maker;
     int speed;
 
     // コンストラクタ1：引数なし
     Car() {
         this.color = "白";
+        this.maker = "トヨタ";
         this.speed = 0;
         System.out.println("デフォルトの車を作成しました");
     }
@@ -276,19 +433,29 @@ Car car2 = new Car("青", 50);      // コンストラクタ2を使用
     // コンストラクタ2：色のみ指定
     Car(String color) {
         this.color = color;
+        this.maker = "トヨタ";
         this.speed = 0;
         System.out.println(color + "の車を作成しました");
     }
 
-    // コンストラクタ3：色と速度を指定
-    Car(String color, int speed) {
+    // コンストラクタ3：色とメーカーを指定
+    Car(String color, String maker) {
         this.color = color;
+        this.maker = maker;
+        this.speed = 0;
+        System.out.println(color + "の" + maker + "車を作成しました");
+    }
+
+    // コンストラクタ4：全てのフィールドを指定
+    Car(String color, String maker, int speed) {
+        this.color = color;
+        this.maker = maker;
         this.speed = speed;
-        System.out.println(color + "の車を速度" + speed + "で作成しました");
+        System.out.println(color + "の" + maker + "車（速度" + speed + "）を作成しました");
     }
 
     void showInfo() {
-        System.out.println("色: " + color + ", 速度: " + speed);
+        System.out.println("色: " + color + ", メーカー: " + maker + ", 速度: " + speed);
     }
 }
 
@@ -297,52 +464,615 @@ public class Main {
         Car car1 = new Car();
         car1.showInfo();
 
+        System.out.println("---");
+
         Car car2 = new Car("赤");
         car2.showInfo();
 
-        Car car3 = new Car("青", 80);
+        System.out.println("---");
+
+        Car car3 = new Car("青", "ホンダ");
         car3.showInfo();
+
+        System.out.println("---");
+
+        Car car4 = new Car("黒", "日産", 80);
+        car4.showInfo();
     }
 }`}
 />
 
-**やってみよう:**
-- 新しいコンストラクタを追加してみよう（例：色と車種を指定）
+### 使い分け
+
+- **コンストラクタ1**：何も指定しない（デフォルト値）
+- **コンストラクタ2**：色だけ変えたい
+- **コンストラクタ3**：色とメーカーを変えたい
+- **コンストラクタ4**：全て指定したい
+
+状況に応じて、適切なコンストラクタを選べる。
 
 ---
 
-## 5. thisキーワード
+## Step 6: this()でコンストラクタを連鎖させる
 
-### thisキーワードとは
+### コンストラクタの重複を減らす
 
-**`this`キーワード** は、**自分自身のインスタンス** を指す。
+複数のコンストラクタを定義すると、初期化コードが重複することがある。
 
-### 用途1：フィールドと引数を区別
-
-フィールドと引数が同じ名前の場合、`this`でフィールドを明示する。
+**重複がある例：**
 
 ```java
-Person(String name, int age) {
-    this.name = name;  // this.nameはフィールド、nameは引数
-    this.age = age;
+class Car {
+    String color;
+    String maker;
+    int speed;
+
+    Car() {
+        this.color = "白";
+        this.maker = "トヨタ";
+        this.speed = 0;
+    }
+
+    Car(String color) {
+        this.color = color;
+        this.maker = "トヨタ";  // 重複
+        this.speed = 0;         // 重複
+    }
+
+    Car(String color, String maker) {
+        this.color = color;
+        this.maker = maker;
+        this.speed = 0;  // 重複
+    }
 }
 ```
 
-### 用途2：コンストラクタから別のコンストラクタを呼ぶ
+### this()で別のコンストラクタを呼ぶ
 
 `this()`を使うことで、コンストラクタから別のコンストラクタを呼べる。
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Car {
+    String color;
+    String maker;
+    int speed;
+
+    // コンストラクタ1：引数なし
+    Car() {
+        this("白", "トヨタ", 0);  // コンストラクタ4を呼ぶ
+    }
+
+    // コンストラクタ2：色のみ指定
+    Car(String color) {
+        this(color, "トヨタ", 0);  // コンストラクタ4を呼ぶ
+    }
+
+    // コンストラクタ3：色とメーカーを指定
+    Car(String color, String maker) {
+        this(color, maker, 0);  // コンストラクタ4を呼ぶ
+    }
+
+    // コンストラクタ4：全てのフィールドを指定（メインコンストラクタ）
+    Car(String color, String maker, int speed) {
+        this.color = color;
+        this.maker = maker;
+        this.speed = speed;
+        System.out.println(color + "の" + maker + "車（速度" + speed + "）を作成しました");
+    }
+
+    void showInfo() {
+        System.out.println("色: " + color + ", メーカー: " + maker + ", 速度: " + speed);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Car car1 = new Car();
+        car1.showInfo();
+
+        System.out.println("---");
+
+        Car car2 = new Car("赤");
+        car2.showInfo();
+
+        System.out.println("---");
+
+        Car car3 = new Car("青", "ホンダ");
+        car3.showInfo();
+
+        System.out.println("---");
+
+        Car car4 = new Car("黒", "日産", 80);
+        car4.showInfo();
+    }
+}`}
+/>
+
+### メリット
+
+1. **初期化ロジックが一箇所に集約**：コンストラクタ4だけがフィールドを設定
+2. **保守性の向上**：初期化ロジックを変更する際、1箇所だけ修正すればよい
+3. **バグの削減**：重複コードがないため、バグが入りにくい
+
+:::caution 重要
+`this()`でコンストラクタを呼ぶ場合、**コンストラクタの最初の行**に書く必要がある。
+:::
+
+**エラーになる例：**
+
+```java
+Car() {
+    System.out.println("デフォルト車を作成");
+    this("白", "トヨタ", 0);  // エラー！最初の行でないとダメ
+}
+```
+
+---
+
+## Step 7: コンストラクタの実践パターン
+
+### パターン1：必須フィールドの強制
+
+必須フィールドは引数ありコンストラクタで強制し、デフォルトコンストラクタは提供しない。
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class User {
+    String username;  // 必須
+    String email;     // 必須
+    int age;          // オプション
+
+    // 必須フィールドを引数で受け取る
+    User(String username, String email) {
+        this.username = username;
+        this.email = email;
+        this.age = 0;  // デフォルト値
+    }
+
+    // デフォルトコンストラクタは提供しない
+    // User() { }  // これを定義しないことで、必須フィールドの設定を強制
+
+    void showInfo() {
+        System.out.println("ユーザー名: " + username + ", メール: " + email + ", 年齢: " + age);
+    }
+
+    void setAge(int age) {
+        this.age = age;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // 必須フィールドを指定しないとインスタンスを作れない
+        // User user1 = new User();  // エラー！
+
+        // 必須フィールドを指定
+        User user1 = new User("taro", "taro@example.com");
+        user1.showInfo();
+
+        // オプションフィールドはsetterで設定
+        user1.setAge(25);
+        user1.showInfo();
+    }
+}`}
+/>
+
+### パターン2：バリデーション（検証）
+
+コンストラクタ内で引数の妥当性をチェックする。
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class BankAccount {
+    String owner;
+    int balance;
+
+    BankAccount(String owner, int balance) {
+        // バリデーション：名義人が空でないか
+        if (owner == null || owner.isEmpty()) {
+            System.out.println("エラー: 名義人を指定してください");
+            this.owner = "名無し";
+        } else {
+            this.owner = owner;
+        }
+
+        // バリデーション：残高が負でないか
+        if (balance < 0) {
+            System.out.println("エラー: 残高は0以上で指定してください");
+            this.balance = 0;
+        } else {
+            this.balance = balance;
+        }
+
+        System.out.println("口座を作成しました");
+    }
+
+    void showInfo() {
+        System.out.println("口座名義: " + owner + ", 残高: " + balance + "円");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // 正常なケース
+        BankAccount account1 = new BankAccount("太郎", 10000);
+        account1.showInfo();
+
+        System.out.println("---");
+
+        // 名義人が空のケース
+        BankAccount account2 = new BankAccount("", 5000);
+        account2.showInfo();
+
+        System.out.println("---");
+
+        // 残高が負のケース
+        BankAccount account3 = new BankAccount("花子", -1000);
+        account3.showInfo();
+    }
+}`}
+/>
+
+### パターン3：イミュータブル（不変）オブジェクト
+
+コンストラクタで全フィールドを設定し、setterを提供しないことで、不変オブジェクトを作る。
+
+```java
+class Point {
+    final int x;
+    final int y;
+
+    Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    // setterは提供しない
+    // 一度作ったら変更できない
+}
+
+Point p = new Point(10, 20);
+// p.x = 30;  // エラー！finalなので変更できない
+```
+
+不変オブジェクトは、スレッドセーフで安全である。
+
+---
+
+## Step 8: 実践課題
+
+ここまで学んだ知識を使って、以下の3つの課題に挑戦しよう。
+
+### 課題1: Bookクラスの作成
+
+**要件**：
+1. `Book`クラスを定義する
+2. フィールド：`title`（String）、`author`（String）、`price`（int）、`pages`（int）
+3. コンストラクタ1：全てのフィールドを引数で受け取る
+4. コンストラクタ2：`title`と`author`のみ受け取る（`price`と`pages`はデフォルト値0）
+5. メソッド：`showInfo()`で全情報を表示
+6. 2冊の本を作成し、それぞれ異なるコンストラクタを使う
+
+**ヒント**：
+```java
+Book book1 = new Book("Javaの教科書", "山田太郎", 3000, 500);
+Book book2 = new Book("データベース入門", "田中花子");
+```
+
+<details>
+<summary>解答例を見る</summary>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Book {
+    String title;
+    String author;
+    int price;
+    int pages;
+
+    // コンストラクタ1：全てのフィールドを指定
+    Book(String title, String author, int price, int pages) {
+        this.title = title;
+        this.author = author;
+        this.price = price;
+        this.pages = pages;
+    }
+
+    // コンストラクタ2：titleとauthorのみ指定
+    Book(String title, String author) {
+        this(title, author, 0, 0);  // コンストラクタ1を呼ぶ
+    }
+
+    void showInfo() {
+        System.out.println("『" + title + "』 著者: " + author + ", 価格: " + price + "円, ページ数: " + pages);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Book book1 = new Book("Javaの教科書", "山田太郎", 3000, 500);
+        book1.showInfo();
+
+        Book book2 = new Book("データベース入門", "田中花子");
+        book2.showInfo();
+    }
+}`}
+/>
+
+</details>
+
+---
+
+### 課題2: Rectangleクラスの作成
+
+**要件**：
+1. `Rectangle`（長方形）クラスを定義する
+2. フィールド：`width`（int）、`height`（int）
+3. コンストラクタ1：引数なし（デフォルト値：width=10, height=10）
+4. コンストラクタ2：一辺のみ指定（正方形）
+5. コンストラクタ3：widthとheightを指定
+6. メソッド：`getArea()`で面積を返す、`showInfo()`で情報を表示
+7. 3つの長方形を作成し、それぞれ異なるコンストラクタを使う
+
+**ヒント**：
+```java
+Rectangle rect1 = new Rectangle();        // 10x10
+Rectangle rect2 = new Rectangle(5);        // 5x5
+Rectangle rect3 = new Rectangle(8, 12);    // 8x12
+```
+
+<details>
+<summary>解答例を見る</summary>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Rectangle {
+    int width;
+    int height;
+
+    // コンストラクタ1：引数なし
+    Rectangle() {
+        this(10, 10);  // コンストラクタ3を呼ぶ
+    }
+
+    // コンストラクタ2：一辺のみ指定（正方形）
+    Rectangle(int side) {
+        this(side, side);  // コンストラクタ3を呼ぶ
+    }
+
+    // コンストラクタ3：widthとheightを指定
+    Rectangle(int width, int height) {
+        this.width = width;
+        this.height = height;
+        System.out.println(width + "x" + height + "の長方形を作成しました");
+    }
+
+    int getArea() {
+        return width * height;
+    }
+
+    void showInfo() {
+        System.out.println("幅: " + width + ", 高さ: " + height + ", 面積: " + getArea());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Rectangle rect1 = new Rectangle();
+        rect1.showInfo();
+
+        System.out.println("---");
+
+        Rectangle rect2 = new Rectangle(5);
+        rect2.showInfo();
+
+        System.out.println("---");
+
+        Rectangle rect3 = new Rectangle(8, 12);
+        rect3.showInfo();
+    }
+}`}
+/>
+
+</details>
+
+---
+
+### 課題3: Employeeクラスの作成（バリデーション付き）
+
+**要件**：
+1. `Employee`（従業員）クラスを定義する
+2. フィールド：`name`（String）、`age`（int）、`salary`（int）
+3. コンストラクタで全フィールドを受け取る
+4. バリデーション：
+   - 名前が空またはnullの場合、"名無し"にする
+   - 年齢が0未満または150を超える場合、0にする
+   - 給料が負の場合、0にする
+5. メソッド：`showInfo()`で全情報を表示
+6. 4人の従業員を作成し、正常なケースと異常なケースをテストする
+
+**ヒント**：
+```java
+Employee emp1 = new Employee("太郎", 30, 300000);
+Employee emp2 = new Employee("", 25, 250000);       // 名前が空
+Employee emp3 = new Employee("次郎", -5, 200000);   // 年齢が負
+Employee emp4 = new Employee("花子", 28, -10000);   // 給料が負
+```
+
+<details>
+<summary>解答例を見る</summary>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Employee {
+    String name;
+    int age;
+    int salary;
+
+    Employee(String name, int age, int salary) {
+        // バリデーション：名前
+        if (name == null || name.isEmpty()) {
+            System.out.println("警告: 名前が空です。デフォルト値を設定します");
+            this.name = "名無し";
+        } else {
+            this.name = name;
+        }
+
+        // バリデーション：年齢
+        if (age < 0 || age > 150) {
+            System.out.println("警告: 年齢が不正です（" + age + "）。デフォルト値を設定します");
+            this.age = 0;
+        } else {
+            this.age = age;
+        }
+
+        // バリデーション：給料
+        if (salary < 0) {
+            System.out.println("警告: 給料が負です（" + salary + "）。デフォルト値を設定します");
+            this.salary = 0;
+        } else {
+            this.salary = salary;
+        }
+
+        System.out.println("従業員を作成しました\\n");
+    }
+
+    void showInfo() {
+        System.out.println("名前: " + name + ", 年齢: " + age + "歳, 給料: " + salary + "円");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // 正常なケース
+        Employee emp1 = new Employee("太郎", 30, 300000);
+        emp1.showInfo();
+
+        System.out.println("---\\n");
+
+        // 名前が空のケース
+        Employee emp2 = new Employee("", 25, 250000);
+        emp2.showInfo();
+
+        System.out.println("---\\n");
+
+        // 年齢が負のケース
+        Employee emp3 = new Employee("次郎", -5, 200000);
+        emp3.showInfo();
+
+        System.out.println("---\\n");
+
+        // 給料が負のケース
+        Employee emp4 = new Employee("花子", 28, -10000);
+        emp4.showInfo();
+    }
+}`}
+/>
+
+</details>
+
+---
+
+## FAQ
+
+### Q1: コンストラクタに戻り値を書くとどうなる？
+
+**A1:**
+
+**エラーになる。** コンストラクタには戻り値を書けない（`void`も不可）。
+
+**エラーになる例：**
+
+```java
+class Person {
+    String name;
+
+    void Person(String name) {  // エラー！戻り値を書いてはいけない
+        this.name = name;
+    }
+}
+```
+
+**エラーメッセージ：**
+```
+error: invalid method declaration; return type required
+```
+
+**理由**：
+
+コンストラクタは特別なメソッドであり、戻り値の概念がない。
+`void`を書くと、コンパイラはこれを「普通のメソッド」と判断し、「クラス名と同じ名前のメソッド」として扱う。
+
+---
+
+### Q2: コンストラクタを複数定義すると、どれが呼ばれるのか？
+
+**A2:**
+
+**引数の型と個数が一致するコンストラクタが呼ばれる。**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Person {
+    String name;
+    int age;
+
+    Person() {
+        System.out.println("コンストラクタ1が呼ばれました");
+        this.name = "名無し";
+        this.age = 0;
+    }
+
+    Person(String name) {
+        System.out.println("コンストラクタ2が呼ばれました");
+        this.name = name;
+        this.age = 0;
+    }
+
+    Person(String name, int age) {
+        System.out.println("コンストラクタ3が呼ばれました");
+        this.name = name;
+        this.age = age;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person p1 = new Person();                // コンストラクタ1
+        Person p2 = new Person("太郎");           // コンストラクタ2
+        Person p3 = new Person("花子", 20);       // コンストラクタ3
+    }
+}`}
+/>
+
+**実行結果：**
+```
+コンストラクタ1が呼ばれました
+コンストラクタ2が呼ばれました
+コンストラクタ3が呼ばれました
+```
+
+---
+
+### Q3: this()の呼び出しを最初の行以外に書くとどうなる？
+
+**A3:**
+
+**エラーになる。**
+
+**エラーになる例：**
 
 ```java
 class Person {
     String name;
     int age;
 
-    // コンストラクタ1
     Person() {
-        this("名無し", 0);  // コンストラクタ2を呼ぶ
+        System.out.println("デフォルトコンストラクタ");
+        this("名無し", 0);  // エラー！最初の行でないとダメ
     }
 
-    // コンストラクタ2
     Person(String name, int age) {
         this.name = name;
         this.age = age;
@@ -350,64 +1080,88 @@ class Person {
 }
 ```
 
-:::caution 重要
-`this()`でコンストラクタを呼ぶ場合、**コンストラクタの最初の行**に書く必要がある。
-:::
+**エラーメッセージ：**
+```
+error: call to this must be first statement in constructor
+```
 
-**実行してみよう:**
+**理由**：
+
+コンストラクタの連鎖を正しく行うため、`this()`は最初の行でなければならない。
+これにより、フィールドの初期化順序が保証される。
+
+---
+
+### Q4: コンストラクタ内でインスタンスメソッドを呼んでも良いのか？
+
+**A4:**
+
+**呼べるが、注意が必要。**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`class Student {
+  code={`class Person {
     String name;
     int age;
-    int studentId;
 
-    // コンストラクタ1：引数なし
-    Student() {
-        this("名無し", 0, 0);  // コンストラクタ3を呼ぶ
-    }
-
-    // コンストラクタ2：名前と年齢のみ
-    Student(String name, int age) {
-        this(name, age, 0);  // コンストラクタ3を呼ぶ
-    }
-
-    // コンストラクタ3：全てのフィールドを設定
-    Student(String name, int age, int studentId) {
+    Person(String name, int age) {
         this.name = name;
         this.age = age;
-        this.studentId = studentId;
-        System.out.println("学生を作成しました");
+        introduce();  // コンストラクタ内でメソッドを呼ぶ
     }
 
-    void showInfo() {
-        System.out.println("名前: " + name + ", 年齢: " + age + ", 学生ID: " + studentId);
+    void introduce() {
+        System.out.println("私の名前は" + name + "で、" + age + "歳です");
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Student student1 = new Student();
-        student1.showInfo();
-
-        Student student2 = new Student("太郎", 18);
-        student2.showInfo();
-
-        Student student3 = new Student("花子", 20, 12345);
-        student3.showInfo();
+        Person person = new Person("太郎", 18);
     }
 }`}
 />
 
-**やってみよう:**
-- `this()`の呼び出しをコメントアウトして、各コンストラクタで直接フィールドを設定してみよう
+**実行結果：**
+```
+私の名前は太郎で、18歳です
+```
 
-:::info コンストラクタのベストプラクティス
-実務では、**必須のフィールドは引数ありコンストラクタで初期化** し、**オプションのフィールドはsetterで設定** するのが一般的である。
-また、`this()`を使って複数のコンストラクタを連鎖させることで、初期化ロジックの重複を避けられる。
-これにより、コードの保守性が向上し、バグを減らすことができる。
-:::
+**注意点**：
+
+- コンストラクタ内でメソッドを呼ぶ場合、フィールドが初期化されていることを確認する
+- 継承時は、親クラスのコンストラクタが先に実行されるため、思わぬバグが発生する可能性がある
+
+---
+
+### Q5: コンストラクタをprivateにするとどうなる？
+
+**A5:**
+
+**そのクラスの外からインスタンスを生成できなくなる。**
+
+```java
+class Singleton {
+    private static Singleton instance = new Singleton();
+
+    // privateコンストラクタ
+    private Singleton() {
+        System.out.println("インスタンスを作成しました");
+    }
+
+    public static Singleton getInstance() {
+        return instance;
+    }
+}
+
+// 外からはnewできない
+// Singleton s = new Singleton();  // エラー！
+
+// 代わりに専用メソッドで取得
+Singleton s = Singleton.getInstance();
+```
+
+これは **Singletonパターン** という設計パターンで、インスタンスを1つだけに制限したい場合に使う。
 
 ---
 
@@ -417,14 +1171,15 @@ public class Main {
 
 ### 学んだ内容
 
-- **コンストラクタ** はインスタンス生成時に自動的に呼ばれる特別なメソッドである
-- コンストラクタは **クラス名と同じ名前** で、**戻り値がない**
-- **デフォルトコンストラクタ** は引数がないコンストラクタである
-- コンストラクタを定義しないと、自動的にデフォルトコンストラクタが用意される
-- 引数ありのコンストラクタを定義すると、デフォルトコンストラクタは自動で用意されない
-- **コンストラクタのオーバーロード** で複数のコンストラクタを定義できる
-- **`this`キーワード** で自分自身のインスタンスを指せる
-- `this()`でコンストラクタから別のコンストラクタを呼べる
+1. **Step 0**: コンストラクタがないと、初期化を忘れたり、不完全な状態のインスタンスが存在する
+2. **Step 1**: コンストラクタはインスタンス生成時に自動的に呼ばれる特別なメソッドである
+3. **Step 2**: コンストラクタはクラス名と同じ名前で、戻り値がない
+4. **Step 3**: `this`キーワードでフィールドと引数を区別する
+5. **Step 4**: デフォルトコンストラクタは自動で用意されるが、引数ありコンストラクタを定義すると用意されない
+6. **Step 5**: コンストラクタのオーバーロードで複数のコンストラクタを定義できる
+7. **Step 6**: `this()`で別のコンストラクタを呼び、初期化ロジックを集約できる
+8. **Step 7**: 必須フィールドの強制、バリデーション、イミュータブルオブジェクトなど、実践パターンを学んだ
+9. **Step 8**: 実践課題で、コンストラクタの設計と実装を体験した
 
 ### 次のステップ
 

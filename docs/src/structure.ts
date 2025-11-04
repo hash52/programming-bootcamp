@@ -247,6 +247,90 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     ],
   }),
   withAutoIds({
+    id: "03a_scanner",
+    label: "標準入力（Scanner）",
+    category: "java/basics",
+    questions: [
+      {
+        title: "標準入力とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "Scannerクラスの基本的な使い方を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "様々なデータ型（String、int、double等）の読み取りができる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "nextInt()とnextLine()の混在時の注意点を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "入力エラーへの対処法を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "ループと組み合わせた入力処理を実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "Scannerを使った実践的なプログラムを作成できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
+  withAutoIds({
+    id: "03b_random",
+    label: "乱数生成（Random）",
+    category: "java/basics",
+    questions: [
+      {
+        title: "乱数とは何か、なぜ必要かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "Randomクラスの基本的な使い方を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "様々な乱数生成メソッド（nextInt、nextDouble等）を使い分けられる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "指定範囲の乱数を生成できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "シードの役割と使い方を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "配列からランダムに選択、シャッフルなどの応用パターンを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "Randomを使った実践的なプログラムを作成できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+    ],
+  }),
+  withAutoIds({
     id: "04_if_statement",
     label: "条件分岐",
     category: "java/basics",

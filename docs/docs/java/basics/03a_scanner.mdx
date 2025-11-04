@@ -1,0 +1,825 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# 標準入力（Scanner）
+
+この章では、ユーザーからの入力を受け取る方法として **Scanner** クラスについて学ぶ。
+Scannerを使うことで、インタラクティブなプログラムを作成できるようになる。
+
+---
+
+## この章で学ぶこと
+
+- 標準入力とは何かを説明できる
+- Scannerクラスの基本的な使い方を理解している
+- キーボードから文字列、整数、小数を読み取れる
+- Scannerを使ったインタラクティブなプログラムを実装できる
+- 入力エラーに対処できる
+
+---
+
+## Step 0: 入力ができないとどうなる？
+
+### 問題：年齢チェックプログラムを作りたい
+
+映画館の年齢制限チェックプログラムを作りたい。
+ユーザーの年齢を入力してもらい、年齢に応じてメッセージを表示する。
+
+#### 入力機能がない場合
+
+```java
+public class AgeCheck {
+    public static void main(String[] args) {
+        // 年齢を直接コードに書く必要がある
+        int age = 18;  // 毎回コードを書き換える必要がある
+
+        if (age >= 18) {
+            System.out.println("R18映画をご覧いただけます");
+        } else {
+            System.out.println("R18映画はご覧いただけません");
+        }
+    }
+}
+```
+
+**問題点：**
+- 年齢を変えるたびにコードを書き換える必要がある
+- プログラムを再コンパイルする必要がある
+- 実際のユーザーが使えない
+
+#### 入力機能がある場合
+
+```java
+import java.util.Scanner;
+
+public class AgeCheck {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("年齢を入力してください: ");
+        int age = scanner.nextInt();
+
+        if (age >= 18) {
+            System.out.println("R18映画をご覧いただけます");
+        } else {
+            System.out.println("R18映画はご覧いただけません");
+        }
+
+        scanner.close();
+    }
+}
+```
+
+**入力機能があると：**
+- ユーザーが自由に年齢を入力できる
+- コードを変更せずに何度でも実行できる
+- 実用的なプログラムになる
+
+では、Scannerクラスの使い方を詳しく学んでいこう。
+
+---
+
+## Step 1: 標準入力とは
+
+### 標準入力の概念
+
+**標準入力（Standard Input）** は、プログラムが外部からデータを受け取るための仕組みである。
+
+通常、キーボードからの入力を指す。
+
+### 標準入力・標準出力・標準エラー出力
+
+| 名前 | 英語 | 用途 | Java |
+|------|------|------|------|
+| **標準入力** | stdin | データを受け取る | `System.in` |
+| **標準出力** | stdout | 通常のメッセージを表示 | `System.out` |
+| **標準エラー出力** | stderr | エラーメッセージを表示 | `System.err` |
+
+### Scannerクラスとは
+
+**Scanner** は、標準入力からデータを読み取るためのクラスである。
+
+`java.util.Scanner`パッケージに含まれている。
+
+```java
+import java.util.Scanner;  // Scannerクラスをインポート
+
+Scanner scanner = new Scanner(System.in);  // Scannerオブジェクトを作成
+```
+
+:::info Scannerの読み方
+Scannerは「スキャナー」と読む。
+「スキャン（scan）する人（-er）」という意味で、入力をスキャン（読み取る）するクラスである。
+:::
+
+---
+
+## Step 2: Scannerの基本的な使い方
+
+### 基本的な流れ
+
+```java
+import java.util.Scanner;  // 1. インポート
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);  // 2. Scannerオブジェクトを作成
+
+        System.out.print("名前を入力してください: ");
+        String name = scanner.nextLine();  // 3. 入力を読み取る
+
+        System.out.println("こんにちは、" + name + "さん！");
+
+        scanner.close();  // 4. Scannerを閉じる
+    }
+}
+```
+
+### 4つのステップ
+
+1. **インポート**：`import java.util.Scanner;`
+2. **作成**：`Scanner scanner = new Scanner(System.in);`
+3. **読み取り**：`scanner.nextLine()`など
+4. **クローズ**：`scanner.close();`
+
+:::warning 重要：scanner.close()
+Scannerを使い終わったら、必ず`scanner.close()`を呼ぶ。
+これにより、システムリソースを解放できる。
+:::
+
+**実行してみよう：**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class ScannerBasics {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== 自己紹介プログラム ===");
+
+        System.out.print("名前を入力してください: ");
+        String name = scanner.nextLine();
+
+        System.out.print("出身地を入力してください: ");
+        String hometown = scanner.nextLine();
+
+        System.out.println("\\n--- 入力内容 ---");
+        System.out.println("名前: " + name);
+        System.out.println("出身地: " + hometown);
+
+        scanner.close();
+    }
+}`}
+/>
+
+**やってみよう：**
+- 趣味を入力する項目を追加してみよう
+- 複数の情報を入力して、自己紹介文を作成してみよう
+
+---
+
+## Step 3: 様々なデータ型の読み取り
+
+### Scannerの主なメソッド
+
+| メソッド | 読み取る型 | 説明 |
+|---------|-----------|------|
+| `nextLine()` | String | 1行全体を読み取る |
+| `next()` | String | 空白までの文字列を読み取る |
+| `nextInt()` | int | 整数を読み取る |
+| `nextDouble()` | double | 小数を読み取る |
+| `nextBoolean()` | boolean | true/falseを読み取る |
+
+### next() vs nextLine()
+
+| `next()` | `nextLine()` |
+|----------|--------------|
+| **空白まで** 読み取る | **改行まで** 読み取る |
+| "Hello World" → "Hello" | "Hello World" → "Hello World" |
+
+**例：**
+
+```java
+Scanner scanner = new Scanner(System.in);
+
+System.out.print("文字列を入力: ");
+String word = scanner.next();  // 空白までを読み取る
+System.out.println("読み取った文字列: " + word);
+
+// 入力: "Hello World"
+// 出力: "読み取った文字列: Hello"
+```
+
+```java
+Scanner scanner = new Scanner(System.in);
+
+System.out.print("文を入力: ");
+String line = scanner.nextLine();  // 改行までを読み取る
+System.out.println("読み取った文: " + line);
+
+// 入力: "Hello World"
+// 出力: "読み取った文: Hello World"
+```
+
+**実行してみよう：**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class ScannerDataTypes {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== 様々なデータ型の入力 ===\\n");
+
+        // 整数の入力
+        System.out.print("年齢を入力してください: ");
+        int age = scanner.nextInt();
+
+        // 小数の入力
+        System.out.print("身長を入力してください (cm): ");
+        double height = scanner.nextDouble();
+
+        // nextInt()の後の改行を読み飛ばす
+        scanner.nextLine();
+
+        // 文字列の入力
+        System.out.print("名前を入力してください: ");
+        String name = scanner.nextLine();
+
+        // 結果表示
+        System.out.println("\\n--- 入力内容 ---");
+        System.out.println("名前: " + name);
+        System.out.println("年齢: " + age + "歳");
+        System.out.println("身長: " + height + "cm");
+
+        scanner.close();
+    }
+}`}
+/>
+
+**やってみよう：**
+- 体重を入力する項目を追加してみよう
+- BMI（体重 ÷ 身長² * 10000）を計算してみよう
+
+---
+
+## Step 4: nextInt()とnextLine()の混在に注意
+
+### よくあるバグ
+
+`nextInt()`や`nextDouble()`の後に`nextLine()`を使うと、改行文字が残っているため、`nextLine()`が空文字を読み取ってしまう。
+
+**問題のあるコード：**
+
+```java
+Scanner scanner = new Scanner(System.in);
+
+System.out.print("年齢を入力: ");
+int age = scanner.nextInt();  // ここで「20」を入力して Enter
+
+System.out.print("名前を入力: ");
+String name = scanner.nextLine();  // ここで改行文字が読み取られ、空文字になる
+
+System.out.println("年齢: " + age);
+System.out.println("名前: " + name);  // 空文字が表示される
+```
+
+### 解決方法
+
+`nextInt()`や`nextDouble()`の後に、**ダミーの`nextLine()`を挿入**して改行文字を読み飛ばす。
+
+**修正後のコード：**
+
+```java
+Scanner scanner = new Scanner(System.in);
+
+System.out.print("年齢を入力: ");
+int age = scanner.nextInt();
+scanner.nextLine();  // ダミーのnextLine()で改行を読み飛ばす
+
+System.out.print("名前を入力: ");
+String name = scanner.nextLine();  // 正しく読み取れる
+
+System.out.println("年齢: " + age);
+System.out.println("名前: " + name);
+```
+
+:::tip ポイント
+`nextInt()`や`nextDouble()`の後に`nextLine()`を使う場合は、間にダミーの`nextLine()`を入れる。
+これは初心者がよくハマるバグなので、覚えておこう。
+:::
+
+**実行してみよう：**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class ScannerMixedInput {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== 正しい入力処理の例 ===\\n");
+
+        System.out.print("商品番号を入力: ");
+        int productId = scanner.nextInt();
+
+        System.out.print("個数を入力: ");
+        int quantity = scanner.nextInt();
+
+        // ダミーのnextLine()で改行を読み飛ばす
+        scanner.nextLine();
+
+        System.out.print("配送先住所を入力: ");
+        String address = scanner.nextLine();
+
+        // 結果表示
+        System.out.println("\\n--- 注文内容 ---");
+        System.out.println("商品番号: " + productId);
+        System.out.println("個数: " + quantity);
+        System.out.println("配送先: " + address);
+
+        scanner.close();
+    }
+}`}
+/>
+
+**やってみよう：**
+- ダミーの`nextLine()`を削除して、バグを再現してみよう
+- 商品価格を入力する項目を追加してみよう
+
+---
+
+## Step 5: 入力エラーへの対処
+
+### 型が合わない入力
+
+`nextInt()`で整数を期待しているのに、文字列を入力すると、`InputMismatchException`が発生する。
+
+**例：**
+
+```java
+Scanner scanner = new Scanner(System.in);
+
+System.out.print("年齢を入力: ");
+int age = scanner.nextInt();  // "abc"を入力すると例外が発生
+
+// Exception in thread "main" java.util.InputMismatchException
+```
+
+### 解決方法：try-catchで例外を処理
+
+```java
+Scanner scanner = new Scanner(System.in);
+
+System.out.print("年齢を入力: ");
+try {
+    int age = scanner.nextInt();
+    System.out.println("入力された年齢: " + age);
+} catch (InputMismatchException e) {
+    System.out.println("エラー: 数値を入力してください");
+}
+```
+
+### hasNextInt()で事前チェック
+
+`hasNextInt()`を使うと、次の入力が整数かどうかを事前にチェックできる。
+
+```java
+Scanner scanner = new Scanner(System.in);
+
+System.out.print("年齢を入力: ");
+if (scanner.hasNextInt()) {
+    int age = scanner.nextInt();
+    System.out.println("入力された年齢: " + age);
+} else {
+    System.out.println("エラー: 数値を入力してください");
+    scanner.next();  // 不正な入力を読み飛ばす
+}
+```
+
+**実行してみよう：**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+import java.util.InputMismatchException;
+
+public class ScannerErrorHandling {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== 入力エラーへの対処 ===\\n");
+
+        // 方法1: try-catchで例外を処理
+        System.out.println("方法1: try-catchで例外を処理");
+        System.out.print("年齢を入力: ");
+        try {
+            int age = scanner.nextInt();
+            System.out.println("入力された年齢: " + age);
+        } catch (InputMismatchException e) {
+            System.out.println("エラー: 数値を入力してください");
+            scanner.next();  // 不正な入力を読み飛ばす
+        }
+
+        System.out.println("\\n---\\n");
+
+        // 方法2: hasNextInt()で事前チェック
+        System.out.println("方法2: hasNextInt()で事前チェック");
+        System.out.print("体重を入力 (kg): ");
+        if (scanner.hasNextInt()) {
+            int weight = scanner.nextInt();
+            System.out.println("入力された体重: " + weight + "kg");
+        } else {
+            System.out.println("エラー: 数値を入力してください");
+            scanner.next();  // 不正な入力を読み飛ばす
+        }
+
+        scanner.close();
+    }
+}`}
+/>
+
+**やってみよう：**
+- 数値以外を入力して、エラー処理を確認してみよう
+- while文を使って、正しい入力があるまで繰り返してみよう
+
+---
+
+## Step 6: ループと組み合わせた入力
+
+### 複数回の入力
+
+ループを使うと、ユーザーから複数回の入力を受け取れる。
+
+**例：合計を計算するプログラム**
+
+```java
+Scanner scanner = new Scanner(System.in);
+
+System.out.print("何個の数値を入力しますか？: ");
+int count = scanner.nextInt();
+
+int sum = 0;
+for (int i = 1; i <= count; i++) {
+    System.out.print(i + "個目の数値: ");
+    int number = scanner.nextInt();
+    sum += number;
+}
+
+System.out.println("合計: " + sum);
+```
+
+### 条件による終了
+
+特定の入力があるまで繰り返す。
+
+**例：0が入力されるまで繰り返す**
+
+```java
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("数値を入力してください（0で終了）");
+
+int sum = 0;
+while (true) {
+    System.out.print("数値: ");
+    int number = scanner.nextInt();
+
+    if (number == 0) {
+        break;  // 0が入力されたら終了
+    }
+
+    sum += number;
+}
+
+System.out.println("合計: " + sum);
+```
+
+**実行してみよう：**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class ScannerWithLoop {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== テストの点数集計プログラム ===\\n");
+
+        System.out.print("何人分の点数を入力しますか？: ");
+        int studentCount = scanner.nextInt();
+
+        int sum = 0;
+        int maxScore = 0;
+        int minScore = 100;
+
+        for (int i = 1; i <= studentCount; i++) {
+            System.out.print(i + "人目の点数: ");
+            int score = scanner.nextInt();
+
+            sum += score;
+
+            if (score > maxScore) {
+                maxScore = score;
+            }
+            if (score < minScore) {
+                minScore = score;
+            }
+        }
+
+        double average = (double) sum / studentCount;
+
+        System.out.println("\\n--- 集計結果 ---");
+        System.out.println("合計点: " + sum);
+        System.out.println("平均点: " + average);
+        System.out.println("最高点: " + maxScore);
+        System.out.println("最低点: " + minScore);
+
+        scanner.close();
+    }
+}`}
+/>
+
+**やってみよう：**
+- 60点未満の人数をカウントしてみよう
+- 点数の範囲を0〜100に制限してみよう
+
+---
+
+## Step 7: 実践課題
+
+### 課題1：簡易電卓プログラム
+
+2つの数値と演算子（+, -, *, /）を入力して、計算結果を表示するプログラムを作成せよ。
+
+**要件：**
+- 1つ目の数値を入力
+- 演算子を入力（+, -, *, /）
+- 2つ目の数値を入力
+- 計算結果を表示
+- 0で割ろうとした場合はエラーメッセージを表示
+
+**実行例：**
+```
+=== 簡易電卓 ===
+1つ目の数値: 10
+演算子 (+, -, *, /): +
+2つ目の数値: 5
+結果: 10 + 5 = 15
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class SimpleCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== 簡易電卓 ===");
+
+        // ここにコードを書く
+
+        scanner.close();
+    }
+}`}
+/>
+
+---
+
+### 課題2：数当てゲーム
+
+コンピュータがランダムに選んだ1〜100の数値を、ユーザーが当てるゲームを作成せよ。
+
+**要件：**
+- コンピュータが1〜100のランダムな数値を選ぶ
+- ユーザーが数値を入力
+- 大きいか小さいかのヒントを表示
+- 正解するまで繰り返す
+- 正解したら、何回で当てたかを表示
+
+**実行例：**
+```
+=== 数当てゲーム ===
+1〜100の数値を当ててください
+
+予想: 50
+もっと大きいです
+
+予想: 75
+もっと小さいです
+
+予想: 65
+正解！ 3回で当てました
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+import java.util.Random;
+
+public class NumberGuessGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+
+        System.out.println("=== 数当てゲーム ===");
+        System.out.println("1〜100の数値を当ててください\\n");
+
+        // ランダムな数値を生成（1〜100）
+        int answer = random.nextInt(100) + 1;
+
+        // ここにコードを書く
+
+        scanner.close();
+    }
+}`}
+/>
+
+---
+
+### 課題3：買い物リストプログラム
+
+商品名と価格を入力し、合計金額を計算するプログラムを作成せよ。
+
+**要件：**
+- 何個の商品を入力するかを尋ねる
+- 各商品の名前と価格を入力
+- 合計金額を表示
+- 消費税（10%）込みの金額を表示
+
+**実行例：**
+```
+=== 買い物リスト ===
+何個の商品を入力しますか？: 3
+
+1個目の商品名: りんご
+価格: 150
+
+2個目の商品名: バナナ
+価格: 200
+
+3個目の商品名: みかん
+価格: 100
+
+--- 合計 ---
+小計: 450円
+消費税（10%）: 45円
+合計: 495円
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class ShoppingList {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== 買い物リスト ===");
+
+        // ここにコードを書く
+
+        scanner.close();
+    }
+}`}
+/>
+
+---
+
+## まとめ
+
+この章では、 **Scanner** クラスを使った標準入力について学んだ。
+
+### 学んだ内容
+
+- **標準入力** は、プログラムが外部からデータを受け取る仕組みである
+- **Scanner** クラスを使うと、キーボードからの入力を読み取れる
+- Scannerの基本的な使い方：
+  1. `import java.util.Scanner;`でインポート
+  2. `Scanner scanner = new Scanner(System.in);`で作成
+  3. `nextLine()`, `nextInt()`, `nextDouble()`などで読み取り
+  4. `scanner.close();`で閉じる
+- **`next()` vs `nextLine()`**：`next()`は空白まで、`nextLine()`は改行まで読み取る
+- **`nextInt()`と`nextLine()`の混在**：間にダミーの`nextLine()`を入れる
+- **入力エラーへの対処**：try-catchまたはhasNextInt()を使う
+- **ループと組み合わせ**：複数回の入力を処理できる
+
+### 次のステップ
+
+次の章では、 **乱数生成（Random）** について学ぶ。
+Scannerと組み合わせることで、よりインタラクティブなゲームやプログラムを作れるようになる。
+
+---
+
+## FAQ
+
+### Q1: System.inとは何か？
+
+A: **`System.in`** は、 **標準入力ストリーム** を表す。
+
+通常、キーボードからの入力を指す。
+
+```java
+Scanner scanner = new Scanner(System.in);
+//                             ↑
+//                      標準入力ストリーム
+```
+
+| 名前 | 説明 |
+|------|------|
+| `System.in` | 標準入力（キーボード） |
+| `System.out` | 標準出力（コンソール） |
+| `System.err` | 標準エラー出力（エラーメッセージ） |
+
+---
+
+### Q2: scanner.close()を忘れるとどうなる？
+
+A: `scanner.close()`を忘れると、 **リソースリーク**（メモリの無駄遣い）が発生する。
+
+**問題点：**
+- システムリソースが解放されない
+- 大量のScannerを作ると、メモリが不足する可能性がある
+
+**ベストプラクティス：**
+- 必ず`scanner.close()`を呼ぶ
+- または、try-with-resources文を使う（後の章で学ぶ）
+
+```java
+// try-with-resources（自動的にcloseされる）
+try (Scanner scanner = new Scanner(System.in)) {
+    // 処理
+}  // 自動的にscanner.close()が呼ばれる
+```
+
+---
+
+### Q3: nextLine()が空文字を読み取ってしまう
+
+A: `nextInt()`や`nextDouble()`の後に`nextLine()`を使うと、改行文字が残っているため、空文字を読み取ってしまう。
+
+**解決方法：**
+`nextInt()`や`nextDouble()`の後に、ダミーの`nextLine()`を挿入する。
+
+```java
+int age = scanner.nextInt();
+scanner.nextLine();  // ダミーのnextLine()で改行を読み飛ばす
+String name = scanner.nextLine();  // 正しく読み取れる
+```
+
+---
+
+### Q4: Scannerで日本語を入力できない？
+
+A: **できる。** Scannerは日本語を含むUnicode文字列を読み取れる。
+
+```java
+Scanner scanner = new Scanner(System.in);
+
+System.out.print("名前を入力: ");
+String name = scanner.nextLine();  // 日本語OK
+
+System.out.println("こんにちは、" + name + "さん！");
+```
+
+ただし、コンソールの文字コード設定によっては文字化けする場合がある。
+その場合は、コンソールの設定を確認すること。
+
+---
+
+### Q5: 複数のScannerを作成しても良いか？
+
+A: **避けるべき。** 通常、1つのプログラムで1つのScannerを使う。
+
+**理由：**
+- 複数のScannerを`System.in`で作成すると、入力が競合する可能性がある
+- リソースの無駄遣いになる
+
+**ベストプラクティス：**
+```java
+// 良い例：1つのScannerを使い回す
+Scanner scanner = new Scanner(System.in);
+
+String name = scanner.nextLine();
+int age = scanner.nextInt();
+
+scanner.close();
+```
+
+**悪い例：**
+```java
+// 悪い例：複数のScannerを作成
+Scanner scanner1 = new Scanner(System.in);
+String name = scanner1.nextLine();
+scanner1.close();
+
+Scanner scanner2 = new Scanner(System.in);  // 避けるべき
+int age = scanner2.nextInt();
+scanner2.close();
+```

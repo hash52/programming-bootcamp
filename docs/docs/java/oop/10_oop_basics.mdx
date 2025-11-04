@@ -1,8 +1,9 @@
-import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
-
 # オブジェクト指向の基礎
 
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
 この章では、プログラミングにおける重要な考え方である **オブジェクト指向** について学ぶ。
+オブジェクト指向は、**データと処理をまとめて管理する設計思想** であり、現代のプログラミングの基盤となっている。
 
 ---
 
@@ -13,7 +14,7 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 
 ### オブジェクト指向が難しい理由
 
-1. **用語が聞き慣れない**：クラス、インスタンス、フィールド、メソッド、カプセル化、継承...など、初めて聞く言葉ばかり
+1. **用語が聞き慣れない**：クラス、インスタンス、フィールド、メソッド、カプセル化、継承など、初めて聞く言葉ばかり
 2. **概念的で抽象的**：目に見えないものをイメージする必要がある
 3. **今まで学んだこととの違い**：変数や条件分岐は「手順」だったが、オブジェクト指向は「設計」の話
 
@@ -30,27 +31,118 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 
 ---
 
-## 学習のゴール
+## Step 0: オブジェクト指向がないとどうなる？
 
-- オブジェクト指向とは何かを説明できる
-- クラスとオブジェクト（インスタンス）の関係を理解している
-- フィールドの役割を説明できる
-- インスタンスメソッドとstaticメソッドの違いを理解している
-- newキーワードの役割を理解している
-- クラスを定義してインスタンスを生成するプログラムを実装できる
+まず、オブジェクト指向を使わずにプログラムを書いてみよう。
+
+### 問題シナリオ：3人の学生を管理する
+
+3人の学生（太郎、花子、次郎）の名前と年齢を管理し、全員の情報を表示したいとする。
+
+**オブジェクト指向を使わない場合：**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 太郎のデータ
+        String name1 = "太郎";
+        int age1 = 18;
+
+        // 花子のデータ
+        String name2 = "花子";
+        int age2 = 20;
+
+        // 次郎のデータ
+        String name3 = "次郎";
+        int age3 = 19;
+
+        // 全員の情報を表示
+        System.out.println(name1 + "は" + age1 + "歳です");
+        System.out.println(name2 + "は" + age2 + "歳です");
+        System.out.println(name3 + "は" + age3 + "歳です");
+    }
+}`}
+/>
+
+### 問題点
+
+このコードには、いくつかの深刻な問題がある：
+
+**1. データがバラバラ**
+
+- `name1`と`age1`が同じ「太郎」に関連するデータだが、その関連性がコードから読み取りにくい
+- 変数が増えると、どの名前とどの年齢が対応するのか分からなくなる
+
+**2. スケールしない**
+
+- 学生が10人、100人になったら、`name1`〜`name100`、`age1`〜`age100`を個別に管理する必要がある
+- 変数が爆発的に増える
+
+**3. 処理を追加しにくい**
+
+- 「自己紹介する」などの処理を追加したい場合、同じコードを3回書く必要がある：
+  ```java
+  System.out.println("私の名前は" + name1 + "で、" + age1 + "歳です");
+  System.out.println("私の名前は" + name2 + "で、" + age2 + "歳です");
+  System.out.println("私の名前は" + name3 + "で、" + age3 + "歳です");
+  ```
+
+**4. 配列でも限界がある**
+
+配列を使えば少しマシになるが、それでも名前と年齢を別々の配列で管理する必要がある：
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        String[] names = {"太郎", "花子", "次郎"};
+        int[] ages = {18, 20, 19};
+
+        for (int i = 0; i < names.length; i++) {
+            System.out.println(names[i] + "は" + ages[i] + "歳です");
+        }
+    }
+}`}
+/>
+
+これでも問題は残る：
+
+- `names[i]`と`ages[i]`の対応関係が暗黙的（インデックスが一致していることを前提とする）
+- データが増えると配列が増える（名前、年齢、住所、電話番号...）
+- 処理（自己紹介、誕生日など）をどこに書けばよいのか不明確
+
+### 本質的な課題
+
+**関連するデータと処理をまとめる仕組みがない。**
+
+- 「太郎」というデータと「自己紹介する」という処理は密接に関連している
+- しかし、バラバラに定義されているため、管理が煩雑
+
+ではどうすれば良いのか？
 
 ---
 
-## 1. オブジェクト指向とは
+## Step 1: オブジェクト指向という解決策
 
-### オブジェクト指向の考え方
+### オブジェクト指向とは
 
 **オブジェクト指向** は、**「もの」を中心にプログラムを設計する考え方** である。
 
+**「もの」とは**：
+
+- 関連するデータ（属性）と処理（振る舞い）をまとめたもの
+- 例：「学生」というもの
+  - データ：名前、年齢
+  - 処理：自己紹介する、誕生日を迎える
+
 ### 手続き型との違い
 
-- **手続き型**：「何をするか」（処理の手順）を中心に考える
-- **オブジェクト指向**：「何があるか」（ものとその性質・振る舞い）を中心に考える
+| 比較項目 | 手続き型 | オブジェクト指向 |
+|---------|---------|------------------|
+| **考え方** | 「何をするか」（処理の手順）中心 | 「何があるか」（ものとその性質・振る舞い）中心 |
+| **データと処理** | バラバラに定義 | まとめて定義 |
+| **例** | `name1`, `age1`, `printInfo(name, age)` | `Student`に`name`, `age`, `introduce()`をまとめる |
 
 ### 現実世界の例：車
 
@@ -68,42 +160,41 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 オブジェクト指向では、「もの」を単位として、データと処理をまとめて考える。
 :::
 
+### オブジェクト指向の3つの利点
+
+1. **データと処理の関連性が明確**：`Student`クラスに`name`と`introduce()`がまとまっているため、関連性が一目瞭然
+2. **スケーラビリティ**：学生が何人になっても、`Student`の配列やリストで管理できる
+3. **再利用性**：一度`Student`クラスを定義すれば、何度でも使える
+
 ### オブジェクト指向の用語整理
 
 この章で登場する重要な用語を整理しておこう。最初は用語に慣れることが大切である。
 
 | 用語 | 意味 | 例 |
 |------|------|-----|
-| **クラス** | オブジェクトの設計図 | `Car`クラス（車の設計図） |
-| **オブジェクト** | 「もの」そのもの、データと処理のまとまり | 車、人、商品など |
-| **インスタンス** | クラスから生成された実体 | `new Car()`で作られた具体的な車 |
-| **フィールド** | クラスが持つデータ（変数） | `color`（色）、`speed`（速度） |
-| **インスタンスメソッド** | インスタンスが持つ処理（関数） | `start()`（発進）、`stop()`（停止） |
-| **staticメソッド** | クラスに属する処理、インスタンス不要 | `Math.abs()`、`MathUtils.add()` |
-| **new** | クラスからインスタンスを生成するキーワード | `new Car()` |
+| **クラス** | オブジェクトの設計図 | `Student`クラス（学生の設計図） |
+| **オブジェクト** | 「もの」そのもの、データと処理のまとまり | 学生、車、商品など |
+| **インスタンス** | クラスから生成された実体 | `new Student()`で作られた具体的な学生 |
+| **フィールド** | クラスが持つデータ（変数） | `name`（名前）、`age`（年齢） |
+| **インスタンスメソッド** | インスタンスが持つ処理（関数） | `introduce()`（自己紹介） |
+| **staticメソッド** | クラスに属する処理、インスタンス不要 | `Math.abs()`、`main()` |
+| **new** | クラスからインスタンスを生成するキーワード | `new Student()` |
 
 :::tip ポイント
 最初は用語を全て覚える必要はない。この章を読み進めながら、何度もこの表を見返して、徐々に慣れていこう。
 :::
 
-:::info なぜオブジェクト指向が必要か
-オブジェクト指向の最大の利点は、**データと処理をまとめることで、プログラムの構造が整理される** ことである。
-手続き型では、データ（変数）と処理（関数）がバラバラに定義されるため、プログラムが大きくなると管理が難しくなる。
-オブジェクト指向では、「車」という単位で、車が持つデータ（色、速度）と車がする処理（発進、停止）をまとめて管理できる。
-これにより、コードの可読性、保守性、再利用性が向上する。
-:::
-
 ---
 
-## 2. クラスとオブジェクト（インスタンス）
+## Step 2: クラスとインスタンス
 
 ### クラスとは
 
 **クラス** は、**オブジェクトの設計図** である。
 
-### オブジェクト（インスタンス）とは
+### インスタンスとは
 
-**オブジェクト**（または **インスタンス**）は、**設計図（クラス）から作られた実体** である。
+**インスタンス**（または **オブジェクト**）は、**設計図（クラス）から作られた実体** である。
 
 ### 例：クッキーの型と実際のクッキー
 
@@ -116,23 +207,24 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 
 ```mermaid
 classDiagram
-    class Car {
-        String color
-        int speed
-        start()
-        stop()
+    class Student {
+        String name
+        int age
+        introduce()
     }
 
-    Car <|.. car1 : new
-    Car <|.. car2 : new
+    Student <|.. student1 : new
+    Student <|.. student2 : new
+    Student <|.. student3 : new
 
-    note for car1 "インスタンス1\n色: 赤\n速度: 0"
-    note for car2 "インスタンス2\n色: 青\n速度: 0"
+    note for student1 "インスタンス1\\n名前: 太郎\\n年齢: 18"
+    note for student2 "インスタンス2\\n名前: 花子\\n年齢: 20"
+    note for student3 "インスタンス3\\n名前: 次郎\\n年齢: 19"
 ```
 
 **図の見方：**
-- **Car**（上）：クラス（設計図）
-- **car1, car2**（下）：newによって生成されたインスタンス（実体）
+- **Student**（上）：クラス（設計図）
+- **student1, student2, student3**（下）：`new`によって生成されたインスタンス（実体）
 - 1つのクラスから複数のインスタンスを生成できる
 
 :::note 用語
@@ -142,102 +234,168 @@ classDiagram
 
 ---
 
-## 3. フィールド
+## Step 3: クラスの定義とフィールド
+
+### クラスの定義
+
+Javaでクラスを定義する基本形は以下の通り：
+
+```java
+class クラス名 {
+    // フィールド（データ）
+    // メソッド（処理）
+}
+```
+
+### Studentクラスの定義例
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// Studentクラスの定義
+class Student {
+    String name;  // フィールド（名前）
+    int age;      // フィールド（年齢）
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // インスタンスを生成
+        Student student1 = new Student();
+        student1.name = "太郎";
+        student1.age = 18;
+
+        Student student2 = new Student();
+        student2.name = "花子";
+        student2.age = 20;
+
+        // フィールドにアクセス
+        System.out.println(student1.name + "は" + student1.age + "歳です");
+        System.out.println(student2.name + "は" + student2.age + "歳です");
+    }
+}`}
+/>
 
 ### フィールドとは
 
 **フィールド** は、**クラスが持つデータ**（変数）である。
 インスタンスごとに異なる値を持つことができる。
 
-### 例：Carクラス
-
 ```java
-class Car {
-    String color;  // フィールド（色）
-    int speed;     // フィールド（速度）
+class Student {
+    String name;  // フィールド（名前）
+    int age;      // フィールド（年齢）
 }
 ```
 
 ### インスタンスごとに異なる値
 
 ```java
-Car car1 = new Car();
-car1.color = "赤";
-car1.speed = 0;
+Student student1 = new Student();
+student1.name = "太郎";
+student1.age = 18;
 
-Car car2 = new Car();
-car2.color = "青";
-car2.speed = 0;
+Student student2 = new Student();
+student2.name = "花子";
+student2.age = 20;
 ```
 
-- `car1`は赤い車
-- `car2`は青い車
+- `student1`は「太郎、18歳」
+- `student2`は「花子、20歳」
 
-**実行してみよう:**
+**それぞれのインスタンスが独立したデータを持つ。**
 
-<OneCompilerCodeBlock
-  language="java"
-  code={`// Carクラスの定義
-class Car {
-    String color;  // フィールド
-    int speed;     // フィールド
-}
+### フィールドへのアクセス
 
-public class Main {
-    public static void main(String[] args) {
-        // 赤い車のインスタンスを作成
-        Car car1 = new Car();
-        car1.color = "赤";
-        car1.speed = 0;
+フィールドにアクセスするには、 **ドット記法** を使う：
 
-        // 青い車のインスタンスを作成
-        Car car2 = new Car();
-        car2.color = "青";
-        car2.speed = 0;
+```java
+インスタンス名.フィールド名
+```
 
-        // それぞれの車の情報を表示
-        System.out.println("car1の色: " + car1.color + ", 速度: " + car1.speed);
-        System.out.println("car2の色: " + car2.color + ", 速度: " + car2.speed);
-    }
-}`}
-/>
-
-**やってみよう:**
-- 新しい車`car3`を作成して、別の色を設定してみよう
-- フィールドに別の属性（例：`maker`でメーカー名）を追加してみよう
+例：
+```java
+student1.name  // student1のnameフィールド
+student2.age   // student2のageフィールド
+```
 
 ---
 
-## 4. メソッド
+## Step 4: インスタンスメソッド
 
 ### インスタンスメソッドとは
 
 **インスタンスメソッド** は、**インスタンスが持つ処理**（振る舞い）である。
 
-### 例：Carクラスにメソッドを追加
+### Studentクラスにメソッドを追加
 
-```java
-class Car {
-    String color;
-    int speed;
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Student {
+    String name;
+    int age;
 
     // インスタンスメソッド
-    void start() {
-        speed = 50;
-        System.out.println("発進しました。速度: " + speed);
+    void introduce() {
+        System.out.println("私の名前は" + name + "で、" + age + "歳です");
     }
 
-    void stop() {
-        speed = 0;
-        System.out.println("停止しました。");
+    void birthday() {
+        age++;
+        System.out.println("誕生日を迎えました。" + age + "歳になりました");
     }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // 太郎のインスタンス
+        Student taro = new Student();
+        taro.name = "太郎";
+        taro.age = 18;
+        taro.introduce();
+        taro.birthday();
+
+        System.out.println("---");
+
+        // 花子のインスタンス
+        Student hanako = new Student();
+        hanako.name = "花子";
+        hanako.age = 20;
+        hanako.introduce();
+    }
+}`}
+/>
+
+### メソッド内でフィールドにアクセス
+
+インスタンスメソッドの中では、 **そのインスタンスのフィールドに直接アクセスできる**：
+
+```java
+void introduce() {
+    System.out.println("私の名前は" + name + "で、" + age + "歳です");
+    // ↑ このnameとageは、呼び出したインスタンスのフィールド
 }
 ```
 
-### staticメソッドとの違い
+- `taro.introduce()`を呼ぶと、`taro`の`name`と`age`が使われる
+- `hanako.introduce()`を呼ぶと、`hanako`の`name`と`age`が使われる
 
-- **staticメソッド**（今まで使ってきた）：クラスに属する、インスタンスなしで呼べる
-- **インスタンスメソッド**（今学んでいる）：インスタンスに属する、インスタンス経由で呼ぶ
+### メソッドの呼び出し方
+
+```java
+インスタンス名.メソッド名()
+```
+
+例：
+```java
+taro.introduce();     // 太郎のintroduce()メソッドを呼ぶ
+hanako.birthday();    // 花子のbirthday()メソッドを呼ぶ
+```
+
+---
+
+## Step 5: staticメソッドとの違い
+
+### staticメソッドとインスタンスメソッドの違い
 
 | 比較項目 | staticメソッド | インスタンスメソッド |
 |---------|---------------|---------------------|
@@ -245,62 +403,268 @@ class Car {
 | **呼び出し方** | `クラス名.メソッド名()` | `インスタンス名.メソッド名()` |
 | **インスタンス** | 不要 | 必要（`new`で生成） |
 | **フィールドへのアクセス** | インスタンスのフィールドにアクセス不可 | インスタンスのフィールドにアクセス可能 |
-| **例** | `Math.abs(-5)` | `car.start()` |
+| **例** | `Math.abs(-5)` | `student.introduce()` |
 
-```java
-// staticメソッド（クラスから直接呼ぶ）
-Math.abs(-5);
-MathUtils.add(10, 20);
+### 具体例
 
-// インスタンスメソッド（インスタンス経由で呼ぶ）
-Car car = new Car();
-car.start();
-```
+<OneCompilerCodeBlock
+  language="java"
+  code={`class MathUtils {
+    // staticメソッド
+    static int add(int a, int b) {
+        return a + b;
+    }
+}
+
+class Student {
+    String name;
+
+    // インスタンスメソッド
+    void introduce() {
+        System.out.println("私の名前は" + name + "です");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // staticメソッド：クラス名.メソッド名()
+        int result = MathUtils.add(10, 20);
+        System.out.println("結果: " + result);
+
+        // インスタンスメソッド：インスタンス名.メソッド名()
+        Student student = new Student();
+        student.name = "太郎";
+        student.introduce();
+    }
+}`}
+/>
+
+### なぜstaticとインスタンスの2種類があるのか
+
+**staticメソッド**：
+
+- インスタンスに依存しない汎用的な処理に使う
+- 例：`Math.abs()`、`Math.max()`、ユーティリティ関数
+
+**インスタンスメソッド**：
+
+- インスタンスのデータに依存する処理に使う
+- 例：`student.introduce()`（特定の学生の名前を表示）
 
 :::tip ポイント
 `public static void main`の`static`は、「mainメソッドはインスタンスなしで呼び出される」という意味だった。
 今後、クラスを設計するときは、インスタンスメソッドを使うことが多い。
 :::
 
-:::warning よくあるエラー：staticメソッドからインスタンスフィールドにアクセス
+---
 
-**staticメソッドから、インスタンスのフィールドには直接アクセスできない。**
+## Step 6: インスタンスの生成とnewキーワード
+
+### newキーワード
+
+**`new`キーワード** は、**クラスからインスタンスを生成する** ための命令である。
 
 ```java
-class Car {
-    String color;  // インスタンスフィールド
+Student student = new Student();
+```
 
-    // staticメソッド
-    public static void printColor() {
-        System.out.println(color);  // エラー！
+**処理の流れ：**
+1. `new Student()`：Studentクラスのインスタンスを生成
+2. `Student student`：生成したインスタンスを変数`student`に代入
+
+### インスタンスは変数に代入され、変数の中に構造を持つ
+
+**重要な理解ポイント：**
+- **インスタンスは変数に代入できる**
+- **変数の中にフィールド（データ）の構造を持つ**
+
+```java
+Student student = new Student();
+student.name = "太郎";   // 変数studentの中のnameフィールドに値を設定
+student.age = 18;        // 変数studentの中のageフィールドに値を設定
+```
+
+変数`student`は、単なる値ではなく、 **複数のフィールドを持つ構造** を格納している。
+これが、オブジェクト指向プログラミングの核心である。
+
+**図解：**
+```
+student（変数）
+  ├─ name: "太郎"  （フィールド）
+  ├─ age: 18       （フィールド）
+  └─ introduce()   （メソッド）
+```
+
+1つの変数の中に、複数のデータと処理をまとめて管理できる。
+これにより、関連するデータをバラバラに管理する必要がなくなる。
+
+### 複数のインスタンス
+
+1つのクラスから、複数のインスタンスを生成できる。
+それぞれのインスタンスは、独立したデータを持つ。
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Student {
+    String name;
+    int age;
+
+    void introduce() {
+        System.out.println("私の名前は" + name + "で、" + age + "歳です");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // 3人の学生インスタンスを生成
+        Student student1 = new Student();
+        student1.name = "太郎";
+        student1.age = 18;
+
+        Student student2 = new Student();
+        student2.name = "花子";
+        student2.age = 20;
+
+        Student student3 = new Student();
+        student3.name = "次郎";
+        student3.age = 19;
+
+        // それぞれが独立している
+        student1.introduce();
+        student2.introduce();
+        student3.introduce();
+
+        // student1の年齢を変更してもstudent2には影響しない
+        student1.age = 19;
+        System.out.println("\\n--- 太郎の年齢変更後 ---");
+        student1.introduce();
+        student2.introduce();
+    }
+}`}
+/>
+
+---
+
+## Step 7: 配列とオブジェクト指向の組み合わせ
+
+### 複数のインスタンスを配列で管理
+
+Step 0で見た「配列でも限界がある」問題を、オブジェクト指向で解決しよう。
+
+**オブジェクト指向を使わない場合**（Step 0の再掲）：
+
+```java
+String[] names = {"太郎", "花子", "次郎"};
+int[] ages = {18, 20, 19};
+// 名前と年齢が別々の配列 → 対応関係が暗黙的
+```
+
+**オブジェクト指向を使う場合**：
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Student {
+    String name;
+    int age;
+
+    void introduce() {
+        System.out.println("私の名前は" + name + "で、" + age + "歳です");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Student型の配列を作成
+        Student[] students = new Student[3];
+
+        // インスタンスを生成して配列に格納
+        students[0] = new Student();
+        students[0].name = "太郎";
+        students[0].age = 18;
+
+        students[1] = new Student();
+        students[1].name = "花子";
+        students[1].age = 20;
+
+        students[2] = new Student();
+        students[2].name = "次郎";
+        students[2].age = 19;
+
+        // ループで全員の自己紹介
+        for (int i = 0; i < students.length; i++) {
+            students[i].introduce();
+        }
+
+        System.out.println("\\n--- 拡張forループ ---");
+        for (Student s : students) {
+            s.introduce();
+        }
+    }
+}`}
+/>
+
+### 利点
+
+1. **データの関連性が明確**：`students[0]`に名前と年齢がまとまっている
+2. **スケーラビリティ**：学生が何人になっても、配列のサイズを変えるだけ
+3. **処理が簡潔**：`students[i].introduce()`でメソッドを呼べる
+
+### データを追加しても影響が小さい
+
+学生に「住所」フィールドを追加したいとしよう。
+
+**オブジェクト指向を使わない場合**：
+
+```java
+String[] names = {"太郎", "花子", "次郎"};
+int[] ages = {18, 20, 19};
+String[] addresses = {"東京", "大阪", "福岡"};  // 新しい配列を追加
+// 配列が3つになり、対応関係がますます複雑に
+```
+
+**オブジェクト指向を使う場合**：
+
+```java
+class Student {
+    String name;
+    int age;
+    String address;  // フィールドを1行追加するだけ
+
+    void introduce() {
+        System.out.println("私の名前は" + name + "で、" + age + "歳、" + address + "在住です");
     }
 }
 ```
 
-**エラーメッセージ：**
-```
-error: non-static variable color cannot be referenced from a static context
-```
+クラス定義を変更するだけで、全てのインスタンスに変更が適用される。
 
-**原因：** staticメソッドはクラスに属し、特定のインスタンスに依存しない。
-どのインスタンスの`color`を参照すべきか分からない。
+---
 
-**解決策：** インスタンスメソッドを使うか、引数でインスタンスを渡す。
+## Step 8: 実践課題
 
+ここまで学んだ知識を使って、以下の3つの課題に挑戦しよう。
+
+### 課題1: Carクラスの作成
+
+**要件**：
+1. `Car`クラスを定義する
+2. フィールド：`color`（String）、`speed`（int）
+3. メソッド：
+   - `start()`：速度を50に設定し、「〇〇の車が発進しました。速度: 50」と表示
+   - `stop()`：速度を0に設定し、「〇〇の車が停止しました」と表示
+   - `accelerate(int increase)`：速度を増加させ、「加速しました。現在の速度: 〇〇」と表示
+4. 2台の車を作成し、それぞれ異なる操作をさせる
+
+**ヒント**：
 ```java
-// 解決策1: インスタンスメソッドにする
-void printColor() {
-    System.out.println(color);  // OK
-}
-
-// 解決策2: 引数でインスタンスを渡す
-public static void printColor(Car car) {
-    System.out.println(car.color);  // OK
-}
+Car car1 = new Car();
+car1.color = "赤";
+car1.speed = 0;
+car1.start();
 ```
-:::
 
-**実行してみよう:**
+<details>
+<summary>解答例を見る</summary>
 
 <OneCompilerCodeBlock
   language="java"
@@ -308,7 +672,6 @@ public static void printColor(Car car) {
     String color;
     int speed;
 
-    // インスタンスメソッド
     void start() {
         speed = 50;
         System.out.println(color + "の車が発進しました。速度: " + speed);
@@ -316,7 +679,7 @@ public static void printColor(Car car) {
 
     void stop() {
         speed = 0;
-        System.out.println(color + "の車が停止しました。");
+        System.out.println(color + "の車が停止しました");
     }
 
     void accelerate(int increase) {
@@ -327,154 +690,307 @@ public static void printColor(Car car) {
 
 public class Main {
     public static void main(String[] args) {
-        // 赤い車を作成
+        // 赤い車
         Car car1 = new Car();
         car1.color = "赤";
         car1.speed = 0;
-
-        // メソッドを呼び出す
         car1.start();
         car1.accelerate(30);
         car1.stop();
 
         System.out.println("---");
 
-        // 青い車を作成
+        // 青い車
         Car car2 = new Car();
         car2.color = "青";
         car2.speed = 0;
-
         car2.start();
+        car2.accelerate(20);
+        car2.accelerate(10);
         car2.stop();
     }
 }`}
 />
 
-**やってみよう:**
-- `brake()`メソッドを追加して、速度を減らしてみよう
-- 複数の車を作成して、それぞれ異なる動きをさせてみよう
-
-### メソッドチェーン（参考）
-
-**メソッドチェーン** は、メソッドの呼び出しを連鎖させる書き方である。  
-メソッドが自分自身（`this`）を返すことで、続けてメソッドを呼び出せる。
-
-**例：System.out.println はメソッドチェーンの一例**
-
-```java
-System.out.println("Hello");
-```
-
-これは、実は以下のようなメソッドチェーンである：
-
-```java
-System.out.println("Hello");
-// ↓ 分解すると
-System.out.println("Hello");
-//      ↑      ↑
-// outフィールド println()メソッド
-```
-
-- `System`：クラス
-- `out`：`System`クラスの`static`フィールド（PrintStreamオブジェクト）
-- `println()`：`out`オブジェクトのメソッド
-
-つまり、`System.out.println()`は「Systemクラスのoutフィールドに対してprintln()メソッドを呼ぶ」という意味である。
-
-**メソッドチェーンの例（発展）:**
-
-```java
-class Car {
-    String color;
-    int speed;
-
-    // 自分自身（this）を返すメソッド
-    Car setColor(String color) {
-        this.color = color;
-        return this;  // 自分自身を返す
-    }
-
-    Car setSpeed(int speed) {
-        this.speed = speed;
-        return this;  // 自分自身を返す
-    }
-}
-
-// メソッドチェーンで連続して設定できる
-Car car = new Car().setColor("赤").setSpeed(50);
-```
-
-:::info ポイント
-メソッドチェーンは、今の段階では理解しなくても良い。  
-後の章で詳しく学ぶが、`System.out.println()`もメソッドチェーンの一例であることを知っておくと、理解が深まる。
-:::
+</details>
 
 ---
 
-## 5. インスタンスの生成
+### 課題2: Bookクラスの作成
 
-### newキーワード
+**要件**：
+1. `Book`クラスを定義する
+2. フィールド：`title`（String）、`author`（String）、`price`（int）
+3. メソッド：
+   - `showInfo()`：「『〇〇』 著者: 〇〇, 価格: 〇〇円」と表示
+   - `applyDiscount(int discountPercent)`：価格を指定した割引率で割引し、「〇〇%割引適用。新しい価格: 〇〇円」と表示
+4. 3冊の本を配列で管理し、全ての本の情報を表示
+5. 1冊目の本に30%割引を適用
 
-**`new`キーワード** は、**クラスからインスタンスを生成する** ための命令である。
+**ヒント**：
+```java
+Book[] books = new Book[3];
+books[0] = new Book();
+books[0].title = "Javaの教科書";
+```
+
+<details>
+<summary>解答例を見る</summary>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Book {
+    String title;
+    String author;
+    int price;
+
+    void showInfo() {
+        System.out.println("『" + title + "』 著者: " + author + ", 価格: " + price + "円");
+    }
+
+    void applyDiscount(int discountPercent) {
+        price = price * (100 - discountPercent) / 100;
+        System.out.println(discountPercent + "%割引適用。新しい価格: " + price + "円");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // 3冊の本を配列で管理
+        Book[] books = new Book[3];
+
+        books[0] = new Book();
+        books[0].title = "Javaの教科書";
+        books[0].author = "山田太郎";
+        books[0].price = 3000;
+
+        books[1] = new Book();
+        books[1].title = "データベース入門";
+        books[1].author = "田中花子";
+        books[1].price = 2500;
+
+        books[2] = new Book();
+        books[2].title = "Web開発の基礎";
+        books[2].author = "佐藤次郎";
+        books[2].price = 2800;
+
+        // 全ての本の情報を表示
+        System.out.println("--- 全ての本 ---");
+        for (Book book : books) {
+            book.showInfo();
+        }
+
+        // 1冊目の本に30%割引
+        System.out.println("\\n--- 1冊目に割引適用 ---");
+        books[0].applyDiscount(30);
+        books[0].showInfo();
+    }
+}`}
+/>
+
+</details>
+
+---
+
+### 課題3: RPGのキャラクター管理
+
+**要件**：
+1. `Character`クラスを定義する
+2. フィールド：`name`（String）、`hp`（int）、`attackPower`（int）
+3. メソッド：
+   - `showStatus()`：「〇〇 HP: 〇〇, 攻撃力: 〇〇」と表示
+   - `attack(Character target)`：相手のHPを自分の攻撃力分減らし、「〇〇が〇〇を攻撃！ 〇〇のHPが〇〇減少」と表示
+   - `isAlive()`：HPが0より大きければtrue、そうでなければfalseを返す
+4. 2人のキャラクター（勇者とモンスター）を作成
+5. 勇者がモンスターを攻撃し、モンスターが倒れるまで繰り返す
+
+**ヒント**：
+```java
+void attack(Character target) {
+    target.hp -= this.attackPower;
+    System.out.println(this.name + "が" + target.name + "を攻撃！");
+}
+```
+
+<details>
+<summary>解答例を見る</summary>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Character {
+    String name;
+    int hp;
+    int attackPower;
+
+    void showStatus() {
+        System.out.println(name + " HP: " + hp + ", 攻撃力: " + attackPower);
+    }
+
+    void attack(Character target) {
+        target.hp -= this.attackPower;
+        System.out.println(this.name + "が" + target.name + "を攻撃！ " + target.name + "のHPが" + this.attackPower + "減少");
+    }
+
+    boolean isAlive() {
+        return hp > 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // 勇者を作成
+        Character hero = new Character();
+        hero.name = "勇者";
+        hero.hp = 100;
+        hero.attackPower = 25;
+
+        // モンスターを作成
+        Character monster = new Character();
+        monster.name = "ドラゴン";
+        monster.hp = 80;
+        monster.attackPower = 20;
+
+        System.out.println("--- 戦闘開始 ---");
+        hero.showStatus();
+        monster.showStatus();
+        System.out.println();
+
+        // 勇者がモンスターを倒すまで攻撃
+        int turn = 1;
+        while (monster.isAlive()) {
+            System.out.println("【ターン" + turn + "】");
+            hero.attack(monster);
+            monster.showStatus();
+            System.out.println();
+            turn++;
+        }
+
+        System.out.println("--- 戦闘終了 ---");
+        System.out.println(monster.name + "を倒した！");
+    }
+}`}
+/>
+
+</details>
+
+---
+
+## FAQ
+
+### Q1: クラス名は何でも良いのか？
+
+**A1:**
+
+クラス名には **命名規則** がある：
+
+1. **PascalCase（パスカルケース）**：各単語の頭文字を大文字にする
+   - 良い例：`Student`, `Car`, `BookStore`
+   - 悪い例：`student`, `car`, `bookstore`
+
+2. **名詞を使う**：クラスは「もの」を表すため
+   - 良い例：`User`, `Product`, `Order`
+   - 悪い例：`Run`, `Calculate`（動詞は避ける）
+
+3. **意味のある名前**：クラスの役割が分かる名前
+   - 良い例：`ShoppingCart`, `CustomerAccount`
+   - 悪い例：`Data`, `Object`, `Thing`
+
+---
+
+### Q2: フィールドを直接書き換えて良いのか？
+
+**A2:**
+
+この章では学習のため直接書き換えているが、**実務では推奨されない**。
+
+**理由**：
+
+- データの整合性が保てない（例：年齢に負の値を設定できてしまう）
+- 外部から自由に変更できると、予期しないバグが発生する
+
+**解決策（次章以降で学ぶ）**：
+
+1. **カプセル化**：フィールドを`private`にし、外部から直接アクセスできなくする
+2. **getter/setter**：メソッド経由でアクセスし、バリデーションを入れる
 
 ```java
-Car car = new Car();
+class Student {
+    private int age;  // privateにする
+
+    public void setAge(int age) {
+        if (age < 0) {
+            System.out.println("年齢は0以上で設定してください");
+            return;
+        }
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
 ```
 
-**処理の流れ：**
-1. `new Car()`：Carクラスのインスタンスを生成
-2. `Car car`：生成したインスタンスを変数`car`に代入
+---
 
-### インスタンスは変数に代入され、変数の中に構造を持つ
+### Q3: staticメソッドからインスタンスメソッドを呼べるか？
 
-**重要な理解ポイント：**
-- **インスタンスは変数に代入できる**
-- **変数の中にフィールド（データ）の構造を持つ**
+**A3:**
+
+**直接は呼べない。** インスタンスを経由すれば呼べる。
+
+**エラーになる例**：
 
 ```java
-Car car = new Car();
-car.color = "赤";    // 変数carの中のcolorフィールドに値を設定
-car.speed = 0;      // 変数carの中のspeedフィールドに値を設定
+class Student {
+    String name;
+
+    void introduce() {
+        System.out.println("私の名前は" + name + "です");
+    }
+
+    public static void main(String[] args) {
+        introduce();  // エラー！staticからインスタンスメソッドを直接呼べない
+    }
+}
 ```
 
-変数`car`は、単なる値ではなく、 **複数のフィールドを持つ構造** を格納している。  
-これが、オブジェクト指向プログラミングの核心である。
-
-**図解：**
-```
-car（変数）
-  ├─ color: "赤"   （フィールド）
-  └─ speed: 0      （フィールド）
-```
-
-1つの変数の中に、複数のデータをまとめて管理できる。  
-これにより、関連するデータをバラバラに管理する必要がなくなる
-
-### インスタンスの使用
-
-インスタンスを生成した後、フィールドやメソッドにアクセスできる。
+**正しい方法**：
 
 ```java
-car.color = "赤";  // フィールドにアクセス
-car.start();       // メソッドを呼び出す
+class Student {
+    String name;
+
+    void introduce() {
+        System.out.println("私の名前は" + name + "です");
+    }
+
+    public static void main(String[] args) {
+        Student student = new Student();  // インスタンスを生成
+        student.name = "太郎";
+        student.introduce();  // インスタンス経由で呼ぶ（OK）
+    }
+}
 ```
 
-### 複数のインスタンス
+**理由**：
 
-1つのクラスから、複数のインスタンスを生成できる。
-それぞれのインスタンスは、独立したデータを持つ。
+staticメソッドはクラスに属し、特定のインスタンスに依存しない。
+インスタンスメソッドは特定のインスタンスに属するため、どのインスタンスを指すのか明示する必要がある。
 
-:::warning よくあるエラー：NullPointerException
+---
 
-**インスタンスを生成せずに使おうとするとエラーになる。**
+### Q4: newを忘れるとどうなるか？
+
+**A4:**
+
+**NullPointerException**（ヌルポインター例外）が発生する。
+
+**エラーになる例**：
 
 ```java
-Car car;  // インスタンスを生成していない（変数だけ宣言）
-car.start();  // エラー！NullPointerException
-
-// 正しい方法
-Car car = new Car();  // newでインスタンスを生成する
-car.start();  // OK
+Student student;  // インスタンスを生成していない
+student.name = "太郎";  // エラー！NullPointerException
 ```
 
 **エラーメッセージ：**
@@ -482,112 +998,62 @@ car.start();  // OK
 Exception in thread "main" java.lang.NullPointerException
 ```
 
-**原因：** `new`を忘れて、インスタンスを生成していない。変数`car`は`null`（何も指していない）状態。
+**原因**：
 
-**解決策：** 必ず`new`キーワードでインスタンスを生成してから使う。
-:::
+`new`を忘れて、インスタンスを生成していない。変数`student`は`null`（何も指していない）状態。
 
-**実行してみよう:**
+**解決策**：
 
-<OneCompilerCodeBlock
-  language="java"
-  code={`class Person {
-    String name;
-    int age;
+```java
+Student student = new Student();  // newでインスタンスを生成
+student.name = "太郎";  // OK
+```
 
-    void introduce() {
-        System.out.println("私の名前は" + name + "で、" + age + "歳です。");
-    }
+**nullとは**：
 
-    void birthday() {
-        age++;
-        System.out.println("誕生日を迎えました。" + age + "歳になりました。");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        // 太郎のインスタンスを作成
-        Person taro = new Person();
-        taro.name = "太郎";
-        taro.age = 18;
-        taro.introduce();
-        taro.birthday();
-
-        System.out.println("---");
-
-        // 花子のインスタンスを作成
-        Person hanako = new Person();
-        hanako.name = "花子";
-        hanako.age = 20;
-        hanako.introduce();
-
-        System.out.println("---");
-
-        // 複数のインスタンスは独立している
-        System.out.println("太郎の年齢: " + taro.age);
-        System.out.println("花子の年齢: " + hanako.age);
-    }
-}`}
-/>
-
-**やってみよう:**
-- 新しいPersonを作成してみよう
-- `study()`メソッドを追加して、勉強する処理を実装してみよう
+`null`は「何も参照していない」という特別な値。
+インスタンスを生成せずに変数だけ宣言すると、変数には`null`が入る。
 
 ---
 
-## 6. クラスのドキュメント（Javadoc）
+### Q5: クラスとファイルの関係は？
 
-### クラスにもJavadocが書ける
+**A5:**
 
-第2章と第7章で学んだ **Javadoc** は、クラスにも書くことができる。  
-クラスの役割を説明することで、他の人（または将来の自分）が理解しやすくなる。
+**原則**：1つのファイルに1つのpublicクラス。
 
-### Javadocの書き方
+**詳細**：
+
+1. **publicクラスはファイル名と一致させる**
+   - `public class Student`なら、ファイル名は`Student.java`
+
+2. **1つのファイルに複数のクラスを定義できる**
+   - ただし、publicクラスは1つだけ
+   - 他のクラスはpublicを付けない
+
+**例**：
 
 ```java
-/**
- * 車を表すクラス。
- * 色、速度などの情報を持ち、発進や停止などの操作ができる。
- */
-class Car {
-    String color;  // 車の色
-    int speed;     // 現在の速度
+// Student.java
+public class Student {
+    String name;
+    int age;
+}
 
-    /**
-     * 車を発進させる。
-     * 速度を50に設定する。
-     */
-    void start() {
-        speed = 50;
-        System.out.println(color + "の車が発進しました。速度: " + speed);
-    }
-
-    /**
-     * 車を停止させる。
-     * 速度を0に設定する。
-     */
-    void stop() {
-        speed = 0;
-        System.out.println(color + "の車が停止しました。");
+// publicでない補助クラス（同じファイル内に定義可能）
+class StudentHelper {
+    static void printAllStudents(Student[] students) {
+        for (Student s : students) {
+            System.out.println(s.name);
+        }
     }
 }
 ```
 
-### Javadocの重要性
+**この章のサンプルコード**：
 
-クラスやメソッドのドキュメントは、以下の理由で重要である：
-
-1. **チーム開発での協力**：他の人がクラスの使い方を理解できる
-2. **将来の自分のため**：数ヶ月後に見返しても理解できる
-3. **保守性の向上**：クラスの変更時に影響範囲を把握しやすい
-
-:::tip AI時代のドキュメント
-現代のAI開発ツール（GitHub CopilotやChatGPTなど）は、Javadocを読んで適切なコードを生成する。  
-**良いドキュメントを書くことで、AIがより正確なコードを提案してくれる** ようになる。  
-ドキュメントを書く習慣は、AI時代においてますます重要になっている。
-:::
+OneCompilerでは便宜上、1つのファイルに複数のクラスを書いている。
+実務では、各クラスを別ファイルに分けるのが一般的。
 
 ---
 
@@ -597,14 +1063,15 @@ class Car {
 
 ### 学んだ内容
 
-- **オブジェクト指向** は「もの」を中心にプログラムを設計する考え方である
-- **クラス** はオブジェクトの設計図である
-- **オブジェクト（インスタンス）** は設計図から作られた実体である
-- **フィールド** はクラスが持つデータである
-- **インスタンスメソッド** はインスタンスが持つ処理である
-- **staticメソッド** はクラスに属し、**インスタンスメソッド** はインスタンスに属する
-- **`new`キーワード** でインスタンスを生成できる
-- 1つのクラスから複数のインスタンスを生成でき、それぞれが独立したデータを持つ
+1. **Step 0**: オブジェクト指向がないと、関連するデータと処理をまとめる仕組みがなく、管理が煩雑になる
+2. **Step 1**: オブジェクト指向は「もの」を中心にプログラムを設計する考え方である
+3. **Step 2**: クラスは設計図、インスタンスは設計図から作られた実体である
+4. **Step 3**: フィールドはクラスが持つデータであり、インスタンスごとに異なる値を持つ
+5. **Step 4**: インスタンスメソッドはインスタンスが持つ処理であり、フィールドにアクセスできる
+6. **Step 5**: staticメソッドはクラスに属し、インスタンスメソッドはインスタンスに属する
+7. **Step 6**: `new`キーワードでインスタンスを生成し、変数に代入する
+8. **Step 7**: 複数のインスタンスを配列で管理すると、データの関連性が明確になる
+9. **Step 8**: 実践課題で、クラス設計とインスタンス操作を体験した
 
 ### 次のステップ
 
