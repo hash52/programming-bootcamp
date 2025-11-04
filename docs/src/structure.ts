@@ -351,12 +351,12 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "配列とは何かを説明できる",
+        title: "配列とは何か、なぜ必要かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "配列のインデックスは0から始まることを理解している",
+        title: "インデックスは0から始まることを理解している",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -366,7 +366,17 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "拡張for文（for-each）の使い方を理解している",
+        title: "配列の要素にアクセスして読み書きできる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "通常のfor文と拡張for文の使い分けができる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "配列の実用例（合計、平均、最大値、最小値、検索）を理解している",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
@@ -381,14 +391,9 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Medium,
       },
       {
-        title: "配列を宣言・初期化するプログラムを実装できる",
-        type: "WRITE",
-        difficulty: Difficulty.Easy,
-      },
-      {
         title: "配列とループを組み合わせたプログラムを実装できる",
         type: "WRITE",
-        difficulty: Difficulty.Medium,
+        difficulty: Difficulty.Easy,
       },
     ],
   }),
@@ -494,6 +499,11 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       {
         title: "try-catch文で例外を捕捉できる",
         type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "複数の例外を適切な順序で処理できる",
+        type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
@@ -505,6 +515,11 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         title: "throwsキーワードを理解している",
         type: "KNOW",
         difficulty: Difficulty.Medium,
+      },
+      {
+        title: "throwキーワードで例外をスローできる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
       },
       {
         title: "検査例外と非検査例外の違いを理解している",
@@ -520,16 +535,6 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         title: "try-catch-finallyを使った例外処理を実装できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
-      },
-      {
-        title: "throwキーワードで例外をスローできる",
-        type: "WRITE",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "適切な例外処理を持つプログラムを設計できる",
-        type: "WRITE",
-        difficulty: Difficulty.Hard,
       },
     ],
   }),

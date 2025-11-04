@@ -3,121 +3,223 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 # 配列
 
 この章では、同じ型のデータをまとめて管理する **配列** について学ぶ。
-配列を使うことで、大量のデータを効率的に扱うことができる。
+配列を使うことで、大量のデータを効率的に扱えるようになる。
 
 ---
 
-## 学習のゴール
+## この章で学ぶこと
 
 - 配列とは何か、なぜ必要かを説明できる
-- 配列の宣言と初期化を理解している
-- 配列の要素にアクセスできる
-- 配列とループを組み合わせて使える
-- 多次元配列の基礎を理解している
+- 配列の宣言と初期化の方法を理解している
+- 配列の要素にアクセスして読み書きできる
+- for文と拡張for文を使って配列を処理できる
+- 2次元配列の基礎を理解している
 
 ---
 
-## なぜこの技術が必要か
+## Step 0: 配列がないとどうなる？
 
-**配列がないとどうなるか？**
+### 問題：クラスの成績を管理したい
 
-配列がないと、同じ種類のデータを100個保存するために100個の変数が必要になる。
-データの管理が煩雑になり、ループで処理できない。
+30人のクラスで、全員のテストの点数を管理するプログラムを書きたい。
 
-**例:**
+#### 配列がない場合
 
 ```java
-// 配列がないと...
-int score1 = 80;
-int score2 = 90;
-int score3 = 75;
-// ... 100個の変数が必要
-// 平均を計算するのも大変
+public class ScoreManagement {
+    public static void main(String[] args) {
+        // 30人分の変数が必要...
+        int score1 = 85;
+        int score2 = 90;
+        int score3 = 78;
+        int score4 = 92;
+        // ... あと26個の変数
 
-// 配列があると...
-int[] scores = {80, 90, 75};
-// ループで簡単に処理できる
-int sum = 0;
-for (int score : scores) {
-    sum += score;
+        // 平均を計算するには？
+        int sum = score1 + score2 + score3 + score4; // + ... あと26個
+        double average = sum / 30.0;
+
+        // 最高点を探すには？
+        int max = score1;
+        if (score2 > max) max = score2;
+        if (score3 > max) max = score3;
+        // ... あと27回の比較
+    }
 }
-int average = sum / scores.length;
 ```
 
-配列を使うことで、大量のデータを1つの変数で管理し、ループで効率的に処理できる。
+**問題点：**
+- 30個の変数を書くのが大変
+- 変数名を考えるのが大変（score1, score2, ...）
+- ループで処理できない（同じ処理を30回書く必要がある）
+- 生徒数が増えたら、すべてのコードを書き直す必要がある
+
+#### 配列がある場合
+
+```java
+public class ScoreManagement {
+    public static void main(String[] args) {
+        // 30人分の点数を1つの配列で管理
+        int[] scores = {85, 90, 78, 92, /* ... */};
+
+        // 平均を計算（ループで簡単）
+        int sum = 0;
+        for (int score : scores) {
+            sum += score;
+        }
+        double average = sum / scores.length;
+
+        // 最高点を探す（ループで簡単）
+        int max = scores[0];
+        for (int score : scores) {
+            if (score > max) {
+                max = score;
+            }
+        }
+    }
+}
+```
+
+**配列を使うメリット：**
+- 1つの変数で大量のデータを管理できる
+- ループで効率的に処理できる
+- データ数が変わってもコードを変える必要がない
+
+では、配列の使い方を詳しく学んでいこう。
 
 ---
 
-## 1. 配列とは
+## Step 1: 配列の基本
 
-### 配列の概念
+### 配列とは
 
-**配列** は、**同じ型のデータをまとめて管理する仕組み** である。
+**配列（Array）** は、 **同じ型のデータを順番に並べて管理する仕組み** である。
+
+複数のデータを1つの変数名でまとめて扱える。
 
 ### インデックス（添字）
 
-配列の各要素には、**インデックス**（添字）という番号が付けられている。
-**インデックスは0から始まる**（最初の要素がインデックス0）。
+配列の各要素には、 **インデックス（添字）** という番号が付けられている。
+
+**重要：インデックスは0から始まる**（最初の要素がインデックス0）
 
 ```
-scores[0]  scores[1]  scores[2]
-  80         90         75
-  ↑          ↑          ↑
-インデックス0  インデックス1  インデックス2
+配列名: scores
+
+インデックス:  0     1     2     3     4
+         ┌─────┬─────┬─────┬─────┬─────┐
+  値:    │ 85  │ 90  │ 78  │ 92  │ 88  │
+         └─────┴─────┴─────┴─────┴─────┘
+         ↑                             ↑
+    最初の要素                    最後の要素
+    scores[0]                    scores[4]
 ```
+
+### なぜ0から始まるのか？
+
+プログラミングの世界では、メモリのアドレス計算の効率化のため、インデックスを0から始める慣習がある。
+「0番目、1番目、2番目...」と数える。
+
+最初は違和感があるかもしれないが、すぐに慣れる。
+
+**実行してみよう：**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class ArrayBasics {
+    public static void main(String[] args) {
+        // 配列の宣言と初期化
+        int[] scores = {85, 90, 78, 92, 88};
+
+        // 各要素にアクセス
+        System.out.println("1人目の点数: " + scores[0]);  // インデックス0
+        System.out.println("2人目の点数: " + scores[1]);  // インデックス1
+        System.out.println("5人目の点数: " + scores[4]);  // インデックス4
+
+        // 配列の長さ
+        System.out.println("生徒数: " + scores.length);
+    }
+}`}
+/>
+
+**やってみよう：**
+- `scores[2]`（3人目）の点数を表示してみよう
+- `scores[10]`にアクセスしてエラーを確認してみよう（範囲外エラーが発生する）
 
 ---
 
-## 2. 配列の宣言と初期化
+## Step 2: 配列の宣言と初期化
 
-### 宣言
+### 配列の宣言
 
-配列の宣言は、以下のように行う：
+配列を使うには、まず **宣言** する。
 
 ```java
-int[] scores;  // int型の配列を宣言
+型[] 配列名;
 ```
 
-### 初期化
+**例：**
 
-配列を使う前に、**初期化**（メモリの確保）が必要である。
+```java
+int[] scores;       // int型の配列
+String[] names;     // String型の配列
+double[] prices;    // double型の配列
+```
 
-**方法1：サイズを指定して初期化**
+:::info 配列の型は何でもOK
+配列には、基本データ型（int, double, boolean）やクラス型（String, 自作クラス）など、どんな型でも使える。
+:::
+
+### 配列の初期化
+
+配列を使う前に、 **初期化**（メモリの確保）が必要である。
+
+#### 方法1：サイズを指定して初期化
 
 ```java
 int[] scores = new int[5];  // 5個の要素を持つ配列
 ```
 
-この場合、すべての要素は **初期値**（int型なら0）で初期化される。
+この場合、すべての要素は **初期値** で初期化される：
+- **int, double** → `0` または `0.0`
+- **boolean** → `false`
+- **String, クラス型** → `null`
 
-**方法2：値を指定して初期化**
+#### 方法2：値を指定して初期化
 
 ```java
-int[] scores = {80, 90, 75, 85, 95};
+int[] scores = {85, 90, 78, 92, 88};
 ```
 
 この場合、配列のサイズは自動的に決まる（この例では5）。
 
-### 配列の長さ
-
-配列の長さ（要素数）は、`配列名.length`で取得できる。
+#### 方法3：宣言と初期化を分ける
 
 ```java
-int[] scores = {80, 90, 75};
-System.out.println(scores.length);  // 3
+int[] scores;
+scores = new int[]{85, 90, 78, 92, 88};
 ```
 
-:::info 配列の長さは変更できない
+### 配列の長さ
+
+配列の長さ（要素数）は、 **`配列名.length`** で取得できる。
+
+```java
+int[] scores = {85, 90, 78, 92, 88};
+System.out.println(scores.length);  // 5
+```
+
+:::warning 配列の長さは変更できない
 Javaの配列は、一度作成すると **長さを変更できない**。
 後からサイズを変えたい場合は、`ArrayList`などのコレクションを使う必要がある。
 ArrayListについては、第15章「コレクション」で学ぶ。
 :::
 
-**実行してみよう:**
+**実行してみよう：**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`public class ArrayExample {
+  code={`public class ArrayInitialization {
     public static void main(String[] args) {
         // 方法1: サイズを指定して初期化
         int[] numbers = new int[5];
@@ -127,37 +229,45 @@ ArrayListについては、第15章「コレクション」で学ぶ。
         System.out.println("---");
 
         // 方法2: 値を指定して初期化
-        int[] scores = {80, 90, 75, 85, 95};
+        int[] scores = {85, 90, 78, 92, 88};
         System.out.println("配列のサイズ: " + scores.length);
         System.out.println("最初の要素: " + scores[0]);
-        System.out.println("2番目の要素: " + scores[1]);
+        System.out.println("最後の要素: " + scores[scores.length - 1]);
 
         System.out.println("---");
 
         // 文字列の配列
-        String[] names = {"太郎", "花子", "次郎"};
+        String[] names = {"太郎", "花子", "次郎", "美咲", "健太"};
         System.out.println("名前の配列のサイズ: " + names.length);
         System.out.println("最初の名前: " + names[0]);
+        System.out.println("最後の名前: " + names[names.length - 1]);
     }
 }`}
 />
 
-**やってみよう:**
+**やってみよう：**
 - `new int[5]`を`new int[10]`に変えて、サイズを変更してみよう
 - `scores`配列に別の値を追加してみよう
 
 ---
 
-## 3. 配列の要素へのアクセス
+## Step 3: 配列の要素へのアクセス
 
 ### 要素の読み取り
 
-配列の要素を読み取るには、**インデックス**を指定する。
+配列の要素を読み取るには、 **インデックス** を指定する。
 
 ```java
-int[] scores = {80, 90, 75};
-int firstScore = scores[0];  // 80
-int secondScore = scores[1];  // 90
+配列名[インデックス]
+```
+
+**例：**
+
+```java
+int[] scores = {85, 90, 78, 92, 88};
+int firstScore = scores[0];   // 85（最初の要素）
+int secondScore = scores[1];  // 90（2番目の要素）
+int lastScore = scores[4];    // 88（最後の要素）
 ```
 
 ### 要素の書き換え
@@ -165,30 +275,35 @@ int secondScore = scores[1];  // 90
 配列の要素を書き換えるには、インデックスを指定して代入する。
 
 ```java
-int[] scores = {80, 90, 75};
+int[] scores = {85, 90, 78, 92, 88};
 scores[0] = 100;  // 最初の要素を100に変更
+scores[2] = 95;   // 3番目の要素を95に変更
 ```
 
 ### インデックスの範囲
 
-**インデックスは0から始まり、配列の長さ-1まで**（長さ3の配列なら、0, 1, 2）。
+**インデックスは0から始まり、`配列の長さ - 1`まで**
 
-:::warning 注意：配列の範囲外アクセス
-存在しないインデックスにアクセスすると、**ArrayIndexOutOfBoundsException**（配列の範囲外エラー）が発生する。
+長さ5の配列なら、有効なインデックスは0, 1, 2, 3, 4
+
+:::danger 注意：配列の範囲外アクセス
+存在しないインデックスにアクセスすると、 **ArrayIndexOutOfBoundsException**（配列の範囲外エラー）が発生する。
 
 ```java
-int[] scores = {80, 90, 75};
+int[] scores = {85, 90, 78};
 int value = scores[5];  // エラー！（インデックス5は存在しない）
 ```
+
+プログラムが強制終了するので、注意が必要である。
 :::
 
-**実行してみよう:**
+**実行してみよう：**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`public class ArrayAccessExample {
+  code={`public class ArrayAccess {
     public static void main(String[] args) {
-        int[] scores = {80, 90, 75, 85, 95};
+        int[] scores = {85, 90, 78, 92, 88};
 
         // 要素の読み取り
         System.out.println("最初の点数: " + scores[0]);
@@ -197,9 +312,9 @@ int value = scores[5];  // エラー！（インデックス5は存在しない�
         System.out.println("---");
 
         // 要素の書き換え
-        System.out.println("変更前: " + scores[0]);
+        System.out.println("変更前: scores[0] = " + scores[0]);
         scores[0] = 100;
-        System.out.println("変更後: " + scores[0]);
+        System.out.println("変更後: scores[0] = " + scores[0]);
 
         System.out.println("---");
 
@@ -212,27 +327,103 @@ int value = scores[5];  // エラー！（インデックス5は存在しない�
 }`}
 />
 
-**やってみよう:**
+**やってみよう：**
 - `scores[2]`を別の値に変更してみよう
-- `scores[10]`にアクセスしてエラーを確認してみよう（エラーが発生します）
+- `scores.length - 1`を使って、最後の要素を安全にアクセスしてみよう
 
 ---
 
-## 4. 配列とループ
-
-### for文で配列を処理
+## Step 4: 配列とfor文
 
 配列とfor文を組み合わせると、すべての要素を効率的に処理できる。
 
+### 基本パターン
+
 ```java
-int[] scores = {80, 90, 75, 85, 95};
+for (int i = 0; i < 配列名.length; i++) {
+    // 配列名[i]で各要素にアクセス
+}
+```
+
+**例：すべての要素を表示**
+
+```java
+int[] scores = {85, 90, 78, 92, 88};
 
 for (int i = 0; i < scores.length; i++) {
     System.out.println(scores[i]);
 }
 ```
 
-### 拡張for文（for-each）
+### インデックスが必要な処理
+
+インデックスを使うと、要素の位置情報も活用できる。
+
+**例：何番目かを表示**
+
+```java
+for (int i = 0; i < scores.length; i++) {
+    System.out.println((i + 1) + "人目: " + scores[i] + "点");
+}
+```
+
+**例：要素の書き換え（全員に10点加算）**
+
+```java
+for (int i = 0; i < scores.length; i++) {
+    scores[i] += 10;
+}
+```
+
+**実行してみよう：**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class ArrayWithForLoop {
+    public static void main(String[] args) {
+        int[] scores = {85, 90, 78, 92, 88};
+
+        // すべての要素を表示
+        System.out.println("成績一覧:");
+        for (int i = 0; i < scores.length; i++) {
+            System.out.println((i + 1) + "人目: " + scores[i] + "点");
+        }
+
+        System.out.println("---");
+
+        // 全員に10点加算
+        System.out.println("10点加算後:");
+        for (int i = 0; i < scores.length; i++) {
+            scores[i] += 10;
+        }
+
+        for (int i = 0; i < scores.length; i++) {
+            System.out.println((i + 1) + "人目: " + scores[i] + "点");
+        }
+
+        System.out.println("---");
+
+        // 60点未満の人数をカウント
+        int count = 0;
+        for (int i = 0; i < scores.length; i++) {
+            if (scores[i] < 60) {
+                count++;
+            }
+        }
+        System.out.println("60点未満の人数: " + count + "人");
+    }
+}`}
+/>
+
+**やってみよう：**
+- 80点以上の人数をカウントしてみよう
+- 全員から5点減点するプログラムを書いてみよう
+
+---
+
+## Step 5: 拡張for文（for-each）
+
+### 拡張for文とは
 
 **拡張for文**（for-each文）は、配列のすべての要素を順番に処理するための簡潔な構文である。
 
@@ -242,178 +433,557 @@ for (型 変数名 : 配列) {
 }
 ```
 
-**例:**
+**例：**
 
 ```java
-int[] scores = {80, 90, 75};
+int[] scores = {85, 90, 78, 92, 88};
 
 for (int score : scores) {
     System.out.println(score);
 }
 ```
 
-### for文と拡張for文の使い分け
+### 通常のfor文と拡張for文の比較
 
-| for文 | 拡張for文（for-each） |
-|-------|---------------------|
+**通常のfor文：**
+
+```java
+for (int i = 0; i < scores.length; i++) {
+    System.out.println(scores[i]);
+}
+```
+
+**拡張for文：**
+
+```java
+for (int score : scores) {
+    System.out.println(score);
+}
+```
+
+拡張for文の方が、シンプルで読みやすい。
+
+### 使い分け
+
+| 通常のfor文 | 拡張for文（for-each） |
+|------------|---------------------|
 | インデックスが必要な場合 | 要素だけが必要な場合 |
 | 要素を書き換える場合 | 要素を読み取るだけの場合 |
 | 特定の範囲を処理する場合 | すべての要素を処理する場合 |
 
-**実行してみよう:**
+:::info 拡張for文の制限
+拡張for文では、インデックスが取得できない。
+また、要素の書き換えができない（読み取り専用）。
+これらが必要な場合は、通常のfor文を使う。
+:::
+
+**実行してみよう：**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`public class ArrayLoopExample {
+  code={`public class EnhancedForLoop {
     public static void main(String[] args) {
-        int[] scores = {80, 90, 75, 85, 95};
+        int[] scores = {85, 90, 78, 92, 88};
 
-        // 通常のfor文
-        System.out.println("通常のfor文:");
-        for (int i = 0; i < scores.length; i++) {
-            System.out.println("scores[" + i + "] = " + scores[i]);
-        }
-
-        System.out.println("---");
-
-        // 拡張for文
+        // 拡張for文で全要素を表示
         System.out.println("拡張for文:");
         for (int score : scores) {
-            System.out.println(score);
+            System.out.println(score + "点");
         }
 
         System.out.println("---");
 
-        // 配列の合計と平均を計算
+        // 合計を計算
+        int sum = 0;
+        for (int score : scores) {
+            sum += score;
+        }
+        System.out.println("合計: " + sum + "点");
+
+        System.out.println("---");
+
+        // 文字列の配列
+        String[] fruits = {"りんご", "バナナ", "オレンジ", "ぶどう"};
+        System.out.println("果物一覧:");
+        for (String fruit : fruits) {
+            System.out.println("・" + fruit);
+        }
+    }
+}`}
+/>
+
+**やってみよう：**
+- 拡張for文を使って、平均点を計算してみよう
+- `fruits`配列に別の果物を追加してみよう
+
+---
+
+## Step 6: 配列の実用例
+
+配列を使った実用的な処理パターンを学ぼう。
+
+### パターン1：合計と平均
+
+```java
+int[] scores = {85, 90, 78, 92, 88};
+
+int sum = 0;
+for (int score : scores) {
+    sum += score;
+}
+double average = (double) sum / scores.length;
+```
+
+### パターン2：最大値・最小値
+
+```java
+int[] scores = {85, 90, 78, 92, 88};
+
+int max = scores[0];  // 最初の要素で初期化
+for (int score : scores) {
+    if (score > max) {
+        max = score;
+    }
+}
+
+int min = scores[0];
+for (int score : scores) {
+    if (score < min) {
+        min = score;
+    }
+}
+```
+
+### パターン3：検索（特定の値を探す）
+
+```java
+int[] scores = {85, 90, 78, 92, 88};
+int target = 90;
+
+int index = -1;  // 見つからなかった場合は-1
+for (int i = 0; i < scores.length; i++) {
+    if (scores[i] == target) {
+        index = i;
+        break;
+    }
+}
+
+if (index != -1) {
+    System.out.println(target + "点は" + (index + 1) + "人目");
+} else {
+    System.out.println(target + "点の人はいません");
+}
+```
+
+### パターン4：条件に合う要素の数をカウント
+
+```java
+int[] scores = {85, 90, 78, 92, 88};
+
+int count = 0;
+for (int score : scores) {
+    if (score >= 80) {
+        count++;
+    }
+}
+System.out.println("80点以上の人数: " + count + "人");
+```
+
+**実行してみよう：**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class ArrayPracticalExamples {
+    public static void main(String[] args) {
+        int[] scores = {85, 90, 78, 92, 88, 76, 95, 82};
+
+        // 合計と平均
         int sum = 0;
         for (int score : scores) {
             sum += score;
         }
         double average = (double) sum / scores.length;
-        System.out.println("合計: " + sum);
-        System.out.println("平均: " + average);
+        System.out.println("合計: " + sum + "点");
+        System.out.println("平均: " + average + "点");
 
         System.out.println("---");
 
-        // 最大値を探す
+        // 最大値・最小値
         int max = scores[0];
+        int min = scores[0];
         for (int score : scores) {
-            if (score > max) {
-                max = score;
+            if (score > max) max = score;
+            if (score < min) min = score;
+        }
+        System.out.println("最高点: " + max + "点");
+        System.out.println("最低点: " + min + "点");
+
+        System.out.println("---");
+
+        // 検索
+        int target = 90;
+        int index = -1;
+        for (int i = 0; i < scores.length; i++) {
+            if (scores[i] == target) {
+                index = i;
+                break;
             }
         }
-        System.out.println("最大値: " + max);
+        if (index != -1) {
+            System.out.println(target + "点は" + (index + 1) + "人目");
+        } else {
+            System.out.println(target + "点の人はいません");
+        }
+
+        System.out.println("---");
+
+        // カウント
+        int passCount = 0;
+        for (int score : scores) {
+            if (score >= 80) {
+                passCount++;
+            }
+        }
+        System.out.println("80点以上の人数: " + passCount + "人");
     }
 }`}
 />
 
-**やってみよう:**
-- 最小値を探すプログラムを追加してみよう
-- `scores`配列に別の値を追加して、平均や最大値を確認してみよう
+**やってみよう：**
+- 70点未満の人数をカウントしてみよう
+- 平均点以上の人数をカウントしてみよう
 
 ---
 
-## 5. 多次元配列
+## Step 7: 2次元配列
 
 ### 2次元配列とは
 
-**2次元配列** は、**配列の配列** である。
-表形式のデータ（例：行列、座席表）を扱うときに使う。
+**2次元配列** は、 **配列の配列** である。
+
+表形式のデータ（例：成績表、座席表、ゲームマップ）を扱うときに使う。
+
+```
+行（row）
+
+   列（column）
+     0    1    2
+   ┌────┬────┬────┐
+ 0 │ 85 │ 90 │ 78 │  ← 1人目の成績（国語、数学、英語）
+   ├────┼────┼────┤
+ 1 │ 92 │ 88 │ 95 │  ← 2人目の成績
+   ├────┼────┼────┤
+ 2 │ 76 │ 82 │ 89 │  ← 3人目の成績
+   └────┴────┴────┘
+```
 
 ### 2次元配列の宣言と初期化
 
 ```java
-int[][] matrix = {
-    {1, 2, 3},
-    {4, 5, 6},
-    {7, 8, 9}
+型[][] 配列名 = {
+    {要素, 要素, 要素},
+    {要素, 要素, 要素},
+    {要素, 要素, 要素}
 };
 ```
 
-この配列は、3行3列の表として考えることができる：
+**例：**
 
-```
-1  2  3
-4  5  6
-7  8  9
+```java
+int[][] scores = {
+    {85, 90, 78},  // 1人目の成績
+    {92, 88, 95},  // 2人目の成績
+    {76, 82, 89}   // 3人目の成績
+};
 ```
 
 ### 2次元配列の要素へのアクセス
 
 ```java
-int value = matrix[0][0];  // 1（1行目、1列目）
-int value2 = matrix[1][2];  // 6（2行目、3列目）
+配列名[行][列]
+```
+
+**例：**
+
+```java
+int value = scores[0][0];  // 85（1人目の国語）
+int value2 = scores[1][2];  // 95（2人目の英語）
 ```
 
 ### 2次元配列とループ
 
-2次元配列を処理するには、**ネストしたループ** を使う。
+2次元配列を処理するには、 **ネストしたループ** を使う。
 
 ```java
-for (int i = 0; i < matrix.length; i++) {         // 行
-    for (int j = 0; j < matrix[i].length; j++) {  // 列
-        System.out.print(matrix[i][j] + " ");
+for (int i = 0; i < scores.length; i++) {          // 行（生徒）
+    for (int j = 0; j < scores[i].length; j++) {   // 列（科目）
+        System.out.print(scores[i][j] + " ");
     }
     System.out.println();
 }
 ```
 
-**実行してみよう:**
+### 実用例：成績表
+
+```java
+String[] students = {"太郎", "花子", "次郎"};
+String[] subjects = {"国語", "数学", "英語"};
+int[][] scores = {
+    {85, 90, 78},  // 太郎の成績
+    {92, 88, 95},  // 花子の成績
+    {76, 82, 89}   // 次郎の成績
+};
+
+// 各生徒の平均点を計算
+for (int i = 0; i < students.length; i++) {
+    int sum = 0;
+    for (int j = 0; j < scores[i].length; j++) {
+        sum += scores[i][j];
+    }
+    double average = (double) sum / scores[i].length;
+    System.out.println(students[i] + "の平均: " + average + "点");
+}
+```
+
+**実行してみよう：**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`public class MultiDimensionalArrayExample {
+  code={`public class TwoDimensionalArray {
     public static void main(String[] args) {
         // 2次元配列の初期化
-        int[][] matrix = {
-            {1, 2, 3},
-            {4, 5, 6},
-            {7, 8, 9}
+        int[][] scores = {
+            {85, 90, 78},  // 太郎の成績（国語、数学、英語）
+            {92, 88, 95},  // 花子の成績
+            {76, 82, 89}   // 次郎の成績
         };
 
         // 要素へのアクセス
-        System.out.println("matrix[0][0] = " + matrix[0][0]);
-        System.out.println("matrix[1][2] = " + matrix[1][2]);
+        System.out.println("太郎の国語: " + scores[0][0]);
+        System.out.println("花子の英語: " + scores[1][2]);
 
         System.out.println("---");
 
         // 2次元配列の全要素を表示
-        System.out.println("2次元配列:");
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                System.out.print(matrix[i][j] + " ");
+        System.out.println("成績表（行ごと）:");
+        for (int i = 0; i < scores.length; i++) {
+            for (int j = 0; j < scores[i].length; j++) {
+                System.out.print(scores[i][j] + " ");
             }
             System.out.println();
         }
 
         System.out.println("---");
 
-        // 実践例：成績表
+        // 実践例：各生徒の平均点
         String[] students = {"太郎", "花子", "次郎"};
-        int[][] scores = {
-            {80, 90, 75},  // 太郎の成績（国語、数学、英語）
-            {85, 95, 80},  // 花子の成績
-            {70, 85, 90}   // 次郎の成績
-        };
-
-        System.out.println("成績表:");
+        System.out.println("各生徒の平均点:");
         for (int i = 0; i < students.length; i++) {
-            System.out.print(students[i] + ": ");
             int sum = 0;
             for (int j = 0; j < scores[i].length; j++) {
-                System.out.print(scores[i][j] + " ");
                 sum += scores[i][j];
             }
             double average = (double) sum / scores[i].length;
-            System.out.println("(平均: " + average + ")");
+            System.out.println(students[i] + ": " + average + "点");
+        }
+
+        System.out.println("---");
+
+        // 各科目の平均点
+        String[] subjects = {"国語", "数学", "英語"};
+        System.out.println("各科目の平均点:");
+        for (int j = 0; j < subjects.length; j++) {
+            int sum = 0;
+            for (int i = 0; i < scores.length; i++) {
+                sum += scores[i][j];
+            }
+            double average = (double) sum / scores.length;
+            System.out.println(subjects[j] + ": " + average + "点");
         }
     }
 }`}
 />
 
-**やってみよう:**
-- 成績表に新しい生徒を追加してみよう
-- 各教科の平均点を計算してみよう（列方向の合計）
+**やってみよう：**
+- 新しい生徒を追加してみよう
+- 新しい科目（例：理科）を追加してみよう
+
+---
+
+## Step 8: 実践課題
+
+### 課題1：週間売上管理システム
+
+ある店舗の1週間（月〜日）の売上データを配列で管理し、以下の情報を表示するプログラムを作成せよ。
+
+**要件：**
+- 7日間の売上を配列に格納
+- 合計売上を計算
+- 平均売上を計算
+- 最高売上の日と金額を表示
+- 最低売上の日と金額を表示
+
+**サンプルデータ：**
+```java
+int[] sales = {45000, 52000, 48000, 61000, 58000, 72000, 68000};
+String[] days = {"月", "火", "水", "木", "金", "土", "日"};
+```
+
+**実行例：**
+```
+週間売上レポート
+合計売上: 404000円
+平均売上: 57714円
+最高売上: 土曜日 72000円
+最低売上: 月曜日 45000円
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class WeeklySalesSystem {
+    public static void main(String[] args) {
+        int[] sales = {45000, 52000, 48000, 61000, 58000, 72000, 68000};
+        String[] days = {"月", "火", "水", "木", "金", "土", "日"};
+
+        // ここにコードを書く
+
+    }
+}`}
+/>
+
+---
+
+### 課題2：座席予約システム
+
+映画館の座席予約システムを作成せよ。座席を2次元配列で管理し、予約・キャンセルができるようにする。
+
+**要件：**
+- 5行6列の座席表を作成（0: 空席、1: 予約済み）
+- 座席表を表示（◯: 空席、✕: 予約済み）
+- 特定の座席を予約する
+- 特定の座席をキャンセルする
+- 空席数を表示
+
+**サンプルコード：**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class SeatReservationSystem {
+    public static void main(String[] args) {
+        // 5行6列の座席表（0: 空席、1: 予約済み）
+        int[][] seats = {
+            {0, 1, 0, 0, 1, 0},
+            {1, 1, 0, 0, 0, 0},
+            {0, 0, 0, 1, 0, 0},
+            {0, 1, 1, 0, 0, 1},
+            {0, 0, 0, 0, 0, 0}
+        };
+
+        // 座席表を表示
+        System.out.println("座席表（◯: 空席、✕: 予約済み）:");
+        for (int i = 0; i < seats.length; i++) {
+            for (int j = 0; j < seats[i].length; j++) {
+                if (seats[i][j] == 0) {
+                    System.out.print("◯ ");
+                } else {
+                    System.out.print("✕ ");
+                }
+            }
+            System.out.println();
+        }
+
+        System.out.println("---");
+
+        // 予約（2行目3列目を予約）
+        int row = 1;  // 2行目（インデックスは0から）
+        int col = 2;  // 3列目
+        if (seats[row][col] == 0) {
+            seats[row][col] = 1;
+            System.out.println((row + 1) + "行" + (col + 1) + "列を予約しました");
+        } else {
+            System.out.println("既に予約済みです");
+        }
+
+        System.out.println("---");
+
+        // 空席数をカウント
+        int availableSeats = 0;
+        for (int i = 0; i < seats.length; i++) {
+            for (int j = 0; j < seats[i].length; j++) {
+                if (seats[i][j] == 0) {
+                    availableSeats++;
+                }
+            }
+        }
+        System.out.println("空席数: " + availableSeats);
+
+        // キャンセル機能、予約率の計算などを追加してみよう
+    }
+}`}
+/>
+
+**やってみよう：**
+- キャンセル機能を追加してみよう
+- 予約率（予約済み / 全座席数 × 100）を計算してみよう
+- 特定の行の空席数を表示してみよう
+
+---
+
+### 課題3：成績分析システム
+
+3人の生徒の3科目（国語、数学、英語）の成績を管理し、以下の情報を表示するプログラムを作成せよ。
+
+**要件：**
+- 2次元配列で成績を管理
+- 各生徒の合計点と平均点を表示
+- 各科目の平均点を表示
+- 全体の最高点と最低点を表示
+
+**サンプルデータ：**
+```java
+String[] students = {"太郎", "花子", "次郎"};
+String[] subjects = {"国語", "数学", "英語"};
+int[][] scores = {
+    {85, 90, 78},  // 太郎の成績
+    {92, 88, 95},  // 花子の成績
+    {76, 82, 89}   // 次郎の成績
+};
+```
+
+**実行例：**
+```
+=== 各生徒の成績 ===
+太郎: 合計 253点、平均 84.3点
+花子: 合計 275点、平均 91.7点
+次郎: 合計 247点、平均 82.3点
+
+=== 各科目の平均点 ===
+国語: 84.3点
+数学: 86.7点
+英語: 87.3点
+
+=== 全体統計 ===
+最高点: 95点
+最低点: 76点
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class GradeAnalysisSystem {
+    public static void main(String[] args) {
+        String[] students = {"太郎", "花子", "次郎"};
+        String[] subjects = {"国語", "数学", "英語"};
+        int[][] scores = {
+            {85, 90, 78},  // 太郎の成績
+            {92, 88, 95},  // 花子の成績
+            {76, 82, 89}   // 次郎の成績
+        };
+
+        // ここにコードを書く
+
+    }
+}`}
+/>
 
 ---
 
@@ -424,20 +994,145 @@ for (int i = 0; i < matrix.length; i++) {         // 行
 ### 学んだ内容
 
 - **配列** は同じ型のデータをまとめて管理する仕組みである
-- **インデックスは0から始まる**
-- 配列の宣言と初期化の方法（サイズ指定、値指定）
+- **インデックスは0から始まる**（最初の要素は`配列名[0]`）
+- 配列の宣言と初期化の方法
+  - `new int[5]`（サイズ指定）
+  - `{1, 2, 3}`（値指定）
 - **`配列名.length`** で配列の長さを取得できる
 - 配列の要素へのアクセス（読み取り、書き換え）
-- **for文** と **拡張for文** で配列を処理できる
+- 範囲外アクセスで **ArrayIndexOutOfBoundsException** が発生する
+- **通常のfor文** と **拡張for文** で配列を処理できる
+  - 通常のfor文：インデックスが必要、要素を書き換える
+  - 拡張for文：要素を読み取るだけ、シンプル
+- 配列の実用例（合計、平均、最大値、最小値、検索、カウント）
 - **2次元配列** で表形式のデータを扱える
 
 ### 次のステップ
 
-次の章では、**メソッド** について学ぶ。
-メソッドと配列を組み合わせることで、より複雑なデータ処理を整理して書けるようになる。
+次の章では、 **メソッド** について学ぶ。
+メソッドと配列を組み合わせることで、複雑なデータ処理を整理して書けるようになる。
 
 ---
 
-## 演習
+## FAQ
 
-未作成
+### Q1: なぜインデックスは0から始まるのか？
+
+A: プログラミングの世界では、メモリのアドレス計算の効率化のため、インデックスを0から始める慣習がある。
+
+配列の先頭アドレスに「0個分移動」=最初の要素、「1個分移動」=2番目の要素、という計算になる。
+
+最初は違和感があるかもしれないが、多くのプログラミング言語で採用されている標準的な方式である。
+
+---
+
+### Q2: 配列とArrayListの違いは？
+
+A: 主な違いは以下の通り：
+
+| 配列 | ArrayList |
+|------|-----------|
+| サイズが固定 | サイズが可変 |
+| `int[] scores` | `ArrayList<Integer> scores` |
+| プリミティブ型OK | クラス型のみ |
+| 高速 | やや遅い |
+
+**配列：** サイズが決まっている場合に使う
+**ArrayList：** 後からデータを追加・削除する場合に使う
+
+ArrayListについては、第15章「コレクション」で詳しく学ぶ。
+
+---
+
+### Q3: 配列のサイズは後から変更できないの？
+
+A: Javaの配列は、一度作成すると **サイズを変更できない**。
+
+サイズを変更したい場合は、以下の方法がある：
+
+1. **新しい配列を作って、要素をコピーする**
+   ```java
+   int[] oldArray = {1, 2, 3};
+   int[] newArray = new int[5];  // 新しいサイズ
+   for (int i = 0; i < oldArray.length; i++) {
+       newArray[i] = oldArray[i];
+   }
+   ```
+
+2. **ArrayListを使う**（推奨）
+   ```java
+   ArrayList<Integer> list = new ArrayList<>();
+   list.add(1);
+   list.add(2);
+   list.add(3);
+   // いつでも追加・削除できる
+   ```
+
+データ数が変わる可能性がある場合は、最初からArrayListを使う方が良い。
+
+---
+
+### Q4: 配列を引数として渡すとどうなる？
+
+A: 配列を引数として渡すと、 **参照が渡される**（参照渡し）。
+
+つまり、メソッド内で配列の要素を変更すると、 **呼び出し元の配列も変更される**。
+
+```java
+public class ArrayReference {
+    public static void main(String[] args) {
+        int[] numbers = {1, 2, 3};
+        System.out.println("変更前: " + numbers[0]);  // 1
+
+        changeArray(numbers);
+
+        System.out.println("変更後: " + numbers[0]);  // 100（変更されている！）
+    }
+
+    public static void changeArray(int[] arr) {
+        arr[0] = 100;  // 呼び出し元の配列が変更される
+    }
+}
+```
+
+これは、配列が **参照型** であるためである。
+
+プリミティブ型（int, doubleなど）は値渡しだが、配列やクラスは参照渡しになる。
+
+---
+
+### Q5: 多次元配列はいつ使うの？
+
+A: 2次元配列は、 **表形式のデータ** を扱うときに使う。
+
+**よくある使用例：**
+
+1. **成績表**（生徒 × 科目）
+   ```java
+   int[][] scores = {
+       {85, 90, 78},  // 太郎の成績
+       {92, 88, 95}   // 花子の成績
+   };
+   ```
+
+2. **座席表**（行 × 列）
+   ```java
+   int[][] seats = {
+       {0, 1, 0},  // 1行目（0: 空席、1: 予約済み）
+       {1, 1, 0}   // 2行目
+   };
+   ```
+
+3. **ゲームマップ**（縦 × 横）
+   ```java
+   int[][] map = {
+       {0, 0, 1},  // 0: 通路、1: 壁
+       {0, 1, 0}
+   };
+   ```
+
+4. **画像データ**（縦 × 横のピクセル）
+
+「行と列」の概念がある場合は、2次元配列が適している。
+
+3次元配列以上も作れるが、実務ではあまり使わない。
