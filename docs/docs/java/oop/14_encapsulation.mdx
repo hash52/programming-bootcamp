@@ -7,121 +7,72 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 
 ---
 
-## 学習のゴール
+## Step 0: カプセル化がないとどうなる?
 
-- カプセル化とは何か、なぜ必要かを説明できる
-- アクセス修飾子（`public`, `private`, `protected`, デフォルト）を理解している
-- getter/setterメソッドの役割を理解している
-- カプセル化を使ったクラスを設計できる
-- 適切なアクセス制御ができる
+まず、カプセル化がない世界で「銀行口座システム」を作ってみよう。
 
----
+**状況:**
+- 銀行口座の残高を管理したい
+- 入金、出金、残高確認の機能が必要
+- しかし、不正な操作（マイナスの残高、残高以上の出金）を防ぎたい
 
-## なぜこの技術が必要か
-
-**カプセル化がないとどうなるか？**
-
-カプセル化がないと、クラスの内部データが外部から自由に変更できてしまう。
-これにより、不正な値が設定されたり、意図しない動作を引き起こす可能性がある。
-
-**実行してみよう:**
-
-カプセル化がない場合とある場合を比較してみよう。
+**カプセル化がない場合のコード:**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`// カプセル化がない場合（危険！）
-class BankAccountBad {
-    int balance;  // publicなので外部から直接変更可能
+  code={`// カプセル化がない銀行口座クラス
+class BankAccount {
+    String owner;      // 口座名義（公開フィールド）
+    int balance;       // 残高（公開フィールド）
 }
 
 public class Main {
     public static void main(String[] args) {
-        BankAccountBad account = new BankAccountBad();
+        BankAccount account = new BankAccount();
+        account.owner = "太郎";
         account.balance = 10000;
-        System.out.println("初期残高: " + account.balance + "円");
+
+        System.out.println(account.owner + "さんの残高: " + account.balance + "円");
 
         // 問題1: マイナスの残高を設定できてしまう
         account.balance = -5000;
         System.out.println("残高: " + account.balance + "円（おかしい！）");
 
-        // 問題2: 意図しない値の変更
+        // 問題2: 不正な値を直接設定できる
         account.balance = 999999999;
         System.out.println("残高: " + account.balance + "円（バグ？不正？）");
+
+        // 問題3: 名前を空文字列にできてしまう
+        account.owner = "";
+        System.out.println("名義: [" + account.owner + "]（空っぽ！）");
+
+        // 問題4: ビジネスロジック（入金・出金）がない
+        // クライアント側で直接balanceを操作するため、ルールを強制できない
     }
 }
 `}
 />
 
-<OneCompilerCodeBlock
-  language="java"
-  code={`// カプセル化がある場合（安全）
-class BankAccountGood {
-    private int balance;  // privateで保護
+**問題点:**
+1. **データの保護ができない**: フィールドが公開されているため、外部から自由に変更できる
+2. **不正な値を設定できる**: マイナスの残高、空の名前など、現実ではありえない値を設定できる
+3. **ビジネスルールを強制できない**: 入金・出金のルール（正の値のみ、残高チェック）を実装できない
+4. **データの整合性が保てない**: プログラムのあちこちで直接変更されるため、バグの温床になる
 
-    // コンストラクタ
-    public BankAccountGood() {
-        this.balance = 0;
-    }
-
-    // 入金（正の値のみ）
-    public void deposit(int amount) {
-        if (amount > 0) {
-            balance += amount;
-            System.out.println(amount + "円を入金しました");
-        } else {
-            System.out.println("入金額は正の値である必要があります");
-        }
-    }
-
-    // 出金（残高以下のみ）
-    public void withdraw(int amount) {
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            System.out.println(amount + "円を出金しました");
-        } else {
-            System.out.println("出金できません");
-        }
-    }
-
-    // 残高確認
-    public int getBalance() {
-        return balance;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        BankAccountGood account = new BankAccountGood();
-
-        account.deposit(10000);
-        System.out.println("残高: " + account.getBalance() + "円");
-
-        account.withdraw(3000);
-        System.out.println("残高: " + account.getBalance() + "円");
-
-        // 不正な操作は防がれる
-        account.deposit(-5000);  // 拒否される
-        account.withdraw(20000); // 残高不足で拒否される
-
-        System.out.println("最終残高: " + account.getBalance() + "円");
-    }
-}
-`}
-/>
-
-**カプセル化の利点:**
-- 不正な値の設定を防げる（マイナスの残高など）
-- データの整合性を保てる
-- 安全なプログラムを作れる
+この問題を解決するのが **カプセル化** である。
 
 ---
 
-## 1. カプセル化とは
+## Step 1: カプセル化とは何か
 
-### カプセル化の概念
+### カプセル化の定義
 
-**カプセル化** は、**データ（フィールド）とそれを操作するメソッドを1つにまとめ、外部から直接アクセスできないようにする仕組み** である。
+**カプセル化** とは、**データ（フィールド）とそれを操作するメソッドを1つにまとめ、外部から直接アクセスできないように保護する仕組み** である。
+
+**比喩:**
+- カプセル化 = **薬のカプセル**
+- 中身（データ）は直接触れない
+- 決められた方法（メソッド）でのみ使える
 
 ### カプセル化の3つの原則
 
@@ -129,14 +80,106 @@ public class Main {
    - 外部から直接アクセスできないようにする
 
 2. **公開メソッドを用意する**
-   - getter/setterを使ってフィールドにアクセスする
+   - getter/setterやビジネスロジックメソッドでフィールドにアクセスする
 
 3. **データの整合性を保つ**
-   - setterで値のチェックを行う
+   - setterやメソッドで値のチェックを行う
+
+### カプセル化を使った改善例
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// カプセル化された銀行口座クラス
+class BankAccount {
+    private String owner;    // privateで保護
+    private int balance;     // privateで保護
+
+    // コンストラクタ
+    public BankAccount(String owner) {
+        if (owner != null && !owner.isEmpty()) {
+            this.owner = owner;
+        } else {
+            this.owner = "名無し";
+        }
+        this.balance = 0;
+    }
+
+    // 入金（正の値のみ受け付ける）
+    public void deposit(int amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println(amount + "円を入金しました");
+        } else {
+            System.out.println("エラー: 入金額は正の値である必要があります");
+        }
+    }
+
+    // 出金（残高チェック）
+    public void withdraw(int amount) {
+        if (amount <= 0) {
+            System.out.println("エラー: 出金額は正の値である必要があります");
+        } else if (amount > balance) {
+            System.out.println("エラー: 残高不足です（残高: " + balance + "円）");
+        } else {
+            balance -= amount;
+            System.out.println(amount + "円を出金しました");
+        }
+    }
+
+    // 残高確認（読み取り専用）
+    public int getBalance() {
+        return balance;
+    }
+
+    // 名義確認（読み取り専用）
+    public String getOwner() {
+        return owner;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount("太郎");
+
+        System.out.println(account.getOwner() + "さんの口座を開設しました");
+        System.out.println("残高: " + account.getBalance() + "円");
+
+        System.out.println("---");
+
+        // 正常な操作
+        account.deposit(10000);
+        System.out.println("残高: " + account.getBalance() + "円");
+
+        account.withdraw(3000);
+        System.out.println("残高: " + account.getBalance() + "円");
+
+        System.out.println("---");
+
+        // 不正な操作は全て防がれる
+        account.deposit(-5000);   // 拒否される
+        account.withdraw(20000);  // 残高不足で拒否される
+        account.withdraw(-1000);  // 拒否される
+
+        // フィールドへの直接アクセスはコンパイルエラー
+        // account.balance = -5000;  // エラー！privateなのでアクセス不可
+
+        System.out.println("最終残高: " + account.getBalance() + "円");
+    }
+}
+`}
+/>
+
+**改善されたポイント:**
+1. **データが保護される**: フィールドがprivateなので、外部から直接変更できない
+2. **不正な値を防げる**: deposit/withdrawメソッドで値をチェックしている
+3. **ビジネスルールを強制**: 入金・出金のルールが実装されている
+4. **データの整合性が保たれる**: 決められたメソッド経由でのみ操作できる
 
 ---
 
-## 2. アクセス修飾子
+## Step 2: アクセス修飾子の基本
 
 ### アクセス修飾子とは
 
@@ -144,12 +187,12 @@ public class Main {
 
 ### 4つのアクセス修飾子
 
-| 修飾子 | アクセス範囲 | 説明 |
-|--------|-------------|------|
-| **`public`** | どこからでも | 全てのクラスからアクセス可能 |
-| **`protected`** | 同じパッケージ + サブクラス | 同じパッケージまたは継承先からアクセス可能 |
-| **（なし）** | 同じパッケージ | 同じパッケージ内のみアクセス可能（デフォルト） |
-| **`private`** | 同じクラス | 同じクラス内のみアクセス可能 |
+| 修飾子 | アクセス範囲 | 使用場面 |
+|--------|-------------|---------|
+| **`public`** | どこからでも | 公開メソッド、公開クラス |
+| **`protected`** | 同じパッケージ + サブクラス | 継承を前提とした設計 |
+| **（なし）** | 同じパッケージ | パッケージ内部でのみ使用 |
+| **`private`** | 同じクラス | フィールド、内部実装 |
 
 ### アクセス範囲の比較
 
@@ -158,9 +201,12 @@ public class Main {
 public > protected > （なし） > private
 ```
 
-:::tip ポイント
-**フィールドは基本的に`private`にする** ことが推奨される。
-これにより、外部から直接変更されるのを防げる。
+### 基本方針
+
+:::tip カプセル化の基本方針
+1. **フィールドは基本的に`private`にする**
+2. **メソッドは必要に応じて`public`にする**
+3. **内部でのみ使うメソッドは`private`にする**
 :::
 
 **実行してみよう:**
@@ -172,60 +218,79 @@ public > protected > （なし） > private
     private String name;
     private int age;
 
-    // publicメソッド：外部からアクセス可能
-    public void setName(String name) {
+    // publicコンストラクタ：外部から呼べる
+    public Person(String name, int age) {
         this.name = name;
+        setAge(age);  // 内部でsetterを使う
     }
 
+    // publicメソッド：外部から呼べる
     public String getName() {
         return name;
-    }
-
-    public void setAge(int age) {
-        // 値のチェックができる
-        if (age >= 0 && age <= 150) {
-            this.age = age;
-        } else {
-            System.out.println("不正な年齢です");
-        }
     }
 
     public int getAge() {
         return age;
     }
+
+    public void setAge(int age) {
+        if (isValidAge(age)) {  // private メソッドを呼ぶ
+            this.age = age;
+        } else {
+            System.out.println("エラー: 不正な年齢です");
+        }
+    }
+
+    // privateメソッド：クラス内部でのみ使用
+    private boolean isValidAge(int age) {
+        return age >= 0 && age <= 150;
+    }
+
+    public void introduce() {
+        System.out.println("私は" + name + "、" + age + "歳です");
+    }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Person person = new Person();
+        Person person = new Person("太郎", 20);
+        person.introduce();
 
-        // フィールドに直接アクセスできない
-        // person.name = "太郎";  // エラー！
+        // publicメソッドは呼べる
+        System.out.println("名前: " + person.getName());
+        System.out.println("年齢: " + person.getAge());
 
-        // メソッド経由でアクセス
-        person.setName("太郎");
-        person.setAge(20);
+        // 値を変更
+        person.setAge(25);
+        person.introduce();
 
-        System.out.println(person.getName() + "さん、" + person.getAge() + "歳");
+        // 不正な値は拒否される
+        person.setAge(200);
+        System.out.println("年齢: " + person.getAge());  // 25のまま
 
-        // 不正な値を設定しようとする
-        person.setAge(200);  // エラーメッセージが表示される
-        System.out.println("年齢: " + person.getAge());  // 20のまま
+        // privateフィールドには直接アクセスできない
+        // person.name = "花子";  // エラー！
+
+        // privateメソッドも呼べない
+        // person.isValidAge(30);  // エラー！
     }
-}`}
+}
+`}
 />
 
-**やってみよう:**
-- `setAge()`で負の値を設定してみて、チェックが機能するか確認しよう
+**ポイント:**
+- privateフィールド（name, age）は外部からアクセスできない
+- publicメソッド（getName, getAge, setAge, introduce）は外部から呼べる
+- privateメソッド（isValidAge）はクラス内部でのみ使用
 
 ---
 
-## 3. getter/setterメソッド
+## Step 3: getter/setterメソッド
 
 ### getter/setterとは
 
-- **getter**：フィールドの値を **取得** するメソッド
-- **setter**：フィールドの値を **設定** するメソッド
+- **getter**: フィールドの値を **取得** するメソッド
+- **setter**: フィールドの値を **設定** するメソッド
 
 ### 命名規則
 
@@ -233,12 +298,12 @@ public class Main {
 class Person {
     private String name;  // フィールド
 
-    // getter：get + フィールド名（先頭大文字）
+    // getter: get + フィールド名（先頭大文字）
     public String getName() {
         return name;
     }
 
-    // setter：set + フィールド名（先頭大文字）
+    // setter: set + フィールド名（先頭大文字）
     public void setName(String name) {
         this.name = name;
     }
@@ -252,13 +317,13 @@ getter/setterの命名規則は、JavaBeansの仕様に従っている。
 
 ### booleanのgetter
 
-`boolean`型のフィールドは、**`is`で始まるgetter** を使うことが多い。
+`boolean`型のフィールドは、**`is`で始まるgetter** を使うことが一般的である。
 
 ```java
 class Person {
     private boolean student;
 
-    // getStudentではなく、isStudentを使うのが一般的
+    // boolean型はisで始まる
     public boolean isStudent() {
         return student;
     }
@@ -269,76 +334,122 @@ class Person {
 }
 ```
 
+### getter/setterの使い分け
+
+**全てのフィールドにgetter/setterが必要なわけではない。**
+
+| パターン | getter | setter | 例 |
+|---------|--------|--------|-----|
+| 読み書き可能 | ✅ | ✅ | 名前、年齢 |
+| 読み取り専用 | ✅ | ❌ | ID、作成日時 |
+| 書き込み専用 | ❌ | ✅ | パスワード |
+| 外部非公開 | ❌ | ❌ | 内部状態 |
+
 **実行してみよう:**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`class BankAccount {
-    private String accountNumber;
-    private int balance;
+  code={`class Product {
+    private int id;           // 読み取り専用
+    private String name;      // 読み書き可能
+    private int price;        // 読み書き可能（値チェック付き）
+    private boolean available;  // 読み書き可能
 
-    // コンストラクタ
-    public BankAccount(String accountNumber) {
-        this.accountNumber = accountNumber;
-        this.balance = 0;
+    public Product(int id, String name, int price) {
+        this.id = id;
+        this.name = name;
+        setPrice(price);  // setterでチェック
+        this.available = true;
     }
 
-    // getter
-    public String getAccountNumber() {
-        return accountNumber;
+    // idは読み取り専用（getterのみ）
+    public int getId() {
+        return id;
     }
 
-    public int getBalance() {
-        return balance;
+    // nameは読み書き可能
+    public String getName() {
+        return name;
     }
 
-    // 入金（setter的な役割）
-    public void deposit(int amount) {
-        if (amount > 0) {
-            balance += amount;
-            System.out.println(amount + "円を入金しました");
+    public void setName(String name) {
+        if (name != null && !name.isEmpty()) {
+            this.name = name;
         } else {
-            System.out.println("入金額は正の値である必要があります");
+            System.out.println("エラー: 商品名は空にできません");
         }
     }
 
-    // 出金（setter的な役割）
-    public void withdraw(int amount) {
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            System.out.println(amount + "円を出金しました");
+    // priceは読み書き可能（値チェック付き）
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        if (price >= 0) {
+            this.price = price;
         } else {
-            System.out.println("出金できません");
+            System.out.println("エラー: 価格は0以上である必要があります");
         }
+    }
+
+    // boolean型はisで始まる
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    // ビジネスロジック
+    public int getTaxIncludedPrice() {
+        return (int) (price * 1.1);
+    }
+
+    public void showInfo() {
+        System.out.println("商品ID: " + id);
+        System.out.println("商品名: " + name);
+        System.out.println("価格: " + price + "円（税込: " + getTaxIncludedPrice() + "円）");
+        System.out.println("在庫: " + (available ? "あり" : "なし"));
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        BankAccount account = new BankAccount("123-456");
+        Product product = new Product(1, "ノートPC", 80000);
+        product.showInfo();
 
-        System.out.println("口座番号: " + account.getAccountNumber());
-        System.out.println("残高: " + account.getBalance() + "円");
+        System.out.println("---");
 
-        account.deposit(10000);
-        System.out.println("残高: " + account.getBalance() + "円");
+        // 読み取り専用のidは変更できない（setterがない）
+        // product.setId(2);  // エラー！メソッドが存在しない
 
-        account.withdraw(3000);
-        System.out.println("残高: " + account.getBalance() + "円");
+        // 名前と価格は変更可能
+        product.setName("高性能ノートPC");
+        product.setPrice(90000);
+        product.showInfo();
 
-        // 不正な操作を試みる
-        account.withdraw(10000);  // 残高不足
-        account.deposit(-500);    // 負の値
+        System.out.println("---");
+
+        // 不正な値は拒否される
+        product.setName("");       // エラーメッセージ
+        product.setPrice(-1000);   // エラーメッセージ
+        product.showInfo();        // 値は変わっていない
     }
-}`}
+}
+`}
 />
 
-**やってみよう:**
-- `withdraw()`で残高以上の金額を引き出そうとして、エラーメッセージを確認しよう
+**ポイント:**
+- idは読み取り専用（getterのみ）
+- name, priceは読み書き可能（getter + setter）
+- setterで値のチェックを実施
+- isAvailable()はboolean型なので`is`で始まる
 
 ---
 
-## 4. カプセル化の利点
+## Step 4: カプセル化の利点
 
 ### 1. データの保護
 
@@ -348,6 +459,8 @@ public class Main {
 public void setAge(int age) {
     if (age >= 0 && age <= 150) {
         this.age = age;
+    } else {
+        throw new IllegalArgumentException("年齢は0〜150の範囲である必要があります");
     }
 }
 ```
@@ -356,19 +469,69 @@ public void setAge(int age) {
 
 クラスの内部構造を変更しても、外部への影響を最小限にできる。
 
-```java
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// 温度クラス：内部ではセ氏で保持、華氏でも操作可能
 class Temperature {
     private double celsius;  // 内部ではセ氏で保持
 
+    public Temperature(double celsius) {
+        this.celsius = celsius;
+    }
+
+    // セ氏のgetter/setter
+    public double getCelsius() {
+        return celsius;
+    }
+
+    public void setCelsius(double celsius) {
+        this.celsius = celsius;
+    }
+
+    // 華氏のgetter/setter（内部でセ氏に変換）
     public double getFahrenheit() {
-        return celsius * 9 / 5 + 32;  // 華氏に変換して返す
+        return celsius * 9 / 5 + 32;
     }
 
     public void setFahrenheit(double fahrenheit) {
-        celsius = (fahrenheit - 32) * 5 / 9;  // セ氏に変換して保存
+        this.celsius = (fahrenheit - 32) * 5 / 9;
+    }
+
+    public void showInfo() {
+        System.out.printf("温度: %.1f°C (%.1f°F)\\n", celsius, getFahrenheit());
     }
 }
-```
+
+public class Main {
+    public static void main(String[] args) {
+        Temperature temp = new Temperature(25.0);
+        temp.showInfo();
+
+        System.out.println("---");
+
+        // セ氏で設定
+        temp.setCelsius(30.0);
+        temp.showInfo();
+
+        System.out.println("---");
+
+        // 華氏で設定（内部でセ氏に変換される）
+        temp.setFahrenheit(100.0);
+        temp.showInfo();
+
+        // 内部実装（celsiusフィールド）を変更しても、
+        // 外部からのインターフェース（getter/setter）は変わらない
+    }
+}
+`}
+/>
+
+**ポイント:**
+- 内部ではセ氏（celsius）で保持
+- 華氏での操作も可能（内部で変換）
+- 外部からは内部実装を意識する必要がない
 
 ### 3. コードの保守性向上
 
@@ -382,7 +545,12 @@ class Temperature {
     private int width;
     private int height;
 
-    // getter/setter
+    public Rectangle(int width, int height) {
+        setWidth(width);
+        setHeight(height);
+    }
+
+    // getter/setter（値チェック付き）
     public int getWidth() {
         return width;
     }
@@ -390,6 +558,8 @@ class Temperature {
     public void setWidth(int width) {
         if (width > 0) {
             this.width = width;
+        } else {
+            System.out.println("エラー: 幅は正の値である必要があります");
         }
     }
 
@@ -400,138 +570,827 @@ class Temperature {
     public void setHeight(int height) {
         if (height > 0) {
             this.height = height;
+        } else {
+            System.out.println("エラー: 高さは正の値である必要があります");
         }
     }
 
-    // 面積を計算（内部実装）
+    // ビジネスロジック
     public int getArea() {
         return width * height;
     }
 
-    // 周の長さを計算（内部実装）
     public int getPerimeter() {
         return 2 * (width + height);
+    }
+
+    public boolean isSquare() {
+        return width == height;
+    }
+
+    public void showInfo() {
+        System.out.println("幅: " + width + ", 高さ: " + height);
+        System.out.println("面積: " + getArea() + ", 周の長さ: " + getPerimeter());
+        System.out.println("正方形: " + (isSquare() ? "はい" : "いいえ"));
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Rectangle rect = new Rectangle();
-        rect.setWidth(10);
-        rect.setHeight(5);
+        Rectangle rect = new Rectangle(10, 5);
+        rect.showInfo();
 
-        System.out.println("幅: " + rect.getWidth());
-        System.out.println("高さ: " + rect.getHeight());
-        System.out.println("面積: " + rect.getArea());
-        System.out.println("周の長さ: " + rect.getPerimeter());
+        System.out.println("---");
 
-        // 不正な値を設定しようとする
-        rect.setWidth(-5);  // 無視される
-        System.out.println("幅（変更後）: " + rect.getWidth());  // 10のまま
+        // サイズ変更
+        rect.setWidth(8);
+        rect.setHeight(8);
+        rect.showInfo();
+
+        System.out.println("---");
+
+        // 不正な値は拒否される
+        rect.setWidth(-5);   // エラーメッセージ
+        rect.setHeight(0);   // エラーメッセージ
+        rect.showInfo();     // 値は変わっていない
     }
-}`}
+}
+`}
 />
 
-**やってみよう:**
-- `Circle`クラスを作成して、`radius`（半径）を`private`にし、getter/setterと`getArea()`メソッドを実装してみよう
+### 4. デバッグが容易
+
+フィールドへのアクセスがメソッド経由に限定されるため、値の変更箇所を特定しやすい。
 
 ---
 
-## 5. カプセル化の設計
-
-### 基本方針
-
-1. **フィールドは基本的に`private`にする**
-   - 例外：定数（`public static final`）
-
-2. **必要に応じてgetter/setterを提供する**
-   - 全てのフィールドにgetter/setterを用意する必要はない
-
-3. **setterで値のチェックを行う**
-   - 不正な値を受け付けないようにする
-
-4. **ビジネスロジックはメソッドで実装する**
-   - getter/setterだけでなく、意味のあるメソッドを提供する
-
-### 良い例と悪い例
-
-#### ✅ 良い例
-
-```java
-class Product {
-    private String name;
-    private int price;
-
-    // getter
-    public String getName() {
-        return name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    // setterで値チェック
-    public void setPrice(int price) {
-        if (price >= 0) {
-            this.price = price;
-        } else {
-            throw new IllegalArgumentException("価格は0以上である必要があります");
-        }
-    }
-
-    // ビジネスロジック
-    public int getTaxIncludedPrice() {
-        return (int) (price * 1.1);
-    }
-}
-```
-
-#### ❌ 悪い例
-
-```java
-class Product {
-    public String name;   // publicなので直接変更可能
-    public int price;     // 不正な値を設定される可能性
-
-    // getter/setterがないので値チェックできない
-}
-```
-
-:::warning 注意
-**getter/setterを機械的に全て作る** のではなく、**必要なものだけ作る** ことが重要である。
-読み取り専用にしたい場合は、getterのみを提供する。
-:::
-
----
-
-## 6. protectedの使い方
+## Step 5: protectedの使い方
 
 ### protectedとは
 
 **`protected`** は、**同じパッケージまたは継承先のクラス** からアクセス可能にする修飾子である。
 
-```java
-class Animal {
-    protected String name;  // サブクラスからアクセス可能
+### 使用場面
 
-    protected void eat() {
+継承を前提とした設計で、親クラスのフィールドやメソッドを子クラスからアクセスしたい場合に使う。
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// 動物クラス（親クラス）
+class Animal {
+    protected String name;  // protectedなので子クラスからアクセス可能
+    private int age;        // privateなので子クラスからもアクセス不可
+
+    public Animal(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    protected void eat() {  // protectedメソッド
         System.out.println(name + "が食べる");
+    }
+
+    public int getAge() {
+        return age;
     }
 }
 
+// 犬クラス（子クラス）
 class Dog extends Animal {
+    public Dog(String name, int age) {
+        super(name, age);
+    }
+
     public void bark() {
-        System.out.println(name + "がワンと鳴く");  // protectedなのでアクセス可能
-        eat();  // protectedメソッドも呼べる
+        // protectedなnameにアクセスできる
+        System.out.println(name + "がワンワン鳴く");
+
+        // protectedなeat()を呼べる
+        eat();
+
+        // privateなageには直接アクセスできない
+        // System.out.println(age);  // エラー！
+        // getterを使う必要がある
+        System.out.println(name + "は" + getAge() + "歳です");
+    }
+}
+
+// 猫クラス（子クラス）
+class Cat extends Animal {
+    public Cat(String name, int age) {
+        super(name, age);
+    }
+
+    public void meow() {
+        // protectedなnameにアクセスできる
+        System.out.println(name + "がニャーニャー鳴く");
+        eat();  // protectedなeat()を呼べる
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog("ポチ", 3);
+        dog.bark();
+
+        System.out.println("---");
+
+        Cat cat = new Cat("タマ", 2);
+        cat.meow();
+    }
+}
+`}
+/>
+
+:::tip ポイント
+基本的には`private`を使い、継承先でアクセスが必要な場合のみ`protected`を使う。
+過度に`protected`を使うと、カプセル化の利点が失われる。
+:::
+
+---
+
+## Step 6: カプセル化の設計パターン
+
+### パターン1: 読み取り専用フィールド
+
+変更されたくないフィールドは、getterのみ提供する。
+
+```java
+class User {
+    private int id;  // 読み取り専用
+
+    public User(int id) {
+        this.id = id;
+    }
+
+    public int getId() {  // getterのみ
+        return id;
+    }
+
+    // setIdは提供しない
+}
+```
+
+### パターン2: 計算プロパティ
+
+実際のフィールドを持たず、計算結果を返すgetter。
+
+```java
+class Person {
+    private int birthYear;
+
+    public int getAge() {
+        return 2025 - birthYear;  // 計算して返す
     }
 }
 ```
 
-:::tip ポイント
-`protected`は、継承を前提とした設計で使われる。
-基本的には`private`を使い、継承先でアクセスが必要な場合のみ`protected`を使う。
-:::
+### パターン3: バリデーション付きsetter
+
+setterで値をチェックし、不正な値を拒否する。
+
+```java
+class Product {
+    private int price;
+
+    public void setPrice(int price) {
+        if (price < 0) {
+            throw new IllegalArgumentException("価格は0以上である必要があります");
+        }
+        this.price = price;
+    }
+}
+```
+
+### パターン4: ビジネスロジックメソッド
+
+単純なgetter/setterではなく、意味のあるメソッドを提供する。
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class ShoppingCart {
+    private int itemCount;
+    private int totalPrice;
+
+    public ShoppingCart() {
+        this.itemCount = 0;
+        this.totalPrice = 0;
+    }
+
+    // ビジネスロジックメソッド（単純なsetterではない）
+    public void addItem(int price) {
+        if (price > 0) {
+            itemCount++;
+            totalPrice += price;
+            System.out.println(price + "円の商品を追加しました");
+        } else {
+            System.out.println("エラー: 価格は正の値である必要があります");
+        }
+    }
+
+    public void removeItem(int price) {
+        if (itemCount > 0 && price > 0 && price <= totalPrice) {
+            itemCount--;
+            totalPrice -= price;
+            System.out.println(price + "円の商品を削除しました");
+        } else {
+            System.out.println("エラー: 削除できません");
+        }
+    }
+
+    public void clear() {
+        itemCount = 0;
+        totalPrice = 0;
+        System.out.println("カートをクリアしました");
+    }
+
+    // 読み取り専用getter
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    // 計算プロパティ
+    public int getAveragePrice() {
+        return itemCount > 0 ? totalPrice / itemCount : 0;
+    }
+
+    public void showInfo() {
+        System.out.println("商品数: " + itemCount);
+        System.out.println("合計金額: " + totalPrice + "円");
+        System.out.println("平均価格: " + getAveragePrice() + "円");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        ShoppingCart cart = new ShoppingCart();
+
+        cart.addItem(1000);
+        cart.addItem(2000);
+        cart.addItem(1500);
+        cart.showInfo();
+
+        System.out.println("---");
+
+        cart.removeItem(1000);
+        cart.showInfo();
+
+        System.out.println("---");
+
+        cart.clear();
+        cart.showInfo();
+    }
+}
+`}
+/>
+
+**ポイント:**
+- itemCount, totalPriceは直接変更できない
+- addItem, removeItem, clearなど意味のあるメソッドを提供
+- getAveragePrice()は計算プロパティ
+
+---
+
+## Step 7: カプセル化のベストプラクティス
+
+### 1. フィールドは基本的にprivate
+
+```java
+// ✅ 良い例
+class Person {
+    private String name;  // private
+    private int age;      // private
+}
+
+// ❌ 悪い例
+class Person {
+    public String name;   // publicは避ける
+    public int age;       // publicは避ける
+}
+```
+
+### 2. 必要なgetter/setterのみ提供
+
+```java
+// ✅ 良い例
+class User {
+    private int id;
+    private String name;
+
+    public int getId() { return id; }  // 読み取り専用
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+}
+
+// ❌ 悪い例（機械的に全て作成）
+class User {
+    private int id;
+
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }  // IDは変更すべきでない
+}
+```
+
+### 3. setterで値をチェック
+
+```java
+// ✅ 良い例
+public void setAge(int age) {
+    if (age >= 0 && age <= 150) {
+        this.age = age;
+    } else {
+        throw new IllegalArgumentException("年齢は0〜150の範囲である必要があります");
+    }
+}
+
+// ❌ 悪い例（チェックなし）
+public void setAge(int age) {
+    this.age = age;  // 負の値も設定できてしまう
+}
+```
+
+### 4. 意味のあるメソッド名を使う
+
+```java
+// ✅ 良い例
+account.deposit(1000);   // 入金
+account.withdraw(500);   // 出金
+
+// ❌ 悪い例
+account.setBalance(account.getBalance() + 1000);  // 直接操作
+```
+
+---
+
+## Step 8: 実践的な演習
+
+### 演習1: 学生管理システム
+
+**課題:**
+学生を管理するStudentクラスを作成せよ。
+
+**要件:**
+1. フィールド（全てprivate）
+   - `id`（int型、読み取り専用）
+   - `name`（String型、読み書き可能）
+   - `score`（int型、読み書き可能、0〜100の範囲）
+2. コンストラクタで`id`と`name`を初期化（scoreは0）
+3. getter/setter
+   - idはgetterのみ
+   - nameはgetter/setter
+   - scoreはgetter/setter（0〜100の範囲チェック）
+4. ビジネスロジック
+   - `isPassed()`メソッド：score >= 60ならtrue
+   - `getGrade()`メソッド：A（90以上）、B（80以上）、C（70以上）、D（60以上）、F（60未満）
+   - `showInfo()`メソッド：学生情報を表示
+
+**実装してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// TODO: Studentクラスを実装
+
+public class Main {
+    public static void main(String[] args) {
+        // TODO: 学生を作成してテスト
+    }
+}
+`}
+/>
+
+<details>
+<summary>解答例を見る</summary>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Student {
+    private int id;
+    private String name;
+    private int score;
+
+    public Student(int id, String name) {
+        this.id = id;
+        this.name = name;
+        this.score = 0;
+    }
+
+    // idは読み取り専用
+    public int getId() {
+        return id;
+    }
+
+    // nameは読み書き可能
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        if (name != null && !name.isEmpty()) {
+            this.name = name;
+        } else {
+            System.out.println("エラー: 名前は空にできません");
+        }
+    }
+
+    // scoreは読み書き可能（範囲チェック）
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        if (score >= 0 && score <= 100) {
+            this.score = score;
+        } else {
+            System.out.println("エラー: 点数は0〜100の範囲である必要があります");
+        }
+    }
+
+    // 合格判定
+    public boolean isPassed() {
+        return score >= 60;
+    }
+
+    // 成績評価
+    public String getGrade() {
+        if (score >= 90) return "A";
+        if (score >= 80) return "B";
+        if (score >= 70) return "C";
+        if (score >= 60) return "D";
+        return "F";
+    }
+
+    // 情報表示
+    public void showInfo() {
+        System.out.println("ID: " + id);
+        System.out.println("名前: " + name);
+        System.out.println("点数: " + score);
+        System.out.println("評価: " + getGrade());
+        System.out.println("合否: " + (isPassed() ? "合格" : "不合格"));
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student student1 = new Student(1, "太郎");
+        student1.setScore(85);
+        student1.showInfo();
+
+        System.out.println("---");
+
+        Student student2 = new Student(2, "花子");
+        student2.setScore(55);
+        student2.showInfo();
+
+        System.out.println("---");
+
+        // 不正な値はエラー
+        student1.setScore(150);  // エラー
+        student1.setName("");    // エラー
+        student1.showInfo();     // 値は変わっていない
+    }
+}
+`}
+/>
+
+</details>
+
+---
+
+### 演習2: 在庫管理システム
+
+**課題:**
+在庫を管理するInventoryクラスを作成せよ。
+
+**要件:**
+1. フィールド（全てprivate）
+   - `productName`（String型、読み取り専用）
+   - `quantity`（int型、読み取り専用・メソッド経由で変更）
+2. コンストラクタで`productName`を初期化（quantityは0）
+3. メソッド
+   - `addStock(int amount)`: 在庫追加（正の値のみ）
+   - `removeStock(int amount)`: 在庫削除（在庫数チェック）
+   - `getQuantity()`: 在庫数取得
+   - `isInStock()`: 在庫があるかチェック（quantity > 0）
+   - `showInfo()`: 在庫情報を表示
+
+**実装してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// TODO: Inventoryクラスを実装
+
+public class Main {
+    public static void main(String[] args) {
+        // TODO: 在庫を作成してテスト
+    }
+}
+`}
+/>
+
+<details>
+<summary>解答例を見る</summary>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Inventory {
+    private String productName;
+    private int quantity;
+
+    public Inventory(String productName) {
+        this.productName = productName;
+        this.quantity = 0;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void addStock(int amount) {
+        if (amount > 0) {
+            quantity += amount;
+            System.out.println(amount + "個を追加しました");
+        } else {
+            System.out.println("エラー: 追加数は正の値である必要があります");
+        }
+    }
+
+    public void removeStock(int amount) {
+        if (amount <= 0) {
+            System.out.println("エラー: 削除数は正の値である必要があります");
+        } else if (amount > quantity) {
+            System.out.println("エラー: 在庫不足です（在庫: " + quantity + "個）");
+        } else {
+            quantity -= amount;
+            System.out.println(amount + "個を削除しました");
+        }
+    }
+
+    public boolean isInStock() {
+        return quantity > 0;
+    }
+
+    public void showInfo() {
+        System.out.println("商品名: " + productName);
+        System.out.println("在庫数: " + quantity + "個");
+        System.out.println("在庫状況: " + (isInStock() ? "あり" : "なし"));
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Inventory inventory = new Inventory("ノートPC");
+        inventory.showInfo();
+
+        System.out.println("---");
+
+        inventory.addStock(10);
+        inventory.showInfo();
+
+        System.out.println("---");
+
+        inventory.removeStock(3);
+        inventory.showInfo();
+
+        System.out.println("---");
+
+        // 不正な操作
+        inventory.removeStock(20);  // 在庫不足
+        inventory.addStock(-5);     // 負の値
+        inventory.showInfo();
+    }
+}
+`}
+/>
+
+</details>
+
+---
+
+### 演習3: 図書館システム
+
+**課題:**
+図書を管理するBookクラスを作成せよ。
+
+**要件:**
+1. フィールド（全てprivate）
+   - `title`（String型、読み取り専用）
+   - `author`（String型、読み取り専用）
+   - `borrowed`（boolean型、読み取り専用・メソッド経由で変更）
+2. コンストラクタで`title`と`author`を初期化（borrowedはfalse）
+3. メソッド
+   - `borrow()`: 貸出（既に貸出中ならエラー）
+   - `returnBook()`: 返却（貸出中でなければエラー）
+   - `isBorrowed()`: 貸出状態を取得
+   - `showInfo()`: 本の情報を表示
+
+**実装してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// TODO: Bookクラスを実装
+
+public class Main {
+    public static void main(String[] args) {
+        // TODO: 本を作成してテスト
+    }
+}
+`}
+/>
+
+<details>
+<summary>解答例を見る</summary>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Book {
+    private String title;
+    private String author;
+    private boolean borrowed;
+
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+        this.borrowed = false;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public boolean isBorrowed() {
+        return borrowed;
+    }
+
+    public void borrow() {
+        if (borrowed) {
+            System.out.println("エラー: この本は既に貸出中です");
+        } else {
+            borrowed = true;
+            System.out.println("「" + title + "」を貸出しました");
+        }
+    }
+
+    public void returnBook() {
+        if (!borrowed) {
+            System.out.println("エラー: この本は貸出されていません");
+        } else {
+            borrowed = false;
+            System.out.println("「" + title + "」を返却しました");
+        }
+    }
+
+    public void showInfo() {
+        System.out.println("タイトル: " + title);
+        System.out.println("著者: " + author);
+        System.out.println("状態: " + (borrowed ? "貸出中" : "利用可能"));
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Book book1 = new Book("吾輩は猫である", "夏目漱石");
+        book1.showInfo();
+
+        System.out.println("---");
+
+        book1.borrow();
+        book1.showInfo();
+
+        System.out.println("---");
+
+        book1.borrow();  // 既に貸出中
+
+        System.out.println("---");
+
+        book1.returnBook();
+        book1.showInfo();
+
+        System.out.println("---");
+
+        book1.returnBook();  // 既に返却済み
+    }
+}
+`}
+/>
+
+</details>
+
+---
+
+## よくある質問（FAQ）
+
+### Q1: 全てのフィールドにgetter/setterを作る必要がありますか？
+
+**A:**
+いいえ、**必要なものだけ作る** ことが重要である。
+
+**ケース別の対応:**
+- **読み取り専用**: getterのみ（例: ID、作成日時）
+- **書き込み専用**: setterのみ（例: パスワード）
+- **内部状態**: getter/setterなし（例: キャッシュ、一時変数）
+- **計算プロパティ**: getterのみ、フィールドなし（例: 年齢 = 現在年 - 誕生年）
+
+機械的に全て作るのではなく、設計を考えて必要なものを作ることが大切である。
+
+### Q2: privateとprotectedはどう使い分けますか？
+
+**A:**
+
+| 修飾子 | 使用場面 |
+|--------|---------|
+| **private** | デフォルト。外部から隠蔽したい場合 |
+| **protected** | 継承を前提とし、子クラスからアクセスさせたい場合 |
+
+**基本方針:**
+1. まず`private`を使う
+2. 継承先でアクセスが必要になったら`protected`に変更
+3. 過度に`protected`を使うとカプセル化の利点が失われる
+
+### Q3: getter/setterを使わずpublicフィールドにするのはダメですか？
+
+**A:**
+以下の理由から **推奨されない**。
+
+**publicフィールドの問題点:**
+1. **値チェックができない**: 不正な値を設定できてしまう
+2. **内部実装を変更できない**: フィールド名や型を変更すると、全ての利用箇所を修正する必要がある
+3. **デバッグが困難**: どこで値が変更されたか追跡しにくい
+4. **フレームワークとの相性が悪い**: SpringなどはJavaBeansの規約（getter/setter）を前提としている
+
+**例外:**
+定数（`public static final`）はpublicで問題ない。
+
+```java
+public static final int MAX_SIZE = 100;  // OK
+```
+
+### Q4: setterで例外を投げるべきですか？それともエラーメッセージを表示すべきですか？
+
+**A:**
+状況によって使い分ける。
+
+**例外を投げる場合:**
+- プログラムのバグを示す重大なエラー
+- 呼び出し側で対処が必要な場合
+```java
+public void setAge(int age) {
+    if (age < 0) {
+        throw new IllegalArgumentException("年齢は0以上である必要があります");
+    }
+    this.age = age;
+}
+```
+
+**エラーメッセージを表示する場合:**
+- ユーザー入力など、想定内のエラー
+- エラーを無視して処理を続行できる場合
+```java
+public void setAge(int age) {
+    if (age < 0) {
+        System.out.println("エラー: 年齢は0以上である必要があります");
+        return;  // 値を変更しない
+    }
+    this.age = age;
+}
+```
+
+**一般的な方針:**
+- ライブラリ・フレームワーク: 例外を投げる
+- アプリケーションコード: 状況に応じて使い分け
+
+### Q5: カプセル化はオブジェクト指向以外でも使えますか？
+
+**A:**
+はい、カプセル化の概念は広く適用できる。
+
+**他の言語での例:**
+- **JavaScript**: クロージャやモジュールパターン
+- **Python**: `_`プレフィックスで慣習的にprivate扱い
+- **C**: 構造体と関数でカプセル化を模倣
+
+**一般的な設計原則としてのカプセル化:**
+- モジュール設計: 公開API vs 内部実装
+- データベース設計: ストアドプロシージャでビジネスロジックをカプセル化
+- API設計: 内部実装を隠蔽し、安定したインターフェースを提供
+
+カプセル化は「データとロジックを保護し、適切なインターフェースで公開する」という普遍的な設計原則である。
 
 ---
 
@@ -541,21 +1400,21 @@ class Dog extends Animal {
 
 ### 学んだ内容
 
-- **カプセル化** はデータとメソッドをまとめ、外部から直接アクセスできないようにする仕組みである
+- **カプセル化** はデータとメソッドをまとめ、外部から直接アクセスできないように保護する仕組みである
 - **アクセス修飾子** で、フィールドやメソッドのアクセス範囲を制御できる
-  - `public`：どこからでもアクセス可能
-  - `protected`：同じパッケージまたは継承先からアクセス可能
-  - （なし）：同じパッケージ内のみアクセス可能
-  - `private`：同じクラス内のみアクセス可能
-- **getter/setter** でフィールドにアクセスする
+  - `public`: どこからでもアクセス可能
+  - `protected`: 同じパッケージまたは継承先からアクセス可能
+  - （なし）: 同じパッケージ内のみアクセス可能
+  - `private`: 同じクラス内のみアクセス可能
 - **フィールドは基本的に`private`にする** ことが推奨される
+- **getter/setter** でフィールドにアクセスする（必要なものだけ提供）
 - **setterで値のチェック** を行うことで、データの整合性を保てる
 - カプセル化により、**データの保護、内部実装の隠蔽、保守性の向上** が実現できる
 
 ### 次のステップ
 
-次の章では、**例外処理** について学ぶ。
-プログラムでエラーが発生した際の適切な処理方法を学び、より堅牢なプログラムを作る方法を学ぶ。
+次の章では、**コレクション** について学ぶ。
+複数のデータを効率的に管理するためのList、Set、Mapなどのコレクションの使い方を学ぶ。
 
 ---
 

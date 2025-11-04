@@ -2,148 +2,116 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 
 # インターフェース
 
-この章では、クラスに共通の振る舞いを定義する **インターフェース** について学ぶ。
-インターフェースを使うことで、柔軟で保守性の高い設計を実現できる。
+この章では、プログラムの設計を柔軟にする **インターフェース** について学ぶ。
+インターフェースを使うことで、異なるクラス階層でも共通の振る舞いを定義し、統一的に扱うことができる。
 
 ---
 
-## 学習のゴール
+## Step 0: インターフェースがないとどうなる？
 
-- インターフェースとは何か、なぜ必要かを説明できる
-- インターフェースと継承の違いを理解している
-- インターフェースの定義方法を理解している
-- `implements`キーワードでインターフェースを実装できる
-- 複数のインターフェースを実装できる
-- インターフェースを使った設計ができる
+まず、インターフェースがない世界で「支払いシステム」を作ってみよう。
 
----
+**状況:**
+- オンラインショップで、複数の支払い方法（クレジットカード、銀行振込、電子マネー）に対応したい
+- それぞれの支払い方法は異なる処理を行う
+- しかし、どれも「支払いをする」という共通の振る舞いを持つ
 
-## なぜこの技術が必要か
-
-**インターフェースがないとどうなるか？**
-
-継承だけでは、異なるクラス階層間で共通の振る舞いを定義できない。
-また、Javaでは1つのクラスしか継承できないため、柔軟性に欠ける。
-
-**実行してみよう:**
-
-インターフェースがない場合とある場合を比較してみよう。
+**インターフェースがない場合のコード:**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`// インターフェースがない場合
-class Bird {
-    String name;
-
-    void fly() {
-        System.out.println(name + "が飛ぶ");
+  code={`// クレジットカード決済クラス
+class CreditCardPayment {
+    void pay(int amount) {
+        System.out.println("クレジットカードで" + amount + "円を支払いました");
     }
 }
 
-class Airplane {
-    String name;
+// 銀行振込クラス
+class BankTransferPayment {
+    void pay(int amount) {
+        System.out.println("銀行振込で" + amount + "円を支払いました");
+    }
+}
 
-    void fly() {
-        System.out.println(name + "が飛ぶ");
+// 電子マネークラス
+class EMoneyPayment {
+    void pay(int amount) {
+        System.out.println("電子マネーで" + amount + "円を支払いました");
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Bird bird = new Bird();
-        bird.name = "スズメ";
-        bird.fly();
+        // 問題1: 異なる型なので統一的に扱えない
+        CreditCardPayment creditCard = new CreditCardPayment();
+        BankTransferPayment bankTransfer = new BankTransferPayment();
+        EMoneyPayment eMoney = new EMoneyPayment();
 
-        Airplane airplane = new Airplane();
-        airplane.name = "ボーイング747";
-        airplane.fly();
+        // 問題2: 支払い方法ごとに異なる処理が必要
+        creditCard.pay(1000);
+        bankTransfer.pay(2000);
+        eMoney.pay(3000);
 
-        // 問題：BirdとAirplaneを統一的に扱えない
-        // どちらも「飛べる」のに、共通の型がない
+        // 問題3: 配列にまとめられない（型が違うため）
+        // Object[] payments = {creditCard, bankTransfer, eMoney};
+        // for (Object p : payments) {
+        //     p.pay(500);  // エラー！Objectにはpayメソッドがない
+        // }
+
+        // 問題4: 新しい支払い方法を追加するたびに処理を書き換える必要がある
     }
 }
 `}
 />
 
-<OneCompilerCodeBlock
-  language="java"
-  code={`// インターフェースがある場合
-interface Flyable {
-    void fly();
-}
+**問題点:**
+1. **統一的に扱えない**: 各支払い方法は別々の型なので、共通の型として扱えない
+2. **コードの重複**: どれも「支払う」という共通の振る舞いを持つのに、個別に処理を書く必要がある
+3. **拡張性が低い**: 新しい支払い方法を追加するたびに、既存のコードを大きく変更する必要がある
+4. **保守性が低い**: 支払い処理のロジックが散らばり、変更が困難
 
-class Bird implements Flyable {
-    String name;
-
-    public void fly() {
-        System.out.println(name + "が羽ばたいて飛ぶ");
-    }
-}
-
-class Airplane implements Flyable {
-    String name;
-
-    public void fly() {
-        System.out.println(name + "がエンジンで飛ぶ");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        // Flyable型として統一的に扱える
-        Flyable bird = new Bird();
-        ((Bird) bird).name = "スズメ";
-
-        Flyable airplane = new Airplane();
-        ((Airplane) airplane).name = "ボーイング747";
-
-        // どちらもFlyable型なので、同じ方法で呼び出せる
-        bird.fly();
-        airplane.fly();
-
-        // 配列にまとめることもできる
-        Flyable[] flyables = {bird, airplane};
-        System.out.println("\\n全ての飛べるものを飛ばす:");
-        for (Flyable f : flyables) {
-            f.fly();
-        }
-    }
-}
-`}
-/>
-
-**インターフェースの利点:**
-- 異なるクラス階層間でも共通の型として扱える
-- 「〜できる」という能力を定義できる（Flyable = 飛べる）
-- 複数のクラスを統一的に扱える（配列やリストにまとめられる）
+この問題を解決するのが **インターフェース** である。
 
 ---
 
-## 1. インターフェースとは
+## Step 1: インターフェースとは何か
 
-### インターフェースの概念
+### インターフェースの定義
 
-**インターフェース** は、**クラスが実装すべきメソッドを定義する仕組み** である。
-「何をするか」を定義し、「どうするか」は実装クラスに任せる。
+**インターフェース** とは、**クラスが実装すべきメソッドの「仕様」を定義する仕組み** である。
 
-### 継承との違い
+**比喩:**
+- インターフェース = **規格・契約書**
+- 実装クラス = **規格を満たす製品**
+
+例えば、USB規格があれば、異なるメーカーの機器でも統一的に接続できる。
+同様に、Paymentインターフェースがあれば、異なる支払い方法でも統一的に扱える。
+
+### インターフェースの特徴
+
+1. **「何をするか」を定義** し、「どうするか」は実装クラスが決める
+2. **抽象的な型** として機能する（実態を持たない）
+3. **複数のクラスで共通の型** として使える
+
+### インターフェースと継承の違い
 
 | 比較項目 | 継承（extends） | インターフェース（implements） |
 |---------|----------------|------------------------------|
-| **目的** | is-a関係（〜は〜である） | can-do関係（〜できる） |
-| **実装** | 親クラスの実装を引き継ぐ | メソッドの実装は持たない |
+| **関係性** | is-a関係（犬 **は** 動物 **である** ） | can-do関係（鳥 **は** 飛ぶこと **ができる** ） |
+| **実装** | 親クラスの実装を引き継ぐ | メソッドの実装を持たない（契約のみ） |
 | **複数** | 1つのクラスのみ継承可能 | 複数のインターフェースを実装可能 |
-| **用途** | 共通の実装を共有 | 共通の振る舞いを定義 |
+| **用途** | 共通の実装を共有 | 共通の振る舞い（能力）を定義 |
 
-**例：**
-- **継承**: Dog **is a** Animal（犬は動物である）
-- **インターフェース**: Bird **can** Fly（鳥は飛べる）
+**例:**
+- **継承**: `Dog extends Animal`（犬は動物である）
+- **インターフェース**: `Bird implements Flyable`（鳥は飛べる）
 
 ---
 
-## 2. インターフェースの定義
+## Step 2: インターフェースの基本的な書き方
 
-### 基本的な書き方
+### インターフェースの定義
 
 ```java
 interface インターフェース名 {
@@ -152,163 +120,228 @@ interface インターフェース名 {
 }
 ```
 
-### 例：Flyableインターフェース
+**例: Paymentインターフェース**
 
 ```java
-interface Flyable {
-    void fly();  // 実装は書かない
+interface Payment {
+    void pay(int amount);  // 「支払う」という振る舞いを定義
 }
 ```
 
-### インターフェースのルール
-
-1. **メソッドは自動的に`public abstract`になる**
-   - `public`と`abstract`は省略できる
-2. **実装を持たない**（抽象メソッドのみ）
-   - ただし、Java 8以降は`default`メソッドで実装を持てる
-3. **フィールドは自動的に`public static final`になる**
-   - 定数として扱われる
-
-:::tip ポイント
-インターフェースのメソッドは「何をするか」だけを定義し、「どうするか」は実装クラスが決める。
-:::
-
----
-
-## 3. インターフェースの実装
-
-### implementsキーワード
+### インターフェースの実装
 
 インターフェースを実装するには、**`implements`キーワード** を使う。
 
 ```java
 class クラス名 implements インターフェース名 {
-    // インターフェースのメソッドを実装
+    // インターフェースで定義されたメソッドを実装
+    @Override
+    public 戻り値の型 メソッド名(引数) {
+        // 実装内容
+    }
 }
 ```
 
-### 例：BirdクラスとAirplaneクラス
+**例: CreditCardPaymentクラス**
 
 ```java
-interface Flyable {
-    void fly();
-}
-
-class Bird implements Flyable {
+class CreditCardPayment implements Payment {
     @Override
-    public void fly() {
-        System.out.println("鳥が羽ばたいて飛ぶ");
-    }
-}
-
-class Airplane implements Flyable {
-    @Override
-    public void fly() {
-        System.out.println("飛行機がエンジンで飛ぶ");
+    public void pay(int amount) {
+        System.out.println("クレジットカードで" + amount + "円を支払いました");
     }
 }
 ```
 
-:::caution 重要
-インターフェースのメソッドを実装するときは、**`public`を明示** する必要がある。
-:::
+### インターフェースを使った改善例
 
 **実行してみよう:**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`interface Flyable {
-    void fly();
+  code={`// 支払いインターフェース
+interface Payment {
+    void pay(int amount);
 }
 
-class Bird implements Flyable {
+// クレジットカード決済
+class CreditCardPayment implements Payment {
     @Override
-    public void fly() {
-        System.out.println("鳥が羽ばたいて飛ぶ");
+    public void pay(int amount) {
+        System.out.println("クレジットカードで" + amount + "円を支払いました");
     }
 }
 
-class Airplane implements Flyable {
+// 銀行振込
+class BankTransferPayment implements Payment {
     @Override
-    public void fly() {
-        System.out.println("飛行機がエンジンで飛ぶ");
+    public void pay(int amount) {
+        System.out.println("銀行振込で" + amount + "円を支払いました");
+    }
+}
+
+// 電子マネー
+class EMoneyPayment implements Payment {
+    @Override
+    public void pay(int amount) {
+        System.out.println("電子マネーで" + amount + "円を支払いました");
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Flyable bird = new Bird();
-        bird.fly();
+        // 解決1: Payment型として統一的に扱える
+        Payment payment1 = new CreditCardPayment();
+        Payment payment2 = new BankTransferPayment();
+        Payment payment3 = new EMoneyPayment();
 
-        Flyable airplane = new Airplane();
-        airplane.fly();
+        // 解決2: 同じ方法で呼び出せる
+        payment1.pay(1000);
+        payment2.pay(2000);
+        payment3.pay(3000);
 
-        // Flyable型として統一的に扱える
-        Flyable[] flyables = {new Bird(), new Airplane()};
-        for (Flyable f : flyables) {
-            f.fly();
+        System.out.println("---");
+
+        // 解決3: 配列にまとめられる
+        Payment[] payments = {
+            new CreditCardPayment(),
+            new BankTransferPayment(),
+            new EMoneyPayment()
+        };
+
+        // 解決4: ループで一括処理できる
+        for (Payment p : payments) {
+            p.pay(500);
         }
     }
-}`}
+}
+`}
 />
 
-**やってみよう:**
-- 新しいクラス（例：`Drone`）を追加して、`Flyable`を実装してみよう
+**改善されたポイント:**
+1. **統一的に扱える**: Payment型として共通化
+2. **コードの重複が減る**: ループで一括処理できる
+3. **拡張性が高い**: 新しい支払い方法を追加しても、既存コードを変更する必要がない
+4. **保守性が高い**: 支払い処理のロジックが明確になる
 
 ---
 
-## 4. 複数のインターフェースの実装
+## Step 3: インターフェースのルールと注意点
 
-### 複数実装の書き方
+### インターフェースのメソッドのルール
 
-クラスは **複数のインターフェースを実装** できる（カンマ区切り）。
+1. **メソッドは自動的に`public abstract`になる**
+   ```java
+   interface Payment {
+       void pay(int amount);  // 実際は public abstract void pay(int amount);
+   }
+   ```
+
+2. **実装クラスでは`public`を明示する**
+   ```java
+   class CreditCardPayment implements Payment {
+       @Override
+       public void pay(int amount) {  // public が必要
+           // ...
+       }
+   }
+   ```
+   :::caution 重要
+   `public`を省略するとコンパイルエラーになる。インターフェースのメソッドはpublicなので、実装もpublicでなければならない。
+   :::
+
+3. **`@Override`アノテーションを付ける**
+   - インターフェースのメソッドを実装していることを明示
+   - タイプミスを防ぐ
+
+### インターフェースのフィールド
+
+インターフェースにフィールドを定義すると、自動的に **`public static final`（定数）** になる。
 
 ```java
-class クラス名 implements インターフェース1, インターフェース2 {
-    // 全てのインターフェースのメソッドを実装
+interface Payment {
+    int MAX_AMOUNT = 1000000;  // 実際は public static final int MAX_AMOUNT = 1000000;
+
+    void pay(int amount);
 }
 ```
-
-### 例：SwimmableとFlyable
-
-```java
-interface Flyable {
-    void fly();
-}
-
-interface Swimmable {
-    void swim();
-}
-
-class Duck implements Flyable, Swimmable {
-    @Override
-    public void fly() {
-        System.out.println("アヒルが飛ぶ");
-    }
-
-    @Override
-    public void swim() {
-        System.out.println("アヒルが泳ぐ");
-    }
-}
-```
-
-:::tip ポイント
-継承は1つのクラスのみだが、インターフェースは複数実装できる。これがインターフェースの大きな利点である。
-:::
 
 **実行してみよう:**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`interface Flyable {
+  code={`interface Payment {
+    // 定数の定義（自動的に public static final）
+    int MAX_AMOUNT = 1000000;
+    String CURRENCY = "JPY";
+
+    void pay(int amount);
+}
+
+class CreditCardPayment implements Payment {
+    @Override
+    public void pay(int amount) {
+        if (amount > MAX_AMOUNT) {
+            System.out.println("エラー: 上限額を超えています");
+        } else {
+            System.out.println("クレジットカードで" + amount + CURRENCY + "を支払いました");
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // 定数は実装クラスやインターフェースから直接アクセスできる
+        System.out.println("支払い上限額: " + Payment.MAX_AMOUNT + Payment.CURRENCY);
+
+        Payment payment = new CreditCardPayment();
+        payment.pay(50000);
+        payment.pay(2000000);
+    }
+}
+`}
+/>
+
+---
+
+## Step 4: 複数のインターフェースの実装
+
+### 複数実装の書き方
+
+Javaでは、1つのクラスは **複数のインターフェースを実装** できる（カンマ区切り）。
+
+```java
+class クラス名 implements インターフェース1, インターフェース2, インターフェース3 {
+    // 全てのインターフェースのメソッドを実装
+}
+```
+
+:::tip ポイント
+継承（extends）は1つのクラスのみだが、インターフェース（implements）は複数実装できる。これがインターフェースの大きな利点である。
+:::
+
+### 例: 飛べて泳げるアヒル
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// 飛べるインターフェース
+interface Flyable {
     void fly();
 }
 
+// 泳げるインターフェース
 interface Swimmable {
     void swim();
 }
 
+// 走れるインターフェース
+interface Runnable {
+    void run();
+}
+
+// アヒル: 飛べて泳げる
 class Duck implements Flyable, Swimmable {
     String name;
 
@@ -318,25 +351,55 @@ class Duck implements Flyable, Swimmable {
 
     @Override
     public void fly() {
-        System.out.println(name + "が飛ぶ");
+        System.out.println(name + "が空を飛ぶ");
     }
 
     @Override
     public void swim() {
-        System.out.println(name + "が泳ぐ");
+        System.out.println(name + "が水を泳ぐ");
     }
 }
 
-class Fish implements Swimmable {
+// 犬: 泳げて走れる
+class Dog implements Swimmable, Runnable {
     String name;
 
-    Fish(String name) {
+    Dog(String name) {
         this.name = name;
     }
 
     @Override
     public void swim() {
         System.out.println(name + "が泳ぐ");
+    }
+
+    @Override
+    public void run() {
+        System.out.println(name + "が走る");
+    }
+}
+
+// トライアスリート: 全部できる
+class Triathlete implements Flyable, Swimmable, Runnable {
+    String name;
+
+    Triathlete(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void fly() {
+        System.out.println(name + "がパラグライダーで飛ぶ");
+    }
+
+    @Override
+    public void swim() {
+        System.out.println(name + "がクロールで泳ぐ");
+    }
+
+    @Override
+    public void run() {
+        System.out.println(name + "がマラソンで走る");
     }
 }
 
@@ -348,26 +411,39 @@ public class Main {
 
         System.out.println("---");
 
-        Fish fish = new Fish("金魚");
-        fish.swim();
+        Dog dog = new Dog("ポチ");
+        dog.swim();
+        dog.run();
 
         System.out.println("---");
 
-        // Swimmable型として統一的に扱える
-        Swimmable[] swimmers = {new Duck("カモ"), new Fish("マグロ")};
+        Triathlete athlete = new Triathlete("太郎");
+        athlete.fly();
+        athlete.swim();
+        athlete.run();
+
+        System.out.println("---");
+
+        // Swimmable型として統一的に扱う
+        Swimmable[] swimmers = {duck, dog, athlete};
+        System.out.println("全員泳ぎます:");
         for (Swimmable s : swimmers) {
             s.swim();
         }
     }
-}`}
+}
+`}
 />
 
-**やってみよう:**
-- `Runnable`インターフェースを追加して、走れる動物を実装してみよう
+**ポイント:**
+- Duckは2つのインターフェース（Flyable, Swimmable）を実装
+- Dogも2つのインターフェース（Swimmable, Runnable）を実装
+- Triathleteは3つのインターフェース（Flyable, Swimmable, Runnable）を実装
+- Swimmable型として統一的に扱える
 
 ---
 
-## 5. 継承とインターフェースの組み合わせ
+## Step 5: 継承とインターフェースの組み合わせ
 
 ### extendsとimplementsの併用
 
@@ -379,52 +455,40 @@ class クラス名 extends 親クラス implements インターフェース1, �
 }
 ```
 
-:::warning 注意
+:::warning 順序に注意
 `extends`は`implements`の前に書く必要がある。
+```java
+class Bird extends Animal implements Flyable { }  // ✅ 正しい
+class Bird implements Flyable extends Animal { }  // ❌ エラー
+```
 :::
 
-### 例：Animalを継承しつつFlyableを実装
-
-```java
-class Animal {
-    String name;
-    Animal(String name) {
-        this.name = name;
-    }
-}
-
-interface Flyable {
-    void fly();
-}
-
-class Bird extends Animal implements Flyable {
-    Bird(String name) {
-        super(name);
-    }
-
-    @Override
-    public void fly() {
-        System.out.println(name + "が飛ぶ");
-    }
-}
-```
+### 例: Animalクラスを継承しつつインターフェースを実装
 
 **実行してみよう:**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`class Animal {
+  code={`// 動物クラス（親クラス）
+class Animal {
     String name;
+    int age;
 
-    Animal(String name) {
+    Animal(String name, int age) {
         this.name = name;
+        this.age = age;
     }
 
     void eat() {
         System.out.println(name + "が食べる");
     }
+
+    void sleep() {
+        System.out.println(name + "が寝る");
+    }
 }
 
+// インターフェース
 interface Flyable {
     void fly();
 }
@@ -433,38 +497,97 @@ interface Swimmable {
     void swim();
 }
 
-class Duck extends Animal implements Flyable, Swimmable {
-    Duck(String name) {
-        super(name);
+// 鳥: Animalを継承し、Flyableを実装
+class Bird extends Animal implements Flyable {
+    Bird(String name, int age) {
+        super(name, age);
     }
 
     @Override
     public void fly() {
-        System.out.println(name + "が飛ぶ");
+        System.out.println(name + "が空を飛ぶ");
+    }
+}
+
+// アヒル: Animalを継承し、FlyableとSwimmableを実装
+class Duck extends Animal implements Flyable, Swimmable {
+    Duck(String name, int age) {
+        super(name, age);
+    }
+
+    @Override
+    public void fly() {
+        System.out.println(name + "が低空飛行する");
     }
 
     @Override
     public void swim() {
-        System.out.println(name + "が泳ぐ");
+        System.out.println(name + "が水面を泳ぐ");
+    }
+}
+
+// 魚: Animalを継承し、Swimmableを実装
+class Fish extends Animal implements Swimmable {
+    Fish(String name, int age) {
+        super(name, age);
+    }
+
+    @Override
+    public void swim() {
+        System.out.println(name + "が水中を泳ぐ");
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Duck duck = new Duck("アヒル");
-        duck.eat();   // 親クラスのメソッド
-        duck.fly();   // Flyableのメソッド
-        duck.swim();  // Swimmableのメソッド
+        Bird bird = new Bird("スズメ", 1);
+        bird.eat();    // 親クラスのメソッド
+        bird.sleep();  // 親クラスのメソッド
+        bird.fly();    // インターフェースのメソッド
+
+        System.out.println("---");
+
+        Duck duck = new Duck("アヒル", 2);
+        duck.eat();    // 親クラスのメソッド
+        duck.fly();    // インターフェース1のメソッド
+        duck.swim();   // インターフェース2のメソッド
+
+        System.out.println("---");
+
+        Fish fish = new Fish("金魚", 1);
+        fish.eat();    // 親クラスのメソッド
+        fish.swim();   // インターフェースのメソッド
+
+        System.out.println("---");
+
+        // Animal型として統一的に扱う
+        Animal[] animals = {bird, duck, fish};
+        System.out.println("全員食べます:");
+        for (Animal a : animals) {
+            a.eat();
+        }
+
+        System.out.println("---");
+
+        // Swimmable型として統一的に扱う
+        Swimmable[] swimmers = {duck, fish};
+        System.out.println("泳げる動物だけ泳ぎます:");
+        for (Swimmable s : swimmers) {
+            s.swim();
+        }
     }
-}`}
+}
+`}
 />
 
-**やってみよう:**
-- `Penguin`クラスを追加して、`Animal`を継承し、`Swimmable`のみを実装してみよう
+**ポイント:**
+- 継承で共通の実装（eat, sleep）を共有
+- インターフェースで能力（fly, swim）を定義
+- 1つのオブジェクトを複数の型として扱える（Animal型、Flyable型、Swimmable型）
 
 ---
 
-## 6. デフォルトメソッド（Java 8以降）
+## Step 6: デフォルトメソッド（Java 8以降）
 
 ### デフォルトメソッドとは
 
@@ -482,18 +605,37 @@ interface インターフェース名 {
 }
 ```
 
-### 例：Greetableインターフェース
+### なぜデフォルトメソッドが必要か
 
-```java
-interface Greetable {
+**問題状況:**
+- インターフェースに新しいメソッドを追加したい
+- しかし、既存の実装クラスが多数あり、全てに実装を追加するのは大変
+
+**デフォルトメソッドの解決策:**
+- インターフェースにデフォルトの実装を提供
+- 実装クラスは必要に応じてオーバーライドできる
+
+### 例: Greetableインターフェース
+
+**実行してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`interface Greetable {
+    // 通常のメソッド（実装を持たない）
     String getName();
 
-    // デフォルトメソッド
+    // デフォルトメソッド（実装を持つ）
     default void greet() {
         System.out.println("こんにちは、" + getName() + "さん");
     }
+
+    default void bye() {
+        System.out.println("さようなら、" + getName() + "さん");
+    }
 }
 
+// Person: デフォルトメソッドをそのまま使う
 class Person implements Greetable {
     String name;
 
@@ -505,46 +647,570 @@ class Person implements Greetable {
     public String getName() {
         return name;
     }
-    // greet()は実装しなくてもデフォルトの実装が使われる
+
+    // greet()とbye()は実装しなくてもデフォルトの実装が使われる
 }
-```
+
+// Robot: デフォルトメソッドをオーバーライド
+class Robot implements Greetable {
+    String name;
+
+    Robot(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    // デフォルトメソッドをオーバーライドしてカスタマイズ
+    @Override
+    public void greet() {
+        System.out.println("ピピッ。私は" + getName() + "です。ピピッ。");
+    }
+
+    // bye()はデフォルトの実装を使う
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person person = new Person("太郎");
+        person.greet();  // デフォルトの実装が使われる
+        person.bye();    // デフォルトの実装が使われる
+
+        System.out.println("---");
+
+        Robot robot = new Robot("R2D2");
+        robot.greet();  // オーバーライドした実装が使われる
+        robot.bye();    // デフォルトの実装が使われる
+
+        System.out.println("---");
+
+        // Greetable型として統一的に扱う
+        Greetable[] greetables = {person, robot};
+        for (Greetable g : greetables) {
+            g.greet();
+        }
+    }
+}
+`}
+/>
+
+**ポイント:**
+- Personはデフォルトメソッドをそのまま使用
+- Robotはgreet()をオーバーライドしてカスタマイズ
+- 実装クラスは必要なメソッドのみオーバーライドすればよい
 
 ---
 
-## 7. インターフェースの設計
+## Step 7: インターフェースの設計原則
 
-### can-do関係
+### can-do関係を考える
 
 インターフェースを使う際は、**can-do関係**（「〜できる」という関係）が成り立つか確認する。
 
-**良い例（can-do関係が成り立つ）：**
+**良い例（can-do関係が成り立つ）:**
 - Bird **can** Fly（鳥は飛べる）→ `Flyable`が適切
 - Duck **can** Swim（アヒルは泳げる）→ `Swimmable`が適切
+- Payment **can** Pay（支払いは支払える）→ `Payment`が適切
 
-**悪い例（can-do関係が成り立たない）：**
+**悪い例（can-do関係が成り立たない）:**
 - Person **can** Name（人は名前できる）→ 意味不明
+- Car **can** Color（車は色できる）→ 意味不明
 
-### 適切なインターフェースの使い方
+### インターフェース vs 継承の使い分け
 
-1. **共通の振る舞いを定義**
-   - 異なるクラス階層でも、同じ振る舞いを共有できる
+| 使い分けの観点 | 継承を使う | インターフェースを使う |
+|--------------|----------|---------------------|
+| **関係性** | is-a関係（本質的な分類） | can-do関係（能力・振る舞い） |
+| **実装の共有** | 共通の実装を共有したい | 実装は各クラスで異なる |
+| **複数の関係** | 1つの階層に属する | 複数の能力を持つ |
+| **例** | Dog is a Animal | Bird can Fly, Duck can Swim |
 
-2. **複数の能力を組み合わせる**
-   - 1つのクラスが複数のインターフェースを実装できる
+### 適切な設計のポイント
 
-3. **柔軟な設計**
-   - インターフェースを使うことで、実装の詳細を隠蔽できる
+1. **単一責任の原則**
+   - 1つのインターフェースは1つの責任（能力）を持つ
+   - 例: `Flyable`は飛ぶことのみ、`Swimmable`は泳ぐことのみ
 
-:::warning 注意
-インターフェースは強力な機能だが、過度に使うと設計が複雑になる。
-必要な場合のみ使うことが重要である。
-:::
+2. **小さなインターフェースを組み合わせる**
+   - 大きなインターフェースより、小さなインターフェースを複数実装する方が柔軟
+   ```java
+   // ❌ 悪い例: 大きなインターフェース
+   interface Animal {
+       void fly();
+       void swim();
+       void run();
+   }
 
-:::info インターフェースの実践的な使い方
-実務では、インターフェースは **依存性の注入（DI）** やテスト容易性の向上に活用される。
-例えば、データベースアクセスのインターフェース（`UserRepository`）を定義しておけば、実装を切り替えるだけで、本番環境では実際のDBアクセス、テスト環境ではモックを使うといった柔軟な設計が可能になる。
-また、Javaの標準ライブラリ（`List`, `Map`, `Comparable`など）も多くがインターフェースであり、実務で頻繁に使用する。
-:::
+   // ✅ 良い例: 小さなインターフェースの組み合わせ
+   interface Flyable { void fly(); }
+   interface Swimmable { void swim(); }
+   interface Runnable { void run(); }
+
+   class Duck implements Flyable, Swimmable { }
+   ```
+
+3. **インターフェース名の命名規則**
+   - 能力を表す形容詞: `Flyable`, `Swimmable`, `Comparable`
+   - 役割を表す名詞: `Payment`, `Repository`, `Service`
+
+---
+
+## Step 8: 実践的な演習
+
+### 演習1: 楽器演奏システム
+
+**課題:**
+楽器演奏システムを作成せよ。
+
+**要件:**
+1. `Playable`インターフェースを定義
+   - `play()`メソッドを持つ
+2. 3種類の楽器クラスを作成
+   - `Piano`: 「ピアノでドレミを演奏します」と表示
+   - `Guitar`: 「ギターでコードを弾きます」と表示
+   - `Drum`: 「ドラムでリズムを刻みます」と表示
+3. 配列で全ての楽器を管理し、ループで演奏させる
+
+**実装してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// TODO: Playableインターフェースを定義
+
+// TODO: Pianoクラスを実装
+
+// TODO: Guitarクラスを実装
+
+// TODO: Drumクラスを実装
+
+public class Main {
+    public static void main(String[] args) {
+        // TODO: 3つの楽器を作成
+
+        // TODO: 配列に格納
+
+        // TODO: ループで全ての楽器を演奏
+    }
+}
+`}
+/>
+
+<details>
+<summary>解答例を見る</summary>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`interface Playable {
+    void play();
+}
+
+class Piano implements Playable {
+    @Override
+    public void play() {
+        System.out.println("ピアノでドレミを演奏します");
+    }
+}
+
+class Guitar implements Playable {
+    @Override
+    public void play() {
+        System.out.println("ギターでコードを弾きます");
+    }
+}
+
+class Drum implements Playable {
+    @Override
+    public void play() {
+        System.out.println("ドラムでリズムを刻みます");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Playable[] instruments = {
+            new Piano(),
+            new Guitar(),
+            new Drum()
+        };
+
+        System.out.println("演奏会を開始します:");
+        for (Playable instrument : instruments) {
+            instrument.play();
+        }
+    }
+}
+`}
+/>
+
+</details>
+
+---
+
+### 演習2: 通知システム
+
+**課題:**
+複数の通知方法に対応した通知システムを作成せよ。
+
+**要件:**
+1. `Notifiable`インターフェースを定義
+   - `notify(String message)`メソッドを持つ
+2. 3種類の通知クラスを作成
+   - `EmailNotification`: 「メールで通知: [メッセージ]」と表示
+   - `SmsNotification`: 「SMSで通知: [メッセージ]」と表示
+   - `PushNotification`: 「プッシュ通知: [メッセージ]」と表示
+3. 全ての通知方法で同じメッセージを送信する
+
+**実装してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// TODO: Notifiableインターフェースを定義
+
+// TODO: EmailNotificationクラスを実装
+
+// TODO: SmsNotificationクラスを実装
+
+// TODO: PushNotificationクラスを実装
+
+public class Main {
+    public static void main(String[] args) {
+        // TODO: 3つの通知方法を作成
+
+        // TODO: 配列に格納
+
+        // TODO: 全ての通知方法で「システムメンテナンスのお知らせ」を送信
+    }
+}
+`}
+/>
+
+<details>
+<summary>解答例を見る</summary>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`interface Notifiable {
+    void notify(String message);
+}
+
+class EmailNotification implements Notifiable {
+    @Override
+    public void notify(String message) {
+        System.out.println("メールで通知: " + message);
+    }
+}
+
+class SmsNotification implements Notifiable {
+    @Override
+    public void notify(String message) {
+        System.out.println("SMSで通知: " + message);
+    }
+}
+
+class PushNotification implements Notifiable {
+    @Override
+    public void notify(String message) {
+        System.out.println("プッシュ通知: " + message);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Notifiable[] notifiers = {
+            new EmailNotification(),
+            new SmsNotification(),
+            new PushNotification()
+        };
+
+        String message = "システムメンテナンスのお知らせ";
+
+        System.out.println("通知を送信します:");
+        for (Notifiable notifier : notifiers) {
+            notifier.notify(message);
+        }
+    }
+}
+`}
+/>
+
+</details>
+
+---
+
+### 演習3: ゲームキャラクターシステム（継承とインターフェースの組み合わせ）
+
+**課題:**
+RPGゲームのキャラクターシステムを作成せよ。
+
+**要件:**
+1. `Character`クラス（親クラス）を定義
+   - フィールド: `name`, `hp`
+   - メソッド: `attack()`
+2. インターフェースを定義
+   - `Flyable`: `fly()`メソッド
+   - `Healable`: `heal(int amount)`メソッド
+3. 3種類のキャラクタークラスを作成
+   - `Warrior`: Characterを継承（飛べない、回復できない）
+   - `Mage`: Characterを継承、Healableを実装（飛べない、回復できる）
+   - `Dragon`: Characterを継承、FlyableとHealableを実装（飛べる、回復できる）
+4. 各キャラクターの行動をテストする
+
+**実装してみよう:**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// TODO: Characterクラスを定義
+
+// TODO: Flyableインターフェースを定義
+
+// TODO: Healableインターフェースを定義
+
+// TODO: Warriorクラスを実装
+
+// TODO: Mageクラスを実装
+
+// TODO: Dragonクラスを実装
+
+public class Main {
+    public static void main(String[] args) {
+        // TODO: 各キャラクターを作成してテスト
+    }
+}
+`}
+/>
+
+<details>
+<summary>解答例を見る</summary>
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Character {
+    String name;
+    int hp;
+
+    Character(String name, int hp) {
+        this.name = name;
+        this.hp = hp;
+    }
+
+    void attack() {
+        System.out.println(name + "が攻撃した");
+    }
+
+    void showStatus() {
+        System.out.println(name + " HP: " + hp);
+    }
+}
+
+interface Flyable {
+    void fly();
+}
+
+interface Healable {
+    void heal(int amount);
+}
+
+class Warrior extends Character {
+    Warrior(String name) {
+        super(name, 100);
+    }
+}
+
+class Mage extends Character implements Healable {
+    Mage(String name) {
+        super(name, 60);
+    }
+
+    @Override
+    public void heal(int amount) {
+        hp += amount;
+        System.out.println(name + "が" + amount + "HP回復した");
+    }
+}
+
+class Dragon extends Character implements Flyable, Healable {
+    Dragon(String name) {
+        super(name, 150);
+    }
+
+    @Override
+    public void fly() {
+        System.out.println(name + "が空を飛んだ");
+    }
+
+    @Override
+    public void heal(int amount) {
+        hp += amount;
+        System.out.println(name + "が" + amount + "HP回復した");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Warrior warrior = new Warrior("戦士");
+        warrior.showStatus();
+        warrior.attack();
+
+        System.out.println("---");
+
+        Mage mage = new Mage("魔法使い");
+        mage.showStatus();
+        mage.attack();
+        mage.heal(20);
+        mage.showStatus();
+
+        System.out.println("---");
+
+        Dragon dragon = new Dragon("ドラゴン");
+        dragon.showStatus();
+        dragon.attack();
+        dragon.fly();
+        dragon.heal(30);
+        dragon.showStatus();
+
+        System.out.println("---");
+
+        // Character型として統一的に扱う
+        Character[] party = {warrior, mage, dragon};
+        System.out.println("パーティ全員が攻撃:");
+        for (Character c : party) {
+            c.attack();
+        }
+
+        System.out.println("---");
+
+        // Healable型として統一的に扱う
+        Healable[] healers = {mage, dragon};
+        System.out.println("回復役が回復:");
+        for (Healable h : healers) {
+            h.heal(10);
+        }
+    }
+}
+`}
+/>
+
+</details>
+
+---
+
+## よくある質問（FAQ）
+
+### Q1: インターフェースと抽象クラスの違いは？
+
+**A:**
+
+| 比較項目 | インターフェース | 抽象クラス |
+|---------|--------------|----------|
+| **複数実装/継承** | 複数実装可能 | 1つのみ継承可能 |
+| **メソッド** | 抽象メソッド + デフォルトメソッド | 抽象メソッド + 具象メソッド |
+| **フィールド** | 定数のみ（public static final） | 通常のフィールドも持てる |
+| **コンストラクタ** | 持てない | 持てる |
+| **用途** | 能力の定義（can-do） | 部分的な実装の共有（is-a） |
+
+**使い分け:**
+- **インターフェース**: 異なるクラス階層で共通の振る舞いを定義したい場合
+- **抽象クラス**: 共通の実装を持ち、一部を子クラスに委ねたい場合
+
+### Q2: インターフェースのメソッドに`public`を付けなくてもいいのはなぜ？
+
+**A:**
+インターフェースのメソッドは **自動的に`public abstract`になる** ため、明示的に書かなくてもよい。
+
+```java
+interface Payment {
+    void pay(int amount);  // 実際は public abstract void pay(int amount);
+}
+```
+
+ただし、**実装クラスでは`public`を明示する必要がある**。
+
+```java
+class CreditCardPayment implements Payment {
+    @Override
+    public void pay(int amount) {  // public が必要
+        // ...
+    }
+}
+```
+
+### Q3: デフォルトメソッドはいつ使うべき？
+
+**A:**
+以下の場合にデフォルトメソッドを使うとよい。
+
+**使うべき場合:**
+1. **インターフェースに新しいメソッドを追加するが、既存の実装クラスを壊したくない**
+   - 既存の実装クラスが多数ある場合に便利
+2. **共通の実装を提供したい**
+   - 多くの実装クラスで同じ実装になる場合
+
+**使わない方がよい場合:**
+- インターフェースが複雑になりすぎる場合
+- 抽象クラスの方が適切な場合
+
+### Q4: インターフェースを実装し忘れたらどうなる？
+
+**A:**
+インターフェースで定義されたメソッドを全て実装しないと、**コンパイルエラー** になる。
+
+```java
+interface Payment {
+    void pay(int amount);
+    void refund(int amount);
+}
+
+class CreditCardPayment implements Payment {
+    @Override
+    public void pay(int amount) {
+        System.out.println("支払い");
+    }
+
+    // refund()を実装し忘れた
+    // → コンパイルエラー: CreditCardPayment is not abstract and does not override abstract method refund(int) in Payment
+}
+```
+
+エラーを解決するには、全てのメソッドを実装する必要がある。
+
+### Q5: インターフェースは実務でどう使われる？
+
+**A:**
+実務では、インターフェースは以下のように活用される。
+
+**1. 依存性の注入（DI: Dependency Injection）**
+```java
+interface UserRepository {
+    User findById(int id);
+}
+
+class UserService {
+    private UserRepository repository;
+
+    // インターフェースに依存（具体的な実装には依存しない）
+    UserService(UserRepository repository) {
+        this.repository = repository;
+    }
+}
+
+// 本番環境
+class DatabaseUserRepository implements UserRepository { }
+
+// テスト環境
+class MockUserRepository implements UserRepository { }
+```
+
+**2. 標準ライブラリの活用**
+- `List`, `Set`, `Map`: コレクションのインターフェース
+- `Comparable`: 比較可能なオブジェクトのインターフェース
+- `Runnable`: スレッドで実行可能なタスクのインターフェース
+
+**3. フレームワークとの連携**
+- Spring Frameworkでは、インターフェースを使って疎結合な設計を実現
+- テストが容易になり、保守性が向上する
 
 ---
 
@@ -554,13 +1220,14 @@ class Person implements Greetable {
 
 ### 学んだ内容
 
-- **インターフェース** はクラスが実装すべきメソッドを定義する仕組みである
-- インターフェースは **「何をするか」を定義** し、「どうするか」は実装クラスに任せる
+- **インターフェース** はクラスが実装すべきメソッドの仕様を定義する仕組みである
+- インターフェースは **「何をするか」を定義** し、「どうするか」は実装クラスが決める
 - **`implements`キーワード** でインターフェースを実装できる
 - **複数のインターフェースを実装** できる（継承は1つのみ）
-- **継承とインターフェースを組み合わせる** ことができる
+- **継承とインターフェースを組み合わせる** ことができる（`extends`を先に、`implements`を後に書く）
 - **デフォルトメソッド** でインターフェースに実装を持たせられる
 - インターフェースを使う際は **can-do関係** が成り立つか確認する
+- **実務では依存性の注入やテスト容易性の向上** に活用される
 
 ### 次のステップ
 
