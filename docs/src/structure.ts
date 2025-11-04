@@ -111,32 +111,32 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "プログラミング言語とは何かを説明できる",
+        title: "「Hello World」と画面に表示できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "プログラムは上から下に実行されることがわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "Javaを学ぶメリットを理解している",
+        title: "インデント（字下げ）でコードを見やすくできる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "プログラムは上から下に実行されることを理解している",
+        title: "`{ }`で処理をまとめることができる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "インデントの役割を説明できる",
+        title: "Javaがどんな場面で使われているか言える",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "`{}`（波括弧）でブロックを作り、処理をまとめることを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "EclipseでHello Worldプログラムを書いて実行できる",
+        title: "EclipseでJavaプログラムを実行できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
@@ -148,49 +148,54 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "変数とは何かを説明できる",
+        title: "変数は「データを入れる箱」だとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "代入の仕組みを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "基本データ型（int, double, boolean, String）を使い分けられる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "わかりやすい変数名が付けられる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "型変換（キャスト）の基礎を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "変数のスコープを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "定数（final）の使い方を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "変数を使ったコードの実行結果を予測できる",
-        type: "READ",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "データを保存して再利用するプログラムが書ける",
+        title: "変数に値を入れる（代入）ことができる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
+      },
+      {
+        title: "int型で整数を扱える",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "double型で小数を扱える",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "boolean型でtrue/falseを扱える",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "String型で文字列を扱える",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "わかりやすい変数名を付けられる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "変数のスコープ（使える範囲）がわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "finalで変更できない定数を作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "型が違う変数に代入できるか判断できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
       },
     ],
   }),
@@ -200,49 +205,49 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "算術演算子を使いこなせる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "剰余演算子（%）の実用例を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "整数除算の注意点を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "複合代入演算子を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "比較演算子を使いこなせる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "論理演算子（&&, ||, !）を使いこなせる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "インクリメント・デクリメントの動作を説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "演算子を使った式の結果を予測できる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "演算子を使ったプログラムを実装できる",
+        title: "+、-、*、/で計算ができる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
+      },
+      {
+        title: "%（割り算の余り）を使える",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "整数同士の割り算は小数にならないとわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "+=や-=で値を増減できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "==、!=、<、>で値を比較できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "&&（かつ）、||（または）を使える",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "!で条件を反転できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "++や--で1増やす・減らすことができる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "計算式の結果を予測できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
       },
     ],
   }),
@@ -252,37 +257,37 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "標準入力とは何かを説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "Scannerクラスの基本的な使い方を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "様々なデータ型（String、int、double等）の読み取りができる",
+        title: "キーボードから文字を入力できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "nextInt()とnextLine()の混在時の注意点を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "入力エラーへの対処法を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "ループと組み合わせた入力処理を実装できる",
+        title: "Scannerを使う準備ができる",
         type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "nextLine()で1行読み取れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "nextInt()で整数を読み取れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "nextDouble()で小数を読み取れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "nextInt()の後にnextLine()を使う注意点がわかる",
+        type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "Scannerを使った実践的なプログラムを作成できる",
+        title: "数字以外が入力された時の対処ができる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -294,37 +299,37 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "乱数とは何か、なぜ必要かを説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "Randomクラスの基本的な使い方を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "様々な乱数生成メソッド（nextInt、nextDouble等）を使い分けられる",
+        title: "ランダムな数を作れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "指定範囲の乱数を生成できる",
+        title: "Randomクラスを使う準備ができる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "0〜9のランダムな整数を作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "1〜100のランダムな整数を作れる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "シードの役割と使い方を理解している",
+        title: "0.0〜1.0のランダムな小数を作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "シード値で乱数を固定できることがわかる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "配列からランダムに選択、シャッフルなどの応用パターンを実装できる",
-        type: "WRITE",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "Randomを使った実践的なプログラムを作成できる",
+        title: "配列からランダムに選ぶプログラムを書ける",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -336,48 +341,43 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "if文の基本的な書き方を理解している",
-        type: "KNOW",
+        title: "if文で条件によって処理を分けられる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "if-else文とif-else if-elseの使い分けができる",
-        type: "KNOW",
+        title: "if-else文で2つの処理を切り替えられる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "論理演算子（&&、||、!）を使った複雑な条件式が書ける",
+        title: "if-else if-elseで3つ以上の処理を分けられる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "&&や||を使った複雑な条件を書ける",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "switch文で複数の選択肢から選べる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "switchでbreakを忘れると何が起きるかわかる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "switch文の基本的な書き方を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "switch文でbreakを忘れた場合の動作を説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "条件分岐を使ったコードの実行結果を予測できる",
+        title: "条件分岐のコードを読んで結果を予測できる",
         type: "READ",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "状況に応じて異なる処理を実行するプログラムが書ける",
+        title: "年齢や点数で処理を変えるプログラムが書ける",
         type: "WRITE",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "ユーザー入力に応じた柔軟なプログラムが書ける",
-        type: "WRITE",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "実務でよく使うif文のパターンを理解している",
-        type: "KNOW",
         difficulty: Difficulty.Medium,
       },
     ],
@@ -388,43 +388,43 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "for文の基本的な書き方を理解している",
-        type: "KNOW",
+        title: "for文で同じ処理を繰り返せる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "while文とfor文の使い分けができる",
-        type: "KNOW",
+        title: "for文で1〜10まで表示できる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "do-while文の特徴を理解している",
-        type: "KNOW",
+        title: "while文で条件が満たされる間繰り返せる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "do-while文で最低1回は実行できる",
+        type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "break文とcontinue文の違いを説明できる",
-        type: "KNOW",
+        title: "breakでループを途中で抜けられる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "ネストしたループ（二重ループ）の動作を理解している",
-        type: "KNOW",
+        title: "continueで次の繰り返しにスキップできる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "二重ループ（ループの中のループ）が書ける",
+        type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "ループのコードの実行結果を予測できる",
+        title: "ループのコードを読んで何回実行されるかわかる",
         type: "READ",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "同じ処理を効率的に繰り返すプログラムが書ける",
-        type: "WRITE",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "ループの途中で抜ける・スキップする処理が実装できる",
-        type: "WRITE",
         difficulty: Difficulty.Medium,
       },
     ],
@@ -435,49 +435,49 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "配列とは何か、なぜ必要かを説明できる",
+        title: "配列は「複数のデータを入れる箱」だとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "インデックスは0から始まることを理解している",
+        title: "配列のインデックスは0から始まることがわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "配列の宣言と初期化の方法を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "配列の要素にアクセスして読み書きできる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "通常のfor文と拡張for文の使い分けができる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "配列の実用例（合計、平均、最大値、最小値、検索）を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "2次元配列の基礎を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "配列を使ったコードの実行結果を予測できる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "配列とループを組み合わせたプログラムを実装できる",
+        title: "配列を作って値を入れられる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
+      },
+      {
+        title: "配列の値を取り出せる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "forループで配列の全要素を表示できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "拡張for文（for-each）で配列を簡単に処理できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "配列の合計や平均を計算できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "配列から最大値・最小値を見つけられる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "2次元配列（表のような配列）を使える",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
       },
     ],
   }),
@@ -487,47 +487,47 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "メソッドとは何かを説明できる",
+        title: "メソッドは「処理をまとめたもの」だとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "引数と戻り値の役割を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "voidと戻り値ありの使い分けができる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "変数のスコープを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "メソッドのオーバーロードを説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "Javadocでメソッドのドキュメントを書ける",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "メソッドを使ったコードの実行結果を予測できる",
-        type: "READ",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "処理をまとめて再利用可能なメソッドが書ける",
+        title: "引数なし・戻り値なしのメソッドを作れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "コードの重複を減らし、読みやすいプログラムが書ける",
+        title: "引数でメソッドに値を渡せる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "returnで値を返すメソッドを作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "voidは「何も返さない」という意味だとわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "メソッドを呼び出して結果を受け取れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "同じ名前で引数が違うメソッドを作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "変数のスコープ（メソッド内とメソッド外）がわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "重複したコードをメソッドにまとめられる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -539,32 +539,32 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "パッケージの役割を説明できる",
+        title: "パッケージでクラスを整理できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "import文の使い方を理解している",
-        type: "KNOW",
+        title: "import文で他のクラスを使えるようにできる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "Eclipseの補完機能を活用できる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "クラスを分割する意義を説明できる",
+        title: "複数のクラスに処理を分けることのメリットがわかる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "複数クラスを使ったコードの動きを理解できる",
-        type: "READ",
+        title: "別のクラスのメソッドを呼び出せる",
+        type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "複数のクラスを組み合わせたプログラムを実装できる",
+        title: "Eclipseの補完機能を使ってコードを速く書ける",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "複数クラスで連携するプログラムを書ける",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -576,49 +576,44 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "例外とは何か、なぜ必要かを説明できる",
+        title: "例外は「実行中のエラー」だとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "try-catch文で例外を捕捉できる",
-        type: "KNOW",
+        title: "try-catchでエラーを捕まえて処理できる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "複数の例外を適切な順序で処理できる",
+        title: "catchで複数の例外を処理できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "finallyで必ず実行される処理を書ける",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "throwsでエラーを呼び出し元に任せられる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "finally句の役割を理解している",
-        type: "KNOW",
+        title: "throwで自分でエラーを発生させられる",
+        type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "throwsキーワードを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "throwキーワードで例外をスローできる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "検査例外と非検査例外の違いを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Hard,
-      },
-      {
-        title: "例外処理を含むコードを読んで理解できる",
+        title: "例外処理のコードを読んで流れを理解できる",
         type: "READ",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "try-catch-finallyを使った例外処理を実装できる",
+        title: "ファイル操作やネットワーク処理で例外処理を書ける",
         type: "WRITE",
-        difficulty: Difficulty.Medium,
+        difficulty: Difficulty.Hard,
       },
     ],
   }),
@@ -628,42 +623,42 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/oop",
     questions: [
       {
-        title: "オブジェクト指向とは何かを説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "クラスとオブジェクト（インスタンス）の関係を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "フィールドの役割を説明できる",
+        title: "クラスは「設計図」、オブジェクトは「実物」だとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "インスタンスメソッドとstaticメソッドの違いを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "newキーワードの役割を理解している",
-        type: "KNOW",
+        title: "フィールドでデータを保存できる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "クラスを使ったコードの動きを理解できる",
-        type: "READ",
+        title: "newキーワードでオブジェクトを作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "インスタンスメソッドを呼び出せる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "staticメソッドとインスタンスメソッドの違いがわかる",
+        type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "クラスを定義してインスタンスを生成するプログラムを実装できる",
+        title: "同じクラスから複数のオブジェクトを作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "フィールドとメソッドを持つクラスを作れる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "フィールドとメソッドを持つクラスを実装できる",
+        title: "配列でオブジェクトをまとめて管理できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -675,42 +670,42 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/oop",
     questions: [
       {
-        title: "コンストラクタとは何かを説明できる",
+        title: "コンストラクタは「初期化するメソッド」だとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "コンストラクタの定義方法を理解している",
-        type: "KNOW",
+        title: "コンストラクタでフィールドに初期値を設定できる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "デフォルトコンストラクタを説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
+        title: "引数ありのコンストラクタを作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
       },
       {
-        title: "コンストラクタのオーバーロードを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "thisキーワードの役割を説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "コンストラクタを使ったコードの動きを理解できる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "コンストラクタを定義したクラスを実装できる",
+        title: "thisキーワードでフィールドを指定できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "コンストラクタのオーバーロードを実装できる",
+        title: "引数が違う複数のコンストラクタを作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "デフォルトコンストラクタがいつ使えるかわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "this()で別のコンストラクタを呼び出せる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "コンストラクタで値をチェックできる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -722,49 +717,54 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/oop",
     questions: [
       {
-        title: "継承とは何か、なぜ必要かを説明できる",
+        title: "継承は「親の機能を引き継ぐ」ことだとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "継承は複数のクラスを上手く扱うための仕組みであることを理解している",
-        type: "KNOW",
+        title: "extendsで親クラスを指定できる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "継承の実装方法（extendsキーワード）を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
+        title: "子クラスで親のメソッドを使える",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
       },
       {
-        title: "superキーワードの役割を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "メソッドのオーバーライドを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "継承を使ったコードを読んで理解できる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "継承を使ったプログラムを実装できる",
+        title: "superで親のメソッドを呼び出せる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "is-a関係を理解している",
+        title: "super()で親のコンストラクタを呼び出せる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "メソッドをオーバーライドして動きを変えられる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "@Overrideアノテーションを付けられる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "オーバーロードとオーバーライドの違いがわかる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "適切な継承設計ができる",
+        title: "親クラス型で子クラスのオブジェクトを扱える",
         type: "WRITE",
-        difficulty: Difficulty.Hard,
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "is-a関係（「〜は〜である」）で継承を判断できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
       },
     ],
   }),
@@ -774,48 +774,48 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/oop",
     questions: [
       {
-        title: "インターフェースとは何か、なぜ必要かを説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "インターフェースと継承の違いを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "インターフェースの定義方法を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "implementsキーワードを理解している",
+        title: "インターフェースは「約束事」を決めるものだとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "複数のインターフェースを実装できることを理解している",
+        title: "interfaceでインターフェースを作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "implementsでインターフェースを実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "インターフェースのメソッドには実装を書かないことがわかる",
         type: "KNOW",
-        difficulty: Difficulty.Medium,
+        difficulty: Difficulty.Easy,
       },
       {
-        title: "デフォルトメソッドを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "インターフェースを使ったコードを読んで理解できる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "インターフェースを定義して実装できる",
+        title: "実装クラスで全てのメソッドを実装できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "複数のインターフェースを実装したクラスを作成できる",
+        title: "複数のインターフェースを実装できる",
         type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "インターフェース型で複数のクラスをまとめて扱える",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "defaultメソッドで実装を持てることがわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "継承とインターフェースの違いを説明できる",
+        type: "KNOW",
         difficulty: Difficulty.Medium,
       },
     ],
@@ -826,47 +826,47 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/oop",
     questions: [
       {
-        title: "カプセル化とは何か、なぜ必要かを説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "アクセス修飾子（public, private, protected, デフォルト）を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "getter/setterメソッドの役割を理解している",
+        title: "カプセル化は「データを隠す」ことだとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "フィールドは基本的にprivateにすることを理解している",
+        title: "フィールドをprivateにできる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "getterで値を取得するメソッドを作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "setterで値を設定するメソッドを作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "publicとprivateの違いがわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "setterで値のチェックを行う意義を理解している",
+        title: "protectedとデフォルトアクセスの違いがわかる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "カプセル化されたクラスのコードを読んで理解できる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "privateフィールドとgetter/setterを持つクラスを実装できる",
+        title: "setterで値をチェックして不正な値を防げる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "値のチェックを含むsetterを実装できる",
+        title: "読み取り専用のフィールド（getterのみ）を作れる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "適切なアクセス制御を持つクラスを設計できる",
+        title: "適切なアクセス修飾子を選んでクラスを設計できる",
         type: "WRITE",
         difficulty: Difficulty.Hard,
       },
@@ -878,49 +878,49 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/stdlib",
     questions: [
       {
-        title: "コレクションとは何か、配列との違いを説明できる",
+        title: "ArrayListは「サイズが変わる配列」だとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "ArrayListの基本的な使い方を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
+        title: "ArrayListに要素を追加できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
       },
       {
-        title: "HashSetの基本的な使い方を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
+        title: "ArrayListから要素を取得できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
       },
       {
-        title: "HashMapの基本的な使い方を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
+        title: "ArrayListから要素を削除できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
       },
       {
-        title: "ジェネリクスの役割を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "適切なコレクションを選択できる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "ArrayListを使ったプログラムを実装できる",
+        title: "HashSetで重複しないデータを管理できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "HashMapを使ったプログラムを実装できる",
+        title: "HashMapでキーと値のペアを保存できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "状況に応じてコレクションを使い分けたプログラムを実装できる",
+        title: "ジェネリクス（<>）で型を指定できる",
         type: "WRITE",
-        difficulty: Difficulty.Hard,
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "List、Set、Mapの使い分けができる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "コレクションをループで処理できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
       },
     ],
   }),
@@ -930,49 +930,44 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/stdlib",
     questions: [
       {
-        title: "日時操作の必要性を説明できる",
-        type: "KNOW",
+        title: "LocalDateで今日の日付を取得できる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "LocalDateで日付を扱える",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
+        title: "LocalTimeで現在時刻を取得できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
       },
       {
-        title: "LocalTimeで時刻を扱える",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
+        title: "LocalDateTimeで日付と時刻を一緒に扱える",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
       },
       {
-        title: "LocalDateTimeで日時を扱える",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "PeriodとDurationの違いを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "DateTimeFormatterで日時のフォーマットができる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "日時オブジェクトがイミュータブルであることを理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "日時の計算（加算・減算）を実装できる",
+        title: "日付に日数を足したり引いたりできる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "日時を使った実用的なプログラムを実装できる",
+        title: "2つの日付の差を計算できる",
         type: "WRITE",
-        difficulty: Difficulty.Hard,
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "DateTimeFormatterで日付を好きな形式で表示できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "PeriodとDurationの違いがわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "日時オブジェクトは変更できない（イミュータブル）とわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
       },
     ],
   }),
@@ -982,48 +977,43 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "MVCモデルの基本",
     category: "spring",
     questions: [
-      // KNOW
       {
-        title: "MVCモデルの3つの役割（Model / View / Controller）を説明できる",
+        title: "MVCはModel・View・Controllerの略だとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "MVCでModel・View・Controllerを分ける目的を理解している",
+        title: "Modelは「データ」を扱うとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "MVCモデルを使うメリットを3つ以上挙げられる",
+        title: "Viewは「画面」を扱うとわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "Controllerは「処理の流れ」を扱うとわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "MVCで役割を分けるメリットを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "フレームワークが共通処理を肩代わりする意味を説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "AOP（アスペクト指向プログラミング）の役割を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      // READ
-      {
-        title:
-          "MVCの流れ図を見てユーザー操作から画面表示までの処理順を説明できる",
+        title: "ユーザー操作から画面表示までの流れを説明できる",
         type: "READ",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "悪例のコードからMVCが崩れている点を指摘できる",
-        type: "READ",
+        title: "フレームワークが共通処理を代わりにやってくれるとわかる",
+        type: "KNOW",
         difficulty: Difficulty.Medium,
       },
-      // WRITE
       {
-        title:
-          "Model・View・Controllerを分けて処理を整理したJavaコードを記述できる",
+        title: "MVCを意識してコードを整理できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -1034,66 +1024,44 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "コントローラとルーティング",
     category: "spring",
     questions: [
-      // k1
       {
-        title: "URLパスと処理の対応関係を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      // k2
-      {
-        title: "コントローラの配置ルール（パッケージ構成）を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      // k3
-      {
-        title: "ビュー（HTML）の検索パスを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      // k4
-      {
-        title:
-          "@RequestMapping / @GetMapping / @PostMapping の違いを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      // r1
-      {
-        title: "URLから実行メソッドと表示HTMLを読み取れる",
-        type: "READ",
-        difficulty: Difficulty.Easy,
-      },
-      // r2
-      {
-        title: "コントローラ検出エラーの原因を推定できる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // r3
-      {
-        title: "@RequestMapping と @GetMapping の関係を説明できる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // w1
-      {
-        title: "@GetMapping を使った基本的なルーティングを実装できる",
+        title: "@Controllerでコントローラクラスを作れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
-      // w2
       {
-        title:
-          "サブディレクトリ構成のビューを正しく返すコントローラを実装できる",
+        title: "@GetMappingでURLと処理を紐付けられる",
         type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "メソッドからビュー名を返せる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "@PostMappingでフォーム送信を受け取れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "@GetMappingと@PostMappingの使い分けができる",
+        type: "KNOW",
         difficulty: Difficulty.Medium,
       },
-      // w3
       {
-        title: "@PostMapping を使ってフォーム送信を処理できる",
-        type: "WRITE",
+        title: "URLからどのメソッドが実行されるか判断できる",
+        type: "READ",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "コントローラが検出されない原因を推測できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "@RequestMappingの使い方がわかる",
+        type: "KNOW",
         difficulty: Difficulty.Medium,
       },
     ],
@@ -1103,54 +1071,33 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "リクエストからコントローラへの値の受け渡し",
     category: "spring",
     questions: [
-      // k1
       {
-        title: "@RequestParam の仕組みと用途を理解している",
-        type: "KNOW",
+        title: "@RequestParamでクエリパラメータを受け取れる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
-      // k2
       {
-        title: "@PathVariable の仕組みと用途を理解している",
-        type: "KNOW",
+        title: "@PathVariableでURLの一部を受け取れる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
-      // k3
       {
-        title: "クエリパラメータとパスパラメータの使い分けを説明できる",
+        title: "クエリパラメータとパスパラメータの違いがわかる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
-      // r1
       {
-        title: "クエリパラメータを使ったリクエストをコードから読み取れる",
-        type: "READ",
-        difficulty: Difficulty.Easy,
-      },
-      // r2
-      {
-        title: "パスパラメータを使ったリクエストをコードから読み取れる",
-        type: "READ",
-        difficulty: Difficulty.Easy,
-      },
-      // w1
-      {
-        title:
-          "@RequestParam を使ってクエリパラメータを受け取るコントローラを実装できる",
+        title: "フォームオブジェクトで複数の値をまとめて受け取れる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
-      // w2
       {
-        title:
-          "@PathVariable を使ってパスパラメータを受け取るコントローラを実装できる",
-        type: "WRITE",
-        difficulty: Difficulty.Medium,
+        title: "URLから送られた値を読み取れる",
+        type: "READ",
+        difficulty: Difficulty.Easy,
       },
-      // w3
       {
-        title:
-          "フォームオブジェクトを使って複数の入力値をまとめて受け取るコントローラを実装できる",
+        title: "必須パラメータとオプションパラメータを使い分けられる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -1161,85 +1108,48 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "コントローラからビューへの値の受け渡しとThymeleaf",
     category: "spring",
     questions: [
-      // k1
       {
-        title:
-          "ModelとaddAttributeを使って値をビューに渡す仕組みを理解している",
-        type: "KNOW",
+        title: "ModelのaddAttributeで値を渡せる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
-      // k2
       {
-        title: "th:textと[[...]]の違いを理解している",
-        type: "KNOW",
+        title: "th:textで値を画面に表示できる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
-      // k3
       {
-        title: "th:utextによるXSSリスクと安全な表示方法を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      // r1
-      {
-        title:
-          "Modelで渡した値がテンプレートにどのように埋め込まれるかを読み取れる",
-        type: "READ",
+        title: "[[...]]で値を埋め込める",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
-      // r2
       {
-        title: "th:ifによる条件分岐の表示結果を予測できる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // r3
-      {
-        title: "th:switchによる分岐処理の結果を理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // r4
-      {
-        title: "th:eachによる繰り返し表示の仕組みを理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // r5
-      {
-        title: "ユーティリティオブジェクト #strings の使用例を理解している",
-        type: "READ",
-        difficulty: Difficulty.Easy,
-      },
-      // r6
-      {
-        title: "ユーティリティオブジェクト #numbers の使用例を理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // r7
-      {
-        title: "ユーティリティオブジェクト #dates の使用例を理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // w1
-      {
-        title: "Modelに値を追加しThymeleafで動的に表示するコードを実装できる",
+        title: "th:ifで条件によって表示を変えられる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
-      // w2
       {
-        title:
-          "th:objectを使ってオブジェクトのフィールドを簡潔に参照するテンプレートを実装できる",
+        title: "th:eachで繰り返し表示できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
-      // w3
       {
-        title:
-          "フラグメントを利用して共通ヘッダーとフッターを再利用するビューを実装できる",
+        title: "th:objectでオブジェクトを簡潔に参照できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "th:utextのXSSリスクがわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "#stringsなどのユーティリティを使える",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "フラグメントで共通部品を再利用できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -1250,62 +1160,48 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "入力値のバリデーション",
     category: "spring",
     questions: [
-      // k1
       {
-        title: "単項目チェックと相関項目チェックの違いを理解している",
+        title: "バリデーションは「入力チェック」だとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
-      // k2
       {
-        title:
-          "@NotNull, @Min, @Max, @Email などの基本的なバリデーションアノテーションの役割を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      // k3
-      {
-        title: "@AssertTrue を用いた相関項目チェックの仕組みを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      // r1
-      {
-        title: "@Validated と BindingResult の役割と実行順序を理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // r2
-      {
-        title: "th:object と th:field の対応関係を理解している",
-        type: "READ",
+        title: "@NotNullで必須チェックができる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
-      // r3
       {
-        title:
-          "#fields.hasErrors と th:errors によるエラーメッセージ表示の仕組みを理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
+        title: "@Minや@Maxで数値の範囲をチェックできる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
       },
-      // w1
       {
-        title:
-          "フォームオブジェクトにバリデーションアノテーションを付与して入力チェックを実装できる",
+        title: "@Emailでメール形式をチェックできる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "@Validatedでバリデーションを実行できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
-      // w2
       {
-        title:
-          "コントローラで @Validated と BindingResult を使ってエラー処理を実装できる",
+        title: "BindingResultでエラーを受け取れる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
-      // w3
       {
-        title:
-          "th:object と th:field を用いてフォーム入力とエラーメッセージを連携させたHTMLを実装できる",
+        title: "th:errorsでエラーメッセージを表示できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "@AssertTrueで相関チェックができる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "エラー時に入力値を保持できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -1316,53 +1212,43 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "SpringのDI（依存性注入）",
     category: "spring",
     questions: [
-      // k1
       {
-        title: "DI（依存性注入）の目的と仕組みを理解している",
+        title: "DIは「自動で部品を組み立てる仕組み」だとわかる",
         type: "KNOW",
-        difficulty: Difficulty.Medium,
+        difficulty: Difficulty.Easy,
       },
-      // k2
       {
-        title:
-          "@Controller / @Service / @Repository / @Component の役割を区別できる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
+        title: "@Serviceでサービスクラスを作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
       },
-      // k3
       {
-        title: "コンストラクタインジェクションの仕組みを説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      // r1
-      {
-        title: "@Autowired の挙動と依存関係解決の流れを理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // r2
-      {
-        title: "自分で new するケースとDIに任せるケースを判断できる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // r3
-      {
-        title: "@Primary によるBeanの優先選択を理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // w1
-      {
-        title: "@Service クラスをDIで利用するコントローラを実装できる",
+        title: "コンストラクタでサービスを受け取れる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
-      // w2
       {
-        title:
-          "インターフェースと複数実装を用いてDIで切り替えられる構成を実装できる",
+        title: "@Autowiredの仕組みがわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "@Component、@Controller、@Service、@Repositoryの違いがわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "newを使う場合とDIを使う場合を判断できる",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "@Primaryで優先するBeanを指定できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "インターフェースを使ったDIの構成を作れる",
         type: "WRITE",
         difficulty: Difficulty.Hard,
       },
@@ -1373,59 +1259,50 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "MyBatisによるDBアクセス",
     category: "spring",
     questions: [
-      // k1
       {
-        title: "O/Rマッパー（Object Relational Mapper）の概念を理解している",
+        title: "O/Rマッパーは「DBとJavaを繋ぐもの」だとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
-      // k2
       {
-        title: "MyBatisがO/Rマッパーであることを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
+        title: "@Mapperでデータアクセスクラスを作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
       },
-      // k3
       {
-        title: "application.propertiesでのDB接続設定を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
+        title: "@SelectでSELECT文を実行できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
       },
-      // k4
       {
-        title: "schema.sqlとdata.sqlの役割を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      // r1
-      {
-        title: "アノテーションMapperの動作を理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // r2
-      {
-        title: "XMLマッパーファイルのnamespaceとidの対応関係を理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // r3
-      {
-        title: "1対多リレーションのresultMapを読み取れる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // w1
-      {
-        title: "MapperインターフェースとXMLを用いた検索処理を実装できる",
+        title: "XMLマッパーでSQLを書ける",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
-      // w2
       {
-        title: "resultMapを用いた1対多リレーションの取得を実装できる",
+        title: "schema.sqlでテーブルを作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "data.sqlで初期データを入れられる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "resultMapでテーブルとJavaオブジェクトを紐付けられる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "1対多のリレーションをresultMapで表現できる",
         type: "WRITE",
         difficulty: Difficulty.Hard,
+      },
+      {
+        title: "application.propertiesでDB接続を設定できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
       },
     ],
   }),
@@ -1434,56 +1311,45 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "セッションとログインの仕組み",
     category: "spring",
     questions: [
-      // KNOW
       {
-        title: "リクエストスコープとセッションスコープの違いを理解している",
+        title: "セッションは「ブラウザごとに情報を保存する仕組み」だとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "HttpSession の基本的な使い方を理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "@SessionAttributes と @SessionAttribute の違いを説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      // READ
-      {
-        title:
-          "セッションに保存されたデータがどのようにビューで参照されるかを読み取れる",
-        type: "READ",
+        title: "HttpSessionで値を保存できる",
+        type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "セッションを利用したログイン保持処理の流れを理解している",
-        type: "READ",
+        title: "HttpSessionで値を取得できる",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "セッションとリクエストスコープの違いがわかる",
+        type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "SessionStatus を使ったセッション破棄の仕組みを理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // WRITE
-      {
-        title:
-          "HttpSession を用いてログイン状態を保持するコントローラを実装できる",
+        title: "@SessionAttributesでフォーム情報を保持できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title:
-          "@SessionAttributes を利用してフォーム情報をセッションに保持する処理を実装できる",
+        title: "SessionStatusでセッションを破棄できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title: "セッションを使った簡単なカート機能を実装できる",
+        title: "セッションでログイン状態を保持できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
+      },
+      {
+        title: "セッションを使ったカート機能を作れる",
+        type: "WRITE",
+        difficulty: Difficulty.Hard,
       },
     ],
   }),
@@ -1492,58 +1358,45 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "Spring Securityでのログイン実装",
     category: "spring",
     questions: [
-      // KNOW
       {
-        title: "認証(Authentication)と認可(Authorization)の違いを理解している",
+        title: "認証は「ユーザーを確認すること」だとわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "UserDetailsService の役割を説明できる",
+        title: "認可は「権限をチェックすること」だとわかる",
         type: "KNOW",
-        difficulty: Difficulty.Medium,
+        difficulty: Difficulty.Easy,
       },
       {
-        title:
-          "BCryptPasswordEncoder によるパスワードハッシュ化の仕組みを理解している",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      // READ
-      {
-        title: "SecurityFilterChain の設定内容から認証フローを読み取れる",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title:
-          "UserDetailsService 実装クラスの loadUserByUsername() の動作を理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title:
-          "Spring Securityがログイン成功後にセッションへ保存する情報を理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      // WRITE
-      {
-        title:
-          "Spring SecurityとMyBatisを組み合わせてDB認証を行う構成を実装できる",
+        title: "UserDetailsServiceでユーザー情報を取得できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
-        title:
-          "SecurityConfigを作成してログイン・ログアウト画面のルートを設定できる",
-        type: "WRITE",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "BCryptPasswordEncoderを使って安全なパスワードを生成できる",
+        title: "BCryptPasswordEncoderでパスワードを暗号化できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
+      },
+      {
+        title: "SecurityFilterChainでログイン画面を設定できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "Spring SecurityとMyBatisを組み合わせて認証できる",
+        type: "WRITE",
+        difficulty: Difficulty.Hard,
+      },
+      {
+        title: "ログイン成功後のセッション情報を理解している",
+        type: "READ",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "ログアウト処理を実装できる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
       },
     ],
   }),
