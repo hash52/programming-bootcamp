@@ -2,698 +2,707 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 
 # 変数と型
 
-この章では、プログラムでデータを扱うための **変数** と **型** について学ぶ。
-
-変数は、プログラムの中でデータを一時的に保存するための「箱」のようなものである。
-変数を理解することで、計算結果を保存したり、同じ値を何度も使い回したりできるようになる。
-
-## 学習のゴール
-
-- 変数とは何か、なぜ必要かを説明できる
-- 変数への代入の仕組みを理解している
-- 基本データ型（int, double, boolean, String）を理解している
-- 変数の宣言と初期化を正しく実装できる
-- 変数の命名規則を理解している
-- 型変換（キャスト）の基礎を理解している
-- 変数のスコープを理解している
+この章で得られるスキル：
+- ✅ データを保存して再利用できる
+- ✅ 基本データ型（int, double, boolean, String）を使い分けられる
+- ✅ わかりやすい変数名が付けられる
+- ✅ 実務でよく使う変数のパターンを理解できる
 
 ---
 
-## 1. 変数とは
+## Step 0: まず体験してみよう
 
-### なぜ変数が必要か
+説明の前に、まず **変数がないと何が困るのか** を体験しよう。
 
-**変数がないとどうなるか？**
+### シナリオ：SNSのプロフィールページを作りたい
 
-変数がないと、計算結果を保存できず、同じ値を何度も書く必要がある。
-プログラムが非常に非効率になる。
+あなたはSNSアプリを作っている。ユーザーのプロフィールページに、名前、年齢、フォロワー数、自己紹介を表示したい。
 
-<OneCompilerCodeBlock
-  language="java"
-  code={`public class Example {
-    public static void main(String[] args) {
-        // 変数がない場合（実際にはこう書くしかない）
-        System.out.println(100 + 200);
-        System.out.println(100 + 200); // 同じ計算を繰り返す
-        System.out.println(100 + 200);
-    }
-}`}
-/>
-
-**実行してみよう:**
-上のコードを実行すると、同じ計算を3回繰り返している。
-
-これを変数を使って書き直すと：
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`public class Example {
-    public static void main(String[] args) {
-        // 変数を使った場合
-        int sum = 100 + 200;
-        System.out.println(sum);
-        System.out.println(sum); // 簡単に再利用できる
-        System.out.println(sum);
-    }
-}`}
-/>
-
-**実行してみよう:**
-変数`sum`に計算結果を保存することで、何度でも使い回すことができる。
-
-### 変数とは
-
-**変数** は、データを一時的に保存するための「箱」である。
-
-変数には **名前** と **型** がある：
-
-- **名前**：変数を識別するためのラベル（例：`age`、`price`、`name`）
-- **型**：変数に入れられるデータの種類（例：整数、小数、文字列）
-
-```java
-int age = 20;
-```
-
-この例では：
-- `age`が **変数名**
-- `int`が **型**（整数を扱う型）
-- `20`が **値**
-
----
-
-## 2. 変数の代入
-
-### 代入とは
-
-**代入** は、変数に値を入れることである。
-
-```java
-int age = 20;
-```
-
-この場合、**右辺の値（20）が左辺の変数（age）に代入される**。
-
-### イコール記号の意味
-
-プログラミングでの `=` は、**「等しい」という意味ではない**。
-「右辺の値を左辺の変数に代入する」という意味である。
-
-```java
-int x = 10;  // 10をxに代入
-x = 20;      // 20をxに代入（xの値が10から20に変わる）
-```
-
-数学の `=` とは意味が異なるので注意が必要である。
-
-**実行してみよう:**
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`public class Example {
-    public static void main(String[] args) {
-        int x = 10;
-        System.out.println("最初のxの値: " + x);
-
-        x = 20;  // xに20を代入（xの値が変わる）
-        System.out.println("変更後のxの値: " + x);
-
-        x = x + 5;  // xの現在の値に5を足して、結果をxに代入
-        System.out.println("さらに変更後のxの値: " + x);
-    }
-}`}
-/>
-
-**やってみよう:**
-- `x = x + 5;` の部分を `x = x * 2;` に変えて実行してみよう
-- 数学では `x = x + 5` は意味をなさないが、プログラミングでは「xの現在の値に5を足して、結果をxに代入する」という意味になる
-
----
-
-## 3. 基本データ型
-
-Javaには、以下のような基本データ型（プリミティブ型）とStringがある：
-
-### 初学者がよく使う型
-
-| 型 | 分類 | 扱えるデータ | 例 |
-|------|------|--------------|-----|
-| **int** | プリミティブ型 | 整数 | `10`, `-5`, `0` |
-| **double** | プリミティブ型 | 小数 | `3.14`, `-0.5`, `2.0` |
-| **boolean** | プリミティブ型 | 真偽値（trueまたはfalse） | `true`, `false` |
-| **String** | 参照型 | 文字列 | `"Hello"`, `"Java"` |
-
-### その他のプリミティブ型（参考）
-
-| 型 | 扱えるデータ | 説明 |
-|------|--------------|------|
-| **byte** | 整数 | -128 〜 127（より小さい範囲の整数） |
-| **short** | 整数 | -32,768 〜 32,767（intより小さい範囲） |
-| **long** | 整数 | 約-922京 〜 約922京（intより大きい範囲） |
-| **float** | 小数 | doubleより精度が低い小数 |
-| **char** | 文字 | `'A'`, `'あ'`（1文字のみ） |
-
-**初学者はまず、int、double、boolean、Stringを覚えれば十分である。**
-
-### 型名の大文字・小文字
-
-型名の最初の文字が **大文字** か **小文字** かには意味がある：
-
-- **小文字で始まる型**（int, double, boolean など）：プリミティブ型
-- **大文字で始まる型**（String など）：参照型（クラス）
-
-この違いは、後の章（オブジェクト指向）で詳しく学ぶ。
-今は「Stringだけ大文字で始まる」と覚えておけば良い。
-
-:::info プリミティブ型と参照型の違い
-プリミティブ型（int, double, booleanなど）と参照型（Stringなど）では、メモリの扱い方が根本的に異なる。
-プリミティブ型は値そのものを保持するが、参照型はオブジェクトへの「参照」（アドレス）を保持する。
-この違いは、後の章でクラスやオブジェクトを学ぶ際に重要になる。
-初学者は今のところ「Stringだけ大文字で始まる」と覚えておけば十分である。
-:::
-
-### int（整数）
-
-**int** は、整数を扱う型である。
-
-```java
-int age = 20;
-int temperature = -5;
-int zero = 0;
-```
-
-**扱える範囲:**
-約-21億 〜 約21億（正確には -2,147,483,648 〜 2,147,483,647）
-
-### double（小数）
-
-**double** は、小数を扱う型である。
-
-```java
-double price = 3.14;
-double temperature = -0.5;
-double pi = 3.141592;
-```
-
-### boolean（真偽値）
-
-**boolean** は、真（true）か偽（false）のどちらかを扱う型である。
-
-```java
-boolean isAdult = true;
-boolean isRaining = false;
-```
-
-### String（文字列）
-
-**String** は、文字列を扱う型である。
-
-```java
-String name = "太郎";
-String message = "Hello World";
-```
-
-**注意:**
-`String`は **大文字のS** で始まる。他の基本型（int, double, boolean）は小文字で始まるが、Stringは参照型なので大文字で始まる。
-
----
-
-## 4. 変数の宣言と初期化
-
-### 宣言
-
-**宣言** は、変数を作ることである。
-
-```java
-int age;  // int型のageという変数を宣言
-```
-
-この時点では、`age`には何も入っていない（使えない状態）。
-
-### 初期化
-
-**初期化** は、変数に最初の値を入れることである。
-
-```java
-age = 20;  // ageに20を代入
-```
-
-これで`age`が使える状態になった。
-
-### 宣言と初期化を同時に行う
-
-通常は、宣言と初期化を同時に行う：
-
-```java
-int age = 20;  // 宣言と初期化を同時に
-```
-
-**実行してみよう:**
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`public class Example {
-    public static void main(String[] args) {
-        // 宣言と初期化を同時に
-        int age = 20;
-        double price = 1500.5;
-        boolean isAdult = true;
-        String name = "太郎";
-
-        System.out.println("年齢: " + age);
-        System.out.println("価格: " + price);
-        System.out.println("成人: " + isAdult);
-        System.out.println("名前: " + name);
-    }
-}`}
-/>
-
-**やってみよう:**
-- 変数の値を変えて実行してみよう
-- 新しい変数を追加してみよう
-
----
-
-## 5. 変数の命名規則
-
-変数には、わかりやすい名前をつける必要がある。
-Javaの変数名には、以下のルールがある：
-
-### 基本ルール
-
-1. **英字、数字、アンダースコア（_）が使える**
-   - ✅ `age`, `price1`, `user_name`
-   - ❌ `価格`（日本語は使えない）
-
-2. **数字から始めることはできない**
-   - ✅ `price1`
-   - ❌ `1price`
-
-3. **予約語は使えない**
-   - ❌ `int`, `class`, `public`（これらはJavaの予約語）
-
-### 命名規則の用語
-
-プログラミングでは、いくつかの命名規則がある：
-
-| 命名規則 | 説明 | 例 |
-|----------|------|-----|
-| **キャメルケース（camelCase）** | 最初の単語は小文字、2つ目以降の単語の最初は大文字 | `firstName`, `totalPrice` |
-| **パスカルケース（PascalCase）** | 全ての単語の最初を大文字 | `FirstName`, `TotalPrice` |
-| **スネークケース（snake_case）** | 単語をアンダースコアで区切る | `first_name`, `total_price` |
-| **アッパースネークケース（UPPER_SNAKE_CASE）** | スネークケースを全て大文字 | `MAX_VALUE`, `PI` |
-
-### Javaの推奨される命名規則
-
-**変数名：キャメルケース（camelCase）**
-
-```java
-int totalPrice = 1000;
-String firstName = "太郎";
-boolean isLoggedIn = true;
-```
-
-**クラス名：パスカルケース（PascalCase）** ※後の章で学ぶ
-
-```java
-public class HelloWorld { ... }
-public class UserAccount { ... }
-```
-
-**定数：アッパースネークケース（UPPER_SNAKE_CASE）** ※後の章で学ぶ
-
-```java
-final int MAX_COUNT = 100;
-final double PI = 3.14159;
-```
-
-**良い例:**
-```java
-int totalPrice = 1000;
-String firstName = "太郎";
-boolean isLoggedIn = true;
-```
-
-**悪い例:**
-```java
-int a = 1000;  // 何の変数か分からない
-String s = "太郎";  // 何の文字列か分からない
-int TotalPrice = 1000;  // 変数名はパスカルケースではなくキャメルケース
-```
-
----
-
-## 6. 適切な変数名をつける重要性
-
-### なぜ適切な変数名が重要か
-
-**適切な変数名** をつけることは、プログラミングにおいて非常に重要である。
-
-**理由:**
-- コードを読んだときに、何をしているかがすぐに分かる
-- 後で自分が見返したときに理解しやすい
-- チーム開発では、他の人が読むことを考える必要がある
-
-**悪い例:**
-```java
-int a = 100;
-int b = 200;
-int c = a + b;
-System.out.println(c);
-```
-
-このコードでは、`a`、`b`、`c`が何を意味しているか分からない。
-
-**良い例:**
-```java
-int price = 100;
-int tax = 200;
-int totalPrice = price + tax;
-System.out.println(totalPrice);
-```
-
-このコードでは、何をしているかが一目で分かる。
-
-### Javadocで変数を説明する
-
-変数の上に **Javadoc** を書くと、Eclipse上でその変数にカーソルを合わせたときに説明が表示される。
-
-```java
-/** 商品の価格（税抜き） */
-int price = 100;
-
-/** 消費税額 */
-int tax = 10;
-
-/** 合計金額（税込み） */
-int totalPrice = price + tax;
-```
-
-Eclipseで変数にマウスカーソルを合わせると、Javadocの内容がポップアップ表示される。
-これにより、変数の意味をすぐに確認できる。
-
----
-
-## 7. Eclipseでの実行手順（おさらい）
-
-第1章でHello Worldを実行したが、ここで改めて手順を確認しよう。
-
-### ステップ1: 新規Javaプロジェクトを作成（初回のみ）
-
-1. `ファイル` → `新規` → `Javaプロジェクト`
-2. プロジェクト名を入力（例：`JavaBasics`）
-3. `完了`をクリック
-
-### ステップ2: 新規クラスを作成
-
-1. プロジェクトを右クリック → `新規` → `クラス`
-2. クラス名を入力（例：`VariableExample`）
-3. `public static void main(String[] args)`にチェックを入れる
-4. `完了`をクリック
-
-### ステップ3: コードを書く
-
-`main`メソッドの中に、コードを書く：
-
-```java
-public class VariableExample {
-    public static void main(String[] args) {
-        int age = 20;
-        String name = "太郎";
-        System.out.println("名前: " + name);
-        System.out.println("年齢: " + age);
-    }
-}
-```
-
-### ステップ4: 実行する
-
-- 上部のツールバーにある**緑色の実行ボタン**をクリック
-- コンソールに結果が表示される
-
-### ステップ5: Javadocを試す
-
-1. 変数の上にJavadocを書く：
-   ```java
-   /** 年齢（歳） */
-   int age = 20;
-   ```
-
-2. `age`にマウスカーソルを合わせる
-3. ポップアップで「年齢（歳）」という説明が表示される
-
-**やってみよう:**
-実際にEclipseで新しいクラスを作成し、変数を宣言してJavadocを試してみよう。
-
----
-
-## 8. 型変換
-
-### 暗黙の型変換
-
-**小さい型から大きい型** への変換は、自動的に行われる。
-
-```java
-int num = 10;
-double decimal = num;  // int → double（自動変換）
-System.out.println(decimal);  // 10.0
-```
-
-`int`（整数）から`double`（小数）への変換は、情報が失われないため、自動的に行われる。
-
-### 明示的な型変換（キャスト）
-
-**大きい型から小さい型** への変換は、明示的に行う必要がある。
-
-```java
-double decimal = 3.14;
-int num = (int) decimal;  // double → int（キャスト）
-System.out.println(num);  // 3（小数点以下が切り捨てられる）
-```
-
-`(int)`をつけることで、`double`を`int`に変換できる。
-ただし、**小数点以下は切り捨てられる**。
-
-**実行してみよう:**
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`public class Example {
-    public static void main(String[] args) {
-        // 暗黙の型変換
-        int num1 = 10;
-        double decimal1 = num1;
-        System.out.println("int → double: " + decimal1);
-
-        // 明示的な型変換（キャスト）
-        double decimal2 = 3.14;
-        int num2 = (int) decimal2;
-        System.out.println("double → int: " + num2);
-
-        // 小数点以下が切り捨てられる
-        double decimal3 = 9.99;
-        int num3 = (int) decimal3;
-        System.out.println("9.99 → int: " + num3);
-    }
-}`}
-/>
-
-**やってみよう:**
-- `decimal3`の値を`9.1`や`9.9`に変えて、結果を確認してみよう
-- 小数点以下が切り捨てられることを確認しよう
-
----
-
-## 9. 変数のスコープ
-
-### スコープとは
-
-**スコープ** とは、変数が有効な範囲のことである。
-
-ブロック（`{}`）の中で宣言した変数は、そのブロック内でのみ使える。
-
-### 基本的なスコープ
-
-第1章で学んだ「ブロック」を思い出そう：
-
-```java
-public class Example {
-    public static void main(String[] args) {
-        int x = 10;  // mainブロック内で宣言
-        System.out.println(x);  // OK: mainブロック内で使える
-    }  // ここでxは消える
-
-    // System.out.println(x);  // エラー: mainブロックの外では使えない
-}
-```
-
-変数`x`は、`main`メソッドのブロック`{}`の中で宣言されている。
-そのため、`main`メソッドのブロック内でのみ使える。
-
-ブロックが終わる`}`の位置で、変数`x`は消えてしまう。
-
-### スコープの重要性
-
-**なぜスコープを理解する必要があるか？**
-
-次章以降で、`if文`や`for文`など、複数のブロックが登場する：
-
-```java
-public static void main(String[] args) {  // ブロック1
-    int x = 10;
-
-    if (x > 5) {  // ブロック2（if文のブロック）
-        int y = 20;  // ブロック2内で宣言
-        System.out.println(x);  // OK: ブロック1のxを使える
-        System.out.println(y);  // OK: ブロック2のyを使える
-    }  // ここでyは消える
-
-    System.out.println(x);  // OK: ブロック1のxを使える
-    // System.out.println(y);  // エラー: yはブロック2で消えた
-}
-```
-
-それぞれのブロックに独自のスコープがあることを理解しておく。
-
-**今は「変数はブロック内でのみ有効」ということが分かれば十分である。**
-
----
-
-## 8. 定数
-
-### 定数とは
-
-**定数** は、**一度値を設定したら変更できない変数** である。
-`final`キーワードを使って宣言する。
-
-```java
-final int MAX_SCORE = 100;  // 最大スコア（定数）
-MAX_SCORE = 200;  // エラー！定数は変更できない
-```
-
-### 定数の使い方
-
-```java
-final int TAX_RATE = 10;  // 消費税率（定数）
-int price = 1000;
-int taxAmount = price * TAX_RATE / 100;  // 消費税額を計算
-```
-
-### 定数の命名規則
-
-定数は **全て大文字** で、単語の区切りに **アンダースコア（`_`）** を使うのが慣例である。
-
-```java
-final int MAX_STUDENTS = 30;      // 最大生徒数
-final double PI = 3.14159;        // 円周率
-final String COMPANY_NAME = "ABC Company";  // 会社名
-```
-
-:::tip ポイント
-定数を使うことで、プログラム内で繰り返し使う値に名前を付けられる。
-値を変更する必要がある場合、定数の宣言部分だけを変更すれば良いため、メンテナンスが楽になる。
-:::
-
-### なぜ定数が必要か
-
-**定数がないとどうなるか？**
-
-```java
-// 定数を使わない場合
-int taxAmount1 = 1000 * 10 / 100;
-int taxAmount2 = 2000 * 10 / 100;
-int taxAmount3 = 3000 * 10 / 100;
-// 税率が変わったら、全ての「10」を探して変更する必要がある
-
-// 定数を使う場合
-final int TAX_RATE = 10;
-int taxAmount1 = 1000 * TAX_RATE / 100;
-int taxAmount2 = 2000 * TAX_RATE / 100;
-int taxAmount3 = 3000 * TAX_RATE / 100;
-// 税率が変わっても、定数の宣言部分だけ変更すれば良い
-```
-
-**実行してみよう:**
+**実行してみよう（変数なし）:**
 
 <OneCompilerCodeBlock
   language="java"
   code={`public class Main {
     public static void main(String[] args) {
-        // 定数の定義
-        final int MAX_SCORE = 100;
-        final int PASSING_SCORE = 60;
-        final String GRADE_A = "A";
-        final String GRADE_B = "B";
-        final String GRADE_C = "C";
-        final String GRADE_D = "D";
+        // プロフィール表示（変数なし）
+        System.out.println("=== プロフィール ===");
+        System.out.println("名前: 太郎");
+        System.out.println("年齢: 25歳");
+        System.out.println("フォロワー: 1200人");
+        System.out.println("自己紹介: プログラミング学習中です");
+        System.out.println("==================");
 
-        // テストの点数
-        int score = 85;
+        System.out.println();
 
-        // 点数の表示
-        System.out.println("あなたの点数: " + score + " / " + MAX_SCORE);
+        // 別の画面でも同じ情報を表示したい
+        System.out.println("投稿者: 太郎（25歳）");
+        System.out.println("太郎さんのフォロワー: 1200人");
 
-        // 合格判定
-        if (score >= PASSING_SCORE) {
-            System.out.println("合格です！");
-        } else {
-            System.out.println("不合格です。");
-        }
+        // 名前を変えたくなったら？
+        // 全ての「太郎」を探して書き換える必要がある...
+    }
+}`}
+/>
 
-        // 成績判定
-        String grade;
-        if (score >= 80) {
-            grade = GRADE_A;
-        } else if (score >= 70) {
-            grade = GRADE_B;
-        } else if (score >= PASSING_SCORE) {
-            grade = GRADE_C;
-        } else {
-            grade = GRADE_D;
-        }
-        System.out.println("成績: " + grade);
+**問題点：**
+- 同じ情報（名前、年齢など）を何度も書く必要がある
+- 情報を変更したくなったら、全箇所を探して修正する必要がある
+- 誤字脱字が起きやすい
+- コードが長く読みにくい
+
+**では、変数を使うとどうなるか？**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 変数に情報を保存
+        String name = "太郎";
+        int age = 25;
+        int followers = 1200;
+        String bio = "プログラミング学習中です";
+
+        // プロフィール表示
+        System.out.println("=== プロフィール ===");
+        System.out.println("名前: " + name);
+        System.out.println("年齢: " + age + "歳");
+        System.out.println("フォロワー: " + followers + "人");
+        System.out.println("自己紹介: " + bio);
+        System.out.println("==================");
+
+        System.out.println();
+
+        // 別の画面でも同じ情報を簡単に表示できる
+        System.out.println("投稿者: " + name + "（" + age + "歳）");
+        System.out.println(name + "さんのフォロワー: " + followers + "人");
+
+        // 名前を変えたい？変数の値を1箇所変えるだけ！
+    }
+}`}
+/>
+
+**解決できたこと：**
+- ✅ 情報を1箇所で管理できる
+- ✅ 変更が1箇所で済む
+- ✅ 誤字脱字が減る
+- ✅ コードが読みやすくなる
+
+---
+
+## Step 1: 変数の基本を理解する
+
+**変数** は、**データを一時的に保存するための「箱」** である。
+
+### 変数の3つの要素
+
+```java
+int age = 25;
+```
+
+この1行には3つの要素がある：
+
+| 要素 | 意味 | 例 |
+|------|------|-----|
+| **型（Type）** | 箱の種類（何を入れるか） | `int`（整数） |
+| **変数名（Name）** | 箱の名前（ラベル） | `age` |
+| **値（Value）** | 箱に入れるデータ | `25` |
+
+### 変数の使い方
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 変数の宣言と初期化
+        int score = 100;
+
+        // 変数を使う
+        System.out.println("スコア: " + score);
+        System.out.println("2倍: " + (score * 2));
+
+        // 変数の値を変更
+        score = 150;
+        System.out.println("変更後: " + score);
     }
 }`}
 />
 
 **やってみよう:**
-- 円周率（`PI`）を定数で定義して、円の面積を計算してみよう
-- `MAX_SCORE`の値を変更して、プログラムの動作を確認してみよう
+- `score`の初期値を変えてみよう
+- 新しい変数を追加してみよう
 
-:::warning よくあるエラー
-定数を変更しようとするとコンパイルエラーになる。
+---
+
+## Step 2: 代入の仕組みを理解する
+
+**代入** は、**右辺の値を左辺の変数に入れること** である。
+
+### イコール記号の意味
+
+プログラミングの`=`は、数学の「等しい」ではない！
+
 ```java
-final int MAX = 100;
-MAX = 200;  // エラー: 定数は変更できない
+int x = 10;  // 「xは10に等しい」ではなく「10をxに代入する」
 ```
-定数は、プログラムの実行中に値が変わらないことが保証される。
+
+### 代入の流れ
+
+```
+1. 右辺（10）を計算する
+2. 計算結果を左辺の変数（x）に代入する
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int x = 10;
+        System.out.println("最初のx: " + x);
+
+        x = 20;  // xに20を代入（xの値が変わる）
+        System.out.println("変更後のx: " + x);
+
+        x = x + 5;  // xの現在の値（20）に5を足して、結果をxに代入
+        System.out.println("さらに変更: " + x);
+
+        // 数学では「x = x + 5」は意味不明
+        // プログラミングでは「xの値に5を足して、結果をxに代入」という意味
+    }
+}`}
+/>
+
+**やってみよう:**
+- `x = x + 5`を`x = x * 2`に変えてみよう
+- `x = x - 3`を試してみよう
+
+:::tip ポイント
+`x = x + 1`は「xの値を1増やす」という意味。
+実務でよく使うパターンなので覚えておこう。
 :::
+
+---
+
+## Step 3: 基本データ型を理解する
+
+Javaには、以下の **基本データ型** がある：
+
+### よく使う4つの型
+
+| 型 | 分類 | 扱えるデータ | 例 |
+|------|------|--------------|-----|
+| **int** | プリミティブ型 | 整数 | `10`, `-5`, `0` |
+| **double** | プリミティブ型 | 小数 | `3.14`, `-0.5` |
+| **boolean** | プリミティブ型 | 真偽値 | `true`, `false` |
+| **String** | 参照型 | 文字列 | `"Hello"`, `"太郎"` |
+
+:::info 型名の大文字・小文字
+- **小文字で始まる**（int, double, boolean）：プリミティブ型
+- **大文字で始まる**（String）：参照型（クラス）
+
+この違いは第10章で学ぶ。今は「Stringだけ大文字」と覚えておこう。
+:::
+
+### 実際に使ってみよう
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // int（整数）
+        int age = 25;
+        int temperature = -5;
+        System.out.println("年齢: " + age);
+        System.out.println("気温: " + temperature + "度");
+
+        System.out.println("---");
+
+        // double（小数）
+        double price = 1500.5;
+        double pi = 3.14159;
+        System.out.println("価格: " + price + "円");
+        System.out.println("円周率: " + pi);
+
+        System.out.println("---");
+
+        // boolean（真偽値）
+        boolean isLoggedIn = true;
+        boolean isRaining = false;
+        System.out.println("ログイン中: " + isLoggedIn);
+        System.out.println("雨が降っている: " + isRaining);
+
+        System.out.println("---");
+
+        // String（文字列）
+        String name = "太郎";
+        String message = "こんにちは";
+        System.out.println("名前: " + name);
+        System.out.println("メッセージ: " + message);
+    }
+}`}
+/>
+
+**やってみよう:**
+- 自分の情報で変数を作ってみよう
+- 各型でどんな値が使えるか試してみよう
+
+---
+
+## Step 4: 変数の命名規則を理解する
+
+### 基本ルール
+
+1. **英字、数字、アンダースコア（_）が使える**
+   - ✅ `age`, `price1`, `user_name`
+   - ❌ `価格`（日本語は不可）
+
+2. **数字から始められない**
+   - ✅ `price1`
+   - ❌ `1price`
+
+3. **予約語は使えない**
+   - ❌ `int`, `class`, `public`
+
+### Javaの命名規則
+
+**変数名：キャメルケース（camelCase）**
+
+```java
+int totalPrice = 1000;        // ✅ 良い例
+String firstName = "太郎";     // ✅ 良い例
+boolean isLoggedIn = true;    // ✅ 良い例
+
+int TotalPrice = 1000;        // ❌ 変数は小文字始まり
+String first_name = "太郎";    // ❌ Javaではスネークケースは使わない
+int a = 1000;                 // ❌ 意味が分からない
+```
+
+### わかりやすい名前をつける
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // ❌ 悪い例：何の変数か分からない
+        int a = 100;
+        int b = 200;
+        int c = a + b;
+        System.out.println(c);
+
+        System.out.println("---");
+
+        // ✅ 良い例：何をしているか一目で分かる
+        int basePrice = 100;
+        int tax = 200;
+        int totalPrice = basePrice + tax;
+        System.out.println("合計金額: " + totalPrice + "円");
+    }
+}`}
+/>
+
+**やってみよう:**
+- 悪い例のコードを良い例に書き直してみよう
+
+:::tip ポイント
+**変数名は、他の人（または未来の自分）が読んで理解できるように** つける。
+3ヶ月後に自分のコードを見返したとき、`a`では何か分からない。
+`totalPrice`なら一目で理解できる。
+:::
+
+---
+
+## Step 5: 型変換を理解する
+
+### 暗黙の型変換（自動）
+
+**小さい型 → 大きい型** は自動的に変換される。
+
+```java
+int num = 10;
+double decimal = num;  // int → double（自動）
+System.out.println(decimal);  // 10.0
+```
+
+### 明示的な型変換（キャスト）
+
+**大きい型 → 小さい型** は明示的に変換する必要がある。
+
+```java
+double decimal = 3.14;
+int num = (int) decimal;  // double → int（キャスト）
+System.out.println(num);  // 3（小数点以下が切り捨て）
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 暗黙の型変換
+        int score = 85;
+        double averageScore = score;  // int → double（自動）
+        System.out.println("平均点: " + averageScore);
+
+        System.out.println("---");
+
+        // 明示的な型変換（キャスト）
+        double price = 1234.56;
+        int roundedPrice = (int) price;  // double → int
+        System.out.println("元の価格: " + price + "円");
+        System.out.println("切り捨て: " + roundedPrice + "円");
+
+        System.out.println("---");
+
+        // 小数点以下が切り捨てられることに注意
+        double decimal = 9.99;
+        int integer = (int) decimal;
+        System.out.println("9.99 → " + integer);  // 9（10ではない！）
+    }
+}`}
+/>
+
+**やってみよう:**
+- `9.1`, `9.5`, `9.9`をintに変換してみよう
+- すべて切り捨てになることを確認しよう
+
+:::warning 注意
+`(int)`は **切り捨て** であって、四捨五入ではない！
+`9.99`を`int`に変換すると`9`になる（`10`にはならない）。
+:::
+
+---
+
+## Step 6: スコープを理解する
+
+**スコープ** とは、**変数が使える範囲** のことである。
+
+### 基本ルール
+
+ブロック（`{}`）の中で宣言した変数は、そのブロック内でのみ使える。
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int x = 10;
+        System.out.println("mainブロック内: x = " + x);  // OK
+
+        if (x > 5) {
+            int y = 20;  // ifブロック内で宣言
+            System.out.println("ifブロック内: x = " + x);  // OK（外側の変数）
+            System.out.println("ifブロック内: y = " + y);  // OK（同じブロック）
+        }  // ここでyは消える
+
+        System.out.println("mainブロック内: x = " + x);  // OK
+        // System.out.println("mainブロック内: y = " + y);  // エラー！yはもう存在しない
+    }
+}`}
+/>
+
+**やってみよう:**
+- コメントアウトされている行のコメントを外してエラーを確認してみよう
+
+:::tip ポイント
+変数は **宣言されたブロック内でのみ有効**。
+ブロックが終わる`}`で、その変数は消える。
+:::
+
+---
+
+## Step 7: 定数を理解する
+
+**定数** は、**一度値を設定したら変更できない変数** である。
+
+### 定数の宣言
+
+```java
+final int MAX_SCORE = 100;  // 定数（変更不可）
+MAX_SCORE = 200;  // エラー！定数は変更できない
+```
+
+### 定数の命名規則
+
+**全て大文字** + **アンダースコア区切り**
+
+```java
+final int MAX_STUDENTS = 30;
+final double PI = 3.14159;
+final String COMPANY_NAME = "ABC Company";
+```
+
+### なぜ定数が必要か
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // ❌ 悪い例：マジックナンバー（意味不明な数字）
+        int price1 = 1000 * 10 / 100;
+        int price2 = 2000 * 10 / 100;
+        int price3 = 3000 * 10 / 100;
+        // 「10」が何を意味するか分からない
+        // 「10」を変更するには全箇所を探す必要がある
+
+        System.out.println("悪い例:");
+        System.out.println("商品1の税額: " + price1);
+        System.out.println("商品2の税額: " + price2);
+        System.out.println("商品3の税額: " + price3);
+
+        System.out.println("---");
+
+        // ✅ 良い例：定数を使う
+        final int TAX_RATE = 10;  // 税率（%）
+        int tax1 = 1000 * TAX_RATE / 100;
+        int tax2 = 2000 * TAX_RATE / 100;
+        int tax3 = 3000 * TAX_RATE / 100;
+        // 意味が明確
+        // 税率が変わっても、定数の値を1箇所変えるだけ
+
+        System.out.println("良い例:");
+        System.out.println("商品1の税額: " + tax1);
+        System.out.println("商品2の税額: " + tax2);
+        System.out.println("商品3の税額: " + tax3);
+    }
+}`}
+/>
+
+**やってみよう:**
+- `TAX_RATE`を`8`に変えて実行してみよう
+- 1箇所変えるだけで全体が変わることを確認しよう
+
+---
+
+## Step 8: 実践課題
+
+これまで学んだことを組み合わせて、実践的なプログラムを作ってみよう。
+
+### 課題1：ゲームキャラクターのステータス表示
+
+**仕様：**
+- キャラクター名、レベル、HP、MP、攻撃力を変数で管理
+- ステータスを表示
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // キャラクターのステータス
+        String characterName = "勇者";
+        int level = 15;
+        int hp = 250;
+        int mp = 120;
+        int attack = 85;
+        int defense = 60;
+
+        // ステータス表示
+        System.out.println("====================");
+        System.out.println(" キャラクターステータス");
+        System.out.println("====================");
+        System.out.println("名前: " + characterName);
+        System.out.println("レベル: Lv." + level);
+        System.out.println("HP: " + hp + " / " + hp);
+        System.out.println("MP: " + mp + " / " + mp);
+        System.out.println("攻撃力: " + attack);
+        System.out.println("防御力: " + defense);
+        System.out.println("====================");
+
+        System.out.println();
+
+        // 戦闘後のステータス
+        int damageReceived = 50;
+        int mpUsed = 30;
+        hp = hp - damageReceived;
+        mp = mp - mpUsed;
+
+        System.out.println("【戦闘後】");
+        System.out.println("HP: " + hp + " / 250");
+        System.out.println("MP: " + mp + " / 120");
+    }
+}`}
+/>
+
+**やってみよう:**
+- 自分の好きなキャラクター名でステータスを作ってみよう
+- レベルアップでステータスが上がるプログラムを書いてみよう
+
+---
+
+### 課題2：商品価格計算プログラム
+
+**仕様：**
+- 商品の税抜き価格と消費税率を変数で管理
+- 税込み価格を計算して表示
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 定数定義
+        final int TAX_RATE = 10;  // 消費税率（%）
+
+        // 商品情報
+        String productName = "ノートPC";
+        int basePrice = 120000;  // 税抜き価格
+
+        // 税込み価格を計算
+        int taxAmount = basePrice * TAX_RATE / 100;
+        int totalPrice = basePrice + taxAmount;
+
+        // 表示
+        System.out.println("=== お会計 ===");
+        System.out.println("商品名: " + productName);
+        System.out.println("税抜き価格: " + basePrice + "円");
+        System.out.println("消費税（" + TAX_RATE + "%）: " + taxAmount + "円");
+        System.out.println("---");
+        System.out.println("合計: " + totalPrice + "円");
+        System.out.println("==============");
+    }
+}`}
+/>
+
+**やってみよう:**
+- 別の商品（例：スマホ、タブレット）で計算してみよう
+- 消費税率を8%に変えてみよう
+
+---
+
+### 課題3：ユーザー情報管理
+
+**仕様：**
+- SNSユーザーの情報を変数で管理
+- プロフィールカードを表示
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // ユーザー情報
+        String username = "taro_dev";
+        String displayName = "太郎";
+        int age = 25;
+        String bio = "プログラマー志望。Javaを勉強中！";
+        int followersCount = 1250;
+        int followingCount = 320;
+        int postsCount = 145;
+        boolean isVerified = false;
+
+        // プロフィールカード表示
+        System.out.println("┌────────────────────────────┐");
+        System.out.println("│   プロフィールカード         │");
+        System.out.println("├────────────────────────────┤");
+        System.out.println("│ @" + username);
+
+        if (isVerified) {
+            System.out.println("│ " + displayName + " ✓（認証済み）");
+        } else {
+            System.out.println("│ " + displayName);
+        }
+
+        System.out.println("│ " + age + "歳");
+        System.out.println("│");
+        System.out.println("│ " + bio);
+        System.out.println("│");
+        System.out.println("│ 投稿: " + postsCount);
+        System.out.println("│ フォロワー: " + followersCount);
+        System.out.println("│ フォロー中: " + followingCount);
+        System.out.println("└────────────────────────────┘");
+    }
+}`}
+/>
+
+**やってみよう:**
+- 自分のSNS情報でプロフィールカードを作ってみよう
+- `isVerified`を`true`に変えて、認証バッジが表示されることを確認しよう
 
 ---
 
 ## まとめ
 
-この章では、以下のことを学んだ：
+この章では、Javaの **変数と型** について学んだ。
 
-- **変数** は、データを一時的に保存するための「箱」である
-- 変数を使うことで、値を保存し、何度でも使い回すことができる
-- **代入** は、右辺の値を左辺の変数に入れること（`=`は「等しい」ではない）
-- **基本データ型**：
-  - `int`（整数）、`double`（小数）、`boolean`（真偽値）、`String`（文字列）
-  - 型名の大文字・小文字には意味がある（小文字：プリミティブ型、大文字：参照型）
-- **宣言** は変数を作ること、**初期化** は変数に最初の値を入れること
-- **変数の命名規則**：
-  - キャメルケース（camelCase）を使う
-  - わかりやすい名前をつける
-  - Javadocで変数を説明できる
-- **型変換**：
-  - 小さい型 → 大きい型：自動変換
-  - 大きい型 → 小さい型：明示的な変換（キャスト）が必要
-- **スコープ**：変数はブロック内でのみ有効
-- **定数**：
-  - `final`キーワードで宣言
-  - 一度値を設定したら変更できない
-  - 全て大文字でアンダースコア区切り（例：`MAX_SCORE`）
-  - プログラム内で繰り返し使う値に名前を付けられる
+### 🎯 達成できたこと
+
+- ✅ データを保存して再利用できるようになった
+- ✅ 基本データ型（int, double, boolean, String）を使い分けられるようになった
+- ✅ わかりやすい変数名が付けられるようになった
+- ✅ 実務でよく使う変数のパターンを理解できた
+
+### 📚 学んだ内容
+
+| 概念 | 説明 | 例 |
+|------|------|-----|
+| **変数** | データを一時的に保存する「箱」 | `int age = 25;` |
+| **代入** | 右辺の値を左辺の変数に入れる | `x = 10;` |
+| **int** | 整数を扱う型 | `10`, `-5`, `0` |
+| **double** | 小数を扱う型 | `3.14`, `-0.5` |
+| **boolean** | 真偽値を扱う型 | `true`, `false` |
+| **String** | 文字列を扱う型 | `"Hello"`, `"太郎"` |
+| **型変換** | 型を変換すること | `(int) 3.14` → `3` |
+| **スコープ** | 変数が使える範囲 | ブロック内のみ有効 |
+| **定数** | 変更できない変数 | `final int MAX = 100;` |
+
+### 🚀 次のステップ
 
 次の章では、**演算子** について学ぶ。
-演算子を使うことで、変数を使った計算や比較ができるようになる。
+変数を使った計算や比較ができるようになる。
+
+---
+
+## 💡 よくある質問
+
+### Q1: intとdoubleはどう使い分ければいい？
+
+**A:** 小数が必要かどうかで判断する。
+
+- ✅ **int**：人数、年齢、レベルなど（小数がない）
+- ✅ **double**：価格、身長、体重など（小数がある）
+
+### Q2: 変数名に日本語は使えないの？
+
+**A:** 技術的には使えるが、**使わないのが慣習**。
+
+```java
+int 年齢 = 25;  // 動くが、使わない
+int age = 25;   // ✅ こちらが良い
+```
+
+理由：
+- 国際的なプロジェクトで読めない
+- IDEやツールで問題が起きる可能性
+- 英語で書くのがプログラミング界の共通言語
+
+### Q3: 変数名が長すぎるのは良くない？
+
+**A:** **分かりやすさ > 短さ** を優先する。
+
+```java
+int n = 100;                    // ❌ 短いが意味不明
+int numberOfStudents = 100;     // ✅ 長いが分かりやすい
+int num = 100;                  // △ やや曖昧
+```
+
+ただし、極端に長いのも避ける：
+```java
+int numberOfStudentsInClassARoomOnTheSecondFloor = 30;  // ❌ 長すぎ
+```
+
+### Q4: finalは必ず使わないといけない？
+
+**A:** 必須ではないが、**変わらない値にはfinalを使うべき**。
+
+```java
+int taxRate = 10;        // ❌ 変更される可能性がある
+final int TAX_RATE = 10; // ✅ 変更されないことが保証される
+```
+
+メリット：
+- バグが減る（意図しない変更を防げる）
+- コードが読みやすい（「この値は変わらない」と分かる）
+
+### Q5: Stringだけ大文字で始まるのはなぜ？
+
+**A:** Stringは **クラス（参照型）** だから。
+
+- **プリミティブ型**（int, double, boolean）：小文字
+- **参照型（クラス）**（String）：大文字
+
+詳しくは第10章（オブジェクト指向）で学ぶ。
+今は「Stringだけ特別」と覚えておこう。

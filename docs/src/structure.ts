@@ -153,17 +153,17 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "基本データ型（int, double, boolean, String）を理解している",
+        title: "代入の仕組みを理解している",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "変数の宣言と初期化の違いを説明できる",
+        title: "基本データ型（int, double, boolean, String）を使い分けられる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "変数の命名規則を理解している",
+        title: "わかりやすい変数名が付けられる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -178,19 +178,19 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Medium,
       },
       {
-        title: "変数を使ったプログラムのコードを読み取れる",
+        title: "定数（final）の使い方を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "変数を使ったコードの実行結果を予測できる",
         type: "READ",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "変数を宣言・初期化するプログラムを実装できる",
+        title: "データを保存して再利用するプログラムが書ける",
         type: "WRITE",
         difficulty: Difficulty.Easy,
-      },
-      {
-        title: "型変換を使ったプログラムを実装できる",
-        type: "WRITE",
-        difficulty: Difficulty.Medium,
       },
     ],
   }),
@@ -200,27 +200,32 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "算術演算子を理解している",
+        title: "算術演算子を使いこなせる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "括弧で演算の優先順位を制御できることを理解している",
+        title: "剰余演算子（%）の実用例を理解している",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "剰余演算子（%）の使い方を説明できる",
+        title: "整数除算の注意点を理解している",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "複合代入演算子を理解している",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "比較演算子を理解している",
+        title: "比較演算子を使いこなせる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "論理演算子（&&, ||, !）を理解している",
+        title: "論理演算子（&&, ||, !）を使いこなせる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },

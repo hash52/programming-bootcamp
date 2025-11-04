@@ -2,99 +2,190 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 
 # 演算子
 
-この章では、Javaで計算や比較を行うための **演算子** について学ぶ。
-演算子を使うことで、数値計算、条件判定、論理演算など、プログラムの基礎となる処理を実現できる。
+この章で得られるスキル：
+- ✅ 計算や比較を使ったプログラムが書ける
+- ✅ 複雑な条件式を組み立てられる
+- ✅ 実務でよく使う演算子のパターンを理解できる
+- ✅ エラーが起きやすいポイントを避けられる
 
 ---
 
-## 学習のゴール
+## Step 0: まず体験してみよう
 
-- 算術演算子（`+`, `-`, `*`, `/`, `%`）を使いこなせる
-- 括弧`()`で演算の優先順位を制御できる
-- 比較演算子（`==`, `!=`, `<`, `>`, `<=`, `>=`）を理解している
-- 論理演算子（`&&`, `||`, `!`）を理解している
-- インクリメント・デクリメント（`++`, `--`）を使える
+説明の前に、まず **演算子がないと何が困るのか** を体験しよう。
 
----
+### シナリオ：ECサイトの送料計算を作りたい
 
-## なぜこの技術が必要か
+あなたはECサイトを作っている。以下のルールで送料を計算したい：
+- 合計金額が3000円以上なら送料無料
+- 3000円未満なら送料500円
 
-**演算子がないとどうなるか？**
-
-演算子がないと、計算や条件判定ができず、プログラムで複雑な処理ができない。
-
-**例:**
-
-```java
-// 演算子がないと...
-// 「合計金額が1000円以上なら送料無料」という処理ができない
-
-// 演算子があると...
-int total = 1200;
-if (total >= 1000) {
-    System.out.println("送料無料");
-}
-```
-
-演算子を使うことで、数値の計算、値の比較、条件の組み合わせなど、
-プログラムに必要な様々な処理を簡潔に記述できる。
-
----
-
-## 1. 算術演算子
-
-### 四則演算
-
-プログラムでは、以下の演算子を使って計算を行う：
-
-| 演算子 | 意味 | 例 | 結果 |
-|--------|------|-----|------|
-| **+** | 足し算 | `5 + 3` | `8` |
-| **-** | 引き算 | `5 - 3` | `2` |
-| **\*** | 掛け算 | `5 * 3` | `15` |
-| **/** | 割り算 | `6 / 3` | `2` |
-
-### 剰余演算子（%）
-
-**剰余演算子** `%` は、割り算の **余り** を求める演算子である。
-
-```java
-int remainder = 10 % 3;  // 10を3で割った余りは1
-```
-
-**剰余演算子の用途:**
-- 偶数・奇数の判定（`number % 2 == 0` なら偶数）
-- 特定の間隔での処理（例：3回に1回処理を実行）
-
-### 整数同士の割り算の注意点
-
-**整数同士の割り算は、結果も整数になる**（小数点以下は切り捨て）。
-
-**実行してみよう:**
+**実行してみよう（演算子なし）:**
 
 <OneCompilerCodeBlock
   language="java"
   code={`public class Main {
     public static void main(String[] args) {
-        // 整数同士の割り算（注意！）
+        int totalPrice = 2500;
+        int shippingFee = 500;
+
+        // 演算子がないと...
+        // 「3000円以上かどうか」を判定できない
+        // 合計金額を計算できない
+        // 条件による分岐ができない
+
+        System.out.println("商品合計: " + totalPrice + "円");
+        System.out.println("送料: " + shippingFee + "円");
+        // これでは、どんな金額でも一律500円になってしまう
+    }
+}`}
+/>
+
+**問題点：**
+- 値の比較ができない（「3000円以上」という判定ができない）
+- 計算ができない（合計金額が計算できない）
+- 条件による処理の切り替えができない
+
+**では、演算子を使うとどうなるか？**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int totalPrice = 2500;
+        int shippingFee;
+
+        // 演算子を使えば、条件で送料を切り替えられる
+        if (totalPrice >= 3000) {  // 比較演算子
+            shippingFee = 0;  // 送料無料
+        } else {
+            shippingFee = 500;
+        }
+
+        int finalPrice = totalPrice + shippingFee;  // 算術演算子
+
+        System.out.println("商品合計: " + totalPrice + "円");
+        System.out.println("送料: " + shippingFee + "円");
+        System.out.println("お支払い額: " + finalPrice + "円");
+    }
+}`}
+/>
+
+**解決できたこと：**
+- ✅ 値を比較できる（`>=`）
+- ✅ 計算ができる（`+`）
+- ✅ 条件による処理の切り替えができる
+
+---
+
+## Step 1: 算術演算子を理解する
+
+**算術演算子** は、**計算を行うための演算子** である。
+
+### 基本の5つ
+
+| 演算子 | 意味 | 例 | 結果 |
+|--------|------|-----|------|
+| `+` | 足し算 | `5 + 3` | `8` |
+| `-` | 引き算 | `5 - 3` | `2` |
+| `*` | 掛け算 | `5 * 3` | `15` |
+| `/` | 割り算 | `6 / 3` | `2` |
+| `%` | 余り（剰余） | `10 % 3` | `1` |
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int a = 10;
+        int b = 3;
+
+        System.out.println("a + b = " + (a + b));
+        System.out.println("a - b = " + (a - b));
+        System.out.println("a * b = " + (a * b));
+        System.out.println("a / b = " + (a / b));
+        System.out.println("a % b = " + (a % b));
+    }
+}`}
+/>
+
+**やってみよう:**
+- `a`と`b`の値を変えて実行してみよう
+
+---
+
+## Step 2: 剰余演算子（%）の実用例
+
+**剰余演算子** `%` は、**割り算の余り** を求める。
+
+### 実用例1：偶数・奇数の判定
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int number = 7;
+
+        if (number % 2 == 0) {
+            System.out.println(number + " は偶数です");
+        } else {
+            System.out.println(number + " は奇数です");
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- `number`を変えて、偶数・奇数判定を試してみよう
+
+### 実用例2：N回に1回の処理
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 10回ループして、3回に1回だけ「ボーナス！」と表示
+        for (int i = 1; i <= 10; i++) {
+            System.out.print(i + "回目: ");
+
+            if (i % 3 == 0) {
+                System.out.println("ボーナス！");
+            } else {
+                System.out.println("通常");
+            }
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- `i % 3`を`i % 5`に変えて、5回に1回にしてみよう
+
+---
+
+## Step 3: 整数の割り算に注意する
+
+**重要：整数同士の割り算は、結果も整数になる**（小数点以下は切り捨て）
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // ❌ 整数同士の割り算（注意！）
         int result1 = 7 / 2;
-        System.out.println("7 / 2 = " + result1);  // 3（3.5ではない）
+        System.out.println("7 / 2 = " + result1);  // 3（3.5ではない！）
 
         int result2 = 10 / 3;
-        System.out.println("10 / 3 = " + result2);  // 3（3.333...ではない）
+        System.out.println("10 / 3 = " + result2);  // 3（3.333...ではない！）
 
         System.out.println("---");
 
-        // 小数を含む結果を得る方法
+        // ✅ 小数を含む結果を得る方法
         double result3 = 7.0 / 2.0;
         System.out.println("7.0 / 2.0 = " + result3);  // 3.5
 
         // どちらか一方がdoubleでもOK
         double result4 = 7.0 / 2;
         System.out.println("7.0 / 2 = " + result4);  // 3.5
-
-        double result5 = 7 / 2.0;
-        System.out.println("7 / 2.0 = " + result5);  // 3.5
 
         System.out.println("---");
 
@@ -103,116 +194,137 @@ int remainder = 10 % 3;  // 10を3で割った余りは1
         int score2 = 90;
         int score3 = 75;
 
-        // 間違った方法（整数の割り算）
+        // ❌ 間違った方法（整数の割り算）
         int averageWrong = (score1 + score2 + score3) / 3;
         System.out.println("平均点（間違い）: " + averageWrong);  // 81
 
-        // 正しい方法（doubleで計算）
+        // ✅ 正しい方法（doubleで計算）
         double averageCorrect = (score1 + score2 + score3) / 3.0;
         System.out.println("平均点（正しい）: " + averageCorrect);  // 81.666...
-    }
-}
-`}
-/>
-
-**やってみよう:**
-- `int result = 5 / 2;` と `double result = 5.0 / 2;` の結果を比較してみよう
-- 成績の平均を計算する際、整数の割り算とdoubleの割り算でどう違うか確認してみよう
-
-### 括弧で優先順位を制御
-
-数学と同じように、括弧`()`を使って計算の順序を制御できる。
-
-```java
-int result1 = 2 + 3 * 4;    // 14（掛け算が先）
-int result2 = (2 + 3) * 4;  // 20（括弧が先）
-```
-
-**括弧を使うことで、計算の順番を明示的に指定できる。**
-
-**実行してみよう:**
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`public class ArithmeticExample {
-    public static void main(String[] args) {
-        int a = 10;
-        int b = 3;
-
-        System.out.println("a + b = " + (a + b));
-        System.out.println("a - b = " + (a - b));
-        System.out.println("a * b = " + (a * b));
-        System.out.println("a / b = " + (a / b));  // 整数同士の割り算
-        System.out.println("a % b = " + (a % b));  // 剰余
-
-        // 小数を含む割り算
-        double c = 10.0;
-        double d = 3.0;
-        System.out.println("c / d = " + (c / d));
-
-        // 括弧の使い方
-        System.out.println("2 + 3 * 4 = " + (2 + 3 * 4));
-        System.out.println("(2 + 3) * 4 = " + ((2 + 3) * 4));
     }
 }`}
 />
 
 **やってみよう:**
-- `a`と`b`の値を変えて実行してみよう
-- 剰余演算子で偶数・奇数を判定してみよう（`a % 2 == 0` なら偶数）
+- `5 / 2`と`5.0 / 2`の結果の違いを確認しよう
+
+:::warning 注意
+平均点や割合を計算するときは、**必ずdoubleで計算**しよう。
+整数の割り算だと、小数点以下が切り捨てられてしまう。
+:::
 
 ---
 
-## 2. 比較演算子
+## Step 4: 複合代入演算子を理解する
 
-**比較演算子** は、2つの値を比較し、**真（true）または偽（false）** を返す演算子である。
+**複合代入演算子** は、**計算と代入を同時に行う** 便利な演算子である。
 
-### 比較演算子の種類
+### 基本の5つ
 
-| 演算子 | 意味 | 例 | 結果 |
-|--------|------|-----|------|
-| **==** | 等しい | `5 == 5` | `true` |
-| **!=** | 異なる | `5 != 3` | `true` |
-| **\<** | より小さい | `3 < 5` | `true` |
-| **>** | より大きい | `5 > 3` | `true` |
-| **\<=** | 以下 | `5 <= 5` | `true` |
-| **>=** | 以上 | `5 >= 3` | `true` |
-
-:::warning 注意
-等しいかどうかを調べるときは、`==`を使う（`=`ではない）。
-`=`は代入、`==`は比較である。
-:::
-
-**実行してみよう:**
+| 演算子 | 意味 | 例 | 同じ意味 |
+|--------|------|-----|----------|
+| `+=` | 加算して代入 | `x += 5` | `x = x + 5` |
+| `-=` | 減算して代入 | `x -= 5` | `x = x - 5` |
+| `*=` | 乗算して代入 | `x *= 5` | `x = x * 5` |
+| `/=` | 除算して代入 | `x /= 5` | `x = x / 5` |
+| `%=` | 剰余して代入 | `x %= 5` | `x = x % 5` |
 
 <OneCompilerCodeBlock
   language="java"
-  code={`public class ComparisonExample {
+  code={`public class Main {
+    public static void main(String[] args) {
+        int score = 100;
+        System.out.println("初期スコア: " + score);
+
+        // 複合代入演算子を使う
+        score += 50;  // score = score + 50 と同じ
+        System.out.println("50点追加: " + score);
+
+        score -= 20;  // score = score - 20 と同じ
+        System.out.println("20点減点: " + score);
+
+        score *= 2;  // score = score * 2 と同じ
+        System.out.println("2倍ボーナス: " + score);
+
+        score /= 5;  // score = score / 5 と同じ
+        System.out.println("5で割る: " + score);
+
+        score %= 10;  // score = score % 10 と同じ
+        System.out.println("10で割った余り: " + score);
+    }
+}`}
+/>
+
+**やってみよう:**
+- 初期スコアを変えて実行してみよう
+
+:::tip ポイント
+複合代入演算子は、コードを **短く読みやすく** する。
+実務でよく使われるので、覚えておこう。
+:::
+
+---
+
+## Step 5: 比較演算子を理解する
+
+**比較演算子** は、**2つの値を比較して、true/falseを返す** 演算子である。
+
+### 基本の6つ
+
+| 演算子 | 意味 | 例 | 結果 |
+|--------|------|-----|------|
+| `==` | 等しい | `5 == 5` | `true` |
+| `!=` | 異なる | `5 != 3` | `true` |
+| `<` | より小さい | `3 < 5` | `true` |
+| `>` | より大きい | `5 > 3` | `true` |
+| `<=` | 以下 | `5 <= 5` | `true` |
+| `>=` | 以上 | `5 >= 3` | `true` |
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
     public static void main(String[] args) {
         int x = 10;
         int y = 20;
 
-        System.out.println("x == y: " + (x == y));
-        System.out.println("x != y: " + (x != y));
-        System.out.println("x < y: " + (x < y));
-        System.out.println("x > y: " + (x > y));
-        System.out.println("x <= 10: " + (x <= 10));
-        System.out.println("y >= 20: " + (y >= 20));
+        System.out.println("x == y: " + (x == y));  // false
+        System.out.println("x != y: " + (x != y));  // true
+        System.out.println("x < y: " + (x < y));    // true
+        System.out.println("x > y: " + (x > y));    // false
+        System.out.println("x <= 10: " + (x <= 10));  // true
+        System.out.println("y >= 20: " + (y >= 20));  // true
+
+        System.out.println("---");
+
+        // 実用例：年齢判定
+        int age = 18;
+
+        if (age >= 18) {
+            System.out.println("成人です");
+        } else {
+            System.out.println("未成年です");
+        }
     }
 }`}
 />
 
 **やってみよう:**
-- `x`と`y`の値を変えて、比較結果がどう変わるか試してみよう
+- `x`と`y`の値を変えて、比較結果の変化を確認しよう
+
+:::warning 注意
+- 等しいかどうかは `==` （イコール2つ）
+- `=` は代入、`==` は比較
+
+間違えやすいので注意！
+:::
 
 ---
 
-## 3. 論理演算子
+## Step 6: 論理演算子を理解する
 
-**論理演算子** は、複数の条件を組み合わせるための演算子である。
-結果は **真（true）または偽（false）** になる。
+**論理演算子** は、**複数の条件を組み合わせる** ための演算子である。
 
-### 論理演算子の種類
+### 基本の3つ
 
 | 演算子 | 意味 | 例 | 結果 |
 |--------|------|-----|------|
@@ -222,196 +334,378 @@ int result2 = (2 + 3) * 4;  // 20（括弧が先）
 
 ### AND演算子（&&）
 
-**両方の条件が真のとき、結果が真になる。**
-
-```java
-int age = 25;
-boolean hasLicense = true;
-
-if (age >= 18 && hasLicense) {
-    System.out.println("運転できます");
-}
-```
-
-### OR演算子（||）
-
-**どちらか一方でも真のとき、結果が真になる。**
-
-```java
-int day = 0;
-
-if (day == 0 || day == 6) {
-    System.out.println("週末です");
-}
-```
-
-### NOT演算子（!）
-
-**条件を反転させる（真を偽に、偽を真に）。**
-
-```java
-boolean isRaining = false;
-
-if (!isRaining) {
-    System.out.println("傘は不要です");
-}
-```
-
-**実行してみよう:**
+**両方の条件が真のとき、結果が真になる**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`public class LogicalExample {
+  code={`public class Main {
     public static void main(String[] args) {
-        boolean a = true;
-        boolean b = false;
-
-        System.out.println("a && b: " + (a && b));
-        System.out.println("a || b: " + (a || b));
-        System.out.println("!a: " + (!a));
-        System.out.println("!b: " + (!b));
-
-        // 実践的な例
+        // 運転できるかの判定
         int age = 25;
         boolean hasLicense = true;
 
         if (age >= 18 && hasLicense) {
-            System.out.println("運転できます");
+            System.out.println("✅ 運転できます");
         } else {
-            System.out.println("運転できません");
+            System.out.println("❌ 運転できません");
+        }
+
+        System.out.println("---");
+
+        // クーポン使用可能の判定
+        int totalPrice = 5000;
+        boolean isMember = true;
+
+        if (totalPrice >= 3000 && isMember) {
+            System.out.println("✅ クーポンが使えます！");
+        } else {
+            System.out.println("❌ クーポンは使えません");
         }
     }
 }`}
 />
 
 **やってみよう:**
-- `a`、`b`、`age`、`hasLicense`の値を変えて、結果がどう変わるか試してみよう
+- `hasLicense`を`false`に変えてみよう
+
+### OR演算子（||）
+
+**どちらか一方でも真のとき、結果が真になる**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 週末判定
+        int dayOfWeek = 0;  // 0:日曜, 6:土曜
+
+        if (dayOfWeek == 0 || dayOfWeek == 6) {
+            System.out.println("✅ 週末です！");
+        } else {
+            System.out.println("平日です");
+        }
+
+        System.out.println("---");
+
+        // 割引対象判定
+        int age = 15;
+        boolean isStudent = false;
+
+        if (age < 18 || isStudent) {
+            System.out.println("✅ 学割が適用されます");
+        } else {
+            System.out.println("通常料金です");
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- `dayOfWeek`を`3`（水曜）に変えてみよう
+
+### NOT演算子（!）
+
+**条件を反転させる**（真→偽、偽→真）
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        boolean isRaining = false;
+
+        if (!isRaining) {
+            System.out.println("☀️ 傘は不要です");
+        } else {
+            System.out.println("☔ 傘が必要です");
+        }
+
+        System.out.println("---");
+
+        // ログイン判定
+        boolean isLoggedIn = false;
+
+        if (!isLoggedIn) {
+            System.out.println("ログインしてください");
+        } else {
+            System.out.println("ようこそ！");
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- `isRaining`を`true`に変えてみよう
 
 ---
 
-## 4. インクリメント・デクリメント
+## Step 7: インクリメント・デクリメント
 
 ### インクリメント（++）
 
-**変数の値を1増やす** 演算子である。
+**変数の値を1増やす**
 
 ```java
 int count = 5;
-count++;  // count = count + 1; と同じ
+count++;  // count = count + 1 と同じ
 // countは6になる
 ```
 
 ### デクリメント（--）
 
-**変数の値を1減らす** 演算子である。
+**変数の値を1減らす**
 
 ```java
 int count = 5;
-count--;  // count = count - 1; と同じ
+count--;  // count = count - 1 と同じ
 // countは4になる
 ```
 
-### 前置と後置の違い
-
-**前置**（`++count`）と **後置**（`count++`）では、動作が微妙に異なる。
-
-- **後置**（`count++`）：現在の値を使ってから、値を増やす
-- **前置**（`++count`）：値を増やしてから、新しい値を使う
-
-```java
-int x = 5;
-int y = x++;  // yには5が代入され、その後xが6になる
-
-int a = 5;
-int b = ++a;  // aが6になり、その後bに6が代入される
-```
-
-**実行してみよう:**
-
 <OneCompilerCodeBlock
   language="java"
-  code={`public class IncrementExample {
+  code={`public class Main {
     public static void main(String[] args) {
-        int count = 5;
-        System.out.println("最初のcount: " + count);
+        int lives = 3;
+        System.out.println("初期ライフ: " + lives);
 
-        count++;
-        System.out.println("count++後: " + count);
+        lives--;  // ミスした
+        System.out.println("1回ミス: " + lives);
 
-        count--;
-        System.out.println("count--後: " + count);
+        lives--;  // また ミスした
+        System.out.println("2回ミス: " + lives);
 
-        // 前置と後置の違い
-        int x = 5;
-        int y = x++;
-        System.out.println("x++の場合: x=" + x + ", y=" + y);
+        lives--;  // もう一度ミス
+        System.out.println("3回ミス: " + lives);
 
-        int a = 5;
-        int b = ++a;
-        System.out.println("++aの場合: a=" + a + ", b=" + b);
+        if (lives == 0) {
+            System.out.println("ゲームオーバー");
+        }
+
+        System.out.println("---");
+
+        // カウントアップの例
+        int score = 0;
+        System.out.println("初期スコア: " + score);
+
+        score++;  // ポイント獲得
+        System.out.println("1回目: " + score);
+
+        score++;  // ポイント獲得
+        System.out.println("2回目: " + score);
+
+        score++;  // ポイント獲得
+        System.out.println("3回目: " + score);
     }
 }`}
 />
 
 **やってみよう:**
-- 前置と後置の違いを確認してみよう
+- ライフが0になる様子を確認してみよう
 
 ---
 
-## 5. 演算子の優先順位
+## Step 8: 実践課題
 
-演算子には **優先順位** があり、優先順位が高いものから順に計算される。
+これまで学んだことを組み合わせて、実践的なプログラムを作ってみよう。
 
-### 主要な演算子の優先順位（高い順）
+### 課題1：ゲームのHPとMP計算
 
-1. **括弧** `()`
-2. **インクリメント・デクリメント** `++`, `--`
-3. **NOT** `!`
-4. **乗除剰余** `*`, `/`, `%`
-5. **加減** `+`, `-`
-6. **比較** `<`, `>`, `<=`, `>=`
-7. **等価** `==`, `!=`
-8. **AND** `&&`
-9. **OR** `||`
-
-### 括弧で明示的に制御
-
-優先順位を覚えるより、**括弧を使って意図を明確にする** ことが推奨される。
-
-```java
-int result = (a + b) * c;  // 括弧で計算順序を明確にする
-```
-
-**実行してみよう:**
+**仕様：**
+- HPが攻撃でダメージを受ける
+- MPが魔法で消費される
+- HPが0以下なら「戦闘不能」と表示
 
 <OneCompilerCodeBlock
   language="java"
-  code={`public class PrecedenceExample {
+  code={`public class Main {
     public static void main(String[] args) {
-        int a = 10;
-        int b = 5;
-        int c = 2;
+        // 初期ステータス
+        int hp = 100;
+        int mp = 50;
+        final int MAX_HP = 100;
+        final int MAX_MP = 50;
 
-        // 優先順位の例
-        int result1 = a + b * c;      // 20（掛け算が先）
-        int result2 = (a + b) * c;    // 30（括弧が先）
+        System.out.println("【初期ステータス】");
+        System.out.println("HP: " + hp + " / " + MAX_HP);
+        System.out.println("MP: " + mp + " / " + MAX_MP);
+        System.out.println();
 
-        System.out.println("a + b * c = " + result1);
-        System.out.println("(a + b) * c = " + result2);
+        // 戦闘開始
+        System.out.println("【戦闘開始】");
 
-        // 複雑な式
-        boolean condition = a > 5 && b < 10 || c == 2;
-        System.out.println("条件の結果: " + condition);
+        // 敵の攻撃を受ける
+        int damage = 30;
+        hp -= damage;
+        System.out.println("敵の攻撃！ " + damage + "ダメージ受けた");
+        System.out.println("HP: " + hp + " / " + MAX_HP);
+        System.out.println();
 
-        // 括弧で明確にした方が読みやすい
-        boolean condition2 = (a > 5 && b < 10) || (c == 2);
-        System.out.println("括弧を使った条件: " + condition2);
+        // 魔法を使う
+        int mpCost = 20;
+        if (mp >= mpCost) {
+            mp -= mpCost;
+            System.out.println("ファイアを唱えた！ MP-" + mpCost);
+            System.out.println("MP: " + mp + " / " + MAX_MP);
+        } else {
+            System.out.println("MPが足りない！");
+        }
+        System.out.println();
+
+        // また攻撃を受ける
+        damage = 80;
+        hp -= damage;
+        System.out.println("敵の強攻撃！ " + damage + "ダメージ受けた");
+        System.out.println("HP: " + hp + " / " + MAX_HP);
+        System.out.println();
+
+        // 戦闘不能判定
+        if (hp <= 0) {
+            System.out.println("💀 戦闘不能！");
+        } else {
+            System.out.println("まだ戦える！");
+        }
     }
 }`}
 />
 
 **やってみよう:**
-- 括弧を追加したり削除したりして、結果がどう変わるか試してみよう
+- ダメージ量を変えてみよう
+- ポーション（HP回復）の処理を追加してみよう（`hp += 30`）
+
+---
+
+### 課題2：割引計算プログラム
+
+**仕様：**
+- 会員なら10%オフ
+- 5000円以上なら送料無料
+- 最終的な支払い金額を計算
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 購入情報
+        int basePrice = 6000;
+        boolean isMember = true;
+        final int SHIPPING_FEE = 500;
+        final int FREE_SHIPPING_THRESHOLD = 5000;
+
+        System.out.println("【お会計】");
+        System.out.println("商品合計: " + basePrice + "円");
+
+        // 会員割引
+        int discountedPrice = basePrice;
+        if (isMember) {
+            discountedPrice = (int) (basePrice * 0.9);
+            int discount = basePrice - discountedPrice;
+            System.out.println("会員割引: -" + discount + "円");
+        }
+
+        // 送料計算
+        int shippingFee = 0;
+        if (discountedPrice >= FREE_SHIPPING_THRESHOLD) {
+            System.out.println("送料: 無料");
+        } else {
+            shippingFee = SHIPPING_FEE;
+            System.out.println("送料: " + shippingFee + "円");
+        }
+
+        // 最終金額
+        int finalPrice = discountedPrice + shippingFee;
+        System.out.println("---");
+        System.out.println("お支払い額: " + finalPrice + "円");
+    }
+}`}
+/>
+
+**やってみよう:**
+- `isMember`を`false`にして、非会員の場合を試してみよう
+- `basePrice`を`3000`にして、送料が発生する場合を試してみよう
+
+---
+
+### 課題3：成績判定プログラム
+
+**仕様：**
+- 80点以上：A
+- 60点以上：B
+- 40点以上：C
+- 40点未満：D
+- 平均点も計算
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // テスト結果
+        int mathScore = 85;
+        int englishScore = 72;
+        int scienceScore = 68;
+
+        System.out.println("【テスト結果】");
+        System.out.println("数学: " + mathScore + "点");
+        System.out.println("英語: " + englishScore + "点");
+        System.out.println("理科: " + scienceScore + "点");
+        System.out.println();
+
+        // 平均点計算
+        double average = (mathScore + englishScore + scienceScore) / 3.0;
+        System.out.println("平均点: " + average + "点");
+        System.out.println();
+
+        // 各科目の成績判定
+        System.out.println("【成績】");
+
+        System.out.print("数学: ");
+        if (mathScore >= 80) {
+            System.out.println("A");
+        } else if (mathScore >= 60) {
+            System.out.println("B");
+        } else if (mathScore >= 40) {
+            System.out.println("C");
+        } else {
+            System.out.println("D");
+        }
+
+        System.out.print("英語: ");
+        if (englishScore >= 80) {
+            System.out.println("A");
+        } else if (englishScore >= 60) {
+            System.out.println("B");
+        } else if (englishScore >= 40) {
+            System.out.println("C");
+        } else {
+            System.out.println("D");
+        }
+
+        System.out.print("理科: ");
+        if (scienceScore >= 80) {
+            System.out.println("A");
+        } else if (scienceScore >= 60) {
+            System.out.println("B");
+        } else if (scienceScore >= 40) {
+            System.out.println("C");
+        } else {
+            System.out.println("D");
+        }
+
+        System.out.println();
+
+        // 総合判定
+        if (average >= 80) {
+            System.out.println("🎉 優秀です！");
+        } else if (average >= 60) {
+            System.out.println("👍 良好です");
+        } else {
+            System.out.println("📝 もう少し頑張りましょう");
+        }
+    }
+}`}
+/>
+
+**やってみよう:**
+- 点数を変えて、成績判定を試してみよう
+- 4科目以上に拡張してみよう
 
 ---
 
@@ -419,22 +713,104 @@ int result = (a + b) * c;  // 括弧で計算順序を明確にする
 
 この章では、Javaの **演算子** について学んだ。
 
-### 学んだ内容
+### 🎯 達成できたこと
 
-- **算術演算子**（+, -, *, /, %）で計算ができる
-- **括弧**（）で演算の優先順位を制御できる
-- **比較演算子**（==, !=, \<, >, \<=, >=）で値を比較できる
-- **論理演算子**（&&, ||, !）で条件を組み合わせられる
-- **インクリメント・デクリメント**（++, --）で値を1増減できる
-- **演算子の優先順位** があり、括弧で明示的に制御できる
+- ✅ 計算や比較を使ったプログラムが書けるようになった
+- ✅ 複雑な条件式を組み立てられるようになった
+- ✅ 実務でよく使う演算子のパターンを理解できた
+- ✅ エラーが起きやすいポイントを避けられるようになった
 
-### 次のステップ
+### 📚 学んだ内容
+
+| 演算子 | 種類 | 例 |
+|--------|------|-----|
+| `+`, `-`, `*`, `/`, `%` | 算術演算子 | `a + b` |
+| `+=`, `-=`, `*=`, `/=`, `%=` | 複合代入演算子 | `x += 5` |
+| `==`, `!=`, `<`, `>`, `<=`, `>=` | 比較演算子 | `a > b` |
+| `&&`, `||`, `!` | 論理演算子 | `a && b` |
+| `++`, `--` | インクリメント・デクリメント | `count++` |
+
+### 🚀 次のステップ
 
 次の章では、**条件分岐**（if文、switch文）について学ぶ。
 演算子で得た真偽値を使って、プログラムの処理を分岐させる方法を学ぶ。
 
 ---
 
-## 演習
+## 💡 よくある質問
 
-未作成
+### Q1: `=`と`==`の違いは？
+
+**A:** `=`は代入、`==`は比較。
+
+```java
+int x = 10;      // ✅ 代入（xに10を代入）
+if (x == 10) {   // ✅ 比較（xが10と等しいか）
+```
+
+よくあるミス：
+```java
+if (x = 10) {    // ❌ エラー！代入はできない
+```
+
+### Q2: 整数の割り算で小数が欲しいときは？
+
+**A:** どちらか一方を`double`にする。
+
+```java
+int result1 = 7 / 2;      // 3（整数の割り算）
+double result2 = 7.0 / 2; // 3.5（小数の割り算）
+double result3 = 7 / 2.0; // 3.5（こちらもOK）
+```
+
+### Q3: `&&`と`||`の違いは？
+
+**A:** `&&`は「両方true」、`||`は「どちらか一方がtrue」
+
+```java
+// &&（AND）：両方trueのときだけtrue
+if (age >= 18 && hasLicense) {  // 18歳以上 かつ 免許あり
+```
+
+```java
+// ||（OR）：どちらか一方がtrueならtrue
+if (day == 0 || day == 6) {  // 日曜 または 土曜
+```
+
+### Q4: `++i`と`i++`の違いは？
+
+**A:** 単独で使う分には同じ。違いが出るのは、他の式と組み合わせたとき。
+
+```java
+int i = 5;
+i++;    // iを1増やす（6になる）
+++i;    // iを1増やす（6になる） → 単独なら同じ
+```
+
+違いが出る例：
+```java
+int x = 5;
+int y = x++;  // yには5が入り、その後xが6になる
+
+int a = 5;
+int b = ++a;  // aが6になり、その後bに6が入る
+```
+
+**実務では、単独で使うことがほとんどなので、どちらでもOK。**
+
+### Q5: `+=`などの複合代入演算子はいつ使う？
+
+**A:** **頻繁に使う**。実務でよく出てくるパターン。
+
+```java
+// スコア加算
+score += 10;  // score = score + 10 より短い
+
+// HP減少
+hp -= damage;  // hp = hp - damage より読みやすい
+
+// カウントアップ
+count++;  // count += 1 や count = count + 1 と同じ
+```
+
+短くて読みやすいので、積極的に使おう！
