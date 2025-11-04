@@ -111,28 +111,28 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
+        title: "プログラムの実行順序を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "読みやすいコードの書き方がわかる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "波括弧の役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "Javaの活用場面を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
         title: "「Hello World」と画面に表示できる",
         type: "WRITE",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "プログラムは上から下に実行されることがわかる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "インデント（字下げ）でコードを見やすくできる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "`{ }`で処理をまとめることができる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "Javaがどんな場面で使われているか言える",
-        type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
@@ -148,12 +148,12 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "変数は「データを入れる箱」だとわかる",
+        title: "変数とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "変数に値を入れる（代入）ことができる",
+        title: "変数に値を代入できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
@@ -183,7 +183,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "変数のスコープ（使える範囲）がわかる",
+        title: "変数のスコープを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
@@ -210,12 +210,12 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "%（割り算の余り）を使える",
+        title: "%演算子を使える",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "整数同士の割り算は小数にならないとわかる",
+        title: "整数同士の割り算の結果を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
@@ -230,7 +230,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "&&（かつ）、||（または）を使える",
+        title: "&&と||の演算子を使える",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
@@ -324,7 +324,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "シード値で乱数を固定できることがわかる",
+        title: "乱数の再現性を制御する方法がわかる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
@@ -366,7 +366,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "switchでbreakを忘れると何が起きるかわかる",
+        title: "switchのbreakの役割を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
@@ -418,7 +418,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "二重ループ（ループの中のループ）が書ける",
+        title: "二重ループが書ける",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -435,12 +435,12 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "配列は「複数のデータを入れる箱」だとわかる",
+        title: "配列とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "配列のインデックスは0から始まることがわかる",
+        title: "配列のインデックスの仕組みを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -460,7 +460,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "拡張for文（for-each）で配列を簡単に処理できる",
+        title: "拡張for文で配列を簡単に処理できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
@@ -475,7 +475,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Medium,
       },
       {
-        title: "2次元配列（表のような配列）を使える",
+        title: "2次元配列を使える",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -487,7 +487,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "メソッドは「処理をまとめたもの」だとわかる",
+        title: "メソッドとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -507,7 +507,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "voidは「何も返さない」という意味だとわかる",
+        title: "voidの意味を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -522,7 +522,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Medium,
       },
       {
-        title: "変数のスコープ（メソッド内とメソッド外）がわかる",
+        title: "メソッド内外での変数のスコープを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
@@ -576,7 +576,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
-        title: "例外は「実行中のエラー」だとわかる",
+        title: "例外とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -623,7 +623,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/oop",
     questions: [
       {
-        title: "クラスは「設計図」、オブジェクトは「実物」だとわかる",
+        title: "クラスとオブジェクトの関係を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -670,7 +670,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/oop",
     questions: [
       {
-        title: "コンストラクタは「初期化するメソッド」だとわかる",
+        title: "コンストラクタとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -695,7 +695,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Medium,
       },
       {
-        title: "デフォルトコンストラクタがいつ使えるかわかる",
+        title: "デフォルトコンストラクタの仕組みを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
@@ -717,7 +717,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/oop",
     questions: [
       {
-        title: "継承は「親の機能を引き継ぐ」ことだとわかる",
+        title: "継承とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -762,7 +762,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Medium,
       },
       {
-        title: "is-a関係（「〜は〜である」）で継承を判断できる",
+        title: "継承の適切な使い方を判断できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
@@ -774,7 +774,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/oop",
     questions: [
       {
-        title: "インターフェースは「約束事」を決めるものだとわかる",
+        title: "インターフェースとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -789,7 +789,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "インターフェースのメソッドには実装を書かないことがわかる",
+        title: "インターフェースのメソッド定義の特徴を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -809,7 +809,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Medium,
       },
       {
-        title: "defaultメソッドで実装を持てることがわかる",
+        title: "defaultメソッドの役割を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
@@ -826,7 +826,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/oop",
     questions: [
       {
-        title: "カプセル化は「データを隠す」ことだとわかる",
+        title: "カプセル化とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -861,7 +861,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Medium,
       },
       {
-        title: "読み取り専用のフィールド（getterのみ）を作れる",
+        title: "読み取り専用のフィールドを作れる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -878,7 +878,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/stdlib",
     questions: [
       {
-        title: "ArrayListは「サイズが変わる配列」だとわかる",
+        title: "ArrayListの特徴を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -908,7 +908,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Medium,
       },
       {
-        title: "ジェネリクス（<>）で型を指定できる",
+        title: "ジェネリクスで型を指定できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
@@ -965,7 +965,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Medium,
       },
       {
-        title: "日時オブジェクトは変更できない（イミュータブル）とわかる",
+        title: "日時オブジェクトの変更可能性について説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
@@ -978,22 +978,22 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "spring",
     questions: [
       {
-        title: "MVCはModel・View・Controllerの略だとわかる",
+        title: "MVCの各要素を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "Modelは「データ」を扱うとわかる",
+        title: "Modelの役割を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "Viewは「画面」を扱うとわかる",
+        title: "Viewの役割を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "Controllerは「処理の流れ」を扱うとわかる",
+        title: "Controllerの役割を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -1008,7 +1008,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "フレームワークが共通処理を代わりにやってくれるとわかる",
+        title: "フレームワークのメリットを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
@@ -1139,7 +1139,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Medium,
       },
       {
-        title: "th:utextのXSSリスクがわかる",
+        title: "th:utextの注意点を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
@@ -1161,7 +1161,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "spring",
     questions: [
       {
-        title: "バリデーションは「入力チェック」だとわかる",
+        title: "バリデーションとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -1213,7 +1213,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "spring",
     questions: [
       {
-        title: "DIは「自動で部品を組み立てる仕組み」だとわかる",
+        title: "DIとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -1260,7 +1260,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "spring",
     questions: [
       {
-        title: "O/Rマッパーは「DBとJavaを繋ぐもの」だとわかる",
+        title: "O/Rマッパーとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -1312,7 +1312,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "spring",
     questions: [
       {
-        title: "セッションは「ブラウザごとに情報を保存する仕組み」だとわかる",
+        title: "セッションとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -1359,12 +1359,12 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "spring",
     questions: [
       {
-        title: "認証は「ユーザーを確認すること」だとわかる",
+        title: "認証とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "認可は「権限をチェックすること」だとわかる",
+        title: "認可とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
