@@ -21,37 +21,54 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 
 **クラスを分割しないとどうなるか？**
 
-クラスを分割しないと、1つのファイルが長くなりすぎ、コードの見通しが悪くなる。
+クラスを分割しないと、1つのファイルが長くなりすぎ、コードの見通しが悪くなる。  
 チームで開発しにくくなる。
 
-**例:**
+**実行してみよう（改善前）:**
 
-```java
-// 1つのクラスに全てのメソッドを書くと...
+<OneCompilerCodeBlock
+  language="java"
+  code={`// 1つのクラスに全てのメソッドを書くと...
 public class Main {
     public static void main(String[] args) {
         int sum = add(10, 20);
         int diff = subtract(20, 10);
+        int product = multiply(5, 3);
+        
+        System.out.println("10 + 20 = " + sum);
+        System.out.println("20 - 10 = " + diff);
+        System.out.println("5 × 3 = " + product);
+        
         // ... mainメソッドの下に何十個ものメソッドが続く
     }
     
-    public static int add(int a, int b) { return a + b; }
-    public static int subtract(int a, int b) { return a - b; }
-    public static int multiply(int a, int b) { return a * b; }
-    // ... さらに続く（1000行以上）
-}
-
-// メソッドを別ファイル（別クラス）に分けると...
-// Main.java
-public class Main {
-    public static void main(String[] args) {
-        int sum = MathUtils.add(10, 20);      // MathUtilsクラスのメソッドを呼ぶ
-        int diff = MathUtils.subtract(20, 10);  // クラス名.メソッド名()で呼び出す
+    public static int add(int a, int b) { 
+        return a + b; 
     }
-}
+    
+    public static int subtract(int a, int b) { 
+        return a - b; 
+    }
+    
+    public static int multiply(int a, int b) { 
+        return a * b; 
+    }
+    
+    // ... さらに続く（実際のプロジェクトでは1000行以上になることも）
+}`}
+/>
 
-// MathUtils.java（計算用のメソッドをまとめた別ファイル）
-public class MathUtils {
+このように、1つのファイルに全てを書くと、ファイルが長くなり、管理が大変になる。
+
+**実行してみよう（改善後）:**
+
+以下は、計算用のメソッドを`MathUtils`クラスに分けた例である。  
+**実際には別ファイルになるが、ここでは実行のために1つのコードブロックにまとめている。**
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`// MathUtils.java（計算用のメソッドをまとめた別ファイル）
+class MathUtils {
     public static int add(int a, int b) {
         return a + b;
     }
@@ -64,7 +81,22 @@ public class MathUtils {
         return a * b;
     }
 }
-```
+
+// Main.java（エントリーポイント）
+public class Main {
+    public static void main(String[] args) {
+        // MathUtilsクラスのメソッドを呼ぶ
+        // クラス名.メソッド名()で呼び出す
+        int sum = MathUtils.add(10, 20);
+        int diff = MathUtils.subtract(20, 10);
+        int product = MathUtils.multiply(5, 3);
+        
+        System.out.println("10 + 20 = " + sum);
+        System.out.println("20 - 10 = " + diff);
+        System.out.println("5 × 3 = " + product);
+    }
+}`}
+/>
 
 **メソッドを別ファイルに分けることで、関連する機能をグループ化し、保守しやすいプログラムを作れる。**
 
@@ -197,8 +229,23 @@ import java.util.*;
 - **if文**：`if`と入力して`Ctrl + Space`→ if文のテンプレートが展開
 - **sysout**：`sysout`と入力して`Ctrl + Space`→ `System.out.println()`に展開
 
+### 定義へジャンプ（Ctrl + クリック）
+
+**`Ctrl + クリック`**（Macは`Cmd + クリック`）で、メソッドやクラスの定義へジャンプできる。
+
+**使い方:**
+1. メソッド名やクラス名の上で`Ctrl`キーを押しながらクリック
+2. そのメソッドやクラスが定義されているファイルへ自動的に移動する
+3. 定義を確認したら、`Alt + ←`（戻るボタン）で元の場所に戻れる
+
+**例:**
+```java
+int result = MathUtils.add(10, 20);  // addにカーソルを合わせてCtrl+クリック
+```
+→ `MathUtils.java`の`add`メソッドの定義にジャンプする
+
 :::tip ポイント
-Eclipseの補完機能を積極的に活用することで、コーディングが格段に効率的になる。
+Eclipseの補完機能を積極的に活用することで、コーディングが格段に効率的になる。  
 最初は意識して使うようにし、慣れてくると自然に使えるようになる。
 :::
 
@@ -266,9 +313,55 @@ error: cannot find symbol
 
 **実行してみよう:**
 
+実際の開発では、以下のように **別々のファイル** として作成する：
+
+**ファイル1: `MathUtils.java`（計算用のユーティリティクラス）**
+
+```java
+public class MathUtils {
+    public static int add(int a, int b) {
+        return a + b;
+    }
+
+    public static int subtract(int a, int b) {
+        return a - b;
+    }
+
+    public static int multiply(int a, int b) {
+        return a * b;
+    }
+
+    public static int divide(int a, int b) {
+        return a / b;
+    }
+}
+```
+
+**ファイル2: `Main.java`（プログラムのエントリーポイント）**
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // MathUtilsクラスのstaticメソッドを呼び出す
+        // クラス名.メソッド名()の形で呼び出す
+        int sum = MathUtils.add(10, 20);
+        int diff = MathUtils.subtract(20, 10);
+        int product = MathUtils.multiply(5, 3);
+        int quotient = MathUtils.divide(20, 4);
+
+        System.out.println("10 + 20 = " + sum);
+        System.out.println("20 - 10 = " + diff);
+        System.out.println("5 × 3 = " + product);
+        System.out.println("20 ÷ 4 = " + quotient);
+    }
+}
+```
+
+**以下は実行可能なコード（1つのコードブロックにまとめたもの）:**
+
 <OneCompilerCodeBlock
   language="java"
-  code={`// MathUtilsクラス（計算用のメソッドをまとめたクラス）
+  code={`// MathUtils.java（別ファイル）
 class MathUtils {
     public static int add(int a, int b) {
         return a + b;
@@ -287,11 +380,9 @@ class MathUtils {
     }
 }
 
-// Mainクラス
+// Main.java（別ファイル）
 public class Main {
     public static void main(String[] args) {
-        // MathUtilsクラスのstaticメソッドを呼び出す
-        // クラス名.メソッド名()の形で呼び出す
         int sum = MathUtils.add(10, 20);
         int diff = MathUtils.subtract(20, 10);
         int product = MathUtils.multiply(5, 3);
@@ -332,11 +423,77 @@ public class Main {
 
 ### クラス分割の例
 
-**実行してみよう:**
+実際の開発では、以下のように **役割ごとに別々のファイル** として作成する：
+
+**ファイル1: `Student.java`（生徒の情報を管理）**
+
+```java
+public class Student {
+    String name;
+    int age;
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void introduce() {
+        System.out.println("名前: " + name + ", 年齢: " + age);
+    }
+}
+```
+
+**ファイル2: `Grade.java`（成績の計算を担当）**
+
+```java
+public class Grade {
+    public static double calculateAverage(int[] scores) {
+        int sum = 0;
+        for (int score : scores) {
+            sum += score;
+        }
+        return (double) sum / scores.length;
+    }
+
+    public static String getGradeLevel(double average) {
+        if (average >= 90) {
+            return "優";
+        } else if (average >= 70) {
+            return "良";
+        } else if (average >= 60) {
+            return "可";
+        } else {
+            return "不可";
+        }
+    }
+}
+```
+
+**ファイル3: `Main.java`（プログラムのエントリーポイント）**
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Studentクラスを使う（newの使い方は次章で学ぶ）
+        Student student = new Student("太郎", 18);
+        student.introduce();
+
+        // Gradeクラスのstaticメソッドを使う
+        int[] scores = {80, 90, 75};
+        double average = Grade.calculateAverage(scores);  // クラス名.メソッド名()
+        String level = Grade.getGradeLevel(average);
+
+        System.out.println("平均点: " + average);
+        System.out.println("成績: " + level);
+    }
+}
+```
+
+**以下は実行可能なコード（1つのコードブロックにまとめたもの）:**
 
 <OneCompilerCodeBlock
   language="java"
-  code={`// Studentクラス（生徒の情報を管理）
+  code={`// Student.java（別ファイル）
 class Student {
     String name;
     int age;
@@ -351,7 +508,7 @@ class Student {
     }
 }
 
-// Gradeクラス（成績の計算を担当）
+// Grade.java（別ファイル）
 class Grade {
     public static double calculateAverage(int[] scores) {
         int sum = 0;
@@ -374,16 +531,14 @@ class Grade {
     }
 }
 
-// Mainクラス（プログラムの起点）
+// Main.java（別ファイル）
 public class Main {
     public static void main(String[] args) {
-        // Studentクラスを使う（newの使い方は次章で学ぶ）
         Student student = new Student("太郎", 18);
         student.introduce();
 
-        // Gradeクラスのstaticメソッドを使う
         int[] scores = {80, 90, 75};
-        double average = Grade.calculateAverage(scores);  // クラス名.メソッド名()
+        double average = Grade.calculateAverage(scores);
         String level = Grade.getGradeLevel(average);
 
         System.out.println("平均点: " + average);
