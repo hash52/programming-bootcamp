@@ -153,6 +153,36 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
+        title: "型とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "int型が扱えるデータを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "double型が扱えるデータを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "String型が扱えるデータを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "boolean型が扱えるデータを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "代入とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
         title: "変数に値を代入できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
@@ -204,6 +234,26 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "演算子",
     category: "java/basics",
     questions: [
+      {
+        title: "算術演算子とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "比較演算子とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "論理演算子とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "インクリメント・デクリメント演算子とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
       {
         title: "+、-、*、/で計算ができる",
         type: "WRITE",
@@ -257,6 +307,21 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
+        title: "標準入力とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "Scannerクラスの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "nextLine()とnextInt()の違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
         title: "キーボードから文字を入力できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
@@ -299,6 +364,21 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
+        title: "乱数とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "Randomクラスの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "nextInt()の引数の意味を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
         title: "ランダムな数を作れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
@@ -340,6 +420,26 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "条件分岐",
     category: "java/basics",
     questions: [
+      {
+        title: "条件分岐とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "if文の基本的な構文を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "if-elseとif-else ifの違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "switch文とif文の使い分けを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
       {
         title: "if文で条件によって処理を分けられる",
         type: "WRITE",
@@ -387,6 +487,31 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "繰り返し",
     category: "java/basics",
     questions: [
+      {
+        title: "ループとは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "for文の基本的な構文を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "while文とdo-while文の違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "breakとcontinueの違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "無限ループとは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
       {
         title: "for文で同じ処理を繰り返せる",
         type: "WRITE",
@@ -441,6 +566,16 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
       {
         title: "配列のインデックスの仕組みを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "配列の宣言と初期化の方法を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "配列の長さを取得する方法を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -581,6 +716,16 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
+        title: "try-catch-finallyの各ブロックの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "throwとthrowsの違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
         title: "try-catchでエラーを捕まえて処理できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
@@ -624,6 +769,16 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     questions: [
       {
         title: "クラスとオブジェクトの関係を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "オブジェクト指向とは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "フィールドとメソッドの違いを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -673,6 +828,16 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         title: "コンストラクタとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
+      },
+      {
+        title: "コンストラクタとメソッドの違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "thisキーワードの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
       },
       {
         title: "コンストラクタでフィールドに初期値を設定できる",
@@ -883,6 +1048,16 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
+        title: "配列とArrayListの違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "ジェネリクスとは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
         title: "ArrayListに要素を追加できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
@@ -929,6 +1104,16 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "日時操作",
     category: "java/stdlib",
     questions: [
+      {
+        title: "LocalDate、LocalTime、LocalDateTimeの違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "DateTimeFormatterの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
       {
         title: "LocalDateで今日の日付を取得できる",
         type: "WRITE",
@@ -1025,6 +1210,21 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "spring",
     questions: [
       {
+        title: "ルーティングとは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "GETとPOSTの違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "@Controllerアノテーションの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
         title: "@Controllerでコントローラクラスを作れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
@@ -1072,6 +1272,21 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "spring",
     questions: [
       {
+        title: "リクエストパラメータとは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "@RequestParamの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "@PathVariableの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
         title: "@RequestParamでクエリパラメータを受け取れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
@@ -1108,6 +1323,26 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     label: "コントローラからビューへの値の受け渡しとThymeleaf",
     category: "spring",
     questions: [
+      {
+        title: "Thymeleafとは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "Modelオブジェクトの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "th:textとth:utextの違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "Thymeleafの主要な属性を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
       {
         title: "ModelのaddAttributeで値を渡せる",
         type: "WRITE",
@@ -1164,6 +1399,21 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         title: "バリデーションとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
+      },
+      {
+        title: "クライアントサイドとサーバーサイドのバリデーションの違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "主要なバリデーションアノテーションを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "BindingResultの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
       },
       {
         title: "@NotNullで必須チェックができる",
@@ -1265,6 +1515,21 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
+        title: "MyBatisの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "アノテーションマッパーとXMLマッパーの違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "resultMapの役割を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
         title: "@Mapperでデータアクセスクラスを作れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
@@ -1313,6 +1578,16 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     questions: [
       {
         title: "セッションとは何かを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Easy,
+      },
+      {
+        title: "セッションスコープとリクエストスコープの違いを説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
+      },
+      {
+        title: "HttpSessionオブジェクトの役割を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -1367,6 +1642,11 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         title: "認可とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
+      },
+      {
+        title: "パスワードのハッシュ化の必要性を説明できる",
+        type: "KNOW",
+        difficulty: Difficulty.Medium,
       },
       {
         title: "UserDetailsServiceでユーザー情報を取得できる",
