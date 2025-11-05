@@ -239,12 +239,18 @@ if (条件式) {
 
 ### 視覚的に理解しよう
 
-```
-実行の流れ（temperature = 28の場合）:
+**実行の流れ（temperature = 28の場合）:**
 
-temperature >= 30 ?
-    ├─ true  → 「暑いです！」を表示
-    └─ false → 「快適な気温です」を表示 ★ こっちが実行される
+```mermaid
+flowchart TD
+    A[temperature = 28] --> B{temperature >= 30?}
+    B -->|true| C[「暑いです！」を表示]
+    B -->|false| D[「快適な気温です」を表示<br/>★ こっちが実行される]
+
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#f5f5f5
+    style D fill:#e8f5e9,stroke:#388e3c,stroke-width:3px
 ```
 
 ---
