@@ -101,17 +101,41 @@ public class ScoreManagement {
 
 **重要：インデックスは0から始まる**（最初の要素がインデックス0）
 
-```
-配列名: scores
+<div style={{margin: "20px 0"}}>
+  <div style={{marginBottom: "15px", fontWeight: "bold"}}>配列名: scores</div>
 
-インデックス:  0     1     2     3     4
-         ┌─────┬─────┬─────┬─────┬─────┐
-  値:    │ 85  │ 90  │ 78  │ 92  │ 88  │
-         └─────┴─────┴─────┴─────┴─────┘
-         ↑                             ↑
-    最初の要素                    最後の要素
-    scores[0]                    scores[4]
-```
+  <table style={{borderCollapse: "collapse", margin: "0 auto", textAlign: "center", fontSize: "16px"}}>
+    <tr>
+      <td style={{border: "none", padding: "8px", fontWeight: "bold", textAlign: "right"}}>インデックス:</td>
+      <td style={{border: "2px solid #333", padding: "12px 20px", background: "#e1f5ff", fontWeight: "bold"}}>0</td>
+      <td style={{border: "2px solid #333", padding: "12px 20px", background: "#e1f5ff", fontWeight: "bold"}}>1</td>
+      <td style={{border: "2px solid #333", padding: "12px 20px", background: "#e1f5ff", fontWeight: "bold"}}>2</td>
+      <td style={{border: "2px solid #333", padding: "12px 20px", background: "#e1f5ff", fontWeight: "bold"}}>3</td>
+      <td style={{border: "2px solid #333", padding: "12px 20px", background: "#e1f5ff", fontWeight: "bold"}}>4</td>
+    </tr>
+    <tr>
+      <td style={{border: "none", padding: "8px", fontWeight: "bold", textAlign: "right"}}>値:</td>
+      <td style={{border: "2px solid #333", padding: "12px 20px", background: "#e8f5e9", fontSize: "18px"}}>85</td>
+      <td style={{border: "2px solid #333", padding: "12px 20px", background: "#e8f5e9", fontSize: "18px"}}>90</td>
+      <td style={{border: "2px solid #333", padding: "12px 20px", background: "#e8f5e9", fontSize: "18px"}}>78</td>
+      <td style={{border: "2px solid #333", padding: "12px 20px", background: "#e8f5e9", fontSize: "18px"}}>92</td>
+      <td style={{border: "2px solid #333", padding: "12px 20px", background: "#e8f5e9", fontSize: "18px"}}>88</td>
+    </tr>
+  </table>
+
+  <div style={{marginTop: "15px", display: "flex", justifyContent: "space-between", maxWidth: "560px", marginLeft: "auto", marginRight: "auto", paddingLeft: "100px", paddingRight: "20px"}}>
+    <div style={{textAlign: "center", fontSize: "14px"}}>
+      ↑<br/>
+      最初の要素<br/>
+      <code>scores[0]</code>
+    </div>
+    <div style={{textAlign: "center", fontSize: "14px"}}>
+      ↑<br/>
+      最後の要素<br/>
+      <code>scores[4]</code>
+    </div>
+  </div>
+</div>
 
 ### なぜ0から始まるのか？
 
