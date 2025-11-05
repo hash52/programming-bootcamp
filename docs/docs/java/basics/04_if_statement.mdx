@@ -335,17 +335,39 @@ if (条件1) {
 
 ### 実行の流れを追ってみよう
 
-```
-score = 75の場合の処理の流れ:
+**score = 75の場合の処理の流れ:**
 
-1. score >= 90 ? → false → スキップ
-2. score >= 70 ? → true  → 「良」を表示して終了 ★
-3. score >= 60 ? → （チェックされない）
-4. else          → （実行されない）
+```mermaid
+flowchart TD
+    A[score = 75] --> B{score >= 90?}
+    B -->|false| C{score >= 70?}
+    B -->|true| D[「優」を表示]
+    C -->|true| E[「良」を表示<br/>★ ここが実行される]
+    C -->|false| F{score >= 60?}
+    F -->|true| G[「可」を表示]
+    F -->|false| H[「不可」を表示]
+    D --> I((処理終了))
+    E --> I
+    G --> I
+    H --> I
+
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#fff4e1
+    style F fill:#fff4e1
+    style D fill:#f5f5f5
+    style E fill:#e8f5e9,stroke:#388e3c,stroke-width:3px
+    style G fill:#f5f5f5
+    style H fill:#f5f5f5
+    style I fill:#ffebee
+
+    linkStyle 1 stroke:#388e3c,stroke-width:3px
+    linkStyle 2 stroke:#388e3c,stroke-width:3px
 ```
 
 :::tip ポイント
 最初に真になった条件で処理が終わるので、 **条件の順序が重要** である。
+if-else文は2つの分岐だが、if-else if-elseは3つ以上の分岐を扱える。
 :::
 
 ---
