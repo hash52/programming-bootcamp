@@ -1,4 +1,5 @@
 // src/components/OneCompilerCodeBlock.tsx
+import { useColorMode } from "@docusaurus/theme-common";
 import React, { useMemo } from "react";
 
 type Language = "java" | "mysql" | "html";
@@ -91,17 +92,11 @@ export const OneCompilerCodeBlock: React.FC<OneCompilerCodeBlockProps> = ({
   style,
 }) => {
   const params = new URLSearchParams();
+  const { colorMode } = useColorMode();
 
-  // テーマのデフォルト値を言語によって切り替え
-  const themeDefault = useMemo(() => {
-    // 明示的に指定されていればそれを使う
-    if (theme) return theme;
-    // HTML は dark のコードハイライトが微妙なため、light をデフォルトにする
-    if (language === "html") return "light";
-    // その他は dark をデフォルトにする
-    return "dark";
-  }, [theme, language]);
-  params.set("theme", themeDefault);
+  // propsで明示的に指定されていればそれを使う
+  // 指定されていなければ、Docusaurusのカラーモードを使用
+  params.set("theme", theme ?? colorMode);
 
   if (availableLanguages !== undefined)
     params.set("availableLanguages", String(availableLanguages));
