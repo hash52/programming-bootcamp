@@ -62,11 +62,16 @@ import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock"
 プログラムでは、 **疑似乱数** という「本物の乱数のように見える数」を使う：
 
 ```mermaid
-graph LR
+flowchart LR
     A[初期値<br/>シード] --> B[計算式]
     B --> C[疑似乱数]
     C --> D[次の乱数を生成]
     D --> B
+
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#e8f5e9
+    style D fill:#f3e5f5
 ```
 
 - **シード（seed）**：乱数生成の開始点
@@ -102,10 +107,15 @@ int number = random.nextInt();  // ランダムな整数
 Randomクラスの使い方は、Scannerと同じく4ステップである：
 
 ```mermaid
-graph LR
+flowchart LR
     A[1. インポート] --> B[2. インスタンス生成]
     B --> C[3. 乱数生成]
     C --> D[プログラムで使用]
+
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#e8f5e9
+    style D fill:#f3e5f5
 ```
 
 ### 基本形

@@ -97,7 +97,13 @@ flowchart TD
     B -->|true| C[③処理を実行]
     C --> D[④更新: i++]
     D --> B
-    B -->|false| E[ループ終了]
+    B -->|false| E((ループ終了))
+
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#e8f5e9
+    style D fill:#f3e5f5
+    style E fill:#ffebee
 ```
 
 **実行してみよう:**
@@ -185,7 +191,11 @@ while (条件式) {
 flowchart TD
     A{条件チェック} -->|true| B[処理を実行]
     B --> A
-    A -->|false| C[ループ終了]
+    A -->|false| C((ループ終了))
+
+    style A fill:#fff4e1
+    style B fill:#e8f5e9
+    style C fill:#ffebee
 ```
 
 ### for文との使い分け

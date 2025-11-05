@@ -456,7 +456,7 @@ Integer age = map.get("四郎");  // null
 ### どのコレクションを使うか
 
 ```mermaid
-graph TD
+flowchart TD
     A[データを管理したい] --> B{順序が必要?}
     B -->|はい| C{重複を許す?}
     B -->|いいえ| D{キーで管理?}
@@ -464,6 +464,15 @@ graph TD
     C -->|いいえ| F[LinkedHashSet]
     D -->|はい| G[HashMap]
     D -->|いいえ| H[HashSet]
+
+    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style B fill:#fff4e1,stroke:#f57c00,stroke-width:2px
+    style C fill:#fff4e1,stroke:#f57c00,stroke-width:2px
+    style D fill:#fff4e1,stroke:#f57c00,stroke-width:2px
+    style E fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    style F fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    style G fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    style H fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
 ```
 
 ### 選択のポイント
