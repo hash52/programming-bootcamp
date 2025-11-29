@@ -1,0 +1,424 @@
+# Bootstrap入門
+
+この章で得られるスキル：
+- ✅ Bootstrapとは何かを説明できる
+- ✅ Bootstrapを導入できる（CDN）
+- ✅ ユーティリティクラスを使える（色、余白、テキスト配置）
+- ✅ ボタンコンポーネントを使える
+- ✅ カードコンポーネントを使える
+- ✅ アラートコンポーネントを使える
+- ✅ 様々なUIコンポーネントの名称を理解している
+
+---
+
+## Step 0: まず体験してみよう
+
+説明の前に、まず **Bootstrapがないと何が困るのか** を体験しよう。
+
+### シナリオ：ボタンをデザインする
+
+以下のようなボタンを作りたいとする：
+
+**自前CSS（Bootstrapなし）：**
+
+```html
+<button class="my-button">クリック</button>
+```
+
+```css
+.my-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.my-button:hover {
+  background-color: #0056b3;
+}
+```
+
+- CSSを自分で書く必要がある
+- ホバー時の色変化も自分で考える
+- レスポンシブ対応も自分で実装
+
+**Bootstrap（あり）：**
+
+```html
+<button class="btn btn-primary">クリック</button>
+```
+
+- たったこれだけで、見栄えの良いボタンが完成
+- ホバー時の色変化も自動
+- レスポンシブ対応も自動
+
+Bootstrapを使うことで、 **CSSを書かずに** 見栄えの良いデザインが作れる！
+
+---
+
+## Step 1: Bootstrapとは何か
+
+**Bootstrap（ブートストラップ）** とは、**CSSフレームワーク** の1つで、あらかじめ用意されたCSSクラスを使って、簡単にWebサイトをデザインできるツールである。
+
+:::info Bootstrapの特徴
+- **CSSを書かなくても** 見栄えの良いデザインが作れる
+- **レスポンシブ対応が簡単**（スマートフォン、タブレット、PCに自動対応）
+- **豊富なコンポーネント**（ボタン、カード、ナビゲーションバーなど）
+- **ブラウザ間の互換性**を気にしなくて良い
+:::
+
+### Bootstrapの位置づけ
+
+Bootstrapは、以下のような場面で使われる：
+
+**どんな場面で使うか：**
+- **管理画面**：社内向けツール、バックオフィスシステム
+- **プロトタイプ**：素早くデモを作りたい場合
+- **小規模なプロジェクト**：短期間で機能を実装することが優先される場合
+- **デザイナーがいない環境**：エンジニアが最低限のUIを作る場合
+
+**Bootstrapの役割：**
+- CSSがわからなくても、 **「酷くない」レベルのデザインをサクッと作る**
+- 本格的なデザインが必要ではないサービスで活躍
+
+:::caution Bootstrapを使う時の心構え
+1. **デザインを頑張り過ぎない**
+   - Bootstrapを使う時点で「デザインに時間をかけたくない」という判断
+   - 無理にカスタマイズしようとすると、かえって時間がかかる
+2. **ドキュメントをよく読む**
+   - Bootstrapの公式ドキュメントは非常に充実している
+   - 自分で考えるより、ドキュメントを読んだ方が早い
+3. **完璧を目指さない**
+   - 「Bootstrapっぽい」デザインで問題ない場合に使う
+   - 独自性の高いデザインが必要なら、自前CSSを書く
+:::
+
+---
+
+## Step 2: Bootstrapの導入（CDN）
+
+Bootstrapを使う最も簡単な方法は、 **CDN（Content Delivery Network）** を使うことである。
+
+### HTMLファイルに追加
+
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap入門</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <h1>Hello, Bootstrap!</h1>
+
+  <!-- Bootstrap JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+```
+
+- `<head>`内に **Bootstrap CSS** のリンクを追加
+- `</body>`の直前に **Bootstrap JavaScript** のスクリプトを追加
+
+これだけで、Bootstrapが使えるようになる！
+
+:::tip ポイント
+**CDNとは：**
+
+インターネット上のサーバーから、CSSやJavaScriptを読み込む方法。
+
+- ✅ ダウンロード不要
+- ✅ 設定が簡単
+- ✅ 高速（世界中のサーバーから配信される）
+:::
+
+---
+
+## Step 3: ユーティリティクラス
+
+Bootstrapには、 **ユーティリティクラス** と呼ばれる、よく使うスタイルをまとめたクラスがある。
+
+### 背景色：`bg-*`
+
+```html
+<div class="bg-primary">青色の背景</div>
+<div class="bg-success">緑色の背景</div>
+<div class="bg-danger">赤色の背景</div>
+<div class="bg-warning">黄色の背景</div>
+<div class="bg-info">水色の背景</div>
+```
+
+### 文字色：`text-*`
+
+```html
+<p class="text-primary">青色の文字</p>
+<p class="text-success">緑色の文字</p>
+<p class="text-danger">赤色の文字</p>
+<p class="text-white bg-dark">白色の文字（背景が暗い場合）</p>
+```
+
+### 余白：`m-*`（margin）、`p-*`（padding）
+
+```html
+<div class="m-3">全方向にmargin（3単位）</div>
+<div class="mt-5">上にmargin（5単位）</div>
+<div class="mb-2">下にmargin（2単位）</div>
+<div class="mx-auto">左右にmargin（auto、中央揃え）</div>
+
+<div class="p-4">全方向にpadding（4単位）</div>
+<div class="pt-3">上にpadding（3単位）</div>
+```
+
+- `m` = margin、`p` = padding
+- `t` = top、`b` = bottom、`s` = start（左）、`e` = end（右）、`x` = 左右、`y` = 上下
+- 数値は0〜5（0 = なし、5 = 最大）
+
+### テキスト配置：`text-*`
+
+```html
+<p class="text-start">左揃え</p>
+<p class="text-center">中央揃え</p>
+<p class="text-end">右揃え</p>
+```
+
+---
+
+## Step 4: ボタンコンポーネント
+
+Bootstrapのボタンは、 **`.btn`クラス** と **色クラス** を組み合わせて作る。
+
+### 基本的なボタン
+
+```html
+<button class="btn btn-primary">Primary</button>
+<button class="btn btn-secondary">Secondary</button>
+<button class="btn btn-success">Success</button>
+<button class="btn btn-danger">Danger</button>
+<button class="btn btn-warning">Warning</button>
+<button class="btn btn-info">Info</button>
+```
+
+### ボタンのサイズ
+
+```html
+<button class="btn btn-primary btn-lg">大きいボタン</button>
+<button class="btn btn-primary">通常のボタン</button>
+<button class="btn btn-primary btn-sm">小さいボタン</button>
+```
+
+### アウトラインボタン
+
+```html
+<button class="btn btn-outline-primary">Primary</button>
+<button class="btn btn-outline-success">Success</button>
+```
+
+---
+
+## Step 5: カードコンポーネント
+
+**カード** は、情報をまとめて表示するためのコンポーネントである。
+
+```html
+<div class="card" style="width: 18rem;">
+  <img src="image.jpg" class="card-img-top" alt="画像">
+  <div class="card-body">
+    <h5 class="card-title">カードのタイトル</h5>
+    <p class="card-text">カードの説明文がここに入ります。</p>
+    <a href="#" class="btn btn-primary">詳細を見る</a>
+  </div>
+</div>
+```
+
+**構成要素：**
+- `.card`：カード全体を囲む
+- `.card-img-top`：上部の画像
+- `.card-body`：本文エリア
+- `.card-title`：タイトル
+- `.card-text`：説明文
+
+---
+
+## Step 6: アラートコンポーネント
+
+**アラート** は、ユーザーに通知を表示するためのコンポーネントである。
+
+```html
+<div class="alert alert-success" role="alert">
+  保存に成功しました！
+</div>
+
+<div class="alert alert-danger" role="alert">
+  エラーが発生しました。
+</div>
+
+<div class="alert alert-warning" role="alert">
+  注意：この操作は元に戻せません。
+</div>
+
+<div class="alert alert-info" role="alert">
+  情報：新しいバージョンがリリースされました。
+</div>
+```
+
+- `alert-success`：緑（成功）
+- `alert-danger`：赤（エラー）
+- `alert-warning`：黄（警告）
+- `alert-info`：青（情報）
+
+---
+
+## Step 7: 様々なUIコンポーネント名称
+
+Bootstrapには、他にも多くのコンポーネントがある。名称を覚えておくと、ドキュメントを調べやすい。
+
+| コンポーネント | 用途 |
+|--------------|------|
+| **Badge** | 数値やステータスを表示する小さなラベル |
+| **Breadcrumb** | ナビゲーションのパンくずリスト |
+| **Button Group** | ボタンをグループ化 |
+| **Card** | 情報をまとめて表示するカード |
+| **Carousel** | 画像のスライドショー |
+| **Collapse** | 折りたたみ可能なコンテンツ |
+| **Dropdown** | ドロップダウンメニュー |
+| **Modal** | ポップアップウィンドウ |
+| **Navbar** | ナビゲーションバー |
+| **Pagination** | ページネーション（ページ送り） |
+| **Progress** | プログレスバー |
+| **Spinner** | ローディング表示 |
+| **Toast** | 通知メッセージ |
+| **Tooltip** | ツールチップ（ホバー時の説明） |
+
+:::info Bootstrap公式ドキュメント
+Bootstrapの公式ドキュメントは非常に充実している：
+
+**https://getbootstrap.com/**
+
+- すべてのコンポーネントの使い方
+- コピー＆ペーストできるサンプルコード
+- カスタマイズ方法
+
+困ったときは、まず公式ドキュメントを読むこと。
+:::
+
+---
+
+## 演習
+
+この章で学んだ内容を確認するため、以下の演習問題に取り組んでください。
+
+演習問題は、`docs/src/questions/frontend/bootstrap_intro/`フォルダにあります：
+
+1. **k1.mdx**: Bootstrapとは何かを説明できる
+2. **w1.mdx**: Bootstrapを導入できる（CDN）
+3. **w2.mdx**: ユーティリティクラスを使える（色、余白、テキスト配置）
+4. **w3.mdx**: ボタンコンポーネントを使える
+5. **w4.mdx**: カードコンポーネントを使える
+6. **w5.mdx**: アラートコンポーネントを使える
+7. **k2.mdx**: 様々なUIコンポーネントの名称を理解している
+
+---
+
+## まとめ
+
+この章では、 **Bootstrap入門** について学んだ。
+
+### 🎯 達成できたこと
+- ✅ Bootstrapの役割（CSSを書かずにデザインできる）を理解した
+- ✅ CDNでBootstrapを導入できるようになった
+- ✅ ユーティリティクラスを使えるようになった
+- ✅ ボタン、カード、アラートを使えるようになった
+- ✅ 主要なUIコンポーネントの名称を理解した
+
+### 📚 学んだ内容
+- Bootstrapは **CSSフレームワーク** で、クラスを指定するだけでデザインできる
+- CDNを使えば、 **ダウンロード不要** ですぐに使える
+- ユーティリティクラス（`bg-*`, `text-*`, `m-*`, `p-*`）で基本的なスタイルを適用
+- コンポーネント（`.btn`, `.card`, `.alert`）で複雑なUIを簡単に作成
+- **公式ドキュメント** を読むことが最も重要
+
+### 🚀 次のステップ
+次の章では、 **Bootstrapコンポーネントとグリッド** について学ぶ。
+グリッドシステムを使ったレイアウトや、より高度なコンポーネントを習得する。
+
+---
+
+## 💡 よくある質問
+
+### Q1: Bootstrapのバージョンはどれを使えば良いのか？
+
+**A:** **最新の安定版（Bootstrap 5.x）** を使うのが推奨される。
+
+バージョンの確認方法：
+- Bootstrap公式サイト（https://getbootstrap.com/）で確認
+- CDNのURLに記載されている（例：`bootstrap@5.3.0`）
+
+### Q2: Bootstrapを使うと、すべて同じデザインになってしまうのでは？
+
+**A:** 確かに「Bootstrapっぽい」デザインになりやすい。
+
+**対策：**
+- 独自のCSSを追加してカスタマイズする
+- Bootstrapの変数（色、フォントなど）を変更する
+
+ただし、 **管理画面や社内ツール** では、Bootstrapのデフォルトデザインで十分な場合が多い。
+
+### Q3: CDNとダウンロードはどちらが良いのか？
+
+**A:** 初学者は **CDN** が推奨される。
+
+**CDNのメリット：**
+- 設定が簡単
+- ダウンロード不要
+- 高速
+
+**ダウンロードのメリット：**
+- インターネット接続が不要
+- カスタマイズしやすい
+
+本教材では、CDNを使う。
+
+### Q4: BootstrapのJavaScriptは何のためにあるのか？
+
+**A:** 一部のコンポーネント（Modal、Dropdown、Carouselなど）は、JavaScriptが必要である。
+
+CSSだけでは実現できない動的な機能に使われる。
+
+### Q5: ユーティリティクラスの数値（m-3など）の単位は？
+
+**A:** Bootstrapの **Spacer** という単位である。
+
+- `0` = 0（なし）
+- `1` = 0.25rem（約4px）
+- `2` = 0.5rem（約8px）
+- `3` = 1rem（約16px）
+- `4` = 1.5rem（約24px）
+- `5` = 3rem（約48px）
+
+### Q6: Bootstrapと自分のCSSを併用できるのか？
+
+**A:** できる。
+
+```html
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
+```
+
+自分のCSSファイルを **Bootstrap CSSの後** に読み込むことで、Bootstrapのスタイルを上書きできる。
+
+### Q7: Bootstrapを使うべきではない場合は？
+
+**A:** 以下のような場合は、Bootstrapを使わない方が良い：
+
+- 独自性の高いデザインが必要な場合（企業サイト、ブランドサイト）
+- パフォーマンスを最大限に最適化したい場合（使わない機能が多いと、ファイルサイズが大きくなる）
+
+**基本方針：**
+- **管理画面、社内ツール** → Bootstrapを使う
+- **企業サイト、ブランドサイト** → 自前CSSまたは他のフレームワーク

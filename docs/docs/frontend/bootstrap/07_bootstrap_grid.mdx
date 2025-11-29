@@ -1,0 +1,551 @@
+# Bootstrapコンポーネントとグリッド
+
+この章で得られるスキル：
+- ✅ グリッドシステムの仕組みを説明できる
+- ✅ container、row、colを使える
+- ✅ レスポンシブグリッド（`col-sm`, `col-md`, `col-lg`）を使える
+- ✅ グリッドの入れ子構造を使える
+- ✅ Navbarコンポーネントを使える
+- ✅ Navbarのレスポンシブメニューを実装できる
+- ✅ Bootstrapのフォームスタイルを適用できる
+
+---
+
+## Step 0: まず体験してみよう
+
+説明の前に、まず **グリッドシステムがないと何が困るのか** を体験しよう。
+
+### シナリオ：3カラムレイアウトを作る
+
+以下のような3カラムレイアウトを作りたいとする：
+
+```
+[コンテンツ1] [コンテンツ2] [コンテンツ3]
+```
+
+**自前CSS（Bootstrapなし）：**
+
+```html
+<div class="container">
+  <div class="column">コンテンツ1</div>
+  <div class="column">コンテンツ2</div>
+  <div class="column">コンテンツ3</div>
+</div>
+```
+
+```css
+.container {
+  display: flex;
+}
+
+.column {
+  flex: 1;
+  padding: 10px;
+}
+
+/* スマートフォンでは縦並びにしたい */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+}
+```
+
+- CSSを自分で書く必要がある
+- レスポンシブ対応も自分で実装
+- カラムの幅を変えたい場合も自分で計算
+
+**Bootstrap（あり）：**
+
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">コンテンツ1</div>
+    <div class="col-md-4">コンテンツ2</div>
+    <div class="col-md-4">コンテンツ3</div>
+  </div>
+</div>
+```
+
+- たったこれだけで、3カラムレイアウトが完成
+- スマートフォンでは自動的に縦並びになる
+- カラムの幅も簡単に変更できる（`col-md-6`など）
+
+Bootstrapのグリッドシステムを使うことで、 **レイアウトが圧倒的に簡単** になる！
+
+---
+
+## Step 1: グリッドシステムとは何か
+
+**グリッドシステム** とは、ページを **12列（カラム）に分割** して、要素を配置する仕組みである。
+
+:::info Bootstrapグリッドシステムの特徴
+- **12列ベース**：すべてのレイアウトは12列に分割される
+- **レスポンシブ対応**：画面サイズに応じて自動的にレイアウトが変わる
+- **ネスト可能**：グリッドの中にグリッドを入れられる
+- **柔軟な幅指定**：`col-4`（4列分）、`col-6`（6列分）など、自由に指定できる
+:::
+
+### なぜ12列なのか？
+
+12は **約数が多い** ため、様々な分割に対応できる：
+
+- **2分割**：6 + 6 = 12
+- **3分割**：4 + 4 + 4 = 12
+- **4分割**：3 + 3 + 3 + 3 = 12
+- **不均等**：8 + 4 = 12（メインコンテンツ + サイドバー）
+
+:::tip ポイント
+グリッドシステムを使うことで、 **計算不要でレイアウト** できる。
+
+「左側を広く、右側を狭く」したい場合も、`col-8`と`col-4`を指定するだけで良い。
+:::
+
+---
+
+## Step 2: container、row、col
+
+グリッドシステムは、 **3つの要素** で構成される。
+
+### 基本的な構造
+
+```html
+<div class="container">
+  <div class="row">
+    <div class="col">カラム1</div>
+    <div class="col">カラム2</div>
+    <div class="col">カラム3</div>
+  </div>
+</div>
+```
+
+**役割：**
+
+| 要素 | 役割 |
+|------|------|
+| **container** | ページ全体を囲む（余白を作る） |
+| **row** | 行を作る（カラムをグループ化） |
+| **col** | 列を作る（実際のコンテンツを配置） |
+
+### containerの種類
+
+```html
+<!-- 固定幅のコンテナ（画面サイズに応じて幅が変わる） -->
+<div class="container">
+  <!-- コンテンツ -->
+</div>
+
+<!-- 全幅のコンテナ（画面いっぱいに広がる） -->
+<div class="container-fluid">
+  <!-- コンテンツ -->
+</div>
+```
+
+:::caution 重要
+**必ず`container` > `row` > `col`の順序で使う。**
+
+`row`を`container`で囲まないと、レイアウトが崩れる可能性がある。
+:::
+
+---
+
+## Step 3: カラムの幅を指定する
+
+`col`の後に数字を付けることで、 **カラムの幅** を指定できる。
+
+### 基本的な指定
+
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-6">6列分（50%）</div>
+    <div class="col-6">6列分（50%）</div>
+  </div>
+</div>
+```
+
+- `col-6`：12列のうち6列分（50%）
+- `col-4`：12列のうち4列分（33.3%）
+- `col-3`：12列のうち3列分（25%）
+
+### 不均等な分割
+
+```html
+<div class="row">
+  <div class="col-8">メインコンテンツ（8列分）</div>
+  <div class="col-4">サイドバー（4列分）</div>
+</div>
+```
+
+### 自動幅
+
+```html
+<div class="row">
+  <div class="col">自動幅</div>
+  <div class="col">自動幅</div>
+  <div class="col">自動幅</div>
+</div>
+```
+
+- 数字を指定しない`col`は、残りの幅を **均等に分割** する
+
+---
+
+## Step 4: レスポンシブグリッド
+
+画面サイズに応じて、カラムの幅を変える仕組みである。
+
+### ブレークポイント
+
+| クラス | 画面サイズ | デバイス |
+|--------|-----------|---------|
+| `col-` | すべて | すべてのデバイス |
+| `col-sm-` | 576px以上 | スマートフォン（横向き）以上 |
+| `col-md-` | 768px以上 | タブレット以上 |
+| `col-lg-` | 992px以上 | デスクトップ以上 |
+| `col-xl-` | 1200px以上 | 大画面デスクトップ以上 |
+
+### レスポンシブの例
+
+```html
+<div class="row">
+  <div class="col-12 col-md-6 col-lg-4">カラム1</div>
+  <div class="col-12 col-md-6 col-lg-4">カラム2</div>
+  <div class="col-12 col-md-6 col-lg-4">カラム3</div>
+</div>
+```
+
+**挙動：**
+- **スマートフォン**（`col-12`）：各カラムが100%幅（縦並び）
+- **タブレット**（`col-md-6`）：各カラムが50%幅（2列）
+- **PC**（`col-lg-4`）：各カラムが33.3%幅（3列）
+
+:::info モバイルファースト
+Bootstrapは **モバイルファースト** である。
+
+`col-md-6`は「タブレット以上で6列分」という意味であり、スマートフォンでは`col-12`（100%）がデフォルトである。
+:::
+
+---
+
+## Step 5: グリッドの入れ子構造
+
+グリッドの中に、さらにグリッドを入れることができる。
+
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-8">
+      <div class="row">
+        <div class="col-6">左半分</div>
+        <div class="col-6">右半分</div>
+      </div>
+    </div>
+    <div class="col-4">サイドバー</div>
+  </div>
+</div>
+```
+
+- 外側のグリッド：8列 + 4列
+- 内側のグリッド：6列 + 6列（8列の中でさらに分割）
+
+:::tip ポイント
+入れ子にする場合も、必ず`row`を使ってカラムをグループ化する。
+
+`col`の中に直接`col`を入れることはできない。
+:::
+
+---
+
+## Step 6: Navbarコンポーネント
+
+**Navbar** は、ナビゲーションバーを作成するためのコンポーネントである。
+
+### 基本的なNavbar
+
+```html
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">サイト名</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">ホーム</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">私について</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">お問い合わせ</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+```
+
+**構成要素：**
+- `.navbar`：ナビゲーションバー全体
+- `.navbar-brand`：サイト名やロゴ
+- `.navbar-toggler`：スマートフォン用のハンバーガーメニューボタン
+- `.navbar-nav`：ナビゲーションリンクのリスト
+
+### Navbarの配色
+
+```html
+<!-- 明るい背景 + 暗い文字 -->
+<nav class="navbar navbar-light bg-light">
+  <!-- ... -->
+</nav>
+
+<!-- 暗い背景 + 明るい文字 -->
+<nav class="navbar navbar-dark bg-dark">
+  <!-- ... -->
+</nav>
+
+<!-- 青色の背景 -->
+<nav class="navbar navbar-dark bg-primary">
+  <!-- ... -->
+</nav>
+```
+
+:::info レスポンシブメニュー
+`navbar-expand-lg`は、「992px以上で横並び、それ未満で折りたたみ」を意味する。
+
+- `navbar-expand-sm`：576px以上で横並び
+- `navbar-expand-md`：768px以上で横並び
+- `navbar-expand-lg`：992px以上で横並び
+:::
+
+---
+
+## Step 7: Bootstrapのフォームスタイル
+
+Bootstrapを使うと、フォームも簡単に見栄え良くできる。
+
+### 基本的なフォーム
+
+```html
+<form>
+  <div class="mb-3">
+    <label for="email" class="form-label">メールアドレス</label>
+    <input type="email" class="form-control" id="email" placeholder="name@example.com">
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">パスワード</label>
+    <input type="password" class="form-control" id="password">
+  </div>
+  <button type="submit" class="btn btn-primary">送信</button>
+</form>
+```
+
+**主なクラス：**
+- `.form-control`：入力欄（`<input>`, `<textarea>`, `<select>`）
+- `.form-label`：ラベル
+- `.mb-3`：下方向の余白（margin-bottom）
+
+### チェックボックスとラジオボタン
+
+```html
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" id="agree">
+  <label class="form-check-label" for="agree">
+    利用規約に同意する
+  </label>
+</div>
+
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="gender" id="male" value="male">
+  <label class="form-check-label" for="male">
+    男性
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+  <label class="form-check-label" for="female">
+    女性
+  </label>
+</div>
+```
+
+### フォームのレイアウト（グリッドと組み合わせ）
+
+```html
+<form>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="firstName" class="form-label">名</label>
+      <input type="text" class="form-control" id="firstName">
+    </div>
+    <div class="col-md-6">
+      <label for="lastName" class="form-label">姓</label>
+      <input type="text" class="form-control" id="lastName">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">送信</button>
+</form>
+```
+
+- グリッドシステムとフォームを組み合わせることで、横並びの入力欄を作れる
+
+---
+
+## 演習
+
+この章で学んだ内容を確認するため、以下の演習問題に取り組んでください。
+
+演習問題は、`docs/src/questions/frontend/bootstrap_grid/`フォルダにあります：
+
+1. **k1.mdx**: グリッドシステムの仕組みを説明できる
+2. **w1.mdx**: container、row、colを使える
+3. **w2.mdx**: レスポンシブグリッド（col-sm, col-md, col-lg）を使える
+4. **w3.mdx**: グリッドの入れ子構造を使える
+5. **w4.mdx**: Navbarコンポーネントを使える
+6. **w5.mdx**: Navbarのレスポンシブメニューを実装できる
+7. **w6.mdx**: Bootstrapのフォームスタイルを適用できる
+
+---
+
+## まとめ
+
+この章では、 **Bootstrapコンポーネントとグリッド** について学んだ。
+
+### 🎯 達成できたこと
+- ✅ グリッドシステムの仕組み（12列ベース）を理解した
+- ✅ container、row、colを使ってレイアウトできるようになった
+- ✅ レスポンシブグリッド（`col-sm`, `col-md`, `col-lg`）を使えるようになった
+- ✅ グリッドの入れ子構造を使えるようになった
+- ✅ Navbarコンポーネントを使えるようになった
+- ✅ Navbarのレスポンシブメニューを実装できるようになった
+- ✅ Bootstrapのフォームスタイルを適用できるようになった
+
+### 📚 学んだ内容
+- グリッドシステムは **12列ベース** で、`container` > `row` > `col`の順序で使う
+- `col-6`で50%、`col-4`で33.3%など、柔軟に幅を指定できる
+- `col-md-6`のように、画面サイズに応じて幅を変えられる
+- Navbarコンポーネントで、レスポンシブなナビゲーションバーを簡単に作れる
+- Bootstrapのフォームクラスで、見栄えの良いフォームを簡単に作れる
+
+### 🚀 次のステップ
+次の章では、 **レスポンシブデザイン総合演習** について学ぶ。
+これまで学んだHTML、CSS、Bootstrapを総合的に活用して、実践的なWebページを作成する。
+
+---
+
+## 💡 よくある質問
+
+### Q1: グリッドの合計が12を超えたらどうなるのか？
+
+**A:** 次の行に折り返される：
+
+```html
+<div class="row">
+  <div class="col-8">8列</div>
+  <div class="col-6">6列</div> <!-- 合計14列なので、次の行に折り返される -->
+</div>
+```
+
+これは意図的に使うこともあるが、通常は合計を12以内に収めるべきである。
+
+### Q2: `col`と`col-12`の違いは？
+
+**A:**
+
+- **`col`**：残りの幅を均等に分割する（兄弟要素の数に依存）
+- **`col-12`**：常に100%幅
+
+```html
+<!-- col-12：常に100%幅 -->
+<div class="col-12">100%幅</div>
+
+<!-- col：兄弟要素の数に応じて均等分割 -->
+<div class="col">33.3%幅</div>
+<div class="col">33.3%幅</div>
+<div class="col">33.3%幅</div>
+```
+
+### Q3: containerとcontainer-fluidはどちらを使えば良いのか？
+
+**A:**
+
+- **`container`**：左右に余白を作りたい場合（一般的なWebサイト）
+- **`container-fluid`**：画面いっぱいに広げたい場合（ダッシュボード、管理画面など）
+
+迷ったら`container`を使う方が無難である。
+
+### Q4: Navbarのハンバーガーメニューが動かない
+
+**A:** Bootstrap JavaScriptが読み込まれていない可能性がある。
+
+`<head>`に以下を追加：
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+```
+
+Navbarのトグル機能はJavaScriptで実装されているため、JavaScriptファイルが必要である。
+
+### Q5: グリッドの中で縦方向の中央揃えはできるのか？
+
+**A:** できる。`align-items-center`を`row`に追加する：
+
+```html
+<div class="row align-items-center" style="height: 200px;">
+  <div class="col-6">縦方向の中央揃え</div>
+  <div class="col-6">縦方向の中央揃え</div>
+</div>
+```
+
+- `align-items-start`：上揃え
+- `align-items-center`：中央揃え
+- `align-items-end`：下揃え
+
+### Q6: 入れ子にするときの注意点は？
+
+**A:** **必ず`row`で囲む** こと：
+
+```html
+<!-- 正しい -->
+<div class="col-8">
+  <div class="row">
+    <div class="col-6">左</div>
+    <div class="col-6">右</div>
+  </div>
+</div>
+
+<!-- 誤り -->
+<div class="col-8">
+  <div class="col-6">左</div>
+  <div class="col-6">右</div>
+</div>
+```
+
+`row`を省略すると、レイアウトが崩れる。
+
+### Q7: Bootstrapのフォームは、HTML5のバリデーションと併用できるのか？
+
+**A:** できる：
+
+```html
+<input type="email" class="form-control" required>
+```
+
+Bootstrapのスタイル（`.form-control`）と、HTML5のバリデーション（`required`）は併用可能である。
+
+### Q8: グリッドのオフセット（左側に余白）を作れるのか？
+
+**A:** できる。`offset-*`クラスを使う：
+
+```html
+<div class="row">
+  <div class="col-md-4 offset-md-4">中央寄せ（左側に4列分の余白）</div>
+</div>
+```
+
+- `offset-md-2`：左側に2列分の余白
+- `offset-md-4`：左側に4列分の余白
+
+これを使うことで、カラムを中央寄せしたり、左側に余白を作ったりできる。

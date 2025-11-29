@@ -1,0 +1,497 @@
+# CSSレイアウトとセレクタ
+
+この章で得られるスキル：
+- ✅ クラスセレクタを使える
+- ✅ IDセレクタを使える
+- ✅ Flexboxの仕組みを説明できる
+- ✅ Flexboxで要素を横並びにできる
+- ✅ Flexboxで要素を中央揃えにできる
+- ✅ メディアクエリの仕組みを理解している
+- ✅ メディアクエリでレスポンシブデザインを実装できる
+
+---
+
+## Step 0: まず体験してみよう
+
+説明の前に、まず **Flexboxがないと何が困るのか** を体験しよう。
+
+### シナリオ：ナビゲーションメニューを作る
+
+以下のようなナビゲーションメニューを作りたいとする：
+
+```
+[ホーム] [私について] [お問い合わせ]
+```
+
+Flexboxがなかった時代は、要素を横並びにするのが非常に大変だった：
+
+```css
+/* 古い方法（float） */
+.menu-item {
+  float: left;
+  margin-right: 20px;
+}
+
+.menu::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+```
+
+- `float`は本来、画像を文章の横に配置するためのプロパティ
+- レイアウトに使うのは本来の用途ではない
+- `clear`を忘れるとレイアウトが崩れる
+
+では、 **Flexbox** を使うと、どうなるだろうか？
+
+```css
+/* 新しい方法（Flexbox） */
+.menu {
+  display: flex;
+  gap: 20px;
+}
+```
+
+たったこれだけで横並びになる！
+
+---
+
+## Step 1: クラスセレクタ
+
+**クラスセレクタ** は、`class`属性を持つ要素にスタイルを適用する。
+
+### HTMLでクラスを指定
+
+```html
+<p class="highlight">この段落は強調表示されます。</p>
+<p>この段落は通常の表示です。</p>
+<p class="highlight">この段落も強調表示されます。</p>
+```
+
+### CSSでクラスセレクタを使う
+
+```css
+.highlight {
+  background-color: yellow;
+  font-weight: bold;
+}
+```
+
+- クラス名の前に `.`（ドット）を付ける
+- 同じクラスを複数の要素に付けられる
+- 1つの要素に複数のクラスを付けられる
+
+### 複数のクラスを適用
+
+```html
+<p class="highlight important">この段落は強調表示され、かつ重要です。</p>
+```
+
+```css
+.highlight {
+  background-color: yellow;
+}
+
+.important {
+  border-left: 5px solid red;
+  padding-left: 10px;
+}
+```
+
+:::tip ポイント
+クラス名は **意味のある名前** を付けること。
+
+- ✅ 良い例：`.highlight`, `.error-message`, `.primary-button`
+- ❌ 悪い例：`.red`, `.big`, `.style1`
+
+見た目ではなく、役割や意味を表す名前にする。
+:::
+
+---
+
+## Step 2: IDセレクタ
+
+**IDセレクタ** は、`id`属性を持つ要素にスタイルを適用する。
+
+### HTMLでIDを指定
+
+```html
+<div id="header">ヘッダー</div>
+<div id="main-content">メインコンテンツ</div>
+<div id="footer">フッター</div>
+```
+
+### CSSでIDセレクタを使う
+
+```css
+#header {
+  background-color: navy;
+  color: white;
+  padding: 20px;
+}
+
+#footer {
+  background-color: gray;
+  text-align: center;
+}
+```
+
+- ID名の前に `#`（ハッシュ）を付ける
+- **IDは1つのページに1回しか使えない**（重複不可）
+
+:::caution 重要
+**クラスとIDの使い分け：**
+
+- **クラス**：複数回使う要素（`.button`, `.card`, `.item`）
+- **ID**：1回しか使わない要素（`#header`, `#footer`, `#main-content`）
+
+実際には、 **クラスを使う方が推奨される** ことが多い。IDはJavaScriptで要素を特定する場合などに使う。
+:::
+
+---
+
+## Step 3: Flexboxの基本
+
+**Flexbox** は、要素を柔軟にレイアウトするための仕組みである。
+
+### Flexboxを有効にする
+
+親要素に `display: flex;` を指定する：
+
+```html
+<div class="container">
+  <div class="item">アイテム1</div>
+  <div class="item">アイテム2</div>
+  <div class="item">アイテム3</div>
+</div>
+```
+
+```css
+.container {
+  display: flex;
+}
+```
+
+これだけで、子要素が横並びになる。
+
+### Flexboxの用語
+
+- **Flexコンテナ**：`display: flex;`を指定した親要素
+- **Flexアイテム**：Flexコンテナの直接の子要素
+
+---
+
+## Step 4: Flexboxで横並び
+
+### 基本的な横並び
+
+```css
+.container {
+  display: flex;
+}
+```
+
+デフォルトで横並び（`flex-direction: row;`）になる。
+
+### 縦並びにする
+
+```css
+.container {
+  display: flex;
+  flex-direction: column;
+}
+```
+
+### アイテム間の間隔を空ける
+
+```css
+.container {
+  display: flex;
+  gap: 20px;  /* アイテム間の間隔 */
+}
+```
+
+:::info gap プロパティ
+`gap`は、Flexboxやグリッドレイアウトで使える便利なプロパティである。
+
+従来は`margin`で間隔を空けていたが、`gap`を使う方がシンプルで分かりやすい。
+:::
+
+---
+
+## Step 5: Flexboxで中央揃え
+
+### 横方向の配置：`justify-content`
+
+```css
+.container {
+  display: flex;
+  justify-content: center;  /* 中央揃え */
+}
+```
+
+**主な値：**
+- `flex-start`：左揃え（デフォルト）
+- `flex-end`：右揃え
+- `center`：中央揃え
+- `space-between`：両端揃え（間隔を均等に）
+- `space-around`：全体に均等な間隔
+
+### 縦方向の配置：`align-items`
+
+```css
+.container {
+  display: flex;
+  align-items: center;  /* 縦方向の中央揃え */
+  height: 200px;
+}
+```
+
+**主な値：**
+- `flex-start`：上揃え
+- `flex-end`：下揃え
+- `center`：中央揃え
+- `stretch`：伸ばす（デフォルト）
+
+### 完全な中央揃え
+
+```css
+.container {
+  display: flex;
+  justify-content: center;  /* 横方向の中央 */
+  align-items: center;      /* 縦方向の中央 */
+  height: 300px;
+}
+```
+
+---
+
+## Step 6: メディアクエリの基本
+
+**メディアクエリ** は、画面サイズに応じてスタイルを変更する仕組みである。
+
+### 基本的な使い方
+
+```css
+/* 通常のスタイル */
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 画面幅が768px以上の場合 */
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+}
+```
+
+- スマートフォン（幅が狭い）では縦並び
+- タブレット・PC（幅が広い）では横並び
+
+### よく使うブレークポイント
+
+| デバイス | 幅 | メディアクエリ |
+|---------|-----|---------------|
+| スマートフォン | 〜767px | デフォルト |
+| タブレット | 768px〜 | `@media (min-width: 768px)` |
+| PC | 1024px〜 | `@media (min-width: 1024px)` |
+
+:::info モバイルファースト
+現代のWeb開発では、 **モバイルファースト** が推奨される。
+
+1. まずスマートフォン向けのスタイルを書く
+2. `@media (min-width: ...)`で大きい画面向けのスタイルを追加
+
+この方が、シンプルで保守しやすい。
+:::
+
+---
+
+## Step 7: レスポンシブデザインの実装
+
+### 例：レスポンシブなカードレイアウト
+
+```html
+<div class="card-container">
+  <div class="card">カード1</div>
+  <div class="card">カード2</div>
+  <div class="card">カード3</div>
+</div>
+```
+
+```css
+.card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* タブレット以上：2列 */
+@media (min-width: 768px) {
+  .card-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    width: calc(50% - 10px);
+  }
+}
+
+/* PC以上：3列 */
+@media (min-width: 1024px) {
+  .card {
+    width: calc(33.333% - 14px);
+  }
+}
+```
+
+- `flex-wrap: wrap;`：折り返しを許可
+- `calc()`：計算式でサイズを指定
+
+---
+
+## 演習
+
+この章で学んだ内容を確認するため、以下の演習問題に取り組んでください。
+
+演習問題は、`docs/src/questions/frontend/css_layout/`フォルダにあります：
+
+1. **w1.mdx**: クラスセレクタを使える
+2. **w2.mdx**: IDセレクタを使える
+3. **k1.mdx**: Flexboxの仕組みを説明できる
+4. **w3.mdx**: Flexboxで要素を横並びにできる
+5. **w4.mdx**: Flexboxで要素を中央揃えにできる
+6. **k2.mdx**: メディアクエリの仕組みを理解している
+7. **w5.mdx**: メディアクエリでレスポンシブデザインを実装できる
+
+---
+
+## まとめ
+
+この章では、 **CSSレイアウトとセレクタ** について学んだ。
+
+### 🎯 達成できたこと
+- ✅ クラスセレクタとIDセレクタを使えるようになった
+- ✅ Flexboxで要素を横並び・縦並びにできるようになった
+- ✅ Flexboxで中央揃えができるようになった
+- ✅ メディアクエリでレスポンシブデザインを実装できるようになった
+
+### 📚 学んだ内容
+- クラスセレクタ（`.class`）は **複数回使える**、IDセレクタ（`#id`）は **1回のみ**
+- Flexboxは `display: flex;` で有効にする
+- `justify-content`で横方向、`align-items`で縦方向の配置を制御
+- メディアクエリで画面サイズに応じてスタイルを変更できる
+- **モバイルファースト** の考え方が推奨される
+
+### 🚀 次のステップ
+次の章では、 **HTMLフォーム** について学ぶ。
+ユーザーから情報を入力してもらうためのフォーム要素を習得する。
+
+---
+
+## 💡 よくある質問
+
+### Q1: クラス名やID名の命名規則は？
+
+**A:** 一般的に、以下のような規則が推奨される：
+
+- **ケバブケース**（推奨）：`primary-button`, `error-message`
+- **キャメルケース**：`primaryButton`, `errorMessage`
+- **スネークケース**：`primary_button`（あまり使われない）
+
+**禁止事項：**
+- 数字から始まる名前（例：`1st-item`）
+- 特殊文字（例：`my-button!`）
+
+### Q2: Flexboxとグリッドレイアウトの違いは？
+
+**A:**
+
+- **Flexbox**：1次元レイアウト（横並びまたは縦並び）
+- **Grid**：2次元レイアウト（行と列を同時に制御）
+
+Flexboxの方がシンプルで、多くの場合はFlexboxで十分である。
+
+### Q3: `justify-content`と`align-items`はどう覚えれば良いのか？
+
+**A:**
+
+- **justify-content**：**主軸**（デフォルトは横方向）の配置
+- **align-items**：**交差軸**（デフォルトは縦方向）の配置
+
+「justify（正当化）」は横書きの文章の揃え方（左揃え、中央揃えなど）を連想すると覚えやすい。
+
+### Q4: レスポンシブデザインは必須か？
+
+**A:** 現代のWeb開発では **ほぼ必須** である。
+
+スマートフォンでWebサイトを閲覧するユーザーが非常に多いため、スマートフォンに対応していないサイトは使いにくいと感じられる。
+
+### Q5: `flex-wrap`とは何か？
+
+**A:** Flexアイテムが親要素の幅を超えた場合に、折り返すかどうかを指定する：
+
+```css
+.container {
+  display: flex;
+  flex-wrap: wrap;  /* 折り返す */
+}
+```
+
+- `nowrap`（デフォルト）：折り返さない
+- `wrap`：折り返す
+- `wrap-reverse`：逆方向に折り返す
+
+### Q6: メディアクエリは何個書くべきか？
+
+**A:** 必要な分だけ書けば良い。
+
+一般的には、2〜3個程度が多い：
+
+```css
+/* スマートフォン（デフォルト） */
+
+/* タブレット */
+@media (min-width: 768px) {
+  /* ... */
+}
+
+/* PC */
+@media (min-width: 1024px) {
+  /* ... */
+}
+```
+
+デザインによっては、もっと細かく分ける場合もある。
+
+### Q7: Flexboxで要素の順序を変えられるか？
+
+**A:** できる。`order`プロパティを使う：
+
+```css
+.item1 {
+  order: 2;
+}
+
+.item2 {
+  order: 1;
+}
+
+.item3 {
+  order: 3;
+}
+```
+
+デフォルトは`order: 0;`で、数値が小さい順に表示される。
+
+HTMLの順序を変えずに、CSSだけで表示順序を変更できる。

@@ -1,0 +1,654 @@
+# レスポンシブデザイン総合演習
+
+この章で得られるスキル：
+- ✅ HTML/CSS/Bootstrapを組み合わせて使える
+- ✅ レスポンシブなWebページを作成できる
+- ✅ 適切なBootstrapコンポーネントを選択できる
+- ✅ モバイルファーストの設計ができる
+- ✅ グリッドシステムとメディアクエリを組み合わせて使える
+- ✅ 実践的なレイアウトパターンを実装できる
+
+---
+
+## Step 0: まず体験してみよう
+
+説明の前に、まず **レスポンシブデザインがないと何が困るのか** を体験しよう。
+
+### シナリオ：企業サイトを作る
+
+以下のような企業サイトを作りたいとする：
+
+**レスポンシブ対応なし：**
+
+```html
+<style>
+  .header {
+    width: 1200px;  /* 固定幅 */
+  }
+  .content {
+    width: 1200px;
+  }
+</style>
+
+<div class="header">
+  <h1>企業名</h1>
+  <nav>ホーム | 事業内容 | お問い合わせ</nav>
+</div>
+<div class="content">
+  <p>私たちは...</p>
+</div>
+```
+
+**問題点：**
+- スマートフォン（幅375px）で見ると、画面からはみ出る
+- 横スクロールが発生して、非常に見にくい
+- テキストが小さすぎて読めない
+
+**レスポンシブ対応あり：**
+
+```html
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">企業名</a>
+    <ul class="navbar-nav">
+      <li class="nav-item"><a class="nav-link" href="#">ホーム</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">事業内容</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">お問い合わせ</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="container mt-4">
+  <p>私たちは...</p>
+</div>
+```
+
+- スマートフォンでも見やすい
+- PCでもタブレットでも最適な表示
+- ユーザビリティが大幅に向上
+
+現代のWebサイトでは、 **レスポンシブデザインは必須** である。
+
+---
+
+## Step 1: レスポンシブデザインとは何か
+
+**レスポンシブデザイン** とは、 **画面サイズに応じてレイアウトが自動的に変わる** デザイン手法である。
+
+:::info レスポンシブデザインの重要性
+- **スマートフォンの普及**：Webサイトの閲覧の半数以上がスマートフォン
+- **様々なデバイス**：タブレット、PC、スマートウォッチなど、多様な画面サイズに対応する必要がある
+- **ユーザー体験の向上**：デバイスに最適化された表示で、ストレスなく閲覧できる
+- **SEO効果**：Googleは、モバイルフレンドリーなサイトを検索結果で優遇する
+:::
+
+### レスポンシブデザインの3つの柱
+
+1. **フルードグリッド**：固定幅ではなく、相対的な幅（%）を使う
+2. **フレキシブルな画像**：画像が親要素に収まるように調整する
+3. **メディアクエリ**：画面サイズに応じてCSSを変える
+
+---
+
+## Step 2: モバイルファーストの設計
+
+**モバイルファースト** とは、 **スマートフォン向けのデザインを最初に作り、その後で大きい画面向けに拡張** する考え方である。
+
+### なぜモバイルファーストなのか？
+
+:::tip モバイルファーストのメリット
+1. **コンテンツの優先順位が明確**：小さい画面では、本当に必要な情報だけを表示する必要がある
+2. **シンプルなデザイン**：装飾より、情報の伝達を重視する
+3. **パフォーマンス**：軽量な設計になる（スマートフォンの通信速度を考慮）
+:::
+
+### モバイルファーストの実装
+
+```css
+/* スマートフォン（デフォルト） */
+.container {
+  padding: 10px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;  /* 縦並び */
+}
+
+/* タブレット以上 */
+@media (min-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  .nav {
+    flex-direction: row;  /* 横並び */
+  }
+}
+
+/* PC以上 */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+```
+
+- まず **スマートフォン向けのスタイルを書く**
+- `@media (min-width: ...)`で、大きい画面向けのスタイルを追加する
+
+---
+
+## Step 3: 実践的なレイアウトパターン（ヘッダー）
+
+### レスポンシブなヘッダー
+
+```html
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="#">マイサイト</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">ホーム</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">サービス</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">会社概要</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">お問い合わせ</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+```
+
+**ポイント：**
+- `navbar-expand-lg`：992px以上で横並び、それ未満で折りたたみ
+- `ms-auto`：ナビゲーションを右寄せ
+- `navbar-toggler`：スマートフォン用のハンバーガーメニュー
+
+---
+
+## Step 4: 実践的なレイアウトパターン（ヒーローセクション）
+
+### ヒーローセクションとは
+
+**ヒーローセクション** は、Webサイトの最上部に配置する、大きな画像やメッセージのエリアである。
+
+```html
+<div class="hero bg-primary text-white text-center py-5">
+  <div class="container">
+    <h1 class="display-4">ようこそ、マイサイトへ</h1>
+    <p class="lead">私たちは、最高のサービスを提供します。</p>
+    <a href="#" class="btn btn-light btn-lg">詳しく見る</a>
+  </div>
+</div>
+```
+
+**ポイント：**
+- `py-5`：上下に余白を追加
+- `display-4`：大きな見出し
+- `lead`：リード文（通常より大きいテキスト）
+- `btn-lg`：大きいボタン
+
+### レスポンシブな画像付きヒーロー
+
+```html
+<div class="hero position-relative text-white" style="background: url('hero.jpg') center/cover;">
+  <div class="overlay position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.5);"></div>
+  <div class="container position-relative py-5">
+    <div class="row">
+      <div class="col-lg-6">
+        <h1 class="display-3">未来を創る</h1>
+        <p class="lead">革新的なソリューションで、ビジネスを加速させます。</p>
+        <a href="#" class="btn btn-primary btn-lg">お問い合わせ</a>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+## Step 5: 実践的なレイアウトパターン（カードグリッド）
+
+### レスポンシブなカードレイアウト
+
+```html
+<div class="container my-5">
+  <h2 class="text-center mb-4">サービス一覧</h2>
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100">
+        <img src="service1.jpg" class="card-img-top" alt="サービス1">
+        <div class="card-body">
+          <h5 class="card-title">Webデザイン</h5>
+          <p class="card-text">美しく、使いやすいWebサイトを制作します。</p>
+          <a href="#" class="btn btn-primary">詳しく見る</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100">
+        <img src="service2.jpg" class="card-img-top" alt="サービス2">
+        <div class="card-body">
+          <h5 class="card-title">システム開発</h5>
+          <p class="card-text">業務を効率化するシステムを開発します。</p>
+          <a href="#" class="btn btn-primary">詳しく見る</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100">
+        <img src="service3.jpg" class="card-img-top" alt="サービス3">
+        <div class="card-body">
+          <h5 class="card-title">コンサルティング</h5>
+          <p class="card-text">IT戦略の立案から実行までサポートします。</p>
+          <a href="#" class="btn btn-primary">詳しく見る</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+**ポイント：**
+- `col-md-6`：タブレット（768px以上）で2列
+- `col-lg-4`：PC（992px以上）で3列
+- `g-4`：カード間の間隔
+- `h-100`：カードの高さを揃える
+
+---
+
+## Step 6: 実践的なレイアウトパターン（お問い合わせフォーム）
+
+### レスポンシブなフォーム
+
+```html
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <h2 class="text-center mb-4">お問い合わせ</h2>
+      <form>
+        <div class="mb-3">
+          <label for="name" class="form-label">お名前</label>
+          <input type="text" class="form-control" id="name" required>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">メールアドレス</label>
+          <input type="email" class="form-control" id="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="subject" class="form-label">件名</label>
+          <select class="form-select" id="subject">
+            <option value="">選択してください</option>
+            <option value="inquiry">お問い合わせ</option>
+            <option value="request">資料請求</option>
+            <option value="other">その他</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="message" class="form-label">メッセージ</label>
+          <textarea class="form-control" id="message" rows="5" required></textarea>
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary btn-lg">送信</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+```
+
+**ポイント：**
+- `col-md-8 col-lg-6`：タブレット以上で幅を制限（読みやすくする）
+- `justify-content-center`：フォームを中央配置
+- `d-grid`：ボタンを100%幅にする
+
+---
+
+## Step 7: 実践的なレイアウトパターン（フッター）
+
+### レスポンシブなフッター
+
+```html
+<footer class="bg-dark text-white py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-3 mb-md-0">
+        <h5>マイサイト</h5>
+        <p>最高のサービスを提供する企業です。</p>
+      </div>
+      <div class="col-md-4 mb-3 mb-md-0">
+        <h5>リンク</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white">会社概要</a></li>
+          <li><a href="#" class="text-white">サービス</a></li>
+          <li><a href="#" class="text-white">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5>フォローする</h5>
+        <a href="#" class="text-white me-3">Twitter</a>
+        <a href="#" class="text-white me-3">Facebook</a>
+        <a href="#" class="text-white">Instagram</a>
+      </div>
+    </div>
+    <hr class="my-4">
+    <p class="text-center mb-0">&copy; 2024 マイサイト. All rights reserved.</p>
+  </div>
+</footer>
+```
+
+**ポイント：**
+- `col-md-4`：タブレット以上で3列
+- `mb-3 mb-md-0`：スマートフォンでは下余白、タブレット以上では余白なし
+- `list-unstyled`：リストのマーカーを消す
+
+---
+
+## Step 8: 完成例：レスポンシブな企業サイト
+
+### 完全な構成
+
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マイサイト</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- ナビゲーション -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="#">マイサイト</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#">ホーム</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">サービス</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">会社概要</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">お問い合わせ</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ヒーローセクション -->
+  <div class="hero bg-primary text-white text-center py-5">
+    <div class="container">
+      <h1 class="display-4">ようこそ、マイサイトへ</h1>
+      <p class="lead">私たちは、最高のサービスを提供します。</p>
+      <a href="#services" class="btn btn-light btn-lg">詳しく見る</a>
+    </div>
+  </div>
+
+  <!-- サービス一覧 -->
+  <div class="container my-5" id="services">
+    <h2 class="text-center mb-4">サービス一覧</h2>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Webデザイン</h5>
+            <p class="card-text">美しく、使いやすいWebサイトを制作します。</p>
+            <a href="#" class="btn btn-primary">詳しく見る</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">システム開発</h5>
+            <p class="card-text">業務を効率化するシステムを開発します。</p>
+            <a href="#" class="btn btn-primary">詳しく見る</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">コンサルティング</h5>
+            <p class="card-text">IT戦略の立案から実行までサポートします。</p>
+            <a href="#" class="btn btn-primary">詳しく見る</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- お問い合わせフォーム -->
+  <div class="bg-light py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <h2 class="text-center mb-4">お問い合わせ</h2>
+          <form>
+            <div class="mb-3">
+              <label for="name" class="form-label">お名前</label>
+              <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">メールアドレス</label>
+              <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label">メッセージ</label>
+              <textarea class="form-control" id="message" rows="5" required></textarea>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg">送信</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- フッター -->
+  <footer class="bg-dark text-white py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-3 mb-md-0">
+          <h5>マイサイト</h5>
+          <p>最高のサービスを提供する企業です。</p>
+        </div>
+        <div class="col-md-4 mb-3 mb-md-0">
+          <h5>リンク</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white">会社概要</a></li>
+            <li><a href="#" class="text-white">サービス</a></li>
+            <li><a href="#" class="text-white">お問い合わせ</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5>フォローする</h5>
+          <a href="#" class="text-white me-3">Twitter</a>
+          <a href="#" class="text-white me-3">Facebook</a>
+          <a href="#" class="text-white">Instagram</a>
+        </div>
+      </div>
+      <hr class="my-4">
+      <p class="text-center mb-0">&copy; 2024 マイサイト. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+```
+
+---
+
+## 演習
+
+この章で学んだ内容を確認するため、以下の演習問題に取り組んでください。
+
+演習問題は、`docs/src/questions/frontend/responsive_design/`フォルダにあります：
+
+1. **w1.mdx**: HTML/CSS/Bootstrapを組み合わせて使える
+2. **w2.mdx**: レスポンシブなWebページを作成できる
+3. **k1.mdx**: 適切なBootstrapコンポーネントを選択できる
+4. **w3.mdx**: モバイルファーストの設計ができる
+5. **w4.mdx**: グリッドシステムとメディアクエリを組み合わせて使える
+6. **w5.mdx**: 実践的なレイアウトパターンを実装できる
+
+---
+
+## まとめ
+
+この章では、 **レスポンシブデザイン総合演習** について学んだ。
+
+### 🎯 達成できたこと
+- ✅ HTML、CSS、Bootstrapを組み合わせて使えるようになった
+- ✅ レスポンシブなWebページを作成できるようになった
+- ✅ 適切なBootstrapコンポーネントを選択できるようになった
+- ✅ モバイルファーストの設計ができるようになった
+- ✅ グリッドシステムとメディアクエリを組み合わせて使えるようになった
+- ✅ 実践的なレイアウトパターンを実装できるようになった
+
+### 📚 学んだ内容
+- レスポンシブデザインは **画面サイズに応じてレイアウトが変わる** デザイン手法
+- **モバイルファースト** で設計することで、シンプルで効率的なサイトになる
+- Bootstrapのグリッドシステムとコンポーネントを組み合わせることで、効率的にレスポンシブサイトを作れる
+- ヘッダー、ヒーロー、カードグリッド、フォーム、フッターなどの **実践的なレイアウトパターン** を習得した
+
+### 🚀 次のステップ
+これで、 **HTML/CSS/Bootstrap** の基礎から実践までを学び終えた。
+
+次は、 **実習** でこれまで学んだ内容を総合的に活用して、実際のWebページを作成する。
+実習の指示は口頭で伝えられる。
+
+---
+
+## 💡 よくある質問
+
+### Q1: スマートフォンで確認する方法は？
+
+**A:** ブラウザの **開発者ツール** を使う：
+
+1. ブラウザで右クリック → 「検証」または「開発者ツール」を選択
+2. デバイスツールバーを開く（スマートフォンアイコン）
+3. デバイスを選択（iPhone、Android、タブレットなど）
+
+これで、スマートフォンでの表示を確認できる。
+
+### Q2: モバイルファーストは必須か？
+
+**A:** **必須ではないが、強く推奨される。**
+
+**理由：**
+- Webサイトの閲覧の半数以上がスマートフォン
+- モバイルファーストで設計すると、シンプルで保守しやすいコードになる
+
+ただし、管理画面など、PCでしか使わないシステムの場合は、PC優先で設計しても良い。
+
+### Q3: Bootstrapのテーマをカスタマイズできるのか？
+
+**A:** できる。方法は2つ：
+
+1. **CSS変数を上書き**：
+   ```css
+   :root {
+     --bs-primary: #ff5733;  /* プライマリカラーを変更 */
+   }
+   ```
+
+2. **Sassを使う**（上級者向け）：
+   - Bootstrapのソースファイルをダウンロード
+   - Sass変数をカスタマイズ
+   - コンパイル
+
+初学者は、方法1（CSS変数の上書き）で十分である。
+
+### Q4: `viewport`メタタグは何をしているのか？
+
+**A:** スマートフォンでの表示を最適化している：
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+```
+
+- `width=device-width`：画面幅をデバイスの幅に設定
+- `initial-scale=1.0`：初期ズーム倍率を1倍に設定
+
+**このタグがないと：**
+- スマートフォンでPCサイトのように縮小表示される
+- テキストが小さすぎて読めない
+
+レスポンシブサイトでは **必須** のタグである。
+
+### Q5: Bootstrapを使わずにレスポンシブデザインはできるのか？
+
+**A:** できる。
+
+CSSのFlexboxやGrid、メディアクエリを使えば、Bootstrapなしでもレスポンシブデザインは実現できる。
+
+**Bootstrapを使う利点：**
+- 早く作れる
+- ドキュメントが充実している
+- ブラウザ互換性を気にしなくて良い
+
+**自前CSSを使う利点：**
+- 細かいカスタマイズがしやすい
+- ファイルサイズが小さくなる
+
+プロジェクトの性質に応じて、使い分けると良い。
+
+### Q6: グリッドシステムは12列固定なのか？
+
+**A:** Bootstrapは12列固定だが、Sassを使えば変更できる。
+
+ただし、12列で十分なケースがほとんどであり、初学者は変更する必要はない。
+
+### Q7: レスポンシブ画像はどうやって作るのか？
+
+**A:** `img-fluid`クラスを使う：
+
+```html
+<img src="image.jpg" class="img-fluid" alt="説明">
+```
+
+これで、画像が親要素の幅に収まるように自動調整される。
+
+または、CSSで：
+
+```css
+img {
+  max-width: 100%;
+  height: auto;
+}
+```
+
+### Q8: カラムの順序をスマートフォンとPCで変えられるのか？
+
+**A:** できる。`order-*`クラスを使う：
+
+```html
+<div class="row">
+  <div class="col-12 order-2 order-md-1">
+    スマートフォンでは2番目、PCでは1番目
+  </div>
+  <div class="col-12 order-1 order-md-2">
+    スマートフォンでは1番目、PCでは2番目
+  </div>
+</div>
+```
+
+- `order-1`、`order-2`で順序を指定
+- `order-md-1`で、タブレット以上での順序を指定

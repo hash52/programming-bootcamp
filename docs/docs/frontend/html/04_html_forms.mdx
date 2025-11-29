@@ -1,0 +1,437 @@
+# HTMLフォーム
+
+この章で得られるスキル：
+- ✅ フォームの役割を説明できる
+- ✅ `<form>`要素を作成できる
+- ✅ `<input>`タグ（`text`, `password`, `email`, `number`）を使える
+- ✅ `checkbox`、`radio`ボタンを使える
+- ✅ `<select>`タグでドロップダウンを作成できる
+- ✅ `<textarea>`で複数行入力欄を作成できる
+- ✅ `<label>`要素でラベルを付けられる
+
+---
+
+## Step 0: まず体験してみよう
+
+説明の前に、まず **フォームがないと何が困るのか** を体験しよう。
+
+### シナリオ：ユーザー登録機能を作る
+
+Webサービスでユーザー登録をしてもらいたいとする。
+
+**フォームがない場合：**
+- ユーザー名、メールアドレス、パスワードをどうやって入力してもらうのか？
+- 送信ボタンはどうするのか？
+
+フォームがないと、ユーザーから情報を受け取ることができない。
+
+**フォームがある場合：**
+- 入力欄を用意できる
+- 送信ボタンでサーバーにデータを送れる
+- バリデーション（入力チェック）もできる
+
+フォームは、Webサービスにとって **必須の機能** である。
+
+---
+
+## Step 1: フォームとは何か
+
+**フォーム** とは、ユーザーから情報を入力してもらい、サーバーに送信するための仕組みである。
+
+:::info フォームの役割
+フォームは、以下のような場面で使われる：
+
+- **ユーザー登録・ログイン**：メールアドレス、パスワードの入力
+- **お問い合わせ**：名前、メッセージの入力
+- **検索**：検索キーワードの入力
+- **アンケート**：選択肢の選択、コメントの入力
+:::
+
+### フォームの基本的な構造
+
+```html
+<form action="/submit" method="POST">
+  <!-- ここに入力欄を配置 -->
+  <input type="text" name="username">
+  <button type="submit">送信</button>
+</form>
+```
+
+- `action`：送信先のURL
+- `method`：送信方法（`GET`または`POST`）
+
+---
+
+## Step 2: form要素の基本
+
+### `<form>`タグ
+
+```html
+<form action="/submit" method="POST">
+  <!-- フォームの内容 -->
+</form>
+```
+
+**属性：**
+- **action**：フォームデータの送信先URL
+- **method**：データの送信方法
+  - `GET`：URLにデータを付けて送信（検索など）
+  - `POST`：HTTPリクエストの本文にデータを含めて送信（ログイン、登録など）
+
+:::caution 重要
+**GETとPOSTの使い分け：**
+
+- **GET**：データを取得する場合（検索、フィルタリング）
+- **POST**：データを送信・保存する場合（ログイン、登録、お問い合わせ）
+
+パスワードなどの機密情報は **必ずPOST** を使う。GETはURLにデータが表示されてしまう。
+:::
+
+---
+
+## Step 3: input（text, password, email, number）
+
+`<input>`タグは、1行の入力欄を作成する。
+
+### テキスト入力：`type="text"`
+
+```html
+<label for="username">ユーザー名：</label>
+<input type="text" id="username" name="username">
+```
+
+### パスワード入力：`type="password"`
+
+```html
+<label for="password">パスワード：</label>
+<input type="password" id="password" name="password">
+```
+
+- 入力内容が `●●●` のように隠される
+
+### メールアドレス入力：`type="email"`
+
+```html
+<label for="email">メールアドレス：</label>
+<input type="email" id="email" name="email">
+```
+
+- メールアドレスの形式チェックが自動で行われる
+
+### 数値入力：`type="number"`
+
+```html
+<label for="age">年齢：</label>
+<input type="number" id="age" name="age" min="0" max="120">
+```
+
+- 数値のみ入力可能
+- `min`, `max`で範囲を指定できる
+
+:::info HTML5の入力タイプ
+HTML5では、他にも多くの入力タイプがある：
+
+- `tel`：電話番号
+- `url`：URL
+- `date`：日付
+- `time`：時刻
+- `color`：色
+
+これらを使うことで、スマートフォンで適切なキーボードが表示される。
+:::
+
+---
+
+## Step 4: checkboxとradio
+
+### checkbox（複数選択）
+
+```html
+<p>好きな果物を選んでください（複数選択可）：</p>
+<label>
+  <input type="checkbox" name="fruit" value="apple">
+  りんご
+</label>
+<label>
+  <input type="checkbox" name="fruit" value="banana">
+  バナナ
+</label>
+<label>
+  <input type="checkbox" name="fruit" value="orange">
+  オレンジ
+</label>
+```
+
+- 複数選択が可能
+- `name`は同じにする
+- `value`で送信される値を指定
+
+### radio（単一選択）
+
+```html
+<p>性別を選んでください：</p>
+<label>
+  <input type="radio" name="gender" value="male">
+  男性
+</label>
+<label>
+  <input type="radio" name="gender" value="female">
+  女性
+</label>
+<label>
+  <input type="radio" name="gender" value="other">
+  その他
+</label>
+```
+
+- **1つだけ選択できる**
+- `name`を同じにすることで、グループ化される
+
+:::tip ポイント
+**checkboxとradioの使い分け：**
+
+- **checkbox**：複数選択を許可する場合（趣味、興味のある分野など）
+- **radio**：1つだけ選択させる場合（性別、配送方法など）
+:::
+
+---
+
+## Step 5: selectとoption
+
+**ドロップダウンリスト** を作成する。
+
+### 基本的な使い方
+
+```html
+<label for="prefecture">都道府県：</label>
+<select id="prefecture" name="prefecture">
+  <option value="">選択してください</option>
+  <option value="tokyo">東京都</option>
+  <option value="osaka">大阪府</option>
+  <option value="fukuoka">福岡県</option>
+</select>
+```
+
+- `<select>`で全体を囲む
+- `<option>`で各選択肢を定義
+- `value`で送信される値を指定
+
+### デフォルト選択
+
+```html
+<option value="tokyo" selected>東京都</option>
+```
+
+- `selected`属性で初期選択状態にする
+
+### グループ化
+
+```html
+<select name="country">
+  <optgroup label="アジア">
+    <option value="japan">日本</option>
+    <option value="korea">韓国</option>
+  </optgroup>
+  <optgroup label="ヨーロッパ">
+    <option value="france">フランス</option>
+    <option value="germany">ドイツ</option>
+  </optgroup>
+</select>
+```
+
+---
+
+## Step 6: textarea
+
+**複数行のテキスト入力欄** を作成する。
+
+```html
+<label for="message">メッセージ：</label>
+<textarea id="message" name="message" rows="5" cols="40"></textarea>
+```
+
+- `rows`：行数
+- `cols`：列数（文字数）
+
+### サイズをCSSで指定
+
+```css
+textarea {
+  width: 100%;
+  height: 150px;
+  resize: vertical;  /* 縦方向のみリサイズ可能 */
+}
+```
+
+:::caution 重要
+`<textarea>`は **終了タグが必要** である：
+
+```html
+<!-- 正しい -->
+<textarea></textarea>
+
+<!-- 誤り -->
+<textarea />
+```
+:::
+
+---
+
+## Step 7: label要素
+
+**label要素** は、入力欄にラベル（説明）を付ける。
+
+### for属性で関連付ける
+
+```html
+<label for="username">ユーザー名：</label>
+<input type="text" id="username" name="username">
+```
+
+- `for`属性に`input`の`id`を指定
+- ラベルをクリックすると、入力欄がフォーカスされる
+
+### 入力欄を囲む方法
+
+```html
+<label>
+  ユーザー名：
+  <input type="text" name="username">
+</label>
+```
+
+- `for`属性が不要になる
+
+:::info labelの重要性
+`<label>`を使うことで：
+
+1. **クリック領域が広がる**：ラベルをクリックしても入力欄がフォーカスされる
+2. **アクセシビリティ向上**：スクリーンリーダーが読み上げてくれる
+3. **ユーザビリティ向上**：何を入力すれば良いかが明確になる
+
+必ず`<label>`を使うべきである。
+:::
+
+---
+
+## 演習
+
+この章で学んだ内容を確認するため、以下の演習問題に取り組んでください。
+
+演習問題は、`docs/src/questions/frontend/html_forms/`フォルダにあります：
+
+1. **k1.mdx**: フォームの役割を説明できる
+2. **w1.mdx**: form要素を作成できる
+3. **w2.mdx**: inputタグ（text, password, email, number）を使える
+4. **w3.mdx**: checkbox、radioボタンを使える
+5. **w4.mdx**: selectタグでドロップダウンを作成できる
+6. **w5.mdx**: textareaで複数行入力欄を作成できる
+7. **w6.mdx**: label要素でラベルを付けられる
+
+---
+
+## まとめ
+
+この章では、 **HTMLフォーム** について学んだ。
+
+### 🎯 達成できたこと
+- ✅ フォームの役割（ユーザー入力を受け取る）を理解した
+- ✅ form要素の基本（action, method）を理解した
+- ✅ 様々なinputタイプを使えるようになった
+- ✅ checkbox、radio、selectを使えるようになった
+- ✅ textareaとlabelを使えるようになった
+
+### 📚 学んだ内容
+- フォームは `<form>`タグで囲む
+- **GET**は取得、**POST**は送信・保存に使う
+- `<input type="...">`で様々な入力欄を作れる
+- checkboxは **複数選択**、radioは **単一選択**
+- `<label>`を使うことでユーザビリティが向上する
+
+### 🚀 次のステップ
+次の章では、 **フォームとバリデーション** について学ぶ。
+不正な入力を防ぐためのHTML5のバリデーション機能を習得する。
+
+---
+
+## 💡 よくある質問
+
+### Q1: フォームの送信先（action）を指定しないとどうなるのか？
+
+**A:** `action`を省略すると、現在のページに送信される。
+
+ただし、バックエンド（サーバー側）の処理がないと、何も起こらない。通常は明示的に指定する。
+
+### Q2: GETとPOSTはどう使い分けるのか？
+
+**A:**
+
+| 用途 | メソッド | 例 |
+|------|---------|-----|
+| データを取得 | GET | 検索、フィルタリング |
+| データを送信・保存 | POST | ログイン、登録、お問い合わせ |
+| 機密情報の送信 | POST | パスワード、クレジットカード番号 |
+
+**GET**はURLにデータが表示されるため、機密情報には使わない。
+
+### Q3: name属性は必須か？
+
+**A:** サーバーにデータを送信する場合は **必須** である。
+
+`name`属性がないと、サーバー側でそのデータを受け取れない。
+
+```html
+<!-- nameがないとデータが送信されない -->
+<input type="text">
+
+<!-- nameがあればデータが送信される -->
+<input type="text" name="username">
+```
+
+### Q4: placeholderとvalueの違いは？
+
+**A:**
+
+- **placeholder**：入力欄のヒント（入力すると消える）
+- **value**：実際の値（初期値または入力された値）
+
+```html
+<input type="text" placeholder="例：山田太郎" value="">
+```
+
+placeholderは説明、valueは実際のデータである。
+
+### Q5: checkboxで初期選択状態にするには？
+
+**A:** `checked`属性を付ける：
+
+```html
+<input type="checkbox" name="agree" value="yes" checked>
+利用規約に同意する
+```
+
+radioでも同様。
+
+### Q6: `<button>`と`<input type="submit">`の違いは？
+
+**A:**
+
+- **`<button type="submit">`**：柔軟性が高い（HTMLを含められる）
+- **`<input type="submit">`**：シンプル（テキストのみ）
+
+現代では **`<button>`を使う方が推奨される**：
+
+```html
+<button type="submit">
+  <img src="icon.png" alt="送信">
+  送信
+</button>
+```
+
+### Q7: フォームのデータはどこに送られるのか？
+
+**A:** `action`属性で指定したURLに送信される。
+
+通常は、バックエンド（サーバー側）のプログラム（Java、Python、PHPなど）がデータを受け取って処理する。
+
+Springでは、コントローラーメソッドでデータを受け取る（Springの章で学習）。

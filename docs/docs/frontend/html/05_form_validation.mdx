@@ -1,0 +1,368 @@
+# フォームとバリデーション
+
+この章で得られるスキル：
+- ✅ バリデーションの必要性を説明できる
+- ✅ `required`属性で必須入力を指定できる
+- ✅ `minlength`/`maxlength`で文字数制限を指定できる
+- ✅ `min`/`max`で数値範囲を指定できる
+- ✅ `pattern`属性で正規表現バリデーションを指定できる
+- ✅ `placeholder`属性で入力例を表示できる
+
+---
+
+## Step 0: まず体験してみよう
+
+説明の前に、まず **バリデーションがないと何が困るのか** を体験しよう。
+
+### シナリオ：会員登録フォーム
+
+以下のような会員登録フォームがあるとする：
+
+```html
+<form action="/register" method="POST">
+  <label for="username">ユーザー名：</label>
+  <input type="text" id="username" name="username">
+
+  <label for="email">メールアドレス：</label>
+  <input type="text" id="email" name="email">
+
+  <label for="password">パスワード：</label>
+  <input type="text" id="password" name="password">
+
+  <button type="submit">登録</button>
+</form>
+```
+
+**バリデーションがない場合の問題：**
+1. **空欄で送信できる**
+   - ユーザー名を入力せずに登録できてしまう
+2. **不正なメールアドレスを入力できる**
+   - 「abc」だけでも登録できてしまう
+3. **短すぎるパスワードを設定できる**
+   - 「1」のような1文字のパスワードでも登録できてしまう
+
+では、 **バリデーション** を追加すると、どうなるだろうか？
+
+---
+
+## Step 1: バリデーションとは何か
+
+**バリデーション** とは、入力されたデータが **正しい形式かどうかを確認** することである。
+
+:::info バリデーションの重要性
+バリデーションを行うことで：
+
+1. **不正なデータの送信を防ぐ**
+   - 空欄、形式違いのデータを受け付けない
+2. **ユーザーに正しい入力方法を伝える**
+   - エラーメッセージで何が間違っているかを示す
+3. **セキュリティを向上させる**
+   - 悪意のあるデータの入力を防ぐ
+
+**クライアント側（HTML5）とサーバー側（Springなど）の両方**でバリデーションを行うのが基本である。
+:::
+
+### HTML5のバリデーション機能
+
+HTML5では、属性を追加するだけで、ブラウザが自動的にバリデーションを行ってくれる。
+
+---
+
+## Step 2: required（必須入力）
+
+**required属性** を付けると、その入力欄が **必須** になる。
+
+```html
+<label for="username">ユーザー名：</label>
+<input type="text" id="username" name="username" required>
+```
+
+- 空欄のまま送信しようとすると、エラーメッセージが表示される
+- 「このフィールドを入力してください」のようなメッセージ
+
+### チェックボックスでrequiredを使う
+
+```html
+<label>
+  <input type="checkbox" name="agree" required>
+  利用規約に同意する
+</label>
+```
+
+- チェックしないと送信できない
+
+---
+
+## Step 3: minlength/maxlength（文字数制限）
+
+### minlength（最小文字数）
+
+```html
+<label for="password">パスワード（8文字以上）：</label>
+<input type="password" id="password" name="password" minlength="8">
+```
+
+- 8文字未満の場合、エラーメッセージが表示される
+
+### maxlength（最大文字数）
+
+```html
+<label for="nickname">ニックネーム（20文字以内）：</label>
+<input type="text" id="nickname" name="nickname" maxlength="20">
+```
+
+- 20文字を超えて入力できない（入力が制限される）
+
+### 両方を組み合わせる
+
+```html
+<input type="password" minlength="8" maxlength="20" required>
+```
+
+- 8文字以上20文字以内のパスワード
+
+:::tip ポイント
+`maxlength`は **入力を制限** するが、`minlength`は **エラーを表示** する。
+
+- `maxlength="20"`：20文字を超えて入力できない
+- `minlength="8"`：8文字未満で送信しようとするとエラー
+:::
+
+---
+
+## Step 4: min/max（数値範囲）
+
+### 数値の範囲を指定
+
+```html
+<label for="age">年齢（0〜120）：</label>
+<input type="number" id="age" name="age" min="0" max="120" required>
+```
+
+- 0未満または120を超える数値を入力すると、エラーメッセージが表示される
+
+### 日付の範囲を指定
+
+```html
+<label for="birthday">生年月日：</label>
+<input type="date" id="birthday" name="birthday" min="1900-01-01" max="2024-12-31">
+```
+
+---
+
+## Step 5: pattern（正規表現）
+
+**pattern属性** で、正規表現を使った複雑なバリデーションができる。
+
+### 電話番号の形式チェック
+
+```html
+<label for="phone">電話番号（ハイフンなし）：</label>
+<input type="tel" id="phone" name="phone" pattern="[0-9]{10,11}" required>
+```
+
+- `[0-9]{10,11}`：0〜9の数字が10〜11桁
+
+### ユーザー名の形式チェック
+
+```html
+<label for="username">ユーザー名（半角英数字のみ）：</label>
+<input type="text" id="username" name="username" pattern="[a-zA-Z0-9]+" required>
+```
+
+- `[a-zA-Z0-9]+`：半角英数字が1文字以上
+
+### よく使う正規表現パターン
+
+| 用途 | パターン |
+|------|---------|
+| 半角数字のみ | `[0-9]+` |
+| 半角英字のみ | `[a-zA-Z]+` |
+| 半角英数字のみ | `[a-zA-Z0-9]+` |
+| 電話番号（10-11桁） | `[0-9]{10,11}` |
+| 郵便番号（ハイフンあり） | `[0-9]{3}-[0-9]{4}` |
+
+:::caution 重要
+正規表現は複雑なので、最初は **コピー＆ペースト** で使って構わない。
+
+必要に応じて、正規表現の詳しい使い方を学ぶと良い。
+:::
+
+---
+
+## Step 6: placeholder（入力例の表示）
+
+**placeholder属性** で、入力欄に **ヒント** を表示できる。
+
+```html
+<label for="email">メールアドレス：</label>
+<input type="email" id="email" name="email" placeholder="例：taro@example.com">
+```
+
+- 入力欄が空の状態でヒントが表示される
+- ユーザーが入力を始めると、ヒントが消える
+
+### 使用例
+
+```html
+<input type="text" name="name" placeholder="山田太郎">
+<input type="tel" name="phone" placeholder="09012345678">
+<input type="date" name="birthday" placeholder="1990-01-01">
+```
+
+:::tip ポイント
+placeholderは **あくまでヒント** である。
+
+必須事項や重要な説明は、`<label>`やテキストで明示すること。placeholderだけに頼らない。
+:::
+
+---
+
+## Step 7: HTML5のバリデーションメッセージ
+
+ブラウザが自動的に表示するエラーメッセージは、カスタマイズできる。
+
+### title属性でヒントを追加
+
+```html
+<input type="password"
+       name="password"
+       minlength="8"
+       pattern="[a-zA-Z0-9]+"
+       title="8文字以上の半角英数字で入力してください"
+       required>
+```
+
+- `title`属性に説明を書くと、エラー時に表示される
+
+### JavaScriptでカスタムメッセージ（参考）
+
+```javascript
+const input = document.getElementById('password');
+input.setCustomValidity('パスワードは8文字以上で入力してください');
+```
+
+（JavaScriptは本教材の範囲外だが、可能性として知っておくと良い）
+
+---
+
+## 演習
+
+この章で学んだ内容を確認するため、以下の演習問題に取り組んでください。
+
+演習問題は、`docs/src/questions/frontend/form_validation/`フォルダにあります：
+
+1. **k1.mdx**: バリデーションの必要性を説明できる
+2. **w1.mdx**: required属性で必須入力を指定できる
+3. **w2.mdx**: minlength/maxlengthで文字数制限を指定できる
+4. **w3.mdx**: min/maxで数値範囲を指定できる
+5. **w4.mdx**: pattern属性で正規表現バリデーションを指定できる
+6. **w5.mdx**: placeholder属性で入力例を表示できる
+
+---
+
+## まとめ
+
+この章では、 **フォームとバリデーション** について学んだ。
+
+### 🎯 達成できたこと
+- ✅ バリデーションの必要性（不正なデータを防ぐ）を理解した
+- ✅ required属性で必須入力を指定できるようになった
+- ✅ minlength/maxlengthで文字数制限を指定できるようになった
+- ✅ min/maxで数値範囲を指定できるようになった
+- ✅ pattern属性で正規表現バリデーションを指定できるようになった
+- ✅ placeholder属性で入力例を表示できるようになった
+
+### 📚 学んだ内容
+- HTML5のバリデーション属性を使うと、ブラウザが自動でチェックしてくれる
+- **クライアント側とサーバー側の両方**でバリデーションを行うのが基本
+- `required`で必須、`minlength`/`maxlength`で文字数、`min`/`max`で数値範囲を指定
+- `pattern`で正規表現を使った複雑なバリデーションができる
+- `placeholder`は入力のヒントを表示する
+
+### 🚀 次のステップ
+次の章では、 **Bootstrap入門** について学ぶ。
+CSSフレームワークを使って、効率的に見栄えの良いデザインを作成する。
+
+---
+
+## 💡 よくある質問
+
+### Q1: HTML5のバリデーションだけで十分か？
+
+**A:** **十分ではない**。サーバー側でも必ずバリデーションを行うべきである。
+
+**理由：**
+- HTML5のバリデーションは、ブラウザの機能を無効にすれば回避できる
+- 悪意のあるユーザーが、直接サーバーにデータを送信することもできる
+
+**ベストプラクティス：**
+1. **クライアント側（HTML5）**：ユーザーに即座にフィードバックを提供
+2. **サーバー側（Spring）**：最終的な安全確認
+
+両方を組み合わせることが重要である。
+
+### Q2: requiredとplaceholderを同時に使える？
+
+**A:** できる：
+
+```html
+<input type="text" name="name" placeholder="例：山田太郎" required>
+```
+
+placeholderはヒント、requiredは必須チェックである。
+
+### Q3: 正規表現が難しくてわからない
+
+**A:** 最初は **コピー＆ペースト** で使って構わない。
+
+よく使うパターンを覚えておいて、必要に応じて調整すれば良い。
+
+参考サイト：
+- Regex101（正規表現のテストツール）
+- MDN Web Docs（正規表現の説明）
+
+### Q4: エラーメッセージを日本語にできないのか？
+
+**A:** ブラウザのデフォルトメッセージは、ブラウザの言語設定に依存する。
+
+カスタマイズする場合は、JavaScriptを使う必要がある：
+
+```javascript
+input.addEventListener('invalid', function() {
+  this.setCustomValidity('このフィールドは必須です');
+});
+```
+
+### Q5: type="email"だけで十分では？
+
+**A:** `type="email"`は基本的なチェックのみである。
+
+より厳密なチェックが必要な場合は、`pattern`属性を追加する：
+
+```html
+<input type="email"
+       name="email"
+       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+       required>
+```
+
+### Q6: バリデーションをスキップする方法は？
+
+**A:** `<form>`タグに`novalidate`属性を付ける：
+
+```html
+<form action="/submit" method="POST" novalidate>
+  <!-- バリデーションがスキップされる -->
+</form>
+```
+
+ただし、通常は使うべきではない。開発中のテスト用である。
+
+### Q7: type="number"でminとmaxを指定したのに、手入力で範囲外の値を入力できてしまう
+
+**A:** これは仕様である。
+
+`min`/`max`は **送信時にチェック** されるが、 **入力時には制限されない**。
+
+送信しようとすると、エラーメッセージが表示される。
