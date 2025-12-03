@@ -1,0 +1,60 @@
+---
+sidebar_position: 99
+title: CodePen埋め込みテスト
+---
+
+import { CodePenEmbed } from "@site/src/components/CodePenEmbed";
+
+# CodePen埋め込みテスト
+
+このページは、CodePenEmbedコンポーネントのテストページである。
+
+## 1. デフォルトの埋め込み
+
+以下は、最小限の指定（`slugHash`のみ）でCodePenを埋め込んだ例。
+デフォルト設定：user="hash52"、HTML + Result表示、編集可能、Docusaurusテーマ連動。
+
+<CodePenEmbed slugHash="ByKOEqx" />
+
+## 2. CSSタブをデフォルトで開く
+
+<CodePenEmbed slugHash="ByKOEqx" defaultTab="css" />
+
+## 3. JavaScriptタブをデフォルトで開く
+
+<CodePenEmbed slugHash="ByKOEqx" defaultTab="js" />
+
+## 4. Result表示なし（コードのみ）
+
+<CodePenEmbed slugHash="ByKOEqx" defaultTab="css" showResult={false} />
+
+## 5. 編集不可
+
+<CodePenEmbed slugHash="ByKOEqx" editable={false} />
+
+## 6. ライトモード固定
+
+<CodePenEmbed slugHash="ByKOEqx" theme="light" />
+
+## 7. ダークモード固定
+
+<CodePenEmbed slugHash="ByKOEqx" theme="dark" />
+
+## 8. カスタム高さ
+
+<CodePenEmbed slugHash="ByKOEqx" height="500" />
+
+## 9. ソースコード付き（検索対象）
+
+以下のCodePenには、HTML、CSS、JSのソースコードが不可視で埋め込まれており、サイト内検索の対象になる。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  htmlCode="<h1>Hello World</h1>"
+  cssCode="h1 { color: red; }"
+  jsCode="console.log('Hello');"
+/>
+
+## まとめ
+
+全てのパターンでCodePenが正しく表示され、各オプションが正しく動作すれば、実装は成功である。

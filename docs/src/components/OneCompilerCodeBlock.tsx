@@ -130,7 +130,7 @@ export const OneCompilerCodeBlock: React.FC<OneCompilerCodeBlockProps> = ({
     <>
       {/* 実行コードを検索対象とするため、HTMLに不可視で描画する  */}
       <span style={{ display: "none" }}>{code}</span>
-      <iframe id={id} src={src} width={width} height={height} style={style} />
+      <iframe key={theme ?? colorMode} id={id} src={src} width={width} height={height} style={style} />
     </>
   );
 };
