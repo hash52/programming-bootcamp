@@ -348,7 +348,64 @@ docs/src/questions/java/basics/variables_and_types/k1.mdx
   ```typescript
   import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
   ```
+- CodePenEmbedのimport文は以下の形式で記述する：
+  ```typescript
+  import { CodePenEmbed } from "@site/src/components/CodePenEmbed";
+  ```
 - import文は必ずファイルの先頭に配置する
+
+#### CodePenEmbedコンポーネントの使用方法
+
+CodePenEmbedコンポーネントは、CodePenの埋め込みをiframeで表示するためのコンポーネントである。
+HTML/CSSの教材で、インタラクティブなデモを提供する際に使用する。
+
+**基本的な使い方：**
+
+```tsx
+// 最小限の指定（slugHashのみ必須）
+<CodePenEmbed slugHash="ByKOEqx" />
+```
+
+**主要なprops：**
+
+| props | 型 | デフォルト値 | 説明 |
+|-------|-----|-------------|------|
+| `slugHash` | `string` | （必須） | CodePenのID |
+| `user` | `string` | `"hash52"` | CodePenのユーザー名 |
+| `defaultTab` | `"html" \| "css" \| "js"` | `"html"` | デフォルトで開くタブ |
+| `showResult` | `boolean` | `true` | Resultタブを表示するか |
+| `editable` | `boolean` | `true` | コード編集可能か |
+| `theme` | `"light" \| "dark"` | Docusaurusのカラーモード | テーマ（通常は指定不要） |
+| `height` | `string \| number` | `"300"` | iframeの高さ |
+| `htmlCode` | `string` | - | HTMLソースコード（検索対象） |
+| `cssCode` | `string` | - | CSSソースコード（検索対象） |
+| `jsCode` | `string` | - | JavaScriptソースコード（検索対象） |
+
+**使用例：**
+
+```tsx
+// CSSタブをデフォルトで開く
+<CodePenEmbed slugHash="ByKOEqx" defaultTab="css" />
+
+// Result表示なし（コードのみ）
+<CodePenEmbed slugHash="ByKOEqx" showResult={false} />
+
+// 編集不可
+<CodePenEmbed slugHash="ByKOEqx" editable={false} />
+
+// 検索対象のソースコードを埋め込む
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  htmlCode="<h1>Hello World</h1>"
+  cssCode="h1 { color: red; }"
+  jsCode="console.log('Hello');"
+/>
+```
+
+**注意点：**
+- `theme`プロパティは通常指定不要。Docusaurusのカラーモードに自動的に追従する
+- `htmlCode`、`cssCode`、`jsCode`は、サイト内検索の対象とするために不可視で描画される
+- CodePenは外部サービスのため、ネットワーク環境によっては読み込みに時間がかかる場合がある
 
 #### 改行の扱い
 - **MDXファイルで改行を反映させるには、改行の前に半角スペースを2つ入れる**
