@@ -1,3 +1,5 @@
+import { CodePenEmbed } from "@site/src/components/CodePenEmbed";
+
 # レスポンシブデザイン総合演習
 
 この章で得られるスキル：
@@ -16,17 +18,24 @@
 
 ### シナリオ：企業サイトを作る
 
-以下のような企業サイトを作りたいとする：
+以下のような企業サイトを作りたいとする。
 
-**レスポンシブ対応なし：**
+#### レスポンシブ対応なし（固定幅）
 
-```html
-<style>
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="400"
+  htmlCode={`<style>
   .header {
-    width: 1200px;  /* 固定幅 */
+    width: 1200px;
+    background: #007bff;
+    color: white;
+    padding: 20px;
   }
   .content {
     width: 1200px;
+    padding: 20px;
   }
 </style>
 
@@ -35,19 +44,23 @@
   <nav>ホーム | 事業内容 | お問い合わせ</nav>
 </div>
 <div class="content">
-  <p>私たちは...</p>
-</div>
-```
+  <p>私たちは最高のサービスを提供します。</p>
+  <p>※ブラウザの幅を狭くしてみよう。横スクロールが発生して見にくい。</p>
+</div>`}
+/>
 
 **問題点：**
 - スマートフォン（幅375px）で見ると、画面からはみ出る
 - 横スクロールが発生して、非常に見にくい
 - テキストが小さすぎて読めない
 
-**レスポンシブ対応あり：**
+#### レスポンシブ対応あり
 
-```html
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="400"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
@@ -60,13 +73,20 @@
   </div>
 </nav>
 <div class="container mt-4">
-  <p>私たちは...</p>
-</div>
-```
+  <p>私たちは最高のサービスを提供します。</p>
+  <p><small>※ブラウザの幅を変えてみよう。レイアウトが自動調整される。</small></p>
+</div>`}
+/>
 
 - スマートフォンでも見やすい
 - PCでもタブレットでも最適な表示
 - ユーザビリティが大幅に向上
+
+**やってみよう：** 上のCodePenで、ブラウザの幅を狭めたり広げたりしてみよう。レスポンシブ対応なしとありで、どのように表示が変わるかを確認しよう。
+
+:::tip なぜレスポンシブ対応が必要なのか？
+固定幅（例：1200px）は、PCでは問題ないが、スマートフォン（幅375px）では画面からはみ出る。現代のWebサイトの閲覧の半数以上がスマートフォンであり、 **レスポンシブデザインは必須** である。
+:::
 
 現代のWebサイトでは、 **レスポンシブデザインは必須** である。
 
@@ -105,39 +125,79 @@
 
 ### モバイルファーストの実装
 
-```css
-/* スマートフォン（デフォルト） */
-.container {
-  padding: 10px;
-}
-
-.nav {
-  display: flex;
-  flex-direction: column;  /* 縦並び */
-}
-
-/* タブレット以上 */
-@media (min-width: 768px) {
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="450"
+  htmlCode={`<style>
+  /* スマートフォン（デフォルト） */
   .container {
-    padding: 20px;
+    padding: 10px;
+    background: #e9ecef;
   }
 
   .nav {
-    flex-direction: row;  /* 横並び */
+    display: flex;
+    flex-direction: column;
+    background: #007bff;
+    color: white;
+    padding: 10px;
   }
-}
 
-/* PC以上 */
-@media (min-width: 1024px) {
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
+  .nav a {
+    color: white;
+    padding: 5px 0;
   }
-}
-```
 
-- まず **スマートフォン向けのスタイルを書く**
+  /* タブレット以上 */
+  @media (min-width: 768px) {
+    .container {
+      padding: 20px;
+      background: #d1e7fd;
+    }
+
+    .nav {
+      flex-direction: row;
+      gap: 20px;
+    }
+  }
+
+  /* PC以上 */
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #b6d4fe;
+    }
+  }
+</style>
+
+<nav class="nav">
+  <a href="#">ホーム</a>
+  <a href="#">サービス</a>
+  <a href="#">お問い合わせ</a>
+</nav>
+<div class="container">
+  <h2>コンテンツ</h2>
+  <p>※ブラウザの幅を変えてみよう。</p>
+  <ul>
+    <li>スマートフォン（デフォルト）：縦並び、padding 10px、背景グレー</li>
+    <li>タブレット（768px以上）：横並び、padding 20px、背景薄い青</li>
+    <li>PC（1024px以上）：最大幅1200px、中央寄せ、背景青</li>
+  </ul>
+</div>`}
+/>
+
+**ポイント：**
+- まず **スマートフォン向けのスタイルを書く**（デフォルト）
 - `@media (min-width: ...)`で、大きい画面向けのスタイルを追加する
+- 小さい画面から大きい画面へと段階的に拡張していく
+
+**やってみよう：** ブラウザの幅を変えて、スマートフォン、タブレット、PCのそれぞれで表示がどう変わるかを確認しよう。背景色とナビゲーションの並び方に注目。
+
+:::tip なぜモバイルファーストで書くのか？
+デスクトップファースト（大きい画面から小さい画面へ）だと、不要な装飾や機能を削除する作業になり、コードが複雑化する。モバイルファーストでは、必要な機能を追加していくため、シンプルで保守しやすいコードになる。
+:::
 
 ---
 
@@ -145,7 +205,13 @@
 
 ### レスポンシブなヘッダー
 
-```html
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="450"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container">
     <a class="navbar-brand" href="#">マイサイト</a>
@@ -170,12 +236,24 @@
     </div>
   </div>
 </nav>
-```
+
+<div class="container mt-4">
+  <p>※ブラウザの幅を狭めると、ナビゲーションがハンバーガーメニュー（三本線）になる</p>
+  <p>※ハンバーガーメニューをクリックすると、メニューが開く</p>
+</div>`}
+/>
 
 **ポイント：**
 - `navbar-expand-lg`：992px以上で横並び、それ未満で折りたたみ
 - `ms-auto`：ナビゲーションを右寄せ
 - `navbar-toggler`：スマートフォン用のハンバーガーメニュー
+- `data-bs-toggle="collapse"`と`data-bs-target`でメニューの開閉を制御
+
+**やってみよう：** ブラウザの幅を狭めて、ハンバーガーメニュー（三本線アイコン）をクリックしてみよう。メニューが開閉する動作を確認しよう。
+
+:::tip なぜハンバーガーメニューが必要なのか？
+スマートフォンの画面は狭いため、全てのリンクを横並びにすると収まらない。ハンバーガーメニューで折りたたむことで、画面を有効活用できる。
+:::
 
 ---
 
@@ -185,7 +263,12 @@
 
 **ヒーローセクション** は、Webサイトの最上部に配置する、大きな画像やメッセージのエリアである。
 
-```html
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="450"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <div class="hero bg-primary text-white text-center py-5">
   <div class="container">
     <h1 class="display-4">ようこそ、マイサイトへ</h1>
@@ -193,7 +276,11 @@
     <a href="#" class="btn btn-light btn-lg">詳しく見る</a>
   </div>
 </div>
-```
+
+<div class="container mt-4">
+  <p><small>※ヒーローセクションは、Webサイトの第一印象を決める重要なエリア</small></p>
+</div>`}
+/>
 
 **ポイント：**
 - `py-5`：上下に余白を追加
@@ -201,22 +288,11 @@
 - `lead`：リード文（通常より大きいテキスト）
 - `btn-lg`：大きいボタン
 
-### レスポンシブな画像付きヒーロー
+**やってみよう：** `display-4`を`display-1`や`display-6`に変えて、見出しのサイズを調整してみよう。また、`btn-lg`を`btn-sm`に変えて、ボタンのサイズを小さくしてみよう。
 
-```html
-<div class="hero position-relative text-white" style="background: url('hero.jpg') center/cover;">
-  <div class="overlay position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.5);"></div>
-  <div class="container position-relative py-5">
-    <div class="row">
-      <div class="col-lg-6">
-        <h1 class="display-3">未来を創る</h1>
-        <p class="lead">革新的なソリューションで、ビジネスを加速させます。</p>
-        <a href="#" class="btn btn-primary btn-lg">お問い合わせ</a>
-      </div>
-    </div>
-  </div>
-</div>
-```
+:::tip なぜヒーローセクションが重要なのか？
+Webサイトを訪れたユーザーが最初に目にするエリアであり、サイトの内容や価値を一目で伝える必要がある。インパクトのあるメッセージと明確な行動喚起（ボタン）が重要である。
+:::
 
 ---
 
@@ -224,13 +300,17 @@
 
 ### レスポンシブなカードレイアウト
 
-```html
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="600"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <div class="container my-5">
   <h2 class="text-center mb-4">サービス一覧</h2>
   <div class="row g-4">
     <div class="col-md-6 col-lg-4">
       <div class="card h-100">
-        <img src="service1.jpg" class="card-img-top" alt="サービス1">
         <div class="card-body">
           <h5 class="card-title">Webデザイン</h5>
           <p class="card-text">美しく、使いやすいWebサイトを制作します。</p>
@@ -240,7 +320,6 @@
     </div>
     <div class="col-md-6 col-lg-4">
       <div class="card h-100">
-        <img src="service2.jpg" class="card-img-top" alt="サービス2">
         <div class="card-body">
           <h5 class="card-title">システム開発</h5>
           <p class="card-text">業務を効率化するシステムを開発します。</p>
@@ -250,7 +329,6 @@
     </div>
     <div class="col-md-6 col-lg-4">
       <div class="card h-100">
-        <img src="service3.jpg" class="card-img-top" alt="サービス3">
         <div class="card-body">
           <h5 class="card-title">コンサルティング</h5>
           <p class="card-text">IT戦略の立案から実行までサポートします。</p>
@@ -259,8 +337,9 @@
       </div>
     </div>
   </div>
-</div>
-```
+  <p class="mt-4"><small>※ブラウザの幅を変えてみよう。スマホ:1列、タブレット:2列、PC:3列に自動変換される</small></p>
+</div>`}
+/>
 
 **ポイント：**
 - `col-md-6`：タブレット（768px以上）で2列
@@ -268,13 +347,24 @@
 - `g-4`：カード間の間隔
 - `h-100`：カードの高さを揃える
 
+**やってみよう：** ブラウザの幅を変えて、スマートフォン（1列）、タブレット（2列）、PC（3列）のレイアウトを確認しよう。カードの高さが揃っていることにも注目しよう。
+
+:::tip なぜカードの高さを揃えるのか？
+`h-100`がないと、各カードのテキスト量によって高さがバラバラになり、見た目が悪くなる。`h-100`（height: 100%）で親要素いっぱいに広げることで、揃った見た目になる。
+:::
+
 ---
 
 ## Step 6: 実践的なレイアウトパターン（お問い合わせフォーム）
 
 ### レスポンシブなフォーム
 
-```html
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="600"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <div class="container my-5">
   <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
@@ -307,13 +397,19 @@
       </form>
     </div>
   </div>
-</div>
-```
+</div>`}
+/>
 
 **ポイント：**
 - `col-md-8 col-lg-6`：タブレット以上で幅を制限（読みやすくする）
 - `justify-content-center`：フォームを中央配置
 - `d-grid`：ボタンを100%幅にする
+
+**やってみよう：** ブラウザの幅を変えて、スマートフォン（全幅）とPC（幅制限）でのフォーム表示を確認しよう。PCでは幅が制限されて読みやすくなっていることに注目しよう。
+
+:::tip なぜPCでフォームの幅を制限するのか？
+フォームが画面いっぱいに広がると、入力欄が横に長くなりすぎて読みにくい。適度な幅（例：600px）に制限することで、視線の移動が少なくなり、入力しやすくなる。
+:::
 
 ---
 
@@ -321,7 +417,12 @@
 
 ### レスポンシブなフッター
 
-```html
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="450"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <footer class="bg-dark text-white py-4">
   <div class="container">
     <div class="row">
@@ -347,13 +448,19 @@
     <hr class="my-4">
     <p class="text-center mb-0">&copy; 2024 マイサイト. All rights reserved.</p>
   </div>
-</footer>
-```
+</footer>`}
+/>
 
 **ポイント：**
 - `col-md-4`：タブレット以上で3列
 - `mb-3 mb-md-0`：スマートフォンでは下余白、タブレット以上では余白なし
 - `list-unstyled`：リストのマーカーを消す
+
+**やってみよう：** ブラウザの幅を変えて、スマートフォン（縦並び）とPC（3列）でのフッター表示を確認しよう。スマートフォンでは各セクションに下余白があり、PCでは余白がないことに注目しよう。
+
+:::tip なぜスマートフォンでは下余白が必要なのか？
+スマートフォンでは縦並びになるため、各セクション間に余白がないと詰まって見える。`mb-3`で下余白を追加し、`mb-md-0`でタブレット以上では余白を削除することで、最適な表示を実現している。
+:::
 
 ---
 
@@ -361,137 +468,139 @@
 
 ### 完全な構成
 
-```html
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>マイサイト</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-  <!-- ナビゲーション -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand" href="#">マイサイト</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="#">ホーム</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">サービス</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">会社概要</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">お問い合わせ</a></li>
+これまで学んだ全てのパターンを組み合わせて、完全なレスポンシブサイトを構築する。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="700"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ナビゲーション -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="#">マイサイト</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="#">ホーム</a></li>
+        <li class="nav-item"><a class="nav-link" href="#services">サービス</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">お問い合わせ</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ヒーローセクション -->
+<div class="hero bg-primary text-white text-center py-5">
+  <div class="container">
+    <h1 class="display-4">ようこそ、マイサイトへ</h1>
+    <p class="lead">私たちは、最高のサービスを提供します。</p>
+    <a href="#services" class="btn btn-light btn-lg">詳しく見る</a>
+  </div>
+</div>
+
+<!-- サービス一覧 -->
+<div class="container my-5" id="services">
+  <h2 class="text-center mb-4">サービス一覧</h2>
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Webデザイン</h5>
+          <p class="card-text">美しく、使いやすいWebサイトを制作します。</p>
+          <a href="#" class="btn btn-primary">詳しく見る</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">システム開発</h5>
+          <p class="card-text">業務を効率化するシステムを開発します。</p>
+          <a href="#" class="btn btn-primary">詳しく見る</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">コンサルティング</h5>
+          <p class="card-text">IT戦略の立案から実行までサポートします。</p>
+          <a href="#" class="btn btn-primary">詳しく見る</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- お問い合わせフォーム -->
+<div class="bg-light py-5" id="contact">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <h2 class="text-center mb-4">お問い合わせ</h2>
+        <form>
+          <div class="mb-3">
+            <label for="name" class="form-label">お名前</label>
+            <input type="text" class="form-control" id="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">メールアドレス</label>
+            <input type="email" class="form-control" id="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">メッセージ</label>
+            <textarea class="form-control" id="message" rows="5" required></textarea>
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg">送信</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- フッター -->
+<footer class="bg-dark text-white py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-3 mb-md-0">
+        <h5>マイサイト</h5>
+        <p>最高のサービスを提供する企業です。</p>
+      </div>
+      <div class="col-md-4 mb-3 mb-md-0">
+        <h5>リンク</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white">会社概要</a></li>
+          <li><a href="#" class="text-white">サービス</a></li>
         </ul>
       </div>
+      <div class="col-md-4">
+        <h5>フォローする</h5>
+        <a href="#" class="text-white me-3">Twitter</a>
+        <a href="#" class="text-white">Facebook</a>
+      </div>
     </div>
-  </nav>
-
-  <!-- ヒーローセクション -->
-  <div class="hero bg-primary text-white text-center py-5">
-    <div class="container">
-      <h1 class="display-4">ようこそ、マイサイトへ</h1>
-      <p class="lead">私たちは、最高のサービスを提供します。</p>
-      <a href="#services" class="btn btn-light btn-lg">詳しく見る</a>
-    </div>
+    <hr class="my-4">
+    <p class="text-center mb-0">&copy; 2024 マイサイト. All rights reserved.</p>
   </div>
+</footer>`}
+/>
 
-  <!-- サービス一覧 -->
-  <div class="container my-5" id="services">
-    <h2 class="text-center mb-4">サービス一覧</h2>
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Webデザイン</h5>
-            <p class="card-text">美しく、使いやすいWebサイトを制作します。</p>
-            <a href="#" class="btn btn-primary">詳しく見る</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">システム開発</h5>
-            <p class="card-text">業務を効率化するシステムを開発します。</p>
-            <a href="#" class="btn btn-primary">詳しく見る</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">コンサルティング</h5>
-            <p class="card-text">IT戦略の立案から実行までサポートします。</p>
-            <a href="#" class="btn btn-primary">詳しく見る</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+**やってみよう：** ブラウザの幅を変えて、スマートフォン、タブレット、PCのそれぞれでサイト全体がどのように表示されるかを確認しよう。特に以下のポイントに注目：
+- ナビゲーションのハンバーガーメニュー化
+- カードグリッドの列数変化（1列 → 2列 → 3列）
+- フォームの幅制限
+- フッターのレイアウト変化（縦並び → 3列）
 
-  <!-- お問い合わせフォーム -->
-  <div class="bg-light py-5">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
-          <h2 class="text-center mb-4">お問い合わせ</h2>
-          <form>
-            <div class="mb-3">
-              <label for="name" class="form-label">お名前</label>
-              <input type="text" class="form-control" id="name" required>
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">メールアドレス</label>
-              <input type="email" class="form-control" id="email" required>
-            </div>
-            <div class="mb-3">
-              <label for="message" class="form-label">メッセージ</label>
-              <textarea class="form-control" id="message" rows="5" required></textarea>
-            </div>
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary btn-lg">送信</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- フッター -->
-  <footer class="bg-dark text-white py-4">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4 mb-3 mb-md-0">
-          <h5>マイサイト</h5>
-          <p>最高のサービスを提供する企業です。</p>
-        </div>
-        <div class="col-md-4 mb-3 mb-md-0">
-          <h5>リンク</h5>
-          <ul class="list-unstyled">
-            <li><a href="#" class="text-white">会社概要</a></li>
-            <li><a href="#" class="text-white">サービス</a></li>
-            <li><a href="#" class="text-white">お問い合わせ</a></li>
-          </ul>
-        </div>
-        <div class="col-md-4">
-          <h5>フォローする</h5>
-          <a href="#" class="text-white me-3">Twitter</a>
-          <a href="#" class="text-white me-3">Facebook</a>
-          <a href="#" class="text-white">Instagram</a>
-        </div>
-      </div>
-      <hr class="my-4">
-      <p class="text-center mb-0">&copy; 2024 マイサイト. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-```
+:::tip 完成例から学ぶこと
+この完成例は、企業サイトの典型的な構成である。ナビゲーション、ヒーロー、サービス紹介、お問い合わせ、フッターという流れは、多くのWebサイトで共通している。このパターンを習得すれば、様々なサイトを構築できる。
+:::
 
 ---
 

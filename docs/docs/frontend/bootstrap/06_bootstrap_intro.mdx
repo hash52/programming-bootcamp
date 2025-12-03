@@ -1,3 +1,5 @@
+import { CodePenEmbed } from "@site/src/components/CodePenEmbed";
+
 # Bootstrap入門
 
 この章で得られるスキル：
@@ -17,16 +19,31 @@
 
 ### シナリオ：ボタンをデザインする
 
-以下のようなボタンを作りたいとする：
+以下のようなボタンを作りたいとする。
 
 **自前CSS（Bootstrapなし）：**
 
-```html
-<button class="my-button">クリック</button>
-```
+- CSSを自分で書く必要がある
+- ホバー時の色変化も自分で考える
+- レスポンシブ対応も自分で実装
 
-```css
-.my-button {
+**Bootstrap（あり）：**
+
+- たったクラス指定だけで、見栄えの良いボタンが完成
+- ホバー時の色変化も自動
+- レスポンシブ対応も自動
+
+### やってみよう：自前CSSでボタンを作る
+
+以下は、自前CSSで青いボタンを作った例である。かなりのCSSコードが必要である。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="300"
+  htmlCode={`<h3>自前CSS</h3>
+<button class="my-button">クリック</button>`}
+  cssCode={`.my-button {
   background-color: #007bff;
   color: white;
   border: none;
@@ -38,24 +55,29 @@
 
 .my-button:hover {
   background-color: #0056b3;
-}
-```
+}`}
+/>
 
-- CSSを自分で書く必要がある
-- ホバー時の色変化も自分で考える
-- レスポンシブ対応も自分で実装
+**何が大変なのか？**
 
-**Bootstrap（あり）：**
+すべてのスタイルを自分で考えて書く必要がある。ボタン1つでこれだけのコードが必要。
 
-```html
-<button class="btn btn-primary">クリック</button>
-```
+### やってみよう：Bootstrapでボタンを作る
 
-- たったこれだけで、見栄えの良いボタンが完成
-- ホバー時の色変化も自動
-- レスポンシブ対応も自動
+次に、Bootstrapを使ってボタンを作ってみよう。たった1行のHTMLで、同じようなボタンが完成する。
 
-Bootstrapを使うことで、 **CSSを書かずに** 見栄えの良いデザインが作れる！
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="300"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<h3>Bootstrap</h3>
+<button class="btn btn-primary">クリック</button>`}
+/>
+
+**なぜBootstrapが便利なのか？**
+
+クラス名を指定するだけで、見栄えの良いボタンが完成する。CSSを書く必要がない。
 
 ---
 
@@ -138,6 +160,29 @@ Bootstrapを使う最も簡単な方法は、 **CDN（Content Delivery Network�
 - ✅ 高速（世界中のサーバーから配信される）
 :::
 
+### やってみよう：Bootstrap導入を確認する
+
+以下のコードで、Bootstrapが正しく導入されていることを確認しよう。ボタンが青くスタイリングされれば成功。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="350"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-5">
+  <h1>Hello, Bootstrap!</h1>
+  <p>Bootstrapが正しく導入されています。</p>
+  <button class="btn btn-primary">ボタン</button>
+  <button class="btn btn-success">成功</button>
+  <button class="btn btn-danger">警告</button>
+</div>`}
+/>
+
+**なぜCDNリンクを追加するだけで使えるのか？**
+
+BootstrapのCSSファイルには、`.btn`、`.btn-primary`などのクラスがすでに定義されている。そのCSSを読み込むことで、クラスを指定するだけでスタイルが適用される。
+
 ---
 
 ## Step 3: ユーティリティクラス
@@ -163,6 +208,37 @@ Bootstrapには、 **ユーティリティクラス** と呼ばれる、よく�
 <p class="text-white bg-dark">白色の文字（背景が暗い場合）</p>
 ```
 
+### やってみよう：色のユーティリティクラスを試す
+
+以下のコードで、背景色と文字色のクラスを試してみよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="450"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container">
+  <h3>背景色</h3>
+  <div class="bg-primary text-white p-2 mb-2">primary: 青色</div>
+  <div class="bg-success text-white p-2 mb-2">success: 緑色</div>
+  <div class="bg-danger text-white p-2 mb-2">danger: 赤色</div>
+  <div class="bg-warning text-dark p-2 mb-2">warning: 黄色</div>
+  <div class="bg-info text-dark p-2 mb-2">info: 水色</div>
+
+  <h3 class="mt-3">文字色</h3>
+  <p class="text-primary">primary: 青色の文字</p>
+  <p class="text-success">success: 緑色の文字</p>
+  <p class="text-danger">danger: 赤色の文字</p>
+</div>`}
+/>
+
+**なぜ色にprimary, success, dangerという名前なのか？**
+
+これらは **意味論的な色** である。primary（主要）、success（成功）、danger（危険）のように、色の用途を表す名前にすることで、デザインの一貫性が保たれる。
+
+---
+
 ### 余白：`m-*`（margin）、`p-*`（padding）
 
 ```html
@@ -179,6 +255,32 @@ Bootstrapには、 **ユーティリティクラス** と呼ばれる、よく�
 - `t` = top、`b` = bottom、`s` = start（左）、`e` = end（右）、`x` = 左右、`y` = 上下
 - 数値は0〜5（0 = なし、5 = 最大）
 
+### やってみよう：余白のユーティリティクラスを試す
+
+以下のコードで、marginとpaddingのクラスを試してみよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="450"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container">
+  <div class="bg-primary text-white p-3 mb-3">p-3: padding 3単位</div>
+  <div class="bg-success text-white p-5 mb-3">p-5: padding 5単位</div>
+
+  <div class="bg-danger text-white p-2 m-3">m-3: margin 3単位</div>
+  <div class="bg-warning text-dark p-2 mt-5">mt-5: 上にmargin 5単位</div>
+  <div class="bg-info text-dark p-2 mb-4">mb-4: 下にmargin 4単位</div>
+</div>`}
+/>
+
+**なぜ数値で余白を指定するのか？**
+
+Bootstrapでは、余白の大きさを0〜5の数値で統一している。これにより、デザインの一貫性が保たれ、見た目がバラバラにならない。
+
+---
+
 ### テキスト配置：`text-*`
 
 ```html
@@ -186,6 +288,29 @@ Bootstrapには、 **ユーティリティクラス** と呼ばれる、よく�
 <p class="text-center">中央揃え</p>
 <p class="text-end">右揃え</p>
 ```
+
+### やってみよう：テキスト配置を試す
+
+以下のコードで、テキストの配置を変えてみよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="350"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container">
+  <div class="bg-light p-3 mb-2">
+    <p class="text-start mb-0">text-start: 左揃え</p>
+  </div>
+  <div class="bg-light p-3 mb-2">
+    <p class="text-center mb-0">text-center: 中央揃え</p>
+  </div>
+  <div class="bg-light p-3 mb-2">
+    <p class="text-end mb-0">text-end: 右揃え</p>
+  </div>
+</div>`}
+/>
 
 ---
 
@@ -203,6 +328,40 @@ Bootstrapのボタンは、 **`.btn`クラス** と **色クラス** を組み�
 <button class="btn btn-warning">Warning</button>
 <button class="btn btn-info">Info</button>
 ```
+
+### やってみよう：様々なボタンを試す
+
+以下のコードで、Bootstrapの様々なボタンを試してみよう。ホバーすると色が変わることを確認しよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="450"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-3">
+  <h4>基本的なボタン</h4>
+  <button class="btn btn-primary me-2 mb-2">Primary</button>
+  <button class="btn btn-secondary me-2 mb-2">Secondary</button>
+  <button class="btn btn-success me-2 mb-2">Success</button>
+  <button class="btn btn-danger me-2 mb-2">Danger</button>
+  <button class="btn btn-warning me-2 mb-2">Warning</button>
+  <button class="btn btn-info me-2 mb-2">Info</button>
+
+  <h4 class="mt-3">サイズ</h4>
+  <button class="btn btn-primary btn-lg me-2 mb-2">大きい</button>
+  <button class="btn btn-primary me-2 mb-2">通常</button>
+  <button class="btn btn-primary btn-sm me-2 mb-2">小さい</button>
+
+  <h4 class="mt-3">アウトライン</h4>
+  <button class="btn btn-outline-primary me-2 mb-2">Primary</button>
+  <button class="btn btn-outline-success me-2 mb-2">Success</button>
+</div>`}
+/>
+
+**なぜ.btnクラスが必要なのか？**
+
+`.btn`クラスは、ボタンの基本スタイル（padding、border-radiusなど）を適用する。その後、`.btn-primary`などの色クラスで色を指定する。
 
 ### ボタンのサイズ
 
@@ -243,6 +402,39 @@ Bootstrapのボタンは、 **`.btn`クラス** と **色クラス** を組み�
 - `.card-title`：タイトル
 - `.card-text`：説明文
 
+### やってみよう：カードを作る
+
+以下のコードで、Bootstrapのカードを作ってみよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="500"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-3">
+  <div class="card" style="width: 20rem;">
+    <div class="card-body">
+      <h5 class="card-title">商品タイトル</h5>
+      <p class="card-text">この商品は素晴らしい機能を持っています。今すぐチェックしてください。</p>
+      <a href="#" class="btn btn-primary">詳細を見る</a>
+    </div>
+  </div>
+
+  <div class="card mt-3" style="width: 20rem;">
+    <div class="card-body">
+      <h5 class="card-title">別の商品</h5>
+      <p class="card-text">こちらも魅力的な商品です。</p>
+      <a href="#" class="btn btn-success">購入する</a>
+    </div>
+  </div>
+</div>`}
+/>
+
+**なぜカードを使うのか？**
+
+カードは、ブログ記事、商品、ユーザープロフィールなど、様々な情報をまとめて表示するのに適している。統一感のあるデザインで情報を整理できる。
+
 ---
 
 ## Step 6: アラートコンポーネント
@@ -271,6 +463,39 @@ Bootstrapのボタンは、 **`.btn`クラス** と **色クラス** を組み�
 - `alert-danger`：赤（エラー）
 - `alert-warning`：黄（警告）
 - `alert-info`：青（情報）
+
+### やってみよう：アラートを表示する
+
+以下のコードで、様々なアラートを表示してみよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="450"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-3">
+  <div class="alert alert-success" role="alert">
+    ✓ 保存に成功しました！
+  </div>
+
+  <div class="alert alert-danger" role="alert">
+    ✗ エラーが発生しました。もう一度お試しください。
+  </div>
+
+  <div class="alert alert-warning" role="alert">
+    ⚠ 注意：この操作は元に戻せません。
+  </div>
+
+  <div class="alert alert-info" role="alert">
+    ℹ 情報：新しいバージョンがリリースされました。
+  </div>
+</div>`}
+/>
+
+**なぜアラートを使うのか？**
+
+ユーザーに重要な情報を伝えるためには、目立つ表示が必要である。アラートは、成功・エラー・警告・情報を色で区別して表示できる。
 
 ---
 

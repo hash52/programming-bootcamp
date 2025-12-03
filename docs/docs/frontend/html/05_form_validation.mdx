@@ -1,3 +1,5 @@
+import { CodePenEmbed } from "@site/src/components/CodePenEmbed";
+
 # フォームとバリデーション
 
 この章で得られるスキル：
@@ -16,22 +18,7 @@
 
 ### シナリオ：会員登録フォーム
 
-以下のような会員登録フォームがあるとする：
-
-```html
-<form action="/register" method="POST">
-  <label for="username">ユーザー名：</label>
-  <input type="text" id="username" name="username">
-
-  <label for="email">メールアドレス：</label>
-  <input type="text" id="email" name="email">
-
-  <label for="password">パスワード：</label>
-  <input type="text" id="password" name="password">
-
-  <button type="submit">登録</button>
-</form>
-```
+以下のような会員登録フォームがあるとする。
 
 **バリデーションがない場合の問題：**
 1. **空欄で送信できる**
@@ -41,7 +28,92 @@
 3. **短すぎるパスワードを設定できる**
    - 「1」のような1文字のパスワードでも登録できてしまう
 
-では、 **バリデーション** を追加すると、どうなるだろうか？
+### やってみよう：バリデーションなしのフォームを試す
+
+以下のフォームで、何も入力せずに「登録」ボタンを押してみよう。空欄のまま送信できてしまう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="400"
+  htmlCode={`<h3>バリデーションなし</h3>
+<form action="#" method="POST">
+  <label>ユーザー名：<input type="text" name="username"></label><br>
+  <label>メールアドレス：<input type="text" name="email"></label><br>
+  <label>パスワード：<input type="text" name="password"></label><br>
+  <button type="submit">登録</button>
+</form>
+<p>※ 空欄でも送信できてしまう</p>`}
+  cssCode={`body {
+  font-family: sans-serif;
+  padding: 20px;
+}
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}`}
+/>
+
+**なぜバリデーションが必要なのか？**
+
+バリデーションがないと、空欄や不正なデータが送信されてしまう。サーバー側でエラーになるか、データベースに不正なデータが保存されてしまう。
+
+### やってみよう：バリデーションありのフォームを試す
+
+次に、バリデーションを追加したフォームを試そう。空欄で送信しようとすると、エラーメッセージが表示される。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="450"
+  htmlCode={`<h3>バリデーションあり</h3>
+<form>
+  <label>ユーザー名：<input type="text" name="username" required></label><br>
+  <label>メールアドレス：<input type="email" name="email" required></label><br>
+  <label>パスワード：<input type="password" name="password" minlength="8" required></label><br>
+  <button type="submit">登録</button>
+</form>
+<p>※ 空欄や不正な入力では送信できない</p>`}
+  cssCode={`body {
+  font-family: sans-serif;
+  padding: 20px;
+}
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+input:invalid {
+  border-color: #dc3545;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}`}
+/>
 
 ---
 
@@ -80,6 +152,44 @@ HTML5では、属性を追加するだけで、ブラウザが自動的にバリ
 - 空欄のまま送信しようとすると、エラーメッセージが表示される
 - 「このフィールドを入力してください」のようなメッセージ
 
+### やってみよう：required属性を試す
+
+以下のフォームで、ユーザー名を空欄のまま送信してみよう。エラーメッセージが表示される。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="350"
+  htmlCode={`<form>
+  <label for="username">ユーザー名（必須）：</label>
+  <input type="text" id="username" name="username" required><br><br>
+
+  <label for="email">メールアドレス（必須）：</label>
+  <input type="email" id="email" name="email" required><br><br>
+
+  <button type="submit">送信</button>
+</form>
+<p>※ 空欄で送信しようとするとエラーが表示される</p>`}
+  cssCode={`input {
+  padding: 8px;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  width: 250px;
+}
+button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}`}
+/>
+
+**なぜrequiredが必要なのか？**
+
+必須項目を明示することで、ユーザーが入力漏れに気づきやすくなる。サーバー側でも必須チェックをするが、クライアント側で先にチェックすることでユーザー体験が向上する。
+
 ### チェックボックスでrequiredを使う
 
 ```html
@@ -104,6 +214,42 @@ HTML5では、属性を追加するだけで、ブラウザが自動的にバリ
 
 - 8文字未満の場合、エラーメッセージが表示される
 
+### やってみよう：minlengthを試す
+
+以下のパスワード入力欄に、8文字未満のパスワードを入力して送信してみよう。エラーメッセージが表示される。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="300"
+  htmlCode={`<form>
+  <label for="password">パスワード（8文字以上）：</label>
+  <input type="password" id="password" name="password" minlength="8" required><br><br>
+  <button type="submit">送信</button>
+</form>
+<p>※ 8文字未満では送信できない</p>`}
+  cssCode={`input {
+  padding: 8px;
+  border: 2px solid #dc3545;
+  border-radius: 4px;
+  width: 250px;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}`}
+/>
+
+**なぜminlengthが必要なのか？**
+
+パスワードが短すぎると、セキュリティが低下する。8文字以上などの最小文字数を設定することで、安全なパスワードを強制できる。
+
+---
+
 ### maxlength（最大文字数）
 
 ```html
@@ -112,6 +258,40 @@ HTML5では、属性を追加するだけで、ブラウザが自動的にバリ
 ```
 
 - 20文字を超えて入力できない（入力が制限される）
+
+### やってみよう：maxlengthを試す
+
+以下のニックネーム入力欄に、20文字以上入力しようとしてみよう。20文字を超えて入力できないことを確認しよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="300"
+  htmlCode={`<form>
+  <label for="nickname">ニックネーム（20文字以内）：</label>
+  <input type="text" id="nickname" name="nickname" maxlength="20" placeholder="20文字まで"><br><br>
+  <button type="submit">送信</button>
+</form>
+<p>※ 20文字を超えて入力できない</p>`}
+  cssCode={`input {
+  padding: 8px;
+  border: 2px solid #ffc107;
+  border-radius: 4px;
+  width: 250px;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}`}
+/>
+
+**なぜmaxlengthを使うのか？**
+
+データベースに保存できる文字数には上限がある。また、長すぎる入力を防ぐことで、ユーザーインターフェースが崩れることを防げる。
 
 ### 両方を組み合わせる
 
@@ -141,12 +321,76 @@ HTML5では、属性を追加するだけで、ブラウザが自動的にバリ
 
 - 0未満または120を超える数値を入力すると、エラーメッセージが表示される
 
+### やってみよう：min/maxを試す
+
+以下の年齢入力欄に、0未満や120を超える数値を入力して送信してみよう。エラーメッセージが表示される。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="300"
+  htmlCode={`<form>
+  <label for="age">年齢（0〜120）：</label>
+  <input type="number" id="age" name="age" min="0" max="120" value="25" required><br><br>
+  <button type="submit">送信</button>
+</form>
+<p>※ 0未満や120を超える値では送信できない</p>`}
+  cssCode={`input {
+  padding: 8px;
+  border: 2px solid #17a2b8;
+  border-radius: 4px;
+  width: 100px;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}`}
+/>
+
+**なぜmin/maxが必要なのか？**
+
+年齢や個数など、妥当な範囲が決まっている数値には、min/maxを設定することで不正な入力を防げる。
+
+---
+
 ### 日付の範囲を指定
 
 ```html
 <label for="birthday">生年月日：</label>
 <input type="date" id="birthday" name="birthday" min="1900-01-01" max="2024-12-31">
 ```
+
+### やってみよう：日付の範囲を試す
+
+以下の日付入力欄で、1900年1月1日から2024年12月31日の範囲内の日付を選んでみよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="300"
+  htmlCode={`<form>
+  <label for="birthday">生年月日：</label>
+  <input type="date" id="birthday" name="birthday" min="1900-01-01" max="2024-12-31"><br><br>
+  <button type="submit">送信</button>
+</form>`}
+  cssCode={`input {
+  padding: 8px;
+  border: 2px solid #6c757d;
+  border-radius: 4px;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}`}
+/>
 
 ---
 
@@ -163,6 +407,42 @@ HTML5では、属性を追加するだけで、ブラウザが自動的にバリ
 
 - `[0-9]{10,11}`：0〜9の数字が10〜11桁
 
+### やってみよう：電話番号のpatternを試す
+
+以下の電話番号入力欄に、10桁または11桁の数字を入力してみよう。それ以外の形式では送信できない。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="350"
+  htmlCode={`<form>
+  <label for="phone">電話番号（ハイフンなし、10-11桁）：</label>
+  <input type="tel" id="phone" name="phone" pattern="[0-9]{10,11}" placeholder="09012345678" required><br><br>
+  <button type="submit">送信</button>
+</form>
+<p>※ 10桁または11桁の数字のみ受け付ける</p>`}
+  cssCode={`input {
+  padding: 8px;
+  border: 2px solid #28a745;
+  border-radius: 4px;
+  width: 250px;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}`}
+/>
+
+**なぜpatternが必要なのか？**
+
+電話番号や郵便番号など、特定の形式が決まっている入力には、正規表現で厳密にチェックすることで不正な入力を防げる。
+
+---
+
 ### ユーザー名の形式チェック
 
 ```html
@@ -171,6 +451,40 @@ HTML5では、属性を追加するだけで、ブラウザが自動的にバリ
 ```
 
 - `[a-zA-Z0-9]+`：半角英数字が1文字以上
+
+### やってみよう：ユーザー名のpatternを試す
+
+以下のユーザー名入力欄に、半角英数字以外の文字（ひらがな、記号など）を入力して送信してみよう。エラーが表示される。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="350"
+  htmlCode={`<form>
+  <label for="username">ユーザー名（半角英数字のみ）：</label>
+  <input type="text" id="username" name="username" pattern="[a-zA-Z0-9]+" placeholder="user123" required><br><br>
+  <button type="submit">送信</button>
+</form>
+<p>※ 半角英数字以外は送信できない</p>`}
+  cssCode={`input {
+  padding: 8px;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  width: 250px;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}`}
+/>
+
+**なぜ半角英数字のみに制限するのか？**
+
+ユーザー名がURLの一部になる場合、全角文字や記号が含まれるとエラーになることがある。半角英数字のみに制限することで、安全にシステムに登録できる。
 
 ### よく使う正規表現パターン
 
@@ -201,6 +515,50 @@ HTML5では、属性を追加するだけで、ブラウザが自動的にバリ
 
 - 入力欄が空の状態でヒントが表示される
 - ユーザーが入力を始めると、ヒントが消える
+
+### やってみよう：placeholderを確認する
+
+以下の入力欄で、placeholderのヒントが表示されることを確認しよう。入力を始めるとヒントが消える。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="400"
+  htmlCode={`<form>
+  <label for="name">氏名：</label>
+  <input type="text" id="name" name="name" placeholder="例：山田太郎"><br><br>
+
+  <label for="email">メールアドレス：</label>
+  <input type="email" id="email" name="email" placeholder="例：taro@example.com"><br><br>
+
+  <label for="phone">電話番号：</label>
+  <input type="tel" id="phone" name="phone" placeholder="例：09012345678"><br><br>
+
+  <button type="submit">送信</button>
+</form>`}
+  cssCode={`input {
+  padding: 8px;
+  border: 2px solid #6c757d;
+  border-radius: 4px;
+  width: 250px;
+}
+input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}`}
+/>
+
+**なぜplaceholderが有用なのか？**
+
+placeholderを使うことで、ユーザーがどのような形式で入力すれば良いかが一目でわかる。入力ミスを減らし、ユーザー体験が向上する。
 
 ### 使用例
 
@@ -234,6 +592,46 @@ placeholderは **あくまでヒント** である。
 ```
 
 - `title`属性に説明を書くと、エラー時に表示される
+
+### やってみよう：title属性を確認する
+
+以下のパスワード入力欄に、不正な値を入力して送信してみよう。title属性に設定したメッセージが表示される。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="350"
+  htmlCode={`<form>
+  <label for="password">パスワード：</label>
+  <input type="password"
+         id="password"
+         name="password"
+         minlength="8"
+         pattern="[a-zA-Z0-9]+"
+         title="8文字以上の半角英数字で入力してください"
+         required><br><br>
+  <button type="submit">送信</button>
+</form>
+<p>※ 不正な値を入力すると、titleの内容が表示される</p>`}
+  cssCode={`input {
+  padding: 8px;
+  border: 2px solid #dc3545;
+  border-radius: 4px;
+  width: 250px;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}`}
+/>
+
+**なぜtitle属性を使うのか？**
+
+デフォルトのエラーメッセージだけでは、ユーザーに何が間違っているか伝わりにくい。title属性で具体的な説明を加えることで、ユーザーが正しく入力できるようになる。
 
 ### JavaScriptでカスタムメッセージ（参考）
 

@@ -1,3 +1,5 @@
+import { CodePenEmbed } from "@site/src/components/CodePenEmbed";
+
 # Bootstrapコンポーネントとグリッド
 
 この章で得られるスキル：
@@ -17,61 +19,84 @@
 
 ### シナリオ：3カラムレイアウトを作る
 
-以下のような3カラムレイアウトを作りたいとする：
-
-```
-[コンテンツ1] [コンテンツ2] [コンテンツ3]
-```
+以下のような3カラムレイアウトを作りたいとする。
 
 **自前CSS（Bootstrapなし）：**
-
-```html
-<div class="container">
-  <div class="column">コンテンツ1</div>
-  <div class="column">コンテンツ2</div>
-  <div class="column">コンテンツ3</div>
-</div>
-```
-
-```css
-.container {
-  display: flex;
-}
-
-.column {
-  flex: 1;
-  padding: 10px;
-}
-
-/* スマートフォンでは縦並びにしたい */
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
-}
-```
 
 - CSSを自分で書く必要がある
 - レスポンシブ対応も自分で実装
 - カラムの幅を変えたい場合も自分で計算
 
+### やってみよう：自前CSSで3カラムレイアウトを作る
+
+以下は、Flexboxを使って3カラムレイアウトを作った例である。CSSコードが必要である。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="400"
+  htmlCode={`<h3>自前CSS</h3>
+<div class="my-container">
+  <div class="my-column">コンテンツ1</div>
+  <div class="my-column">コンテンツ2</div>
+  <div class="my-column">コンテンツ3</div>
+</div>`}
+  cssCode={`.my-container {
+  display: flex;
+}
+
+.my-column {
+  flex: 1;
+  padding: 15px;
+  border: 1px solid #ddd;
+  margin: 5px;
+  background-color: #f0f0f0;
+}
+
+/* スマートフォンでは縦並びにしたい */
+@media (max-width: 768px) {
+  .my-container {
+    flex-direction: column;
+  }
+}`}
+/>
+
+**何が大変なのか？**
+
+レスポンシブ対応のために、メディアクエリを自分で書く必要がある。カラムの幅を変えたい場合も、CSSを調整する必要がある。
+
+---
+
 **Bootstrap（あり）：**
 
-```html
-<div class="container">
-  <div class="row">
-    <div class="col-md-4">コンテンツ1</div>
-    <div class="col-md-4">コンテンツ2</div>
-    <div class="col-md-4">コンテンツ3</div>
-  </div>
-</div>
-```
-
-- たったこれだけで、3カラムレイアウトが完成
+- たったクラス指定だけで、3カラムレイアウトが完成
 - スマートフォンでは自動的に縦並びになる
 - カラムの幅も簡単に変更できる（`col-md-6`など）
 
-Bootstrapのグリッドシステムを使うことで、 **レイアウトが圧倒的に簡単** になる！
+### やってみよう：Bootstrapで3カラムレイアウトを作る
+
+次に、Bootstrapのグリッドシステムを使ってみよう。CSSを書かずに3カラムレイアウトが完成する。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="400"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<h3>Bootstrap</h3>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 mb-2"><div class="bg-light border p-3">コンテンツ1</div></div>
+    <div class="col-md-4 mb-2"><div class="bg-light border p-3">コンテンツ2</div></div>
+    <div class="col-md-4 mb-2"><div class="bg-light border p-3">コンテンツ3</div></div>
+  </div>
+</div>
+<p><small>※ブラウザの幅を狭くすると、縦並びになる</small></p>`}
+/>
+
+**なぜBootstrapが便利なのか？**
+
+Bootstrapのグリッドシステムを使うことで、 **レイアウトが圧倒的に簡単** になる。CSSを書く必要がなく、クラス名だけでレスポンシブ対応できる。
 
 ---
 
@@ -127,6 +152,30 @@ Bootstrapのグリッドシステムを使うことで、 **レイアウトが�
 | **row** | 行を作る（カラムをグループ化） |
 | **col** | 列を作る（実際のコンテンツを配置） |
 
+### やってみよう：container、row、colの構造を確認する
+
+以下のコードで、グリッドの基本構造を確認しよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="400"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container border">
+  <div class="row bg-light">
+    <div class="col border p-3 bg-primary text-white">カラム1</div>
+    <div class="col border p-3 bg-success text-white">カラム2</div>
+    <div class="col border p-3 bg-danger text-white">カラム3</div>
+  </div>
+</div>
+<p class="mt-2"><small>container > row > col の順序で使う</small></p>`}
+/>
+
+**なぜこの順序が必要なのか？**
+
+`container`は余白を作り、`row`はカラムをグループ化し、`col`は実際のコンテンツを配置する。この順序を守ることで、正しいレイアウトが実現できる。
+
 ### containerの種類
 
 ```html
@@ -167,6 +216,42 @@ Bootstrapのグリッドシステムを使うことで、 **レイアウトが�
 - `col-6`：12列のうち6列分（50%）
 - `col-4`：12列のうち4列分（33.3%）
 - `col-3`：12列のうち3列分（25%）
+
+### やってみよう：カラムの幅を指定する
+
+以下のコードで、様々な幅のカラムを試してみよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="500"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container">
+  <h5>50% + 50%</h5>
+  <div class="row mb-3">
+    <div class="col-6"><div class="bg-primary text-white p-2">col-6 (50%)</div></div>
+    <div class="col-6"><div class="bg-success text-white p-2">col-6 (50%)</div></div>
+  </div>
+
+  <h5>33.3% × 3</h5>
+  <div class="row mb-3">
+    <div class="col-4"><div class="bg-info text-dark p-2">col-4 (33.3%)</div></div>
+    <div class="col-4"><div class="bg-info text-dark p-2">col-4 (33.3%)</div></div>
+    <div class="col-4"><div class="bg-info text-dark p-2">col-4 (33.3%)</div></div>
+  </div>
+
+  <h5>66.7% + 33.3%</h5>
+  <div class="row">
+    <div class="col-8"><div class="bg-warning text-dark p-2">col-8 (66.7%)</div></div>
+    <div class="col-4"><div class="bg-danger text-white p-2">col-4 (33.3%)</div></div>
+  </div>
+</div>`}
+/>
+
+**なぜ数字で指定するのか？**
+
+数字で指定することで、12列のうち何列分を使うかを直感的に指定できる。`col-6`なら12の半分なので50%、`col-4`なら12の3分の1なので33.3%となる。
 
 ### 不均等な分割
 
@@ -220,6 +305,37 @@ Bootstrapのグリッドシステムを使うことで、 **レイアウトが�
 - **タブレット**（`col-md-6`）：各カラムが50%幅（2列）
 - **PC**（`col-lg-4`）：各カラムが33.3%幅（3列）
 
+### やってみよう：レスポンシブグリッドを試す
+
+以下のコードで、ブラウザの幅を変えてみよう。カラムの幅が変わることを確認しよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="450"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container">
+  <h5>レスポンシブグリッド</h5>
+  <div class="row">
+    <div class="col-12 col-md-6 col-lg-4 mb-2">
+      <div class="bg-primary text-white p-3">カラム1<br><small>SP:100% / タブレット:50% / PC:33.3%</small></div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 mb-2">
+      <div class="bg-success text-white p-3">カラム2<br><small>SP:100% / タブレット:50% / PC:33.3%</small></div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 mb-2">
+      <div class="bg-danger text-white p-3">カラム3<br><small>SP:100% / タブレット:50% / PC:33.3%</small></div>
+    </div>
+  </div>
+  <p><small>※ブラウザの幅を変えてみよう</small></p>
+</div>`}
+/>
+
+**なぜレスポンシブグリッドが便利なのか？**
+
+画面サイズごとに異なるレイアウトを、クラス名だけで指定できる。メディアクエリを書く必要がない。
+
 :::info モバイルファースト
 Bootstrapは **モバイルファースト** である。
 
@@ -248,6 +364,40 @@ Bootstrapは **モバイルファースト** である。
 
 - 外側のグリッド：8列 + 4列
 - 内側のグリッド：6列 + 6列（8列の中でさらに分割）
+
+### やってみよう：入れ子構造を作る
+
+以下のコードで、グリッドの入れ子構造を確認しよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="400"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container">
+  <div class="row">
+    <div class="col-8">
+      <div class="bg-light border p-2 mb-2">
+        <strong>メインコンテンツ（8列）</strong>
+        <div class="row mt-2">
+          <div class="col-6"><div class="bg-primary text-white p-2">左半分</div></div>
+          <div class="col-6"><div class="bg-success text-white p-2">右半分</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="bg-warning text-dark border p-2">
+        <strong>サイドバー（4列）</strong>
+      </div>
+    </div>
+  </div>
+</div>`}
+/>
+
+**なぜ入れ子にできると便利なのか？**
+
+メインコンテンツ内でさらに細かくレイアウトを分割できる。複雑なレイアウトも、グリッドの組み合わせで実現できる。
 
 :::tip ポイント
 入れ子にする場合も、必ず`row`を使ってカラムをグループ化する。
@@ -292,6 +442,48 @@ Bootstrapは **モバイルファースト** である。
 - `.navbar-brand`：サイト名やロゴ
 - `.navbar-toggler`：スマートフォン用のハンバーガーメニューボタン
 - `.navbar-nav`：ナビゲーションリンクのリスト
+
+### やってみよう：Navbarを作る
+
+以下のコードで、Bootstrapのナビゲーションバーを作ってみよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="400"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">My Site</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">ホーム</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">私について</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">お問い合わせ</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-3">
+  <p>ブラウザの幅を狭くすると、ハンバーガーメニューが表示される。</p>
+</div>`}
+/>
+
+**なぜNavbarを使うのか？**
+
+ナビゲーションバーは、ほとんどのWebサイトで必要な要素である。Bootstrapを使えば、レスポンシブ対応のナビゲーションバーを簡単に作れる。
 
 ### Navbarの配色
 
@@ -346,6 +538,46 @@ Bootstrapを使うと、フォームも簡単に見栄え良くできる。
 - `.form-control`：入力欄（`<input>`, `<textarea>`, `<select>`）
 - `.form-label`：ラベル
 - `.mb-3`：下方向の余白（margin-bottom）
+
+### やってみよう：Bootstrapのフォームを作る
+
+以下のコードで、Bootstrapのフォームスタイルを確認しよう。
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="500"
+  htmlCode={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-3">
+  <h4>お問い合わせフォーム</h4>
+  <form>
+    <div class="mb-3">
+      <label for="name" class="form-label">お名前</label>
+      <input type="text" class="form-control" id="name" placeholder="山田太郎">
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">メールアドレス</label>
+      <input type="email" class="form-control" id="email" placeholder="name@example.com">
+    </div>
+    <div class="mb-3">
+      <label for="message" class="form-label">メッセージ</label>
+      <textarea class="form-control" id="message" rows="3"></textarea>
+    </div>
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" id="agree">
+      <label class="form-check-label" for="agree">
+        利用規約に同意する
+      </label>
+    </div>
+    <button type="submit" class="btn btn-primary">送信</button>
+  </form>
+</div>`}
+/>
+
+**なぜBootstrapのフォームを使うのか？**
+
+Bootstrapのフォームクラスを使うことで、統一感のある見栄えの良いフォームを簡単に作れる。余白やサイズも自動で調整される。
 
 ### チェックボックスとラジオボタン
 
@@ -480,7 +712,7 @@ Bootstrapを使うと、フォームも簡単に見栄え良くできる。
 
 **A:** Bootstrap JavaScriptが読み込まれていない可能性がある。
 
-`<head>`に以下を追加：
+`</body>`の直前に以下を追加：
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
