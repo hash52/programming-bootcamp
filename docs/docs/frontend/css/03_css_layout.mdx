@@ -1,3 +1,5 @@
+import { CodePenEmbed } from "@site/src/components/CodePenEmbed";
+
 # CSSレイアウトとセレクタ
 
 この章で得られるスキル：
@@ -25,19 +27,30 @@
 
 Flexboxがなかった時代は、要素を横並びにするのが非常に大変だった：
 
-```css
-/* 古い方法（float） */
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="300"
+  htmlCode={`<div class="menu">
+  <div class="menu-item">ホーム</div>
+  <div class="menu-item">私について</div>
+  <div class="menu-item">お問い合わせ</div>
+</div>`}
+  cssCode={`/* 古い方法（float） */
 .menu-item {
   float: left;
   margin-right: 20px;
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
 }
 
 .menu::after {
   content: "";
   display: block;
   clear: both;
-}
-```
+}`}
+/>
 
 - `float`は本来、画像を文章の横に配置するためのプロパティ
 - レイアウトに使うのは本来の用途ではない
@@ -45,13 +58,34 @@ Flexboxがなかった時代は、要素を横並びにするのが非常に大�
 
 では、 **Flexbox** を使うと、どうなるだろうか？
 
-```css
-/* 新しい方法（Flexbox） */
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="300"
+  htmlCode={`<div class="menu">
+  <div class="menu-item">ホーム</div>
+  <div class="menu-item">私について</div>
+  <div class="menu-item">お問い合わせ</div>
+</div>`}
+  cssCode={`/* 新しい方法（Flexbox） */
 .menu {
   display: flex;
   gap: 20px;
 }
-```
+
+.menu-item {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
+}`}
+/>
+
+:::tip やってみよう
+1. floatを使った古い方法と、Flexboxを使った新しい方法のコード量を比較しよう
+2. なぜFlexboxの方がシンプルなのか考えてみよう（`display: flex;`だけで横並びになるため）
+3. floatの`.menu::after`を削除して、レイアウトが崩れることを確認しよう（Flexboxではこの処理が不要）
+4. Flexboxが現代のレイアウト手法として主流になった理由を理解しよう
+:::
 
 たったこれだけで横並びになる！
 
@@ -108,6 +142,35 @@ Flexboxがなかった時代は、要素を横並びにするのが非常に大�
 見た目ではなく、役割や意味を表す名前にする。
 :::
 
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="400"
+  htmlCode={`<h2>クラスセレクタの例</h2>
+<p class="highlight">この段落は強調表示されます。</p>
+<p>この段落は通常の表示です。</p>
+<p class="highlight">この段落も強調表示されます。</p>
+<p class="highlight important">この段落は強調＋重要です。</p>`}
+  cssCode={`.highlight {
+  background-color: #fff3cd;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.important {
+  border-left: 5px solid #dc3545;
+  padding-left: 15px;
+  font-weight: bold;
+}`}
+/>
+
+:::tip やってみよう
+1. 新しいクラス（例：`.success`）を追加して、緑色の背景を適用してみよう
+2. なぜクラスは複数の要素に適用できるのか考えてみよう（再利用性を高めるため）
+3. 1つの要素に複数のクラスを適用して、スタイルが組み合わされることを確認しよう
+4. クラス名を見た目ではなく意味で命名することの重要性を理解しよう（`.red`より`.error`の方が良い）
+:::
+
 ---
 
 ## Step 2: IDセレクタ
@@ -149,6 +212,43 @@ Flexboxがなかった時代は、要素を横並びにするのが非常に大�
 実際には、 **クラスを使う方が推奨される** ことが多い。IDはJavaScriptで要素を特定する場合などに使う。
 :::
 
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="400"
+  htmlCode={`<div id="header">ヘッダー</div>
+<div id="main-content">
+  <p>これはメインコンテンツです。</p>
+</div>
+<div id="footer">フッター © 2025</div>`}
+  cssCode={`#header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+#main-content {
+  background-color: #ecf0f1;
+  padding: 20px;
+  min-height: 200px;
+}
+
+#footer {
+  background-color: #34495e;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}`}
+/>
+
+:::tip やってみよう
+1. `#header`の背景色を変更して、スタイルが適用されることを確認しよう
+2. なぜIDは1ページに1回しか使えないのか考えてみよう（一意性を保つため）
+3. クラスとIDの違いを理解しよう（クラスは複数回、IDは1回のみ）
+4. 実務ではクラスを優先的に使うことを知ろう（柔軟性が高いため）
+:::
+
 ---
 
 ## Step 3: Flexboxの基本
@@ -179,6 +279,46 @@ Flexboxがなかった時代は、要素を横並びにするのが非常に大�
 
 - **Flexコンテナ**：`display: flex;`を指定した親要素
 - **Flexアイテム**：Flexコンテナの直接の子要素
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="350"
+  htmlCode={`<h2>display: flexを適用する前</h2>
+<div class="container-before">
+  <div class="item">アイテム1</div>
+  <div class="item">アイテム2</div>
+  <div class="item">アイテム3</div>
+</div>
+
+<h2>display: flexを適用した後</h2>
+<div class="container-after">
+  <div class="item">アイテム1</div>
+  <div class="item">アイテム2</div>
+  <div class="item">アイテム3</div>
+</div>`}
+  cssCode={`.item {
+  background-color: #3498db;
+  color: white;
+  padding: 20px;
+  margin: 5px;
+}
+
+.container-before {
+  /* Flexboxなし */
+}
+
+.container-after {
+  display: flex;
+}`}
+/>
+
+:::tip やってみよう
+1. `display: flex;`を削除して、要素が縦並びに戻ることを確認しよう
+2. なぜ`display: flex;`だけで横並びになるのか考えてみよう（Flexboxのデフォルトが横並びだから）
+3. Flexコンテナ（親）とFlexアイテム（子）の関係を理解しよう
+4. 従来のfloatやinline-blockと比べて、Flexboxがいかにシンプルかを実感しよう
+:::
 
 ---
 
@@ -216,6 +356,64 @@ Flexboxがなかった時代は、要素を横並びにするのが非常に大�
 `gap`は、Flexboxやグリッドレイアウトで使える便利なプロパティである。
 
 従来は`margin`で間隔を空けていたが、`gap`を使う方がシンプルで分かりやすい。
+
+実務では、`gap`を積極的に使うことが推奨される。
+:::
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="500"
+  htmlCode={`<h2>横並び（row）</h2>
+<div class="container-row">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+</div>
+
+<h2>縦並び（column）</h2>
+<div class="container-column">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+</div>
+
+<h2>gap（間隔）</h2>
+<div class="container-gap">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+</div>`}
+  cssCode={`.item {
+  background-color: #3498db;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.container-row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+.container-column {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.container-gap {
+  display: flex;
+  gap: 20px;
+}`}
+/>
+
+:::tip やってみよう
+1. `flex-direction: row;`を`flex-direction: column;`に変更して、縦並びになることを確認しよう
+2. `gap`の値を変更して、間隔が変わることを確認しよう
+3. なぜgapを使う方が良いのか考えてみよう（marginだと最初や最後の要素にも余白ができてしまうため）
+4. Flexboxの方向を自由に切り替えられることの便利さを理解しよう
 :::
 
 ---
@@ -265,6 +463,68 @@ Flexboxがなかった時代は、要素を横並びにするのが非常に大�
 }
 ```
 
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="550"
+  htmlCode={`<h2>justify-content（横方向）</h2>
+<div class="container-justify">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+</div>
+
+<h2>align-items（縦方向）</h2>
+<div class="container-align">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+</div>
+
+<h2>完全な中央揃え</h2>
+<div class="container-center">
+  <div class="item">中央</div>
+</div>`}
+  cssCode={`.item {
+  background-color: #e74c3c;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.container-justify {
+  display: flex;
+  justify-content: center;
+  background-color: #ecf0f1;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.container-align {
+  display: flex;
+  align-items: center;
+  background-color: #ecf0f1;
+  height: 100px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.container-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ecf0f1;
+  height: 150px;
+}`}
+/>
+
+:::tip やってみよう
+1. `justify-content`を`flex-start`、`flex-end`、`space-between`に変更して、配置が変わることを確認しよう
+2. `align-items`を`flex-start`、`flex-end`に変更して、縦方向の配置が変わることを確認しよう
+3. なぜjustify-contentとalign-itemsの2つが必要なのか考えてみよう（横と縦の方向を別々に制御するため）
+4. 完全な中央揃えが、わずか2つのプロパティで実現できることの便利さを理解しよう
+:::
+
 ---
 
 ## Step 6: メディアクエリの基本
@@ -306,6 +566,48 @@ Flexboxがなかった時代は、要素を横並びにするのが非常に大�
 2. `@media (min-width: ...)`で大きい画面向けのスタイルを追加
 
 この方が、シンプルで保守しやすい。
+
+実際のユーザーの多くがスマートフォンからアクセスするため、モバイル向けのデザインを優先することが重要である。
+:::
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="450"
+  htmlCode={`<h2>レスポンシブなレイアウト</h2>
+<p>画面幅を変更して、レイアウトが変わることを確認しよう</p>
+<div class="responsive-container">
+  <div class="box">Box 1</div>
+  <div class="box">Box 2</div>
+  <div class="box">Box 3</div>
+</div>`}
+  cssCode={`/* スマートフォン（デフォルト） */
+.responsive-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.box {
+  background-color: #3498db;
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+
+/* タブレット以上 */
+@media (min-width: 768px) {
+  .responsive-container {
+    flex-direction: row;
+  }
+}`}
+/>
+
+:::tip やってみよう
+1. ブラウザの幅を変更して、レイアウトが切り替わることを確認しよう
+2. `min-width: 768px`の値を変更して、切り替わるタイミングが変わることを確認しよう
+3. なぜモバイルファーストが推奨されるのか考えてみよう（スマートフォンユーザーが多いため）
+4. メディアクエリがレスポンシブデザインの核心であることを理解しよう
 :::
 
 ---
@@ -358,6 +660,155 @@ Flexboxがなかった時代は、要素を横並びにするのが非常に大�
 - `flex-wrap: wrap;`：折り返しを許可
 - `calc()`：計算式でサイズを指定
 
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="550"
+  htmlCode={`<h2>レスポンシブカードレイアウト</h2>
+<div class="card-container">
+  <div class="card">
+    <h3>カード1</h3>
+    <p>説明文です。</p>
+  </div>
+  <div class="card">
+    <h3>カード2</h3>
+    <p>説明文です。</p>
+  </div>
+  <div class="card">
+    <h3>カード3</h3>
+    <p>説明文です。</p>
+  </div>
+  <div class="card">
+    <h3>カード4</h3>
+    <p>説明文です。</p>
+  </div>
+</div>`}
+  cssCode={`/* スマートフォン：1列 */
+.card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card {
+  background-color: #ecf0f1;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #bdc3c7;
+}
+
+.card h3 {
+  margin-top: 0;
+  color: #2c3e50;
+}
+
+/* タブレット以上：2列 */
+@media (min-width: 768px) {
+  .card-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    width: calc(50% - 8px);
+  }
+}`}
+/>
+
+:::tip やってみよう
+1. `flex-wrap: wrap;`を削除して、カードが折り返されなくなることを確認しよう
+2. `calc(50% - 8px)`の意味を考えてみよう（50%の幅から、gapの半分を引いている）
+3. 画面幅を変更して、カードが1列→2列に変化することを確認しよう
+4. 実際のWebサイトで、このようなレスポンシブなカードレイアウトがよく使われていることを観察しよう
+:::
+
+---
+
+## コラム：なぜfloatは時代遅れなのか
+
+### floatの本来の目的
+
+`float`プロパティは、もともと **画像を文章の横に配置する** ために作られた。
+
+```css
+img {
+  float: left;
+  margin-right: 10px;
+}
+```
+
+これにより、雑誌や新聞のように、画像の周りを文章が回り込むレイアウトが可能になる。
+
+### floatがレイアウトに使われた理由
+
+Flexboxが登場する前（2010年代前半まで）、Webデザイナーは **要素を横並びにする手段がなかった**。
+そのため、floatを **本来の目的とは異なる** レイアウトツールとして使わざるを得なかった。
+
+**floatの問題点：**
+
+1. **clearfixが必要**
+   ```css
+   .container::after {
+     content: "";
+     display: block;
+     clear: both;
+   }
+   ```
+   → これを忘れるとレイアウトが崩れる
+
+2. **直感的でない**
+   → 「左に浮かせる」という概念が、横並びレイアウトとしては分かりにくい
+
+3. **中央揃えが難しい**
+   → floatでは要素を中央に配置するのが非常に複雑
+
+4. **柔軟性がない**
+   → 画面サイズに応じた柔軟なレイアウトが困難
+
+### Flexboxの登場
+
+2010年代後半、Flexboxが主要ブラウザでサポートされるようになった。
+
+**Flexboxの利点：**
+
+1. **シンプル**
+   ```css
+   .container {
+     display: flex;
+   }
+   ```
+   → たったこれだけで横並びになる
+
+2. **直感的**
+   → 「横並び」「中央揃え」などの概念が明確
+
+3. **柔軟**
+   → 画面サイズに応じて自動調整
+
+4. **保守しやすい**
+   → コードが短く、意図が明確
+
+### 現代のWeb開発
+
+**❌ floatはレイアウトに使わない**
+- floatは画像の回り込みなど、本来の用途のみに使う
+
+**✅ Flexboxを使う**
+- 横並び、縦並び、中央揃えなど、すべてFlexboxで実現できる
+
+:::caution 重要
+古い記事やチュートリアルには、floatを使ったレイアウト手法が載っている場合がある。
+
+しかし、 **現代ではFlexboxを使うべき** である。floatは過去の遺物として認識しておこう。
+:::
+
+### 実務での注意点
+
+- **既存のコード**：古いプロジェクトでfloatを見かけることがある
+  - リファクタリングする場合は、Flexboxに置き換えることを検討する
+- **学習**：floatの仕組みは知っておくと良いが、新規プロジェクトでは使わない
+- **互換性**：Flexboxは現代のすべてのブラウザでサポートされている
+
 ---
 
 ## 演習
@@ -392,6 +843,7 @@ Flexboxがなかった時代は、要素を横並びにするのが非常に大�
 - `justify-content`で横方向、`align-items`で縦方向の配置を制御
 - メディアクエリで画面サイズに応じてスタイルを変更できる
 - **モバイルファースト** の考え方が推奨される
+- **floatはレイアウトに使わず、Flexboxを使う**
 
 ### 🚀 次のステップ
 次の章では、 **HTMLフォーム** について学ぶ。
@@ -495,3 +947,18 @@ Flexboxの方がシンプルで、多くの場合はFlexboxで十分である。
 デフォルトは`order: 0;`で、数値が小さい順に表示される。
 
 HTMLの順序を変えずに、CSSだけで表示順序を変更できる。
+
+### Q8: floatは全く使わないのか？
+
+**A:** **レイアウトには使わない** が、画像の回り込みなど **本来の用途では使う**。
+
+```css
+/* 画像を左に配置し、文章を回り込ませる */
+img {
+  float: left;
+  margin-right: 10px;
+}
+```
+
+ただし、Flexboxでも同様のレイアウトが可能なため、floatを使う場面は減っている。
+

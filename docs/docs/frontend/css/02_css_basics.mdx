@@ -1,3 +1,5 @@
+import { CodePenEmbed } from "@site/src/components/CodePenEmbed";
+
 # CSSの基礎
 
 この章で得られるスキル：
@@ -19,19 +21,14 @@
 
 以下は、HTMLだけで作ったブログ記事である：
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>私のブログ</title>
-  </head>
-  <body>
-    <h1>私のブログ</h1>
-    <p>こんにちは！今日は天気が良いです。</p>
-    <p>公園に行って散歩をしました。</p>
-  </body>
-</html>
-```
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="html"
+  height="300"
+  htmlCode={`<h1>私のブログ</h1>
+<p>こんにちは！今日は天気が良いです。</p>
+<p>公園に行って散歩をしました。</p>`}
+/>
 
 このHTMLをブラウザで開くと、以下のような問題がある：
 
@@ -45,6 +42,41 @@
    - 自分らしさが全くない
 
 では、これに **CSS** を適用すると、どうなるだろうか？
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="400"
+  htmlCode={`<h1>私のブログ</h1>
+<p>こんにちは！今日は天気が良いです。</p>
+<p>公園に行って散歩をしました。</p>`}
+  cssCode={`body {
+  background-color: #f0f8ff;
+  font-family: "Arial", sans-serif;
+  padding: 20px;
+}
+
+h1 {
+  color: #2c3e50;
+  border-bottom: 3px solid #3498db;
+  padding-bottom: 10px;
+}
+
+p {
+  color: #34495e;
+  line-height: 1.8;
+  font-size: 16px;
+}`}
+/>
+
+:::tip やってみよう
+1. CSSを適用する前と後で、見た目がどう変わるかを比較しよう
+2. なぜCSSが必要なのか考えてみよう（HTMLは構造、CSSは見た目を分離するため）
+3. `background-color`の値を変更して、ページ全体の雰囲気が変わることを確認しよう
+4. CSSを削除して、装飾がなくなることを体験してみよう
+:::
+
+CSSを使うことで、同じ構造のHTMLでも、まったく異なる **見た目** を実現できる。
 
 ---
 
@@ -78,6 +110,25 @@ p {
 - `p`：セレクタ（`<p>`タグを対象にする）
 - `color`：プロパティ（文字色を指定）
 - `red`：値（赤色）
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="300"
+  htmlCode={`<h1>見出し</h1>
+<p>これは段落です。</p>
+<p>これも段落です。</p>`}
+  cssCode={`p {
+  color: red;
+}`}
+/>
+
+:::tip やってみよう
+1. `color: red;`を`color: blue;`に変更して、文字色が変わることを確認しよう
+2. `h1 { color: green; }`を追加して、見出しの色を変えてみよう
+3. なぜ`p`と指定するだけで、すべての段落に適用されるのか考えてみよう（セレクタが対象を指定しているため）
+4. セレクタ、プロパティ、値の3つの要素が、CSSの基本構造であることを理解しよう
+:::
 
 ---
 
@@ -159,6 +210,33 @@ p {
 - ✅ HTMLとCSSが分離されて読みやすい
 - ✅ **最も推奨される方法**
 
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="350"
+  htmlCode={`<h2>外部スタイルシートのメリット</h2>
+<p>複数のページで同じスタイルを適用できます。</p>
+<p>HTMLとCSSが分離されて管理しやすくなります。</p>`}
+  cssCode={`/* 外部スタイルシート（style.css）のイメージ */
+h2 {
+  color: #2980b9;
+  border-left: 5px solid #3498db;
+  padding-left: 10px;
+}
+
+p {
+  color: #555;
+  line-height: 1.6;
+}`}
+/>
+
+:::tip やってみよう
+1. CSSのプロパティを変更して、スタイルが即座に反映されることを確認しよう
+2. なぜ外部スタイルシートが推奨されるのか考えてみよう（複数ページで再利用でき、保守性が高いため）
+3. インラインスタイルを使うと、HTMLとCSSが混在して読みにくくなることを理解しよう
+4. 実際のWebサイトでは、ほとんどが外部スタイルシートを使っていることを認識しよう
+:::
+
 ---
 
 ## Step 3: 基本的なセレクタ（要素セレクタ）
@@ -193,6 +271,38 @@ p {
 
 - `font-size`：フォントサイズ（16ピクセル）
 - `line-height`：行間（1.5倍）
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="400"
+  htmlCode={`<h1>Webサイトのタイトル</h1>
+<h2>セクションの見出し</h2>
+<p>これは段落です。複数のプロパティを指定して、読みやすくしています。</p>
+<p>2つ目の段落も同じスタイルが適用されます。</p>`}
+  cssCode={`h1 {
+  color: #2c3e50;
+  font-size: 32px;
+}
+
+h2 {
+  color: #27ae60;
+  font-size: 24px;
+}
+
+p {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.8;
+}`}
+/>
+
+:::tip やってみよう
+1. `h1`のフォントサイズを変更して、見出しの大きさが変わることを確認しよう
+2. `p`に`font-weight: bold;`を追加して、段落が太字になることを確認しよう
+3. なぜ要素セレクタを使うと、すべての同じ要素に適用されるのか考えてみよう（タグ名で対象を選択しているため）
+4. 複数のプロパティを組み合わせることで、きめ細かいデザインができることを理解しよう
+:::
 
 ---
 
@@ -236,6 +346,46 @@ p {
   background-color: rgba(255, 255, 0, 0.3);  /* 半透明の黄色 */
 }
 ```
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="450"
+  htmlCode={`<h1>色の指定方法</h1>
+<p class="color-name">色名で指定（red）</p>
+<p class="color-hex">16進数で指定（#3498db）</p>
+<p class="color-rgb">RGBで指定（rgb(46, 204, 113)）</p>
+<p class="color-rgba">RGBAで指定（rgba(231, 76, 60, 0.5)）</p>`}
+  cssCode={`h1 {
+  color: #2c3e50;
+  background-color: #ecf0f1;
+  padding: 10px;
+}
+
+.color-name {
+  color: red;
+}
+
+.color-hex {
+  color: #3498db;
+}
+
+.color-rgb {
+  color: rgb(46, 204, 113);
+}
+
+.color-rgba {
+  background-color: rgba(231, 76, 60, 0.5);
+  padding: 10px;
+}`}
+/>
+
+:::tip やってみよう
+1. 16進数の値を変更して、色が変わることを確認しよう（例：`#FF0000`→`#00FF00`）
+2. RGBAの透明度（最後の数値）を変更して、背景が透けることを確認しよう
+3. なぜ色の指定方法が複数あるのか考えてみよう（色名は簡単、16進数は正確、RGBAは透明度を指定できる）
+4. 実務では16進数が最もよく使われることを知ろう
+:::
 
 ---
 
@@ -288,6 +438,54 @@ body {
 
 - カンマ区切りで複数指定（左から優先的に使用）
 - 最後にフォールバック（`sans-serif`, `serif`, `monospace`）を指定
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="450"
+  htmlCode={`<h1>フォントの指定</h1>
+<p class="small">小さいフォント（12px）</p>
+<p class="medium">標準フォント（16px）</p>
+<p class="large">大きいフォント（24px）</p>
+<p class="bold">太字（font-weight: bold）</p>
+<p class="serif">セリフ体（serif）</p>
+<p class="mono">等幅フォント（monospace）</p>`}
+  cssCode={`h1 {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.small {
+  font-size: 12px;
+}
+
+.medium {
+  font-size: 16px;
+}
+
+.large {
+  font-size: 24px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.serif {
+  font-family: "Times New Roman", serif;
+}
+
+.mono {
+  font-family: "Courier New", monospace;
+}`}
+/>
+
+:::tip やってみよう
+1. `font-size`の値を変更して、文字の大きさが変わることを確認しよう
+2. `font-weight`を`normal`と`bold`で切り替えて、太さが変わることを確認しよう
+3. なぜ`font-family`に複数のフォントを指定するのか考えてみよう（最初のフォントがない場合に、次のフォントを使うため）
+4. `font-family`の最後に`sans-serif`や`serif`などの汎用フォントを指定することが重要であることを理解しよう
+:::
 
 ---
 
@@ -367,6 +565,65 @@ div {
 ボックスモデルを理解することは、CSSレイアウトの基本である。
 
 要素のサイズは、`width` + `padding` + `border` + `margin`で決まる。
+
+実務では、開発者ツールを使って、各要素のボックスモデルを視覚的に確認できる。
+:::
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="500"
+  htmlCode={`<div class="box1">
+  <p>margin: 20px</p>
+</div>
+
+<div class="box2">
+  <p>padding: 20px</p>
+</div>
+
+<div class="box3">
+  <p>border: 5px solid</p>
+</div>
+
+<div class="box4">
+  <p>margin + padding + border</p>
+</div>`}
+  cssCode={`div {
+  background-color: #ecf0f1;
+  margin-bottom: 20px;
+}
+
+p {
+  background-color: #3498db;
+  color: white;
+  margin: 0;
+}
+
+.box1 p {
+  margin: 20px;
+}
+
+.box2 p {
+  padding: 20px;
+}
+
+.box3 p {
+  border: 5px solid #e74c3c;
+}
+
+.box4 p {
+  margin: 10px;
+  padding: 15px;
+  border: 3px solid #2ecc71;
+}`}
+/>
+
+:::tip やってみよう
+1. `margin`を変更して、要素の外側の余白が変わることを確認しよう
+2. `padding`を変更して、要素の内側の余白（背景色の範囲）が変わることを確認しよう
+3. なぜmarginとpaddingが必要なのか考えてみよう（marginは要素間の間隔、paddingは内容と境界の間隔を調整するため）
+4. `border`の太さを変更して、境界線の太さが変わることを確認しよう
+5. ブラウザの開発者ツール（F12）を開いて、ボックスモデルを視覚的に確認してみよう
 :::
 
 ---
@@ -424,6 +681,58 @@ div {
 `display`プロパティを使うことで、要素の表示タイプを変更できる。
 
 例：`<span>`（デフォルトはinline）を`display: block;`にすることで、ブロック要素として扱える。
+:::
+
+<CodePenEmbed
+  slugHash="ByKOEqx"
+  defaultTab="css"
+  height="500"
+  htmlCode={`<h2>block要素</h2>
+<div class="block">ブロック1</div>
+<div class="block">ブロック2</div>
+
+<h2>inline要素</h2>
+<span class="inline">インライン1</span>
+<span class="inline">インライン2</span>
+<span class="inline">インライン3</span>
+
+<h2>inline-block要素</h2>
+<div class="inline-block">Box1</div>
+<div class="inline-block">Box2</div>
+<div class="inline-block">Box3</div>`}
+  cssCode={`.block {
+  display: block;
+  background-color: #3498db;
+  color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 200px;
+}
+
+.inline {
+  display: inline;
+  background-color: #e74c3c;
+  color: white;
+  padding: 5px;
+}
+
+.inline-block {
+  display: inline-block;
+  background-color: #2ecc71;
+  color: white;
+  padding: 15px;
+  margin: 5px;
+  width: 80px;
+  height: 60px;
+}`}
+/>
+
+:::tip やってみよう
+1. `display: block;`を`display: inline;`に変更して、要素が横に並ぶことを確認しよう
+2. `display: inline-block;`のwidthとheightを変更して、サイズを指定できることを確認しよう
+3. なぜinline要素にはwidthとheightを指定できないのか考えてみよう（インライン要素は内容に応じてサイズが決まるため）
+4. `display: inline-block;`が、inlineとblockの良いところを組み合わせていることを理解しよう
+5. 実務では、ナビゲーションメニューなどで`display: inline-block;`がよく使われることを知ろう
 :::
 
 ---
@@ -573,3 +882,4 @@ p {
 ```
 
 HTMLのコメント（`<!-- -->`）とは異なるので注意。
+
