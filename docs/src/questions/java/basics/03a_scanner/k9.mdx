@@ -1,0 +1,119 @@
+---
+id: "java/basics/03a_scanner#k9"
+title: "整数読み取り後の注意点がわかる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "03a_scanner"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "nextInt()は改行文字を残すため、次にnextLine()を使う場合は間にscanner.nextLine()を挟む必要がある"
+  - id: "B"
+    text: "nextInt()の後は必ずnextInt()を使わなければならない"
+  - id: "C"
+    text: "nextInt()は改行文字も自動で消費するため、何も対処は不要"
+  - id: "D"
+    text: "nextInt()の後にnextLine()を使うことはできない"
+answers:
+  correct: ["A"]
+explanation: |
+  **nextInt()の重要な注意点**：
+
+  `nextInt()`は**数値のみを読み取り、改行文字（Enter）を残す**。
+  そのため、次に`nextLine()`を使うと、残った改行文字を読み取ってしまい、空文字列が返される。
+
+  **問題が起きる例**：
+  ```java
+  Scanner scanner = new Scanner(System.in);
+
+  System.out.print("年齢を入力: ");
+  int age = scanner.nextInt();  // "25"と入力してEnter → 改行文字が残る
+
+  System.out.print("名前を入力: ");
+  String name = scanner.nextLine();  // 残った改行文字を読み取ってしまう（空文字列）
+
+  System.out.println("名前: " + name);  // "名前: " と表示される（空）
+  ```
+
+  **解決策**：
+  ```java
+  Scanner scanner = new Scanner(System.in);
+
+  System.out.print("年齢を入力: ");
+  int age = scanner.nextInt();
+  scanner.nextLine();  // 残った改行文字を消費
+
+  System.out.print("名前を入力: ");
+  String name = scanner.nextLine();  // 正しく読み取れる
+
+  System.out.println("名前: " + name);
+  ```
+---
+
+## 問題
+
+nextInt()を使った後にnextLine()を使う場合の注意点として、最も適切なものを選べ。
+
+## 解説
+
+nextInt()は**数値のみを読み取り、改行文字は残す**ため、次にnextLine()を使う場合は注意が必要である。
+
+**なぜこの問題が起きるのか**：
+
+ユーザーが`25`と入力してEnterキーを押すと、以下のようなデータが標準入力に送られる：
+```
+25\n
+```
+（`\n`は改行文字）
+
+`nextInt()`は`25`のみを読み取り、`\n`は残る。
+次に`nextLine()`を呼ぶと、残った`\n`を読み取ってしまい、空文字列が返される。
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+**問題が起きる例**：
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("年齢を入力: ");
+        int age = scanner.nextInt();
+
+        System.out.print("名前を入力: ");
+        String name = scanner.nextLine();  // 問題！空文字列が返される
+
+        System.out.println("年齢: " + age);
+        System.out.println("名前: " + name);  // 空になる
+    }
+}`} />
+
+**正しい例**：
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("年齢を入力: ");
+        int age = scanner.nextInt();
+        scanner.nextLine();  // 改行文字を消費
+
+        System.out.print("名前を入力: ");
+        String name = scanner.nextLine();  // 正しく読み取れる
+
+        System.out.println("年齢: " + age);
+        System.out.println("名前: " + name);
+    }
+}`} />
+
+**覚え方**：
+- `nextInt()`の後に`nextLine()`を使う場合
+  → 間に`scanner.nextLine()`を1回挟む
+- `nextInt()`の後に`nextInt()`や`nextDouble()`を使う場合
+  → 何も対処は不要（これらのメソッドは空白や改行を自動でスキップする）

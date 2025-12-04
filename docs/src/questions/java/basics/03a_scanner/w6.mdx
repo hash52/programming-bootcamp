@@ -1,0 +1,116 @@
+---
+id: "java/basics/03a_scanner#w6"
+title: "1行を読み取れる"
+type: "WRITE"
+difficulty: "Easy"
+topicId: "03a_scanner"
+category: "java/basics"
+explanation: |
+  **nextLine()メソッド**を使うと、標準入力から1行を文字列として読み取れる。
+
+  ```java
+  Scanner scanner = new Scanner(System.in);
+  String input = scanner.nextLine();  // ユーザーの入力を待つ
+  ```
+
+  **nextLine()の動作**：
+  1. ユーザーがEnterキーを押すまで待機
+  2. Enterキーが押されたら、その1行を文字列として取得
+  3. 改行文字は含まれない
+
+  **使い所**：
+  - 名前や住所など、文字列全体を読み取る
+  - 空白を含む文字列（例：「田中 太郎」）
+  - 自由記述の入力
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+ユーザーに名前と趣味を入力してもらい、自己紹介文を表示するプログラムを書いて実行してください。
+
+**要件**：
+- 「名前を入力してください: 」と表示して、名前を受け取る
+- 「趣味を入力してください: 」と表示して、趣味を受け取る
+- 「〇〇さんの趣味は△△です」と表示
+
+**実行環境**：
+- 以下のOneCompiler（ブラウザ上で実行可能）
+- または、Eclipse等のIDE
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        // ここにコードを書いてください
+
+    }
+}`}
+/>
+
+**ヒント**：
+- `scanner.nextLine()`で1行を読み取る
+- 2回使って名前と趣味を別々に読み取る
+
+---
+
+## 解答例
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("名前を入力してください: ");
+        String name = scanner.nextLine();
+
+        System.out.print("趣味を入力してください: ");
+        String hobby = scanner.nextLine();
+
+        System.out.println(name + "さんの趣味は" + hobby + "です");
+    }
+}`}
+/>
+
+**実行例**：
+```
+名前を入力してください: 田中太郎
+趣味を入力してください: プログラミング
+田中太郎さんの趣味はプログラミングです
+```
+
+**応用例**：
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== アンケート ===");
+
+        System.out.print("1. お名前: ");
+        String name = scanner.nextLine();
+
+        System.out.print("2. 年齢: ");
+        String age = scanner.nextLine();
+
+        System.out.print("3. 住んでいる都道府県: ");
+        String prefecture = scanner.nextLine();
+
+        System.out.println("\\n=== 回答内容 ===");
+        System.out.println("名前: " + name);
+        System.out.println("年齢: " + age);
+        System.out.println("都道府県: " + prefecture);
+        System.out.println("\\nご協力ありがとうございました！");
+    }
+}`}
+/>

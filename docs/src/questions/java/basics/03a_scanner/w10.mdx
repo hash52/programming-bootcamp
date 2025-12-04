@@ -1,0 +1,173 @@
+---
+id: "java/basics/03a_scanner#w10"
+title: "数字以外が入力された時の対処ができる"
+type: "WRITE"
+difficulty: "Medium"
+topicId: "03a_scanner"
+category: "java/basics"
+explanation: |
+  **数値を期待しているのに文字列が入力された場合**、`InputMismatchException`が発生する。
+
+  ```java
+  Scanner scanner = new Scanner(System.in);
+  int age = scanner.nextInt();  // "abc"と入力 → エラー！
+  ```
+
+  **対処方法**：
+  1. **try-catch文で例外を捕捉**（推奨）
+  2. **hasNextInt()で事前にチェック**
+
+  **try-catch文を使った対処**：
+  ```java
+  try {
+      int age = scanner.nextInt();
+      System.out.println("年齢: " + age);
+  } catch (InputMismatchException e) {
+      System.out.println("エラー: 数値を入力してください");
+  }
+  ```
+
+  **hasNextInt()を使った対処**：
+  ```java
+  if (scanner.hasNextInt()) {
+      int age = scanner.nextInt();
+      System.out.println("年齢: " + age);
+  } else {
+      System.out.println("エラー: 数値を入力してください");
+  }
+  ```
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+ユーザーに整数を入力してもらい、数字以外が入力された場合はエラーメッセージを表示するプログラムを書いて実行してください。
+
+**要件**：
+- 「整数を入力してください: 」と表示
+- 整数が入力された場合：「入力された値: 〇〇」と表示
+- 数字以外が入力された場合：「エラー: 整数を入力してください」と表示
+
+**実行環境**：
+- 以下のOneCompiler（ブラウザ上で実行可能）
+- または、Eclipse等のIDE
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+import java.util.InputMismatchException;
+
+public class Main {
+    public static void main(String[] args) {
+        // ここにコードを書いてください
+
+    }
+}`}
+/>
+
+**ヒント**：
+- `try { ... } catch (InputMismatchException e) { ... }`で例外を捕捉
+- または、`scanner.hasNextInt()`で事前にチェック
+
+---
+
+## 解答例（try-catch版）
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+import java.util.InputMismatchException;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("整数を入力してください: ");
+
+        try {
+            int number = scanner.nextInt();
+            System.out.println("入力された値: " + number);
+        } catch (InputMismatchException e) {
+            System.out.println("エラー: 整数を入力してください");
+        }
+    }
+}`}
+/>
+
+**実行例（成功）**：
+```
+整数を入力してください: 42
+入力された値: 42
+```
+
+**実行例（エラー）**：
+```
+整数を入力してください: abc
+エラー: 整数を入力してください
+```
+
+---
+
+## 解答例（hasNextInt版）
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("整数を入力してください: ");
+
+        if (scanner.hasNextInt()) {
+            int number = scanner.nextInt();
+            System.out.println("入力された値: " + number);
+        } else {
+            System.out.println("エラー: 整数を入力してください");
+        }
+    }
+}`}
+/>
+
+---
+
+## 応用例（再入力を促す）
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+import java.util.InputMismatchException;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int number = 0;
+        boolean validInput = false;
+
+        while (!validInput) {
+            System.out.print("1から10の整数を入力してください: ");
+
+            try {
+                number = scanner.nextInt();
+
+                if (number >= 1 && number <= 10) {
+                    validInput = true;
+                    System.out.println("入力された値: " + number);
+                } else {
+                    System.out.println("エラー: 1から10の範囲で入力してください");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("エラー: 整数を入力してください");
+                scanner.next();  // 不正な入力を消費
+            }
+        }
+    }
+}`}
+/>
+
+**ポイント**：
+- `scanner.next()`で不正な入力を消費することで、無限ループを防ぐ
+- `while`ループで再入力を促す
