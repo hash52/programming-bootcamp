@@ -3,52 +3,16 @@ id: "java/basics/01_java_basics#w7"
 title: "自分の名前と年齢を表示するプログラムを書ける"
 type: "WRITE"
 difficulty: "Easy"
-format: "freeText"
 topicId: "01_java_basics"
 category: "java/basics"
-sampleAnswer: |
-  public class Main {
-      public static void main(String[] args) {
-          System.out.println("名前: 田中太郎");
-          System.out.println("年齢: 25歳");
-      }
-  }
 explanation: |
   **自分の情報を表示するプログラム**を書いてみよう。
-
-  **プログラムの構造**：
-  ```java
-  public class Main {
-      public static void main(String[] args) {
-          System.out.println("名前: 田中太郎");
-          System.out.println("年齢: 25歳");
-      }
-  }
-  ```
 
   **ポイント**：
   - `System.out.println()`で1行ずつ表示
   - 文字列はダブルクォート`"`で囲む
   - 各行の最後にセミコロン`;`を付ける
   - 日本語も使える
-
-  **実行結果**：
-  ```
-  名前: 田中太郎
-  年齢: 25歳
-  ```
-
-  **応用例**：
-  ```java
-  public class Main {
-      public static void main(String[] args) {
-          System.out.println("=== 自己紹介 ===");
-          System.out.println("名前: 田中太郎");
-          System.out.println("年齢: 25歳");
-          System.out.println("趣味: プログラミング");
-      }
-  }
-  ```
 
   **注意点**：
   - クラス名は`Main`のまま（OneCompilerでは固定）
@@ -80,3 +44,37 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `System.out.println("表示したい文字");` を使う
 - 文字列はダブルクォート`"`で囲む
 - 各行の最後にセミコロン`;`を付ける
+
+---
+
+## 解答例
+
+<OneCompilerCodeBlock 
+  language="java" 
+  code={`public class Main {
+    public static void main(String[] args) {
+        System.out.println("名前: 田中太郎");
+        System.out.println("年齢: 25歳");
+    }
+}`}
+/>
+
+**実行結果**：
+```
+名前: 田中太郎
+年齢: 25歳
+```
+
+**応用例**：
+
+<OneCompilerCodeBlock 
+  language="java" 
+  code={`public class Main {
+    public static void main(String[] args) {
+        System.out.println("=== 自己紹介 ===");
+        System.out.println("名前: 田中太郎");
+        System.out.println("年齢: 25歳");
+        System.out.println("趣味: プログラミング");
+    }
+}`}
+/>
