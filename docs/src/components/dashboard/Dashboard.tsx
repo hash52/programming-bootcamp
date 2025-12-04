@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -20,6 +20,7 @@ import {
   calcTopicProgressRate,
 } from "../lib/calcProgressRate";
 import { daysAgo } from "../lib/date";
+import { QuestionDialog } from "../question/QuestionDialog";
 
 /**
  * dateStringからの経過日数を文字列で返す
@@ -107,6 +108,11 @@ export const Dashboard: FC = () => {
     new Set(ALL_TOPIC_STRUCTURE.map((t) => t.category))
   );
 
+  /** 選択された質問ID（ダイアログ表示用） */
+  const [selectedQuestionId, setSelectedQuestionId] = useState<string | null>(
+    null
+  );
+
   return (
     <PageContainer>
       {/* 折れ線グラフ */}
@@ -182,7 +188,7 @@ export const Dashboard: FC = () => {
                                   }
                                 />
                                 <QuestionTitle
-                                  onClick={() => window.open(q.id, "_blank")} // 別タブで問題ページを開く
+                                  onClick={() => setSelectedQuestionId(q.id)}
                                 >
                                   {q.title}
                                 </QuestionTitle>
@@ -203,6 +209,12 @@ export const Dashboard: FC = () => {
           );
         })}
       </CategoryProgressStack>
+
+      {/* QuestionDialog */}
+      <QuestionDialog
+        questionId={selectedQuestionId}
+        onClose={() => setSelectedQuestionId(null)}
+      />
     </PageContainer>
   );
 };

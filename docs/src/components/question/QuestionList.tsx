@@ -16,12 +16,17 @@ interface QuestionListProps {
   topicId: string;
   category: string;
   randomOrder?: boolean;
+  // ⚠️ 以下のpropsは道場機能の仮実装で追加されたが、現在は未使用
+  achievementFilter?: "all" | "achieved" | "unachieved";
+  daysAgoFilter?: "all" | "1" | "3" | "7" | "14" | "30";
 }
 
 export const QuestionList: React.FC<QuestionListProps> = ({
   topicId,
   category,
   randomOrder = false,
+  achievementFilter = "all",  // 仮実装：現在は未使用
+  daysAgoFilter = "all",      // 仮実装：現在は未使用
 }) => {
   // structure.tsから該当トピックの全質問を取得
   const topic = ALL_TOPIC_STRUCTURE.find(
