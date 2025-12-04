@@ -1,8 +1,10 @@
 import { useLocalStorage } from "react-use";
+import { useEffect } from "react";
 import { calcOverallProgressRate } from "../components/lib/calcProgressRate";
 
 const STORAGE_KEY_PROGRESS = "questionProgress";
 const STORAGE_KEY_HISTORY = "progressHistory";
+const PROGRESS_UPDATE_EVENT = "progressUpdate";
 
 /** 設問ごとの進捗状態 */
 interface QuestionProgress {
@@ -42,6 +44,7 @@ interface UseStoredProgressReturn {
  * localStorage に保存された進捗データを管理するカスタムフック
  * - チェック時：日付を登録
  * - チェック解除時：該当レコードを削除
+ * - カスタムイベントで他のコンポーネントに通知
  */
 function useStoredProgress(): UseStoredProgressReturn {
   const [progress, setProgress] = useLocalStorage<ProgressRecord>(
@@ -52,6 +55,22 @@ function useStoredProgress(): UseStoredProgressReturn {
     STORAGE_KEY_HISTORY,
     {}
   );
+
+  // カスタムイベントをリッスンして、他のコンポーネントからの更新を反映
+  useEffect(() => {
+    const handleProgressUpdate = () => {
+      // localStorageから最新のデータを取得して強制的に再レンダリング
+      const latestProgress = localStorage.getItem(STORAGE_KEY_PROGRESS);
+      if (latestProgress) {
+        setProgress(JSON.parse(latestProgress));
+      }
+    };
+
+    window.addEventListener(PROGRESS_UPDATE_EVENT, handleProgressUpdate);
+    return () => {
+      window.removeEventListener(PROGRESS_UPDATE_EVENT, handleProgressUpdate);
+    };
+  }, [setProgress]);
 
   /** 当日の進捗率を履歴に保存する */
   const updateProgressHistory = (ratio: number) => {
@@ -77,6 +96,9 @@ function useStoredProgress(): UseStoredProgressReturn {
     // 全体進捗率を再計算して履歴に反映
     const overallRatio = Math.round(calcOverallProgressRate(updated) * 100);
     updateProgressHistory(overallRatio);
+
+    // カスタムイベントを発火して、他のコンポーネントに通知
+    window.dispatchEvent(new Event(PROGRESS_UPDATE_EVENT));
   };
 
   return { progress, history, updateProgress };
