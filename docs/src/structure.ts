@@ -140,6 +140,11 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
+      {
+        title: "自分の名前と年齢を表示するプログラムを書ける",
+        type: "WRITE",
+        difficulty: Difficulty.Easy,
+      },
     ],
   }),
   withAutoIds({
@@ -312,12 +317,12 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "Scannerクラスの役割を説明できる",
+        title: "標準入力用クラスの役割を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "nextLine()とnextInt()の違いを説明できる",
+        title: "文字列読み取りと整数読み取りの違いを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -327,27 +332,27 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "Scannerを使う準備ができる",
+        title: "標準入力を使う準備ができる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "nextLine()で1行読み取れる",
+        title: "1行を読み取れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "nextInt()で整数を読み取れる",
+        title: "整数を読み取れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "nextDouble()で小数を読み取れる",
+        title: "小数を読み取れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "nextInt()の後にnextLine()を使う注意点がわかる",
+        title: "整数読み取り後の注意点がわかる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
