@@ -1,0 +1,61 @@
+---
+id: "java/basics/01_java_basics#w5"
+title: "「Hello World」と画面に表示できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "01_java_basics"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["System.out.println", "System.out.print"]
+  blank2: ["\"Hello World\"", "\"Hello World\";", "'Hello World'", "'Hello World';"]
+sampleAnswer: "System.out.println(\"Hello World\");"
+explanation: |
+  **「Hello World」を画面に表示する**には、`System.out.println()`を使う。
+
+  ```java
+  System.out.println("Hello World");
+  ```
+
+  **コードの説明**：
+  - `System.out.println()`: 画面に文字を表示し、改行するメソッド
+  - `"Hello World"`: 表示したい文字列（ダブルクォートで囲む）
+  - 最後に`;`（セミコロン）を付ける
+
+  **実行結果**：
+  ```
+  Hello World
+  ```
+
+  **println と print の違い**：
+  - `println`: 表示後に改行する
+  - `print`: 改行しない
+
+  ```java
+  System.out.print("Hello ");
+  System.out.print("World");
+  // 出力: Hello World（改行なし）
+
+  System.out.println("Hello ");
+  System.out.println("World");
+  // 出力:
+  // Hello 
+  // World
+  ```
+
+  **注意**：
+  - 文字列は必ずダブルクォート `"` で囲む
+  - 日本語も表示できる：`System.out.println("こんにちは");`
+  - 最後の`;`（セミコロン）を忘れないこと
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 問題
+
+以下のコードの空欄を埋めて、「Hello World」と画面に表示してください。
+
+<CodeBlock>
+  <BlankInput id="blank1" />(<BlankInput id="blank2" />);
+</CodeBlock>

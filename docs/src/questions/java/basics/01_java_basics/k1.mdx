@@ -1,0 +1,48 @@
+---
+id: "java/basics/01_java_basics#k1"
+title: "プログラムの実行順序を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "01_java_basics"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "上から下へ、順番に実行される"
+  - id: "B"
+    text: "下から上へ、逆順に実行される"
+  - id: "C"
+    text: "ランダムに実行される"
+answers:
+  correct: ["A"]
+explanation: |
+  プログラムは、**上から下へ、書かれた順番に実行される**。
+
+  これはプログラミングの最も基本的な原則である。
+
+  ```java
+  System.out.println("1行目");
+  System.out.println("2行目");
+  System.out.println("3行目");
+  ```
+
+  実行結果：
+  ```
+  1行目
+  2行目
+  3行目
+  ```
+
+  **重要なポイント**：
+  - コードは必ず上から下に実行される
+  - 後に書いたコードは、前のコードが実行された後に実行される
+  - この順序は条件分岐やループで変わることもあるが、基本原則は同じ
+
+  **例外**：
+  - 条件分岐（if文）：条件によって実行される行が変わる
+  - ループ（for文、while文）：同じ行が繰り返し実行される
+  - メソッド呼び出し：別の場所にジャンプして実行される
+---
+
+プログラムの実行順序として正しいものを選べ。
