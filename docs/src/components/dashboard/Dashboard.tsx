@@ -108,10 +108,40 @@ export const Dashboard: FC = () => {
     new Set(ALL_TOPIC_STRUCTURE.map((t) => t.category))
   );
 
-  /** 選択された質問ID（ダイアログ表示用） */
-  const [selectedQuestionId, setSelectedQuestionId] = useState<string | null>(
-    null
-  );
+  /** 選択された質問のコンテキスト情報（ダイアログ表示＋ナビゲーション用） */
+  const [selectedQuestionContext, setSelectedQuestionContext] = useState<{
+    questionId: string;
+    topicQuestions: Array<{ id: string; title: string }>;
+    currentIndex: number;
+  } | null>(null);
+
+  /** 前の問題に移動 */
+  const handlePrevious = () => {
+    if (!selectedQuestionContext) return;
+    const { topicQuestions, currentIndex } = selectedQuestionContext;
+    if (currentIndex > 0) {
+      const prevQuestion = topicQuestions[currentIndex - 1];
+      setSelectedQuestionContext({
+        questionId: prevQuestion.id,
+        topicQuestions,
+        currentIndex: currentIndex - 1,
+      });
+    }
+  };
+
+  /** 次の問題に移動 */
+  const handleNext = () => {
+    if (!selectedQuestionContext) return;
+    const { topicQuestions, currentIndex } = selectedQuestionContext;
+    if (currentIndex < topicQuestions.length - 1) {
+      const nextQuestion = topicQuestions[currentIndex + 1];
+      setSelectedQuestionContext({
+        questionId: nextQuestion.id,
+        topicQuestions,
+        currentIndex: currentIndex + 1,
+      });
+    }
+  };
 
   return (
     <PageContainer>
@@ -188,7 +218,17 @@ export const Dashboard: FC = () => {
                                   }
                                 />
                                 <QuestionTitle
-                                  onClick={() => setSelectedQuestionId(q.id)}
+                                  onClick={() => {
+                                    const topicQuestions = topic.questions;
+                                    const currentIndex = topicQuestions.findIndex(
+                                      (question) => question.id === q.id
+                                    );
+                                    setSelectedQuestionContext({
+                                      questionId: q.id,
+                                      topicQuestions,
+                                      currentIndex,
+                                    });
+                                  }}
                                 >
                                   {q.title}
                                 </QuestionTitle>
@@ -212,8 +252,22 @@ export const Dashboard: FC = () => {
 
       {/* QuestionDialog */}
       <QuestionDialog
-        questionId={selectedQuestionId}
-        onClose={() => setSelectedQuestionId(null)}
+        questionId={selectedQuestionContext?.questionId ?? null}
+        onClose={() => setSelectedQuestionContext(null)}
+        showNavigation={true}
+        onPrevious={handlePrevious}
+        onNext={handleNext}
+        hasPrevious={
+          selectedQuestionContext
+            ? selectedQuestionContext.currentIndex > 0
+            : false
+        }
+        hasNext={
+          selectedQuestionContext
+            ? selectedQuestionContext.currentIndex <
+              selectedQuestionContext.topicQuestions.length - 1
+            : false
+        }
       />
     </PageContainer>
   );
