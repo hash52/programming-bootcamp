@@ -188,22 +188,22 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "int型で整数を扱える",
+        title: "整数型の変数を宣言できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "double型で小数を扱える",
+        title: "小数型の変数を宣言できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "boolean型でtrue/falseを扱える",
+        title: "真偽値型の変数を宣言できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "String型で文字列を扱える",
+        title: "文字列型の変数を宣言できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
@@ -218,7 +218,7 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Medium,
       },
       {
-        title: "finalで変更できない定数を作れる",
+        title: "定数を宣言できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
