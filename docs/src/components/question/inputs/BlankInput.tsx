@@ -1,23 +1,18 @@
 import React from "react";
 import { TextField } from "@mui/material";
 import { useColorMode } from "@docusaurus/theme-common";
+import { useBlankInput } from "@site/src/contexts/BlankInputContext";
 
 interface BlankInputProps {
   id: string;
-  value?: string;
-  onChange?: (id: string, value: string) => void;
-  isCorrect?: boolean;
-  disabled?: boolean;
 }
 
-export const BlankInput: React.FC<BlankInputProps> = ({
-  id,
-  value = "",
-  onChange,
-  isCorrect,
-  disabled = false,
-}) => {
+export const BlankInput: React.FC<BlankInputProps> = ({ id }) => {
   const { colorMode } = useColorMode();
+  const { blanks, updateBlank, blankCorrectness } = useBlankInput();
+
+  const value = blanks[id] || "";
+  const isCorrect = blankCorrectness[id];
 
   const getBorderColor = () => {
     if (isCorrect === undefined) return undefined;
@@ -29,8 +24,7 @@ export const BlankInput: React.FC<BlankInputProps> = ({
       size="small"
       variant="outlined"
       value={value}
-      onChange={(e) => onChange?.(id, e.target.value)}
-      disabled={disabled}
+      onChange={(e) => updateBlank(id, e.target.value)}
       sx={{
         width: "150px",
         display: "inline-flex",

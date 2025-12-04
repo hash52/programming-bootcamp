@@ -11,6 +11,8 @@ export interface QuestionMetadata {
   choices?: Choice[];
   answers?: MultipleChoiceAnswer;
   multipleSelect?: boolean;
+  // 穴埋め問題のデータ
+  fillInBlankAnswers?: FillInBlankAnswer;
   // 自由記述のサンプル解答
   sampleAnswer?: string;
   // 解説（簡潔な文章）
@@ -28,13 +30,21 @@ export interface MultipleChoiceAnswer {
   correct: string[];
 }
 
+// 穴埋め問題の解答（ID → 正解のマッピング）
+export interface FillInBlankAnswer {
+  [blankId: string]: string | string[]; // 単一正解または複数の正解パターン
+}
+
 // 採点結果
 export interface QuestionResult {
   isCorrect: boolean;
   userAnswer: UserAnswer;
   correctAnswer?: any;
+  // 穴埋め問題の場合、各空欄の正誤を保持
+  blankResults?: Record<string, boolean>;
 }
 
 export type UserAnswer =
   | { format: "multipleChoice"; selected: string[] }
-  | { format: "freeText"; text: string };
+  | { format: "freeText"; text: string }
+  | { format: "fillInBlank"; blanks: Record<string, string> };

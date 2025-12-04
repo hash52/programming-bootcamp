@@ -17,8 +17,12 @@ import { FreeTextInput } from "./question/inputs/FreeTextInput";
 import { GradingFeedback } from "./question/GradingFeedback";
 import { AchievementCheckbox } from "./question/AchievementCheckbox";
 import { HintLink } from "./question/HintLink";
-import { gradeMultipleChoice } from "@site/src/lib/grading";
+import { gradeMultipleChoice, gradeFillInBlank } from "@site/src/lib/grading";
 import { useStoredProgress } from "@site/src/hooks/useStoredProgress";
+import {
+  BlankInputProvider,
+  useBlankInput,
+} from "@site/src/contexts/BlankInputContext";
 
 // @ts-expect-error: Webpackのrequire.contextをTypeScriptが認識しない
 const context = require.context("../questions", true, /\.mdx$/);
@@ -30,22 +34,15 @@ interface QuestionRendererProps {
   showHintLink?: boolean;
 }
 
-export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
-  id,
-  mode = "embedded",
-  showTitle = false,
-  showHintLink = true,
-}) => {
-  const [dirPath, fileNamePart] = id.split("#");
-  const filePath = `./${dirPath}/${fileNamePart}.mdx`;
-
-  const Module = context.keys().includes(filePath)
-    ? context(filePath)
-    : null;
-
-  // MDXのfrontmatterからメタデータを取得
-  const metadata: QuestionMetadata | undefined = Module?.frontMatter;
-
+// 内部コンポーネント（BlankInputContext内で使用）
+const QuestionRendererInner: React.FC<
+  QuestionRendererProps & {
+    Module: any;
+    metadata: QuestionMetadata;
+    fileNamePart: string;
+    id: string;
+  }
+> = ({ Module, metadata, fileNamePart, id, showTitle, showHintLink }) => {
   // 選択式の状態管理
   const [selectedChoices, setSelectedChoices] = useState<string[]>([]);
   // 自由記述の状態管理
@@ -57,6 +54,9 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
 
   // 進捗管理フック
   const { progress, updateProgress } = useStoredProgress();
+
+  // 穴埋め問題用のContext
+  const { blanks, setBlankCorrectness, resetBlanks } = useBlankInput();
 
   // 初回アクセス時のスクロール処理
   useEffect(() => {
@@ -83,6 +83,27 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
 
       // 解答・解説を自動表示
       setShowExplanation(true);
+    } else if (
+      metadata?.format === "fillInBlank" &&
+      metadata.fillInBlankAnswers
+    ) {
+      const gradeResult = gradeFillInBlank(blanks, metadata.fillInBlankAnswers);
+      setResult(gradeResult);
+
+      // 各空欄の正誤を反映
+      if (gradeResult.blankResults) {
+        setBlankCorrectness(gradeResult.blankResults);
+      }
+
+      // 正解なら達成日時を自動更新、不正解ならチェックを外す
+      if (gradeResult.isCorrect) {
+        updateProgress(id, true);
+      } else {
+        updateProgress(id, false);
+      }
+
+      // 解答・解説を自動表示
+      setShowExplanation(true);
     }
   };
 
@@ -97,16 +118,6 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
     // 達成済みチェックを外す
     updateProgress(id, false);
   };
-
-  if (!Module || !metadata) {
-    return (
-      <p style={{ color: "red" }}>
-        ❌ 問題ファイルが見つかりません: {id}
-        <br />
-        <small>期待されるパス: {filePath}</small>
-      </p>
-    );
-  }
 
   return (
     <Box id={fileNamePart} p={2}>
@@ -159,12 +170,8 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
       {metadata.format === "fillInBlank" && (
         <>
           <Box mt={2} display="flex" gap={2} flexWrap="wrap">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleShowExplanation}
-            >
-              解答を表示する
+            <Button variant="contained" color="primary" onClick={handleGrade}>
+              採点する
             </Button>
             <Button
               variant="outlined"
@@ -294,5 +301,41 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({
         <AchievementCheckbox questionId={id} />
       </Box>
     </Box>
+  );
+};
+
+// 外部コンポーネント（BlankInputProviderでラップ）
+export const QuestionRenderer: React.FC<QuestionRendererProps> = (props) => {
+  const { id } = props;
+  const [dirPath, fileNamePart] = id.split("#");
+  const filePath = `./${dirPath}/${fileNamePart}.mdx`;
+
+  const Module = context.keys().includes(filePath)
+    ? context(filePath)
+    : null;
+
+  // MDXのfrontmatterからメタデータを取得
+  const metadata: QuestionMetadata | undefined = Module?.frontMatter;
+
+  if (!Module || !metadata) {
+    return (
+      <p style={{ color: "red" }}>
+        ❌ 問題ファイルが見つかりません: {id}
+        <br />
+        <small>期待されるパス: {filePath}</small>
+      </p>
+    );
+  }
+
+  return (
+    <BlankInputProvider>
+      <QuestionRendererInner
+        {...props}
+        Module={Module}
+        metadata={metadata}
+        fileNamePart={fileNamePart}
+        id={id}
+      />
+    </BlankInputProvider>
   );
 };

@@ -55,14 +55,13 @@ export const QuestionDialog: React.FC<QuestionDialogProps> = ({
       </IconButton>
 
       {/* 左ナビゲーションボタン（前へ） */}
-      {showNavigation && (
+      {showNavigation && hasPrevious && (
         <IconButton
           aria-label="previous"
           onClick={onPrevious}
-          disabled={!hasPrevious}
           sx={{
             position: "absolute",
-            left: 8,
+            left: 4,
             top: "50%",
             transform: "translateY(-50%)",
             color: (theme) => theme.palette.grey[500],
@@ -74,14 +73,13 @@ export const QuestionDialog: React.FC<QuestionDialogProps> = ({
       )}
 
       {/* 右ナビゲーションボタン（次へ） */}
-      {showNavigation && (
+      {showNavigation && hasNext && (
         <IconButton
           aria-label="next"
           onClick={onNext}
-          disabled={!hasNext}
           sx={{
             position: "absolute",
-            right: 8,
+            right: 4,
             top: "50%",
             transform: "translateY(-50%)",
             color: (theme) => theme.palette.grey[500],
