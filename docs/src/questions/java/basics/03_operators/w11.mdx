@@ -1,0 +1,104 @@
+---
+id: "java/basics/03_operators#w11"
+title: "条件を反転できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_operators"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["!", "！"]
+  blank2: ["!", "！"]
+sampleAnswer: "boolean isNotAdult = !isAdult;"
+explanation: |
+  **否定演算子**（`!`）は、**条件を反転させる演算子**である。
+
+  - `true`を`false`に変換
+  - `false`を`true`に変換
+
+  例：
+  ```java
+  boolean isRaining = false;
+  boolean isNotRaining = !isRaining;  // true
+
+  boolean hasLicense = true;
+  boolean hasNoLicense = !hasLicense;  // false
+  ```
+
+  **否定演算子の使い所**：
+  - 「〜でない」という条件を表現
+  - 条件を逆にする
+  - エラーチェック（「正常でない」場合の処理）
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 問題
+
+以下のコードの空欄を埋めて、否定演算子を正しく使ってください。
+
+<CodeBlock>
+{`boolean isRaining = false;
+boolean hasUmbrella = true;
+
+// 雨が降っていない
+boolean isNotRaining = `}<BlankInput id="blank1" />{`isRaining;
+
+// 傘を持っていない
+boolean hasNoUmbrella = `}<BlankInput id="blank2" />{`hasUmbrella;`}
+</CodeBlock>
+
+**ヒント**：
+- 否定（NOT）：`!`
+
+---
+
+## 解説
+
+否定演算子（`!`）を使うと、**真偽値を反転できる**。
+
+**否定演算子の真理値表**：
+
+| A | !A |
+|---|----|
+| true | false |
+| false | true |
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        boolean isLoggedIn = false;
+
+        // ログインしていない
+        boolean isNotLoggedIn = !isLoggedIn;
+        System.out.println("ログインしていない: " + isNotLoggedIn);  // true
+
+        // ログインしている
+        isLoggedIn = true;
+        isNotLoggedIn = !isLoggedIn;
+        System.out.println("ログインしていない: " + isNotLoggedIn);  // false
+
+        // 複雑な条件の例
+        int age = 15;
+        boolean isAdult = age >= 18;
+        boolean isMinor = !isAdult;  // 未成年
+        System.out.println("未成年: " + isMinor);  // true
+    }
+}`} />
+
+**論理演算子との組み合わせ**：
+
+```java
+boolean hasLicense = false;
+int age = 20;
+
+// 年齢が18歳以上 かつ 免許を持っていない
+boolean needsLicense = age >= 18 && !hasLicense;  // true
+```
+
+**実用例**：
+- エラーチェック：「入力が空でない」 → `!isEmpty`
+- 権限チェック：「管理者でない」 → `!isAdmin`
+- 状態確認：「完了していない」 → `!isCompleted`

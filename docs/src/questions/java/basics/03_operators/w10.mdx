@@ -1,0 +1,107 @@
+---
+id: "java/basics/03_operators#w10"
+title: "複数の条件を組み合わせられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_operators"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["&&", "& &"]
+  blank2: ["||", "| |"]
+sampleAnswer: "boolean canDrive = age >= 18 && hasLicense;"
+explanation: |
+  **論理演算子**を使うと、複数の条件を組み合わせて判定できる。
+
+  主な論理演算子：
+  - `&&`（かつ）：両方の条件がtrueの場合にtrue
+  - `||`（または）：どちらかの条件がtrueの場合にtrue
+  - `!`（否定）：条件を反転
+
+  例：
+  ```java
+  int age = 20;
+  boolean hasLicense = true;
+
+  // 年齢が18歳以上 かつ 免許を持っている
+  boolean canDrive = age >= 18 && hasLicense;  // true
+
+  // 年齢が18歳未満 または 免許を持っていない
+  boolean cannotDrive = age < 18 || !hasLicense;  // false
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 問題
+
+以下のコードの空欄を埋めて、論理演算子を正しく使ってください。
+
+<CodeBlock>
+{`int age = 20;
+boolean hasLicense = true;
+int temperature = 28;
+boolean isSunny = true;
+
+// 年齢が18歳以上 かつ 免許を持っている
+boolean canDrive = age >= 18 `}<BlankInput id="blank1" />{` hasLicense;
+
+// 気温が30度以上 または 雨が降っている（晴れていない）
+boolean stayIndoors = temperature >= 30 `}<BlankInput id="blank2" />{` !isSunny;`}
+</CodeBlock>
+
+**ヒント**：
+- かつ（AND）：`&&`
+- または（OR）：`||`
+
+---
+
+## 解説
+
+論理演算子を使うと、**複数の条件を同時に判定できる**。
+
+**論理演算子の真理値表**：
+
+**AND演算子（`&&`）**：
+| A | B | A && B |
+|---|---|--------|
+| true | true | true |
+| true | false | false |
+| false | true | false |
+| false | false | false |
+
+**OR演算子（`||`）**：
+| A | B | A \|\| B |
+|---|---|----------|
+| true | true | true |
+| true | false | true |
+| false | true | true |
+| false | false | false |
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        int age = 25;
+        boolean hasExperience = true;
+        boolean hasLicense = true;
+
+        // 年齢が20歳以上 かつ 経験がある
+        boolean isQualified = age >= 20 && hasExperience;
+        System.out.println("応募資格あり: " + isQualified);  // true
+
+        // 免許を持っている または 経験が5年以上（仮定）
+        boolean canApply = hasLicense || age >= 30;
+        System.out.println("申請可能: " + canApply);  // true
+
+        // 年齢が18歳以上 かつ 免許を持っている かつ 経験がある
+        boolean canDrive = age >= 18 && hasLicense && hasExperience;
+        System.out.println("運転可能: " + canDrive);  // true
+    }
+}`} />
+
+**実用例**：
+- ログイン判定：「ユーザー名が正しい **かつ** パスワードが正しい」
+- エラーチェック：「入力が空 **または** 数値が範囲外」
+- 権限チェック：「管理者である **または** 所有者である」

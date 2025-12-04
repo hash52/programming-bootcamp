@@ -1,0 +1,75 @@
+---
+id: "java/basics/03_operators#k4"
+title: "インクリメント・デクリメント演算子とは何かを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03_operators"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "四則演算を行う演算子"
+  - id: "B"
+    text: "値の大小を比較する演算子"
+  - id: "C"
+    text: "値を1増やす（インクリメント）または1減らす（デクリメント）演算子"
+  - id: "D"
+    text: "複数の条件を組み合わせる演算子"
+answers:
+  correct: ["C"]
+explanation: |
+  **インクリメント演算子**（`++`）は値を1増やし、**デクリメント演算子**（`--`）は値を1減らす演算子である。
+
+  例：
+  ```java
+  int count = 0;
+  count++;  // countが1増える（count = count + 1と同じ）
+  System.out.println(count);  // 1
+
+  count--;  // countが1減る（count = count - 1と同じ）
+  System.out.println(count);  // 0
+  ```
+
+  **インクリメント・デクリメント演算子の使い所**：
+  - カウンターを1ずつ増やす
+  - ループで回数を数える
+  - 在庫数を1減らす
+---
+
+## 問題
+
+インクリメント・デクリメント演算子の説明として最も適切なものを選べ。
+
+## 解説
+
+インクリメント演算子（`++`）とデクリメント演算子（`--`）は、**値を1増やしたり1減らしたりするための演算子**である。
+
+プログラムでは、値を1ずつ増減させることが非常に多い：
+- ゲームのスコアを1点ずつ加算
+- 商品の在庫を1個ずつ減らす
+- ループのカウンターを1ずつ増やす
+
+このような場面で、`count = count + 1`と書く代わりに`count++`と簡潔に書ける。
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        int stock = 10;
+        System.out.println("初期在庫: " + stock);
+
+        // 商品が1個売れた
+        stock--;
+        System.out.println("販売後の在庫: " + stock);  // 9
+
+        // 商品が1個入荷した
+        stock++;
+        System.out.println("入荷後の在庫: " + stock);  // 10
+    }
+}`} />
+
+**補足**：
+- `count++`は`count = count + 1`と同じ意味
+- `count--`は`count = count - 1`と同じ意味
+- 簡潔に書けるため、コードが読みやすくなる
