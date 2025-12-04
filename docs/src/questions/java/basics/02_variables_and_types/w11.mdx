@@ -1,0 +1,44 @@
+---
+id: "java/basics/02_variables_and_types#w11"
+title: "boolean型でtrue/falseを扱える"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "02_variables_and_types"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["boolean", "Boolean"]
+  blank2: ["true", "true;"]
+sampleAnswer: "boolean isStudent = true;"
+explanation: |
+  **boolean型**で真偽値を扱うには、変数宣言時に `boolean` を指定します。
+
+  ```java
+  boolean isStudent = true;
+  ```
+
+  - `boolean`: 真偽値型の型名
+  - `isStudent`: 変数名
+  - `true`: 真（正しい）を表す値
+
+  **boolean型で扱える値**：
+  - `true`（真）
+  - `false`（偽）
+  - この2つの値のみ
+
+  **注意**：
+  - 小文字で書く（`True` や `FALSE` はエラー）
+  - ダブルクォートは付けない（`"true"` は文字列）
+  - 条件分岐やループで頻繁に使う
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 問題
+
+以下のコードの空欄を埋めて、変数`isStudent`に真偽値`true`を代入してください。
+
+<CodeBlock>
+  <BlankInput id="blank1" /> isStudent = <BlankInput id="blank2" />;
+</CodeBlock>

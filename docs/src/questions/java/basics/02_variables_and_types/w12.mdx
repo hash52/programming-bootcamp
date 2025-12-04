@@ -1,0 +1,44 @@
+---
+id: "java/basics/02_variables_and_types#w12"
+title: "String型で文字列を扱える"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "02_variables_and_types"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["String"]
+  blank2: ["\"Hello\"", "\"Hello\";", "'Hello'", "'Hello';"]
+sampleAnswer: "String message = \"Hello\";"
+explanation: |
+  **String型**で文字列を扱うには、変数宣言時に `String` を指定し、値をダブルクォート `"` で囲みます。
+
+  ```java
+  String message = "Hello";
+  ```
+
+  - `String`: 文字列型の型名（**大文字のS**に注意）
+  - `message`: 変数名
+  - `"Hello"`: 文字列値（ダブルクォートで囲む）
+
+  **String型の特徴**：
+  - 文字、単語、文章を扱える
+  - 日本語も使える：`String name = "田中";`
+  - 空文字列も扱える：`String empty = "";`
+  - 数字も文字列として扱える：`String age = "25";`
+
+  **注意**：
+  - `String`の`S`は大文字（`string`はエラー）
+  - ダブルクォートを忘れない（`String x = Hello;` はエラー）
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 問題
+
+以下のコードの空欄を埋めて、変数`message`に文字列`"Hello"`を代入してください。
+
+<CodeBlock>
+  <BlankInput id="blank1" /> message = <BlankInput id="blank2" />;
+</CodeBlock>

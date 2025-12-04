@@ -1,0 +1,47 @@
+---
+id: "java/basics/02_variables_and_types#w13"
+title: "わかりやすい変数名を付けられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_variables_and_types"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "int studentAge = 20;"
+  - id: "B"
+    text: "int a = 20;"
+  - id: "C"
+    text: "int 年齢 = 20;"
+answers:
+  correct: ["A"]
+explanation: |
+  **わかりやすい変数名**は、コードの可読性を大きく向上させます。
+
+  **良い変数名の原則**：
+  1. **役割が分かる名前**：何のデータかが一目でわかる
+  2. **英語を使う**：日本語は文字化けのリスクがある
+  3. **キャメルケース**：複数の単語は2語目から大文字（`studentAge`, `userName`）
+
+  **比較例**：
+
+  ```java
+  // ❌ 悪い例
+  int a = 20;        // 何の数字か分からない
+  int 年齢 = 20;      // 日本語は避ける
+  int x123 = 20;     // 意味不明
+
+  // ✅ 良い例
+  int studentAge = 20;    // 学生の年齢と分かる
+  int temperature = 25;   // 温度と分かる
+  int itemCount = 5;      // アイテム数と分かる
+  ```
+
+  **命名規則**：
+  - 小文字で始める（`age`, `userName`）
+  - 2語目以降は大文字（`studentAge`, `maxScore`）
+  - 数字は使えるが、先頭には使えない（`age1` はOK、`1age` はNG）
+---
+
+学生の年齢を格納する変数として、最もわかりやすい変数名を選べ。
