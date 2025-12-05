@@ -15,11 +15,11 @@ interface QuestionDialogProps {
   questionId: string | null;
   onClose: () => void;
   // ナビゲーション機能
-  showNavigation?: boolean;      // ナビゲーションボタンを表示するか（デフォルト: false）
-  onPrevious?: () => void;       // 前の問題に移動
-  onNext?: () => void;           // 次の問題に移動
-  hasPrevious?: boolean;         // 前の問題が存在するか
-  hasNext?: boolean;             // 次の問題が存在するか
+  showNavigation?: boolean; // ナビゲーションボタンを表示するか（デフォルト: false）
+  onPrevious?: () => void; // 前の問題に移動
+  onNext?: () => void; // 次の問題に移動
+  hasPrevious?: boolean; // 前の問題が存在するか
+  hasNext?: boolean; // 次の問題が存在するか
 }
 
 export const QuestionDialog: React.FC<QuestionDialogProps> = ({
@@ -34,13 +34,7 @@ export const QuestionDialog: React.FC<QuestionDialogProps> = ({
   if (!questionId) return null;
 
   return (
-    <Dialog
-      open={true}
-      onClose={onClose}
-      maxWidth="md"
-      fullWidth
-      scroll="paper"
-    >
+    <Dialog open onClose={onClose} maxWidth="md" fullWidth scroll="paper">
       <IconButton
         aria-label="close"
         onClick={onClose}
@@ -92,10 +86,11 @@ export const QuestionDialog: React.FC<QuestionDialogProps> = ({
 
       <DialogContent dividers>
         <QuestionRenderer
+          showTitle
+          showHintLink
+          key={questionId} // 変更時に再マウントさせ、内部状態をリセット
           id={questionId}
           mode="dialog"
-          showTitle={true}
-          showHintLink={true}
         />
       </DialogContent>
       <DialogActions>

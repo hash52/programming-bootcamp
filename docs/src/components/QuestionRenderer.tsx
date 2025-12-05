@@ -69,18 +69,12 @@ const QuestionRendererInner: React.FC<
     }
   }, [fileNamePart]);
 
-  // 問題IDが変わったときに状態をリセット
-  useEffect(() => {
-    setShowExplanation(false);
-    setSelectedChoices([]);
-    setFreeText("");
-    setResult(null);
-    resetBlanks();
-  }, [id, resetBlanks]);
-
   const handleGrade = () => {
     if (metadata?.format === "multipleChoice" && metadata.answers) {
-      const gradeResult = gradeMultipleChoice(selectedChoices, metadata.answers);
+      const gradeResult = gradeMultipleChoice(
+        selectedChoices,
+        metadata.answers
+      );
       setResult(gradeResult);
 
       // 正解なら達成日時を自動更新、不正解ならチェックを外す
@@ -155,18 +149,10 @@ const QuestionRendererInner: React.FC<
             onChange={setSelectedChoices}
           />
           <Box mt={2} display="flex" gap={2} flexWrap="wrap">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleGrade}
-            >
+            <Button variant="contained" color="primary" onClick={handleGrade}>
               採点する
             </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleGiveUp}
-            >
+            <Button variant="outlined" color="secondary" onClick={handleGiveUp}>
               諦めて解答を表示する
               <Typography variant="caption" sx={{ ml: 1, opacity: 0.7 }}>
                 （達成済みステータスを外します）
@@ -182,11 +168,7 @@ const QuestionRendererInner: React.FC<
             <Button variant="contained" color="primary" onClick={handleGrade}>
               採点する
             </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleGiveUp}
-            >
+            <Button variant="outlined" color="secondary" onClick={handleGiveUp}>
               諦めて解答を表示する
               <Typography variant="caption" sx={{ ml: 1, opacity: 0.7 }}>
                 （達成済みステータスを外します）
@@ -207,11 +189,7 @@ const QuestionRendererInner: React.FC<
             >
               解答を表示する
             </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleGiveUp}
-            >
+            <Button variant="outlined" color="secondary" onClick={handleGiveUp}>
               諦めて解答を表示する
               <Typography variant="caption" sx={{ ml: 1, opacity: 0.7 }}>
                 （達成済みステータスを外します）
@@ -234,7 +212,11 @@ const QuestionRendererInner: React.FC<
             <AccordionDetails>
               {metadata.sampleAnswer && (
                 <Box mb={2}>
-                  <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight="bold"
+                    gutterBottom
+                  >
                     解答例
                   </Typography>
                   <Typography
@@ -254,7 +236,11 @@ const QuestionRendererInner: React.FC<
               )}
               {metadata.explanation && (
                 <Box>
-                  <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight="bold"
+                    gutterBottom
+                  >
                     解説
                   </Typography>
                   <Box
@@ -319,9 +305,7 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = (props) => {
   const [dirPath, fileNamePart] = id.split("#");
   const filePath = `./${dirPath}/${fileNamePart}.mdx`;
 
-  const Module = context.keys().includes(filePath)
-    ? context(filePath)
-    : null;
+  const Module = context.keys().includes(filePath) ? context(filePath) : null;
 
   // MDXのfrontmatterからメタデータを取得
   const metadata: QuestionMetadata | undefined = Module?.frontMatter;
