@@ -69,6 +69,15 @@ const QuestionRendererInner: React.FC<
     }
   }, [fileNamePart]);
 
+  // 問題IDが変わったときに状態をリセット
+  useEffect(() => {
+    setShowExplanation(false);
+    setSelectedChoices([]);
+    setFreeText("");
+    setResult(null);
+    resetBlanks();
+  }, [id, resetBlanks]);
+
   const handleGrade = () => {
     if (metadata?.format === "multipleChoice" && metadata.answers) {
       const gradeResult = gradeMultipleChoice(selectedChoices, metadata.answers);
