@@ -1,0 +1,98 @@
+---
+id: "java/basics/03b_random#w5"
+title: "Randomクラスを使う準備ができる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03b_random"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["import java.util.Random;", "import java.util.Random", "import  java.util.Random;"]
+  blank2: ["Random", "random"]
+  blank3: ["new Random()", "new Random();", "new  Random()"]
+sampleAnswer: "Random random = new Random();"
+explanation: |
+  **Randomクラスを使う準備**には、以下の2つのステップが必要である：
+
+  1. **import文でRandomクラスをインポート**
+     ```java
+     import java.util.Random;
+     ```
+
+  2. **Randomオブジェクトを作成**
+     ```java
+     Random random = new Random();
+     ```
+
+  **ポイント**：
+  - `import`文はファイルの先頭（packageの次、classの前）に書く
+  - Randomオブジェクトは通常、変数名を`random`とする（慣習）
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 問題
+
+以下のコードの空欄を埋めて、Randomクラスを使う準備を完成させてください。
+
+<CodeBlock>
+<BlankInput id="blank1" />
+{`
+
+public class Main {
+    public static void main(String[] args) {
+        `}<BlankInput id="blank2" />{` random = `}<BlankInput id="blank3" />{`;
+
+        // ここから乱数が使える
+    }
+}`}
+</CodeBlock>
+
+**ヒント**：
+- import文：`import java.util.Random;`
+- クラス名：`Random`
+- オブジェクト作成：`new Random()`
+
+---
+
+## 解説
+
+Randomクラスを使うには、**Randomクラスをインポートして、Randomオブジェクトを作成する**必要がある。
+
+**手順の詳細**：
+
+1. **import文を記述**
+   ```java
+   import java.util.Random;  // ファイルの先頭
+   ```
+   - `java.util`パッケージの`Random`クラスを使うことを宣言
+
+2. **Randomオブジェクトを作成**
+   ```java
+   Random random = new Random();
+   ```
+   - `Random`：クラス名
+   - `random`：変数名（任意だが、小文字で始めるのが慣習）
+   - `new Random()`：Randomオブジェクトを作成
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        // Randomオブジェクトを作成
+        Random random = new Random();
+
+        // 乱数を使った処理
+        int number = random.nextInt(100);
+        System.out.println("ランダムな数: " + number);
+    }
+}`} />
+
+**よくある間違い**：
+- ❌ `import Random;`（パッケージ名が必要）
+- ✅ `import java.util.Random;`
+- ❌ `Random random = Random();`（`new`が必要）
+- ✅ `Random random = new Random();`

@@ -1,0 +1,95 @@
+---
+id: "java/basics/03b_random#k3"
+title: "nextInt()の引数の意味を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03b_random"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "0から引数-1までのランダムな整数を返す"
+  - id: "B"
+    text: "1から引数までのランダムな整数を返す"
+  - id: "C"
+    text: "引数と同じ値を返す"
+  - id: "D"
+    text: "引数から100までのランダムな整数を返す"
+answers:
+  correct: ["A"]
+explanation: |
+  **nextInt(n)の引数の意味**：
+
+  `random.nextInt(n)`は、**0からn-1までのランダムな整数**を返す。
+
+  例：
+  ```java
+  Random random = new Random();
+
+  int a = random.nextInt(10);  // 0, 1, 2, ..., 9 のいずれか
+  int b = random.nextInt(6);   // 0, 1, 2, 3, 4, 5 のいずれか
+  int c = random.nextInt(100); // 0, 1, 2, ..., 99 のいずれか
+  ```
+
+  **重要なポイント**：
+  - **0から始まる**（1ではない）
+  - **引数-1まで**（引数自体は含まれない）
+
+  **1から始める方法**：
+  ```java
+  int dice = 1 + random.nextInt(6);  // 1, 2, 3, 4, 5, 6
+  ```
+  - `random.nextInt(6)`は0〜5
+  - それに1を足すと1〜6になる
+---
+
+## 問題
+
+`random.nextInt(10)`の動作として最も適切なものを選べ。
+
+## 解説
+
+nextInt(n)は、**0からn-1までの範囲でランダムな整数を返す**。
+
+**範囲の理解**：
+
+| コード | 範囲 | 可能な値 |
+|--------|------|----------|
+| `nextInt(10)` | 0〜9 | 0, 1, 2, ..., 9 |
+| `nextInt(6)` | 0〜5 | 0, 1, 2, 3, 4, 5 |
+| `nextInt(100)` | 0〜99 | 0, 1, 2, ..., 99 |
+
+**1から始める場合**：
+
+| 目的 | コード | 範囲 |
+|------|--------|------|
+| 1〜10 | `1 + nextInt(10)` | 1, 2, ..., 10 |
+| 1〜6（サイコロ） | `1 + nextInt(6)` | 1, 2, 3, 4, 5, 6 |
+| 1〜100 | `1 + nextInt(100)` | 1, 2, ..., 100 |
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Random random = new Random();
+
+        System.out.println("=== nextInt(10)の例（0〜9） ===");
+        for (int i = 0; i < 5; i++) {
+            int num = random.nextInt(10);
+            System.out.println(num);
+        }
+
+        System.out.println("\\n=== 1 + nextInt(6)の例（1〜6のサイコロ） ===");
+        for (int i = 0; i < 5; i++) {
+            int dice = 1 + random.nextInt(6);
+            System.out.println(dice);
+        }
+    }
+}`} />
+
+**よくある間違い**：
+- ❌ `nextInt(10)`は1〜10（実際は0〜9）
+- ✅ `1 + nextInt(10)`が1〜10

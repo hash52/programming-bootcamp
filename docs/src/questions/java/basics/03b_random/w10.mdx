@@ -1,0 +1,134 @@
+---
+id: "java/basics/03b_random#w10"
+title: "配列からランダムに選ぶプログラムを書ける"
+type: "WRITE"
+difficulty: "Medium"
+topicId: "03b_random"
+category: "java/basics"
+explanation: |
+  **配列からランダムに要素を選ぶ**には、ランダムなインデックスを生成する。
+
+  **基本的な考え方**：
+  1. 配列の長さを取得（`array.length`）
+  2. 0〜長さ-1のランダムなインデックスを生成
+  3. そのインデックスの要素を取得
+
+  ```java
+  String[] fruits = {"りんご", "バナナ", "みかん"};
+  int index = random.nextInt(fruits.length);  // 0, 1, 2のいずれか
+  String selected = fruits[index];
+  ```
+
+  **ポイント**：
+  - `fruits.length`は配列の長さ（この例では3）
+  - `nextInt(3)`は0〜2のランダムな整数
+  - インデックスは0から始まるので、`0〜length-1`の範囲が正しい
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+配列からランダムに要素を選んで表示するプログラムを書いて実行してください。
+
+**要件**：
+- 文字列の配列を作成（例：果物、動物、色など）
+- 配列からランダムに1つ選ぶ
+- 選ばれた要素を表示
+
+**実行環境**：
+- 以下のOneCompiler（ブラウザ上で実行可能）
+- または、Eclipse等のIDE
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        // ここにコードを書いてください
+
+    }
+}`}
+/>
+
+**ヒント**：
+- 配列を作成：`String[] items = {"A", "B", "C"};`
+- ランダムなインデックス：`random.nextInt(items.length)`
+- 要素を取得：`items[index]`
+
+---
+
+## 解答例
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Random random = new Random();
+
+        String[] fruits = {"りんご", "バナナ", "みかん", "ぶどう", "いちご"};
+
+        int index = random.nextInt(fruits.length);
+        String selected = fruits[index];
+
+        System.out.println("選ばれた果物: " + selected);
+    }
+}`}
+/>
+
+**実行例**：
+```
+選ばれた果物: ぶどう
+```
+（毎回異なる果物が選ばれる）
+
+**応用例（おみくじ）**：
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Random random = new Random();
+
+        String[] fortunes = {"大吉", "中吉", "小吉", "吉", "末吉", "凶", "大凶"};
+
+        System.out.println("=== おみくじ ===");
+        int index = random.nextInt(fortunes.length);
+        String result = fortunes[index];
+
+        System.out.println("あなたの運勢: " + result);
+    }
+}`}
+/>
+
+**応用例（複数回選ぶ）**：
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Random random = new Random();
+
+        String[] colors = {"赤", "青", "黄", "緑", "紫", "オレンジ"};
+
+        System.out.println("=== 3色ランダムに選ぶ ===");
+        for (int i = 1; i <= 3; i++) {
+            int index = random.nextInt(colors.length);
+            String color = colors[index];
+            System.out.println(i + "番目: " + color);
+        }
+    }
+}`}
+/>
+
+**注意**：
+- 配列のインデックスは0から始まる
+- `nextInt(length)`は0〜length-1の範囲
+- 配列の長さが0の場合、`nextInt(0)`はエラーになる
