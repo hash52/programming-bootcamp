@@ -22,6 +22,51 @@ explanation: |
   - 例：1〜10 → `1 + random.nextInt(10)`
   - 例：5〜15 → `5 + random.nextInt(11)`
   - 例：1〜100 → `1 + random.nextInt(100)`
+
+  **解答例**：
+  ```java
+  import java.util.Random;
+
+  public class Main {
+      public static void main(String[] args) {
+          Random random = new Random();
+
+          int number = 1 + random.nextInt(100);
+          System.out.println("ランダムな数: " + number);
+      }
+  }
+  ```
+
+  **実行例**：
+  ```
+  ランダムな数: 42
+  ```
+  （毎回異なる値が表示される）
+
+  **応用例（数当てゲーム）**：
+  ```java
+  import java.util.Random;
+
+  public class Main {
+      public static void main(String[] args) {
+          Random random = new Random();
+
+          int answer = 1 + random.nextInt(100);
+          System.out.println("=== 数当てゲーム ===");
+          System.out.println("1〜100の数を考えました");
+          System.out.println("（答え: " + answer + "）");
+      }
+  }
+  ```
+
+  **範囲を変える例**：
+
+  | 目的の範囲 | コード |
+  |-----------|--------|
+  | 1〜10 | `1 + random.nextInt(10)` |
+  | 1〜50 | `1 + random.nextInt(50)` |
+  | 1〜1000 | `1 + random.nextInt(1000)` |
+  | 5〜15 | `5 + random.nextInt(11)` |
 ---
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
@@ -53,54 +98,3 @@ public class Main {
 
 **ヒント**：
 - `1 + random.nextInt(100)`で1〜100
-
----
-
-## 解答例
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`import java.util.Random;
-
-public class Main {
-    public static void main(String[] args) {
-        Random random = new Random();
-
-        int number = 1 + random.nextInt(100);
-        System.out.println("ランダムな数: " + number);
-    }
-}`}
-/>
-
-**実行例**：
-```
-ランダムな数: 42
-```
-（毎回異なる値が表示される）
-
-**応用例（数当てゲーム）**：
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`import java.util.Random;
-
-public class Main {
-    public static void main(String[] args) {
-        Random random = new Random();
-
-        int answer = 1 + random.nextInt(100);
-        System.out.println("=== 数当てゲーム ===");
-        System.out.println("1〜100の数を考えました");
-        System.out.println("（答え: " + answer + "）");
-    }
-}`}
-/>
-
-**範囲を変える例**：
-
-| 目的の範囲 | コード |
-|-----------|--------|
-| 1〜10 | `1 + random.nextInt(10)` |
-| 1〜50 | `1 + random.nextInt(50)` |
-| 1〜1000 | `1 + random.nextInt(1000)` |
-| 5〜15 | `5 + random.nextInt(11)` |

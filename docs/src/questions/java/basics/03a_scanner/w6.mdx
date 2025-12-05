@@ -22,6 +22,60 @@ explanation: |
   - 名前や住所など、文字列全体を読み取る
   - 空白を含む文字列（例：「田中 太郎」）
   - 自由記述の入力
+
+  **解答例**：
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.print("名前を入力してください: ");
+          String name = scanner.nextLine();
+
+          System.out.print("趣味を入力してください: ");
+          String hobby = scanner.nextLine();
+
+          System.out.println(name + "さんの趣味は" + hobby + "です");
+      }
+  }
+  ```
+
+  **実行例**：
+  ```
+  名前を入力してください: 田中太郎
+  趣味を入力してください: プログラミング
+  田中太郎さんの趣味はプログラミングです
+  ```
+
+  **応用例**：
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.println("=== アンケート ===");
+
+          System.out.print("1. お名前: ");
+          String name = scanner.nextLine();
+
+          System.out.print("2. 年齢: ");
+          String age = scanner.nextLine();
+
+          System.out.print("3. 住んでいる都道府県: ");
+          String prefecture = scanner.nextLine();
+
+          System.out.println("\n=== 回答内容 ===");
+          System.out.println("名前: " + name);
+          System.out.println("年齢: " + age);
+          System.out.println("都道府県: " + prefecture);
+          System.out.println("\nご協力ありがとうございました！");
+      }
+  }
+  ```
 ---
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
@@ -54,63 +108,3 @@ public class Main {
 **ヒント**：
 - `scanner.nextLine()`で1行を読み取る
 - 2回使って名前と趣味を別々に読み取る
-
----
-
-## 解答例
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`import java.util.Scanner;
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("名前を入力してください: ");
-        String name = scanner.nextLine();
-
-        System.out.print("趣味を入力してください: ");
-        String hobby = scanner.nextLine();
-
-        System.out.println(name + "さんの趣味は" + hobby + "です");
-    }
-}`}
-/>
-
-**実行例**：
-```
-名前を入力してください: 田中太郎
-趣味を入力してください: プログラミング
-田中太郎さんの趣味はプログラミングです
-```
-
-**応用例**：
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`import java.util.Scanner;
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("=== アンケート ===");
-
-        System.out.print("1. お名前: ");
-        String name = scanner.nextLine();
-
-        System.out.print("2. 年齢: ");
-        String age = scanner.nextLine();
-
-        System.out.print("3. 住んでいる都道府県: ");
-        String prefecture = scanner.nextLine();
-
-        System.out.println("\\n=== 回答内容 ===");
-        System.out.println("名前: " + name);
-        System.out.println("年齢: " + age);
-        System.out.println("都道府県: " + prefecture);
-        System.out.println("\\nご協力ありがとうございました！");
-    }
-}`}
-/>

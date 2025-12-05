@@ -25,6 +25,59 @@ explanation: |
 
   **注意点**：
   - `nextInt()`の後に`nextLine()`を使う場合は、間に`scanner.nextLine()`を挟む必要がある
+
+  **解答例**：
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.print("1つ目の数値を入力してください: ");
+          int num1 = scanner.nextInt();
+
+          System.out.print("2つ目の数値を入力してください: ");
+          int num2 = scanner.nextInt();
+
+          int sum = num1 + num2;
+          System.out.println("合計: " + sum);
+      }
+  }
+  ```
+
+  **実行例**：
+  ```
+  1つ目の数値を入力してください: 10
+  2つ目の数値を入力してください: 25
+  合計: 35
+  ```
+
+  **応用例**：
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.println("=== 簡易計算機 ===");
+
+          System.out.print("1つ目の数値: ");
+          int a = scanner.nextInt();
+
+          System.out.print("2つ目の数値: ");
+          int b = scanner.nextInt();
+
+          System.out.println("\n=== 計算結果 ===");
+          System.out.println(a + " + " + b + " = " + (a + b));
+          System.out.println(a + " - " + b + " = " + (a - b));
+          System.out.println(a + " * " + b + " = " + (a * b));
+          System.out.println(a + " / " + b + " = " + (a / b));
+          System.out.println(a + " % " + b + " = " + (a % b));
+      }
+  }
+  ```
 ---
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
@@ -58,62 +111,3 @@ public class Main {
 - `scanner.nextInt()`で整数を読み取る
 - 2回使って2つの整数を別々に読み取る
 - 合計を計算して表示
-
----
-
-## 解答例
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`import java.util.Scanner;
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("1つ目の数値を入力してください: ");
-        int num1 = scanner.nextInt();
-
-        System.out.print("2つ目の数値を入力してください: ");
-        int num2 = scanner.nextInt();
-
-        int sum = num1 + num2;
-        System.out.println("合計: " + sum);
-    }
-}`}
-/>
-
-**実行例**：
-```
-1つ目の数値を入力してください: 10
-2つ目の数値を入力してください: 25
-合計: 35
-```
-
-**応用例**：
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`import java.util.Scanner;
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("=== 簡易計算機 ===");
-
-        System.out.print("1つ目の数値: ");
-        int a = scanner.nextInt();
-
-        System.out.print("2つ目の数値: ");
-        int b = scanner.nextInt();
-
-        System.out.println("\\n=== 計算結果 ===");
-        System.out.println(a + " + " + b + " = " + (a + b));
-        System.out.println(a + " - " + b + " = " + (a - b));
-        System.out.println(a + " * " + b + " = " + (a * b));
-        System.out.println(a + " / " + b + " = " + (a / b));
-        System.out.println(a + " % " + b + " = " + (a % b));
-    }
-}`}
-/>

@@ -23,6 +23,53 @@ explanation: |
   **注意点**：
   - 整数同士の割り算は小数点以下が切り捨てられる（例：`5 / 2`は`2`）
   - 小数を含む計算にする場合は、`double`型を使う
+
+  **解答例**：
+  ```java
+  public class Main {
+      public static void main(String[] args) {
+          int priceA = 100;
+          int priceB = 200;
+
+          int total = priceA + priceB;
+          System.out.println("合計金額: " + total + "円");
+
+          int tax = total * 10 / 100;
+          System.out.println("消費税: " + tax + "円");
+
+          int totalWithTax = total + tax;
+          System.out.println("税込み金額: " + totalWithTax + "円");
+      }
+  }
+  ```
+
+  **実行結果**：
+  ```
+  合計金額: 300円
+  消費税: 30円
+  税込み金額: 330円
+  ```
+
+  **応用例**：
+  ```java
+  public class Main {
+      public static void main(String[] args) {
+          // 割引計算の例
+          int originalPrice = 1000;
+          int discount = 200;
+
+          int discountedPrice = originalPrice - discount;
+          System.out.println("割引後の価格: " + discountedPrice + "円");
+
+          // おつりの計算の例
+          int payment = 5000;
+          int price = 3200;
+
+          int change = payment - price;
+          System.out.println("おつり: " + change + "円");
+      }
+  }
+  ```
 ---
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
@@ -57,56 +104,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - 消費税 = 合計金額 * 10 / 100
 - 税込み金額 = 合計金額 + 消費税
 - `System.out.println()` で結果を表示
-
----
-
-## 解答例
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`public class Main {
-    public static void main(String[] args) {
-        int priceA = 100;
-        int priceB = 200;
-
-        int total = priceA + priceB;
-        System.out.println("合計金額: " + total + "円");
-
-        int tax = total * 10 / 100;
-        System.out.println("消費税: " + tax + "円");
-
-        int totalWithTax = total + tax;
-        System.out.println("税込み金額: " + totalWithTax + "円");
-    }
-}`}
-/>
-
-**実行結果**：
-```
-合計金額: 300円
-消費税: 30円
-税込み金額: 330円
-```
-
-**応用例**：
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`public class Main {
-    public static void main(String[] args) {
-        // 割引計算の例
-        int originalPrice = 1000;
-        int discount = 200;
-
-        int discountedPrice = originalPrice - discount;
-        System.out.println("割引後の価格: " + discountedPrice + "円");
-
-        // おつりの計算の例
-        int payment = 5000;
-        int price = 3200;
-
-        int change = payment - price;
-        System.out.println("おつり: " + change + "円");
-    }
-}`}
-/>

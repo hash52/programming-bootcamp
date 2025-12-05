@@ -16,6 +16,47 @@ explanation: |
   - `import java.util.Random;`でRandomクラスをインポート
   - `Random random = new Random();`でRandomオブジェクトを作成
   - `random.nextInt(n)`で乱数を取得
+
+  **解答例**：
+  ```java
+  import java.util.Random;
+
+  public class Main {
+      public static void main(String[] args) {
+          Random random = new Random();
+
+          System.out.println("サイコロを振ります...");
+          int dice = 1 + random.nextInt(6);
+          System.out.println("出目: " + dice);
+      }
+  }
+  ```
+
+  **実行例**：
+  ```
+  サイコロを振ります...
+  出目: 4
+  ```
+  （毎回異なる値が表示される）
+
+  **応用例**：
+  ```java
+  import java.util.Random;
+
+  public class Main {
+      public static void main(String[] args) {
+          Random random = new Random();
+
+          System.out.println("=== 2つのサイコロを振る ===");
+          int dice1 = 1 + random.nextInt(6);
+          int dice2 = 1 + random.nextInt(6);
+
+          System.out.println("サイコロ1: " + dice1);
+          System.out.println("サイコロ2: " + dice2);
+          System.out.println("合計: " + (dice1 + dice2));
+      }
+  }
+  ```
 ---
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
@@ -48,50 +89,3 @@ public class Main {
 **ヒント**：
 - `Random random = new Random();`でRandomオブジェクトを作成
 - `1 + random.nextInt(6)`で1〜6のランダムな整数
-
----
-
-## 解答例
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`import java.util.Random;
-
-public class Main {
-    public static void main(String[] args) {
-        Random random = new Random();
-
-        System.out.println("サイコロを振ります...");
-        int dice = 1 + random.nextInt(6);
-        System.out.println("出目: " + dice);
-    }
-}`}
-/>
-
-**実行例**：
-```
-サイコロを振ります...
-出目: 4
-```
-（毎回異なる値が表示される）
-
-**応用例**：
-
-<OneCompilerCodeBlock
-  language="java"
-  code={`import java.util.Random;
-
-public class Main {
-    public static void main(String[] args) {
-        Random random = new Random();
-
-        System.out.println("=== 2つのサイコロを振る ===");
-        int dice1 = 1 + random.nextInt(6);
-        int dice2 = 1 + random.nextInt(6);
-
-        System.out.println("サイコロ1: " + dice1);
-        System.out.println("サイコロ2: " + dice2);
-        System.out.println("合計: " + (dice1 + dice2));
-    }
-}`}
-/>
