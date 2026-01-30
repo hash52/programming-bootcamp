@@ -1,6 +1,7 @@
 ---
 applyTo: "docs/**"
 ---
+
 # Docusaurus教材サイト
 
 このディレクトリで作業する前に、以下のドキュメントを参照すること:
@@ -19,6 +20,11 @@ applyTo: "docs/**"
 ## structure.ts編集時
 
 - `knowledge/guides/structure-ts-rules.md` - structure.ts・質問タイトルルール
+
+## 問題ファイル（src/questions/）作成時
+
+- `knowledge/guides/question-files.md` - 問題ファイル作成・配置ガイド
+- `knowledge/guides/exercise-rules.md` - 演習問題作成ルール
 
 ---
 
