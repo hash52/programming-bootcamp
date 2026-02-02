@@ -250,6 +250,12 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "type_casting",
+        title: "型変換ができる",
+        type: "WRITE",
+        difficulty: Difficulty.Medium,
+      },
+      {
         questionId: "variable_scope",
         title: "変数のスコープを説明できる",
         type: "KNOW",

@@ -1,10 +1,10 @@
 ---
-id: \"java/basics/03b_random#prepare_random_class\"
-title: "Randomクラスを使ぁE��備ができる"
+id: "java/basics/03b_random#prepare_random_class"
+title: "Randomクラスを使う準備ができる"
 type: "WRITE"
 difficulty: "Easy"
 format: "fillInBlank"
-topicid: \"java/basics/03b_random#prepare_random_class\"
+topicId: "03b_random"
 category: "java/basics"
 fillInBlankAnswers:
   blank1: ["import java.util.Random;", "import java.util.Random", "import  java.util.Random;"]
@@ -12,29 +12,29 @@ fillInBlankAnswers:
   blank3: ["new Random()", "new Random();", "new  Random()"]
 sampleAnswer: "Random random = new Random();"
 explanation: |
-  **Randomクラスを使ぁE��備**には、以下�E2つのスチE��プが忁E��である�E�E
+  **Randomクラスを使う準備**には、以下の2つのステップが必要である：
 
-  1. **import斁E��Randomクラスをインポ�EチE*
+  1. **import文でRandomクラスをインポート**
      ```java
      import java.util.Random;
      ```
 
-  2. **Randomオブジェクトを作�E**
+  2. **Randomオブジェクトを作成**
      ```java
      Random random = new Random();
      ```
 
-  **ポインチE*�E�E
-  - `import`斁E�Eファイルの先頭�E�Eackageの次、classの前）に書ぁE
-  - Randomオブジェクト�E通常、変数名を`random`とする�E��E習！E
+  **ポイント**：
+  - `import`文はファイルの先頭（packageの次、classの前）に書く
+  - Randomオブジェクトは通常、変数名を`random`とする（慣習）
 ---
 
 import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
 import { CodeBlock } from '@site/src/components/question/CodeBlock';
 
-## 問顁E
+## 問題
 
-以下�Eコード�E空欁E��埋めて、Randomクラスを使ぁE��備を完�Eさせてください、E
+以下のコードの空欄を埋めて、Randomクラスを使う準備を完成させてください。
 
 <CodeBlock>
 <BlankInput id="blank1" />
@@ -49,32 +49,32 @@ public class Main {
 }`}
 </CodeBlock>
 
-**ヒンチE*�E�E
-- import斁E��`import java.util.Random;`
+**ヒント**：
+- import文：`import java.util.Random;`
 - クラス名：`Random`
-- オブジェクト作�E�E�`new Random()`
+- オブジェクト作成：`new Random()`
 
 ---
 
 ## 解説
 
-Randomクラスを使ぁE��は、E*Randomクラスをインポ�Eトして、Randomオブジェクトを作�Eする**忁E��がある、E
+Randomクラスを使うには、**Randomクラスをインポートして、Randomオブジェクトを作成する**必要がある。
 
-**手頁E�E詳細**�E�E
+**手順の詳細**：
 
-1. **import斁E��記述**
+1. **import文を記述**
    ```java
    import java.util.Random;  // ファイルの先頭
    ```
-   - `java.util`パッケージの`Random`クラスを使ぁE��とを宣言
+   - `java.util`パッケージの`Random`クラスを使うことを宣言
 
-2. **Randomオブジェクトを作�E**
+2. **Randomオブジェクトを作成**
    ```java
    Random random = new Random();
    ```
-   - `Random`�E�クラス吁E
-   - `random`�E�変数名（任意だが、小文字で始める�Eが�E習！E
-   - `new Random()`�E�Randomオブジェクトを作�E
+   - `Random`：クラス名
+   - `random`：変数名（任意だが、小文字で始めるのが慣習）
+   - `new Random()`：Randomオブジェクトを作成
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
@@ -82,17 +82,17 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 
 public class Main {
     public static void main(String[] args) {
-        // Randomオブジェクトを作�E
+        // Randomオブジェクトを作成
         Random random = new Random();
 
-        // 乱数を使った�E琁E
+        // 乱数を使った処理
         int number = random.nextInt(100);
         System.out.println("ランダムな数: " + number);
     }
 }`} />
 
-**よくある間違ぁE*�E�E
-- ❁E`import Random;`�E�パチE��ージ名が忁E��E��E
-- ✁E`import java.util.Random;`
-- ❁E`Random random = Random();`�E�Enew`が忁E��E��E
-- ✁E`Random random = new Random();`
+**よくある間違い**：
+- ❌ `import Random;`（パッケージ名が必要）
+- ✅ `import java.util.Random;`
+- ❌ `Random random = Random();`（`new`が必要）
+- ✅ `Random random = new Random();`

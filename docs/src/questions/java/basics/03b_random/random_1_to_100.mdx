@@ -1,29 +1,29 @@
 ---
-id: \"java/basics/03b_random#random_1_to_100\"
-title: "1、E00のランダムな整数を作れめE
+id: "java/basics/03b_random#random_1_to_100"
+title: "1〜100のランダムな整数を作れる"
 type: "WRITE"
 difficulty: "Medium"
-topicid: \"java/basics/03b_random#random_1_to_100\"
+topicId: "03b_random"
 category: "java/basics"
 explanation: |
-  **1、E00のランダムな整数**を生成するには、`1 + random.nextInt(100)`を使ぁE��E
+  **1〜100のランダムな整数**を生成するには、`1 + random.nextInt(100)`を使う。
 
   ```java
   Random random = new Random();
   int number = 1 + random.nextInt(100);  // 1, 2, 3, ..., 100
   ```
 
-  **老E��方**�E�E
-  1. `random.nextInt(100)`は0、E9の篁E��
-  2. それに1を足すと1、E00になめE
+  **考え方**：
+  1. `random.nextInt(100)`は0〜99の範囲
+  2. それに1を足すと1〜100になる
 
-  **一般皁E��パターン**�E�E
-  - **a〜bの篁E��**�E�`a + random.nextInt(b - a + 1)`
-  - 例！E、E0 ↁE`1 + random.nextInt(10)`
-  - 例！E、E5 ↁE`5 + random.nextInt(11)`
-  - 例！E、E00 ↁE`1 + random.nextInt(100)`
+  **一般的なパターン**：
+  - **a〜bの範囲**：`a + random.nextInt(b - a + 1)`
+  - 例：1〜10 → `1 + random.nextInt(10)`
+  - 例：5〜15 → `5 + random.nextInt(11)`
+  - 例：1〜100 → `1 + random.nextInt(100)`
 
-  **解答侁E*�E�E
+  **解答例**：
   ```java
   import java.util.Random;
 
@@ -37,13 +37,13 @@ explanation: |
   }
   ```
 
-  **実行侁E*�E�E
+  **実行例**：
   ```
   ランダムな数: 42
   ```
-  �E�毎回異なる値が表示される！E
+  （毎回異なる値が表示される）
 
-  **応用例（数当てゲーム�E�E*�E�E
+  **応用例（数当てゲーム）**：
   ```java
   import java.util.Random;
 
@@ -53,36 +53,36 @@ explanation: |
 
           int answer = 1 + random.nextInt(100);
           System.out.println("=== 数当てゲーム ===");
-          System.out.println("1、E00の数を老E��ました");
-          System.out.println("�E�答え: " + answer + "�E�E);
+          System.out.println("1〜100の数を考えました");
+          System.out.println("（答え: " + answer + "）");
       }
   }
   ```
 
-  **篁E��を変える侁E*�E�E
+  **範囲を変える例**：
 
-  | 目皁E�E篁E�� | コーチE|
+  | 目的の範囲 | コード |
   |-----------|--------|
-  | 1、E0 | `1 + random.nextInt(10)` |
-  | 1、E0 | `1 + random.nextInt(50)` |
-  | 1、E000 | `1 + random.nextInt(1000)` |
-  | 5、E5 | `5 + random.nextInt(11)` |
+  | 1〜10 | `1 + random.nextInt(10)` |
+  | 1〜50 | `1 + random.nextInt(50)` |
+  | 1〜1000 | `1 + random.nextInt(1000)` |
+  | 5〜15 | `5 + random.nextInt(11)` |
 ---
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
-## 問顁E
+## 問題
 
-1、E00のランダムな整数を生成する�Eログラムを書ぁE��実行してください、E
+1〜100のランダムな整数を生成するプログラムを書いて実行してください。
 
-**要件**�E�E
-- Randomオブジェクトを作�E
-- 1、E00のランダムな整数を生戁E
-- 「ランダムな数: 、E��と表示
+**要件**：
+- Randomオブジェクトを作成
+- 1〜100のランダムな整数を生成
+- 「ランダムな数: 〇」と表示
 
-**実行環墁E*�E�E
-- 以下�EOneCompiler�E�ブラウザ上で実行可能�E�E
-- また�E、Eclipse等�EIDE
+**実行環境**：
+- 以下のOneCompiler（ブラウザ上で実行可能）
+- または、Eclipse等のIDE
 
 <OneCompilerCodeBlock
   language="java"
@@ -90,11 +90,11 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 
 public class Main {
     public static void main(String[] args) {
-        // ここにコードを書ぁE��ください
+        // ここにコードを書いてください
 
     }
 }`}
 />
 
-**ヒンチE*�E�E
-- `1 + random.nextInt(100)`で1、E00
+**ヒント**：
+- `1 + random.nextInt(100)`で1〜100

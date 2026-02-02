@@ -1,6 +1,6 @@
 ---
-id: \"java/basics/02_variables_and_types#variable_naming\"
-title: "斁E���E型�E変数を宣言できる"
+id: "java/basics/02_variables_and_types#variable_naming"
+title: "文字列型の変数を宣言できる"
 type: "WRITE"
 difficulty: "Easy"
 format: "fillInBlank"
@@ -11,33 +11,33 @@ fillInBlankAnswers:
   blank2: ["\"Hello\"", "\"Hello\";", "'Hello'", "'Hello';"]
 sampleAnswer: "String message = \"Hello\";"
 explanation: |
-  **String垁E*で斁E���Eを扱ぁE��は、変数宣言時に `String` を指定し、値をダブルクォーチE`"` で囲みます、E
+  **String型**で文字列を扱うには、変数宣言時に `String` を指定し、値をダブルクォート `"` で囲みます。
 
   ```java
   String message = "Hello";
   ```
 
-  - `String`: 斁E���E型�E型名�E�E*大斁E���ES**に注意！E
-  - `message`: 変数吁E
-  - `"Hello"`: 斁E���E値�E�ダブルクォートで囲む�E�E
+  - `String`: 文字列型の型名（**大文字のS**に注意）
+  - `message`: 変数名
+  - `"Hello"`: 文字列値（ダブルクォートで囲む）
 
-  **String型�E特徴**�E�E
-  - 斁E��、単語、文章を扱える
-  - 日本語も使える�E�`String name = "田中";`
-  - 空斁E���Eも扱える�E�`String empty = "";`
-  - 数字も斁E���Eとして扱える�E�`String age = "25";`
+  **String型の特徴**：
+  - 文字、単語、文章を扱える
+  - 日本語も使える：`String name = "田中";`
+  - 空文字列も扱える：`String empty = "";`
+  - 数字も文字列として扱える：`String age = "25";`
 
-  **注愁E*�E�E
-  - `String`の`S`は大斁E��！Estring`はエラー�E�E
-  - ダブルクォートを忘れなぁE��EString x = Hello;` はエラー�E�E
+  **注意**：
+  - `String`の`S`は大文字（`string`はエラー）
+  - ダブルクォートを忘れない（`String x = Hello;` はエラー）
 ---
 
 import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
 import { CodeBlock } from '@site/src/components/question/CodeBlock';
 
-## 問顁E
+## 問題
 
-以下�Eコード�E空欁E��埋めて、変数`message`に斁E���E`"Hello"`を代入してください、E
+以下のコードの空欄を埋めて、変数`message`に文字列`"Hello"`を代入してください。
 
 <CodeBlock>
   <BlankInput id="blank1" /> message = <BlankInput id="blank2" />;

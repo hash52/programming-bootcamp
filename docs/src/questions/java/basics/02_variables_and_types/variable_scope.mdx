@@ -1,5 +1,5 @@
 ---
-id: \"java/basics/02_variables_and_types#variable_scope\"
+id: "java/basics/02_variables_and_types#variable_scope"
 title: "変数のスコープを説明できる"
 type: "KNOW"
 difficulty: "Medium"
@@ -9,45 +9,45 @@ category: "java/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "変数が使える篁E��のこと"
+    text: "変数が使える範囲のこと"
   - id: "B"
-    text: "変数の型を変更できる篁E��のこと"
+    text: "変数の型を変更できる範囲のこと"
   - id: "C"
-    text: "変数の名前の長さ�Eこと"
+    text: "変数の名前の長さのこと"
 answers:
   correct: ["A"]
 explanation: |
-  **スコープ！Ecope�E�E*とは、E*変数が使える篁E��**のことです、E
+  **スコープ（scope）**とは、**変数が使える範囲**のことです。
 
-  変数は、宣言された場所から、その変数を囲む`{}`�E�波括弧�E��E終わりまで使えます、E
+  変数は、宣言された場所から、その変数を囲む`{}`（波括弧）の終わりまで使えます。
 
   ```java
   public class Example {
       public static void main(String[] args) {
-          int a = 10;  // mainメソチE��全体で使える
+          int a = 10;  // mainメソッド全体で使える
 
           if (a > 5) {
-              int b = 20;  // こ�EifブロチE��冁E��のみ使える
+              int b = 20;  // このifブロック内でのみ使える
               System.out.println(a);  // OK
               System.out.println(b);  // OK
           }
 
           System.out.println(a);  // OK
-          // System.out.println(b);  // エラー�E�bはifブロチE��を�Eると使えなぁE
+          // System.out.println(b);  // エラー！bはifブロックを出ると使えない
       }
   }
   ```
 
-  **スコープ�E原則**�E�E
+  **スコープの原則**：
   1. 変数は宣言された場所から、最も近い`}`まで使える
-  2. `{}`の外では使えなぁE
-  3. 冁E�EのブロチE��では外�Eの変数を使える
-  4. 外�EのブロチE��では冁E�Eの変数を使えなぁE
+  2. `{}`の外では使えない
+  3. 内側のブロックでは外側の変数を使える
+  4. 外側のブロックでは内側の変数を使えない
 
-  **なぜスコープが重要か**�E�E
-  - 変数の有効篁E��を制限することで、予期しなぁE��グを防ぁE
-  - 忁E��な場所でのみ変数を使ぁE��とで、コードが読みめE��くなめE
-  - メモリを効玁E��に使える�E�スコープを抜けると変数が破棁E��れる�E�E
+  **なぜスコープが重要か**：
+  - 変数の有効範囲を制限することで、予期しないバグを防ぐ
+  - 必要な場所でのみ変数を使うことで、コードが読みやすくなる
+  - メモリを効率的に使える（スコープを抜けると変数が破棄される）
 ---
 
-変数のスコープ�E説明として正しいも�Eを選べ、E
+変数のスコープの説明として正しいものを選べ。

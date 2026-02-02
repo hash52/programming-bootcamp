@@ -6,25 +6,25 @@ difficulty: "Easy"
 topicId: "03_operators"
 category: "java/basics"
 explanation: |
-  **四則演箁E*とは、足し算！E+`�E�、引き算！E-`�E�、掛け算！E*`�E�、割り算！E/`�E��E4つの計算である、E
+  **四則演算**とは、足し算（`+`）、引き算（`-`）、掛け算（`*`）、割り算（`/`）の4つの計算である。
 
-  Javaでは以下�E演算子を使ぁE��E
-  - `+`�E�足し箁E
-  - `-`�E�引き箁E
-  - `*`�E�掛け箁E
-  - `/`�E�割り箁E
+  Javaでは以下の演算子を使う：
+  - `+`：足し算
+  - `-`：引き算
+  - `*`：掛け算
+  - `/`：割り算
 
-  **ポインチE*�E�E
-  - 掛け算�E`*`�E�アスタリスク�E�を使ぁE��E×`ではなぁE��E
-  - 割り算�E`/`�E�スラチE��ュ�E�を使ぁE��E÷`ではなぁE��E
-  - 計算�E優先頁E���E数学と同じ�E�掛け算�E割り算が先、足し算�E引き算が後！E
-  - カチE��`()`を使って優先頁E��を変えられめE
+  **ポイント**：
+  - 掛け算は`*`（アスタリスク）を使う（`×`ではない）
+  - 割り算は`/`（スラッシュ）を使う（`÷`ではない）
+  - 計算の優先順位は数学と同じ（掛け算・割り算が先、足し算・引き算が後）
+  - カッコ`()`を使って優先順位を変えられる
 
-  **注意点**�E�E
-  - 整数同士の割り算�E小数点以下が刁E��捨てられる（例：`5 / 2`は`2`�E�E
-  - 小数を含む計算にする場合�E、`double`型を使ぁE
+  **注意点**：
+  - 整数同士の割り算は小数点以下が切り捨てられる（例：`5 / 2`は`2`）
+  - 小数を含む計算にする場合は、`double`型を使う
 
-  **解答侁E*�E�E
+  **解答例**：
   ```java
   public class Main {
       public static void main(String[] args) {
@@ -32,41 +32,41 @@ explanation: |
           int priceB = 200;
 
           int total = priceA + priceB;
-          System.out.println("合計��顁E " + total + "冁E);
+          System.out.println("合計金額: " + total + "円");
 
           int tax = total * 10 / 100;
-          System.out.println("消費稁E " + tax + "冁E);
+          System.out.println("消費税: " + tax + "円");
 
           int totalWithTax = total + tax;
-          System.out.println("税込み金顁E " + totalWithTax + "冁E);
+          System.out.println("税込み金額: " + totalWithTax + "円");
       }
   }
   ```
 
-  **実行結果**�E�E
+  **実行結果**：
   ```
-  合計��顁E 300冁E
-  消費稁E 30冁E
-  税込み金顁E 330冁E
+  合計金額: 300円
+  消費税: 30円
+  税込み金額: 330円
   ```
 
-  **応用侁E*�E�E
+  **応用例**：
   ```java
   public class Main {
       public static void main(String[] args) {
-          // 割引計算�E侁E
+          // 割引計算の例
           int originalPrice = 1000;
           int discount = 200;
 
           int discountedPrice = originalPrice - discount;
-          System.out.println("割引後�E価格: " + discountedPrice + "冁E);
+          System.out.println("割引後の価格: " + discountedPrice + "円");
 
-          // おつり�E計算�E侁E
+          // おつりの計算の例
           int payment = 5000;
           int price = 3200;
 
           int change = payment - price;
-          System.out.println("おつめE " + change + "冁E);
+          System.out.println("おつり: " + change + "円");
       }
   }
   ```
@@ -74,33 +74,33 @@ explanation: |
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
-## 問顁E
+## 問題
 
-2つの啁E��の価格と消費税を計算する�Eログラムを書ぁE��実行してください、E
+2つの商品の価格と消費税を計算するプログラムを書いて実行してください。
 
-**要件**�E�E
-- 啁E��Aの価格を`100`、商品Bの価格を`200`とする
-- 合計��額を計算すめE
-- 消費税！E0%�E�を計算する（合計��額�E10%�E�E
-- 税込み金額を計算する（合計��顁E+ 消費税！E
-- 吁E��額を表示する
+**要件**：
+- 商品Aの価格を`100`、商品Bの価格を`200`とする
+- 合計金額を計算する
+- 消費税（10%）を計算する（合計金額の10%）
+- 税込み金額を計算する（合計金額 + 消費税）
+- 各金額を表示する
 
-**実行環墁E*�E�E
-- 以下�EOneCompiler�E�ブラウザ上で実行可能�E�E
-- また�E、Eclipse等�EIDE
+**実行環境**：
+- 以下のOneCompiler（ブラウザ上で実行可能）
+- または、Eclipse等のIDE
 
 <OneCompilerCodeBlock
   language="java"
   code={`public class Main {
     public static void main(String[] args) {
-        // ここにコードを書ぁE��ください
+        // ここにコードを書いてください
 
     }
 }`}
 />
 
-**ヒンチE*�E�E
-- 合計��顁E= 啁E��A + 啁E��B
-- 消費稁E= 合計��顁E* 10 / 100
-- 税込み金顁E= 合計��顁E+ 消費稁E
+**ヒント**：
+- 合計金額 = 商品A + 商品B
+- 消費税 = 合計金額 * 10 / 100
+- 税込み金額 = 合計金額 + 消費税
 - `System.out.println()` で結果を表示

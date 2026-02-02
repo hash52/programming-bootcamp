@@ -6,62 +6,62 @@ difficulty: "Easy"
 topicId: "03_operators"
 category: "java/basics"
 explanation: |
-  **剰余演箁E*�E�E%`�E��E、E*割り算�E余り**を求める演算である、E
+  **剰余演算**（`%`）は、**割り算の余り**を求める演算である。
 
-  例！E
+  例：
   ```java
-  int a = 10 % 3;  // 10めEで割った余りは1
-  int b = 15 % 4;  // 15めEで割った余りは3
-  int c = 20 % 5;  // 20めEで割った余りは0�E�割り�Eれる�E�E
+  int a = 10 % 3;  // 10を3で割った余りは1
+  int b = 15 % 4;  // 15を4で割った余りは3
+  int c = 20 % 5;  // 20を5で割った余りは0（割り切れる）
   ```
 
-  **剰余演算�E使ぁE��**�E�E
-  - 偶数・奁E��の判定！En % 2 == 0`なら�E数�E�E
-  - 特定�E倍数の判定！En % 3 == 0`なめEの倍数�E�E
-  - 時計�E計算！E4時を趁E��たら0時に戻る！E
-  - 配�EのインチE��クスの循環
+  **剰余演算の使い所**：
+  - 偶数・奇数の判定（`n % 2 == 0`なら偶数）
+  - 特定の倍数の判定（`n % 3 == 0`なら3の倍数）
+  - 時計の計算（24時を超えたら0時に戻る）
+  - 配列のインデックスの循環
 
-  **ポインチE*�E�E
-  - 割り�Eれる場合、余りは`0`
-  - 余りは常に割る数より小さぁE��E10 % 3`の余りは0、Eの篁E���E�E
+  **ポイント**：
+  - 割り切れる場合、余りは`0`
+  - 余りは常に割る数より小さい（`10 % 3`の余りは0〜2の範囲）
 
-  **解答侁E*�E�E
+  **解答例**：
   ```java
   public class Main {
       public static void main(String[] args) {
           int number = 7;
 
           int remainder = number % 2;
-          System.out.println(number + "めEで割った余り: " + remainder);
+          System.out.println(number + "を2で割った余り: " + remainder);
 
-          // 別の侁E
+          // 別の例
           int number2 = 10;
           int remainder2 = number2 % 2;
-          System.out.println(number2 + "めEで割った余り: " + remainder2);
+          System.out.println(number2 + "を2で割った余り: " + remainder2);
       }
   }
   ```
 
-  **実行結果**�E�E
+  **実行結果**：
   ```
-  7めEで割った余り: 1
-  10めEで割った余り: 0
+  7を2で割った余り: 1
+  10を2で割った余り: 0
   ```
 
-  **応用侁E*�E�E
+  **応用例**：
   ```java
   public class Main {
       public static void main(String[] args) {
-          // 3の倍数の判宁E
+          // 3の倍数の判定
           int num = 15;
           int remainder = num % 3;
-          System.out.println(num + "めEで割った余り: " + remainder);
-          // 余りぁEなので、E5は3の倍数
+          System.out.println(num + "を3で割った余り: " + remainder);
+          // 余りが0なので、15は3の倍数
 
-          // 時計�E計算！E5晁EↁE1時！E
+          // 時計の計算（25時 → 1時）
           int hour = 25;
           int normalizedHour = hour % 24;
-          System.out.println(hour + "時�E " + normalizedHour + "時と同じ");
+          System.out.println(hour + "時は " + normalizedHour + "時と同じ");
       }
   }
   ```
@@ -69,30 +69,30 @@ explanation: |
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
-## 問顁E
+## 問題
 
-剰余演算を使って、数値が�E数か奁E��かを判定する�Eログラムを書ぁE��実行してください、E
+剰余演算を使って、数値が偶数か奇数かを判定するプログラムを書いて実行してください。
 
-**要件**�E�E
-- 変数`number`に任意�E整数を代入する
-- `number`めEで割った余りを求めめE
-- 余りぁEなら「�E数」、余りぁEなら「奁E��」と表示する�E�まだif斁E��学んでぁE��ぁE�Eで、両方表示して確認！E
+**要件**：
+- 変数`number`に任意の整数を代入する
+- `number`を2で割った余りを求める
+- 余りが0なら「偶数」、余りが1なら「奇数」と表示する（まだif文を学んでいないので、両方表示して確認）
 
-**実行環墁E*�E�E
-- 以下�EOneCompiler�E�ブラウザ上で実行可能�E�E
-- また�E、Eclipse等�EIDE
+**実行環境**：
+- 以下のOneCompiler（ブラウザ上で実行可能）
+- または、Eclipse等のIDE
 
 <OneCompilerCodeBlock
   language="java"
   code={`public class Main {
     public static void main(String[] args) {
-        // ここにコードを書ぁE��ください
+        // ここにコードを書いてください
 
     }
 }`}
 />
 
-**ヒンチE*�E�E
-- `number % 2`で2で割った余りを求めめE
-- 余りが`0`なら�E数、`1`なら奁E��
-- `System.out.println()`で余りを表示して確誁E
+**ヒント**：
+- `number % 2`で2で割った余りを求める
+- 余りが`0`なら偶数、`1`なら奇数
+- `System.out.println()`で余りを表示して確認

@@ -1,6 +1,6 @@
 ---
 id: "java/basics/03_operators#integer_division_result"
-title: "整数同士の割り算�E結果を説明できる"
+title: "整数同士の割り算の結果を説明できる"
 type: "KNOW"
 difficulty: "Medium"
 format: "multipleChoice"
@@ -11,56 +11,56 @@ choices:
   - id: "A"
     text: "小数点以下まで正確に計算される"
   - id: "B"
-    text: "小数点以下が刁E��捨てられ、整数のみが残る"
+    text: "小数点以下が切り捨てられ、整数のみが残る"
   - id: "C"
-    text: "小数点以下が四捨五�EされめE
+    text: "小数点以下が四捨五入される"
   - id: "D"
-    text: "エラーが発生すめE
+    text: "エラーが発生する"
 answers:
   correct: ["B"]
 explanation: |
-  Javaでは、E*整数同士の割り算�E結果は整数になり、小数点以下�E刁E��捨てられめE*、E
+  Javaでは、**整数同士の割り算の結果は整数になり、小数点以下は切り捨てられる**。
 
-  例！E
+  例：
   ```java
-  int a = 5 / 2;  // 2�E�E.5ではなぁE��E
-  int b = 7 / 3;  // 2�E�E.333...ではなぁE��E
-  int c = 10 / 4;  // 2�E�E.5ではなぁE��E
+  int a = 5 / 2;  // 2（2.5ではない）
+  int b = 7 / 3;  // 2（2.333...ではない）
+  int c = 10 / 4;  // 2（2.5ではない）
   ```
 
-  **小数を含む計算にする方況E*�E�E
-  - `double`型を使ぁE
-  - 少なくとめEつの数値を`double`型にする
+  **小数を含む計算にする方法**：
+  - `double`型を使う
+  - 少なくとも1つの数値を`double`型にする
 
   ```java
   double d = 5.0 / 2;  // 2.5
   double e = 5 / 2.0;  // 2.5
-  double f = (double) 5 / 2;  // 2.5�E�キャスト！E
+  double f = (double) 5 / 2;  // 2.5（キャスト）
   ```
 ---
 
-## 問顁E
+## 問題
 
-Javaで`int`型同士の割り算を行った場合、結果はどぁE��るか。最も適刁E��も�Eを選べ、E
+Javaで`int`型同士の割り算を行った場合、結果はどうなるか。最も適切なものを選べ。
 
 ## 解説
 
-整数同士の割り算�E、E*小数点以下が刁E��捨てられて整数になめE*、E
+整数同士の割り算は、**小数点以下が切り捨てられて整数になる**。
 
-これは、E*同じ型同士の演算結果は同じ型になめE*とぁE��Javaのルールによるも�Eである、E
+これは、**同じ型同士の演算結果は同じ型になる**というJavaのルールによるものである。
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 <OneCompilerCodeBlock language="java" code={`public class Main {
     public static void main(String[] args) {
-        // int型同士の割り箁E
+        // int型同士の割り算
         int result1 = 5 / 2;
         System.out.println("5 / 2 = " + result1);  // 2
 
         int result2 = 7 / 3;
         System.out.println("7 / 3 = " + result2);  // 2
 
-        // double型を使った割り箁E
+        // double型を使った割り算
         double result3 = 5.0 / 2;
         System.out.println("5.0 / 2 = " + result3);  // 2.5
 
@@ -69,18 +69,18 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
     }
 }`} />
 
-**重要なポインチE*�E�E
-- `5 / 2`は`2`�E�小数点以下�Eり捨て�E�E
-- `5.0 / 2`は`2.5`�E�どちらかがdouble型なので結果もdouble型！E
-- 平坁E��の計算など、小数が忁E��な場合�E`double`型を使ぁE
+**重要なポイント**：
+- `5 / 2`は`2`（小数点以下切り捨て）
+- `5.0 / 2`は`2.5`（どちらかがdouble型なので結果もdouble型）
+- 平均値の計算など、小数が必要な場合は`double`型を使う
 
-**よくある間違ぁE*�E�E
+**よくある間違い**：
 ```java
 int a = 5;
 int b = 2;
-double result = a / b;  // これは2.0になる！E.5ではなぁE��E
+double result = a / b;  // これは2.0になる（2.5ではない）
 ```
-上記�Eコード�E、`a / b`の時点で整数の割り算（結果2�E�になり、その後`double`型に変換されるため、`2.0`になる。正しくは以下�Eようにする�E�E
+上記のコードは、`a / b`の時点で整数の割り算（結果2）になり、その後`double`型に変換されるため、`2.0`になる。正しくは以下のようにする：
 ```java
 double result = (double) a / b;  // 2.5
 ```

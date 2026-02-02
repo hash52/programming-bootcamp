@@ -1,56 +1,56 @@
 ---
-id: \"java/basics/03b_random#random_concept\"
+id: "java/basics/03b_random#random_concept"
 title: "乱数とは何かを説明できる"
 type: "KNOW"
 difficulty: "Easy"
 format: "multipleChoice"
-topicid: \"java/basics/03b_random#random_concept\"
+topicId: "03b_random"
 category: "java/basics"
 multipleSelect: false
 choices:
-  - id: \"java/basics/03b_random#random_concept\"
-    text: "予測できなぁE��ンダムな数値"
-  - id: \"java/basics/03b_random#random_concept\"
+  - id: "A"
+    text: "予測できないランダムな数値"
+  - id: "B"
     text: "常に同じ値を返す数値"
-  - id: \"java/basics/03b_random#random_concept\"
-    text: "ユーザーが�E力した数値"
-  - id: \"java/basics/03b_random#random_concept\"
+  - id: "C"
+    text: "ユーザーが入力した数値"
+  - id: "D"
     text: "プログラムが計算した数値"
 answers:
   correct: ["A"]
 explanation: |
-  **乱数**�E�Eandom Number�E��E、E*予測できなぁE��ンダムな数値**である、E
+  **乱数**（Random Number）は、**予測できないランダムな数値**である。
 
-  **乱数の使ぁE��**�E�E
-  - ゲームのサイコロめE��ード�EシャチE��ル
-  - パスワードやト�Eクンの生�E
-  - チE��トデータの作�E
-  - シミュレーションめE��計�E琁E
+  **乱数の使い所**：
+  - ゲームのサイコロやカードのシャッフル
+  - パスワードやトークンの生成
+  - テストデータの作成
+  - シミュレーションや統計処理
 
-  **乱数の種顁E*�E�E
-  - **整数の乱数**�E�E, 1, 2, 3, ...
-  - **小数の乱数**�E�E.0、E.0の篁E��
+  **乱数の種類**：
+  - **整数の乱数**：0, 1, 2, 3, ...
+  - **小数の乱数**：0.0〜1.0の範囲
 
-  例！E
+  例：
   ```java
-  // 1、Eのサイコロ
-  int dice = 1 + random.nextInt(6);  // 1, 2, 3, 4, 5, 6のぁE��れか
+  // 1〜6のサイコロ
+  int dice = 1 + random.nextInt(6);  // 1, 2, 3, 4, 5, 6のいずれか
   ```
 ---
 
-## 問顁E
+## 問題
 
-乱数の説明として最も適刁E��も�Eを選べ、E
+乱数の説明として最も適切なものを選べ。
 
 ## 解説
 
-乱数は、E*プログラムに予測不可能性を持たせるため�E仕絁E��**である、E
+乱数は、**プログラムに予測不可能性を持たせるための仕組み**である。
 
-ゲームめE��キュリチE��など、さまざまな場面で乱数が使われる！E
-- **ゲーム**�E�サイコロ、ガチャ、敵の行動パターン
-- **セキュリチE��**�E�パスワード、認証ト�Eクン、暗号鍵
-- **チE��チE*�E�ランダムなチE��トデータの生�E
-- **シミュレーション**�E�天気予報、株価予測
+ゲームやセキュリティなど、さまざまな場面で乱数が使われる：
+- **ゲーム**：サイコロ、ガチャ、敵の行動パターン
+- **セキュリティ**：パスワード、認証トークン、暗号鍵
+- **テスト**：ランダムなテストデータの生成
+- **シミュレーション**：天気予報、株価予測
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
@@ -60,25 +60,25 @@ public class Main {
     public static void main(String[] args) {
         Random random = new Random();
 
-        // サイコロめE回振めE
-        System.out.println("=== サイコロを振めE===");
+        // サイコロを3回振る
+        System.out.println("=== サイコロを振る ===");
         for (int i = 1; i <= 3; i++) {
             int dice = 1 + random.nextInt(6);
             System.out.println(i + "回目: " + dice);
         }
 
-        // コイントス�E�表か裏か�E�E
+        // コイントス（表か裏か）
         System.out.println("\\n=== コイントス ===");
         int coin = random.nextInt(2);  // 0 or 1
         if (coin == 0) {
             System.out.println("表");
         } else {
-            System.out.println("裁E);
+            System.out.println("裏");
         }
     }
 }`} />
 
-**乱数の特徴**�E�E
-- 毎回異なる値が生成される�E�予測不可能�E�E
-- 同じプログラムを実行しても、結果は毎回変わめE
-- 公平性が保証される（特定�E値に偏らなぁE��E
+**乱数の特徴**：
+- 毎回異なる値が生成される（予測不可能）
+- 同じプログラムを実行しても、結果は毎回変わる
+- 公平性が保証される（特定の値に偏らない）

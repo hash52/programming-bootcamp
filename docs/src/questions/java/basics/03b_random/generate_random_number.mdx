@@ -1,23 +1,23 @@
 ---
-id: \"java/basics/03b_random#generate_random_number\"
-title: "ランダムな数を作れめE
+id: "java/basics/03b_random#generate_random_number"
+title: "ランダムな数を作れる"
 type: "WRITE"
 difficulty: "Easy"
-topicid: \"java/basics/03b_random#generate_random_number\"
+topicId: "03b_random"
 category: "java/basics"
 explanation: |
-  **Randomクラス**を使ぁE��、ランダムな数を簡単に生�Eできる、E
+  **Randomクラス**を使うと、ランダムな数を簡単に生成できる。
 
-  **基本皁E��流れ**�E�E
-  1. `Random`オブジェクトを作�E
-  2. `nextInt(n)`メソチE��で0〜n-1のランダムな整数を取征E
+  **基本的な流れ**：
+  1. `Random`オブジェクトを作成
+  2. `nextInt(n)`メソッドで0〜n-1のランダムな整数を取得
 
-  **ポインチE*�E�E
-  - `import java.util.Random;`でRandomクラスをインポ�EチE
-  - `Random random = new Random();`でRandomオブジェクトを作�E
-  - `random.nextInt(n)`で乱数を取征E
+  **ポイント**：
+  - `import java.util.Random;`でRandomクラスをインポート
+  - `Random random = new Random();`でRandomオブジェクトを作成
+  - `random.nextInt(n)`で乱数を取得
 
-  **解答侁E*�E�E
+  **解答例**：
   ```java
   import java.util.Random;
 
@@ -25,21 +25,21 @@ explanation: |
       public static void main(String[] args) {
           Random random = new Random();
 
-          System.out.println("サイコロを振りまぁE..");
+          System.out.println("サイコロを振ります...");
           int dice = 1 + random.nextInt(6);
           System.out.println("出目: " + dice);
       }
   }
   ```
 
-  **実行侁E*�E�E
+  **実行例**：
   ```
-  サイコロを振りまぁE..
+  サイコロを振ります...
   出目: 4
   ```
-  �E�毎回異なる値が表示される！E
+  （毎回異なる値が表示される）
 
-  **応用侁E*�E�E
+  **応用例**：
   ```java
   import java.util.Random;
 
@@ -47,13 +47,13 @@ explanation: |
       public static void main(String[] args) {
           Random random = new Random();
 
-          System.out.println("=== 2つのサイコロを振めE===");
+          System.out.println("=== 2つのサイコロを振る ===");
           int dice1 = 1 + random.nextInt(6);
           int dice2 = 1 + random.nextInt(6);
 
           System.out.println("サイコロ1: " + dice1);
           System.out.println("サイコロ2: " + dice2);
-          System.out.println("合訁E " + (dice1 + dice2));
+          System.out.println("合計: " + (dice1 + dice2));
       }
   }
   ```
@@ -61,18 +61,18 @@ explanation: |
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
-## 問顁E
+## 問題
 
-サイコロを振る�Eログラム�E�E、Eのランダムな整数を表示�E�を書ぁE��実行してください、E
+サイコロを振るプログラム（1〜6のランダムな整数を表示）を書いて実行してください。
 
-**要件**�E�E
-- 「サイコロを振りまぁE..」と表示
-- 1、Eのランダムな整数を生戁E
-- 「�E目: 、E��と表示
+**要件**：
+- 「サイコロを振ります...」と表示
+- 1〜6のランダムな整数を生成
+- 「出目: 〇」と表示
 
-**実行環墁E*�E�E
-- 以下�EOneCompiler�E�ブラウザ上で実行可能�E�E
-- また�E、Eclipse等�EIDE
+**実行環境**：
+- 以下のOneCompiler（ブラウザ上で実行可能）
+- または、Eclipse等のIDE
 
 <OneCompilerCodeBlock
   language="java"
@@ -80,12 +80,12 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 
 public class Main {
     public static void main(String[] args) {
-        // ここにコードを書ぁE��ください
+        // ここにコードを書いてください
 
     }
 }`}
 />
 
-**ヒンチE*�E�E
-- `Random random = new Random();`でRandomオブジェクトを作�E
-- `1 + random.nextInt(6)`で1、Eのランダムな整数
+**ヒント**：
+- `Random random = new Random();`でRandomオブジェクトを作成
+- `1 + random.nextInt(6)`で1〜6のランダムな整数

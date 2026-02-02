@@ -1,60 +1,60 @@
 ---
-id: \"java/basics/01_java_basics#hello_world\"
+id: "java/basics/01_java_basics#hello_world"
 title: "「Hello World」と画面に表示できる"
 type: "WRITE"
 difficulty: "Easy"
 format: "fillInBlank"
-topicid: \"java/basics/01_java_basics#hello_world\"
+topicId: "01_java_basics"
 category: "java/basics"
 fillInBlankAnswers:
   blank1: ["System.out.println", "System.out.print"]
   blank2: ["\"Hello World\"", "\"Hello World\";", "'Hello World'", "'Hello World';"]
 sampleAnswer: "System.out.println(\"Hello World\");"
 explanation: |
-  **「Hello World」を画面に表示する**には、`System.out.println()`を使ぁE��E
+  **「Hello World」を画面に表示する**には、`System.out.println()`を使う。
 
   ```java
   System.out.println("Hello World");
   ```
 
-  **コード�E説昁E*�E�E
-  - `System.out.println()`: 画面に斁E��を表示し、改行するメソチE��
-  - `"Hello World"`: 表示したぁE��字�E�E�ダブルクォートで囲む�E�E
-  - 最後に`;`�E�セミコロン�E�を付けめE
+  **コードの説明**：
+  - `System.out.println()`: 画面に文字を表示し、改行するメソッド
+  - `"Hello World"`: 表示したい文字列（ダブルクォートで囲む）
+  - 最後に`;`（セミコロン）を付ける
 
-  **実行結果**�E�E
+  **実行結果**：
   ```
   Hello World
   ```
 
-  **println と print の違い**�E�E
-  - `println`: 表示後に改行すめE
-  - `print`: 改行しなぁE
+  **println と print の違い**：
+  - `println`: 表示後に改行する
+  - `print`: 改行しない
 
   ```java
   System.out.print("Hello ");
   System.out.print("World");
-  // 出劁E Hello World�E�改行なし！E
+  // 出力: Hello World（改行なし）
 
   System.out.println("Hello ");
   System.out.println("World");
-  // 出劁E
+  // 出力:
   // Hello 
   // World
   ```
 
-  **注愁E*�E�E
-  - 斁E���Eは忁E��ダブルクォーチE`"` で囲む
-  - 日本語も表示できる�E�`System.out.println("こんにちは");`
-  - 最後�E`;`�E�セミコロン�E�を忘れなぁE��と
+  **注意**：
+  - 文字列は必ずダブルクォート `"` で囲む
+  - 日本語も表示できる：`System.out.println("こんにちは");`
+  - 最後の`;`（セミコロン）を忘れないこと
 ---
 
 import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
 import { CodeBlock } from '@site/src/components/question/CodeBlock';
 
-## 問顁E
+## 問題
 
-以下�Eコード�E空欁E��埋めて、「Hello World」と画面に表示してください、E
+以下のコードの空欄を埋めて、「Hello World」と画面に表示してください。
 
 <CodeBlock>
   <BlankInput id="blank1" />(<BlankInput id="blank2" />);

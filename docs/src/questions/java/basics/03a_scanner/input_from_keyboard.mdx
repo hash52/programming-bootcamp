@@ -1,26 +1,26 @@
 ---
-id: \"java/basics/03a_scanner#input_from_keyboard\"
-title: "キーボ�Eドから文字を入力できる"
+id: "java/basics/03a_scanner#input_from_keyboard"
+title: "キーボードから文字を入力できる"
 type: "WRITE"
 difficulty: "Easy"
 topicId: "03a_scanner"
 category: "java/basics"
 explanation: |
-  **標準�E劁E*を使ぁE��、�Eログラム実行中にユーザーがキーボ�Eドから文字を入力できる、E
+  **標準入力**を使うと、プログラム実行中にユーザーがキーボードから文字を入力できる。
 
-  **基本皁E��流れ**�E�E
-  1. `Scanner`オブジェクトを作�E
-  2. `nextLine()`メソチE��で1行を読み取る
-  3. 読み取った文字�Eを変数に格紁E
-  4. 変数を使って処琁E��表示を行う
+  **基本的な流れ**：
+  1. `Scanner`オブジェクトを作成
+  2. `nextLine()`メソッドで1行を読み取る
+  3. 読み取った文字列を変数に格納
+  4. 変数を使って処理や表示を行う
 
-  **ポインチE*�E�E
-  - `import java.util.Scanner;`でScannerクラスをインポ�EチE
-  - `Scanner scanner = new Scanner(System.in);`でScannerオブジェクトを作�E
+  **ポイント**：
+  - `import java.util.Scanner;`でScannerクラスをインポート
+  - `Scanner scanner = new Scanner(System.in);`でScannerオブジェクトを作成
   - `scanner.nextLine()`で1行を読み取る
-  - ユーザーがEnterキーを押すまで入力征E��になめE
+  - ユーザーがEnterキーを押すまで入力待ちになる
 
-  **解答侁E*�E�E
+  **解答例**：
   ```java
   import java.util.Scanner;
 
@@ -28,21 +28,21 @@ explanation: |
       public static void main(String[] args) {
           Scanner scanner = new Scanner(System.in);
 
-          System.out.print("好きな食べ物を�E力してください: ");
+          System.out.print("好きな食べ物を入力してください: ");
           String food = scanner.nextLine();
 
-          System.out.println("あなた�E好きな食べ物は" + food + "です�E�E�E);
+          System.out.println("あなたの好きな食べ物は" + food + "ですね！");
       }
   }
   ```
 
-  **実行侁E*�E�E
+  **実行例**：
   ```
-  好きな食べ物を�E力してください: カレー
-  あなた�E好きな食べ物はカレーです�E�E�E
+  好きな食べ物を入力してください: カレー
+  あなたの好きな食べ物はカレーですね！
   ```
 
-  **応用侁E*�E�E
+  **応用例**：
   ```java
   import java.util.Scanner;
 
@@ -50,13 +50,13 @@ explanation: |
       public static void main(String[] args) {
           Scanner scanner = new Scanner(System.in);
 
-          System.out.print("あなた�E名前を�E力してください: ");
+          System.out.print("あなたの名前を入力してください: ");
           String name = scanner.nextLine();
 
-          System.out.print("あなた�E出身地を�E力してください: ");
+          System.out.print("あなたの出身地を入力してください: ");
           String hometown = scanner.nextLine();
 
-          System.out.println("\n=== 自己紹仁E===");
+          System.out.println("\n=== 自己紹介 ===");
           System.out.println("名前: " + name);
           System.out.println("出身地: " + hometown);
       }
@@ -66,18 +66,18 @@ explanation: |
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
-## 問顁E
+## 問題
 
-ユーザーに好きな食べ物を�E力してもらぁE��それを表示するプログラムを書ぁE��実行してください、E
+ユーザーに好きな食べ物を入力してもらい、それを表示するプログラムを書いて実行してください。
 
-**要件**�E�E
-- 「好きな食べ物を�E力してください: 」と表示
+**要件**：
+- 「好きな食べ物を入力してください: 」と表示
 - ユーザーの入力を受け取る
-- 「あなた�E好きな食べ物は、E��E��す�E�E�」と表示
+- 「あなたの好きな食べ物は〇〇ですね！」と表示
 
-**実行環墁E*�E�E
-- 以下�EOneCompiler�E�ブラウザ上で実行可能�E�E
-- また�E、Eclipse等�EIDE
+**実行環境**：
+- 以下のOneCompiler（ブラウザ上で実行可能）
+- または、Eclipse等のIDE
 
 <OneCompilerCodeBlock
   language="java"
@@ -85,13 +85,13 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 
 public class Main {
     public static void main(String[] args) {
-        // ここにコードを書ぁE��ください
+        // ここにコードを書いてください
 
     }
 }`}
 />
 
-**ヒンチE*�E�E
-- `Scanner scanner = new Scanner(System.in);`でScannerを作�E
-- `System.out.print()`で入力を俁E��メチE��ージを表示
+**ヒント**：
+- `Scanner scanner = new Scanner(System.in);`でScannerを作成
+- `System.out.print()`で入力を促すメッセージを表示
 - `scanner.nextLine()`で1行を読み取る

@@ -1,6 +1,6 @@
 ---
-id: \"java/basics/03a_scanner#scanner_class_role\"
-title: "標準�E力用クラスの役割を説明できる"
+id: "java/basics/03a_scanner#scanner_class_role"
+title: "標準入力用クラスの役割を説明できる"
 type: "KNOW"
 difficulty: "Easy"
 format: "multipleChoice"
@@ -9,25 +9,25 @@ category: "java/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "標準�E力からデータを読み取り、文字�EめE��値に変換する"
+    text: "標準入力からデータを読み取り、文字列や数値に変換する"
   - id: "B"
-    text: "ファイルにチE�Eタを書き込む"
+    text: "ファイルにデータを書き込む"
   - id: "C"
-    text: "乱数を生成すめE
+    text: "乱数を生成する"
   - id: "D"
-    text: "画面に斁E��を表示する"
+    text: "画面に文字を表示する"
 answers:
   correct: ["A"]
 explanation: |
-  **Scannerクラス**は、E*標準�E力からデータを読み取り、文字�EめE��値に変換するクラス**である、E
+  **Scannerクラス**は、**標準入力からデータを読み取り、文字列や数値に変換するクラス**である。
 
-  **Scannerクラスの主なメソチE��**�E�E
-  - `nextLine()`�E�E行を斁E���Eとして読み取る
-  - `nextInt()`�E�整数を読み取る
-  - `nextDouble()`�E�小数を読み取る
-  - `next()`�E�次の単語を読み取る
+  **Scannerクラスの主なメソッド**：
+  - `nextLine()`：1行を文字列として読み取る
+  - `nextInt()`：整数を読み取る
+  - `nextDouble()`：小数を読み取る
+  - `next()`：次の単語を読み取る
 
-  **Scannerクラスの使ぁE��**�E�E
+  **Scannerクラスの使い方**：
   ```java
   import java.util.Scanner;
 
@@ -36,15 +36,15 @@ explanation: |
   ```
 ---
 
-## 問顁E
+## 問題
 
-Scannerクラスの役割として最も適刁E��も�Eを選べ、E
+Scannerクラスの役割として最も適切なものを選べ。
 
 ## 解説
 
-Scannerクラスは、E*標準�E力からデータを読み取るための便利なチE�Eル**である、E
+Scannerクラスは、**標準入力からデータを読み取るための便利なツール**である。
 
-ScannerクラスがなぁE��合、標準�E力からデータを読み取るのは非常に褁E��になる。Scannerクラスを使ぁE��とで、簡単にユーザーの入力を受け取れる、E
+Scannerクラスがない場合、標準入力からデータを読み取るのは非常に複雑になる。Scannerクラスを使うことで、簡単にユーザーの入力を受け取れる。
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
@@ -54,23 +54,23 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("あなた�E年齢を�E力してください: ");
+        System.out.print("あなたの年齢を入力してください: ");
         int age = scanner.nextInt();
 
-        System.out.println("あなた�E" + age + "歳です�E�E�E);
+        System.out.println("あなたは" + age + "歳ですね！");
 
-        // 20年後�E年齢を計箁E
+        // 20年後の年齢を計算
         int futureAge = age + 20;
-        System.out.println("20年後�E" + futureAge + "歳です、E);
+        System.out.println("20年後は" + futureAge + "歳です。");
     }
 }`} />
 
-**Scannerクラスの便利な点**�E�E
-1. **型変換が�E勁E*�E�`nextInt()`で整数、`nextDouble()`で小数を取征E
-2. **簡潔な記述**�E�褁E��な処琁E��1行で書ける
-3. **エラー処琁E*�E�数値以外が入力された場合に例外を投げめE
+**Scannerクラスの便利な点**：
+1. **型変換が自動**：`nextInt()`で整数、`nextDouble()`で小数を取得
+2. **簡潔な記述**：複雑な処理を1行で書ける
+3. **エラー処理**：数値以外が入力された場合に例外を投げる
 
-**Scannerクラスの使用には`import`が忁E��E*�E�E
+**Scannerクラスの使用には`import`が必要**：
 ```java
 import java.util.Scanner;  // ファイルの先頭に記述
 ```

@@ -1,39 +1,39 @@
 ---
-id: \"java/basics/03b_random#random_0_to_9\"
-title: "0、Eのランダムな整数を作れめE
+id: "java/basics/03b_random#random_0_to_9"
+title: "0〜9のランダムな整数を作れる"
 type: "WRITE"
 difficulty: "Easy"
 format: "fillInBlank"
-topicid: \"java/basics/03b_random#random_0_to_9\"
+topicId: "03b_random"
 category: "java/basics"
 fillInBlankAnswers:
   blank1: ["10", "10;"]
 sampleAnswer: "int number = random.nextInt(10);"
 explanation: |
-  **0、Eのランダムな整数**を生成するには、`nextInt(10)`を使ぁE��E
+  **0〜9のランダムな整数**を生成するには、`nextInt(10)`を使う。
 
   ```java
   Random random = new Random();
   int number = random.nextInt(10);  // 0, 1, 2, ..., 9
   ```
 
-  **ポインチE*�E�E
+  **ポイント**：
   - `nextInt(n)`は0からn-1までの整数を返す
-  - `nextInt(10)`は0、Eの篁E��
-  - 10個�E値�E�E, 1, 2, 3, 4, 5, 6, 7, 8, 9�E�E
+  - `nextInt(10)`は0〜9の範囲
+  - 10個の値（0, 1, 2, 3, 4, 5, 6, 7, 8, 9）
 
-  **他�E篁E��の侁E*�E�E
-  - `nextInt(5)`�E�E、E
-  - `nextInt(100)`�E�E、E9
-  - `nextInt(3)`�E�E, 1, 2
+  **他の範囲の例**：
+  - `nextInt(5)`：0〜4
+  - `nextInt(100)`：0〜99
+  - `nextInt(3)`：0, 1, 2
 ---
 
 import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
 import { CodeBlock } from '@site/src/components/question/CodeBlock';
 
-## 問顁E
+## 問題
 
-以下�Eコード�E空欁E��埋めて、E、Eのランダムな整数を生成してください、E
+以下のコードの空欄を埋めて、0〜9のランダムな整数を生成してください。
 
 <CodeBlock>
 {`Random random = new Random();
@@ -41,22 +41,22 @@ int number = random.nextInt(`}<BlankInput id="blank1" />{`);
 System.out.println("ランダムな数: " + number);`}
 </CodeBlock>
 
-**ヒンチE*�E�E
-- 0、Eの篁E��なので、引数は`10`
+**ヒント**：
+- 0〜9の範囲なので、引数は`10`
 
 ---
 
 ## 解説
 
-0、Eのランダムな整数を生成するには、E*nextInt(10)**を使ぁE��E
+0〜9のランダムな整数を生成するには、**nextInt(10)**を使う。
 
-**篁E��と引数の関俁E*�E�E
+**範囲と引数の関係**：
 
-| 目皁E�E篁E�� | nextIntの引数 | 琁E�� |
+| 目的の範囲 | nextIntの引数 | 理由 |
 |-----------|--------------|------|
-| 0、E | `nextInt(10)` | 10個�E値�E�E, 1, ..., 9�E�E|
-| 0、E | `nextInt(5)` | 5個�E値�E�E, 1, 2, 3, 4�E�E|
-| 0、E9 | `nextInt(100)` | 100個�E値�E�E, 1, ..., 99�E�E|
+| 0〜9 | `nextInt(10)` | 10個の値（0, 1, ..., 9） |
+| 0〜4 | `nextInt(5)` | 5個の値（0, 1, 2, 3, 4） |
+| 0〜99 | `nextInt(100)` | 100個の値（0, 1, ..., 99） |
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
@@ -66,7 +66,7 @@ public class Main {
     public static void main(String[] args) {
         Random random = new Random();
 
-        System.out.println("=== 0、Eのランダムな数めE個生戁E===");
+        System.out.println("=== 0〜9のランダムな数を5個生成 ===");
         for (int i = 0; i < 5; i++) {
             int number = random.nextInt(10);
             System.out.println(number);
@@ -74,13 +74,13 @@ public class Main {
     }
 }`} />
 
-**実行侁E*�E�E
+**実行例**：
 ```
-=== 0、Eのランダムな数めE個生戁E===
+=== 0〜9のランダムな数を5個生成 ===
 3
 7
 1
 9
 4
 ```
-�E�毎回異なる値が表示される！E
+（毎回異なる値が表示される）

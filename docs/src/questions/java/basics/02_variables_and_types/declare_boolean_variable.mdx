@@ -1,6 +1,6 @@
 ---
-id: \"java/basics/02_variables_and_types#declare_boolean_variable\"
-title: "小数型�E変数を宣言できる"
+id: "java/basics/02_variables_and_types#declare_boolean_variable"
+title: "小数型の変数を宣言できる"
 type: "WRITE"
 difficulty: "Easy"
 format: "fillInBlank"
@@ -11,32 +11,32 @@ fillInBlankAnswers:
   blank2: ["3.14", "3.14;"]
 sampleAnswer: "double pi = 3.14;"
 explanation: |
-  **double垁E*で小数を扱ぁE��は、変数宣言時に `double` を指定します、E
+  **double型**で小数を扱うには、変数宣言時に `double` を指定します。
 
   ```java
   double pi = 3.14;
   ```
 
-  - `double`: 小数型�E型名
-  - `pi`: 変数吁E
+  - `double`: 小数型の型名
+  - `pi`: 変数名
   - `3.14`: 小数値
 
-  **double型で扱える値の侁E*�E�E
-  - 小数�E�`3.14`, `-0.5`, `99.99`
-  - 整数も代入可能�E�`100.0`, `0.0`
-  - 非常に大きな数めE��さな数も扱える
+  **double型で扱える値の例**：
+  - 小数：`3.14`, `-0.5`, `99.99`
+  - 整数も代入可能：`100.0`, `0.0`
+  - 非常に大きな数や小さな数も扱える
 
-  **使ぁE�EぁE*�E�E
-  - 小数が忁E��な場合（価格、温度など�E�：`double`
-  - 整数のみの場合（年齢、カウント数など�E�：`int`
+  **使い分け**：
+  - 小数が必要な場合（価格、温度など）：`double`
+  - 整数のみの場合（年齢、カウント数など）：`int`
 ---
 
 import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
 import { CodeBlock } from '@site/src/components/question/CodeBlock';
 
-## 問顁E
+## 問題
 
-以下�Eコード�E空欁E��埋めて、変数`pi`に小数値`3.14`を代入してください、E
+以下のコードの空欄を埋めて、変数`pi`に小数値`3.14`を代入してください。
 
 <CodeBlock>
   <BlankInput id="blank1" /> pi = <BlankInput id="blank2" />;

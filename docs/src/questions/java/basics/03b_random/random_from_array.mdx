@@ -1,30 +1,30 @@
 ---
-id: \"java/basics/03b_random#random_from_array\"
-title: "配�Eからランダムに選ぶプログラムを書ける"
+id: "java/basics/03b_random#random_from_array"
+title: "配列からランダムに選ぶプログラムを書ける"
 type: "WRITE"
 difficulty: "Medium"
-topicid: \"java/basics/03b_random#random_from_array\"
+topicId: "03b_random"
 category: "java/basics"
 explanation: |
-  **配�Eからランダムに要素を選ぶ**には、ランダムなインチE��クスを生成する、E
+  **配列からランダムに要素を選ぶ**には、ランダムなインデックスを生成する。
 
-  **基本皁E��老E��方**�E�E
-  1. 配�Eの長さを取得！Earray.length`�E�E
-  2. 0〜長ぁE1のランダムなインチE��クスを生戁E
-  3. そ�EインチE��クスの要素を取征E
+  **基本的な考え方**：
+  1. 配列の長さを取得（`array.length`）
+  2. 0〜長さ-1のランダムなインデックスを生成
+  3. そのインデックスの要素を取得
 
   ```java
-  String[] fruits = {"りんぁE, "バナチE, "みかん"};
-  int index = random.nextInt(fruits.length);  // 0, 1, 2のぁE��れか
+  String[] fruits = {"りんご", "バナナ", "みかん"};
+  int index = random.nextInt(fruits.length);  // 0, 1, 2のいずれか
   String selected = fruits[index];
   ```
 
-  **ポインチE*�E�E
-  - `fruits.length`は配�Eの長さ（この例では3�E�E
-  - `nextInt(3)`は0、Eのランダムな整数
-  - インチE��クスは0から始まる�Eで、`0〜length-1`の篁E��が正しい
+  **ポイント**：
+  - `fruits.length`は配列の長さ（この例では3）
+  - `nextInt(3)`は0〜2のランダムな整数
+  - インデックスは0から始まるので、`0〜length-1`の範囲が正しい
 
-  **解答侁E*�E�E
+  **解答例**：
   ```java
   import java.util.Random;
 
@@ -32,7 +32,7 @@ explanation: |
       public static void main(String[] args) {
           Random random = new Random();
 
-          String[] fruits = {"りんぁE, "バナチE, "みかん", "ぶどぁE, "ぁE��ぁE};
+          String[] fruits = {"りんご", "バナナ", "みかん", "ぶどう", "いちご"};
 
           int index = random.nextInt(fruits.length);
           String selected = fruits[index];
@@ -42,13 +42,13 @@ explanation: |
   }
   ```
 
-  **実行侁E*�E�E
+  **実行例**：
   ```
-  選ばれた果物: ぶどぁE
+  選ばれた果物: ぶどう
   ```
-  �E�毎回異なる果物が選ばれる�E�E
+  （毎回異なる果物が選ばれる）
 
-  **応用例（おみくじ�E�E*�E�E
+  **応用例（おみくじ）**：
   ```java
   import java.util.Random;
 
@@ -56,18 +56,18 @@ explanation: |
       public static void main(String[] args) {
           Random random = new Random();
 
-          String[] fortunes = {"大吁E, "中吁E, "小吉", "吁E, "末吁E, "凶", "大凶"};
+          String[] fortunes = {"大吉", "中吉", "小吉", "吉", "末吉", "凶", "大凶"};
 
           System.out.println("=== おみくじ ===");
           int index = random.nextInt(fortunes.length);
           String result = fortunes[index];
 
-          System.out.println("あなた�E運勢: " + result);
+          System.out.println("あなたの運勢: " + result);
       }
   }
   ```
 
-  **応用例（褁E��回選ぶ�E�E*�E�E
+  **応用例（複数回選ぶ）**：
   ```java
   import java.util.Random;
 
@@ -75,7 +75,7 @@ explanation: |
       public static void main(String[] args) {
           Random random = new Random();
 
-          String[] colors = {"赤", "靁E, "黁E, "緁E, "紫", "オレンジ"};
+          String[] colors = {"赤", "青", "黄", "緑", "紫", "オレンジ"};
 
           System.out.println("=== 3色ランダムに選ぶ ===");
           for (int i = 1; i <= 3; i++) {
@@ -87,26 +87,26 @@ explanation: |
   }
   ```
 
-  **注愁E*�E�E
-  - 配�EのインチE��クスは0から始まめE
-  - `nextInt(length)`は0〜length-1の篁E��
-  - 配�Eの長さが0の場合、`nextInt(0)`はエラーになめE
+  **注意**：
+  - 配列のインデックスは0から始まる
+  - `nextInt(length)`は0〜length-1の範囲
+  - 配列の長さが0の場合、`nextInt(0)`はエラーになる
 ---
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
-## 問顁E
+## 問題
 
-配�Eからランダムに要素を選んで表示するプログラムを書ぁE��実行してください、E
+配列からランダムに要素を選んで表示するプログラムを書いて実行してください。
 
-**要件**�E�E
-- 斁E���Eの配�Eを作�E�E�例：果物、動物、色など�E�E
-- 配�Eからランダムに1つ選ぶ
+**要件**：
+- 文字列の配列を作成（例：果物、動物、色など）
+- 配列からランダムに1つ選ぶ
 - 選ばれた要素を表示
 
-**実行環墁E*�E�E
-- 以下�EOneCompiler�E�ブラウザ上で実行可能�E�E
-- また�E、Eclipse等�EIDE
+**実行環境**：
+- 以下のOneCompiler（ブラウザ上で実行可能）
+- または、Eclipse等のIDE
 
 <OneCompilerCodeBlock
   language="java"
@@ -114,13 +114,13 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 
 public class Main {
     public static void main(String[] args) {
-        // ここにコードを書ぁE��ください
+        // ここにコードを書いてください
 
     }
 }`}
 />
 
-**ヒンチE*�E�E
-- 配�Eを作�E�E�`String[] items = {"A", "B", "C"};`
-- ランダムなインチE��クス�E�`random.nextInt(items.length)`
+**ヒント**：
+- 配列を作成：`String[] items = {"A", "B", "C"};`
+- ランダムなインデックス：`random.nextInt(items.length)`
 - 要素を取得：`items[index]`

@@ -7,16 +7,16 @@ format: "fillInBlank"
 topicId: "03_operators"
 category: "java/basics"
 fillInBlankAnswers:
-  blank1: ["!", "�E�E]
-  blank2: ["!", "�E�E]
+  blank1: ["!", "！"]
+  blank2: ["!", "！"]
 sampleAnswer: "boolean isNotAdult = !isAdult;"
 explanation: |
-  **否定演算孁E*�E�E!`�E��E、E*条件を反転させる演算孁E*である、E
+  **否定演算子**（`!`）は、**条件を反転させる演算子**である。
 
   - `true`を`false`に変換
   - `false`を`true`に変換
 
-  例！E
+  例：
   ```java
   boolean isRaining = false;
   boolean isNotRaining = !isRaining;  // true
@@ -25,40 +25,40 @@ explanation: |
   boolean hasNoLicense = !hasLicense;  // false
   ```
 
-  **否定演算子�E使ぁE��**�E�E
-  - 「〜でなぁE��とぁE��条件を表現
-  - 条件を送E��する
-  - エラーチェチE���E�「正常でなぁE��場合�E処琁E��E
+  **否定演算子の使い所**：
+  - 「〜でない」という条件を表現
+  - 条件を逆にする
+  - エラーチェック（「正常でない」場合の処理）
 ---
 
 import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
 import { CodeBlock } from '@site/src/components/question/CodeBlock';
 
-## 問顁E
+## 問題
 
-以下�Eコード�E空欁E��埋めて、否定演算子を正しく使ってください、E
+以下のコードの空欄を埋めて、否定演算子を正しく使ってください。
 
 <CodeBlock>
 {`boolean isRaining = false;
 boolean hasUmbrella = true;
 
-// 雨が降ってぁE��ぁE
+// 雨が降っていない
 boolean isNotRaining = `}<BlankInput id="blank1" />{`isRaining;
 
-// 傘を持ってぁE��ぁE
+// 傘を持っていない
 boolean hasNoUmbrella = `}<BlankInput id="blank2" />{`hasUmbrella;`}
 </CodeBlock>
 
-**ヒンチE*�E�E
-- 否定！EOT�E�：`!`
+**ヒント**：
+- 否定（NOT）：`!`
 
 ---
 
 ## 解説
 
-否定演算子！E!`�E�を使ぁE��、E*真偽値を反転できる**、E
+否定演算子（`!`）を使うと、**真偽値を反転できる**。
 
-**否定演算子�E真理値表**�E�E
+**否定演算子の真理値表**：
 
 | A | !A |
 |---|----|
@@ -71,16 +71,16 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
     public static void main(String[] args) {
         boolean isLoggedIn = false;
 
-        // ログインしてぁE��ぁE
+        // ログインしていない
         boolean isNotLoggedIn = !isLoggedIn;
-        System.out.println("ログインしてぁE��ぁE " + isNotLoggedIn);  // true
+        System.out.println("ログインしていない: " + isNotLoggedIn);  // true
 
-        // ログインしてぁE��
+        // ログインしている
         isLoggedIn = true;
         isNotLoggedIn = !isLoggedIn;
-        System.out.println("ログインしてぁE��ぁE " + isNotLoggedIn);  // false
+        System.out.println("ログインしていない: " + isNotLoggedIn);  // false
 
-        // 褁E��な条件の侁E
+        // 複雑な条件の例
         int age = 15;
         boolean isAdult = age >= 18;
         boolean isMinor = !isAdult;  // 未成年
@@ -88,17 +88,17 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
     }
 }`} />
 
-**論理演算子との絁E��合わぁE*�E�E
+**論理演算子との組み合わせ**：
 
 ```java
 boolean hasLicense = false;
 int age = 20;
 
-// 年齢ぁE8歳以丁Eかつ 免許を持ってぁE��ぁE
+// 年齢が18歳以上 かつ 免許を持っていない
 boolean needsLicense = age >= 18 && !hasLicense;  // true
 ```
 
-**実用侁E*�E�E
-- エラーチェチE���E�「�E力が空でなぁE��EↁE`!isEmpty`
-- 権限チェチE���E�「管琁E��E��なぁE��EↁE`!isAdmin`
-- 状態確認：「完亁E��てぁE��ぁE��EↁE`!isCompleted`
+**実用例**：
+- エラーチェック：「入力が空でない」 → `!isEmpty`
+- 権限チェック：「管理者でない」 → `!isAdmin`
+- 状態確認：「完了していない」 → `!isCompleted`

@@ -1,6 +1,6 @@
 ---
-id: \"java/basics/02_variables_and_types#declare_string_variable\"
-title: "真偽値型�E変数を宣言できる"
+id: "java/basics/02_variables_and_types#declare_string_variable"
+title: "真偽値型の変数を宣言できる"
 type: "WRITE"
 difficulty: "Easy"
 format: "fillInBlank"
@@ -11,33 +11,33 @@ fillInBlankAnswers:
   blank2: ["true", "true;"]
 sampleAnswer: "boolean isStudent = true;"
 explanation: |
-  **boolean垁E*で真偽値を扱ぁE��は、変数宣言時に `boolean` を指定します、E
+  **boolean型**で真偽値を扱うには、変数宣言時に `boolean` を指定します。
 
   ```java
   boolean isStudent = true;
   ```
 
-  - `boolean`: 真偽値型�E型名
-  - `isStudent`: 変数吁E
-  - `true`: 真（正しい�E�を表す値
+  - `boolean`: 真偽値型の型名
+  - `isStudent`: 変数名
+  - `true`: 真（正しい）を表す値
 
-  **boolean型で扱える値**�E�E
-  - `true`�E�真�E�E
-  - `false`�E�偽�E�E
-  - こ�E2つの値のみ
+  **boolean型で扱える値**：
+  - `true`（真）
+  - `false`（偽）
+  - この2つの値のみ
 
-  **注愁E*�E�E
-  - 小文字で書く！ETrue` めE`FALSE` はエラー�E�E
-  - ダブルクォート�E付けなぁE��E"true"` は斁E���E�E�E
-  - 条件刁E��やループで頻繁に使ぁE
+  **注意**：
+  - 小文字で書く（`True` や `FALSE` はエラー）
+  - ダブルクォートは付けない（`"true"` は文字列）
+  - 条件分岐やループで頻繁に使う
 ---
 
 import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
 import { CodeBlock } from '@site/src/components/question/CodeBlock';
 
-## 問顁E
+## 問題
 
-以下�Eコード�E空欁E��埋めて、変数`isStudent`に真偽値`true`を代入してください、E
+以下のコードの空欄を埋めて、変数`isStudent`に真偽値`true`を代入してください。
 
 <CodeBlock>
   <BlankInput id="blank1" /> isStudent = <BlankInput id="blank2" />;

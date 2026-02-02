@@ -1,6 +1,6 @@
 ---
-id: \"java/basics/03a_scanner#prepare_scanner\"
-title: "標準�E力を使ぁE��備ができる"
+id: "java/basics/03a_scanner#prepare_scanner"
+title: "標準入力を使う準備ができる"
 type: "WRITE"
 difficulty: "Easy"
 format: "fillInBlank"
@@ -12,30 +12,30 @@ fillInBlankAnswers:
   blank3: ["new Scanner(System.in)", "new Scanner(System.in);", "new  Scanner(System.in)"]
 sampleAnswer: "Scanner scanner = new Scanner(System.in);"
 explanation: |
-  **Scannerクラスを使ぁE��備**には、以下�E2つのスチE��プが忁E��である�E�E
+  **Scannerクラスを使う準備**には、以下の2つのステップが必要である：
 
-  1. **import斁E��Scannerクラスをインポ�EチE*
+  1. **import文でScannerクラスをインポート**
      ```java
      import java.util.Scanner;
      ```
 
-  2. **Scannerオブジェクトを作�E**
+  2. **Scannerオブジェクトを作成**
      ```java
      Scanner scanner = new Scanner(System.in);
      ```
 
-  **ポインチE*�E�E
-  - `import`斁E�Eファイルの先頭�E�Eackageの次、classの前）に書ぁE
-  - `System.in`は標準�E力を表ぁE
-  - Scannerオブジェクト�E通常、変数名を`scanner`とする�E��E習！E
+  **ポイント**：
+  - `import`文はファイルの先頭（packageの次、classの前）に書く
+  - `System.in`は標準入力を表す
+  - Scannerオブジェクトは通常、変数名を`scanner`とする（慣習）
 ---
 
 import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
 import { CodeBlock } from '@site/src/components/question/CodeBlock';
 
-## 問顁E
+## 問題
 
-以下�Eコード�E空欁E��埋めて、標準�E力を使ぁE��備を完�Eさせてください、E
+以下のコードの空欄を埋めて、標準入力を使う準備を完成させてください。
 
 <CodeBlock>
 <BlankInput id="blank1" />
@@ -45,37 +45,37 @@ public class Main {
     public static void main(String[] args) {
         `}<BlankInput id="blank2" />{` scanner = `}<BlankInput id="blank3" />{`;
 
-        // ここから標準�E力が使える
+        // ここから標準入力が使える
     }
 }`}
 </CodeBlock>
 
-**ヒンチE*�E�E
-- import斁E��`import java.util.Scanner;`
+**ヒント**：
+- import文：`import java.util.Scanner;`
 - クラス名：`Scanner`
-- オブジェクト作�E�E�`new Scanner(System.in)`
+- オブジェクト作成：`new Scanner(System.in)`
 
 ---
 
 ## 解説
 
-標準�E力を使ぁE��は、E*Scannerクラスをインポ�Eトして、Scannerオブジェクトを作�Eする**忁E��がある、E
+標準入力を使うには、**Scannerクラスをインポートして、Scannerオブジェクトを作成する**必要がある。
 
-**手頁E�E詳細**�E�E
+**手順の詳細**：
 
-1. **import斁E��記述**
+1. **import文を記述**
    ```java
    import java.util.Scanner;  // ファイルの先頭
    ```
-   - `java.util`パッケージの`Scanner`クラスを使ぁE��とを宣言
+   - `java.util`パッケージの`Scanner`クラスを使うことを宣言
 
-2. **Scannerオブジェクトを作�E**
+2. **Scannerオブジェクトを作成**
    ```java
    Scanner scanner = new Scanner(System.in);
    ```
-   - `Scanner`�E�クラス吁E
-   - `scanner`�E�変数名（任意だが、小文字で始める�Eが�E習！E
-   - `new Scanner(System.in)`�E�標準�E力を読み取るScannerオブジェクトを作�E
+   - `Scanner`：クラス名
+   - `scanner`：変数名（任意だが、小文字で始めるのが慣習）
+   - `new Scanner(System.in)`：標準入力を読み取るScannerオブジェクトを作成
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
@@ -83,19 +83,19 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 
 public class Main {
     public static void main(String[] args) {
-        // Scannerオブジェクトを作�E
+        // Scannerオブジェクトを作成
         Scanner scanner = new Scanner(System.in);
 
-        // 標準�E力を使った�E琁E
-        System.out.print("メチE��ージを�E力してください: ");
+        // 標準入力を使った処理
+        System.out.print("メッセージを入力してください: ");
         String message = scanner.nextLine();
 
-        System.out.println("受け取ったメチE��ージ: " + message);
+        System.out.println("受け取ったメッセージ: " + message);
     }
 }`} />
 
-**よくある間違ぁE*�E�E
-- ❁E`import Scanner;`�E�パチE��ージ名が忁E��E��E
-- ✁E`import java.util.Scanner;`
-- ❁E`Scanner scanner = Scanner(System.in);`�E�Enew`が忁E��E��E
-- ✁E`Scanner scanner = new Scanner(System.in);`
+**よくある間違い**：
+- ❌ `import Scanner;`（パッケージ名が必要）
+- ✅ `import java.util.Scanner;`
+- ❌ `Scanner scanner = Scanner(System.in);`（`new`が必要）
+- ✅ `Scanner scanner = new Scanner(System.in);`

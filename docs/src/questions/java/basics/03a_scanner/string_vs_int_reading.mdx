@@ -1,6 +1,6 @@
 ---
-id: \"java/basics/03a_scanner#string_vs_int_reading\"
-title: "斁E���E読み取りと整数読み取りの違いを説明できる"
+id: "java/basics/03a_scanner#string_vs_int_reading"
+title: "文字列読み取りと整数読み取りの違いを説明できる"
 type: "KNOW"
 difficulty: "Easy"
 format: "multipleChoice"
@@ -9,56 +9,56 @@ category: "java/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "nextLine()は1行�E体を斁E���Eとして読み取り、nextInt()は整数のみを読み取る"
+    text: "nextLine()は1行全体を文字列として読み取り、nextInt()は整数のみを読み取る"
   - id: "B"
-    text: "nextLine()は数値のみ読み取り、nextInt()は斁E���Eを読み取る"
+    text: "nextLine()は数値のみ読み取り、nextInt()は文字列を読み取る"
   - id: "C"
     text: "nextLine()とnextInt()は全く同じ動作をする"
   - id: "D"
-    text: "nextLine()はファイルから読み取り、nextInt()はキーボ�Eドから読み取る"
+    text: "nextLine()はファイルから読み取り、nextInt()はキーボードから読み取る"
 answers:
   correct: ["A"]
 explanation: |
-  **nextLine()とnextInt()の違い**�E�E
+  **nextLine()とnextInt()の違い**：
 
-  | メソチE�� | 読み取る冁E�� | 戻り値の垁E|
+  | メソッド | 読み取る内容 | 戻り値の型 |
   |----------|-------------|-----------|
-  | `nextLine()` | 1行�E体を斁E���Eとして読み取る | String |
+  | `nextLine()` | 1行全体を文字列として読み取る | String |
   | `nextInt()` | 整数のみを読み取る | int |
   | `nextDouble()` | 小数のみを読み取る | double |
 
-  **重要な違い**�E�E
+  **重要な違い**：
   - `nextLine()`は**改行文字まで**読み取り、改行文字を消費する
-  - `nextInt()`は**数値のみ**を読み取り、改行文字�E残る
+  - `nextInt()`は**数値のみ**を読み取り、改行文字は残る
 
   ```java
   Scanner scanner = new Scanner(System.in);
 
   // "25"と入力してEnter
-  int age = scanner.nextInt();  // 25が読み取られる�E�改行文字�E残る�E�E
+  int age = scanner.nextInt();  // 25が読み取られる（改行文字は残る）
 
-  // "田中太郁Eと入力してEnter
-  String name = scanner.nextLine();  // "田中太郁Eが読み取られる
+  // "田中太郎"と入力してEnter
+  String name = scanner.nextLine();  // "田中太郎"が読み取られる
   ```
 ---
 
-## 問顁E
+## 問題
 
-nextLine()とnextInt()の違いとして最も適刁E��も�Eを選べ、E
+nextLine()とnextInt()の違いとして最も適切なものを選べ。
 
 ## 解説
 
-nextLine()とnextInt()は、E*読み取るチE�Eタの種類が異なめE*、E
+nextLine()とnextInt()は、**読み取るデータの種類が異なる**。
 
-**nextLine()の使ぁE��**�E�E
-- 名前めE��所など、文字�E全体を読み取る
-- 数字と斁E��が混ざった�E力（例：、E23abc」！E
-- 空白を含む斁E���E�E�例：「田中 太郎」！E
+**nextLine()の使い所**：
+- 名前や住所など、文字列全体を読み取る
+- 数字と文字が混ざった入力（例：「123abc」）
+- 空白を含む文字列（例：「田中 太郎」）
 
-**nextInt()の使ぁE��**�E�E
-- 年齢めE��量など、整数のみを読み取る
-- 計算に使ぁE��値
-- ユーザーの選択肢�E�E, 2, 3など�E�E
+**nextInt()の使い所**：
+- 年齢や数量など、整数のみを読み取る
+- 計算に使う数値
+- ユーザーの選択肢（1, 2, 3など）
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
@@ -68,28 +68,28 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // 斁E���Eを読み取る侁E
-        System.out.print("あなた�E名前を�E力してください: ");
+        // 文字列を読み取る例
+        System.out.print("あなたの名前を入力してください: ");
         String name = scanner.nextLine();
         System.out.println("名前: " + name);
 
-        // 整数を読み取る侁E
-        System.out.print("あなた�E年齢を�E力してください: ");
+        // 整数を読み取る例
+        System.out.print("あなたの年齢を入力してください: ");
         int age = scanner.nextInt();
         System.out.println("年齢: " + age);
 
-        // 小数を読み取る侁E
-        System.out.print("あなた�E身長を�E力してください(m): ");
+        // 小数を読み取る例
+        System.out.print("あなたの身長を入力してください(m): ");
         double height = scanner.nextDouble();
         System.out.println("身長: " + height + "m");
     }
 }`} />
 
-**よくあるエラー**�E�E
+**よくあるエラー**：
 ```java
-int age = scanner.nextInt();  // "25"と入劁E
-scanner.nextLine();  // 改行文字を消費�E�これを忘れると次のnextLine()が空斁E���Eを返す�E�E
-String name = scanner.nextLine();  // "田中太郁Eと入劁E
+int age = scanner.nextInt();  // "25"と入力
+scanner.nextLine();  // 改行文字を消費（これを忘れると次のnextLine()が空文字列を返す）
+String name = scanner.nextLine();  // "田中太郎"と入力
 ```
 
-こ�Eように、`nextInt()`の後に`nextLine()`を使ぁE��合�E、E��に`scanner.nextLine()`を挟んで改行文字を消費する忁E��がある、E
+このように、`nextInt()`の後に`nextLine()`を使う場合は、間に`scanner.nextLine()`を挟んで改行文字を消費する必要がある。

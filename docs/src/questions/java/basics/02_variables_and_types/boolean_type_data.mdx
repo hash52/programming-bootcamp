@@ -1,6 +1,6 @@
 ---
-id: \"java/basics/02_variables_and_types#boolean_type_data\"
-title: "boolean型が扱えるチE�Eタを説明できる"
+id: "java/basics/02_variables_and_types#boolean_type_data"
+title: "boolean型が扱えるデータを説明できる"
 type: "KNOW"
 difficulty: "Easy"
 format: "multipleChoice"
@@ -9,32 +9,32 @@ category: "java/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "trueまた�Efalseの2つの値のみ"
+    text: "trueまたはfalseの2つの値のみ"
   - id: "B"
-    text: "0また�E1の数値"
+    text: "0または1の数値"
   - id: "C"
-    text: "\"true\"また�E\"false\"の斁E���E"
+    text: "\"true\"または\"false\"の文字列"
 answers:
   correct: ["A"]
 explanation: |
-  **boolean垁E*は、E*真偽値**�E�Erueまた�Efalse�E�を扱ぁE��め�E型です、E
+  **boolean型**は、**真偽値**（trueまたはfalse）を扱うための型です。
 
-  「�EぁEぁE��え」「正しい/正しくなぁE���Eような2つの状態を表現できます、E
+  「はい/いいえ」「正しい/正しくない」のような2つの状態を表現できます。
 
   ```java
   boolean isStudent = true;
   boolean hasLicense = false;
-  boolean isAdult = age >= 20;  // 比輁E��果もboolean垁E
+  boolean isAdult = age >= 20;  // 比較結果もboolean型
   ```
 
-  **boolean型�E特徴**�E�E
-  - 取れる値は `true` と `false` の2つだぁE
-  - ダブルクォート�E付けなぁE��Eboolean x = "true";` はエラー�E�E
-  - 条件刁E��！Ef斁E��やループで頻繁に使ぁE
+  **boolean型の特徴**：
+  - 取れる値は `true` と `false` の2つだけ
+  - ダブルクォートは付けない（`boolean x = "true";` はエラー）
+  - 条件分岐（if文）やループで頻繁に使う
 
-  **注愁E*�E�E
-  - `true` と `false` は小文字で書く！ETrue` めE`FALSE` はエラー�E�E
-  - 数値の0めEでは代用できなぁE��Eavaでは `0 != false`�E�E
+  **注意**：
+  - `true` と `false` は小文字で書く（`True` や `FALSE` はエラー）
+  - 数値の0や1では代用できない（Javaでは `0 != false`）
 ---
 
-boolean型が扱えるチE�Eタとして正しいも�Eを選べ、E
+boolean型が扱えるデータとして正しいものを選べ。

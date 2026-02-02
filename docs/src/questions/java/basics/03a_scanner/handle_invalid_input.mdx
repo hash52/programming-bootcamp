@@ -1,43 +1,43 @@
 ---
-id: \"java/basics/03a_scanner#handle_invalid_input\"
-title: "数字以外が入力された時�E対処ができる"
+id: "java/basics/03a_scanner#handle_invalid_input"
+title: "数字以外が入力された時の対処ができる"
 type: "WRITE"
 difficulty: "Medium"
 topicId: "03a_scanner"
 category: "java/basics"
 explanation: |
-  **数値を期征E��てぁE��のに斁E���Eが�E力された場吁E*、`InputMismatchException`が発生する、E
+  **数値を期待しているのに文字列が入力された場合**、`InputMismatchException`が発生する。
 
   ```java
   Scanner scanner = new Scanner(System.in);
-  int age = scanner.nextInt();  // "abc"と入劁EↁEエラー�E�E
+  int age = scanner.nextInt();  // "abc"と入力 → エラー！
   ```
 
-  **対処方況E*�E�E
-  1. **try-catch斁E��例外を捕捉**�E�推奨�E�E
-  2. **hasNextInt()で事前にチェチE��**
+  **対処方法**：
+  1. **try-catch文で例外を捕捉**（推奨）
+  2. **hasNextInt()で事前にチェック**
 
-  **try-catch斁E��使った対処**�E�E
+  **try-catch文を使った対処**：
   ```java
   try {
       int age = scanner.nextInt();
       System.out.println("年齢: " + age);
   } catch (InputMismatchException e) {
-      System.out.println("エラー: 数値を�E力してください");
+      System.out.println("エラー: 数値を入力してください");
   }
   ```
 
-  **hasNextInt()を使った対処**�E�E
+  **hasNextInt()を使った対処**：
   ```java
   if (scanner.hasNextInt()) {
       int age = scanner.nextInt();
       System.out.println("年齢: " + age);
   } else {
-      System.out.println("エラー: 数値を�E力してください");
+      System.out.println("エラー: 数値を入力してください");
   }
   ```
 
-  **解答例！Ery-catch版！E*�E�E
+  **解答例（try-catch版）**：
   ```java
   import java.util.Scanner;
   import java.util.InputMismatchException;
@@ -46,31 +46,31 @@ explanation: |
       public static void main(String[] args) {
           Scanner scanner = new Scanner(System.in);
 
-          System.out.print("整数を�E力してください: ");
+          System.out.print("整数を入力してください: ");
 
           try {
               int number = scanner.nextInt();
               System.out.println("入力された値: " + number);
           } catch (InputMismatchException e) {
-              System.out.println("エラー: 整数を�E力してください");
+              System.out.println("エラー: 整数を入力してください");
           }
       }
   }
   ```
 
-  **実行例（�E功！E*�E�E
+  **実行例（成功）**：
   ```
-  整数を�E力してください: 42
+  整数を入力してください: 42
   入力された値: 42
   ```
 
-  **実行例（エラー�E�E*�E�E
+  **実行例（エラー）**：
   ```
-  整数を�E力してください: abc
-  エラー: 整数を�E力してください
+  整数を入力してください: abc
+  エラー: 整数を入力してください
   ```
 
-  **解答例！EasNextInt版！E*�E�E
+  **解答例（hasNextInt版）**：
   ```java
   import java.util.Scanner;
 
@@ -78,19 +78,19 @@ explanation: |
       public static void main(String[] args) {
           Scanner scanner = new Scanner(System.in);
 
-          System.out.print("整数を�E力してください: ");
+          System.out.print("整数を入力してください: ");
 
           if (scanner.hasNextInt()) {
               int number = scanner.nextInt();
               System.out.println("入力された値: " + number);
           } else {
-              System.out.println("エラー: 整数を�E力してください");
+              System.out.println("エラー: 整数を入力してください");
           }
       }
   }
   ```
 
-  **応用例（�E入力を俁E���E�E*�E�E
+  **応用例（再入力を促す）**：
   ```java
   import java.util.Scanner;
   import java.util.InputMismatchException;
@@ -103,7 +103,7 @@ explanation: |
           boolean validInput = false;
 
           while (!validInput) {
-              System.out.print("1から10の整数を�E力してください: ");
+              System.out.print("1から10の整数を入力してください: ");
 
               try {
                   number = scanner.nextInt();
@@ -112,10 +112,10 @@ explanation: |
                       validInput = true;
                       System.out.println("入力された値: " + number);
                   } else {
-                      System.out.println("エラー: 1から10の篁E��で入力してください");
+                      System.out.println("エラー: 1から10の範囲で入力してください");
                   }
               } catch (InputMismatchException e) {
-                  System.out.println("エラー: 整数を�E力してください");
+                  System.out.println("エラー: 整数を入力してください");
                   scanner.next();  // 不正な入力を消費
               }
           }
@@ -123,25 +123,25 @@ explanation: |
   }
   ```
 
-  **ポインチE*�E�E
-  - `scanner.next()`で不正な入力を消費することで、無限ループを防ぁE
-  - `while`ループで再�E力を俁E��
+  **ポイント**：
+  - `scanner.next()`で不正な入力を消費することで、無限ループを防ぐ
+  - `while`ループで再入力を促す
 ---
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
-## 問顁E
+## 問題
 
-ユーザーに整数を�E力してもらぁE��数字以外が入力された場合�EエラーメチE��ージを表示するプログラムを書ぁE��実行してください、E
+ユーザーに整数を入力してもらい、数字以外が入力された場合はエラーメッセージを表示するプログラムを書いて実行してください。
 
-**要件**�E�E
-- 「整数を�E力してください: 」と表示
-- 整数が�E力された場合：「�E力された値: 、E��E��と表示
-- 数字以外が入力された場合：「エラー: 整数を�E力してください」と表示
+**要件**：
+- 「整数を入力してください: 」と表示
+- 整数が入力された場合：「入力された値: 〇〇」と表示
+- 数字以外が入力された場合：「エラー: 整数を入力してください」と表示
 
-**実行環墁E*�E�E
-- 以下�EOneCompiler�E�ブラウザ上で実行可能�E�E
-- また�E、Eclipse等�EIDE
+**実行環境**：
+- 以下のOneCompiler（ブラウザ上で実行可能）
+- または、Eclipse等のIDE
 
 <OneCompilerCodeBlock
   language="java"
@@ -150,12 +150,12 @@ import java.util.InputMismatchException;
 
 public class Main {
     public static void main(String[] args) {
-        // ここにコードを書ぁE��ください
+        // ここにコードを書いてください
 
     }
 }`}
 />
 
-**ヒンチE*�E�E
+**ヒント**：
 - `try { ... } catch (InputMismatchException e) { ... }`で例外を捕捉
-- また�E、`scanner.hasNextInt()`で事前にチェチE��
+- または、`scanner.hasNextInt()`で事前にチェック

@@ -1,5 +1,5 @@
 ---
-id: \"java/basics/02_variables_and_types#declare_constant\"
+id: "java/basics/02_variables_and_types#declare_constant"
 title: "定数を宣言できる"
 type: "WRITE"
 difficulty: "Easy"
@@ -11,41 +11,41 @@ fillInBlankAnswers:
   blank2: ["3.14", "3.14;"]
 sampleAnswer: "final double PI = 3.14;"
 explanation: |
-  **final**キーワードを使ぁE��、E*値を変更できなぁE��数**を作ることができます、E
+  **final**キーワードを使うと、**値を変更できない定数**を作ることができます。
 
   ```java
   final double PI = 3.14;
-  // PI = 3.14159;  // エラー�E�finalで宣言された変数は変更できなぁE
+  // PI = 3.14159;  // エラー！finalで宣言された変数は変更できない
   ```
 
-  **finalの特徴**�E�E
-  - 型�E前に`final`を付けめE
-  - 一度代入したら、二度と変更できなぁE
-  - 定数名�E全て大斁E��で書く�Eが�E習！EPI`, `MAX_VALUE`�E�E
-  - 変更されると困る値�E��E周玁E��税率など�E�に使ぁE
+  **finalの特徴**：
+  - 型の前に`final`を付ける
+  - 一度代入したら、二度と変更できない
+  - 定数名は全て大文字で書くのが慣習（`PI`, `MAX_VALUE`）
+  - 変更されると困る値（円周率、税率など）に使う
 
-  **使ぁE�EぁE*�E�E
+  **使い分け**：
   ```java
-  // 変更される可能性があめEↁEfinalなぁE
+  // 変更される可能性がある → finalなし
   int age = 25;
   age = 26;  // OK
 
-  // 変更されてはぁE��なぁEↁEfinalあり
+  // 変更されてはいけない → finalあり
   final double TAX_RATE = 0.1;
-  // TAX_RATE = 0.08;  // エラー�E�E
+  // TAX_RATE = 0.08;  // エラー！
   ```
 
-  **定数の命名規則**�E�E
-  - 全て大斁E��で書く：`PI`, `MAX_SCORE`
-  - 褁E��の単語�Eアンダースコアで区刁E���E�`TAX_RATE`, `MAX_VALUE`
+  **定数の命名規則**：
+  - 全て大文字で書く：`PI`, `MAX_SCORE`
+  - 複数の単語はアンダースコアで区切る：`TAX_RATE`, `MAX_VALUE`
 ---
 
 import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
 import { CodeBlock } from '@site/src/components/question/CodeBlock';
 
-## 問顁E
+## 問題
 
-以下�Eコード�E空欁E��埋めて、�E周率`3.14`を変更できなぁE��数`PI`として宣言してください、E
+以下のコードの空欄を埋めて、円周率`3.14`を変更できない定数`PI`として宣言してください。
 
 <CodeBlock>
   <BlankInput id="blank1" /> double PI = <BlankInput id="blank2" />;

@@ -1,6 +1,6 @@
 ---
-id: \"java/basics/03a_scanner#stdin_concept\"
-title: "標準�E力とは何かを説明できる"
+id: "java/basics/03a_scanner#stdin_concept"
+title: "標準入力とは何かを説明できる"
 type: "KNOW"
 difficulty: "Easy"
 format: "multipleChoice"
@@ -9,42 +9,42 @@ category: "java/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "ユーザーがキーボ�Eドから文字や数値を�E力する仕絁E��"
+    text: "ユーザーがキーボードから文字や数値を入力する仕組み"
   - id: "B"
-    text: "プログラムが�E動的にチE�Eタを生成する仕絁E��"
+    text: "プログラムが自動的にデータを生成する仕組み"
   - id: "C"
-    text: "チE�Eタベ�Eスから惁E��を読み込む仕絁E��"
+    text: "データベースから情報を読み込む仕組み"
   - id: "D"
-    text: "ファイルから惁E��を読み込む仕絁E��"
+    text: "ファイルから情報を読み込む仕組み"
 answers:
   correct: ["A"]
 explanation: |
-  **標準�E劁E*�E�Etandard Input�E��E、E*ユーザーがキーボ�Eドから文字や数値を�E力する仕絁E��**である、E
+  **標準入力**（Standard Input）は、**ユーザーがキーボードから文字や数値を入力する仕組み**である。
 
-  プログラムは、標準�E力を使って以下�Eようなことができる�E�E
-  - ユーザーの名前を�E力してもらぁE
-  - 年齢めE��値を�E力してもらぁE
-  - 選択肢から選んでもらぁE
+  プログラムは、標準入力を使って以下のようなことができる：
+  - ユーザーの名前を入力してもらう
+  - 年齢や数値を入力してもらう
+  - 選択肢から選んでもらう
 
-  **標準�E力�E流れ**�E�E
-  1. プログラムが�E力を征E��
-  2. ユーザーがキーボ�Eドから�E劁E
-  3. Enterキーを押ぁE
-  4. プログラムが�E力されたチE�Eタを受け取めE
+  **標準入力の流れ**：
+  1. プログラムが入力を待つ
+  2. ユーザーがキーボードから入力
+  3. Enterキーを押す
+  4. プログラムが入力されたデータを受け取る
 ---
 
-## 問顁E
+## 問題
 
-標準�E力�E説明として最も適刁E��も�Eを選べ、E
+標準入力の説明として最も適切なものを選べ。
 
 ## 解説
 
-標準�E力�E、E*ユーザーとプログラムが対話するための基本皁E��仕絁E��**である、E
+標準入力は、**ユーザーとプログラムが対話するための基本的な仕組み**である。
 
-例えば、以下�Eようなプログラムで標準�E力を使ぁE��E
-- 計算機アプリ�E�ユーザーが数値を�E力して計算結果を表示
-- クイズアプリ�E�ユーザーが答えを�E力して正誤判宁E
-- ログイン画面�E�ユーザー名とパスワードを入劁E
+例えば、以下のようなプログラムで標準入力を使う：
+- 計算機アプリ：ユーザーが数値を入力して計算結果を表示
+- クイズアプリ：ユーザーが答えを入力して正誤判定
+- ログイン画面：ユーザー名とパスワードを入力
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
@@ -54,19 +54,19 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("あなた�E名前を�E力してください: ");
+        System.out.print("あなたの名前を入力してください: ");
         String name = scanner.nextLine();
 
-        System.out.println("こんにちは、E + name + "さん�E�E);
+        System.out.println("こんにちは、" + name + "さん！");
     }
 }`} />
 
-**標準�E力�E仕絁E��**�E�E
-- **System.in**�E�標準�E力を表すオブジェクチE
-- **Scanner**�E�標準�E力を読み取るためのクラス
-- ユーザーがEnterキーを押すまで、�Eログラムは征E��すめE
+**標準入力の仕組み**：
+- **System.in**：標準入力を表すオブジェクト
+- **Scanner**：標準入力を読み取るためのクラス
+- ユーザーがEnterキーを押すまで、プログラムは待機する
 
-**他�E入力方法との違い**�E�E
-- **標準�E劁E*�E�ユーザーがキーボ�Eドから�E劁E
-- **ファイル入劁E*�E�ファイルからチE�Eタを読み込む
-- **ネットワーク入劁E*�E�インターネット経由でチE�Eタを受け取めE
+**他の入力方法との違い**：
+- **標準入力**：ユーザーがキーボードから入力
+- **ファイル入力**：ファイルからデータを読み込む
+- **ネットワーク入力**：インターネット経由でデータを受け取る

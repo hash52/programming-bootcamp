@@ -1,6 +1,6 @@
 ---
 id: "java/basics/03_operators#read_calculation_result"
-title: "計算式�E結果を予測できる"
+title: "計算式の結果を予測できる"
 type: "READ"
 difficulty: "Medium"
 format: "multipleChoice"
@@ -19,24 +19,24 @@ choices:
 answers:
   correct: ["B"]
 explanation: |
-  こ�Eコードを1行ずつ追ってぁE��と�E�E
+  このコードを1行ずつ追っていくと：
 
-  1. `int a = 5;` ↁEaは5
-  2. `int b = 10;` ↁEbは10
-  3. `a += 5;` ↁEaは`5 + 5`で10になめE
-  4. `b -= 3;` ↁEbは`10 - 3`で7になめE
-  5. `int result = a + b;` ↁEresultは`10 + 7`で17になめE
-  6. `result += 3;` ↁEresultは`17 + 3`で**20**になめE
+  1. `int a = 5;` → aは5
+  2. `int b = 10;` → bは10
+  3. `a += 5;` → aは`5 + 5`で10になる
+  4. `b -= 3;` → bは`10 - 3`で7になる
+  5. `int result = a + b;` → resultは`10 + 7`で17になる
+  6. `result += 3;` → resultは`17 + 3`で**20**になる
 
-  **ポインチE*�E�E
-  - `+=`は加算して代入�E�Ea += 5`は`a = a + 5`と同じ�E�E
-  - `-=`は減算して代入�E�Eb -= 3`は`b = b - 3`と同じ�E�E
-  - 1行ずつ変数の値を追ってぁE��ことが重要E
+  **ポイント**：
+  - `+=`は加算して代入（`a += 5`は`a = a + 5`と同じ）
+  - `-=`は減算して代入（`b -= 3`は`b = b - 3`と同じ）
+  - 1行ずつ変数の値を追っていくことが重要
 ---
 
-## 問顁E
+## 問題
 
-以下�EJavaコードを実行した場合、最後に変数`result`に格納される値はぁE��つか、E
+以下のJavaコードを実行した場合、最後に変数`result`に格納される値はいくつか。
 
 ```java
 int a = 5;
@@ -50,11 +50,11 @@ System.out.println(result);
 
 ## 解説
 
-計算式�E結果を予測するには、E*1行ずつ変数の値がどぁE��化するかを追ってぁE��**ことが重要である、E
+計算式の結果を予測するには、**1行ずつ変数の値がどう変化するかを追っていく**ことが重要である。
 
-**変数の値の変化を表にまとめる**�E�E
+**変数の値の変化を表にまとめる**：
 
-| スチE��チE| コーチE| a | b | result |
+| ステップ | コード | a | b | result |
 |---------|--------|---|---|--------|
 | 1 | `int a = 5;` | 5 | - | - |
 | 2 | `int b = 10;` | 5 | 10 | - |
@@ -72,30 +72,30 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
         System.out.println("初期値: a=" + a + ", b=" + b);
 
         a += 5;
-        System.out.println("a += 5征E a=" + a);
+        System.out.println("a += 5後: a=" + a);
 
         b -= 3;
-        System.out.println("b -= 3征E b=" + b);
+        System.out.println("b -= 3後: b=" + b);
 
         int result = a + b;
         System.out.println("result = a + b: result=" + result);
 
         result += 3;
-        System.out.println("result += 3征E result=" + result);
+        System.out.println("result += 3後: result=" + result);
     }
 }`} />
 
-**実行結果**�E�E
+**実行結果**：
 ```
 初期値: a=5, b=10
-a += 5征E a=10
-b -= 3征E b=7
+a += 5後: a=10
+b -= 3後: b=7
 result = a + b: result=17
-result += 3征E result=20
+result += 3後: result=20
 ```
 
-**コードを読む際�EコチE*�E�E
-1. 変数の初期値を確誁E
-2. 1行ずつ実行して、変数がどぁE��化するかを追ぁE
-3. 褁E��な式�E、小さな部刁E��刁E��て老E��めE
-4. 表めE��モを使って変数の値を記録する
+**コードを読む際のコツ**：
+1. 変数の初期値を確認
+2. 1行ずつ実行して、変数がどう変化するかを追う
+3. 複雑な式は、小さな部分に分けて考える
+4. 表やメモを使って変数の値を記録する

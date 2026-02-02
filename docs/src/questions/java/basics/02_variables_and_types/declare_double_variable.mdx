@@ -1,6 +1,6 @@
 ---
-id: \"java/basics/02_variables_and_types#declare_double_variable\"
-title: "整数型�E変数を宣言できる"
+id: "java/basics/02_variables_and_types#declare_double_variable"
+title: "整数型の変数を宣言できる"
 type: "WRITE"
 difficulty: "Easy"
 format: "fillInBlank"
@@ -11,29 +11,29 @@ fillInBlankAnswers:
   blank2: ["42", "42;"]
 sampleAnswer: "int score = 42;"
 explanation: |
-  **int垁E*で整数を扱ぁE��は、変数宣言時に `int` を指定します、E
+  **int型**で整数を扱うには、変数宣言時に `int` を指定します。
 
   ```java
   int score = 42;
   ```
 
-  - `int`: 整数型�E型名
-  - `score`: 変数吁E
+  - `int`: 整数型の型名
+  - `score`: 変数名
   - `42`: 整数値
 
-  **int型で扱える値の侁E*�E�E
-  - 正の整数�E�`1`, `100`, `2024`
-  - 負の整数�E�`-1`, `-100`, `-2024`
-  - ゼロ�E�`0`
-  - 小数は扱えなぁE��Eint x = 3.14;` はエラー�E�E
+  **int型で扱える値の例**：
+  - 正の整数：`1`, `100`, `2024`
+  - 負の整数：`-1`, `-100`, `-2024`
+  - ゼロ：`0`
+  - 小数は扱えない（`int x = 3.14;` はエラー）
 ---
 
 import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
 import { CodeBlock } from '@site/src/components/question/CodeBlock';
 
-## 問顁E
+## 問題
 
-以下�Eコード�E空欁E��埋めて、変数`score`に整数値`42`を代入してください、E
+以下のコードの空欄を埋めて、変数`score`に整数値`42`を代入してください。
 
 <CodeBlock>
   <BlankInput id="blank1" /> score = <BlankInput id="blank2" />;

@@ -1,6 +1,6 @@
 ---
 id: "java/basics/03_operators#increment_decrement_value"
-title: "値めE増やす�E減らすことができる"
+title: "値を1増やす・減らすことができる"
 type: "WRITE"
 difficulty: "Easy"
 format: "fillInBlank"
@@ -11,44 +11,44 @@ fillInBlankAnswers:
   blank2: ["--", "- -"]
 sampleAnswer: "count++;"
 explanation: |
-  **インクリメント演算孁E*�E�E++`�E�と**チE��リメント演算孁E*�E�E--`�E��E、値めE増やしたり減らしたりする演算子である、E
+  **インクリメント演算子**（`++`）と**デクリメント演算子**（`--`）は、値を1増やしたり減らしたりする演算子である。
 
-  - `count++`�E�countめE増やす！Ecount = count + 1`と同じ�E�E
-  - `count--`�E�countめE減らす！Ecount = count - 1`と同じ�E�E
+  - `count++`：countを1増やす（`count = count + 1`と同じ）
+  - `count--`：countを1減らす（`count = count - 1`と同じ）
 
-  例！E
+  例：
   ```java
   int count = 0;
-  count++;  // countぁEになめE
-  count++;  // countぁEになめE
-  count--;  // countぁEになめE
+  count++;  // countが1になる
+  count++;  // countが2になる
+  count--;  // countが1になる
   ```
 
-  **インクリメント�EチE��リメント演算子�E使ぁE��**�E�E
-  - カウンターめEずつ増やぁE
+  **インクリメント・デクリメント演算子の使い所**：
+  - カウンターを1ずつ増やす
   - ループで回数を数える
-  - 在庫数めE減らぁE
+  - 在庫数を1減らす
 ---
 
 import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
 import { CodeBlock } from '@site/src/components/question/CodeBlock';
 
-## 問顁E
+## 問題
 
-以下�Eコード�E空欁E��埋めて、インクリメント�EチE��リメント演算子を正しく使ってください、E
+以下のコードの空欄を埋めて、インクリメント・デクリメント演算子を正しく使ってください。
 
 <CodeBlock>
 {`int score = 10;
 int lives = 3;
 
-// スコアめE増やぁE
+// スコアを1増やす
 score`}<BlankInput id="blank1" />{`;
 
-// ライフを1減らぁE
+// ライフを1減らす
 lives`}<BlankInput id="blank2" />{`;`}
 </CodeBlock>
 
-**ヒンチE*�E�E
+**ヒント**：
 - 1増やす：`++`
 - 1減らす：`--`
 
@@ -56,11 +56,11 @@ lives`}<BlankInput id="blank2" />{`;`}
 
 ## 解説
 
-インクリメント�EチE��リメント演算子を使ぁE��、E*値めE増減させる処琁E��簡潔に書ける**、E
+インクリメント・デクリメント演算子を使うと、**値を1増減させる処理を簡潔に書ける**。
 
-**通常の書き方との比輁E*�E�E
+**通常の書き方との比較**：
 
-| 通常の書き方 | インクリメント�EチE��リメンチE|
+| 通常の書き方 | インクリメント・デクリメント |
 |-------------|---------------------------|
 | `count = count + 1` | `count++` |
 | `count = count - 1` | `count--` |
@@ -72,31 +72,31 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
         int score = 0;
         System.out.println("初期スコア: " + score);
 
-        // 敵を倒してスコアめE増やぁE
+        // 敵を倒してスコアを1増やす
         score++;
-        System.out.println("敵を倒した征E " + score);  // 1
+        System.out.println("敵を倒した後: " + score);  // 1
 
         score++;
-        System.out.println("もう1体倒した征E " + score);  // 2
+        System.out.println("もう1体倒した後: " + score);  // 2
 
-        // ライフ�E侁E
+        // ライフの例
         int lives = 3;
-        System.out.println("\\n初期ライチE " + lives);
+        System.out.println("\\n初期ライフ: " + lives);
 
-        // ダメージを受けてライフを1減らぁE
+        // ダメージを受けてライフを1減らす
         lives--;
-        System.out.println("ダメージ征E " + lives);  // 2
+        System.out.println("ダメージ後: " + lives);  // 2
 
         lives--;
-        System.out.println("さらにダメージ征E " + lives);  // 1
+        System.out.println("さらにダメージ後: " + lives);  // 1
     }
 }`} />
 
-**実用侁E*�E�E
+**実用例**：
 - ゲームのスコア加算：`score++;`
-- 啁E��の在庫減少：`stock--;`
-- ループカウンター�E�`i++`�E�Eor斁E��頻繁に使ぁE��E
+- 商品の在庫減少：`stock--;`
+- ループカウンター：`i++`（for文で頻繁に使う）
 
-**補足**�E�E
-- 前置�E�E++count`�E�と後置�E�Ecount++`�E��E違いがあるが、単独で使ぁE��合�E同じ
-- 式�E中で使ぁE��合�Eみ、前置と後置で動作が異なる（詳細は応用編で学習！E
+**補足**：
+- 前置（`++count`）と後置（`count++`）の違いがあるが、単独で使う場合は同じ
+- 式の中で使う場合のみ、前置と後置で動作が異なる（詳細は応用編で学習）

@@ -1,34 +1,34 @@
 ---
-id: \"java/basics/03a_scanner#read_double\"
-title: "小数を読み取れめE
+id: "java/basics/03a_scanner#read_double"
+title: "小数を読み取れる"
 type: "WRITE"
 difficulty: "Easy"
 topicId: "03a_scanner"
 category: "java/basics"
 explanation: |
-  **nextDouble()メソチE��**を使ぁE��、標準�E力から小数を読み取れる、E
+  **nextDouble()メソッド**を使うと、標準入力から小数を読み取れる。
 
   ```java
   Scanner scanner = new Scanner(System.in);
-  double number = scanner.nextDouble();  // 小数の入力を征E��
+  double number = scanner.nextDouble();  // 小数の入力を待つ
   ```
 
-  **nextDouble()の動佁E*�E�E
-  1. ユーザーが数値を�E力してEnterキーを押すまで征E��E
-  2. 入力された数値を`double`型として取征E
-  3. 整数を�E力しても`double`型として扱われる（例：`5` ↁE`5.0`�E�E
-  4. 数値以外が入力された場合�Eエラー�E�EnputMismatchException�E�E
+  **nextDouble()の動作**：
+  1. ユーザーが数値を入力してEnterキーを押すまで待機
+  2. 入力された数値を`double`型として取得
+  3. 整数を入力しても`double`型として扱われる（例：`5` → `5.0`）
+  4. 数値以外が入力された場合はエラー（InputMismatchException）
 
-  **使ぁE��**�E�E
-  - 身長めE��重など、小数を含む数値
-  - 価格めE��額（小数点以下を含む�E�E
-  - 科学計算や統計計箁E
+  **使い所**：
+  - 身長や体重など、小数を含む数値
+  - 価格や金額（小数点以下を含む）
+  - 科学計算や統計計算
 
-  **整数との違い**�E�E
-  - `nextInt()`�E�整数のみ�E�小数点以下�E不可�E�E
-  - `nextDouble()`�E�整数も小数も受け付けめE
+  **整数との違い**：
+  - `nextInt()`：整数のみ（小数点以下は不可）
+  - `nextDouble()`：整数も小数も受け付ける
 
-  **解答侁E*�E�E
+  **解答例**：
   ```java
   import java.util.Scanner;
 
@@ -36,10 +36,10 @@ explanation: |
       public static void main(String[] args) {
           Scanner scanner = new Scanner(System.in);
 
-          System.out.print("身長(m)を�E力してください: ");
+          System.out.print("身長(m)を入力してください: ");
           double height = scanner.nextDouble();
 
-          System.out.print("体重(kg)を�E力してください: ");
+          System.out.print("体重(kg)を入力してください: ");
           double weight = scanner.nextDouble();
 
           double bmi = weight / (height * height);
@@ -48,14 +48,14 @@ explanation: |
   }
   ```
 
-  **実行侁E*�E�E
+  **実行例**：
   ```
-  身長(m)を�E力してください: 1.70
-  体重(kg)を�E力してください: 65.0
+  身長(m)を入力してください: 1.70
+  体重(kg)を入力してください: 65.0
   BMI: 22.49134948096886
   ```
 
-  **応用侁E*�E�E
+  **応用例**：
   ```java
   import java.util.Scanner;
 
@@ -63,39 +63,39 @@ explanation: |
       public static void main(String[] args) {
           Scanner scanner = new Scanner(System.in);
 
-          System.out.println("=== 冁E�E面積計箁E===");
+          System.out.println("=== 円の面積計算 ===");
 
-          System.out.print("半征E��入力してください: ");
+          System.out.print("半径を入力してください: ");
           double radius = scanner.nextDouble();
 
           double area = Math.PI * radius * radius;
-          System.out.println("\n半征E" + radius + " の冁E�E面穁E " + area);
+          System.out.println("\n半径 " + radius + " の円の面積: " + area);
 
-          // 小数点以丁E桁で表示
-          System.out.printf("面積（小数点以丁E桁E��E %.2f\n", area);
+          // 小数点以下2桁で表示
+          System.out.printf("面積（小数点以下2桁）: %.2f\n", area);
       }
   }
   ```
 
-  **補足**�E�E
-  - `Math.PI`�E��E周玁E��E.141592...�E�E
-  - `System.out.printf()`�E�書式指定で小数点以下�E桁数を制御できる
+  **補足**：
+  - `Math.PI`：円周率（3.141592...）
+  - `System.out.printf()`：書式指定で小数点以下の桁数を制御できる
 ---
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
-## 問顁E
+## 問題
 
-ユーザーに身長と体重を�E力してもらぁE��BMI�E�体格持E���E�を計算して表示するプログラムを書ぁE��実行してください、E
+ユーザーに身長と体重を入力してもらい、BMI（体格指数）を計算して表示するプログラムを書いて実行してください。
 
-**要件**�E�E
-- 「身長(m)を�E力してください: 」と表示して、小数を受け取めE
-- 「体重(kg)を�E力してください: 」と表示して、小数を受け取めE
-- BMIを計算して表示�E�EMI = 体重 ÷ 身長の2乗！E
+**要件**：
+- 「身長(m)を入力してください: 」と表示して、小数を受け取る
+- 「体重(kg)を入力してください: 」と表示して、小数を受け取る
+- BMIを計算して表示（BMI = 体重 ÷ 身長の2乗）
 
-**実行環墁E*�E�E
-- 以下�EOneCompiler�E�ブラウザ上で実行可能�E�E
-- また�E、Eclipse等�EIDE
+**実行環境**：
+- 以下のOneCompiler（ブラウザ上で実行可能）
+- または、Eclipse等のIDE
 
 <OneCompilerCodeBlock
   language="java"
@@ -103,12 +103,12 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 
 public class Main {
     public static void main(String[] args) {
-        // ここにコードを書ぁE��ください
+        // ここにコードを書いてください
 
     }
 }`}
 />
 
-**ヒンチE*�E�E
+**ヒント**：
 - `scanner.nextDouble()`で小数を読み取る
-- BMI = 体重 ÷ (身長 ÁE身長)
+- BMI = 体重 ÷ (身長 × 身長)

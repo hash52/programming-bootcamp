@@ -1,25 +1,25 @@
 ---
-id: \"java/basics/01_java_basics#execution_order\"
-title: "プログラムの実行頁E��を説明できる"
+id: "java/basics/01_java_basics#execution_order"
+title: "プログラムの実行順序を説明できる"
 type: "KNOW"
 difficulty: "Easy"
 format: "multipleChoice"
-topicid: \"java/basics/01_java_basics#execution_order\"
+topicId: "01_java_basics"
 category: "java/basics"
 multipleSelect: false
 choices:
-  - id: \"java/basics/01_java_basics#execution_order\"
-    text: "上から下へ、E��E��に実行される"
-  - id: \"java/basics/01_java_basics#execution_order\"
-    text: "下から上へ、E��E��E��実行される"
-  - id: \"java/basics/01_java_basics#execution_order\"
+  - id: "A"
+    text: "上から下へ、順番に実行される"
+  - id: "B"
+    text: "下から上へ、逆順に実行される"
+  - id: "C"
     text: "ランダムに実行される"
 answers:
   correct: ["A"]
 explanation: |
-  プログラムは、E*上から下へ、書かれた頁E��に実行される**、E
+  プログラムは、**上から下へ、書かれた順番に実行される**。
 
-  これはプログラミングの最も基本皁E��原則である、E
+  これはプログラミングの最も基本的な原則である。
 
   ```java
   System.out.println("1行目");
@@ -27,22 +27,22 @@ explanation: |
   System.out.println("3行目");
   ```
 
-  実行結果�E�E
+  実行結果：
   ```
   1行目
   2行目
   3行目
   ```
 
-  **重要なポインチE*�E�E
-  - コード�E忁E��上から下に実行される
-  - 後に書ぁE��コード�E、前のコードが実行された後に実行される
-  - こ�E頁E���E条件刁E��やループで変わることもあるが、基本原則は同じ
+  **重要なポイント**：
+  - コードは必ず上から下に実行される
+  - 後に書いたコードは、前のコードが実行された後に実行される
+  - この順序は条件分岐やループで変わることもあるが、基本原則は同じ
 
-  **例夁E*�E�E
-  - 条件刁E��！Ef斁E��：条件によって実行される行が変わめE
-  - ループ！Eor斁E��while斁E��：同じ行が繰り返し実行される
-  - メソチE��呼び出し：別の場所にジャンプして実行される
+  **例外**：
+  - 条件分岐（if文）：条件によって実行される行が変わる
+  - ループ（for文、while文）：同じ行が繰り返し実行される
+  - メソッド呼び出し：別の場所にジャンプして実行される
 ---
 
-プログラムの実行頁E��として正しいも�Eを選べ、E
+プログラムの実行順序として正しいものを選べ。
