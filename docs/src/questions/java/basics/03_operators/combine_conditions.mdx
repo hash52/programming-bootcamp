@@ -1,0 +1,107 @@
+---
+id: "java/basics/03_operators#combine_conditions"
+title: "褁E��の条件を絁E��合わせられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_operators"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["&&", "& &"]
+  blank2: ["||", "| |"]
+sampleAnswer: "boolean canDrive = age >= 18 && hasLicense;"
+explanation: |
+  **論理演算孁E*を使ぁE��、褁E��の条件を絁E��合わせて判定できる、E
+
+  主な論理演算子！E
+  - `&&`�E�かつ�E�：両方の条件がtrueの場合にtrue
+  - `||`�E�また�E�E�：どちらかの条件がtrueの場合にtrue
+  - `!`�E�否定）：条件を反転
+
+  例！E
+  ```java
+  int age = 20;
+  boolean hasLicense = true;
+
+  // 年齢ぁE8歳以丁Eかつ 免許を持ってぁE��
+  boolean canDrive = age >= 18 && hasLicense;  // true
+
+  // 年齢ぁE8歳未満 また�E 免許を持ってぁE��ぁE
+  boolean cannotDrive = age < 18 || !hasLicense;  // false
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 問顁E
+
+以下�Eコード�E空欁E��埋めて、論理演算子を正しく使ってください、E
+
+<CodeBlock>
+{`int age = 20;
+boolean hasLicense = true;
+int temperature = 28;
+boolean isSunny = true;
+
+// 年齢ぁE8歳以丁Eかつ 免許を持ってぁE��
+boolean canDrive = age >= 18 `}<BlankInput id="blank1" />{` hasLicense;
+
+// 気温ぁE0度以丁Eまた�E 雨が降ってぁE���E�晴れてぁE��ぁE��E
+boolean stayIndoors = temperature >= 30 `}<BlankInput id="blank2" />{` !isSunny;`}
+</CodeBlock>
+
+**ヒンチE*�E�E
+- かつ�E�END�E�：`&&`
+- また�E�E�ER�E�：`||`
+
+---
+
+## 解説
+
+論理演算子を使ぁE��、E*褁E��の条件を同時に判定できる**、E
+
+**論理演算子�E真理値表**�E�E
+
+**AND演算子！E&&`�E�E*�E�E
+| A | B | A && B |
+|---|---|--------|
+| true | true | true |
+| true | false | false |
+| false | true | false |
+| false | false | false |
+
+**OR演算子！E||`�E�E*�E�E
+| A | B | A \|\| B |
+|---|---|----------|
+| true | true | true |
+| true | false | true |
+| false | true | true |
+| false | false | false |
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        int age = 25;
+        boolean hasExperience = true;
+        boolean hasLicense = true;
+
+        // 年齢ぁE0歳以丁Eかつ 経験がある
+        boolean isQualified = age >= 20 && hasExperience;
+        System.out.println("応募賁E��あり: " + isQualified);  // true
+
+        // 免許を持ってぁE�� また�E 経験が5年以上（仮定！E
+        boolean canApply = hasLicense || age >= 30;
+        System.out.println("申請可能: " + canApply);  // true
+
+        // 年齢ぁE8歳以丁Eかつ 免許を持ってぁE�� かつ 経験がある
+        boolean canDrive = age >= 18 && hasLicense && hasExperience;
+        System.out.println("運転可能: " + canDrive);  // true
+    }
+}`} />
+
+**実用侁E*�E�E
+- ログイン判定：「ユーザー名が正しい **かつ** パスワードが正しい、E
+- エラーチェチE���E�「�E力が空 **また�E** 数値が篁E��外、E
+- 権限チェチE���E�「管琁E��E��ある **また�E** 所有老E��ある、E

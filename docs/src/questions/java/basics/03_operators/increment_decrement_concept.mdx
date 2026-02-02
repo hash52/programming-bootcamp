@@ -1,0 +1,75 @@
+---
+id: "java/basics/03_operators#increment_decrement_concept"
+title: "繧､繝ｳ繧ｯ繝ｪ繝｡繝ｳ繝医・繝・け繝ｪ繝｡繝ｳ繝域ｼ皮ｮ怜ｭ舌→縺ｯ菴輔°繧定ｪｬ譏弱〒縺阪ｋ"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03_operators"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "蝗帛援貍皮ｮ励ｒ陦後≧貍皮ｮ怜ｭ・
+  - id: "B"
+    text: "蛟､縺ｮ螟ｧ蟆上ｒ豈碑ｼ・☆繧区ｼ皮ｮ怜ｭ・
+  - id: "C"
+    text: "蛟､繧・蠅励ｄ縺呻ｼ医う繝ｳ繧ｯ繝ｪ繝｡繝ｳ繝茨ｼ峨∪縺溘・1貂帙ｉ縺呻ｼ医ョ繧ｯ繝ｪ繝｡繝ｳ繝茨ｼ画ｼ皮ｮ怜ｭ・
+  - id: "D"
+    text: "隍・焚縺ｮ譚｡莉ｶ繧堤ｵ・∩蜷医ｏ縺帙ｋ貍皮ｮ怜ｭ・
+answers:
+  correct: ["C"]
+explanation: |
+  **繧､繝ｳ繧ｯ繝ｪ繝｡繝ｳ繝域ｼ皮ｮ怜ｭ・*・・++`・峨・蛟､繧・蠅励ｄ縺励・*繝・け繝ｪ繝｡繝ｳ繝域ｼ皮ｮ怜ｭ・*・・--`・峨・蛟､繧・貂帙ｉ縺呎ｼ皮ｮ怜ｭ舌〒縺ゅｋ縲・
+
+  萓具ｼ・
+  ```java
+  int count = 0;
+  count++;  // count縺・蠅励∴繧具ｼ・ount = count + 1縺ｨ蜷後§・・
+  System.out.println(count);  // 1
+
+  count--;  // count縺・貂帙ｋ・・ount = count - 1縺ｨ蜷後§・・
+  System.out.println(count);  // 0
+  ```
+
+  **繧､繝ｳ繧ｯ繝ｪ繝｡繝ｳ繝医・繝・け繝ｪ繝｡繝ｳ繝域ｼ皮ｮ怜ｭ舌・菴ｿ縺・園**・・
+  - 繧ｫ繧ｦ繝ｳ繧ｿ繝ｼ繧・縺壹▽蠅励ｄ縺・
+  - 繝ｫ繝ｼ繝励〒蝗樊焚繧呈焚縺医ｋ
+  - 蝨ｨ蠎ｫ謨ｰ繧・貂帙ｉ縺・
+---
+
+## 蝠城｡・
+
+繧､繝ｳ繧ｯ繝ｪ繝｡繝ｳ繝医・繝・け繝ｪ繝｡繝ｳ繝域ｼ皮ｮ怜ｭ舌・隱ｬ譏弱→縺励※譛繧る←蛻・↑繧ゅ・繧帝∈縺ｹ縲・
+
+## 隗｣隱ｬ
+
+繧､繝ｳ繧ｯ繝ｪ繝｡繝ｳ繝域ｼ皮ｮ怜ｭ撰ｼ・++`・峨→繝・け繝ｪ繝｡繝ｳ繝域ｼ皮ｮ怜ｭ撰ｼ・--`・峨・縲・*蛟､繧・蠅励ｄ縺励◆繧・貂帙ｉ縺励◆繧翫☆繧九◆繧√・貍皮ｮ怜ｭ・*縺ｧ縺ゅｋ縲・
+
+繝励Ο繧ｰ繝ｩ繝縺ｧ縺ｯ縲∝､繧・縺壹▽蠅玲ｸ帙＆縺帙ｋ縺薙→縺碁撼蟶ｸ縺ｫ螟壹＞・・
+- 繧ｲ繝ｼ繝縺ｮ繧ｹ繧ｳ繧｢繧・轤ｹ縺壹▽蜉邂・
+- 蝠・刀縺ｮ蝨ｨ蠎ｫ繧・蛟九★縺､貂帙ｉ縺・
+- 繝ｫ繝ｼ繝励・繧ｫ繧ｦ繝ｳ繧ｿ繝ｼ繧・縺壹▽蠅励ｄ縺・
+
+縺薙・繧医≧縺ｪ蝣ｴ髱｢縺ｧ縲～count = count + 1`縺ｨ譖ｸ縺丈ｻ｣繧上ｊ縺ｫ`count++`縺ｨ邁｡貎斐↓譖ｸ縺代ｋ縲・
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        int stock = 10;
+        System.out.println("蛻晄悄蝨ｨ蠎ｫ: " + stock);
+
+        // 蝠・刀縺・蛟句｣ｲ繧後◆
+        stock--;
+        System.out.println("雋ｩ螢ｲ蠕後・蝨ｨ蠎ｫ: " + stock);  // 9
+
+        // 蝠・刀縺・蛟句・闕ｷ縺励◆
+        stock++;
+        System.out.println("蜈･闕ｷ蠕後・蝨ｨ蠎ｫ: " + stock);  // 10
+    }
+}`} />
+
+**陬懆ｶｳ**・・
+- `count++`縺ｯ`count = count + 1`縺ｨ蜷後§諢丞袖
+- `count--`縺ｯ`count = count - 1`縺ｨ蜷後§諢丞袖
+- 邁｡貎斐↓譖ｸ縺代ｋ縺溘ａ縲√さ繝ｼ繝峨′隱ｭ縺ｿ繧・☆縺上↑繧・

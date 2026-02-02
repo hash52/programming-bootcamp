@@ -1,0 +1,61 @@
+---
+id: \"java/basics/01_java_basics#hello_world\"
+title: "「Hello World」と画面に表示できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicid: \"java/basics/01_java_basics#hello_world\"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["System.out.println", "System.out.print"]
+  blank2: ["\"Hello World\"", "\"Hello World\";", "'Hello World'", "'Hello World';"]
+sampleAnswer: "System.out.println(\"Hello World\");"
+explanation: |
+  **「Hello World」を画面に表示する**には、`System.out.println()`を使ぁE��E
+
+  ```java
+  System.out.println("Hello World");
+  ```
+
+  **コード�E説昁E*�E�E
+  - `System.out.println()`: 画面に斁E��を表示し、改行するメソチE��
+  - `"Hello World"`: 表示したぁE��字�E�E�ダブルクォートで囲む�E�E
+  - 最後に`;`�E�セミコロン�E�を付けめE
+
+  **実行結果**�E�E
+  ```
+  Hello World
+  ```
+
+  **println と print の違い**�E�E
+  - `println`: 表示後に改行すめE
+  - `print`: 改行しなぁE
+
+  ```java
+  System.out.print("Hello ");
+  System.out.print("World");
+  // 出劁E Hello World�E�改行なし！E
+
+  System.out.println("Hello ");
+  System.out.println("World");
+  // 出劁E
+  // Hello 
+  // World
+  ```
+
+  **注愁E*�E�E
+  - 斁E���Eは忁E��ダブルクォーチE`"` で囲む
+  - 日本語も表示できる�E�`System.out.println("こんにちは");`
+  - 最後�E`;`�E�セミコロン�E�を忘れなぁE��と
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 問顁E
+
+以下�Eコード�E空欁E��埋めて、「Hello World」と画面に表示してください、E
+
+<CodeBlock>
+  <BlankInput id="blank1" />(<BlankInput id="blank2" />);
+</CodeBlock>

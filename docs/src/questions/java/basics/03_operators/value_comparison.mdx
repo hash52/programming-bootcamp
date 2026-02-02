@@ -1,0 +1,104 @@
+---
+id: "java/basics/03_operators#value_comparison"
+title: "蛟､繧呈ｯ碑ｼ・〒縺阪ｋ"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_operators"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: [">=", "> ="]
+  blank2: ["==", "= ="]
+  blank3: ["!=", "! ="]
+sampleAnswer: "boolean isAdult = age >= 18;"
+explanation: |
+  **豈碑ｼ・ｼ皮ｮ怜ｭ・*繧剃ｽｿ縺・→縲∝､繧呈ｯ碑ｼ・＠縺ｦ逵溷⊃蛟､・・rue/false・峨ｒ蠕励ｋ縺薙→縺後〒縺阪ｋ縲・
+
+  荳ｻ縺ｪ豈碑ｼ・ｼ皮ｮ怜ｭ撰ｼ・
+  - `==`・夂ｭ峨＠縺・
+  - `!=`・夂ｭ峨＠縺上↑縺・
+  - `<`・壹ｈ繧雁ｰ上＆縺・
+  - `>`・壹ｈ繧雁､ｧ縺阪＞
+  - `<=`・壻ｻ･荳・
+  - `>=`・壻ｻ･荳・
+
+  萓具ｼ・
+  ```java
+  int age = 20;
+  boolean isAdult = age >= 18;  // true
+  boolean isChild = age < 13;   // false
+  boolean isTwenty = age == 20; // true
+  ```
+
+  **驥崎ｦ√↑豕ｨ諢冗せ**・・
+  - 遲峨＠縺・°縺ｩ縺・°縺ｮ豈碑ｼ・・`==`・・縺､縺ｮ繧､繧ｳ繝ｼ繝ｫ・・
+  - `=`・・縺､縺ｮ繧､繧ｳ繝ｼ繝ｫ・峨・莉｣蜈･貍皮ｮ怜ｭ舌↑縺ｮ縺ｧ縲∵ｯ碑ｼ・↓縺ｯ菴ｿ縺医↑縺・
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 蝠城｡・
+
+莉･荳九・繧ｳ繝ｼ繝峨・遨ｺ谺・ｒ蝓九ａ縺ｦ縲∵ｯ碑ｼ・ｼ皮ｮ怜ｭ舌ｒ豁｣縺励￥菴ｿ縺｣縺ｦ縺上□縺輔＞縲・
+
+<CodeBlock>
+{`int age = 20;
+int passingScore = 60;
+int myScore = 75;
+
+// 蟷ｴ鮨｢縺・8豁ｳ莉･荳翫°
+boolean isAdult = age `}<BlankInput id="blank1" />{` 18;
+
+// 繧ｹ繧ｳ繧｢縺悟粋譬ｼ轤ｹ縺ｨ遲峨＠縺・°
+boolean isPerfect = myScore `}<BlankInput id="blank2" />{` 100;
+
+// 繧ｹ繧ｳ繧｢縺悟粋譬ｼ轤ｹ縺ｨ遲峨＠縺上↑縺・°
+boolean isNotPassing = myScore `}<BlankInput id="blank3" />{` passingScore;`}
+</CodeBlock>
+
+**繝偵Φ繝・*・・
+- 莉･荳奇ｼ啻>=`
+- 遲峨＠縺・ｼ啻==`
+- 遲峨＠縺上↑縺・ｼ啻!=`
+
+---
+
+## 隗｣隱ｬ
+
+豈碑ｼ・ｼ皮ｮ怜ｭ舌ｒ菴ｿ縺・→縲・*譚｡莉ｶ繧貞愛螳壹＠縺ｦ逵溷⊃蛟､繧貞ｾ励ｋ縺薙→縺後〒縺阪ｋ**縲・
+
+**豈碑ｼ・ｼ皮ｮ怜ｭ舌・荳隕ｧ**・・
+
+| 貍皮ｮ怜ｭ・| 諢丞袖 | 萓・| 邨先棡 |
+|--------|------|-----|------|
+| `==` | 遲峨＠縺・| `5 == 5` | true |
+| `!=` | 遲峨＠縺上↑縺・| `5 != 3` | true |
+| `<` | 繧医ｊ蟆上＆縺・| `3 < 5` | true |
+| `>` | 繧医ｊ螟ｧ縺阪＞ | `5 > 3` | true |
+| `<=` | 莉･荳・| `5 <= 5` | true |
+| `>=` | 莉･荳・| `5 >= 3` | true |
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        int temperature = 28;
+
+        boolean isHot = temperature >= 30;
+        System.out.println("證代＞・・0蠎ｦ莉･荳奇ｼ・ " + isHot);  // false
+
+        boolean isWarm = temperature >= 20;
+        System.out.println("證悶°縺・ｼ・0蠎ｦ莉･荳奇ｼ・ " + isWarm);  // true
+
+        boolean isCold = temperature < 10;
+        System.out.println("蟇偵＞・・0蠎ｦ譛ｪ貅・・ " + isCold);  // false
+
+        boolean isFreezing = temperature == 0;
+        System.out.println("豌ｷ轤ｹ: " + isFreezing);  // false
+    }
+}`} />
+
+**繧医￥縺ゅｋ髢馴＆縺・*・・
+- 笶・`age = 18`・井ｻ｣蜈･・・
+- 笨・`age == 18`・域ｯ碑ｼ・ｼ・

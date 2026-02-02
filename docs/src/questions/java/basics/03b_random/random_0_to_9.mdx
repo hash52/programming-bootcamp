@@ -1,0 +1,86 @@
+---
+id: \"java/basics/03b_random#random_0_to_9\"
+title: "0縲・縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧剃ｽ懊ｌ繧・
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicid: \"java/basics/03b_random#random_0_to_9\"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["10", "10;"]
+sampleAnswer: "int number = random.nextInt(10);"
+explanation: |
+  **0縲・縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ**繧堤函謌舌☆繧九↓縺ｯ縲～nextInt(10)`繧剃ｽｿ縺・・
+
+  ```java
+  Random random = new Random();
+  int number = random.nextInt(10);  // 0, 1, 2, ..., 9
+  ```
+
+  **繝昴う繝ｳ繝・*・・
+  - `nextInt(n)`縺ｯ0縺九ｉn-1縺ｾ縺ｧ縺ｮ謨ｴ謨ｰ繧定ｿ斐☆
+  - `nextInt(10)`縺ｯ0縲・縺ｮ遽・峇
+  - 10蛟九・蛟､・・, 1, 2, 3, 4, 5, 6, 7, 8, 9・・
+
+  **莉悶・遽・峇縺ｮ萓・*・・
+  - `nextInt(5)`・・縲・
+  - `nextInt(100)`・・縲・9
+  - `nextInt(3)`・・, 1, 2
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 蝠城｡・
+
+莉･荳九・繧ｳ繝ｼ繝峨・遨ｺ谺・ｒ蝓九ａ縺ｦ縲・縲・縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧堤函謌舌＠縺ｦ縺上□縺輔＞縲・
+
+<CodeBlock>
+{`Random random = new Random();
+int number = random.nextInt(`}<BlankInput id="blank1" />{`);
+System.out.println("繝ｩ繝ｳ繝繝縺ｪ謨ｰ: " + number);`}
+</CodeBlock>
+
+**繝偵Φ繝・*・・
+- 0縲・縺ｮ遽・峇縺ｪ縺ｮ縺ｧ縲∝ｼ墓焚縺ｯ`10`
+
+---
+
+## 隗｣隱ｬ
+
+0縲・縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧堤函謌舌☆繧九↓縺ｯ縲・*nextInt(10)**繧剃ｽｿ縺・・
+
+**遽・峇縺ｨ蠑墓焚縺ｮ髢｢菫・*・・
+
+| 逶ｮ逧・・遽・峇 | nextInt縺ｮ蠑墓焚 | 逅・罰 |
+|-----------|--------------|------|
+| 0縲・ | `nextInt(10)` | 10蛟九・蛟､・・, 1, ..., 9・・|
+| 0縲・ | `nextInt(5)` | 5蛟九・蛟､・・, 1, 2, 3, 4・・|
+| 0縲・9 | `nextInt(100)` | 100蛟九・蛟､・・, 1, ..., 99・・|
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Random random = new Random();
+
+        System.out.println("=== 0縲・縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｰ繧・蛟狗函謌・===");
+        for (int i = 0; i < 5; i++) {
+            int number = random.nextInt(10);
+            System.out.println(number);
+        }
+    }
+}`} />
+
+**螳溯｡御ｾ・*・・
+```
+=== 0縲・縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｰ繧・蛟狗函謌・===
+3
+7
+1
+9
+4
+```
+・域ｯ主屓逡ｰ縺ｪ繧句､縺瑚｡ｨ遉ｺ縺輔ｌ繧具ｼ・

@@ -1,0 +1,95 @@
+---
+id: \"java/basics/03b_random#nextint_argument_meaning\"
+title: "nextInt()縺ｮ蠑墓焚縺ｮ諢丞袖繧定ｪｬ譏弱〒縺阪ｋ"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicid: \"java/basics/03b_random#nextint_argument_meaning\"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: \"java/basics/03b_random#nextint_argument_meaning\"
+    text: "0縺九ｉ蠑墓焚-1縺ｾ縺ｧ縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧定ｿ斐☆"
+  - id: \"java/basics/03b_random#nextint_argument_meaning\"
+    text: "1縺九ｉ蠑墓焚縺ｾ縺ｧ縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧定ｿ斐☆"
+  - id: \"java/basics/03b_random#nextint_argument_meaning\"
+    text: "蠑墓焚縺ｨ蜷後§蛟､繧定ｿ斐☆"
+  - id: \"java/basics/03b_random#nextint_argument_meaning\"
+    text: "蠑墓焚縺九ｉ100縺ｾ縺ｧ縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧定ｿ斐☆"
+answers:
+  correct: ["A"]
+explanation: |
+  **nextInt(n)縺ｮ蠑墓焚縺ｮ諢丞袖**・・
+
+  `random.nextInt(n)`縺ｯ縲・*0縺九ｉn-1縺ｾ縺ｧ縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ**繧定ｿ斐☆縲・
+
+  萓具ｼ・
+  ```java
+  Random random = new Random();
+
+  int a = random.nextInt(10);  // 0, 1, 2, ..., 9 縺ｮ縺・★繧後°
+  int b = random.nextInt(6);   // 0, 1, 2, 3, 4, 5 縺ｮ縺・★繧後°
+  int c = random.nextInt(100); // 0, 1, 2, ..., 99 縺ｮ縺・★繧後°
+  ```
+
+  **驥崎ｦ√↑繝昴う繝ｳ繝・*・・
+  - **0縺九ｉ蟋九∪繧・*・・縺ｧ縺ｯ縺ｪ縺・ｼ・
+  - **蠑墓焚-1縺ｾ縺ｧ**・亥ｼ墓焚閾ｪ菴薙・蜷ｫ縺ｾ繧後↑縺・ｼ・
+
+  **1縺九ｉ蟋九ａ繧区婿豕・*・・
+  ```java
+  int dice = 1 + random.nextInt(6);  // 1, 2, 3, 4, 5, 6
+  ```
+  - `random.nextInt(6)`縺ｯ0縲・
+  - 縺昴ｌ縺ｫ1繧定ｶｳ縺吶→1縲・縺ｫ縺ｪ繧・
+---
+
+## 蝠城｡・
+
+`random.nextInt(10)`縺ｮ蜍穂ｽ懊→縺励※譛繧る←蛻・↑繧ゅ・繧帝∈縺ｹ縲・
+
+## 隗｣隱ｬ
+
+nextInt(n)縺ｯ縲・*0縺九ｉn-1縺ｾ縺ｧ縺ｮ遽・峇縺ｧ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧定ｿ斐☆**縲・
+
+**遽・峇縺ｮ逅・ｧ｣**・・
+
+| 繧ｳ繝ｼ繝・| 遽・峇 | 蜿ｯ閭ｽ縺ｪ蛟､ |
+|--------|------|----------|
+| `nextInt(10)` | 0縲・ | 0, 1, 2, ..., 9 |
+| `nextInt(6)` | 0縲・ | 0, 1, 2, 3, 4, 5 |
+| `nextInt(100)` | 0縲・9 | 0, 1, 2, ..., 99 |
+
+**1縺九ｉ蟋九ａ繧句ｴ蜷・*・・
+
+| 逶ｮ逧・| 繧ｳ繝ｼ繝・| 遽・峇 |
+|------|--------|------|
+| 1縲・0 | `1 + nextInt(10)` | 1, 2, ..., 10 |
+| 1縲・・医し繧､繧ｳ繝ｭ・・| `1 + nextInt(6)` | 1, 2, 3, 4, 5, 6 |
+| 1縲・00 | `1 + nextInt(100)` | 1, 2, ..., 100 |
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Random random = new Random();
+
+        System.out.println("=== nextInt(10)縺ｮ萓具ｼ・縲・・・===");
+        for (int i = 0; i < 5; i++) {
+            int num = random.nextInt(10);
+            System.out.println(num);
+        }
+
+        System.out.println("\\n=== 1 + nextInt(6)縺ｮ萓具ｼ・縲・縺ｮ繧ｵ繧､繧ｳ繝ｭ・・===");
+        for (int i = 0; i < 5; i++) {
+            int dice = 1 + random.nextInt(6);
+            System.out.println(dice);
+        }
+    }
+}`} />
+
+**繧医￥縺ゅｋ髢馴＆縺・*・・
+- 笶・`nextInt(10)`縺ｯ1縲・0・亥ｮ滄圀縺ｯ0縲・・・
+- 笨・`1 + nextInt(10)`縺・縲・0

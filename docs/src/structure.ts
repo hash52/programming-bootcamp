@@ -36,9 +36,12 @@ export enum Difficulty {
 /** 設問タイプ */
 type QuestionType = "KNOW" | "READ" | "WRITE";
 
-/** 各設問の基本構造（ID生成前） */
+/** 各設問の基本構造(ID生成前) */
 // IDは自動付与だが、ID付与前はタイトルなどの情報だけを持つ
 interface QuestionBase {
+  /** 問題の固定識別子（例: "variables_concept", "type_casting"）。
+   * 未指定の場合は旧形式（type+index）でIDが生成される */
+  questionId?: string;
   /** ダッシュボードで表示するタイトル。必ずしも設問文と一致しない */
   title: string;
   /** 設問の種類 */
@@ -69,32 +72,41 @@ interface Topic {
 
 /**
  * IDを自動生成するユーティリティ関数
- * category と topic.id と question.type から question.id を `{category}/{topicId}#q{番号}` 形式で生成する
+ *
+ * questionIdが指定されている場合:
+ *   `{category}/{topicId}#{questionId}` 形式でIDを生成（新形式）
+ *
+ * questionIdが未指定の場合:
+ *   `{category}/{topicId}#{type}{index}` 形式でIDを生成（旧形式、後方互換性のため）
  *
  * 例:
- * - category: `spring`
- * - topic.id: `02_mvc_intro`
- * - question.type: `KNOW`
- * - question index: 0 (1問目)
- *
- *  => `spring/02_mvc_intro#k1`
+ * - questionId指定あり: `java/basics/02_variables_and_types#variables_concept`
+ * - questionId指定なし: `java/basics/02_variables_and_types#k1`
  */
 function withAutoIds(
-  topic: Omit<Topic, "questions"> & { questions: QuestionBase[] }
+  topic: Omit<Topic, "questions"> & { questions: QuestionBase[] },
 ): Topic {
+  // type別のカウンター（旧形式用）
+  const typeCounters: Record<string, number> = { k: 0, r: 0, w: 0 };
+
   return {
     ...topic,
-    questions: topic.questions.map((q, index) => {
-      const qPrefix = (() => {
-        if (q.type == "KNOW") return "k";
-        if (q.type == "READ") return "r";
-        if (q.type == "WRITE") return "w";
-      })();
-      const qNum = index + 1;
-      return {
-        ...q,
-        id: `${topic.category}/${topic.id}#${qPrefix}${qNum}`,
-      };
+    questions: topic.questions.map((q) => {
+      if (q.questionId) {
+        // 新形式: questionIdを使用
+        return {
+          ...q,
+          id: `${topic.category}/${topic.id}#${q.questionId}`,
+        };
+      } else {
+        // 旧形式: type + 連番
+        const qPrefix = q.type === "KNOW" ? "k" : q.type === "READ" ? "r" : "w";
+        typeCounters[qPrefix]++;
+        return {
+          ...q,
+          id: `${topic.category}/${topic.id}#${qPrefix}${typeCounters[qPrefix]}`,
+        };
+      }
     }),
   };
 }
@@ -111,36 +123,43 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
+        questionId: "execution_order",
         title: "プログラムの実行順序を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "readable_code",
         title: "読みやすいコードの書き方がわかる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "brace_role",
         title: "波括弧の役割を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "java_use_cases",
         title: "Javaの活用場面を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "hello_world",
         title: "「Hello World」と画面に表示できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "run_in_eclipse",
         title: "EclipseでJavaプログラムを実行できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "print_name_and_age",
         title: "自分の名前と年齢を表示するプログラムを書ける",
         type: "WRITE",
         difficulty: Difficulty.Easy,
@@ -153,81 +172,97 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
+        questionId: "variables_concept",
         title: "変数とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "type_basics",
         title: "型とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "int_type_data",
         title: "整数型が扱えるデータを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "double_type_data",
         title: "小数型が扱えるデータを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "string_type_data",
         title: "文字列型が扱えるデータを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "boolean_type_data",
         title: "真偽値型が扱えるデータを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "assignment_concept",
         title: "代入とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "declare_variable",
         title: "変数に値を代入できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "declare_int_variable",
         title: "整数型の変数を宣言できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "declare_double_variable",
         title: "小数型の変数を宣言できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "declare_boolean_variable",
         title: "真偽値型の変数を宣言できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "declare_string_variable",
         title: "文字列型の変数を宣言できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "variable_naming",
         title: "わかりやすい変数名を付けられる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "variable_scope",
         title: "変数のスコープを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "declare_constant",
         title: "定数を宣言できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "read_type_compatibility",
         title: "型が違う変数に代入できるか判断できる",
         type: "READ",
         difficulty: Difficulty.Medium,
@@ -240,66 +275,79 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
+        questionId: "arithmetic_operators_concept",
         title: "算術演算子とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "comparison_operators_concept",
         title: "比較演算子とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "logical_operators_concept",
         title: "論理演算子とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "increment_decrement_concept",
         title: "インクリメント・デクリメント演算子とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "basic_arithmetic",
         title: "四則演算ができる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "modulo_operation",
         title: "剰余演算ができる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "integer_division_result",
         title: "整数同士の割り算の結果を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "compound_assignment",
         title: "複合代入演算ができる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "value_comparison",
         title: "値を比較できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "combine_conditions",
         title: "複数の条件を組み合わせられる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "invert_condition",
         title: "条件を反転できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "increment_decrement_value",
         title: "値を1増やす・減らすことができる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "read_calculation_result",
         title: "計算式の結果を予測できる",
         type: "READ",
         difficulty: Difficulty.Medium,
@@ -312,51 +360,61 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
+        questionId: "stdin_concept",
         title: "標準入力とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "scanner_class_role",
         title: "標準入力用クラスの役割を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "string_vs_int_reading",
         title: "文字列読み取りと整数読み取りの違いを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "input_from_keyboard",
         title: "キーボードから文字を入力できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "prepare_scanner",
         title: "標準入力を使う準備ができる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "read_line",
         title: "1行を読み取れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "read_integer",
         title: "整数を読み取れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "read_double",
         title: "小数を読み取れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "after_nextint_caution",
         title: "整数読み取り後の注意点がわかる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "handle_invalid_input",
         title: "数字以外が入力された時の対処ができる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
@@ -369,51 +427,61 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
+        questionId: "random_concept",
         title: "乱数とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "random_class_role",
         title: "Randomクラスの役割を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "nextint_argument_meaning",
         title: "nextInt()の引数の意味を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "generate_random_number",
         title: "ランダムな数を作れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "prepare_random_class",
         title: "Randomクラスを使う準備ができる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "random_0_to_9",
         title: "0〜9のランダムな整数を作れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "random_1_to_100",
         title: "1〜100のランダムな整数を作れる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "random_double",
         title: "0.0〜1.0のランダムな小数を作れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "random_seed_concept",
         title: "乱数の再現性を制御する方法がわかる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "random_from_array",
         title: "配列からランダムに選ぶプログラムを書ける",
         type: "WRITE",
         difficulty: Difficulty.Medium,
@@ -426,61 +494,73 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "java/basics",
     questions: [
       {
+        questionId: "conditional_branch_concept",
         title: "条件分岐とは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "if_syntax_basics",
         title: "if文の基本的な構文を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "if_else_vs_elseif",
         title: "if-elseとif-else ifの違いを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "switch_vs_if",
         title: "switch文とif文の使い分けを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "simple_if_statement",
         title: "if文で条件によって処理を分けられる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "if_else_statement",
         title: "if-else文で2つの処理を切り替えられる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "if_elseif_else_statement",
         title: "if-else if-elseで3つ以上の処理を分けられる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "complex_conditions",
         title: "&&や||を使った複雑な条件を書ける",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "switch_statement",
         title: "switch文で複数の選択肢から選べる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "switch_break_role",
         title: "switchのbreakの役割を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "read_conditional_code",
         title: "条件分岐のコードを読んで結果を予測できる",
         type: "READ",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "conditional_by_value",
         title: "年齢や点数で処理を変えるプログラムが書ける",
         type: "WRITE",
         difficulty: Difficulty.Medium,
@@ -1406,7 +1486,8 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "クライアントサイドとサーバーサイドのバリデーションの違いを説明できる",
+        title:
+          "クライアントサイドとサーバーサイドのバリデーションの違いを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },
@@ -1878,32 +1959,32 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Easy,
       },
       {
-        title: "input type=\"text\"でテキスト入力欄を作れる",
+        title: 'input type="text"でテキスト入力欄を作れる',
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "input type=\"password\"でパスワード入力欄を作れる",
+        title: 'input type="password"でパスワード入力欄を作れる',
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "input type=\"email\"でメール入力欄を作れる",
+        title: 'input type="email"でメール入力欄を作れる',
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "input type=\"number\"で数値入力欄を作れる",
+        title: 'input type="number"で数値入力欄を作れる',
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "input type=\"checkbox\"でチェックボックスを作れる",
+        title: 'input type="checkbox"でチェックボックスを作れる',
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
-        title: "input type=\"radio\"でラジオボタンを作れる",
+        title: 'input type="radio"でラジオボタンを作れる',
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },

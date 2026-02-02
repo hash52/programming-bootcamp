@@ -15,33 +15,114 @@
 docs/
 ├── java/
 │   └── basics/
-│       └── if.mdx
+│       └── 02_variables_and_types.mdx
 src/
 └── questions/
     ├── java/
     │   └── basics/
-    │       └── if/
-    │           ├── q1.mdx
-    │           └── q2.mdx
-
+    │       └── 02_variables_and_types/
+    │           ├── variables_concept.mdx
+    │           └── type_basics.mdx
 ```
 
-- `docs/java/basics/if.mdx` に対応する問題は  
-  `src/questions/java/basics/if/` ディレクトリに配置する。
+- `docs/java/basics/02_variables_and_types.mdx` に対応する問題は  
+  `src/questions/java/basics/02_variables_and_types/` ディレクトリに配置する。
 
 ---
 
 ## 問題ファイルの命名規則
 
+### 新形式（推奨）
+
 - 問題は **1 問につき 1 ファイル** とする。
-- ファイル名は **連番 (`q1.mdx`, `q2.mdx`, `q3.mdx`, ...)** で命名する。
+- ファイル名は **問題の内容を表すスネークケース** で命名する。
+- **短く、意味が伝わる英語** を使用する。
 - 拡張子は必ず `.mdx` とする。
 
 例：
 
 ```
-src/questions/java/basics/if/q1.mdx
-src/questions/java/basics/if/q2.mdx
+src/questions/java/basics/02_variables_and_types/variables_concept.mdx
+src/questions/java/basics/02_variables_and_types/type_basics.mdx
+src/questions/java/basics/02_variables_and_types/declare_variable.mdx
+```
+
+**命名のガイドライン：**
+
+- ✅ `variables_concept` (変数の概念)
+- ✅ `type_casting` (型変換)
+- ✅ `declare_variable` (変数宣言)
+- ❌ `var_concept` (略語は避ける)
+- ❌ `variablesConcept` (キャメルケースではなくスネークケース)
+- ❌ `question1` (内容が分からない)
+
+### 旧形式（後方互換性のため残存）
+
+一部のトピックでは、以下の旧形式のファイルが残っている：
+
+```
+k1.mdx, k2.mdx, ...  (KNOW問題)
+w1.mdx, w2.mdx, ...  (WRITE問題)
+r1.mdx, r2.mdx, ...  (READ問題)
+```
+
+**新しい問題を追加する場合は、必ず新形式を使用すること。**
+
+---
+
+## structure.tsでの問題定義
+
+問題を作成する際は、`src/structure.ts` でも問題を定義する必要がある。
+
+### 新形式（questionId指定）
+
+```typescript
+withAutoIds({
+  id: "02_variables_and_types",
+  label: "変数と型",
+  category: "java/basics",
+  questions: [
+    {
+      questionId: "variables_concept", // ファイル名と一致させる
+      title: "変数とは何かを説明できる",
+      type: "KNOW",
+      difficulty: Difficulty.Easy,
+    },
+    {
+      questionId: "type_basics",
+      title: "型とは何かを説明できる",
+      type: "KNOW",
+      difficulty: Difficulty.Easy,
+    },
+    {
+      questionId: "declare_variable",
+      title: "変数に値を代入できる",
+      type: "WRITE",
+      difficulty: Difficulty.Easy,
+    },
+  ],
+});
+```
+
+**重要：** `questionId` とファイル名（`.mdx`を除く）は **完全に一致** させること。
+
+生成されるID：
+
+- `java/basics/02_variables_and_types#variables_concept`
+- `java/basics/02_variables_and_types#type_basics`
+- `java/basics/02_variables_and_types#declare_variable`
+
+### 旧形式（後方互換性のため）
+
+`questionId` を指定しない場合、旧形式のID（`k1`, `w1`など）が生成される：
+
+```typescript
+{
+  title: "整数型が扱えるデータを説明できる",
+  type: "KNOW",
+  difficulty: Difficulty.Easy,
+  // questionIdなし → 自動的に k3 として生成される
+}
 ```
 
 ---
@@ -51,16 +132,22 @@ src/questions/java/basics/if/q2.mdx
 作成した問題は、本文内から次のように呼び出す：
 
 ```tsx
-<QuestionRenderer id="java/basics/if#q1" />
+<QuestionList topicId="02_variables_and_types" category="java/basics" />
+```
+
+章末に上記のタグを記述すると、structure.tsで定義された全ての問題が自動的に表示される。
+
+個別に問題を呼び出す場合：
+
+```tsx
+<QuestionRenderer id="java/basics/02_variables_and_types#variables_concept" />
 ```
 
 > **ポイント**
 >
-> - `id` には `.mdx` を除いたディレクトリパスとファイル名を指定する。
-> - `docs/` 以下の構造をそのまま `src/questions/` に対応させているため、  
->   どの教材ページからも同一形式でアクセスできる。
-> - たとえば `src/questions/java/basics/if/q1.mdx` であれば  
->   `id="java/basics/if#q1"` となる。
+> - `QuestionList` を使うと、structure.tsの定義に基づいて問題が自動表示される。
+> - 問題の追加・削除は structure.ts のみで管理できる。
+> - ID形式は `{category}/{topicId}#{questionId}` となる。
 
 ---
 
@@ -70,12 +157,10 @@ src/questions/java/basics/if/q2.mdx
 しかし、本教材では以下の目的のため、あえて **問題ファイルを分離** している：
 
 1. **ダッシュボード機能との連携**
-
    - 学習者が各問題を「理解済み」「未理解」としてチェックできる。
    - 達成率や経過日数を localStorage に記録して、ダッシュボードで集計できる。
 
 2. **ランダム出題機能の実現**
-
    - 同一トピック内から未達成問題のみをランダムに出題する。
    - 問題を増減しても ID 体系が変わらず、既存データを壊さない。
 
@@ -87,17 +172,56 @@ src/questions/java/basics/if/q2.mdx
 
 ## 開発者への補足メモ
 
-| 項目                   | 内容                                                                  |
-| ---------------------- | --------------------------------------------------------------------- |
-| **ファイル配置**       | `src/questions/{docsパス}/{問題フォルダ}/qN.mdx`                      |
-| **ファイル内容**       | 通常の MDX 構文（見出し、リスト、コードブロック、解説など）           |
-| **呼び出しタグ**       | `<QuestionRenderer id="カテゴリ/トピック#q番号" />`                   |
-| **内部処理**           | `QuestionRenderer` が `require.context` により対象 MDX を自動読み込み |
-| **URL からの直リンク** | `#q1` などのアンカーで該当問題位置に自動スクロール                    |
+| 項目                   | 内容                                                                      |
+| ---------------------- | ------------------------------------------------------------------------- |
+| **ファイル配置**       | `src/questions/{category}/{topicId}/{questionId}.mdx`                     |
+| **ファイル命名**       | 短く意味が伝わるスネークケース（`variables_concept`, `type_casting`など） |
+| **structure.ts定義**   | `questionId` フィールドでファイル名を指定                                 |
+| **ID生成ルール**       | `{category}/{topicId}#{questionId}` 形式                                  |
+| **旧形式との互換性**   | `questionId` 未指定時は旧形式（`k1`, `w1`など）で生成                     |
+| **呼び出しタグ**       | `<QuestionList topicId="..." category="..." />` で一括表示                |
+| **内部処理**           | `QuestionRenderer` が `require.context` により対象 MDX を自動読み込み     |
+| **URL からの直リンク** | `#questionId` でアンカーリンク可能                                        |
+
+---
+
+## 問題追加の手順
+
+1. **structure.tsに問題を定義**
+
+   ```typescript
+   {
+     questionId: "new_question",  // ファイル名と同じ
+     title: "問題のタイトル",
+     type: "KNOW",  // または "READ", "WRITE"
+     difficulty: Difficulty.Easy,
+   }
+   ```
+
+2. **問題ファイルを作成**
+   - ファイルパス: `src/questions/{category}/{topicId}/new_question.mdx`
+   - frontmatterに適切なメタデータを記述
+
+3. **動作確認**
+   - 開発サーバーで該当ページを開く
+   - 問題が正しく表示されるか確認
+   - ダッシュボードで進捗管理が動作するか確認
 
 ---
 
 ## 実装例（教材側）
+
+教材ページ `docs/java/basics/02_variables_and_types.mdx` の章末：
+
+```mdx
+## 練習問題
+
+この章の内容を理解したか確認してみましょう。
+
+<QuestionList topicId="02_variables_and_types" category="java/basics" />
+```
+
+これだけで、structure.tsで定義された全ての問題が表示される。
 
 教材ページ `docs/java/basics/if.mdx` の一部：
 

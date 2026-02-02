@@ -1,0 +1,114 @@
+---
+id: \"java/basics/03a_scanner#read_double\"
+title: "蟆乗焚繧定ｪｭ縺ｿ蜿悶ｌ繧・
+type: "WRITE"
+difficulty: "Easy"
+topicId: "03a_scanner"
+category: "java/basics"
+explanation: |
+  **nextDouble()繝｡繧ｽ繝・ラ**繧剃ｽｿ縺・→縲∵ｨ呎ｺ門・蜉帙°繧牙ｰ乗焚繧定ｪｭ縺ｿ蜿悶ｌ繧九・
+
+  ```java
+  Scanner scanner = new Scanner(System.in);
+  double number = scanner.nextDouble();  // 蟆乗焚縺ｮ蜈･蜉帙ｒ蠕・▽
+  ```
+
+  **nextDouble()縺ｮ蜍穂ｽ・*・・
+  1. 繝ｦ繝ｼ繧ｶ繝ｼ縺梧焚蛟､繧貞・蜉帙＠縺ｦEnter繧ｭ繝ｼ繧呈款縺吶∪縺ｧ蠕・ｩ・
+  2. 蜈･蜉帙＆繧後◆謨ｰ蛟､繧蛋double`蝙九→縺励※蜿門ｾ・
+  3. 謨ｴ謨ｰ繧貞・蜉帙＠縺ｦ繧Ａdouble`蝙九→縺励※謇ｱ繧上ｌ繧具ｼ井ｾ具ｼ啻5` 竊・`5.0`・・
+  4. 謨ｰ蛟､莉･螟悶′蜈･蜉帙＆繧後◆蝣ｴ蜷医・繧ｨ繝ｩ繝ｼ・・nputMismatchException・・
+
+  **菴ｿ縺・園**・・
+  - 霄ｫ髟ｷ繧・ｽ馴㍾縺ｪ縺ｩ縲∝ｰ乗焚繧貞性繧謨ｰ蛟､
+  - 萓｡譬ｼ繧・≡鬘搾ｼ亥ｰ乗焚轤ｹ莉･荳九ｒ蜷ｫ繧・・
+  - 遘大ｭｦ險育ｮ励ｄ邨ｱ險郁ｨ育ｮ・
+
+  **謨ｴ謨ｰ縺ｨ縺ｮ驕輔＞**・・
+  - `nextInt()`・壽紛謨ｰ縺ｮ縺ｿ・亥ｰ乗焚轤ｹ莉･荳九・荳榊庄・・
+  - `nextDouble()`・壽紛謨ｰ繧ょｰ乗焚繧ょ女縺台ｻ倥￠繧・
+
+  **隗｣遲比ｾ・*・・
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.print("霄ｫ髟ｷ(m)繧貞・蜉帙＠縺ｦ縺上□縺輔＞: ");
+          double height = scanner.nextDouble();
+
+          System.out.print("菴馴㍾(kg)繧貞・蜉帙＠縺ｦ縺上□縺輔＞: ");
+          double weight = scanner.nextDouble();
+
+          double bmi = weight / (height * height);
+          System.out.println("BMI: " + bmi);
+      }
+  }
+  ```
+
+  **螳溯｡御ｾ・*・・
+  ```
+  霄ｫ髟ｷ(m)繧貞・蜉帙＠縺ｦ縺上□縺輔＞: 1.70
+  菴馴㍾(kg)繧貞・蜉帙＠縺ｦ縺上□縺輔＞: 65.0
+  BMI: 22.49134948096886
+  ```
+
+  **蠢懃畑萓・*・・
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.println("=== 蜀・・髱｢遨崎ｨ育ｮ・===");
+
+          System.out.print("蜊雁ｾ・ｒ蜈･蜉帙＠縺ｦ縺上□縺輔＞: ");
+          double radius = scanner.nextDouble();
+
+          double area = Math.PI * radius * radius;
+          System.out.println("\n蜊雁ｾ・" + radius + " 縺ｮ蜀・・髱｢遨・ " + area);
+
+          // 蟆乗焚轤ｹ莉･荳・譯√〒陦ｨ遉ｺ
+          System.out.printf("髱｢遨搾ｼ亥ｰ乗焚轤ｹ莉･荳・譯・ｼ・ %.2f\n", area);
+      }
+  }
+  ```
+
+  **陬懆ｶｳ**・・
+  - `Math.PI`・壼・蜻ｨ邇・ｼ・.141592...・・
+  - `System.out.printf()`・壽嶌蠑乗欠螳壹〒蟆乗焚轤ｹ莉･荳九・譯∵焚繧貞宛蠕｡縺ｧ縺阪ｋ
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 蝠城｡・
+
+繝ｦ繝ｼ繧ｶ繝ｼ縺ｫ霄ｫ髟ｷ縺ｨ菴馴㍾繧貞・蜉帙＠縺ｦ繧ゅｉ縺・。MI・井ｽ捺ｼ謖・焚・峨ｒ險育ｮ励＠縺ｦ陦ｨ遉ｺ縺吶ｋ繝励Ο繧ｰ繝ｩ繝繧呈嶌縺・※螳溯｡後＠縺ｦ縺上□縺輔＞縲・
+
+**隕∽ｻｶ**・・
+- 縲瑚ｺｫ髟ｷ(m)繧貞・蜉帙＠縺ｦ縺上□縺輔＞: 縲阪→陦ｨ遉ｺ縺励※縲∝ｰ乗焚繧貞女縺大叙繧・
+- 縲御ｽ馴㍾(kg)繧貞・蜉帙＠縺ｦ縺上□縺輔＞: 縲阪→陦ｨ遉ｺ縺励※縲∝ｰ乗焚繧貞女縺大叙繧・
+- BMI繧定ｨ育ｮ励＠縺ｦ陦ｨ遉ｺ・・MI = 菴馴㍾ ﾃｷ 霄ｫ髟ｷ縺ｮ2荵暦ｼ・
+
+**螳溯｡檎腸蠅・*・・
+- 莉･荳九・OneCompiler・医ヶ繝ｩ繧ｦ繧ｶ荳翫〒螳溯｡悟庄閭ｽ・・
+- 縺ｾ縺溘・縲・clipse遲峨・IDE
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        // 縺薙％縺ｫ繧ｳ繝ｼ繝峨ｒ譖ｸ縺・※縺上□縺輔＞
+
+    }
+}`}
+/>
+
+**繝偵Φ繝・*・・
+- `scanner.nextDouble()`縺ｧ蟆乗焚繧定ｪｭ縺ｿ蜿悶ｋ
+- BMI = 菴馴㍾ ﾃｷ (霄ｫ髟ｷ ﾃ・霄ｫ髟ｷ)

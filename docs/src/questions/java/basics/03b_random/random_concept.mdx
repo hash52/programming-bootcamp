@@ -1,0 +1,84 @@
+---
+id: \"java/basics/03b_random#random_concept\"
+title: "荵ｱ謨ｰ縺ｨ縺ｯ菴輔°繧定ｪｬ譏弱〒縺阪ｋ"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicid: \"java/basics/03b_random#random_concept\"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: \"java/basics/03b_random#random_concept\"
+    text: "莠域ｸｬ縺ｧ縺阪↑縺・Λ繝ｳ繝繝縺ｪ謨ｰ蛟､"
+  - id: \"java/basics/03b_random#random_concept\"
+    text: "蟶ｸ縺ｫ蜷後§蛟､繧定ｿ斐☆謨ｰ蛟､"
+  - id: \"java/basics/03b_random#random_concept\"
+    text: "繝ｦ繝ｼ繧ｶ繝ｼ縺悟・蜉帙＠縺滓焚蛟､"
+  - id: \"java/basics/03b_random#random_concept\"
+    text: "繝励Ο繧ｰ繝ｩ繝縺瑚ｨ育ｮ励＠縺滓焚蛟､"
+answers:
+  correct: ["A"]
+explanation: |
+  **荵ｱ謨ｰ**・・andom Number・峨・縲・*莠域ｸｬ縺ｧ縺阪↑縺・Λ繝ｳ繝繝縺ｪ謨ｰ蛟､**縺ｧ縺ゅｋ縲・
+
+  **荵ｱ謨ｰ縺ｮ菴ｿ縺・園**・・
+  - 繧ｲ繝ｼ繝縺ｮ繧ｵ繧､繧ｳ繝ｭ繧・き繝ｼ繝峨・繧ｷ繝｣繝・ヵ繝ｫ
+  - 繝代せ繝ｯ繝ｼ繝峨ｄ繝医・繧ｯ繝ｳ縺ｮ逕滓・
+  - 繝・せ繝医ョ繝ｼ繧ｿ縺ｮ菴懈・
+  - 繧ｷ繝溘Η繝ｬ繝ｼ繧ｷ繝ｧ繝ｳ繧・ｵｱ險亥・逅・
+
+  **荵ｱ謨ｰ縺ｮ遞ｮ鬘・*・・
+  - **謨ｴ謨ｰ縺ｮ荵ｱ謨ｰ**・・, 1, 2, 3, ...
+  - **蟆乗焚縺ｮ荵ｱ謨ｰ**・・.0縲・.0縺ｮ遽・峇
+
+  萓具ｼ・
+  ```java
+  // 1縲・縺ｮ繧ｵ繧､繧ｳ繝ｭ
+  int dice = 1 + random.nextInt(6);  // 1, 2, 3, 4, 5, 6縺ｮ縺・★繧後°
+  ```
+---
+
+## 蝠城｡・
+
+荵ｱ謨ｰ縺ｮ隱ｬ譏弱→縺励※譛繧る←蛻・↑繧ゅ・繧帝∈縺ｹ縲・
+
+## 隗｣隱ｬ
+
+荵ｱ謨ｰ縺ｯ縲・*繝励Ο繧ｰ繝ｩ繝縺ｫ莠域ｸｬ荳榊庄閭ｽ諤ｧ繧呈戟縺溘○繧九◆繧√・莉慕ｵ・∩**縺ｧ縺ゅｋ縲・
+
+繧ｲ繝ｼ繝繧・そ繧ｭ繝･繝ｪ繝・ぅ縺ｪ縺ｩ縲√＆縺ｾ縺悶∪縺ｪ蝣ｴ髱｢縺ｧ荵ｱ謨ｰ縺御ｽｿ繧上ｌ繧具ｼ・
+- **繧ｲ繝ｼ繝**・壹し繧､繧ｳ繝ｭ縲√ぎ繝√Ε縲∵雰縺ｮ陦悟虚繝代ち繝ｼ繝ｳ
+- **繧ｻ繧ｭ繝･繝ｪ繝・ぅ**・壹ヱ繧ｹ繝ｯ繝ｼ繝峨∬ｪ崎ｨｼ繝医・繧ｯ繝ｳ縲∵囓蜿ｷ骰ｵ
+- **繝・せ繝・*・壹Λ繝ｳ繝繝縺ｪ繝・せ繝医ョ繝ｼ繧ｿ縺ｮ逕滓・
+- **繧ｷ繝溘Η繝ｬ繝ｼ繧ｷ繝ｧ繝ｳ**・壼､ｩ豌嶺ｺ亥ｱ縲∵ｪ萓｡莠域ｸｬ
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Random random = new Random();
+
+        // 繧ｵ繧､繧ｳ繝ｭ繧・蝗樊険繧・
+        System.out.println("=== 繧ｵ繧､繧ｳ繝ｭ繧呈険繧・===");
+        for (int i = 1; i <= 3; i++) {
+            int dice = 1 + random.nextInt(6);
+            System.out.println(i + "蝗樒岼: " + dice);
+        }
+
+        // 繧ｳ繧､繝ｳ繝医せ・郁｡ｨ縺玖｣上°・・
+        System.out.println("\\n=== 繧ｳ繧､繝ｳ繝医せ ===");
+        int coin = random.nextInt(2);  // 0 or 1
+        if (coin == 0) {
+            System.out.println("陦ｨ");
+        } else {
+            System.out.println("陬・);
+        }
+    }
+}`} />
+
+**荵ｱ謨ｰ縺ｮ迚ｹ蠕ｴ**・・
+- 豈主屓逡ｰ縺ｪ繧句､縺檎函謌舌＆繧後ｋ・井ｺ域ｸｬ荳榊庄閭ｽ・・
+- 蜷後§繝励Ο繧ｰ繝ｩ繝繧貞ｮ溯｡後＠縺ｦ繧ゅ∫ｵ先棡縺ｯ豈主屓螟峨ｏ繧・
+- 蜈ｬ蟷ｳ諤ｧ縺御ｿ晁ｨｼ縺輔ｌ繧具ｼ育音螳壹・蛟､縺ｫ蛛上ｉ縺ｪ縺・ｼ・

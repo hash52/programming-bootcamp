@@ -1,0 +1,85 @@
+---
+id: \"java/basics/03b_random#random_class_role\"
+title: "Random繧ｯ繝ｩ繧ｹ縺ｮ蠖ｹ蜑ｲ繧定ｪｬ譏弱〒縺阪ｋ"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicid: \"java/basics/03b_random#random_class_role\"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: \"java/basics/03b_random#random_class_role\"
+    text: "荵ｱ謨ｰ繧堤函謌舌☆繧九◆繧√・繧ｯ繝ｩ繧ｹ"
+  - id: \"java/basics/03b_random#random_class_role\"
+    text: "繝輔ぃ繧､繝ｫ繧定ｪｭ縺ｿ譖ｸ縺阪☆繧九◆繧√・繧ｯ繝ｩ繧ｹ"
+  - id: \"java/basics/03b_random#random_class_role\"
+    text: "讓呎ｺ門・蜉帙ｒ隱ｭ縺ｿ蜿悶ｋ縺溘ａ縺ｮ繧ｯ繝ｩ繧ｹ"
+  - id: \"java/basics/03b_random#random_class_role\"
+    text: "驟榊・繧呈桃菴懊☆繧九◆繧√・繧ｯ繝ｩ繧ｹ"
+answers:
+  correct: ["A"]
+explanation: |
+  **Random繧ｯ繝ｩ繧ｹ**縺ｯ縲・*荵ｱ謨ｰ繧堤函謌舌☆繧九◆繧√・繧ｯ繝ｩ繧ｹ**縺ｧ縺ゅｋ縲・
+
+  **Random繧ｯ繝ｩ繧ｹ縺ｮ荳ｻ縺ｪ繝｡繧ｽ繝・ラ**・・
+  - `nextInt(n)`・・縲從-1縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧定ｿ斐☆
+  - `nextDouble()`・・.0縲・.0縺ｮ繝ｩ繝ｳ繝繝縺ｪ蟆乗焚繧定ｿ斐☆
+  - `nextBoolean()`・嗾rue or false 繧偵Λ繝ｳ繝繝縺ｫ霑斐☆
+
+  **Random繧ｯ繝ｩ繧ｹ縺ｮ菴ｿ縺・婿**・・
+  ```java
+  import java.util.Random;
+
+  Random random = new Random();
+  int number = random.nextInt(10);  // 0縲・縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ
+  ```
+
+  **Random繧ｯ繝ｩ繧ｹ縺ｮ蛻ｩ轤ｹ**・・
+  - 邁｡蜊倥↓荵ｱ謨ｰ繧堤函謌舌〒縺阪ｋ
+  - 縺輔∪縺悶∪縺ｪ蝙九・荵ｱ謨ｰ繧堤函謌舌〒縺阪ｋ・域紛謨ｰ縲∝ｰ乗焚縲∫悄蛛ｽ蛟､・・
+  - 繧ｷ繝ｼ繝牙､繧呈欠螳壹＠縺ｦ蜀咲樟諤ｧ繧呈戟縺溘○繧九％縺ｨ繧ゅ〒縺阪ｋ
+---
+
+## 蝠城｡・
+
+Random繧ｯ繝ｩ繧ｹ縺ｮ蠖ｹ蜑ｲ縺ｨ縺励※譛繧る←蛻・↑繧ゅ・繧帝∈縺ｹ縲・
+
+## 隗｣隱ｬ
+
+Random繧ｯ繝ｩ繧ｹ縺ｯ縲・*繝励Ο繧ｰ繝ｩ繝縺ｧ荵ｱ謨ｰ繧堤函謌舌☆繧九◆繧√・萓ｿ蛻ｩ縺ｪ繝・・繝ｫ**縺ｧ縺ゅｋ縲・
+
+Random繧ｯ繝ｩ繧ｹ繧剃ｽｿ縺・％縺ｨ縺ｧ縲∽ｻ･荳九・繧医≧縺ｪ蜃ｦ逅・′邁｡蜊倥↓螳溯｣・〒縺阪ｋ・・
+- 繧ｵ繧､繧ｳ繝ｭ繧・ぎ繝√Ε縺ｮ繝ｩ繝ｳ繝繝縺ｪ邨先棡
+- 繝ｩ繝ｳ繝繝縺ｪ繝代せ繝ｯ繝ｼ繝峨ｄ繝医・繧ｯ繝ｳ縺ｮ逕滓・
+- 繝・せ繝医ョ繝ｼ繧ｿ縺ｮ繝ｩ繝ｳ繝繝逕滓・
+- 繧ｲ繝ｼ繝縺ｮ謨ｵ縺ｮ陦悟虚繝代ち繝ｼ繝ｳ
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Random random = new Random();
+
+        // 繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ・・縲・9・・
+        int randomInt = random.nextInt(100);
+        System.out.println("繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ: " + randomInt);
+
+        // 繝ｩ繝ｳ繝繝縺ｪ蟆乗焚・・.0縲・.0・・
+        double randomDouble = random.nextDouble();
+        System.out.println("繝ｩ繝ｳ繝繝縺ｪ蟆乗焚: " + randomDouble);
+
+        // 繝ｩ繝ｳ繝繝縺ｪ逵溷⊃蛟､
+        boolean randomBoolean = random.nextBoolean();
+        System.out.println("繝ｩ繝ｳ繝繝縺ｪ逵溷⊃蛟､: " + randomBoolean);
+    }
+}`} />
+
+**Random繧ｯ繝ｩ繧ｹ縺ｮ菴ｿ逕ｨ縺ｫ縺ｯ`import`縺悟ｿ・ｦ・*・・
+```java
+import java.util.Random;  // 繝輔ぃ繧､繝ｫ縺ｮ蜈磯ｭ縺ｫ險倩ｿｰ
+```
+
+**陬懆ｶｳ**・・
+- Java縺ｫ縺ｯ`Math.random()`縺ｨ縺・≧蛻･縺ｮ荵ｱ謨ｰ逕滓・譁ｹ豕輔ｂ縺ゅｋ縺後ヽandom繧ｯ繝ｩ繧ｹ縺ｮ譁ｹ縺梧ｩ溯・縺瑚ｱ雁ｯ後〒萓ｿ蛻ｩ

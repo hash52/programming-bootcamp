@@ -1,0 +1,113 @@
+---
+id: \"java/basics/03a_scanner#read_integer\"
+title: "謨ｴ謨ｰ繧定ｪｭ縺ｿ蜿悶ｌ繧・
+type: "WRITE"
+difficulty: "Easy"
+topicId: "03a_scanner"
+category: "java/basics"
+explanation: |
+  **nextInt()繝｡繧ｽ繝・ラ**繧剃ｽｿ縺・→縲∵ｨ呎ｺ門・蜉帙°繧画紛謨ｰ繧定ｪｭ縺ｿ蜿悶ｌ繧九・
+
+  ```java
+  Scanner scanner = new Scanner(System.in);
+  int number = scanner.nextInt();  // 謨ｴ謨ｰ縺ｮ蜈･蜉帙ｒ蠕・▽
+  ```
+
+  **nextInt()縺ｮ蜍穂ｽ・*・・
+  1. 繝ｦ繝ｼ繧ｶ繝ｼ縺梧紛謨ｰ繧貞・蜉帙＠縺ｦEnter繧ｭ繝ｼ繧呈款縺吶∪縺ｧ蠕・ｩ・
+  2. 蜈･蜉帙＆繧後◆謨ｰ蛟､繧蛋int`蝙九→縺励※蜿門ｾ・
+  3. 謨ｰ蛟､莉･螟悶′蜈･蜉帙＆繧後◆蝣ｴ蜷医・繧ｨ繝ｩ繝ｼ・・nputMismatchException・・
+
+  **菴ｿ縺・園**・・
+  - 蟷ｴ鮨｢繧・焚驥上↑縺ｩ縲∵紛謨ｰ縺ｮ縺ｿ繧定ｪｭ縺ｿ蜿悶ｋ
+  - 險育ｮ励↓菴ｿ縺・焚蛟､
+  - 繝ｦ繝ｼ繧ｶ繝ｼ縺ｮ驕ｸ謚櫁い・・, 2, 3縺ｪ縺ｩ・・
+
+  **豕ｨ諢冗せ**・・
+  - `nextInt()`縺ｮ蠕後↓`nextLine()`繧剃ｽｿ縺・ｴ蜷医・縲・俣縺ｫ`scanner.nextLine()`繧呈検繧蠢・ｦ√′縺ゅｋ
+
+  **隗｣遲比ｾ・*・・
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.print("1縺､逶ｮ縺ｮ謨ｰ蛟､繧貞・蜉帙＠縺ｦ縺上□縺輔＞: ");
+          int num1 = scanner.nextInt();
+
+          System.out.print("2縺､逶ｮ縺ｮ謨ｰ蛟､繧貞・蜉帙＠縺ｦ縺上□縺輔＞: ");
+          int num2 = scanner.nextInt();
+
+          int sum = num1 + num2;
+          System.out.println("蜷郁ｨ・ " + sum);
+      }
+  }
+  ```
+
+  **螳溯｡御ｾ・*・・
+  ```
+  1縺､逶ｮ縺ｮ謨ｰ蛟､繧貞・蜉帙＠縺ｦ縺上□縺輔＞: 10
+  2縺､逶ｮ縺ｮ謨ｰ蛟､繧貞・蜉帙＠縺ｦ縺上□縺輔＞: 25
+  蜷郁ｨ・ 35
+  ```
+
+  **蠢懃畑萓・*・・
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.println("=== 邁｡譏楢ｨ育ｮ玲ｩ・===");
+
+          System.out.print("1縺､逶ｮ縺ｮ謨ｰ蛟､: ");
+          int a = scanner.nextInt();
+
+          System.out.print("2縺､逶ｮ縺ｮ謨ｰ蛟､: ");
+          int b = scanner.nextInt();
+
+          System.out.println("\n=== 險育ｮ礼ｵ先棡 ===");
+          System.out.println(a + " + " + b + " = " + (a + b));
+          System.out.println(a + " - " + b + " = " + (a - b));
+          System.out.println(a + " * " + b + " = " + (a * b));
+          System.out.println(a + " / " + b + " = " + (a / b));
+          System.out.println(a + " % " + b + " = " + (a % b));
+      }
+  }
+  ```
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 蝠城｡・
+
+繝ｦ繝ｼ繧ｶ繝ｼ縺ｫ2縺､縺ｮ謨ｴ謨ｰ繧貞・蜉帙＠縺ｦ繧ゅｉ縺・√◎縺ｮ蜷郁ｨ医ｒ陦ｨ遉ｺ縺吶ｋ繝励Ο繧ｰ繝ｩ繝繧呈嶌縺・※螳溯｡後＠縺ｦ縺上□縺輔＞縲・
+
+**隕∽ｻｶ**・・
+- 縲・縺､逶ｮ縺ｮ謨ｰ蛟､繧貞・蜉帙＠縺ｦ縺上□縺輔＞: 縲阪→陦ｨ遉ｺ縺励※縲∵紛謨ｰ繧貞女縺大叙繧・
+- 縲・縺､逶ｮ縺ｮ謨ｰ蛟､繧貞・蜉帙＠縺ｦ縺上□縺輔＞: 縲阪→陦ｨ遉ｺ縺励※縲∵紛謨ｰ繧貞女縺大叙繧・
+- 縲悟粋險・ 縲・・阪→陦ｨ遉ｺ
+
+**螳溯｡檎腸蠅・*・・
+- 莉･荳九・OneCompiler・医ヶ繝ｩ繧ｦ繧ｶ荳翫〒螳溯｡悟庄閭ｽ・・
+- 縺ｾ縺溘・縲・clipse遲峨・IDE
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        // 縺薙％縺ｫ繧ｳ繝ｼ繝峨ｒ譖ｸ縺・※縺上□縺輔＞
+
+    }
+}`}
+/>
+
+**繝偵Φ繝・*・・
+- `scanner.nextInt()`縺ｧ謨ｴ謨ｰ繧定ｪｭ縺ｿ蜿悶ｋ
+- 2蝗樔ｽｿ縺｣縺ｦ2縺､縺ｮ謨ｴ謨ｰ繧貞挨縲・↓隱ｭ縺ｿ蜿悶ｋ
+- 蜷郁ｨ医ｒ險育ｮ励＠縺ｦ陦ｨ遉ｺ

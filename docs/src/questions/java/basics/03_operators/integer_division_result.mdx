@@ -1,0 +1,86 @@
+---
+id: "java/basics/03_operators#integer_division_result"
+title: "謨ｴ謨ｰ蜷悟｣ｫ縺ｮ蜑ｲ繧顔ｮ励・邨先棡繧定ｪｬ譏弱〒縺阪ｋ"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "03_operators"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "蟆乗焚轤ｹ莉･荳九∪縺ｧ豁｣遒ｺ縺ｫ險育ｮ励＆繧後ｋ"
+  - id: "B"
+    text: "蟆乗焚轤ｹ莉･荳九′蛻・ｊ謐ｨ縺ｦ繧峨ｌ縲∵紛謨ｰ縺ｮ縺ｿ縺梧ｮ九ｋ"
+  - id: "C"
+    text: "蟆乗焚轤ｹ莉･荳九′蝗帶昏莠泌・縺輔ｌ繧・
+  - id: "D"
+    text: "繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧・
+answers:
+  correct: ["B"]
+explanation: |
+  Java縺ｧ縺ｯ縲・*謨ｴ謨ｰ蜷悟｣ｫ縺ｮ蜑ｲ繧顔ｮ励・邨先棡縺ｯ謨ｴ謨ｰ縺ｫ縺ｪ繧翫∝ｰ乗焚轤ｹ莉･荳九・蛻・ｊ謐ｨ縺ｦ繧峨ｌ繧・*縲・
+
+  萓具ｼ・
+  ```java
+  int a = 5 / 2;  // 2・・.5縺ｧ縺ｯ縺ｪ縺・ｼ・
+  int b = 7 / 3;  // 2・・.333...縺ｧ縺ｯ縺ｪ縺・ｼ・
+  int c = 10 / 4;  // 2・・.5縺ｧ縺ｯ縺ｪ縺・ｼ・
+  ```
+
+  **蟆乗焚繧貞性繧險育ｮ励↓縺吶ｋ譁ｹ豕・*・・
+  - `double`蝙九ｒ菴ｿ縺・
+  - 蟆代↑縺上→繧・縺､縺ｮ謨ｰ蛟､繧蛋double`蝙九↓縺吶ｋ
+
+  ```java
+  double d = 5.0 / 2;  // 2.5
+  double e = 5 / 2.0;  // 2.5
+  double f = (double) 5 / 2;  // 2.5・医く繝｣繧ｹ繝茨ｼ・
+  ```
+---
+
+## 蝠城｡・
+
+Java縺ｧ`int`蝙句酔螢ｫ縺ｮ蜑ｲ繧顔ｮ励ｒ陦後▲縺溷ｴ蜷医∫ｵ先棡縺ｯ縺ｩ縺・↑繧九°縲よ怙繧る←蛻・↑繧ゅ・繧帝∈縺ｹ縲・
+
+## 隗｣隱ｬ
+
+謨ｴ謨ｰ蜷悟｣ｫ縺ｮ蜑ｲ繧顔ｮ励・縲・*蟆乗焚轤ｹ莉･荳九′蛻・ｊ謐ｨ縺ｦ繧峨ｌ縺ｦ謨ｴ謨ｰ縺ｫ縺ｪ繧・*縲・
+
+縺薙ｌ縺ｯ縲・*蜷後§蝙句酔螢ｫ縺ｮ貍皮ｮ礼ｵ先棡縺ｯ蜷後§蝙九↓縺ｪ繧・*縺ｨ縺・≧Java縺ｮ繝ｫ繝ｼ繝ｫ縺ｫ繧医ｋ繧ゅ・縺ｧ縺ゅｋ縲・
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        // int蝙句酔螢ｫ縺ｮ蜑ｲ繧顔ｮ・
+        int result1 = 5 / 2;
+        System.out.println("5 / 2 = " + result1);  // 2
+
+        int result2 = 7 / 3;
+        System.out.println("7 / 3 = " + result2);  // 2
+
+        // double蝙九ｒ菴ｿ縺｣縺溷牡繧顔ｮ・
+        double result3 = 5.0 / 2;
+        System.out.println("5.0 / 2 = " + result3);  // 2.5
+
+        double result4 = 5 / 2.0;
+        System.out.println("5 / 2.0 = " + result4);  // 2.5
+    }
+}`} />
+
+**驥崎ｦ√↑繝昴う繝ｳ繝・*・・
+- `5 / 2`縺ｯ`2`・亥ｰ乗焚轤ｹ莉･荳句・繧頑昏縺ｦ・・
+- `5.0 / 2`縺ｯ`2.5`・医←縺｡繧峨°縺慧ouble蝙九↑縺ｮ縺ｧ邨先棡繧Ｅouble蝙具ｼ・
+- 蟷ｳ蝮・､縺ｮ險育ｮ励↑縺ｩ縲∝ｰ乗焚縺悟ｿ・ｦ√↑蝣ｴ蜷医・`double`蝙九ｒ菴ｿ縺・
+
+**繧医￥縺ゅｋ髢馴＆縺・*・・
+```java
+int a = 5;
+int b = 2;
+double result = a / b;  // 縺薙ｌ縺ｯ2.0縺ｫ縺ｪ繧具ｼ・.5縺ｧ縺ｯ縺ｪ縺・ｼ・
+```
+荳願ｨ倥・繧ｳ繝ｼ繝峨・縲～a / b`縺ｮ譎らせ縺ｧ謨ｴ謨ｰ縺ｮ蜑ｲ繧顔ｮ暦ｼ育ｵ先棡2・峨↓縺ｪ繧翫√◎縺ｮ蠕形double`蝙九↓螟画鋤縺輔ｌ繧九◆繧√～2.0`縺ｫ縺ｪ繧九よｭ｣縺励￥縺ｯ莉･荳九・繧医≧縺ｫ縺吶ｋ・・
+```java
+double result = (double) a / b;  // 2.5
+```

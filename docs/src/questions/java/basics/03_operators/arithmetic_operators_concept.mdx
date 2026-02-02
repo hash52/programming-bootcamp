@@ -1,0 +1,73 @@
+---
+id: "java/basics/03_operators#arithmetic_operators_concept"
+title: "邂苓｡捺ｼ皮ｮ怜ｭ舌→縺ｯ菴輔°繧定ｪｬ譏弱〒縺阪ｋ"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03_operators"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "蝗帛援貍皮ｮ暦ｼ郁ｶｳ縺礼ｮ励・蠑輔″邂励・謗帙￠邂励・蜑ｲ繧顔ｮ暦ｼ峨ｄ蜑ｰ菴呎ｼ皮ｮ励ｒ陦後≧貍皮ｮ怜ｭ・
+  - id: "B"
+    text: "蛟､縺ｮ螟ｧ蟆上ｒ豈碑ｼ・☆繧区ｼ皮ｮ怜ｭ・
+  - id: "C"
+    text: "隍・焚縺ｮ譚｡莉ｶ繧堤ｵ・∩蜷医ｏ縺帙ｋ貍皮ｮ怜ｭ・
+  - id: "D"
+    text: "蛟､繧・蠅励ｄ縺励◆繧頑ｸ帙ｉ縺励◆繧翫☆繧区ｼ皮ｮ怜ｭ・
+answers:
+  correct: ["A"]
+explanation: |
+  **邂苓｡捺ｼ皮ｮ怜ｭ・*縺ｯ縲・*蝗帛援貍皮ｮ励ｄ蜑ｰ菴呎ｼ皮ｮ励ｒ陦後≧貍皮ｮ怜ｭ・*縺ｧ縺ゅｋ縲・
+
+  荳ｻ縺ｪ邂苓｡捺ｼ皮ｮ怜ｭ撰ｼ・
+  - `+`・郁ｶｳ縺礼ｮ暦ｼ・
+  - `-`・亥ｼ輔″邂暦ｼ・
+  - `*`・域寺縺醍ｮ暦ｼ・
+  - `/`・亥牡繧顔ｮ暦ｼ・
+  - `%`・亥臆菴呻ｼ壼牡繧顔ｮ励・菴吶ｊ・・
+
+  萓具ｼ・
+  ```java
+  int a = 10 + 5;  // 15
+  int b = 10 - 5;  // 5
+  int c = 10 * 5;  // 50
+  int d = 10 / 5;  // 2
+  int e = 10 % 3;  // 1・・0繧・縺ｧ蜑ｲ縺｣縺滉ｽ吶ｊ・・
+  ```
+---
+
+## 蝠城｡・
+
+邂苓｡捺ｼ皮ｮ怜ｭ舌・隱ｬ譏弱→縺励※譛繧る←蛻・↑繧ゅ・繧帝∈縺ｹ縲・
+
+## 隗｣隱ｬ
+
+邂苓｡捺ｼ皮ｮ怜ｭ舌・縲・*謨ｰ蛟､縺ｮ險育ｮ励ｒ陦後≧縺溘ａ縺ｮ貍皮ｮ怜ｭ・*縺ｧ縺ゅｋ縲・
+
+繝励Ο繧ｰ繝ｩ繝縺ｧ縺ｯ縲∽ｻ･荳九・繧医≧縺ｪ險育ｮ励ｒ鬆ｻ郢√↓陦後≧・・
+- 繝ｦ繝ｼ繧ｶ繝ｼ縺ｮ蜈･蜉帛､繧貞粋險医☆繧・
+- 蝠・刀縺ｮ萓｡譬ｼ繧定ｨ育ｮ励☆繧・
+- 繧ｲ繝ｼ繝縺ｮ繧ｹ繧ｳ繧｢繧貞刈邂励☆繧・
+
+縺薙・繧医≧縺ｪ險育ｮ励↓邂苓｡捺ｼ皮ｮ怜ｭ舌ｒ菴ｿ縺・・
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        int price = 100;
+        int quantity = 3;
+        int total = price * quantity;
+        System.out.println("蜷郁ｨ磯≡鬘・ " + total + "蜀・);
+
+        int change = 1000 - total;
+        System.out.println("縺企・繧・ " + change + "蜀・);
+    }
+}`} />
+
+**繧医￥縺ゅｋ髢馴＆縺・*・・
+- `*`・域寺縺醍ｮ暦ｼ峨ｒ`ﾃ輿縺ｨ譖ｸ縺・※縺励∪縺・
+- `/`・亥牡繧顔ｮ暦ｼ峨ｒ`ﾃｷ`縺ｨ譖ｸ縺・※縺励∪縺・
+- `%`・亥臆菴呻ｼ峨・諢丞袖繧堤炊隗｣縺励※縺・↑縺・

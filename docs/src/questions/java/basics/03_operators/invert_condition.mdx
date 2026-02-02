@@ -1,0 +1,104 @@
+---
+id: "java/basics/03_operators#invert_condition"
+title: "譚｡莉ｶ繧貞渚霆｢縺ｧ縺阪ｋ"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_operators"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["!", "・・]
+  blank2: ["!", "・・]
+sampleAnswer: "boolean isNotAdult = !isAdult;"
+explanation: |
+  **蜷ｦ螳壽ｼ皮ｮ怜ｭ・*・・!`・峨・縲・*譚｡莉ｶ繧貞渚霆｢縺輔○繧区ｼ皮ｮ怜ｭ・*縺ｧ縺ゅｋ縲・
+
+  - `true`繧蛋false`縺ｫ螟画鋤
+  - `false`繧蛋true`縺ｫ螟画鋤
+
+  萓具ｼ・
+  ```java
+  boolean isRaining = false;
+  boolean isNotRaining = !isRaining;  // true
+
+  boolean hasLicense = true;
+  boolean hasNoLicense = !hasLicense;  // false
+  ```
+
+  **蜷ｦ螳壽ｼ皮ｮ怜ｭ舌・菴ｿ縺・園**・・
+  - 縲後懊〒縺ｪ縺・阪→縺・≧譚｡莉ｶ繧定｡ｨ迴ｾ
+  - 譚｡莉ｶ繧帝・↓縺吶ｋ
+  - 繧ｨ繝ｩ繝ｼ繝√ぉ繝・け・医梧ｭ｣蟶ｸ縺ｧ縺ｪ縺・榊ｴ蜷医・蜃ｦ逅・ｼ・
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 蝠城｡・
+
+莉･荳九・繧ｳ繝ｼ繝峨・遨ｺ谺・ｒ蝓九ａ縺ｦ縲∝凄螳壽ｼ皮ｮ怜ｭ舌ｒ豁｣縺励￥菴ｿ縺｣縺ｦ縺上□縺輔＞縲・
+
+<CodeBlock>
+{`boolean isRaining = false;
+boolean hasUmbrella = true;
+
+// 髮ｨ縺碁剄縺｣縺ｦ縺・↑縺・
+boolean isNotRaining = `}<BlankInput id="blank1" />{`isRaining;
+
+// 蛯倥ｒ謖√▲縺ｦ縺・↑縺・
+boolean hasNoUmbrella = `}<BlankInput id="blank2" />{`hasUmbrella;`}
+</CodeBlock>
+
+**繝偵Φ繝・*・・
+- 蜷ｦ螳夲ｼ・OT・会ｼ啻!`
+
+---
+
+## 隗｣隱ｬ
+
+蜷ｦ螳壽ｼ皮ｮ怜ｭ撰ｼ・!`・峨ｒ菴ｿ縺・→縲・*逵溷⊃蛟､繧貞渚霆｢縺ｧ縺阪ｋ**縲・
+
+**蜷ｦ螳壽ｼ皮ｮ怜ｭ舌・逵溽炊蛟､陦ｨ**・・
+
+| A | !A |
+|---|----|
+| true | false |
+| false | true |
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        boolean isLoggedIn = false;
+
+        // 繝ｭ繧ｰ繧､繝ｳ縺励※縺・↑縺・
+        boolean isNotLoggedIn = !isLoggedIn;
+        System.out.println("繝ｭ繧ｰ繧､繝ｳ縺励※縺・↑縺・ " + isNotLoggedIn);  // true
+
+        // 繝ｭ繧ｰ繧､繝ｳ縺励※縺・ｋ
+        isLoggedIn = true;
+        isNotLoggedIn = !isLoggedIn;
+        System.out.println("繝ｭ繧ｰ繧､繝ｳ縺励※縺・↑縺・ " + isNotLoggedIn);  // false
+
+        // 隍・尅縺ｪ譚｡莉ｶ縺ｮ萓・
+        int age = 15;
+        boolean isAdult = age >= 18;
+        boolean isMinor = !isAdult;  // 譛ｪ謌仙ｹｴ
+        System.out.println("譛ｪ謌仙ｹｴ: " + isMinor);  // true
+    }
+}`} />
+
+**隲也炊貍皮ｮ怜ｭ舌→縺ｮ邨・∩蜷医ｏ縺・*・・
+
+```java
+boolean hasLicense = false;
+int age = 20;
+
+// 蟷ｴ鮨｢縺・8豁ｳ莉･荳・縺九▽ 蜈崎ｨｱ繧呈戟縺｣縺ｦ縺・↑縺・
+boolean needsLicense = age >= 18 && !hasLicense;  // true
+```
+
+**螳溽畑萓・*・・
+- 繧ｨ繝ｩ繝ｼ繝√ぉ繝・け・壹悟・蜉帙′遨ｺ縺ｧ縺ｪ縺・・竊・`!isEmpty`
+- 讓ｩ髯舌メ繧ｧ繝・け・壹檎ｮ｡逅・・〒縺ｪ縺・・竊・`!isAdmin`
+- 迥ｶ諷狗｢ｺ隱搾ｼ壹悟ｮ御ｺ・＠縺ｦ縺・↑縺・・竊・`!isCompleted`

@@ -1,0 +1,126 @@
+---
+id: \"java/basics/03b_random#random_from_array\"
+title: "驟榊・縺九ｉ繝ｩ繝ｳ繝繝縺ｫ驕ｸ縺ｶ繝励Ο繧ｰ繝ｩ繝繧呈嶌縺代ｋ"
+type: "WRITE"
+difficulty: "Medium"
+topicid: \"java/basics/03b_random#random_from_array\"
+category: "java/basics"
+explanation: |
+  **驟榊・縺九ｉ繝ｩ繝ｳ繝繝縺ｫ隕∫ｴ繧帝∈縺ｶ**縺ｫ縺ｯ縲√Λ繝ｳ繝繝縺ｪ繧､繝ｳ繝・ャ繧ｯ繧ｹ繧堤函謌舌☆繧九・
+
+  **蝓ｺ譛ｬ逧・↑閠・∴譁ｹ**・・
+  1. 驟榊・縺ｮ髟ｷ縺輔ｒ蜿門ｾ暦ｼ・array.length`・・
+  2. 0縲憺聞縺・1縺ｮ繝ｩ繝ｳ繝繝縺ｪ繧､繝ｳ繝・ャ繧ｯ繧ｹ繧堤函謌・
+  3. 縺昴・繧､繝ｳ繝・ャ繧ｯ繧ｹ縺ｮ隕∫ｴ繧貞叙蠕・
+
+  ```java
+  String[] fruits = {"繧翫ｓ縺・, "繝舌リ繝・, "縺ｿ縺九ｓ"};
+  int index = random.nextInt(fruits.length);  // 0, 1, 2縺ｮ縺・★繧後°
+  String selected = fruits[index];
+  ```
+
+  **繝昴う繝ｳ繝・*・・
+  - `fruits.length`縺ｯ驟榊・縺ｮ髟ｷ縺包ｼ医％縺ｮ萓九〒縺ｯ3・・
+  - `nextInt(3)`縺ｯ0縲・縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ
+  - 繧､繝ｳ繝・ャ繧ｯ繧ｹ縺ｯ0縺九ｉ蟋九∪繧九・縺ｧ縲～0縲徑ength-1`縺ｮ遽・峇縺梧ｭ｣縺励＞
+
+  **隗｣遲比ｾ・*・・
+  ```java
+  import java.util.Random;
+
+  public class Main {
+      public static void main(String[] args) {
+          Random random = new Random();
+
+          String[] fruits = {"繧翫ｓ縺・, "繝舌リ繝・, "縺ｿ縺九ｓ", "縺ｶ縺ｩ縺・, "縺・■縺・};
+
+          int index = random.nextInt(fruits.length);
+          String selected = fruits[index];
+
+          System.out.println("驕ｸ縺ｰ繧後◆譫懃黄: " + selected);
+      }
+  }
+  ```
+
+  **螳溯｡御ｾ・*・・
+  ```
+  驕ｸ縺ｰ繧後◆譫懃黄: 縺ｶ縺ｩ縺・
+  ```
+  ・域ｯ主屓逡ｰ縺ｪ繧区棡迚ｩ縺碁∈縺ｰ繧後ｋ・・
+
+  **蠢懃畑萓具ｼ医♀縺ｿ縺上§・・*・・
+  ```java
+  import java.util.Random;
+
+  public class Main {
+      public static void main(String[] args) {
+          Random random = new Random();
+
+          String[] fortunes = {"螟ｧ蜷・, "荳ｭ蜷・, "蟆丞翠", "蜷・, "譛ｫ蜷・, "蜃ｶ", "螟ｧ蜃ｶ"};
+
+          System.out.println("=== 縺翫∩縺上§ ===");
+          int index = random.nextInt(fortunes.length);
+          String result = fortunes[index];
+
+          System.out.println("縺ゅ↑縺溘・驕句兇: " + result);
+      }
+  }
+  ```
+
+  **蠢懃畑萓具ｼ郁､・焚蝗樣∈縺ｶ・・*・・
+  ```java
+  import java.util.Random;
+
+  public class Main {
+      public static void main(String[] args) {
+          Random random = new Random();
+
+          String[] colors = {"襍､", "髱・, "鮟・, "邱・, "邏ｫ", "繧ｪ繝ｬ繝ｳ繧ｸ"};
+
+          System.out.println("=== 3濶ｲ繝ｩ繝ｳ繝繝縺ｫ驕ｸ縺ｶ ===");
+          for (int i = 1; i <= 3; i++) {
+              int index = random.nextInt(colors.length);
+              String color = colors[index];
+              System.out.println(i + "逡ｪ逶ｮ: " + color);
+          }
+      }
+  }
+  ```
+
+  **豕ｨ諢・*・・
+  - 驟榊・縺ｮ繧､繝ｳ繝・ャ繧ｯ繧ｹ縺ｯ0縺九ｉ蟋九∪繧・
+  - `nextInt(length)`縺ｯ0縲徑ength-1縺ｮ遽・峇
+  - 驟榊・縺ｮ髟ｷ縺輔′0縺ｮ蝣ｴ蜷医～nextInt(0)`縺ｯ繧ｨ繝ｩ繝ｼ縺ｫ縺ｪ繧・
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 蝠城｡・
+
+驟榊・縺九ｉ繝ｩ繝ｳ繝繝縺ｫ隕∫ｴ繧帝∈繧薙〒陦ｨ遉ｺ縺吶ｋ繝励Ο繧ｰ繝ｩ繝繧呈嶌縺・※螳溯｡後＠縺ｦ縺上□縺輔＞縲・
+
+**隕∽ｻｶ**・・
+- 譁・ｭ怜・縺ｮ驟榊・繧剃ｽ懈・・井ｾ具ｼ壽棡迚ｩ縲∝虚迚ｩ縲∬牡縺ｪ縺ｩ・・
+- 驟榊・縺九ｉ繝ｩ繝ｳ繝繝縺ｫ1縺､驕ｸ縺ｶ
+- 驕ｸ縺ｰ繧後◆隕∫ｴ繧定｡ｨ遉ｺ
+
+**螳溯｡檎腸蠅・*・・
+- 莉･荳九・OneCompiler・医ヶ繝ｩ繧ｦ繧ｶ荳翫〒螳溯｡悟庄閭ｽ・・
+- 縺ｾ縺溘・縲・clipse遲峨・IDE
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        // 縺薙％縺ｫ繧ｳ繝ｼ繝峨ｒ譖ｸ縺・※縺上□縺輔＞
+
+    }
+}`}
+/>
+
+**繝偵Φ繝・*・・
+- 驟榊・繧剃ｽ懈・・啻String[] items = {"A", "B", "C"};`
+- 繝ｩ繝ｳ繝繝縺ｪ繧､繝ｳ繝・ャ繧ｯ繧ｹ・啻random.nextInt(items.length)`
+- 隕∫ｴ繧貞叙蠕暦ｼ啻items[index]`

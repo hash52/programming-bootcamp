@@ -1,0 +1,74 @@
+---
+id: "java/basics/03_operators#comparison_operators_concept"
+title: "豈碑ｼ・ｼ皮ｮ怜ｭ舌→縺ｯ菴輔°繧定ｪｬ譏弱〒縺阪ｋ"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03_operators"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "蝗帛援貍皮ｮ励ｒ陦後≧貍皮ｮ怜ｭ・
+  - id: "B"
+    text: "蛟､縺ｮ螟ｧ蟆上ｄ遲峨＠縺・°縺ｩ縺・°繧呈ｯ碑ｼ・＠縲∫ｵ先棡繧堤悄蛛ｽ蛟､・・rue/false・峨〒霑斐☆貍皮ｮ怜ｭ・
+  - id: "C"
+    text: "隍・焚縺ｮ譚｡莉ｶ繧堤ｵ・∩蜷医ｏ縺帙ｋ貍皮ｮ怜ｭ・
+  - id: "D"
+    text: "蛟､縺ｫ1繧定ｶｳ縺励◆繧雁ｼ輔＞縺溘ｊ縺吶ｋ貍皮ｮ怜ｭ・
+answers:
+  correct: ["B"]
+explanation: |
+  **豈碑ｼ・ｼ皮ｮ怜ｭ・*縺ｯ縲・*蛟､縺ｮ螟ｧ蟆上ｄ遲峨＠縺・°縺ｩ縺・°繧呈ｯ碑ｼ・＠縲∫ｵ先棡繧堤悄蛛ｽ蛟､・・rue/false・峨〒霑斐☆貍皮ｮ怜ｭ・*縺ｧ縺ゅｋ縲・
+
+  荳ｻ縺ｪ豈碑ｼ・ｼ皮ｮ怜ｭ撰ｼ・
+  - `==`・育ｭ峨＠縺・ｼ・
+  - `!=`・育ｭ峨＠縺上↑縺・ｼ・
+  - `<`・医ｈ繧雁ｰ上＆縺・ｼ・
+  - `>`・医ｈ繧雁､ｧ縺阪＞・・
+  - `<=`・井ｻ･荳具ｼ・
+  - `>=`・井ｻ･荳奇ｼ・
+
+  萓具ｼ・
+  ```java
+  int age = 20;
+  boolean isAdult = age >= 18;  // true
+  boolean isTeenager = age < 20;  // false
+  ```
+---
+
+## 蝠城｡・
+
+豈碑ｼ・ｼ皮ｮ怜ｭ舌・隱ｬ譏弱→縺励※譛繧る←蛻・↑繧ゅ・繧帝∈縺ｹ縲・
+
+## 隗｣隱ｬ
+
+豈碑ｼ・ｼ皮ｮ怜ｭ舌・縲・*蛟､繧呈ｯ碑ｼ・＠縺ｦ縲√◎縺ｮ邨先棡繧堤悄蛛ｽ蛟､・・rue/false・峨〒霑斐☆貍皮ｮ怜ｭ・*縺ｧ縺ゅｋ縲・
+
+繝励Ο繧ｰ繝ｩ繝縺ｧ縺ｯ縲∽ｻ･荳九・繧医≧縺ｪ蛻､螳壹ｒ陦後≧縺薙→縺悟､壹＞・・
+- 繝ｦ繝ｼ繧ｶ繝ｼ縺ｮ蟷ｴ鮨｢縺・8豁ｳ莉･荳翫°
+- 蜈･蜉帙＆繧後◆蛟､縺梧ｭ｣縺ｮ謨ｰ縺・
+- 繝代せ繝ｯ繝ｼ繝峨′荳閾ｴ縺吶ｋ縺・
+
+縺薙・繧医≧縺ｪ蛻､螳壹↓豈碑ｼ・ｼ皮ｮ怜ｭ舌ｒ菴ｿ縺・・
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        int score = 85;
+
+        boolean isPerfect = score == 100;
+        System.out.println("貅轤ｹ縺・ " + isPerfect);  // false
+
+        boolean isPassing = score >= 60;
+        System.out.println("蜷域ｼ縺・ " + isPassing);  // true
+
+        boolean isFailing = score < 60;
+        System.out.println("荳榊粋譬ｼ縺・ " + isFailing);  // false
+    }
+}`} />
+
+**驥崎ｦ√↑豕ｨ諢冗せ**・・
+- **遲峨＠縺・°縺ｩ縺・°縺ｮ豈碑ｼ・・`==`・・縺､縺ｮ繧､繧ｳ繝ｼ繝ｫ・・*繧剃ｽｿ縺・
+- `=`・・縺､縺ｮ繧､繧ｳ繝ｼ繝ｫ・峨・莉｣蜈･貍皮ｮ怜ｭ舌↑縺ｮ縺ｧ縲∵ｯ碑ｼ・↓縺ｯ菴ｿ縺医↑縺・

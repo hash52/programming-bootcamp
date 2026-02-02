@@ -1,0 +1,101 @@
+---
+id: "java/basics/03_operators#read_calculation_result"
+title: "險育ｮ怜ｼ上・邨先棡繧剃ｺ域ｸｬ縺ｧ縺阪ｋ"
+type: "READ"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "03_operators"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "15"
+  - id: "B"
+    text: "20"
+  - id: "C"
+    text: "25"
+  - id: "D"
+    text: "30"
+answers:
+  correct: ["B"]
+explanation: |
+  縺薙・繧ｳ繝ｼ繝峨ｒ1陦後★縺､霑ｽ縺｣縺ｦ縺・￥縺ｨ・・
+
+  1. `int a = 5;` 竊・a縺ｯ5
+  2. `int b = 10;` 竊・b縺ｯ10
+  3. `a += 5;` 竊・a縺ｯ`5 + 5`縺ｧ10縺ｫ縺ｪ繧・
+  4. `b -= 3;` 竊・b縺ｯ`10 - 3`縺ｧ7縺ｫ縺ｪ繧・
+  5. `int result = a + b;` 竊・result縺ｯ`10 + 7`縺ｧ17縺ｫ縺ｪ繧・
+  6. `result += 3;` 竊・result縺ｯ`17 + 3`縺ｧ**20**縺ｫ縺ｪ繧・
+
+  **繝昴う繝ｳ繝・*・・
+  - `+=`縺ｯ蜉邂励＠縺ｦ莉｣蜈･・・a += 5`縺ｯ`a = a + 5`縺ｨ蜷後§・・
+  - `-=`縺ｯ貂帷ｮ励＠縺ｦ莉｣蜈･・・b -= 3`縺ｯ`b = b - 3`縺ｨ蜷後§・・
+  - 1陦後★縺､螟画焚縺ｮ蛟､繧定ｿｽ縺｣縺ｦ縺・￥縺薙→縺碁㍾隕・
+---
+
+## 蝠城｡・
+
+莉･荳九・Java繧ｳ繝ｼ繝峨ｒ螳溯｡後＠縺溷ｴ蜷医∵怙蠕後↓螟画焚`result`縺ｫ譬ｼ邏阪＆繧後ｋ蛟､縺ｯ縺・￥縺､縺九・
+
+```java
+int a = 5;
+int b = 10;
+a += 5;
+b -= 3;
+int result = a + b;
+result += 3;
+System.out.println(result);
+```
+
+## 隗｣隱ｬ
+
+險育ｮ怜ｼ上・邨先棡繧剃ｺ域ｸｬ縺吶ｋ縺ｫ縺ｯ縲・*1陦後★縺､螟画焚縺ｮ蛟､縺後←縺・､牙喧縺吶ｋ縺九ｒ霑ｽ縺｣縺ｦ縺・￥**縺薙→縺碁㍾隕√〒縺ゅｋ縲・
+
+**螟画焚縺ｮ蛟､縺ｮ螟牙喧繧定｡ｨ縺ｫ縺ｾ縺ｨ繧√ｋ**・・
+
+| 繧ｹ繝・ャ繝・| 繧ｳ繝ｼ繝・| a | b | result |
+|---------|--------|---|---|--------|
+| 1 | `int a = 5;` | 5 | - | - |
+| 2 | `int b = 10;` | 5 | 10 | - |
+| 3 | `a += 5;` | 10 | 10 | - |
+| 4 | `b -= 3;` | 10 | 7 | - |
+| 5 | `int result = a + b;` | 10 | 7 | 17 |
+| 6 | `result += 3;` | 10 | 7 | **20** |
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        int a = 5;
+        int b = 10;
+        System.out.println("蛻晄悄蛟､: a=" + a + ", b=" + b);
+
+        a += 5;
+        System.out.println("a += 5蠕・ a=" + a);
+
+        b -= 3;
+        System.out.println("b -= 3蠕・ b=" + b);
+
+        int result = a + b;
+        System.out.println("result = a + b: result=" + result);
+
+        result += 3;
+        System.out.println("result += 3蠕・ result=" + result);
+    }
+}`} />
+
+**螳溯｡檎ｵ先棡**・・
+```
+蛻晄悄蛟､: a=5, b=10
+a += 5蠕・ a=10
+b -= 3蠕・ b=7
+result = a + b: result=17
+result += 3蠕・ result=20
+```
+
+**繧ｳ繝ｼ繝峨ｒ隱ｭ繧髫帙・繧ｳ繝・*・・
+1. 螟画焚縺ｮ蛻晄悄蛟､繧堤｢ｺ隱・
+2. 1陦後★縺､螳溯｡後＠縺ｦ縲∝､画焚縺後←縺・､牙喧縺吶ｋ縺九ｒ霑ｽ縺・
+3. 隍・尅縺ｪ蠑上・縲∝ｰ上＆縺ｪ驛ｨ蛻・↓蛻・￠縺ｦ閠・∴繧・
+4. 陦ｨ繧・Γ繝｢繧剃ｽｿ縺｣縺ｦ螟画焚縺ｮ蛟､繧定ｨ倬鹸縺吶ｋ

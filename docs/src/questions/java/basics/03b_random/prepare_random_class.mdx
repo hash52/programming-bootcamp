@@ -1,0 +1,98 @@
+---
+id: \"java/basics/03b_random#prepare_random_class\"
+title: "Randomクラスを使ぁE��備ができる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicid: \"java/basics/03b_random#prepare_random_class\"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["import java.util.Random;", "import java.util.Random", "import  java.util.Random;"]
+  blank2: ["Random", "random"]
+  blank3: ["new Random()", "new Random();", "new  Random()"]
+sampleAnswer: "Random random = new Random();"
+explanation: |
+  **Randomクラスを使ぁE��備**には、以下�E2つのスチE��プが忁E��である�E�E
+
+  1. **import斁E��Randomクラスをインポ�EチE*
+     ```java
+     import java.util.Random;
+     ```
+
+  2. **Randomオブジェクトを作�E**
+     ```java
+     Random random = new Random();
+     ```
+
+  **ポインチE*�E�E
+  - `import`斁E�Eファイルの先頭�E�Eackageの次、classの前）に書ぁE
+  - Randomオブジェクト�E通常、変数名を`random`とする�E��E習！E
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 問顁E
+
+以下�Eコード�E空欁E��埋めて、Randomクラスを使ぁE��備を完�Eさせてください、E
+
+<CodeBlock>
+<BlankInput id="blank1" />
+{`
+
+public class Main {
+    public static void main(String[] args) {
+        `}<BlankInput id="blank2" />{` random = `}<BlankInput id="blank3" />{`;
+
+        // ここから乱数が使える
+    }
+}`}
+</CodeBlock>
+
+**ヒンチE*�E�E
+- import斁E��`import java.util.Random;`
+- クラス名：`Random`
+- オブジェクト作�E�E�`new Random()`
+
+---
+
+## 解説
+
+Randomクラスを使ぁE��は、E*Randomクラスをインポ�Eトして、Randomオブジェクトを作�Eする**忁E��がある、E
+
+**手頁E�E詳細**�E�E
+
+1. **import斁E��記述**
+   ```java
+   import java.util.Random;  // ファイルの先頭
+   ```
+   - `java.util`パッケージの`Random`クラスを使ぁE��とを宣言
+
+2. **Randomオブジェクトを作�E**
+   ```java
+   Random random = new Random();
+   ```
+   - `Random`�E�クラス吁E
+   - `random`�E�変数名（任意だが、小文字で始める�Eが�E習！E
+   - `new Random()`�E�Randomオブジェクトを作�E
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        // Randomオブジェクトを作�E
+        Random random = new Random();
+
+        // 乱数を使った�E琁E
+        int number = random.nextInt(100);
+        System.out.println("ランダムな数: " + number);
+    }
+}`} />
+
+**よくある間違ぁE*�E�E
+- ❁E`import Random;`�E�パチE��ージ名が忁E��E��E
+- ✁E`import java.util.Random;`
+- ❁E`Random random = Random();`�E�Enew`が忁E��E��E
+- ✁E`Random random = new Random();`

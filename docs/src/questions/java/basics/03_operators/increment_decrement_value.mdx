@@ -1,0 +1,102 @@
+---
+id: "java/basics/03_operators#increment_decrement_value"
+title: "蛟､繧・蠅励ｄ縺吶・貂帙ｉ縺吶％縺ｨ縺後〒縺阪ｋ"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_operators"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["++", "+ +"]
+  blank2: ["--", "- -"]
+sampleAnswer: "count++;"
+explanation: |
+  **繧､繝ｳ繧ｯ繝ｪ繝｡繝ｳ繝域ｼ皮ｮ怜ｭ・*・・++`・峨→**繝・け繝ｪ繝｡繝ｳ繝域ｼ皮ｮ怜ｭ・*・・--`・峨・縲∝､繧・蠅励ｄ縺励◆繧頑ｸ帙ｉ縺励◆繧翫☆繧区ｼ皮ｮ怜ｭ舌〒縺ゅｋ縲・
+
+  - `count++`・喞ount繧・蠅励ｄ縺呻ｼ・count = count + 1`縺ｨ蜷後§・・
+  - `count--`・喞ount繧・貂帙ｉ縺呻ｼ・count = count - 1`縺ｨ蜷後§・・
+
+  萓具ｼ・
+  ```java
+  int count = 0;
+  count++;  // count縺・縺ｫ縺ｪ繧・
+  count++;  // count縺・縺ｫ縺ｪ繧・
+  count--;  // count縺・縺ｫ縺ｪ繧・
+  ```
+
+  **繧､繝ｳ繧ｯ繝ｪ繝｡繝ｳ繝医・繝・け繝ｪ繝｡繝ｳ繝域ｼ皮ｮ怜ｭ舌・菴ｿ縺・園**・・
+  - 繧ｫ繧ｦ繝ｳ繧ｿ繝ｼ繧・縺壹▽蠅励ｄ縺・
+  - 繝ｫ繝ｼ繝励〒蝗樊焚繧呈焚縺医ｋ
+  - 蝨ｨ蠎ｫ謨ｰ繧・貂帙ｉ縺・
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 蝠城｡・
+
+莉･荳九・繧ｳ繝ｼ繝峨・遨ｺ谺・ｒ蝓九ａ縺ｦ縲√う繝ｳ繧ｯ繝ｪ繝｡繝ｳ繝医・繝・け繝ｪ繝｡繝ｳ繝域ｼ皮ｮ怜ｭ舌ｒ豁｣縺励￥菴ｿ縺｣縺ｦ縺上□縺輔＞縲・
+
+<CodeBlock>
+{`int score = 10;
+int lives = 3;
+
+// 繧ｹ繧ｳ繧｢繧・蠅励ｄ縺・
+score`}<BlankInput id="blank1" />{`;
+
+// 繝ｩ繧､繝輔ｒ1貂帙ｉ縺・
+lives`}<BlankInput id="blank2" />{`;`}
+</CodeBlock>
+
+**繝偵Φ繝・*・・
+- 1蠅励ｄ縺呻ｼ啻++`
+- 1貂帙ｉ縺呻ｼ啻--`
+
+---
+
+## 隗｣隱ｬ
+
+繧､繝ｳ繧ｯ繝ｪ繝｡繝ｳ繝医・繝・け繝ｪ繝｡繝ｳ繝域ｼ皮ｮ怜ｭ舌ｒ菴ｿ縺・→縲・*蛟､繧・蠅玲ｸ帙＆縺帙ｋ蜃ｦ逅・ｒ邁｡貎斐↓譖ｸ縺代ｋ**縲・
+
+**騾壼ｸｸ縺ｮ譖ｸ縺肴婿縺ｨ縺ｮ豈碑ｼ・*・・
+
+| 騾壼ｸｸ縺ｮ譖ｸ縺肴婿 | 繧､繝ｳ繧ｯ繝ｪ繝｡繝ｳ繝医・繝・け繝ｪ繝｡繝ｳ繝・|
+|-------------|---------------------------|
+| `count = count + 1` | `count++` |
+| `count = count - 1` | `count--` |
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        int score = 0;
+        System.out.println("蛻晄悄繧ｹ繧ｳ繧｢: " + score);
+
+        // 謨ｵ繧貞偵＠縺ｦ繧ｹ繧ｳ繧｢繧・蠅励ｄ縺・
+        score++;
+        System.out.println("謨ｵ繧貞偵＠縺溷ｾ・ " + score);  // 1
+
+        score++;
+        System.out.println("繧ゅ≧1菴灘偵＠縺溷ｾ・ " + score);  // 2
+
+        // 繝ｩ繧､繝輔・萓・
+        int lives = 3;
+        System.out.println("\\n蛻晄悄繝ｩ繧､繝・ " + lives);
+
+        // 繝繝｡繝ｼ繧ｸ繧貞女縺代※繝ｩ繧､繝輔ｒ1貂帙ｉ縺・
+        lives--;
+        System.out.println("繝繝｡繝ｼ繧ｸ蠕・ " + lives);  // 2
+
+        lives--;
+        System.out.println("縺輔ｉ縺ｫ繝繝｡繝ｼ繧ｸ蠕・ " + lives);  // 1
+    }
+}`} />
+
+**螳溽畑萓・*・・
+- 繧ｲ繝ｼ繝縺ｮ繧ｹ繧ｳ繧｢蜉邂暦ｼ啻score++;`
+- 蝠・刀縺ｮ蝨ｨ蠎ｫ貂帛ｰ托ｼ啻stock--;`
+- 繝ｫ繝ｼ繝励き繧ｦ繝ｳ繧ｿ繝ｼ・啻i++`・・or譁・〒鬆ｻ郢√↓菴ｿ縺・ｼ・
+
+**陬懆ｶｳ**・・
+- 蜑咲ｽｮ・・++count`・峨→蠕檎ｽｮ・・count++`・峨・驕輔＞縺後≠繧九′縲∝腰迢ｬ縺ｧ菴ｿ縺・ｴ蜷医・蜷後§
+- 蠑上・荳ｭ縺ｧ菴ｿ縺・ｴ蜷医・縺ｿ縲∝燕鄂ｮ縺ｨ蠕檎ｽｮ縺ｧ蜍穂ｽ懊′逡ｰ縺ｪ繧具ｼ郁ｩｳ邏ｰ縺ｯ蠢懃畑邱ｨ縺ｧ蟄ｦ鄙抵ｼ・

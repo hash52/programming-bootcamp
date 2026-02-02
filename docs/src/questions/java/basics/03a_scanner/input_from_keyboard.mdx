@@ -1,0 +1,97 @@
+---
+id: \"java/basics/03a_scanner#input_from_keyboard\"
+title: "繧ｭ繝ｼ繝懊・繝峨°繧画枚蟄励ｒ蜈･蜉帙〒縺阪ｋ"
+type: "WRITE"
+difficulty: "Easy"
+topicId: "03a_scanner"
+category: "java/basics"
+explanation: |
+  **讓呎ｺ門・蜉・*繧剃ｽｿ縺・→縲√・繝ｭ繧ｰ繝ｩ繝螳溯｡御ｸｭ縺ｫ繝ｦ繝ｼ繧ｶ繝ｼ縺後く繝ｼ繝懊・繝峨°繧画枚蟄励ｒ蜈･蜉帙〒縺阪ｋ縲・
+
+  **蝓ｺ譛ｬ逧・↑豬√ｌ**・・
+  1. `Scanner`繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ菴懈・
+  2. `nextLine()`繝｡繧ｽ繝・ラ縺ｧ1陦後ｒ隱ｭ縺ｿ蜿悶ｋ
+  3. 隱ｭ縺ｿ蜿悶▲縺滓枚蟄怜・繧貞､画焚縺ｫ譬ｼ邏・
+  4. 螟画焚繧剃ｽｿ縺｣縺ｦ蜃ｦ逅・ｄ陦ｨ遉ｺ繧定｡後≧
+
+  **繝昴う繝ｳ繝・*・・
+  - `import java.util.Scanner;`縺ｧScanner繧ｯ繝ｩ繧ｹ繧偵う繝ｳ繝昴・繝・
+  - `Scanner scanner = new Scanner(System.in);`縺ｧScanner繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ菴懈・
+  - `scanner.nextLine()`縺ｧ1陦後ｒ隱ｭ縺ｿ蜿悶ｋ
+  - 繝ｦ繝ｼ繧ｶ繝ｼ縺窪nter繧ｭ繝ｼ繧呈款縺吶∪縺ｧ蜈･蜉帛ｾ・■縺ｫ縺ｪ繧・
+
+  **隗｣遲比ｾ・*・・
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.print("螂ｽ縺阪↑鬟溘∋迚ｩ繧貞・蜉帙＠縺ｦ縺上□縺輔＞: ");
+          String food = scanner.nextLine();
+
+          System.out.println("縺ゅ↑縺溘・螂ｽ縺阪↑鬟溘∋迚ｩ縺ｯ" + food + "縺ｧ縺吶・・・);
+      }
+  }
+  ```
+
+  **螳溯｡御ｾ・*・・
+  ```
+  螂ｽ縺阪↑鬟溘∋迚ｩ繧貞・蜉帙＠縺ｦ縺上□縺輔＞: 繧ｫ繝ｬ繝ｼ
+  縺ゅ↑縺溘・螂ｽ縺阪↑鬟溘∋迚ｩ縺ｯ繧ｫ繝ｬ繝ｼ縺ｧ縺吶・・・
+  ```
+
+  **蠢懃畑萓・*・・
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.print("縺ゅ↑縺溘・蜷榊燕繧貞・蜉帙＠縺ｦ縺上□縺輔＞: ");
+          String name = scanner.nextLine();
+
+          System.out.print("縺ゅ↑縺溘・蜃ｺ霄ｫ蝨ｰ繧貞・蜉帙＠縺ｦ縺上□縺輔＞: ");
+          String hometown = scanner.nextLine();
+
+          System.out.println("\n=== 閾ｪ蟾ｱ邏ｹ莉・===");
+          System.out.println("蜷榊燕: " + name);
+          System.out.println("蜃ｺ霄ｫ蝨ｰ: " + hometown);
+      }
+  }
+  ```
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 蝠城｡・
+
+繝ｦ繝ｼ繧ｶ繝ｼ縺ｫ螂ｽ縺阪↑鬟溘∋迚ｩ繧貞・蜉帙＠縺ｦ繧ゅｉ縺・√◎繧後ｒ陦ｨ遉ｺ縺吶ｋ繝励Ο繧ｰ繝ｩ繝繧呈嶌縺・※螳溯｡後＠縺ｦ縺上□縺輔＞縲・
+
+**隕∽ｻｶ**・・
+- 縲悟･ｽ縺阪↑鬟溘∋迚ｩ繧貞・蜉帙＠縺ｦ縺上□縺輔＞: 縲阪→陦ｨ遉ｺ
+- 繝ｦ繝ｼ繧ｶ繝ｼ縺ｮ蜈･蜉帙ｒ蜿励￠蜿悶ｋ
+- 縲後≠縺ｪ縺溘・螂ｽ縺阪↑鬟溘∋迚ｩ縺ｯ縲・・〒縺吶・・√阪→陦ｨ遉ｺ
+
+**螳溯｡檎腸蠅・*・・
+- 莉･荳九・OneCompiler・医ヶ繝ｩ繧ｦ繧ｶ荳翫〒螳溯｡悟庄閭ｽ・・
+- 縺ｾ縺溘・縲・clipse遲峨・IDE
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        // 縺薙％縺ｫ繧ｳ繝ｼ繝峨ｒ譖ｸ縺・※縺上□縺輔＞
+
+    }
+}`}
+/>
+
+**繝偵Φ繝・*・・
+- `Scanner scanner = new Scanner(System.in);`縺ｧScanner繧剃ｽ懈・
+- `System.out.print()`縺ｧ蜈･蜉帙ｒ菫・☆繝｡繝・そ繝ｼ繧ｸ繧定｡ｨ遉ｺ
+- `scanner.nextLine()`縺ｧ1陦後ｒ隱ｭ縺ｿ蜿悶ｋ

@@ -1,0 +1,91 @@
+---
+id: \"java/basics/03b_random#generate_random_number\"
+title: "繝ｩ繝ｳ繝繝縺ｪ謨ｰ繧剃ｽ懊ｌ繧・
+type: "WRITE"
+difficulty: "Easy"
+topicid: \"java/basics/03b_random#generate_random_number\"
+category: "java/basics"
+explanation: |
+  **Random繧ｯ繝ｩ繧ｹ**繧剃ｽｿ縺・→縲√Λ繝ｳ繝繝縺ｪ謨ｰ繧堤ｰ｡蜊倥↓逕滓・縺ｧ縺阪ｋ縲・
+
+  **蝓ｺ譛ｬ逧・↑豬√ｌ**・・
+  1. `Random`繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ菴懈・
+  2. `nextInt(n)`繝｡繧ｽ繝・ラ縺ｧ0縲從-1縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧貞叙蠕・
+
+  **繝昴う繝ｳ繝・*・・
+  - `import java.util.Random;`縺ｧRandom繧ｯ繝ｩ繧ｹ繧偵う繝ｳ繝昴・繝・
+  - `Random random = new Random();`縺ｧRandom繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ菴懈・
+  - `random.nextInt(n)`縺ｧ荵ｱ謨ｰ繧貞叙蠕・
+
+  **隗｣遲比ｾ・*・・
+  ```java
+  import java.util.Random;
+
+  public class Main {
+      public static void main(String[] args) {
+          Random random = new Random();
+
+          System.out.println("繧ｵ繧､繧ｳ繝ｭ繧呈険繧翫∪縺・..");
+          int dice = 1 + random.nextInt(6);
+          System.out.println("蜃ｺ逶ｮ: " + dice);
+      }
+  }
+  ```
+
+  **螳溯｡御ｾ・*・・
+  ```
+  繧ｵ繧､繧ｳ繝ｭ繧呈険繧翫∪縺・..
+  蜃ｺ逶ｮ: 4
+  ```
+  ・域ｯ主屓逡ｰ縺ｪ繧句､縺瑚｡ｨ遉ｺ縺輔ｌ繧具ｼ・
+
+  **蠢懃畑萓・*・・
+  ```java
+  import java.util.Random;
+
+  public class Main {
+      public static void main(String[] args) {
+          Random random = new Random();
+
+          System.out.println("=== 2縺､縺ｮ繧ｵ繧､繧ｳ繝ｭ繧呈険繧・===");
+          int dice1 = 1 + random.nextInt(6);
+          int dice2 = 1 + random.nextInt(6);
+
+          System.out.println("繧ｵ繧､繧ｳ繝ｭ1: " + dice1);
+          System.out.println("繧ｵ繧､繧ｳ繝ｭ2: " + dice2);
+          System.out.println("蜷郁ｨ・ " + (dice1 + dice2));
+      }
+  }
+  ```
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 蝠城｡・
+
+繧ｵ繧､繧ｳ繝ｭ繧呈険繧九・繝ｭ繧ｰ繝ｩ繝・・縲・縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧定｡ｨ遉ｺ・峨ｒ譖ｸ縺・※螳溯｡後＠縺ｦ縺上□縺輔＞縲・
+
+**隕∽ｻｶ**・・
+- 縲後し繧､繧ｳ繝ｭ繧呈険繧翫∪縺・..縲阪→陦ｨ遉ｺ
+- 1縲・縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧堤函謌・
+- 縲悟・逶ｮ: 縲・阪→陦ｨ遉ｺ
+
+**螳溯｡檎腸蠅・*・・
+- 莉･荳九・OneCompiler・医ヶ繝ｩ繧ｦ繧ｶ荳翫〒螳溯｡悟庄閭ｽ・・
+- 縺ｾ縺溘・縲・clipse遲峨・IDE
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        // 縺薙％縺ｫ繧ｳ繝ｼ繝峨ｒ譖ｸ縺・※縺上□縺輔＞
+
+    }
+}`}
+/>
+
+**繝偵Φ繝・*・・
+- `Random random = new Random();`縺ｧRandom繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ菴懈・
+- `1 + random.nextInt(6)`縺ｧ1縲・縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ

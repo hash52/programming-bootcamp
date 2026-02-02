@@ -1,0 +1,161 @@
+---
+id: \"java/basics/03a_scanner#handle_invalid_input\"
+title: "謨ｰ蟄嶺ｻ･螟悶′蜈･蜉帙＆繧後◆譎ゅ・蟇ｾ蜃ｦ縺後〒縺阪ｋ"
+type: "WRITE"
+difficulty: "Medium"
+topicId: "03a_scanner"
+category: "java/basics"
+explanation: |
+  **謨ｰ蛟､繧呈悄蠕・＠縺ｦ縺・ｋ縺ｮ縺ｫ譁・ｭ怜・縺悟・蜉帙＆繧後◆蝣ｴ蜷・*縲～InputMismatchException`縺檎匱逕溘☆繧九・
+
+  ```java
+  Scanner scanner = new Scanner(System.in);
+  int age = scanner.nextInt();  // "abc"縺ｨ蜈･蜉・竊・繧ｨ繝ｩ繝ｼ・・
+  ```
+
+  **蟇ｾ蜃ｦ譁ｹ豕・*・・
+  1. **try-catch譁・〒萓句､悶ｒ謐墓拷**・域耳螂ｨ・・
+  2. **hasNextInt()縺ｧ莠句燕縺ｫ繝√ぉ繝・け**
+
+  **try-catch譁・ｒ菴ｿ縺｣縺溷ｯｾ蜃ｦ**・・
+  ```java
+  try {
+      int age = scanner.nextInt();
+      System.out.println("蟷ｴ鮨｢: " + age);
+  } catch (InputMismatchException e) {
+      System.out.println("繧ｨ繝ｩ繝ｼ: 謨ｰ蛟､繧貞・蜉帙＠縺ｦ縺上□縺輔＞");
+  }
+  ```
+
+  **hasNextInt()繧剃ｽｿ縺｣縺溷ｯｾ蜃ｦ**・・
+  ```java
+  if (scanner.hasNextInt()) {
+      int age = scanner.nextInt();
+      System.out.println("蟷ｴ鮨｢: " + age);
+  } else {
+      System.out.println("繧ｨ繝ｩ繝ｼ: 謨ｰ蛟､繧貞・蜉帙＠縺ｦ縺上□縺輔＞");
+  }
+  ```
+
+  **隗｣遲比ｾ具ｼ・ry-catch迚茨ｼ・*・・
+  ```java
+  import java.util.Scanner;
+  import java.util.InputMismatchException;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.print("謨ｴ謨ｰ繧貞・蜉帙＠縺ｦ縺上□縺輔＞: ");
+
+          try {
+              int number = scanner.nextInt();
+              System.out.println("蜈･蜉帙＆繧後◆蛟､: " + number);
+          } catch (InputMismatchException e) {
+              System.out.println("繧ｨ繝ｩ繝ｼ: 謨ｴ謨ｰ繧貞・蜉帙＠縺ｦ縺上□縺輔＞");
+          }
+      }
+  }
+  ```
+
+  **螳溯｡御ｾ具ｼ域・蜉滂ｼ・*・・
+  ```
+  謨ｴ謨ｰ繧貞・蜉帙＠縺ｦ縺上□縺輔＞: 42
+  蜈･蜉帙＆繧後◆蛟､: 42
+  ```
+
+  **螳溯｡御ｾ具ｼ医お繝ｩ繝ｼ・・*・・
+  ```
+  謨ｴ謨ｰ繧貞・蜉帙＠縺ｦ縺上□縺輔＞: abc
+  繧ｨ繝ｩ繝ｼ: 謨ｴ謨ｰ繧貞・蜉帙＠縺ｦ縺上□縺輔＞
+  ```
+
+  **隗｣遲比ｾ具ｼ・asNextInt迚茨ｼ・*・・
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.print("謨ｴ謨ｰ繧貞・蜉帙＠縺ｦ縺上□縺輔＞: ");
+
+          if (scanner.hasNextInt()) {
+              int number = scanner.nextInt();
+              System.out.println("蜈･蜉帙＆繧後◆蛟､: " + number);
+          } else {
+              System.out.println("繧ｨ繝ｩ繝ｼ: 謨ｴ謨ｰ繧貞・蜉帙＠縺ｦ縺上□縺輔＞");
+          }
+      }
+  }
+  ```
+
+  **蠢懃畑萓具ｼ亥・蜈･蜉帙ｒ菫・☆・・*・・
+  ```java
+  import java.util.Scanner;
+  import java.util.InputMismatchException;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          int number = 0;
+          boolean validInput = false;
+
+          while (!validInput) {
+              System.out.print("1縺九ｉ10縺ｮ謨ｴ謨ｰ繧貞・蜉帙＠縺ｦ縺上□縺輔＞: ");
+
+              try {
+                  number = scanner.nextInt();
+
+                  if (number >= 1 && number <= 10) {
+                      validInput = true;
+                      System.out.println("蜈･蜉帙＆繧後◆蛟､: " + number);
+                  } else {
+                      System.out.println("繧ｨ繝ｩ繝ｼ: 1縺九ｉ10縺ｮ遽・峇縺ｧ蜈･蜉帙＠縺ｦ縺上□縺輔＞");
+                  }
+              } catch (InputMismatchException e) {
+                  System.out.println("繧ｨ繝ｩ繝ｼ: 謨ｴ謨ｰ繧貞・蜉帙＠縺ｦ縺上□縺輔＞");
+                  scanner.next();  // 荳肴ｭ｣縺ｪ蜈･蜉帙ｒ豸郁ｲｻ
+              }
+          }
+      }
+  }
+  ```
+
+  **繝昴う繝ｳ繝・*・・
+  - `scanner.next()`縺ｧ荳肴ｭ｣縺ｪ蜈･蜉帙ｒ豸郁ｲｻ縺吶ｋ縺薙→縺ｧ縲∫┌髯舌Ν繝ｼ繝励ｒ髦ｲ縺・
+  - `while`繝ｫ繝ｼ繝励〒蜀榊・蜉帙ｒ菫・☆
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 蝠城｡・
+
+繝ｦ繝ｼ繧ｶ繝ｼ縺ｫ謨ｴ謨ｰ繧貞・蜉帙＠縺ｦ繧ゅｉ縺・∵焚蟄嶺ｻ･螟悶′蜈･蜉帙＆繧後◆蝣ｴ蜷医・繧ｨ繝ｩ繝ｼ繝｡繝・そ繝ｼ繧ｸ繧定｡ｨ遉ｺ縺吶ｋ繝励Ο繧ｰ繝ｩ繝繧呈嶌縺・※螳溯｡後＠縺ｦ縺上□縺輔＞縲・
+
+**隕∽ｻｶ**・・
+- 縲梧紛謨ｰ繧貞・蜉帙＠縺ｦ縺上□縺輔＞: 縲阪→陦ｨ遉ｺ
+- 謨ｴ謨ｰ縺悟・蜉帙＆繧後◆蝣ｴ蜷茨ｼ壹悟・蜉帙＆繧後◆蛟､: 縲・・阪→陦ｨ遉ｺ
+- 謨ｰ蟄嶺ｻ･螟悶′蜈･蜉帙＆繧後◆蝣ｴ蜷茨ｼ壹後お繝ｩ繝ｼ: 謨ｴ謨ｰ繧貞・蜉帙＠縺ｦ縺上□縺輔＞縲阪→陦ｨ遉ｺ
+
+**螳溯｡檎腸蠅・*・・
+- 莉･荳九・OneCompiler・医ヶ繝ｩ繧ｦ繧ｶ荳翫〒螳溯｡悟庄閭ｽ・・
+- 縺ｾ縺溘・縲・clipse遲峨・IDE
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+import java.util.InputMismatchException;
+
+public class Main {
+    public static void main(String[] args) {
+        // 縺薙％縺ｫ繧ｳ繝ｼ繝峨ｒ譖ｸ縺・※縺上□縺輔＞
+
+    }
+}`}
+/>
+
+**繝偵Φ繝・*・・
+- `try { ... } catch (InputMismatchException e) { ... }`縺ｧ萓句､悶ｒ謐墓拷
+- 縺ｾ縺溘・縲～scanner.hasNextInt()`縺ｧ莠句燕縺ｫ繝√ぉ繝・け

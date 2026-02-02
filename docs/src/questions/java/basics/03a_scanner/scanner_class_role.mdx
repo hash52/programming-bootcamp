@@ -1,0 +1,76 @@
+---
+id: \"java/basics/03a_scanner#scanner_class_role\"
+title: "標準�E力用クラスの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03a_scanner"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "標準�E力からデータを読み取り、文字�EめE��値に変換する"
+  - id: "B"
+    text: "ファイルにチE�Eタを書き込む"
+  - id: "C"
+    text: "乱数を生成すめE
+  - id: "D"
+    text: "画面に斁E��を表示する"
+answers:
+  correct: ["A"]
+explanation: |
+  **Scannerクラス**は、E*標準�E力からデータを読み取り、文字�EめE��値に変換するクラス**である、E
+
+  **Scannerクラスの主なメソチE��**�E�E
+  - `nextLine()`�E�E行を斁E���Eとして読み取る
+  - `nextInt()`�E�整数を読み取る
+  - `nextDouble()`�E�小数を読み取る
+  - `next()`�E�次の単語を読み取る
+
+  **Scannerクラスの使ぁE��**�E�E
+  ```java
+  import java.util.Scanner;
+
+  Scanner scanner = new Scanner(System.in);
+  String input = scanner.nextLine();
+  ```
+---
+
+## 問顁E
+
+Scannerクラスの役割として最も適刁E��も�Eを選べ、E
+
+## 解説
+
+Scannerクラスは、E*標準�E力からデータを読み取るための便利なチE�Eル**である、E
+
+ScannerクラスがなぁE��合、標準�E力からデータを読み取るのは非常に褁E��になる。Scannerクラスを使ぁE��とで、簡単にユーザーの入力を受け取れる、E
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("あなた�E年齢を�E力してください: ");
+        int age = scanner.nextInt();
+
+        System.out.println("あなた�E" + age + "歳です�E�E�E);
+
+        // 20年後�E年齢を計箁E
+        int futureAge = age + 20;
+        System.out.println("20年後�E" + futureAge + "歳です、E);
+    }
+}`} />
+
+**Scannerクラスの便利な点**�E�E
+1. **型変換が�E勁E*�E�`nextInt()`で整数、`nextDouble()`で小数を取征E
+2. **簡潔な記述**�E�褁E��な処琁E��1行で書ける
+3. **エラー処琁E*�E�数値以外が入力された場合に例外を投げめE
+
+**Scannerクラスの使用には`import`が忁E��E*�E�E
+```java
+import java.util.Scanner;  // ファイルの先頭に記述
+```

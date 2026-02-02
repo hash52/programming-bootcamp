@@ -1,0 +1,119 @@
+---
+id: \"java/basics/03a_scanner#after_nextint_caution\"
+title: "整数読み取り後�E注意点がわかる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "03a_scanner"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "nextInt()は改行文字を残すため、次にnextLine()を使ぁE��合�E間にscanner.nextLine()を挟む忁E��がある"
+  - id: "B"
+    text: "nextInt()の後�E忁E��nextInt()を使わなければならなぁE
+  - id: "C"
+    text: "nextInt()は改行文字も自動で消費するため、何も対処は不要E
+  - id: "D"
+    text: "nextInt()の後にnextLine()を使ぁE��とはできなぁE
+answers:
+  correct: ["A"]
+explanation: |
+  **nextInt()の重要な注意点**�E�E
+
+  `nextInt()`は**数値のみを読み取り、改行文字！Enter�E�を残す**、E
+  そ�Eため、次に`nextLine()`を使ぁE��、残った改行文字を読み取ってしまぁE��空斁E���Eが返される、E
+
+  **問題が起きる侁E*�E�E
+  ```java
+  Scanner scanner = new Scanner(System.in);
+
+  System.out.print("年齢を�E劁E ");
+  int age = scanner.nextInt();  // "25"と入力してEnter ↁE改行文字が残る
+
+  System.out.print("名前を�E劁E ");
+  String name = scanner.nextLine();  // 残った改行文字を読み取ってしまぁE��空斁E���E�E�E
+
+  System.out.println("名前: " + name);  // "名前: " と表示される（空�E�E
+  ```
+
+  **解決筁E*�E�E
+  ```java
+  Scanner scanner = new Scanner(System.in);
+
+  System.out.print("年齢を�E劁E ");
+  int age = scanner.nextInt();
+  scanner.nextLine();  // 残った改行文字を消費
+
+  System.out.print("名前を�E劁E ");
+  String name = scanner.nextLine();  // 正しく読み取れめE
+
+  System.out.println("名前: " + name);
+  ```
+---
+
+## 問顁E
+
+nextInt()を使った後にnextLine()を使ぁE��合�E注意点として、最も適刁E��も�Eを選べ、E
+
+## 解説
+
+nextInt()は**数値のみを読み取り、改行文字�E残す**ため、次にnextLine()を使ぁE��合�E注意が忁E��である、E
+
+**なぜこの問題が起きるのぁE*�E�E
+
+ユーザーが`25`と入力してEnterキーを押すと、以下�EようなチE�Eタが標準�E力に送られる�E�E
+```
+25\n
+```
+�E�E\n`は改行文字！E
+
+`nextInt()`は`25`のみを読み取り、`\n`は残る、E
+次に`nextLine()`を呼ぶと、残った`\n`を読み取ってしまぁE��空斁E���Eが返される、E
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+**問題が起きる侁E*�E�E
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("年齢を�E劁E ");
+        int age = scanner.nextInt();
+
+        System.out.print("名前を�E劁E ");
+        String name = scanner.nextLine();  // 問題！空斁E���Eが返される
+
+        System.out.println("年齢: " + age);
+        System.out.println("名前: " + name);  // 空になめE
+    }
+}`} />
+
+**正しい侁E*�E�E
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("年齢を�E劁E ");
+        int age = scanner.nextInt();
+        scanner.nextLine();  // 改行文字を消費
+
+        System.out.print("名前を�E劁E ");
+        String name = scanner.nextLine();  // 正しく読み取れめE
+
+        System.out.println("年齢: " + age);
+        System.out.println("名前: " + name);
+    }
+}`} />
+
+**覚え方**�E�E
+- `nextInt()`の後に`nextLine()`を使ぁE��吁E
+  ↁE間に`scanner.nextLine()`めE回挟む
+- `nextInt()`の後に`nextInt()`や`nextDouble()`を使ぁE��吁E
+  ↁE何も対処は不要E��これらのメソチE��は空白めE��行を自動でスキチE�Eする�E�E

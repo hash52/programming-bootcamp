@@ -1,0 +1,98 @@
+---
+id: "java/basics/03_operators#modulo_operation"
+title: "蜑ｰ菴呎ｼ皮ｮ励′縺ｧ縺阪ｋ"
+type: "WRITE"
+difficulty: "Easy"
+topicId: "03_operators"
+category: "java/basics"
+explanation: |
+  **蜑ｰ菴呎ｼ皮ｮ・*・・%`・峨・縲・*蜑ｲ繧顔ｮ励・菴吶ｊ**繧呈ｱゅａ繧区ｼ皮ｮ励〒縺ゅｋ縲・
+
+  萓具ｼ・
+  ```java
+  int a = 10 % 3;  // 10繧・縺ｧ蜑ｲ縺｣縺滉ｽ吶ｊ縺ｯ1
+  int b = 15 % 4;  // 15繧・縺ｧ蜑ｲ縺｣縺滉ｽ吶ｊ縺ｯ3
+  int c = 20 % 5;  // 20繧・縺ｧ蜑ｲ縺｣縺滉ｽ吶ｊ縺ｯ0・亥牡繧雁・繧後ｋ・・
+  ```
+
+  **蜑ｰ菴呎ｼ皮ｮ励・菴ｿ縺・園**・・
+  - 蛛ｶ謨ｰ繝ｻ螂・焚縺ｮ蛻､螳夲ｼ・n % 2 == 0`縺ｪ繧牙・謨ｰ・・
+  - 迚ｹ螳壹・蛟肴焚縺ｮ蛻､螳夲ｼ・n % 3 == 0`縺ｪ繧・縺ｮ蛟肴焚・・
+  - 譎りｨ医・險育ｮ暦ｼ・4譎ゅｒ雜・∴縺溘ｉ0譎ゅ↓謌ｻ繧具ｼ・
+  - 驟榊・縺ｮ繧､繝ｳ繝・ャ繧ｯ繧ｹ縺ｮ蠕ｪ迺ｰ
+
+  **繝昴う繝ｳ繝・*・・
+  - 蜑ｲ繧雁・繧後ｋ蝣ｴ蜷医∽ｽ吶ｊ縺ｯ`0`
+  - 菴吶ｊ縺ｯ蟶ｸ縺ｫ蜑ｲ繧区焚繧医ｊ蟆上＆縺・ｼ・10 % 3`縺ｮ菴吶ｊ縺ｯ0縲・縺ｮ遽・峇・・
+
+  **隗｣遲比ｾ・*・・
+  ```java
+  public class Main {
+      public static void main(String[] args) {
+          int number = 7;
+
+          int remainder = number % 2;
+          System.out.println(number + "繧・縺ｧ蜑ｲ縺｣縺滉ｽ吶ｊ: " + remainder);
+
+          // 蛻･縺ｮ萓・
+          int number2 = 10;
+          int remainder2 = number2 % 2;
+          System.out.println(number2 + "繧・縺ｧ蜑ｲ縺｣縺滉ｽ吶ｊ: " + remainder2);
+      }
+  }
+  ```
+
+  **螳溯｡檎ｵ先棡**・・
+  ```
+  7繧・縺ｧ蜑ｲ縺｣縺滉ｽ吶ｊ: 1
+  10繧・縺ｧ蜑ｲ縺｣縺滉ｽ吶ｊ: 0
+  ```
+
+  **蠢懃畑萓・*・・
+  ```java
+  public class Main {
+      public static void main(String[] args) {
+          // 3縺ｮ蛟肴焚縺ｮ蛻､螳・
+          int num = 15;
+          int remainder = num % 3;
+          System.out.println(num + "繧・縺ｧ蜑ｲ縺｣縺滉ｽ吶ｊ: " + remainder);
+          // 菴吶ｊ縺・縺ｪ縺ｮ縺ｧ縲・5縺ｯ3縺ｮ蛟肴焚
+
+          // 譎りｨ医・險育ｮ暦ｼ・5譎・竊・1譎ゑｼ・
+          int hour = 25;
+          int normalizedHour = hour % 24;
+          System.out.println(hour + "譎ゅ・ " + normalizedHour + "譎ゅ→蜷後§");
+      }
+  }
+  ```
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 蝠城｡・
+
+蜑ｰ菴呎ｼ皮ｮ励ｒ菴ｿ縺｣縺ｦ縲∵焚蛟､縺悟・謨ｰ縺句･・焚縺九ｒ蛻､螳壹☆繧九・繝ｭ繧ｰ繝ｩ繝繧呈嶌縺・※螳溯｡後＠縺ｦ縺上□縺輔＞縲・
+
+**隕∽ｻｶ**・・
+- 螟画焚`number`縺ｫ莉ｻ諢上・謨ｴ謨ｰ繧剃ｻ｣蜈･縺吶ｋ
+- `number`繧・縺ｧ蜑ｲ縺｣縺滉ｽ吶ｊ繧呈ｱゅａ繧・
+- 菴吶ｊ縺・縺ｪ繧峨悟・謨ｰ縲阪∽ｽ吶ｊ縺・縺ｪ繧峨悟･・焚縲阪→陦ｨ遉ｺ縺吶ｋ・医∪縺if譁・ｒ蟄ｦ繧薙〒縺・↑縺・・縺ｧ縲∽ｸ｡譁ｹ陦ｨ遉ｺ縺励※遒ｺ隱搾ｼ・
+
+**螳溯｡檎腸蠅・*・・
+- 莉･荳九・OneCompiler・医ヶ繝ｩ繧ｦ繧ｶ荳翫〒螳溯｡悟庄閭ｽ・・
+- 縺ｾ縺溘・縲・clipse遲峨・IDE
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 縺薙％縺ｫ繧ｳ繝ｼ繝峨ｒ譖ｸ縺・※縺上□縺輔＞
+
+    }
+}`}
+/>
+
+**繝偵Φ繝・*・・
+- `number % 2`縺ｧ2縺ｧ蜑ｲ縺｣縺滉ｽ吶ｊ繧呈ｱゅａ繧・
+- 菴吶ｊ縺形0`縺ｪ繧牙・謨ｰ縲～1`縺ｪ繧牙･・焚
+- `System.out.println()`縺ｧ菴吶ｊ繧定｡ｨ遉ｺ縺励※遒ｺ隱・

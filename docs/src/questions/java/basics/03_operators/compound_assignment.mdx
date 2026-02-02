@@ -1,0 +1,97 @@
+---
+id: "java/basics/03_operators#compound_assignment"
+title: "隍・粋莉｣蜈･貍皮ｮ励′縺ｧ縺阪ｋ"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_operators"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["+=", "+ ="]
+  blank2: ["-=", "- ="]
+  blank3: ["*=", "* ="]
+  blank4: ["/=", "/ ="]
+sampleAnswer: "count += 5;"
+explanation: |
+  **隍・粋莉｣蜈･貍皮ｮ怜ｭ・*縺ｯ縲・*貍皮ｮ励→莉｣蜈･繧貞酔譎ゅ↓陦後≧貍皮ｮ怜ｭ・*縺ｧ縺ゅｋ縲・
+
+  荳ｻ縺ｪ隍・粋莉｣蜈･貍皮ｮ怜ｭ撰ｼ・
+  - `+=`・壼刈邂励＠縺ｦ莉｣蜈･・・a += 5`縺ｯ`a = a + 5`縺ｨ蜷後§・・
+  - `-=`・壽ｸ帷ｮ励＠縺ｦ莉｣蜈･・・a -= 3`縺ｯ`a = a - 3`縺ｨ蜷後§・・
+  - `*=`・壻ｹ礼ｮ励＠縺ｦ莉｣蜈･・・a *= 2`縺ｯ`a = a * 2`縺ｨ蜷後§・・
+  - `/=`・夐勁邂励＠縺ｦ莉｣蜈･・・a /= 4`縺ｯ`a = a / 4`縺ｨ蜷後§・・
+  - `%=`・壼臆菴呎ｼ皮ｮ励＠縺ｦ莉｣蜈･・・a %= 3`縺ｯ`a = a % 3`縺ｨ蜷後§・・
+
+  **繝｡繝ｪ繝・ヨ**・・
+  - 繧ｳ繝ｼ繝峨′遏ｭ縺上∬ｪｭ縺ｿ繧・☆縺上↑繧・
+  - 螟画焚蜷阪ｒ2蝗樊嶌縺九↑縺上※貂医・
+
+  萓具ｼ・
+  ```java
+  int score = 100;
+  score += 50;  // score = score + 50; 縺ｨ蜷後§
+  System.out.println(score);  // 150
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 蝠城｡・
+
+莉･荳九・繧ｳ繝ｼ繝峨・遨ｺ谺・ｒ蝓九ａ縺ｦ縲∬､・粋莉｣蜈･貍皮ｮ怜ｭ舌ｒ豁｣縺励￥菴ｿ縺｣縺ｦ縺上□縺輔＞縲・
+
+<CodeBlock>
+{`int count = 10;
+count `}<BlankInput id="blank1" />{` 5;  // count縺ｫ5繧貞刈邂・
+count `}<BlankInput id="blank2" />{` 3;  // count縺九ｉ3繧呈ｸ帷ｮ・
+count `}<BlankInput id="blank3" />{` 2;  // count縺ｫ2繧剃ｹ礼ｮ・
+count `}<BlankInput id="blank4" />{` 4;  // count繧・縺ｧ髯､邂輿}
+</CodeBlock>
+
+**繝偵Φ繝・*・・
+- 蜉邂励＠縺ｦ莉｣蜈･・啻+=`
+- 貂帷ｮ励＠縺ｦ莉｣蜈･・啻-=`
+- 荵礼ｮ励＠縺ｦ莉｣蜈･・啻*=`
+- 髯､邂励＠縺ｦ莉｣蜈･・啻/=`
+
+---
+
+## 隗｣隱ｬ
+
+隍・粋莉｣蜈･貍皮ｮ怜ｭ舌ｒ菴ｿ縺・→縲・*貍皮ｮ励→莉｣蜈･繧・陦後〒邁｡貎斐↓譖ｸ縺代ｋ**縲・
+
+**騾壼ｸｸ縺ｮ譖ｸ縺肴婿縺ｨ隍・粋莉｣蜈･貍皮ｮ怜ｭ舌・豈碑ｼ・*・・
+
+| 騾壼ｸｸ縺ｮ譖ｸ縺肴婿 | 隍・粋莉｣蜈･貍皮ｮ怜ｭ・|
+|-------------|---------------|
+| `count = count + 5` | `count += 5` |
+| `count = count - 3` | `count -= 3` |
+| `count = count * 2` | `count *= 2` |
+| `count = count / 4` | `count /= 4` |
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        int score = 100;
+        System.out.println("蛻晄悄繧ｹ繧ｳ繧｢: " + score);
+
+        score += 50;  // 繝懊・繝翫せ蠕礼せ
+        System.out.println("繝懊・繝翫せ蠕・ " + score);  // 150
+
+        score -= 20;  // 繝壹リ繝ｫ繝・ぅ
+        System.out.println("繝壹リ繝ｫ繝・ぅ蠕・ " + score);  // 130
+
+        score *= 2;  // 2蛟阪く繝｣繝ｳ繝壹・繝ｳ
+        System.out.println("2蛟榊ｾ・ " + score);  // 260
+
+        score /= 10;  // 10縺ｧ蜑ｲ繧・
+        System.out.println("譛邨ゅせ繧ｳ繧｢: " + score);  // 26
+    }
+}`} />
+
+**繧医￥縺ゅｋ菴ｿ逕ｨ萓・*・・
+- 繧ｲ繝ｼ繝縺ｮ繧ｹ繧ｳ繧｢蜉邂暦ｼ啻score += points;`
+- 蝠・刀縺ｮ蝨ｨ蠎ｫ貂帛ｰ托ｼ啻stock -= soldCount;`
+- 萓｡譬ｼ縺ｮ蛟咲紫險育ｮ暦ｼ啻price *= 1.1;`・・0%蠅暦ｼ・

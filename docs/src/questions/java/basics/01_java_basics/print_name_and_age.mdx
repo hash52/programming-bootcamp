@@ -1,0 +1,78 @@
+---
+id: \"java/basics/01_java_basics#print_name_and_age\"
+title: "自刁E�E名前と年齢を表示するプログラムを書ける"
+type: "WRITE"
+difficulty: "Easy"
+topicid: \"java/basics/01_java_basics#print_name_and_age\"
+category: "java/basics"
+explanation: |
+  **自刁E�E惁E��を表示するプログラム**を書ぁE��みよう、E
+
+  **ポインチE*�E�E
+  - `System.out.println()`で1行ずつ表示
+  - 斁E���EはダブルクォーチE"`で囲む
+  - 吁E���E最後にセミコロン`;`を付けめE
+  - 日本語も使える
+
+  **注意点**�E�E
+  - クラス名�E`Main`のまま�E�EneCompilerでは固定！E
+  - `main`メソチE��の中にコードを書ぁE
+  - エラーが�Eたら、セミコロンめE��ブルクォートが正しいか確誁E
+
+  **解答侁E*�E�E
+  ```java
+  public class Main {
+      public static void main(String[] args) {
+          System.out.println("名前: 田中太郁E);
+          System.out.println("年齢: 25歳");
+      }
+  }
+  ```
+
+  **実行結果**�E�E
+  ```
+  名前: 田中太郁E
+  年齢: 25歳
+  ```
+
+  **応用侁E*�E�E
+  ```java
+  public class Main {
+      public static void main(String[] args) {
+          System.out.println("=== 自己紹仁E===");
+          System.out.println("名前: 田中太郁E);
+          System.out.println("年齢: 25歳");
+          System.out.println("趣味: プログラミング");
+      }
+  }
+  ```
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問顁E
+
+自刁E�E名前と年齢を表示するJavaプログラムを書ぁE��実行してください、E
+
+**要件**�E�E
+- 1行目に「名剁E �E�あなた�E名前�E�」を表示
+- 2行目に「年齢: �E�あなた�E年齢�E�歳」を表示
+
+**実行環墁E*�E�E
+- 以下�EOneCompiler�E�ブラウザ上で実行可能�E�E
+- また�E、Eclipse等�EIDE
+
+<OneCompilerCodeBlock 
+  language="java" 
+  code={`public class Main {
+    public static void main(String[] args) {
+        // ここにコードを書ぁE��ください
+        
+    }
+}`}
+/>
+
+**ヒンチE*�E�E
+- `System.out.println("表示したぁE��孁E);` を使ぁE
+- 斁E���EはダブルクォーチE"`で囲む
+- 吁E���E最後にセミコロン`;`を付けめE

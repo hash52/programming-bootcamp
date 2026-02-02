@@ -1,0 +1,52 @@
+---
+id: \"java/basics/02_variables_and_types#declare_constant\"
+title: "螳壽焚繧貞ｮ｣險縺ｧ縺阪ｋ"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "02_variables_and_types"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["final", "Final", "FINAL"]
+  blank2: ["3.14", "3.14;"]
+sampleAnswer: "final double PI = 3.14;"
+explanation: |
+  **final**繧ｭ繝ｼ繝ｯ繝ｼ繝峨ｒ菴ｿ縺・→縲・*蛟､繧貞､画峩縺ｧ縺阪↑縺・ｮ壽焚**繧剃ｽ懊ｋ縺薙→縺後〒縺阪∪縺吶・
+
+  ```java
+  final double PI = 3.14;
+  // PI = 3.14159;  // 繧ｨ繝ｩ繝ｼ・’inal縺ｧ螳｣險縺輔ｌ縺溷､画焚縺ｯ螟画峩縺ｧ縺阪↑縺・
+  ```
+
+  **final縺ｮ迚ｹ蠕ｴ**・・
+  - 蝙九・蜑阪↓`final`繧剃ｻ倥￠繧・
+  - 荳蠎ｦ莉｣蜈･縺励◆繧峨∽ｺ悟ｺｦ縺ｨ螟画峩縺ｧ縺阪↑縺・
+  - 螳壽焚蜷阪・蜈ｨ縺ｦ螟ｧ譁・ｭ励〒譖ｸ縺上・縺梧・鄙抵ｼ・PI`, `MAX_VALUE`・・
+  - 螟画峩縺輔ｌ繧九→蝗ｰ繧句､・亥・蜻ｨ邇・∫ｨ守紫縺ｪ縺ｩ・峨↓菴ｿ縺・
+
+  **菴ｿ縺・・縺・*・・
+  ```java
+  // 螟画峩縺輔ｌ繧句庄閭ｽ諤ｧ縺後≠繧・竊・final縺ｪ縺・
+  int age = 25;
+  age = 26;  // OK
+
+  // 螟画峩縺輔ｌ縺ｦ縺ｯ縺・￠縺ｪ縺・竊・final縺ゅｊ
+  final double TAX_RATE = 0.1;
+  // TAX_RATE = 0.08;  // 繧ｨ繝ｩ繝ｼ・・
+  ```
+
+  **螳壽焚縺ｮ蜻ｽ蜷崎ｦ丞援**・・
+  - 蜈ｨ縺ｦ螟ｧ譁・ｭ励〒譖ｸ縺擾ｼ啻PI`, `MAX_SCORE`
+  - 隍・焚縺ｮ蜊倩ｪ槭・繧｢繝ｳ繝繝ｼ繧ｹ繧ｳ繧｢縺ｧ蛹ｺ蛻・ｋ・啻TAX_RATE`, `MAX_VALUE`
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 蝠城｡・
+
+莉･荳九・繧ｳ繝ｼ繝峨・遨ｺ谺・ｒ蝓九ａ縺ｦ縲∝・蜻ｨ邇㌔3.14`繧貞､画峩縺ｧ縺阪↑縺・ｮ壽焚`PI`縺ｨ縺励※螳｣險縺励※縺上□縺輔＞縲・
+
+<CodeBlock>
+  <BlankInput id="blank1" /> double PI = <BlankInput id="blank2" />;
+</CodeBlock>

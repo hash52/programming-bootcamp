@@ -1,0 +1,110 @@
+---
+id: \"java/basics/03a_scanner#read_line\"
+title: "1行を読み取れめE
+type: "WRITE"
+difficulty: "Easy"
+topicId: "03a_scanner"
+category: "java/basics"
+explanation: |
+  **nextLine()メソチE��**を使ぁE��、標準�E力かめE行を斁E���Eとして読み取れる、E
+
+  ```java
+  Scanner scanner = new Scanner(System.in);
+  String input = scanner.nextLine();  // ユーザーの入力を征E��
+  ```
+
+  **nextLine()の動佁E*�E�E
+  1. ユーザーがEnterキーを押すまで征E��E
+  2. Enterキーが押されたら、その1行を斁E���Eとして取征E
+  3. 改行文字�E含まれなぁE
+
+  **使ぁE��**�E�E
+  - 名前めE��所など、文字�E全体を読み取る
+  - 空白を含む斁E���E�E�例：「田中 太郎」！E
+  - 自由記述の入劁E
+
+  **解答侁E*�E�E
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.print("名前を�E力してください: ");
+          String name = scanner.nextLine();
+
+          System.out.print("趣味を�E力してください: ");
+          String hobby = scanner.nextLine();
+
+          System.out.println(name + "さんの趣味は" + hobby + "でぁE);
+      }
+  }
+  ```
+
+  **実行侁E*�E�E
+  ```
+  名前を�E力してください: 田中太郁E
+  趣味を�E力してください: プログラミング
+  田中太郎さん�E趣味はプログラミングでぁE
+  ```
+
+  **応用侁E*�E�E
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          System.out.println("=== アンケーチE===");
+
+          System.out.print("1. お名剁E ");
+          String name = scanner.nextLine();
+
+          System.out.print("2. 年齢: ");
+          String age = scanner.nextLine();
+
+          System.out.print("3. 住んでぁE��都道府県: ");
+          String prefecture = scanner.nextLine();
+
+          System.out.println("\n=== 回答�E容 ===");
+          System.out.println("名前: " + name);
+          System.out.println("年齢: " + age);
+          System.out.println("都道府県: " + prefecture);
+          System.out.println("\nご協力ありがとぁE��ざいました�E�E);
+      }
+  }
+  ```
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問顁E
+
+ユーザーに名前と趣味を�E力してもらぁE���E己紹介文を表示するプログラムを書ぁE��実行してください、E
+
+**要件**�E�E
+- 「名前を入力してください: 」と表示して、名前を受け取る
+- 「趣味を�E力してください: 」と表示して、趣味を受け取めE
+- 「、E��E��ん�E趣味は△△です」と表示
+
+**実行環墁E*�E�E
+- 以下�EOneCompiler�E�ブラウザ上で実行可能�E�E
+- また�E、Eclipse等�EIDE
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        // ここにコードを書ぁE��ください
+
+    }
+}`}
+/>
+
+**ヒンチE*�E�E
+- `scanner.nextLine()`で1行を読み取る
+- 2回使って名前と趣味を別、E��読み取る

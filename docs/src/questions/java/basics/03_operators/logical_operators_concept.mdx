@@ -1,0 +1,81 @@
+---
+id: "java/basics/03_operators#logical_operators_concept"
+title: "論理演算子とは何かを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03_operators"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "四則演算を行う演算孁E
+  - id: "B"
+    text: "値の大小を比輁E��る演算孁E
+  - id: "C"
+    text: "褁E��の条件を絁E��合わせたり、条件を反転させたりする演算孁E
+  - id: "D"
+    text: "値めE増やしたり減らしたりする演算孁E
+answers:
+  correct: ["C"]
+explanation: |
+  **論理演算孁E*は、E*褁E��の条件を絁E��合わせたり、条件を反転させたりする演算孁E*である、E
+
+  主な論理演算子！E
+  - `&&`�E�かつ�E�両方の条件がtrueの場合にtrue�E�E
+  - `||`�E�また�E�E�どちらかの条件がtrueの場合にtrue�E�E
+  - `!`�E�否定：条件を反転�E�E
+
+  例！E
+  ```java
+  int age = 20;
+  boolean hasLicense = true;
+
+  // 年齢ぁE8歳以丁Eかつ 免許を持ってぁE��
+  boolean canDrive = age >= 18 && hasLicense;  // true
+
+  // 年齢ぁE8歳未満 また�E 免許を持ってぁE��ぁE
+  boolean cannotDrive = age < 18 || !hasLicense;  // false
+  ```
+---
+
+## 問顁E
+
+論理演算子�E説明として最も適刁E��も�Eを選べ、E
+
+## 解説
+
+論理演算子�E、E*褁E��の条件を絁E��合わせて判定する演算孁E*である、E
+
+プログラムでは、褁E��の条件を同時に満たす忁E��があることが多い�E�E
+- 年齢ぁE8歳以丁E*かつ**免許を持ってぁE�� ↁE運転できる
+- ユーザー名が空**また�E**パスワードが空 ↁEログインできなぁE
+- パスワードが一致**しなぁE* ↁEエラー
+
+こ�Eような褁E��な判定に論理演算子を使ぁE��E
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`public class Main {
+    public static void main(String[] args) {
+        int temperature = 28;
+        boolean isSunny = true;
+
+        // 気温ぁE5度以丁Eかつ 晴れてぁE��
+        boolean isGoodForSwimming = temperature >= 25 && isSunny;
+        System.out.println("プ�Eルに最適: " + isGoodForSwimming);  // true
+
+        // 気温ぁE0度以丁Eまた�E 雨が降ってぁE��
+        boolean stayIndoors = temperature >= 30 || !isSunny;
+        System.out.println("屋�EにぁE��べぁE " + stayIndoors);  // false
+    }
+}`} />
+
+**論理演算子�E絁E��合わせ表**�E�E
+
+| A | B | A && B | A \|\| B | !A |
+|---|---|--------|----------|-----|
+| true | true | true | true | false |
+| true | false | false | true | false |
+| false | true | false | true | true |
+| false | false | false | false | true |

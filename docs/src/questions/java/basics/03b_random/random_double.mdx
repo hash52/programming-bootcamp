@@ -1,0 +1,103 @@
+---
+id: \"java/basics/03b_random#random_double\"
+title: "0.0、E.0のランダムな小数を作れめE
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicid: \"java/basics/03b_random#random_double\"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["nextDouble()", "nextDouble();", "nextDouble( )"]
+sampleAnswer: "double number = random.nextDouble();"
+explanation: |
+  **0.0、E.0のランダムな小数**を生成するには、`nextDouble()`を使ぁE��E
+
+  ```java
+  Random random = new Random();
+  double number = random.nextDouble();  // 0.0、E.0未満
+  ```
+
+  **nextDouble()の特徴**�E�E
+  - 引数は不要E
+  - 0.0以丁E.0未満の篁E���E�E.0は含まれなぁE��E
+  - 例！E.0, 0.5, 0.9999...など
+
+  **篁E��を変える方況E*�E�E
+  - **0.0、E0.0**�E�`random.nextDouble() * 10`
+  - **0.0、E00.0**�E�`random.nextDouble() * 100`
+  - **5.0、E0.0**�E�`5.0 + random.nextDouble() * 5`
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+## 問顁E
+
+以下�Eコード�E空欁E��埋めて、E.0、E.0のランダムな小数を生成してください、E
+
+<CodeBlock>
+{`Random random = new Random();
+double number = random.`}<BlankInput id="blank1" />{`;
+System.out.println("ランダムな小数: " + number);`}
+</CodeBlock>
+
+**ヒンチE*�E�E
+- 小数の乱数は`nextDouble()`
+
+---
+
+## 解説
+
+0.0、E.0のランダムな小数を生成するには、E*nextDouble()**を使ぁE��E
+
+**nextInt()とnextDouble()の違い**�E�E
+
+| メソチE�� | 戻り値の垁E| 篁E�� | 引数 |
+|----------|-----------|------|------|
+| `nextInt(n)` | int | 0〜n-1 | 忁E��E|
+| `nextDouble()` | double | 0.0、E.0未満 | 不要E|
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Random random = new Random();
+
+        System.out.println("=== 0.0、E.0のランダムな小数めE個生戁E===");
+        for (int i = 0; i < 5; i++) {
+            double number = random.nextDouble();
+            System.out.println(number);
+        }
+
+        System.out.println("\\n=== 0.0、E00.0のランダムな小数めE個生戁E===");
+        for (int i = 0; i < 3; i++) {
+            double number = random.nextDouble() * 100;
+            System.out.printf("%.2f\\n", number);
+        }
+    }
+}`} />
+
+**実行侁E*�E�E
+```
+=== 0.0、E.0のランダムな小数めE個生戁E===
+0.7231742664310334
+0.43580276765893974
+0.9867432156789234
+0.12345678901234567
+0.5555555555555555
+
+=== 0.0、E00.0のランダムな小数めE個生戁E===
+67.89
+23.45
+91.23
+```
+
+**応用侁E*�E�E
+
+| 目皁E�E篁E�� | コーチE|
+|-----------|--------|
+| 0.0、E0.0 | `random.nextDouble() * 10` |
+| 0.0、E00.0 | `random.nextDouble() * 100` |
+| 5.0、E0.0 | `5.0 + random.nextDouble() * 5` |

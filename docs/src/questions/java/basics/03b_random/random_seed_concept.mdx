@@ -1,0 +1,115 @@
+---
+id: \"java/basics/03b_random#random_seed_concept\"
+title: "荵ｱ謨ｰ縺ｮ蜀咲樟諤ｧ繧貞宛蠕｡縺吶ｋ譁ｹ豕輔′繧上°繧・
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicid: \"java/basics/03b_random#random_seed_concept\"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: \"java/basics/03b_random#random_seed_concept\"
+    text: "Random繧ｪ繝悶ず繧ｧ繧ｯ繝井ｽ懈・譎ゅ↓繧ｷ繝ｼ繝牙､繧呈欠螳壹☆繧九％縺ｨ縺ｧ縲∝酔縺倅ｹｱ謨ｰ蛻励ｒ蜀咲樟縺ｧ縺阪ｋ"
+  - id: \"java/basics/03b_random#random_seed_concept\"
+    text: "荵ｱ謨ｰ縺ｯ蟶ｸ縺ｫ繝ｩ繝ｳ繝繝縺ｧ縲∝・迴ｾ縺吶ｋ縺薙→縺ｯ荳榊庄閭ｽ"
+  - id: \"java/basics/03b_random#random_seed_concept\"
+    text: "nextInt()縺ｮ蠑墓焚繧貞酔縺倥↓縺吶ｋ縺ｨ縲∝酔縺伜､縺瑚ｿ斐＆繧後ｋ"
+  - id: \"java/basics/03b_random#random_seed_concept\"
+    text: "繝励Ο繧ｰ繝ｩ繝繧貞酔縺俶凾髢薙↓螳溯｡後☆繧九→縲∝酔縺倅ｹｱ謨ｰ縺檎函謌舌＆繧後ｋ"
+answers:
+  correct: ["A"]
+explanation: |
+  **繧ｷ繝ｼ繝牙､**・・eed・峨ｒ謖・ｮ壹☆繧九→縲・*蜷後§荵ｱ謨ｰ蛻励ｒ蜀咲樟縺ｧ縺阪ｋ**縲・
+
+  **繧ｷ繝ｼ繝牙､縺ｨ縺ｯ**・・
+  - 荵ｱ謨ｰ逕滓・縺ｮ繧ｹ繧ｿ繝ｼ繝亥慍轤ｹ繧呈ｱｺ繧√ｋ蛟､
+  - 蜷後§繧ｷ繝ｼ繝牙､繧剃ｽｿ縺・→縲∵ｯ主屓蜷後§鬆・ｺ上〒荵ｱ謨ｰ縺檎函謌舌＆繧後ｋ
+
+  **繧ｷ繝ｼ繝牙､縺ｮ謖・ｮ壽婿豕・*・・
+  ```java
+  Random random = new Random(42);  // 繧ｷ繝ｼ繝牙､42
+  ```
+
+  **繧ｷ繝ｼ繝牙､繧剃ｽｿ繧上↑縺・ｴ蜷・*・・
+  ```java
+  Random random = new Random();  // 迴ｾ蝨ｨ譎ょ綾繧偵す繝ｼ繝牙､縺ｨ縺励※菴ｿ縺・
+  ```
+
+  **繧ｷ繝ｼ繝牙､縺ｮ菴ｿ縺・園**・・
+  - **繝・せ繝・*・壼酔縺倡ｵ先棡繧貞・迴ｾ縺励◆縺・ｴ蜷・
+  - **繝・ヰ繝・げ**・壼撫鬘後ｒ蜀咲樟縺励ｄ縺吶￥縺吶ｋ
+  - **繧ｲ繝ｼ繝**・壹せ繝・・繧ｸ逕滓・繧貞・迴ｾ蜿ｯ閭ｽ縺ｫ縺吶ｋ
+---
+
+## 蝠城｡・
+
+荵ｱ謨ｰ縺ｮ蜀咲樟諤ｧ繧貞宛蠕｡縺吶ｋ譁ｹ豕輔→縺励※譛繧る←蛻・↑繧ゅ・繧帝∈縺ｹ縲・
+
+## 隗｣隱ｬ
+
+繧ｷ繝ｼ繝牙､繧呈欠螳壹☆繧九％縺ｨ縺ｧ縲・*蜷後§荵ｱ謨ｰ蛻励ｒ菴募ｺｦ縺ｧ繧ょ・迴ｾ縺ｧ縺阪ｋ**縲・
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+**繧ｷ繝ｼ繝牙､繧剃ｽｿ繧上↑縺・ｾ具ｼ域ｯ主屓逡ｰ縺ｪ繧具ｼ・*・・
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Random random = new Random();  // 繧ｷ繝ｼ繝牙､縺ｪ縺・
+
+        System.out.println("=== 螳溯｡・蝗樒岼 ===");
+        for (int i = 0; i < 3; i++) {
+            System.out.println(random.nextInt(10));
+        }
+        // 螳溯｡後☆繧九◆縺ｳ縺ｫ逡ｰ縺ｪ繧句､縺瑚｡ｨ遉ｺ縺輔ｌ繧・
+    }
+}`} />
+
+**繧ｷ繝ｼ繝牙､繧剃ｽｿ縺・ｾ具ｼ域ｯ主屓蜷後§・・*・・
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Random random = new Random(42);  // 繧ｷ繝ｼ繝牙､42
+
+        System.out.println("=== 繧ｷ繝ｼ繝牙､42縺ｧ逕滓・ ===");
+        for (int i = 0; i < 5; i++) {
+            System.out.println(random.nextInt(10));
+        }
+        // 菴募ｺｦ螳溯｡後＠縺ｦ繧ょ酔縺倬・ｺ上〒蛟､縺瑚｡ｨ遉ｺ縺輔ｌ繧・
+    }
+}`} />
+
+**豈碑ｼ・*・・
+
+<OneCompilerCodeBlock language="java" code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("=== 繧ｷ繝ｼ繝牙､100 ===");
+        Random random1 = new Random(100);
+        for (int i = 0; i < 3; i++) {
+            System.out.println(random1.nextInt(10));
+        }
+
+        System.out.println("\\n=== 繧ｷ繝ｼ繝牙､100・亥・迴ｾ・・===");
+        Random random2 = new Random(100);  // 蜷後§繧ｷ繝ｼ繝牙､
+        for (int i = 0; i < 3; i++) {
+            System.out.println(random2.nextInt(10));  // 蜷後§蛟､縺悟・繧・
+        }
+
+        System.out.println("\\n=== 繧ｷ繝ｼ繝牙､200・育焚縺ｪ繧具ｼ・===");
+        Random random3 = new Random(200);  // 逡ｰ縺ｪ繧九す繝ｼ繝牙､
+        for (int i = 0; i < 3; i++) {
+            System.out.println(random3.nextInt(10));  // 逡ｰ縺ｪ繧句､縺悟・繧・
+        }
+    }
+}`} />
+
+**繧ｷ繝ｼ繝牙､縺ｮ逕ｨ騾・*・・
+- **繝・せ繝・*・壼酔縺俶擅莉ｶ縺ｧ菴募ｺｦ繧ゅユ繧ｹ繝医＠縺溘＞
+- **繝・ヰ繝・げ**・壹ヰ繧ｰ繧貞・迴ｾ縺励ｄ縺吶￥縺吶ｋ
+- **繧ｲ繝ｼ繝**・壹・繝・・逕滓・繧貞・迴ｾ蜿ｯ閭ｽ縺ｫ縺吶ｋ・医・繧､繝ｳ繧ｯ繝ｩ繝輔ヨ縺ｮ繧ｷ繝ｼ繝牙､縺ｪ縺ｩ・・

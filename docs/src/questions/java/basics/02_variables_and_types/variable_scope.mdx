@@ -1,0 +1,53 @@
+---
+id: \"java/basics/02_variables_and_types#variable_scope\"
+title: "螟画焚縺ｮ繧ｹ繧ｳ繝ｼ繝励ｒ隱ｬ譏弱〒縺阪ｋ"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "02_variables_and_types"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "螟画焚縺御ｽｿ縺医ｋ遽・峇縺ｮ縺薙→"
+  - id: "B"
+    text: "螟画焚縺ｮ蝙九ｒ螟画峩縺ｧ縺阪ｋ遽・峇縺ｮ縺薙→"
+  - id: "C"
+    text: "螟画焚縺ｮ蜷榊燕縺ｮ髟ｷ縺輔・縺薙→"
+answers:
+  correct: ["A"]
+explanation: |
+  **繧ｹ繧ｳ繝ｼ繝暦ｼ・cope・・*縺ｨ縺ｯ縲・*螟画焚縺御ｽｿ縺医ｋ遽・峇**縺ｮ縺薙→縺ｧ縺吶・
+
+  螟画焚縺ｯ縲∝ｮ｣險縺輔ｌ縺溷ｴ謇縺九ｉ縲√◎縺ｮ螟画焚繧貞峇繧`{}`・域ｳ｢諡ｬ蠑ｧ・峨・邨ゅｏ繧翫∪縺ｧ菴ｿ縺医∪縺吶・
+
+  ```java
+  public class Example {
+      public static void main(String[] args) {
+          int a = 10;  // main繝｡繧ｽ繝・ラ蜈ｨ菴薙〒菴ｿ縺医ｋ
+
+          if (a > 5) {
+              int b = 20;  // 縺薙・if繝悶Ο繝・け蜀・〒縺ｮ縺ｿ菴ｿ縺医ｋ
+              System.out.println(a);  // OK
+              System.out.println(b);  // OK
+          }
+
+          System.out.println(a);  // OK
+          // System.out.println(b);  // 繧ｨ繝ｩ繝ｼ・｜縺ｯif繝悶Ο繝・け繧貞・繧九→菴ｿ縺医↑縺・
+      }
+  }
+  ```
+
+  **繧ｹ繧ｳ繝ｼ繝励・蜴溷援**・・
+  1. 螟画焚縺ｯ螳｣險縺輔ｌ縺溷ｴ謇縺九ｉ縲∵怙繧りｿ代＞`}`縺ｾ縺ｧ菴ｿ縺医ｋ
+  2. `{}`縺ｮ螟悶〒縺ｯ菴ｿ縺医↑縺・
+  3. 蜀・・縺ｮ繝悶Ο繝・け縺ｧ縺ｯ螟門・縺ｮ螟画焚繧剃ｽｿ縺医ｋ
+  4. 螟門・縺ｮ繝悶Ο繝・け縺ｧ縺ｯ蜀・・縺ｮ螟画焚繧剃ｽｿ縺医↑縺・
+
+  **縺ｪ縺懊せ繧ｳ繝ｼ繝励′驥崎ｦ√°**・・
+  - 螟画焚縺ｮ譛牙柑遽・峇繧貞宛髯舌☆繧九％縺ｨ縺ｧ縲∽ｺ域悄縺励↑縺・ヰ繧ｰ繧帝亟縺・
+  - 蠢・ｦ√↑蝣ｴ謇縺ｧ縺ｮ縺ｿ螟画焚繧剃ｽｿ縺・％縺ｨ縺ｧ縲√さ繝ｼ繝峨′隱ｭ縺ｿ繧・☆縺上↑繧・
+  - 繝｡繝｢繝ｪ繧貞柑邇・噪縺ｫ菴ｿ縺医ｋ・医せ繧ｳ繝ｼ繝励ｒ謚懊￠繧九→螟画焚縺檎ｴ譽・＆繧後ｋ・・
+---
+
+螟画焚縺ｮ繧ｹ繧ｳ繝ｼ繝励・隱ｬ譏弱→縺励※豁｣縺励＞繧ゅ・繧帝∈縺ｹ縲・

@@ -1,0 +1,106 @@
+---
+id: "java/basics/03_operators#basic_arithmetic"
+title: "蝗帛援貍皮ｮ励′縺ｧ縺阪ｋ"
+type: "WRITE"
+difficulty: "Easy"
+topicId: "03_operators"
+category: "java/basics"
+explanation: |
+  **蝗帛援貍皮ｮ・*縺ｨ縺ｯ縲∬ｶｳ縺礼ｮ暦ｼ・+`・峨∝ｼ輔″邂暦ｼ・-`・峨∵寺縺醍ｮ暦ｼ・*`・峨∝牡繧顔ｮ暦ｼ・/`・峨・4縺､縺ｮ險育ｮ励〒縺ゅｋ縲・
+
+  Java縺ｧ縺ｯ莉･荳九・貍皮ｮ怜ｭ舌ｒ菴ｿ縺・ｼ・
+  - `+`・夊ｶｳ縺礼ｮ・
+  - `-`・壼ｼ輔″邂・
+  - `*`・壽寺縺醍ｮ・
+  - `/`・壼牡繧顔ｮ・
+
+  **繝昴う繝ｳ繝・*・・
+  - 謗帙￠邂励・`*`・医い繧ｹ繧ｿ繝ｪ繧ｹ繧ｯ・峨ｒ菴ｿ縺・ｼ・ﾃ輿縺ｧ縺ｯ縺ｪ縺・ｼ・
+  - 蜑ｲ繧顔ｮ励・`/`・医せ繝ｩ繝・す繝･・峨ｒ菴ｿ縺・ｼ・ﾃｷ`縺ｧ縺ｯ縺ｪ縺・ｼ・
+  - 險育ｮ励・蜆ｪ蜈磯・ｽ阪・謨ｰ蟄ｦ縺ｨ蜷後§・域寺縺醍ｮ励・蜑ｲ繧顔ｮ励′蜈医∬ｶｳ縺礼ｮ励・蠑輔″邂励′蠕鯉ｼ・
+  - 繧ｫ繝・さ`()`繧剃ｽｿ縺｣縺ｦ蜆ｪ蜈磯・ｽ阪ｒ螟峨∴繧峨ｌ繧・
+
+  **豕ｨ諢冗せ**・・
+  - 謨ｴ謨ｰ蜷悟｣ｫ縺ｮ蜑ｲ繧顔ｮ励・蟆乗焚轤ｹ莉･荳九′蛻・ｊ謐ｨ縺ｦ繧峨ｌ繧具ｼ井ｾ具ｼ啻5 / 2`縺ｯ`2`・・
+  - 蟆乗焚繧貞性繧險育ｮ励↓縺吶ｋ蝣ｴ蜷医・縲～double`蝙九ｒ菴ｿ縺・
+
+  **隗｣遲比ｾ・*・・
+  ```java
+  public class Main {
+      public static void main(String[] args) {
+          int priceA = 100;
+          int priceB = 200;
+
+          int total = priceA + priceB;
+          System.out.println("蜷郁ｨ磯≡鬘・ " + total + "蜀・);
+
+          int tax = total * 10 / 100;
+          System.out.println("豸郁ｲｻ遞・ " + tax + "蜀・);
+
+          int totalWithTax = total + tax;
+          System.out.println("遞手ｾｼ縺ｿ驥鷹｡・ " + totalWithTax + "蜀・);
+      }
+  }
+  ```
+
+  **螳溯｡檎ｵ先棡**・・
+  ```
+  蜷郁ｨ磯≡鬘・ 300蜀・
+  豸郁ｲｻ遞・ 30蜀・
+  遞手ｾｼ縺ｿ驥鷹｡・ 330蜀・
+  ```
+
+  **蠢懃畑萓・*・・
+  ```java
+  public class Main {
+      public static void main(String[] args) {
+          // 蜑ｲ蠑戊ｨ育ｮ励・萓・
+          int originalPrice = 1000;
+          int discount = 200;
+
+          int discountedPrice = originalPrice - discount;
+          System.out.println("蜑ｲ蠑募ｾ後・萓｡譬ｼ: " + discountedPrice + "蜀・);
+
+          // 縺翫▽繧翫・險育ｮ励・萓・
+          int payment = 5000;
+          int price = 3200;
+
+          int change = payment - price;
+          System.out.println("縺翫▽繧・ " + change + "蜀・);
+      }
+  }
+  ```
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 蝠城｡・
+
+2縺､縺ｮ蝠・刀縺ｮ萓｡譬ｼ縺ｨ豸郁ｲｻ遞弱ｒ險育ｮ励☆繧九・繝ｭ繧ｰ繝ｩ繝繧呈嶌縺・※螳溯｡後＠縺ｦ縺上□縺輔＞縲・
+
+**隕∽ｻｶ**・・
+- 蝠・刀A縺ｮ萓｡譬ｼ繧蛋100`縲∝膚蜩。縺ｮ萓｡譬ｼ繧蛋200`縺ｨ縺吶ｋ
+- 蜷郁ｨ磯≡鬘阪ｒ險育ｮ励☆繧・
+- 豸郁ｲｻ遞趣ｼ・0%・峨ｒ險育ｮ励☆繧具ｼ亥粋險磯≡鬘阪・10%・・
+- 遞手ｾｼ縺ｿ驥鷹｡阪ｒ險育ｮ励☆繧具ｼ亥粋險磯≡鬘・+ 豸郁ｲｻ遞趣ｼ・
+- 蜷・≡鬘阪ｒ陦ｨ遉ｺ縺吶ｋ
+
+**螳溯｡檎腸蠅・*・・
+- 莉･荳九・OneCompiler・医ヶ繝ｩ繧ｦ繧ｶ荳翫〒螳溯｡悟庄閭ｽ・・
+- 縺ｾ縺溘・縲・clipse遲峨・IDE
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 縺薙％縺ｫ繧ｳ繝ｼ繝峨ｒ譖ｸ縺・※縺上□縺輔＞
+
+    }
+}`}
+/>
+
+**繝偵Φ繝・*・・
+- 蜷郁ｨ磯≡鬘・= 蝠・刀A + 蝠・刀B
+- 豸郁ｲｻ遞・= 蜷郁ｨ磯≡鬘・* 10 / 100
+- 遞手ｾｼ縺ｿ驥鷹｡・= 蜷郁ｨ磯≡鬘・+ 豸郁ｲｻ遞・
+- `System.out.println()` 縺ｧ邨先棡繧定｡ｨ遉ｺ

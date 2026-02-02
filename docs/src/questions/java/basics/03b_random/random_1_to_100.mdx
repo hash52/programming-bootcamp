@@ -1,0 +1,100 @@
+---
+id: \"java/basics/03b_random#random_1_to_100\"
+title: "1縲・00縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧剃ｽ懊ｌ繧・
+type: "WRITE"
+difficulty: "Medium"
+topicid: \"java/basics/03b_random#random_1_to_100\"
+category: "java/basics"
+explanation: |
+  **1縲・00縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ**繧堤函謌舌☆繧九↓縺ｯ縲～1 + random.nextInt(100)`繧剃ｽｿ縺・・
+
+  ```java
+  Random random = new Random();
+  int number = 1 + random.nextInt(100);  // 1, 2, 3, ..., 100
+  ```
+
+  **閠・∴譁ｹ**・・
+  1. `random.nextInt(100)`縺ｯ0縲・9縺ｮ遽・峇
+  2. 縺昴ｌ縺ｫ1繧定ｶｳ縺吶→1縲・00縺ｫ縺ｪ繧・
+
+  **荳闊ｬ逧・↑繝代ち繝ｼ繝ｳ**・・
+  - **a縲彙縺ｮ遽・峇**・啻a + random.nextInt(b - a + 1)`
+  - 萓具ｼ・縲・0 竊・`1 + random.nextInt(10)`
+  - 萓具ｼ・縲・5 竊・`5 + random.nextInt(11)`
+  - 萓具ｼ・縲・00 竊・`1 + random.nextInt(100)`
+
+  **隗｣遲比ｾ・*・・
+  ```java
+  import java.util.Random;
+
+  public class Main {
+      public static void main(String[] args) {
+          Random random = new Random();
+
+          int number = 1 + random.nextInt(100);
+          System.out.println("繝ｩ繝ｳ繝繝縺ｪ謨ｰ: " + number);
+      }
+  }
+  ```
+
+  **螳溯｡御ｾ・*・・
+  ```
+  繝ｩ繝ｳ繝繝縺ｪ謨ｰ: 42
+  ```
+  ・域ｯ主屓逡ｰ縺ｪ繧句､縺瑚｡ｨ遉ｺ縺輔ｌ繧具ｼ・
+
+  **蠢懃畑萓具ｼ域焚蠖薙※繧ｲ繝ｼ繝・・*・・
+  ```java
+  import java.util.Random;
+
+  public class Main {
+      public static void main(String[] args) {
+          Random random = new Random();
+
+          int answer = 1 + random.nextInt(100);
+          System.out.println("=== 謨ｰ蠖薙※繧ｲ繝ｼ繝 ===");
+          System.out.println("1縲・00縺ｮ謨ｰ繧定・∴縺ｾ縺励◆");
+          System.out.println("・育ｭ斐∴: " + answer + "・・);
+      }
+  }
+  ```
+
+  **遽・峇繧貞､峨∴繧倶ｾ・*・・
+
+  | 逶ｮ逧・・遽・峇 | 繧ｳ繝ｼ繝・|
+  |-----------|--------|
+  | 1縲・0 | `1 + random.nextInt(10)` |
+  | 1縲・0 | `1 + random.nextInt(50)` |
+  | 1縲・000 | `1 + random.nextInt(1000)` |
+  | 5縲・5 | `5 + random.nextInt(11)` |
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 蝠城｡・
+
+1縲・00縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧堤函謌舌☆繧九・繝ｭ繧ｰ繝ｩ繝繧呈嶌縺・※螳溯｡後＠縺ｦ縺上□縺輔＞縲・
+
+**隕∽ｻｶ**・・
+- Random繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ菴懈・
+- 1縲・00縺ｮ繝ｩ繝ｳ繝繝縺ｪ謨ｴ謨ｰ繧堤函謌・
+- 縲後Λ繝ｳ繝繝縺ｪ謨ｰ: 縲・阪→陦ｨ遉ｺ
+
+**螳溯｡檎腸蠅・*・・
+- 莉･荳九・OneCompiler・医ヶ繝ｩ繧ｦ繧ｶ荳翫〒螳溯｡悟庄閭ｽ・・
+- 縺ｾ縺溘・縲・clipse遲峨・IDE
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        // 縺薙％縺ｫ繧ｳ繝ｼ繝峨ｒ譖ｸ縺・※縺上□縺輔＞
+
+    }
+}`}
+/>
+
+**繝偵Φ繝・*・・
+- `1 + random.nextInt(100)`縺ｧ1縲・00
