@@ -1,0 +1,560 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# データの作成・更新・削除
+
+この章で得られるスキル：
+- ✅ INSERT文でデータを追加できる
+- ✅ 外部キー制約を考慮してデータを追加できる
+- ✅ UPDATE文で条件を指定してデータを更新できる
+- ✅ DELETE文で条件を指定してデータを削除できる
+- ✅ トランザクションの必要性を説明できる
+- ✅ COMMITとROLLBACKの役割を説明できる
+
+---
+
+## Step 0: まず体験してみよう
+
+### シナリオ：銀行の送金処理
+
+AさんからBさんへ1万円を送金する処理を考えてみよう。
+この処理では、以下の2つの操作が必要である。
+
+1. Aさんの口座から1万円を引き落とす
+2. Bさんの口座に1万円を入金する
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- 銀行口座テーブル
+CREATE TABLE accounts (
+    account_id INTEGER PRIMARY KEY,
+    owner_name VARCHAR(50) NOT NULL,
+    balance INTEGER CHECK (balance >= 0)
+);
+
+-- 初期データ：Aさん5万円、Bさん3万円
+INSERT INTO accounts VALUES (1, 'Aさん', 50000);
+INSERT INTO accounts VALUES (2, 'Bさん', 30000);
+
+-- 送金前の残高を確認
+SELECT * FROM accounts;
+
+-- ① Aさんの口座から1万円を引き落とす
+UPDATE accounts SET balance = balance - 10000 WHERE account_id = 1;
+
+-- ② Bさんの口座に1万円を入金する
+UPDATE accounts SET balance = balance + 10000 WHERE account_id = 2;
+
+-- 送金後の残高を確認
+SELECT * FROM accounts;`}
+/>
+
+### もし①と②の間でエラーが起きたら？
+
+上の例ではうまくいったが、もし①の引き落としだけ成功して、②の入金が失敗したらどうなるだろうか。
+
+- Aさんの残高：50,000 → **40,000**（引き落とし済み）
+- Bさんの残高：30,000 → **30,000**（入金されていない）
+- **1万円が消えてしまう！**
+
+:::caution 重要
+複数の操作を「全部成功」か「全部失敗」にする仕組みが **トランザクション** である。
+これについてはStep 7で学ぶ。まずはINSERT、UPDATE、DELETEの基本を理解しよう。
+:::
+
+---
+
+## Step 1: データの追加（INSERT）
+
+### INSERT文の基本構文
+
+テーブルにデータを追加するには、 `INSERT INTO` 文を使う。
+
+```sql
+-- 全列の値を指定する方法
+INSERT INTO テーブル名 VALUES (値1, 値2, 値3);
+
+-- 列名を指定する方法
+INSERT INTO テーブル名 (列名1, 列名2) VALUES (値1, 値2);
+```
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- テーブル作成
+CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+-- 方法1: 全列を指定して追加
+INSERT INTO departments VALUES (1, '営業部', '東京');
+INSERT INTO departments VALUES (2, '開発部', '大阪');
+
+-- 方法2: 列名を指定して追加（locationを省略 → NULLになる）
+INSERT INTO departments (dept_id, dept_name) VALUES (3, '人事部');
+
+-- 確認
+SELECT * FROM departments;`}
+/>
+
+### 全列指定と一部列指定の違い
+
+| 方法 | 書き方 | 特徴 |
+|------|--------|------|
+| **全列指定** | `VALUES (値1, 値2, 値3)` | テーブル定義の列順に全ての値を指定する |
+| **一部列指定** | `(列名1, 列名2) VALUES (値1, 値2)` | 指定した列だけ値を設定し、残りはNULL（またはデフォルト値） |
+
+:::tip ポイント
+実務では **列名を明示する方法** が推奨される。
+全列指定はテーブルの列順に依存するため、テーブル構造が変更されると動かなくなるリスクがある。
+:::
+
+---
+
+## Step 2: 複数行の追加とNULLの扱い
+
+### 複数行を一度に追加する
+
+1つのINSERT文で複数行のデータを追加することもできる。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+-- 複数行を一度に追加
+INSERT INTO departments VALUES
+    (1, '営業部', '東京'),
+    (2, '開発部', '大阪'),
+    (3, '人事部', '東京');
+
+SELECT * FROM departments;`}
+/>
+
+### NULLの扱い
+
+NOT NULL制約がない列には、NULLを明示的に入れることもできる。
+
+```sql
+-- locationにNULLを入れる
+INSERT INTO departments VALUES (4, '広報部', NULL);
+
+-- 列名指定で省略する（locationがNULLになる）
+INSERT INTO departments (dept_id, dept_name) VALUES (5, '経理部');
+```
+
+---
+
+## Step 3: 外部キーがあるテーブルへの追加
+
+### 参照整合性エラー
+
+外部キー制約があるテーブルにデータを追加する場合、 **参照先のテーブルに該当するデータが存在しなければならない** 。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- 部門テーブル
+CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+-- 社員テーブル（dept_idが外部キー）
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER REFERENCES departments(dept_id),
+    salary INTEGER CHECK (salary > 0)
+);
+
+-- 先に部門を登録
+INSERT INTO departments VALUES (1, '営業部', '東京');
+INSERT INTO departments VALUES (2, '開発部', '大阪');
+
+-- 存在する部門（dept_id = 1）で社員を登録 → 成功
+INSERT INTO employees VALUES (1, '田中太郎', 1, 350000);
+
+-- 存在しない部門（dept_id = 99）で社員を登録 → エラー！
+INSERT INTO employees VALUES (2, '佐藤花子', 99, 400000);`}
+/>
+
+### 正しい登録順序
+
+| 順序 | 操作 | 理由 |
+|------|------|------|
+| **1. 親テーブル** | departments にデータを追加 | 参照される側を先に作る |
+| **2. 子テーブル** | employees にデータを追加 | 参照先が存在していれば追加できる |
+
+:::warning 注意
+外部キーがあるテーブルへのINSERTでエラーが出たら、 **参照先のテーブルにデータが存在するか** を確認しよう。
+これはよくあるミスの1つである。
+:::
+
+---
+
+## Step 4: データの更新（UPDATE）
+
+### UPDATE文の基本構文
+
+テーブルのデータを更新するには、 `UPDATE` 文を使う。
+
+```sql
+UPDATE テーブル名 SET 列名 = 新しい値 WHERE 条件;
+```
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- テーブル作成とデータ登録
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    salary INTEGER CHECK (salary > 0)
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 350000);
+INSERT INTO employees VALUES (2, '佐藤花子', 400000);
+INSERT INTO employees VALUES (3, '鈴木一郎', 320000);
+
+-- 更新前を確認
+SELECT * FROM employees;
+
+-- 田中太郎の給与を380,000に更新
+UPDATE employees SET salary = 380000 WHERE emp_id = 1;
+
+-- 更新後を確認
+SELECT * FROM employees;`}
+/>
+
+### 複数列の同時更新
+
+複数の列を同時に更新することもできる。
+
+```sql
+-- 名前と給与を同時に更新
+UPDATE employees SET emp_name = '田中太郎（部長）', salary = 500000 WHERE emp_id = 1;
+```
+
+### WHERE句を忘れると全行が更新される
+
+:::warning 注意
+`WHERE` 句を書き忘れると、 **テーブルの全行が更新されてしまう** 。
+これは非常に危険なミスである。
+
+```sql
+-- 全社員の給与が380,000になってしまう！
+UPDATE employees SET salary = 380000;
+```
+
+**UPDATE文を書くときは、必ずWHERE句を確認してから実行する** こと。
+:::
+
+---
+
+## Step 5: データの削除（DELETE）
+
+### DELETE文の基本構文
+
+テーブルからデータを削除するには、 `DELETE` 文を使う。
+
+```sql
+DELETE FROM テーブル名 WHERE 条件;
+```
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- テーブル作成とデータ登録
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    salary INTEGER CHECK (salary > 0)
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 350000);
+INSERT INTO employees VALUES (2, '佐藤花子', 400000);
+INSERT INTO employees VALUES (3, '鈴木一郎', 320000);
+
+-- 削除前を確認
+SELECT * FROM employees;
+
+-- 社員ID = 3のデータを削除
+DELETE FROM employees WHERE emp_id = 3;
+
+-- 削除後を確認
+SELECT * FROM employees;`}
+/>
+
+### WHERE句を忘れると全行が削除される
+
+:::warning 注意
+UPDATEと同様に、 `WHERE` 句を書き忘れると **テーブルの全データが削除されてしまう** 。
+
+```sql
+-- 全社員が削除されてしまう！
+DELETE FROM employees;
+```
+
+**DELETE文もWHERE句を必ず確認してから実行する** こと。
+:::
+
+---
+
+## Step 6: 外部キー制約と削除
+
+### 参照されている行は削除できない
+
+外部キーで参照されている行は、 **削除できない** 。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- テーブル作成
+CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER REFERENCES departments(dept_id)
+);
+
+-- データ登録
+INSERT INTO departments VALUES (1, '営業部');
+INSERT INTO departments VALUES (2, '開発部');
+INSERT INTO employees VALUES (1, '田中太郎', 1);
+INSERT INTO employees VALUES (2, '佐藤花子', 2);
+
+-- 社員が所属している部門を削除 → エラー！
+DELETE FROM departments WHERE dept_id = 1;`}
+/>
+
+### 正しい削除順序
+
+| 順序 | 操作 | 理由 |
+|------|------|------|
+| **1. 子テーブル** | employeesの該当データを削除 | 参照している側を先に削除する |
+| **2. 親テーブル** | departmentsの該当データを削除 | 参照されなくなったら削除できる |
+
+```sql
+-- 正しい手順
+-- ① まず社員を削除
+DELETE FROM employees WHERE dept_id = 1;
+-- ② 次に部門を削除
+DELETE FROM departments WHERE dept_id = 1;
+```
+
+:::note 補足
+削除の順序は追加の順序と **逆** になる。
+追加は「親 → 子」、削除は「子 → 親」の順序で行う。
+:::
+
+---
+
+## Step 7: トランザクション
+
+### トランザクションとは
+
+**トランザクション** とは、複数のSQL操作を **1つのまとまり** として扱う仕組みである。
+トランザクション内の操作は、 **全部成功するか、全部失敗するか** のどちらかになる。
+
+### ACID特性
+
+トランザクションには、4つの重要な特性がある。
+
+| 特性 | 英語 | 意味 |
+|------|------|------|
+| **原子性** | Atomicity | 全部成功か全部失敗のどちらか |
+| **一貫性** | Consistency | トランザクション前後でデータの整合性が保たれる |
+| **独立性** | Isolation | 同時に実行されるトランザクション同士が干渉しない |
+| **永続性** | Durability | 確定したデータは障害が起きても失われない |
+
+### なぜトランザクションが必要か
+
+Step 0で見た銀行送金の例を思い出そう。
+
+- ① Aさんの口座から1万円引き落とし
+- ② Bさんの口座に1万円入金
+
+この2つの操作は、 **必ず両方とも成功するか、両方とも失敗する** 必要がある。
+途中で片方だけ成功すると、お金が消えたり増えたりしてしまう。
+
+### BEGIN、COMMIT、ROLLBACK
+
+| コマンド | 意味 |
+|----------|------|
+| `BEGIN` | トランザクションを開始する |
+| `COMMIT` | トランザクション内の操作を **確定** する |
+| `ROLLBACK` | トランザクション内の操作を **取り消す** （元に戻す） |
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- 口座テーブル
+CREATE TABLE accounts (
+    account_id INTEGER PRIMARY KEY,
+    owner_name VARCHAR(50) NOT NULL,
+    balance INTEGER CHECK (balance >= 0)
+);
+
+INSERT INTO accounts VALUES (1, 'Aさん', 50000);
+INSERT INTO accounts VALUES (2, 'Bさん', 30000);
+
+-- 送金前の残高
+SELECT * FROM accounts;
+
+-- トランザクション開始
+BEGIN;
+
+-- ① 引き落とし
+UPDATE accounts SET balance = balance - 10000 WHERE account_id = 1;
+
+-- ② 入金
+UPDATE accounts SET balance = balance + 10000 WHERE account_id = 2;
+
+-- 全ての操作を確定
+COMMIT;
+
+-- 送金後の残高
+SELECT * FROM accounts;`}
+/>
+
+### ROLLBACKの例
+
+もし操作を取り消したい場合は、 `COMMIT` の代わりに `ROLLBACK` を使う。
+
+```sql
+BEGIN;
+UPDATE accounts SET balance = balance - 10000 WHERE account_id = 1;
+-- 何か問題が発生！
+ROLLBACK;  -- 引き落としが取り消される
+```
+
+:::info Spring/MyBatisでのトランザクション管理
+Spring Frameworkでは、 `@Transactional` アノテーションを付けるだけで、
+トランザクション管理を自動的に行ってくれる。SQLレベルでBEGIN/COMMITを書く必要はないが、
+「何が行われているか」を理解しておくことが大切である。
+:::
+
+---
+
+## Step 8: 実践課題
+
+### 課題1：新しい部門と社員を追加しよう
+
+以下のテーブルに、新しい部門「マーケティング部（東京）」と、
+その部門に所属する社員「山田次郎（給与300,000円）」を追加するSQLを書いてみよう。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER REFERENCES departments(dept_id),
+    hire_date DATE NOT NULL,
+    salary INTEGER CHECK (salary > 0),
+    email VARCHAR(100) UNIQUE
+);
+
+INSERT INTO departments VALUES (1, '営業部', '東京');
+INSERT INTO departments VALUES (2, '開発部', '大阪');
+INSERT INTO departments VALUES (3, '人事部', '東京');
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, '2020-04-01', 350000, 'tanaka@example.com');
+INSERT INTO employees VALUES (2, '佐藤花子', 2, '2021-04-01', 400000, 'sato@example.com');
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, '2022-04-01', 320000, 'suzuki@example.com');
+INSERT INTO employees VALUES (4, '高橋美咲', 3, '2023-04-01', 280000, 'takahashi@example.com');
+
+-- ここに新しい部門と社員を追加するSQLを書こう
+
+
+-- 確認
+SELECT * FROM departments;
+SELECT * FROM employees;`}
+/>
+
+### 課題2：全社員の給与を10%引き上げよう
+
+全社員の給与を10%引き上げるUPDATE文を書いてみよう。
+
+:::tip ヒント
+`salary * 1.1` で10%増しの計算ができる。
+WHERE句は不要（全社員が対象のため）。
+:::
+
+### 課題3：トランザクションを使って安全に更新しよう
+
+以下の操作をトランザクションで囲んで、安全に実行するSQLを書いてみよう。
+
+1. 営業部（dept_id = 1）の所在地を「横浜」に変更
+2. 田中太郎（emp_id = 1）の給与を400,000に変更
+
+---
+
+## まとめ
+
+この章では、 **データの作成・更新・削除** を学んだ。
+
+### 🎯 達成できたこと
+- ✅ INSERT文でデータを追加できるようになった
+- ✅ 外部キー制約を考慮してデータを追加できるようになった
+- ✅ UPDATE文で条件を指定してデータを更新できるようになった
+- ✅ DELETE文で条件を指定してデータを削除できるようになった
+- ✅ トランザクションの必要性を説明できるようになった
+- ✅ COMMITとROLLBACKの役割を説明できるようになった
+
+### 📚 学んだ内容
+
+| SQL文 | 構文 | 注意点 |
+|-------|------|--------|
+| **INSERT** | `INSERT INTO テーブル名 VALUES (...)` | 外部キーがある場合は親テーブルを先に登録 |
+| **UPDATE** | `UPDATE テーブル名 SET 列 = 値 WHERE 条件` | WHERE句を忘れると全行が更新される |
+| **DELETE** | `DELETE FROM テーブル名 WHERE 条件` | WHERE句を忘れると全行が削除される |
+| **BEGIN** | `BEGIN;` | トランザクションを開始する |
+| **COMMIT** | `COMMIT;` | トランザクション内の操作を確定する |
+| **ROLLBACK** | `ROLLBACK;` | トランザクション内の操作を取り消す |
+
+### 🚀 次のステップ
+次の章では、 **データの取得（SELECT文の基礎）** を学ぶ。
+テーブルから必要なデータを取り出す方法を、さまざまなパターンで練習しよう。
+
+---
+
+## 💡 よくある質問
+
+### Q1: INSERT文で列名を省略してよいのか？
+
+**A:** 全列指定（`VALUES (値1, 値2, ...)`）は短く書けるが、テーブルの列順に依存するため、テーブル構造が変更されると動かなくなるリスクがある。実務では列名を明示する方法（`INSERT INTO テーブル (列1, 列2) VALUES (値1, 値2)`）が推奨される。
+
+### Q2: UPDATEでWHERE句を忘れた場合、元に戻せるか？
+
+**A:** トランザクション内であれば `ROLLBACK` で元に戻せる。しかし、 `COMMIT` 済みの場合は **元に戻せない** 。そのため、本番環境では必ずバックアップを取った上で操作すること。UPDATE/DELETEの実行前には、まず同じWHERE条件で `SELECT` を実行して、対象行を確認するのが安全な手順である。
+
+### Q3: DELETEとTRUNCATEの違いは何か？
+
+**A:** `DELETE` はWHERE句で条件を指定でき、トランザクション内で `ROLLBACK` も可能である。 `TRUNCATE` はテーブルの全データを高速に削除するが、条件指定やROLLBACKができない場合が多い。通常は `DELETE` を使い、テーブルの全データを一括削除する特殊なケースでのみ `TRUNCATE` を検討する。
+
+### Q4: トランザクションはいつ使うのか？
+
+**A:** 複数のSQL操作が「全部成功するか全部失敗するか」でなければならない場合に使う。例：銀行送金、在庫管理（出荷と在庫減少）、ユーザー登録（usersテーブルとprofilesテーブルへの同時追加）。Spring Frameworkでは `@Transactional` アノテーションで自動管理される。
+
+### Q5: 外部キー制約がある場合、データを全部削除するにはどうすればよいか？
+
+**A:** 子テーブル（参照している側）から先に削除し、その後に親テーブル（参照されている側）を削除する。逆の順序で削除しようとすると、外部キー制約違反のエラーが発生する。

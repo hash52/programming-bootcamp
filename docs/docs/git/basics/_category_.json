@@ -1,0 +1,8 @@
+{
+  "label": "入門",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "slug": "/git/basics"
+  }
+}

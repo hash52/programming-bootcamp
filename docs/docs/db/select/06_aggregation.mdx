@@ -1,0 +1,580 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# データの集計
+
+この章で得られるスキル：
+- ✅ 集約関数（COUNT、SUM、AVG、MAX、MIN）を使える
+- ✅ GROUP BYでデータをグループ化して集計できる
+- ✅ HAVING句で集計結果を絞り込める
+- ✅ WHEREとHAVINGの違いを説明できる
+- ✅ NULLが集計に与える影響を理解している
+
+---
+
+## Step 0: まず体験してみよう
+
+### シナリオ：部門ごとの平均給与を知りたい
+
+「各部門の平均給与はいくらか？」を調べたいとする。
+Excelならフィルタやピボットテーブルを使う必要があるが、SQLなら1行で済む。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER REFERENCES departments(dept_id),
+    hire_date DATE NOT NULL,
+    salary INTEGER CHECK (salary > 0),
+    email VARCHAR(100) UNIQUE
+);
+
+INSERT INTO departments VALUES (1, '営業部', '東京');
+INSERT INTO departments VALUES (2, '開発部', '大阪');
+INSERT INTO departments VALUES (3, '人事部', '東京');
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, '2020-04-01', 350000, 'tanaka@example.com');
+INSERT INTO employees VALUES (2, '佐藤花子', 2, '2021-04-01', 400000, 'sato@example.com');
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, '2022-04-01', 320000, 'suzuki@example.com');
+INSERT INTO employees VALUES (4, '高橋美咲', 3, '2023-04-01', 280000, 'takahashi@example.com');
+INSERT INTO employees VALUES (5, '伊藤健太', 1, '2021-10-01', 330000, 'ito@example.com');
+INSERT INTO employees VALUES (6, '渡辺あかり', 2, '2023-07-01', 300000, 'watanabe@example.com');
+INSERT INTO employees VALUES (7, '山本裕子', 1, '2022-04-01', 310000, 'yamamoto@example.com');
+INSERT INTO employees VALUES (8, '中村大輔', 3, '2020-10-01', 360000, 'nakamura@example.com');
+
+-- 部門ごとの平均給与（SQLなら1行！）
+SELECT dept_id, AVG(salary) AS 平均給与 FROM employees GROUP BY dept_id;`}
+/>
+
+SQLの集計機能を使えば、 **大量のデータから統計情報を瞬時に** 取得できる。
+
+---
+
+## Step 1: 集約関数の基本
+
+### 5つの集約関数
+
+集約関数は、 **複数の行を1つの値にまとめる** 関数である。
+
+| 関数 | 意味 | 例 |
+|------|------|-----|
+| `COUNT(*)` | 行数を数える | 社員は全部で何人か |
+| `SUM(列名)` | 合計を求める | 給与の合計 |
+| `AVG(列名)` | 平均を求める | 給与の平均 |
+| `MAX(列名)` | 最大値を求める | 最高給与 |
+| `MIN(列名)` | 最小値を求める | 最低給与 |
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    salary INTEGER
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 350000);
+INSERT INTO employees VALUES (2, '佐藤花子', 400000);
+INSERT INTO employees VALUES (3, '鈴木一郎', 320000);
+INSERT INTO employees VALUES (4, '高橋美咲', 280000);
+INSERT INTO employees VALUES (5, '伊藤健太', 330000);
+
+-- 社員数
+SELECT COUNT(*) AS 社員数 FROM employees;
+
+-- 給与の合計
+SELECT SUM(salary) AS 給与合計 FROM employees;
+
+-- 給与の平均
+SELECT AVG(salary) AS 平均給与 FROM employees;
+
+-- 最高給与と最低給与
+SELECT MAX(salary) AS 最高給与, MIN(salary) AS 最低給与 FROM employees;
+
+-- まとめて表示
+SELECT
+    COUNT(*) AS 社員数,
+    SUM(salary) AS 給与合計,
+    AVG(salary) AS 平均給与,
+    MAX(salary) AS 最高給与,
+    MIN(salary) AS 最低給与
+FROM employees;`}
+/>
+
+---
+
+## Step 2: COUNTのバリエーション
+
+### COUNT(*)、COUNT(列名)、COUNT(DISTINCT 列名)の違い
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER,
+    email VARCHAR(100)
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, 'tanaka@example.com');
+INSERT INTO employees VALUES (2, '佐藤花子', 2, 'sato@example.com');
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, NULL);
+INSERT INTO employees VALUES (4, '高橋美咲', 1, NULL);
+INSERT INTO employees VALUES (5, '伊藤健太', 1, 'ito@example.com');
+
+-- COUNT(*): NULLを含む全行数
+SELECT COUNT(*) AS 全行数 FROM employees;
+
+-- COUNT(列名): NULLを除いた行数
+SELECT COUNT(email) AS メール登録済み FROM employees;
+
+-- COUNT(DISTINCT 列名): 重複を除いた件数
+SELECT COUNT(DISTINCT dept_id) AS 部門数 FROM employees;`}
+/>
+
+| 書き方 | 意味 | 上の例の結果 |
+|--------|------|-------------|
+| `COUNT(*)` | 全行数（NULLを含む） | 5 |
+| `COUNT(email)` | NULLを除いた行数 | 3 |
+| `COUNT(DISTINCT dept_id)` | 重複を除いた件数 | 2 |
+
+:::caution 重要
+`COUNT(*)` と `COUNT(列名)` は結果が異なる場合がある。
+`COUNT(列名)` は **NULLの行を数えない** ため、NULLがあるテーブルでは注意が必要である。
+:::
+
+---
+
+## Step 3: NULLと集約関数
+
+### 集約関数はNULLを無視する
+
+SUM、AVG、MAX、MINは、NULLの値を **無視して** 計算する。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    bonus INTEGER
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 50000);
+INSERT INTO employees VALUES (2, '佐藤花子', NULL);
+INSERT INTO employees VALUES (3, '鈴木一郎', 30000);
+INSERT INTO employees VALUES (4, '高橋美咲', NULL);
+INSERT INTO employees VALUES (5, '伊藤健太', 20000);
+
+-- AVGはNULLを無視して計算する
+SELECT AVG(bonus) AS 平均ボーナス FROM employees;
+-- → (50000 + 30000 + 20000) / 3 = 33333（NULLの2人は除外）
+
+-- NULLを0として扱いたい場合はCOALESCE
+SELECT AVG(COALESCE(bonus, 0)) AS 平均ボーナス FROM employees;
+-- → (50000 + 0 + 30000 + 0 + 20000) / 5 = 20000`}
+/>
+
+:::warning 注意
+`AVG` はNULLを **0ではなく「存在しない」として扱う** 。
+そのため、NULLを含む列の平均を計算すると、NULLの行は分母に含まれない。
+NULLを0として扱いたい場合は `COALESCE(列名, 0)` を使う。
+:::
+
+---
+
+## Step 4: GROUP BY（グループ化）
+
+### GROUP BYの基本
+
+`GROUP BY` を使うと、指定した列の値ごとにデータを **グループ化** し、各グループに対して集約関数を適用できる。
+
+```sql
+SELECT グループ化する列, 集約関数(列) FROM テーブル名 GROUP BY グループ化する列;
+```
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER REFERENCES departments(dept_id),
+    salary INTEGER
+);
+
+INSERT INTO departments VALUES (1, '営業部');
+INSERT INTO departments VALUES (2, '開発部');
+INSERT INTO departments VALUES (3, '人事部');
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, 350000);
+INSERT INTO employees VALUES (2, '佐藤花子', 2, 400000);
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, 320000);
+INSERT INTO employees VALUES (4, '高橋美咲', 3, 280000);
+INSERT INTO employees VALUES (5, '伊藤健太', 1, 330000);
+INSERT INTO employees VALUES (6, '渡辺あかり', 2, 300000);
+INSERT INTO employees VALUES (7, '山本裕子', 1, 310000);
+INSERT INTO employees VALUES (8, '中村大輔', 3, 360000);
+
+-- 部門ごとの社員数
+SELECT dept_id, COUNT(*) AS 社員数 FROM employees GROUP BY dept_id;
+
+-- 部門ごとの平均給与
+SELECT dept_id, AVG(salary) AS 平均給与 FROM employees GROUP BY dept_id;
+
+-- 部門ごとの最高給与と最低給与
+SELECT
+    dept_id,
+    MAX(salary) AS 最高給与,
+    MIN(salary) AS 最低給与
+FROM employees
+GROUP BY dept_id;`}
+/>
+
+### GROUP BYの動作イメージ
+
+```
+元のデータ:                     GROUP BY dept_id の結果:
+emp_id | dept_id | salary        dept_id | COUNT | AVG
+-------+---------+--------       --------+-------+--------
+  1    |    1    | 350000    →     1     |   3   | 330000
+  5    |    1    | 330000          2     |   3   | 340000
+  7    |    1    | 310000          3     |   2   | 320000
+  2    |    2    | 400000
+  3    |    2    | 320000
+  6    |    2    | 300000
+  4    |    3    | 280000
+  8    |    3    | 360000
+```
+
+### SELECT句に書ける列の制限
+
+:::caution 重要
+GROUP BYを使う場合、SELECT句に書けるのは以下の2種類だけである。
+
+1. **GROUP BYで指定した列**
+2. **集約関数**
+
+```sql
+-- ✅ 正しい
+SELECT dept_id, COUNT(*) FROM employees GROUP BY dept_id;
+
+-- ❌ エラー！emp_nameはGROUP BYに含まれていない
+SELECT dept_id, emp_name, COUNT(*) FROM employees GROUP BY dept_id;
+```
+
+GROUP BYでグループ化すると、各グループから1行だけ結果が出る。
+`emp_name` はグループ内に複数の値があるため、どの値を返すか決められない。
+:::
+
+---
+
+## Step 5: 複数列によるGROUP BY
+
+### 複数の列でグループ化する
+
+GROUP BYにカンマ区切りで複数の列を指定すると、 **列の組み合わせ** でグループ化できる。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER,
+    hire_date DATE NOT NULL,
+    salary INTEGER
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, '2020-04-01', 350000);
+INSERT INTO employees VALUES (2, '佐藤花子', 2, '2021-04-01', 400000);
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, '2022-04-01', 320000);
+INSERT INTO employees VALUES (4, '高橋美咲', 3, '2023-04-01', 280000);
+INSERT INTO employees VALUES (5, '伊藤健太', 1, '2021-04-01', 330000);
+INSERT INTO employees VALUES (6, '渡辺あかり', 2, '2023-04-01', 300000);
+INSERT INTO employees VALUES (7, '山本裕子', 1, '2022-04-01', 310000);
+INSERT INTO employees VALUES (8, '中村大輔', 3, '2020-04-01', 360000);
+
+-- 部門 × 入社年ごとの社員数
+SELECT
+    dept_id,
+    EXTRACT(YEAR FROM hire_date) AS 入社年,
+    COUNT(*) AS 社員数
+FROM employees
+GROUP BY dept_id, EXTRACT(YEAR FROM hire_date)
+ORDER BY dept_id, 入社年;`}
+/>
+
+:::note 補足
+`EXTRACT(YEAR FROM hire_date)` は日付から年だけを取り出す関数である。
+PostgreSQLでは `DATE_PART('year', hire_date)` と書くこともできる。
+:::
+
+---
+
+## Step 6: HAVING句（集計結果の絞り込み）
+
+### HAVINGで集計結果を絞り込む
+
+`HAVING` 句は、 **GROUP BYで集計した結果** に対して条件を指定する。
+
+```sql
+SELECT グループ列, 集約関数(列)
+FROM テーブル名
+GROUP BY グループ列
+HAVING 集約関数(列) の条件;
+```
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER,
+    salary INTEGER
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, 350000);
+INSERT INTO employees VALUES (2, '佐藤花子', 2, 400000);
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, 320000);
+INSERT INTO employees VALUES (4, '高橋美咲', 3, 280000);
+INSERT INTO employees VALUES (5, '伊藤健太', 1, 330000);
+INSERT INTO employees VALUES (6, '渡辺あかり', 2, 300000);
+INSERT INTO employees VALUES (7, '山本裕子', 1, 310000);
+INSERT INTO employees VALUES (8, '中村大輔', 3, 360000);
+
+-- 社員が3人以上いる部門
+SELECT dept_id, COUNT(*) AS 社員数
+FROM employees
+GROUP BY dept_id
+HAVING COUNT(*) >= 3;
+
+-- 平均給与が33万以上の部門
+SELECT dept_id, AVG(salary) AS 平均給与
+FROM employees
+GROUP BY dept_id
+HAVING AVG(salary) >= 330000;`}
+/>
+
+### WHEREとHAVINGの違い
+
+| | WHERE | HAVING |
+|--|-------|--------|
+| **タイミング** | GROUP BY **前** に絞り込む | GROUP BY **後** に絞り込む |
+| **対象** | 個々の行 | グループ（集計結果） |
+| **集約関数の使用** | 使えない | 使える |
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER,
+    salary INTEGER
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, 350000);
+INSERT INTO employees VALUES (2, '佐藤花子', 2, 400000);
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, 320000);
+INSERT INTO employees VALUES (4, '高橋美咲', 3, 280000);
+INSERT INTO employees VALUES (5, '伊藤健太', 1, 330000);
+INSERT INTO employees VALUES (6, '渡辺あかり', 2, 300000);
+INSERT INTO employees VALUES (7, '山本裕子', 1, 310000);
+INSERT INTO employees VALUES (8, '中村大輔', 3, 360000);
+
+-- WHEREとHAVINGの組み合わせ
+-- ① WHERE: 給与30万以上の社員だけを対象にする（グループ化前の絞り込み）
+-- ② GROUP BY: 部門ごとにグループ化
+-- ③ HAVING: 社員数が2人以上の部門だけ表示（グループ化後の絞り込み）
+SELECT dept_id, COUNT(*) AS 社員数, AVG(salary) AS 平均給与
+FROM employees
+WHERE salary >= 300000
+GROUP BY dept_id
+HAVING COUNT(*) >= 2;`}
+/>
+
+### SQL文の実行順序
+
+SQLは書いた順序とは異なる順序で実行される。
+
+```
+1. FROM     テーブルを選択
+2. WHERE    行を絞り込む
+3. GROUP BY グループ化する
+4. HAVING   グループを絞り込む
+5. SELECT   列を選択する
+6. ORDER BY 並び替える
+7. LIMIT    件数を制限する
+```
+
+:::info SQL文の実行順序を理解する
+SELECTを最初に書くが、実際に最初に実行されるのはFROMである。
+この実行順序を理解しておくと、「WHEREで集約関数が使えない理由」や
+「HAVINGでGROUP BY後のデータにアクセスできる理由」が納得できる。
+:::
+
+---
+
+## Step 7: AI活用のポイント
+
+### AIに集計SQLを書かせてみよう
+
+集計の概念を理解していれば、AIへの指示が的確になる。
+
+**例1:**
+
+> 「部門ごとの平均給与を、平均給与の高い順に表示するSQLを書いて」
+
+AIの回答:
+```sql
+SELECT dept_id, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY dept_id
+ORDER BY avg_salary DESC;
+```
+
+**例2:**
+
+> 「社員が3人以上いる部門の平均給与を求めるSQLを書いて」
+
+AIの回答:
+```sql
+SELECT dept_id, COUNT(*) AS emp_count, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY dept_id
+HAVING COUNT(*) >= 3;
+```
+
+### レビューのポイント
+
+| チェック項目 | 確認内容 |
+|-------------|---------|
+| GROUP BYの列は正しいか | グループ化の単位は要件通りか |
+| SELECT句にGROUP BY以外の列がないか | 集約関数なしの列は書けない |
+| WHEREとHAVINGの使い分けは正しいか | グループ化前・後の条件を間違えていないか |
+| NULLの扱いは考慮されているか | NULLを含む列の集計で意図した結果になるか |
+
+---
+
+## Step 8: 実践課題
+
+### 課題1：全社員の給与統計を求めよう
+
+全社員の給与について、合計・平均・最高額・最低額をまとめて表示するSQLを書いてみよう。
+
+### 課題2：部門ごとの社員数を求めよう
+
+部門ごとの社員数を、多い順に表示するSQLを書いてみよう。
+
+### 課題3：HAVINGで絞り込もう
+
+社員が3人以上いる部門の平均給与を求めるSQLを書いてみよう。
+
+### 課題4：入社年ごとの集計をしよう
+
+入社年ごとの社員数を求めるSQLを書いてみよう。
+
+:::tip ヒント
+`EXTRACT(YEAR FROM hire_date)` で入社年を取り出し、それをGROUP BYに指定する。
+:::
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER REFERENCES departments(dept_id),
+    hire_date DATE NOT NULL,
+    salary INTEGER CHECK (salary > 0),
+    email VARCHAR(100) UNIQUE
+);
+
+INSERT INTO departments VALUES (1, '営業部', '東京');
+INSERT INTO departments VALUES (2, '開発部', '大阪');
+INSERT INTO departments VALUES (3, '人事部', '東京');
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, '2020-04-01', 350000, 'tanaka@example.com');
+INSERT INTO employees VALUES (2, '佐藤花子', 2, '2021-04-01', 400000, 'sato@example.com');
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, '2022-04-01', 320000, 'suzuki@example.com');
+INSERT INTO employees VALUES (4, '高橋美咲', 3, '2023-04-01', 280000, 'takahashi@example.com');
+INSERT INTO employees VALUES (5, '伊藤健太', 1, '2021-10-01', 330000, 'ito@example.com');
+INSERT INTO employees VALUES (6, '渡辺あかり', 2, '2023-07-01', 300000, 'watanabe@example.com');
+INSERT INTO employees VALUES (7, '山本裕子', 1, '2022-04-01', 310000, 'yamamoto@example.com');
+INSERT INTO employees VALUES (8, '中村大輔', 3, '2020-10-01', 360000, 'nakamura@example.com');
+
+-- ここにSQLを書こう`}
+/>
+
+---
+
+## まとめ
+
+この章では、 **データの集計** を学んだ。
+
+### 🎯 達成できたこと
+- ✅ 集約関数（COUNT、SUM、AVG、MAX、MIN）を使えるようになった
+- ✅ GROUP BYでデータをグループ化して集計できるようになった
+- ✅ HAVING句で集計結果を絞り込めるようになった
+- ✅ WHEREとHAVINGの違いを説明できるようになった
+- ✅ NULLが集計に与える影響を理解した
+
+### 📚 学んだ内容
+
+| 構文 | 意味 | 例 |
+|------|------|-----|
+| `COUNT(*)` | 行数を数える | `SELECT COUNT(*) FROM employees` |
+| `SUM(列)` | 合計を求める | `SELECT SUM(salary) FROM employees` |
+| `AVG(列)` | 平均を求める | `SELECT AVG(salary) FROM employees` |
+| `MAX(列)` / `MIN(列)` | 最大値/最小値 | `SELECT MAX(salary) FROM employees` |
+| `GROUP BY` | グループ化 | `GROUP BY dept_id` |
+| `HAVING` | 集計結果の絞り込み | `HAVING COUNT(*) >= 3` |
+
+### 🚀 次のステップ
+次の章では、 **テーブルの分割と正規化** を学ぶ。
+「なぜテーブルを分割するのか」を理解し、データベース設計の基礎を身につけよう。
+
+---
+
+## 💡 よくある質問
+
+### Q1: GROUP BYなしで集約関数を使うとどうなるか？
+
+**A:** GROUP BYなしで集約関数を使うと、テーブル全体を1つのグループとして集計する。結果は常に1行になる。例えば `SELECT COUNT(*) FROM employees` はテーブル全体の行数を返す。
+
+### Q2: HAVINGの中でWHEREのような条件を書いてもよいか？
+
+**A:** 技術的には可能だが、パフォーマンスの観点から **グループ化前の絞り込みはWHERE、グループ化後の絞り込みはHAVING** と使い分けるべきである。WHEREで先に行数を減らしてからGROUP BYしたほうが効率がよい。
+
+### Q3: GROUP BYの列をSELECT句に書かなくてもよいか？
+
+**A:** 技術的には書かなくてもエラーにならない。しかし、GROUP BY列をSELECTに含めないと、どのグループの集計結果なのか区別できなくなる。通常は GROUP BY で指定した列を SELECT にも書く。
+
+### Q4: 集約関数を複数組み合わせて使えるか？
+
+**A:** はい、1つのSELECT文で複数の集約関数を同時に使える。例：`SELECT COUNT(*), AVG(salary), MAX(salary) FROM employees`。ただし、集約関数の中に集約関数をネストすること（`AVG(COUNT(*))`）はできない。
+
+### Q5: COUNT(*)とCOUNT(1)の違いは何か？
+
+**A:** 結果は同じで、どちらも全行数を返す。`COUNT(*)` は「全ての行」を数え、 `COUNT(1)` は「各行に1を割り当てて数える」。PostgreSQLではパフォーマンスの差はない。一般的には `COUNT(*)` が使われる。

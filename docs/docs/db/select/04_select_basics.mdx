@@ -1,0 +1,498 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# データの取得（基礎）
+
+この章で得られるスキル：
+- ✅ SELECT文でテーブルからデータを取得できる
+- ✅ 特定の列だけを取得できる
+- ✅ 列名に別名（エイリアス）を付けられる
+- ✅ 計算式を使った列を作成できる
+- ✅ DISTINCTで重複を除去できる
+- ✅ LIMITで取得件数を制限できる
+
+---
+
+## Step 0: まず体験してみよう
+
+### シナリオ：大量のデータから必要な情報だけを取り出したい
+
+以下のSQLを実行してみよう。 `SELECT *` で全データが表示される。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER REFERENCES departments(dept_id),
+    hire_date DATE NOT NULL,
+    salary INTEGER CHECK (salary > 0),
+    email VARCHAR(100) UNIQUE
+);
+
+INSERT INTO departments VALUES (1, '営業部', '東京');
+INSERT INTO departments VALUES (2, '開発部', '大阪');
+INSERT INTO departments VALUES (3, '人事部', '東京');
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, '2020-04-01', 350000, 'tanaka@example.com');
+INSERT INTO employees VALUES (2, '佐藤花子', 2, '2021-04-01', 400000, 'sato@example.com');
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, '2022-04-01', 320000, 'suzuki@example.com');
+INSERT INTO employees VALUES (4, '高橋美咲', 3, '2023-04-01', 280000, 'takahashi@example.com');
+INSERT INTO employees VALUES (5, '伊藤健太', 1, '2021-10-01', 330000, 'ito@example.com');
+INSERT INTO employees VALUES (6, '渡辺あかり', 2, '2023-07-01', 300000, 'watanabe@example.com');
+
+-- 全データを取得
+SELECT * FROM employees;`}
+/>
+
+全ての列が表示されるが、名前とメールアドレスだけ知りたい場合は？
+部門の一覧を見たいが、重複した部門名が何度も出る場合は？
+
+この章では、 **必要なデータだけを効率的に取り出す方法** を学ぶ。
+
+---
+
+## Step 1: SELECT文の基本
+
+### SELECT文の基本構文
+
+データを取得するには `SELECT` 文を使う。SQLの中で **最も頻繁に使う** 命令である。
+
+```sql
+-- 全ての列を取得
+SELECT * FROM テーブル名;
+
+-- 特定の列を取得
+SELECT 列名1, 列名2 FROM テーブル名;
+```
+
+| 要素 | 意味 |
+|------|------|
+| `SELECT` | 「取得する」という命令 |
+| `*` | 全ての列 |
+| `FROM` | 「〜から」 |
+| `;` | SQL文の終わり |
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+INSERT INTO departments VALUES (1, '営業部', '東京');
+INSERT INTO departments VALUES (2, '開発部', '大阪');
+INSERT INTO departments VALUES (3, '人事部', '東京');
+
+-- テーブルの全データを取得
+SELECT * FROM departments;`}
+/>
+
+:::tip ポイント
+`SELECT *` は手軽だが、不要な列まで取得するためパフォーマンスが悪くなる場合がある。
+実務では **必要な列だけを指定する** のが基本である。
+:::
+
+---
+
+## Step 2: 列の指定
+
+### 特定の列だけを取得する
+
+`SELECT` の後に列名をカンマ区切りで指定すると、その列だけを取得できる。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER,
+    hire_date DATE NOT NULL,
+    salary INTEGER,
+    email VARCHAR(100)
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, '2020-04-01', 350000, 'tanaka@example.com');
+INSERT INTO employees VALUES (2, '佐藤花子', 2, '2021-04-01', 400000, 'sato@example.com');
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, '2022-04-01', 320000, 'suzuki@example.com');
+INSERT INTO employees VALUES (4, '高橋美咲', 3, '2023-04-01', 280000, 'takahashi@example.com');
+
+-- 名前とメールアドレスだけ取得
+SELECT emp_name, email FROM employees;
+
+-- 列の順序を自由に指定できる
+SELECT email, emp_name, salary FROM employees;`}
+/>
+
+### やってみよう
+
+上のコードを変更して、以下を試してみよう。
+
+- `emp_name` と `salary` だけを取得する
+- `hire_date` と `emp_name` の順序で取得する
+
+---
+
+## Step 3: 列の別名（AS）
+
+### AS句で列名に別名を付ける
+
+取得結果の列名を、わかりやすい名前に変更できる。
+
+```sql
+SELECT 列名 AS 別名 FROM テーブル名;
+```
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    salary INTEGER,
+    hire_date DATE NOT NULL
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 350000, '2020-04-01');
+INSERT INTO employees VALUES (2, '佐藤花子', 400000, '2021-04-01');
+INSERT INTO employees VALUES (3, '鈴木一郎', 320000, '2022-04-01');
+
+-- 列に別名を付ける
+SELECT
+    emp_name AS 社員名,
+    salary AS 月給,
+    hire_date AS 入社日
+FROM employees;`}
+/>
+
+### 別名の用途
+
+| 用途 | 例 |
+|------|-----|
+| 日本語で表示したい | `emp_name AS 社員名` |
+| 計算結果にわかりやすい名前を付けたい | `salary * 12 AS 年収` |
+| 長い列名を短くしたい | `department_name AS dept` |
+
+:::note 補足
+`AS` は省略することもできる（`SELECT emp_name 社員名 FROM employees;`）。
+ただし、読みやすさのために `AS` を書くことが推奨される。
+:::
+
+---
+
+## Step 4: 式を使った列の作成
+
+### 計算式を使う
+
+SELECT句では、列の値を使った **計算式** を書ける。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    salary INTEGER
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 350000);
+INSERT INTO employees VALUES (2, '佐藤花子', 400000);
+INSERT INTO employees VALUES (3, '鈴木一郎', 320000);
+
+-- 月給から年収を計算
+SELECT emp_name, salary AS 月給, salary * 12 AS 年収 FROM employees;
+
+-- 手取り（税引き後）を概算
+SELECT emp_name, salary, salary * 0.8 AS 手取り概算 FROM employees;`}
+/>
+
+### 文字列の連結
+
+PostgreSQLでは `||` 演算子で文字列を連結できる。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100)
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 'tanaka@example.com');
+INSERT INTO employees VALUES (2, '佐藤花子', 'sato@example.com');
+
+-- 文字列を連結
+SELECT emp_name || '（' || email || '）' AS 社員情報 FROM employees;`}
+/>
+
+### NULLと計算
+
+:::caution 重要
+NULLを含む計算の結果は **すべてNULL** になる。
+
+```sql
+-- bonus列がNULLの場合
+SELECT salary + bonus AS 総支給 FROM employees;
+-- → 結果もNULL
+```
+
+NULLを0として扱いたい場合は `COALESCE` 関数を使う。
+
+```sql
+SELECT salary + COALESCE(bonus, 0) AS 総支給 FROM employees;
+```
+:::
+
+---
+
+## Step 5: 重複の除去（DISTINCT）
+
+### DISTINCTで重複を除去する
+
+`DISTINCT` を付けると、結果から **重複する行を除去** できる。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER REFERENCES departments(dept_id),
+    hire_date DATE NOT NULL
+);
+
+INSERT INTO departments VALUES (1, '営業部', '東京');
+INSERT INTO departments VALUES (2, '開発部', '大阪');
+INSERT INTO departments VALUES (3, '人事部', '東京');
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, '2020-04-01');
+INSERT INTO employees VALUES (2, '佐藤花子', 2, '2021-04-01');
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, '2022-04-01');
+INSERT INTO employees VALUES (4, '高橋美咲', 3, '2023-04-01');
+INSERT INTO employees VALUES (5, '伊藤健太', 1, '2021-10-01');
+
+-- 重複あり：dept_idが2回出る
+SELECT dept_id FROM employees;
+
+-- 重複除去：ユニークなdept_idだけ取得
+SELECT DISTINCT dept_id FROM employees;
+
+-- 勤務地の一覧（重複除去）
+SELECT DISTINCT location FROM departments;`}
+/>
+
+### 複数列に対するDISTINCT
+
+`DISTINCT` は **行全体** で重複を判定する。
+
+```sql
+-- dept_idとlocationの組み合わせで重複除去
+SELECT DISTINCT dept_id, location FROM ...;
+```
+
+---
+
+## Step 6: 取得件数の制限（LIMIT）
+
+### LIMITで最初のN件だけ取得する
+
+`LIMIT` を使うと、取得する行数を制限できる。
+
+```sql
+SELECT * FROM テーブル名 LIMIT 件数;
+```
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    salary INTEGER,
+    hire_date DATE NOT NULL
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 350000, '2020-04-01');
+INSERT INTO employees VALUES (2, '佐藤花子', 400000, '2021-04-01');
+INSERT INTO employees VALUES (3, '鈴木一郎', 320000, '2022-04-01');
+INSERT INTO employees VALUES (4, '高橋美咲', 280000, '2023-04-01');
+INSERT INTO employees VALUES (5, '伊藤健太', 330000, '2021-10-01');
+INSERT INTO employees VALUES (6, '渡辺あかり', 300000, '2023-07-01');
+
+-- 最初の3件だけ取得
+SELECT * FROM employees LIMIT 3;
+
+-- OFFSETで開始位置を指定（3件目から2件取得）
+SELECT * FROM employees LIMIT 2 OFFSET 3;`}
+/>
+
+### OFFSET（開始位置の指定）
+
+`OFFSET` を使うと、先頭から指定した行数を飛ばしてからデータを取得できる。
+Webアプリの **ページネーション** でよく使われる。
+
+| 構文 | 意味 |
+|------|------|
+| `LIMIT 10` | 最初の10件を取得 |
+| `LIMIT 10 OFFSET 0` | 1ページ目（1〜10件目） |
+| `LIMIT 10 OFFSET 10` | 2ページ目（11〜20件目） |
+| `LIMIT 10 OFFSET 20` | 3ページ目（21〜30件目） |
+
+:::info ページネーションの仕組み
+Webアプリで「次のページ」をクリックすると、裏側ではOFFSETの値が変わったSQLが実行されている。
+Spring + MyBatisでリスト画面を作る際にも、LIMITとOFFSETを使ったページネーションは必須の知識である。
+:::
+
+---
+
+## Step 7: AI活用のポイント
+
+### AIにSELECT文を書かせてみよう
+
+ここまで学んだ知識があれば、AIに対して的確な指示を出せるようになる。
+
+**例1: 基本的なSELECT**
+
+> 「社員テーブルから名前とメールアドレスを取得するSQLを書いて」
+
+AIの回答:
+```sql
+SELECT emp_name, email FROM employees;
+```
+
+**例2: 計算式を含むSELECT**
+
+> 「社員テーブルから名前と年収（月給×12）を取得するSQLを書いて」
+
+AIの回答:
+```sql
+SELECT emp_name, salary * 12 AS annual_salary FROM employees;
+```
+
+### レビューのポイント
+
+AIが生成したSQLを確認する際は、以下をチェックしよう。
+
+| チェック項目 | 確認内容 |
+|-------------|---------|
+| 列名は正しいか | テーブル定義と一致しているか |
+| 別名はわかりやすいか | 結果を見て意味が通じるか |
+| 不要な列が含まれていないか | `SELECT *` になっていないか |
+| LIMITは適切か | 大量データの場合、件数制限があるか |
+
+---
+
+## Step 8: 実践課題
+
+### 課題1：部門の一覧を取得しよう
+
+部門テーブルから **重複のない** 所在地の一覧を取得するSQLを書いてみよう。
+
+### 課題2：社員情報を見やすく表示しよう
+
+社員テーブルから、以下の形式でデータを取得するSQLを書いてみよう。
+
+- 社員名（「社員名」という別名）
+- 月給（「月給」という別名）
+- 年収（月給×12、「年収」という別名）
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER REFERENCES departments(dept_id),
+    hire_date DATE NOT NULL,
+    salary INTEGER CHECK (salary > 0),
+    email VARCHAR(100) UNIQUE
+);
+
+INSERT INTO departments VALUES (1, '営業部', '東京');
+INSERT INTO departments VALUES (2, '開発部', '大阪');
+INSERT INTO departments VALUES (3, '人事部', '東京');
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, '2020-04-01', 350000, 'tanaka@example.com');
+INSERT INTO employees VALUES (2, '佐藤花子', 2, '2021-04-01', 400000, 'sato@example.com');
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, '2022-04-01', 320000, 'suzuki@example.com');
+INSERT INTO employees VALUES (4, '高橋美咲', 3, '2023-04-01', 280000, 'takahashi@example.com');
+INSERT INTO employees VALUES (5, '伊藤健太', 1, '2021-10-01', 330000, 'ito@example.com');
+INSERT INTO employees VALUES (6, '渡辺あかり', 2, '2023-07-01', 300000, 'watanabe@example.com');
+
+-- ここにSQLを書こう`}
+/>
+
+### 課題3：最初の3人だけ取得しよう
+
+社員テーブルから名前と入社日だけを取得し、最初の3件だけ表示するSQLを書いてみよう。
+
+---
+
+## まとめ
+
+この章では、 **SELECT文の基礎** を学んだ。
+
+### 🎯 達成できたこと
+- ✅ SELECT文でテーブルからデータを取得できるようになった
+- ✅ 特定の列だけを取得できるようになった
+- ✅ 列名に別名（エイリアス）を付けられるようになった
+- ✅ 計算式を使った列を作成できるようになった
+- ✅ DISTINCTで重複を除去できるようになった
+- ✅ LIMITで取得件数を制限できるようになった
+
+### 📚 学んだ内容
+
+| 構文 | 意味 | 例 |
+|------|------|-----|
+| `SELECT *` | 全ての列を取得 | `SELECT * FROM employees` |
+| `SELECT 列名` | 特定の列を取得 | `SELECT emp_name, salary FROM employees` |
+| `AS` | 列に別名を付ける | `SELECT salary AS 月給` |
+| `DISTINCT` | 重複を除去する | `SELECT DISTINCT dept_id FROM employees` |
+| `LIMIT` | 取得件数を制限 | `SELECT * FROM employees LIMIT 10` |
+| `OFFSET` | 開始位置を指定 | `LIMIT 10 OFFSET 20` |
+
+### 🚀 次のステップ
+次の章では、 **データの絞り込みと並び替え** を学ぶ。
+WHERE句で条件を指定し、ORDER BYで並び替える方法を理解しよう。
+
+---
+
+## 💡 よくある質問
+
+### Q1: SELECT * はなぜ使わないほうがよいのか？
+
+**A:** `SELECT *` は全ての列を取得するため、不要な列のデータまで転送される。データ量が多い場合やネットワーク越しの通信ではパフォーマンスに影響する。また、テーブルに列が追加されたときに予期しない列が結果に含まれることもある。開発中の確認用としては便利だが、本番コードでは必要な列だけを指定するのが原則である。
+
+### Q2: LIMITなしで大量データを取得するとどうなるか？
+
+**A:** テーブルに数百万件のデータがある場合、全件取得しようとするとメモリ不足やタイムアウトが発生する可能性がある。実務では必ず `LIMIT` を付けるか、WHERE句で条件を絞り込んで取得する。
+
+### Q3: ASで付けた別名は他の場所でも使えるか？
+
+**A:** AS で付けた別名は、そのSELECT文の結果表示でのみ有効である。WHERE句やGROUP BY句では別名を使えない場合がある（PostgreSQLではORDER BY句では使える）。
+
+### Q4: DISTINCTとGROUP BYの違いは何か？
+
+**A:** `DISTINCT` は単純に重複行を除去するだけである。 `GROUP BY` はグループ化して集計（COUNT、AVGなど）を行う際に使う。重複除去だけが目的なら `DISTINCT` 、集計を伴うなら `GROUP BY` を使う。GROUP BYについては第6章で学ぶ。

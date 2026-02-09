@@ -1,0 +1,543 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# データの絞り込みと並び替え
+
+この章で得られるスキル：
+- ✅ WHERE句で条件を指定してデータを絞り込める
+- ✅ 比較演算子と論理演算子を使って複雑な条件を書ける
+- ✅ BETWEEN、IN、LIKEを使った条件指定ができる
+- ✅ NULL値の判定ができる
+- ✅ ORDER BYでデータを並び替えられる
+
+---
+
+## Step 0: まず体験してみよう
+
+### シナリオ：全社員のリストから営業部の社員だけを探す
+
+以下のSQLを実行すると、全社員のデータが表示される。
+この中から「営業部（dept_id = 1）の社員」を探すとしたら、目視では大変である。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER REFERENCES departments(dept_id),
+    hire_date DATE NOT NULL,
+    salary INTEGER CHECK (salary > 0),
+    email VARCHAR(100) UNIQUE
+);
+
+INSERT INTO departments VALUES (1, '営業部', '東京');
+INSERT INTO departments VALUES (2, '開発部', '大阪');
+INSERT INTO departments VALUES (3, '人事部', '東京');
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, '2020-04-01', 350000, 'tanaka@example.com');
+INSERT INTO employees VALUES (2, '佐藤花子', 2, '2021-04-01', 400000, 'sato@example.com');
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, '2022-04-01', 320000, 'suzuki@example.com');
+INSERT INTO employees VALUES (4, '高橋美咲', 3, '2023-04-01', 280000, 'takahashi@example.com');
+INSERT INTO employees VALUES (5, '伊藤健太', 1, '2021-10-01', 330000, 'ito@example.com');
+INSERT INTO employees VALUES (6, '渡辺あかり', 2, '2023-07-01', 300000, 'watanabe@example.com');
+INSERT INTO employees VALUES (7, '山本裕子', 1, '2022-04-01', 310000, 'yamamoto@example.com');
+INSERT INTO employees VALUES (8, '中村大輔', 3, '2020-10-01', 360000, 'nakamura@example.com');
+
+-- 全社員を表示（目視で営業部を探すのは大変）
+SELECT * FROM employees;
+
+-- WHERE句を使えば一発！
+SELECT * FROM employees WHERE dept_id = 1;`}
+/>
+
+WHERE句を使えば、 **条件に合うデータだけを瞬時に取り出せる** 。
+
+---
+
+## Step 1: WHERE句の基本
+
+### WHERE句の構文
+
+`WHERE` 句は `FROM` の後ろに書く。
+
+```sql
+SELECT 列名 FROM テーブル名 WHERE 条件;
+```
+
+### 比較演算子
+
+| 演算子 | 意味 | 例 |
+|--------|------|-----|
+| `=` | 等しい | `WHERE dept_id = 1` |
+| `<>` | 等しくない | `WHERE dept_id <> 1` |
+| `>` | より大きい | `WHERE salary > 300000` |
+| `<` | より小さい | `WHERE salary < 300000` |
+| `>=` | 以上 | `WHERE salary >= 300000` |
+| `<=` | 以下 | `WHERE salary <= 300000` |
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER,
+    salary INTEGER,
+    hire_date DATE NOT NULL
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, 350000, '2020-04-01');
+INSERT INTO employees VALUES (2, '佐藤花子', 2, 400000, '2021-04-01');
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, 320000, '2022-04-01');
+INSERT INTO employees VALUES (4, '高橋美咲', 3, 280000, '2023-04-01');
+INSERT INTO employees VALUES (5, '伊藤健太', 1, 330000, '2021-10-01');
+
+-- 給与が35万以上の社員
+SELECT emp_name, salary FROM employees WHERE salary >= 350000;
+
+-- 開発部（dept_id = 2）以外の社員
+SELECT emp_name, dept_id FROM employees WHERE dept_id <> 2;
+
+-- 2022年以降に入社した社員
+SELECT emp_name, hire_date FROM employees WHERE hire_date >= '2022-01-01';`}
+/>
+
+:::note 補足
+文字列や日付を条件にする場合は、値を **シングルクォート** で囲む。
+数値の場合はクォートは不要である。
+:::
+
+---
+
+## Step 2: 論理演算子（AND、OR、NOT）
+
+### 複数条件の組み合わせ
+
+| 演算子 | 意味 | 例 |
+|--------|------|-----|
+| `AND` | 両方の条件を満たす | `WHERE dept_id = 1 AND salary > 300000` |
+| `OR` | いずれかの条件を満たす | `WHERE dept_id = 1 OR dept_id = 2` |
+| `NOT` | 条件を否定する | `WHERE NOT dept_id = 1` |
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER,
+    salary INTEGER,
+    hire_date DATE NOT NULL
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, 350000, '2020-04-01');
+INSERT INTO employees VALUES (2, '佐藤花子', 2, 400000, '2021-04-01');
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, 320000, '2022-04-01');
+INSERT INTO employees VALUES (4, '高橋美咲', 3, 280000, '2023-04-01');
+INSERT INTO employees VALUES (5, '伊藤健太', 1, 330000, '2021-10-01');
+
+-- AND: 開発部で給与35万以上
+SELECT * FROM employees WHERE dept_id = 2 AND salary >= 350000;
+
+-- OR: 営業部または人事部
+SELECT * FROM employees WHERE dept_id = 1 OR dept_id = 3;
+
+-- NOT: 開発部以外
+SELECT * FROM employees WHERE NOT dept_id = 2;`}
+/>
+
+### 括弧で優先順位を制御する
+
+ANDはORより優先される。意図しない結果を避けるために **括弧を使う** 。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER,
+    salary INTEGER
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, 350000);
+INSERT INTO employees VALUES (2, '佐藤花子', 2, 400000);
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, 320000);
+INSERT INTO employees VALUES (4, '高橋美咲', 3, 280000);
+INSERT INTO employees VALUES (5, '伊藤健太', 1, 330000);
+
+-- 括弧なし: 「dept_id=1」OR「dept_id=2 かつ salary>350000」
+SELECT * FROM employees WHERE dept_id = 1 OR dept_id = 2 AND salary > 350000;
+
+-- 括弧あり: 「dept_id=1 または dept_id=2」かつ「salary>350000」
+SELECT * FROM employees WHERE (dept_id = 1 OR dept_id = 2) AND salary > 350000;`}
+/>
+
+:::caution 重要
+ANDとORを混ぜて使う場合は、 **必ず括弧で意図を明確にする** こと。
+括弧がないと、ANDがORより先に評価されるため、意図しない結果になることがある。
+:::
+
+---
+
+## Step 3: BETWEEN（範囲指定）
+
+### BETWEENで範囲を指定する
+
+`BETWEEN` を使うと、値が **指定した範囲内** にあるかを判定できる。
+
+```sql
+WHERE 列名 BETWEEN 下限 AND 上限
+```
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    salary INTEGER,
+    hire_date DATE NOT NULL
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 350000, '2020-04-01');
+INSERT INTO employees VALUES (2, '佐藤花子', 400000, '2021-04-01');
+INSERT INTO employees VALUES (3, '鈴木一郎', 320000, '2022-04-01');
+INSERT INTO employees VALUES (4, '高橋美咲', 280000, '2023-04-01');
+INSERT INTO employees VALUES (5, '伊藤健太', 330000, '2021-10-01');
+
+-- 給与が30万〜35万の社員
+SELECT * FROM employees WHERE salary BETWEEN 300000 AND 350000;
+
+-- 2021年に入社した社員
+SELECT * FROM employees WHERE hire_date BETWEEN '2021-01-01' AND '2021-12-31';`}
+/>
+
+:::tip ポイント
+`BETWEEN` は **境界値を含む** 。
+つまり `BETWEEN 300000 AND 350000` は、300000も350000も含む。
+これは `salary >= 300000 AND salary <= 350000` と同じ意味である。
+:::
+
+---
+
+## Step 4: IN（リスト指定）
+
+### INで複数の値を一度に指定する
+
+`IN` を使うと、 **複数の値のいずれかに一致** するデータを取得できる。
+
+```sql
+WHERE 列名 IN (値1, 値2, 値3)
+```
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER,
+    salary INTEGER
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, 350000);
+INSERT INTO employees VALUES (2, '佐藤花子', 2, 400000);
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, 320000);
+INSERT INTO employees VALUES (4, '高橋美咲', 3, 280000);
+INSERT INTO employees VALUES (5, '伊藤健太', 1, 330000);
+
+-- 営業部(1)または開発部(2)の社員
+SELECT * FROM employees WHERE dept_id IN (1, 2);
+
+-- 上と同じ意味（ORで書いた場合）
+SELECT * FROM employees WHERE dept_id = 1 OR dept_id = 2;
+
+-- NOT IN: 営業部と開発部「以外」の社員
+SELECT * FROM employees WHERE dept_id NOT IN (1, 2);`}
+/>
+
+### INとORの使い分け
+
+| 方法 | 書き方 |
+|------|--------|
+| `OR` | `WHERE dept_id = 1 OR dept_id = 2 OR dept_id = 3` |
+| `IN` | `WHERE dept_id IN (1, 2, 3)` |
+
+値が3つ以上ある場合は `IN` のほうが **簡潔で読みやすい** 。
+
+---
+
+## Step 5: LIKE（あいまい検索）
+
+### LIKEでパターンを指定して検索する
+
+`LIKE` を使うと、文字列の **一部が一致する** データを検索できる。
+
+| ワイルドカード | 意味 | 例 |
+|---------------|------|-----|
+| `%` | 0文字以上の任意の文字列 | `'田%'` → 田で始まる |
+| `_` | 任意の1文字 | `'_中'` → 2文字で中で終わる |
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100)
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 'tanaka@example.com');
+INSERT INTO employees VALUES (2, '佐藤花子', 'sato@example.com');
+INSERT INTO employees VALUES (3, '鈴木一郎', 'suzuki@example.com');
+INSERT INTO employees VALUES (4, '高橋美咲', 'takahashi@example.com');
+INSERT INTO employees VALUES (5, '田村健太', 'tamura@example.com');
+
+-- 前方一致: 「田」で始まる名前
+SELECT * FROM employees WHERE emp_name LIKE '田%';
+
+-- 後方一致: 「郎」で終わる名前
+SELECT * FROM employees WHERE emp_name LIKE '%郎';
+
+-- 部分一致: 「橋」を含む名前
+SELECT * FROM employees WHERE emp_name LIKE '%橋%';
+
+-- メールアドレスが「ta」で始まる社員
+SELECT * FROM employees WHERE email LIKE 'ta%';`}
+/>
+
+### パターンの例
+
+| パターン | 意味 | マッチする例 |
+|----------|------|-------------|
+| `'田%'` | 「田」で始まる | 田中太郎、田村健太 |
+| `'%郎'` | 「郎」で終わる | 田中太郎、鈴木一郎 |
+| `'%中%'` | 「中」を含む | 田中太郎、中村大輔 |
+| `'__太郎'` | 4文字で「太郎」で終わる | 田中太郎 |
+
+---
+
+## Step 6: NULL値の判定
+
+### NULLは比較演算子で判定できない
+
+NULLは「値がわからない」状態であるため、通常の比較演算子（ `=` 、 `<>` ）では判定できない。
+
+```sql
+-- これはうまく動かない！
+SELECT * FROM employees WHERE email = NULL;    -- ❌
+SELECT * FROM employees WHERE email <> NULL;   -- ❌
+```
+
+### IS NULLとIS NOT NULL
+
+NULLの判定には `IS NULL` と `IS NOT NULL` を使う。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100),
+    bonus INTEGER
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 'tanaka@example.com', 50000);
+INSERT INTO employees VALUES (2, '佐藤花子', 'sato@example.com', NULL);
+INSERT INTO employees VALUES (3, '鈴木一郎', NULL, 30000);
+INSERT INTO employees VALUES (4, '高橋美咲', NULL, NULL);
+
+-- メールアドレスが未登録の社員
+SELECT * FROM employees WHERE email IS NULL;
+
+-- メールアドレスが登録済みの社員
+SELECT * FROM employees WHERE email IS NOT NULL;
+
+-- ボーナスが未設定の社員
+SELECT * FROM employees WHERE bonus IS NULL;`}
+/>
+
+:::warning 注意
+`WHERE email = NULL` と書いても結果は1件も返らない。
+NULLの判定には **必ず `IS NULL` / `IS NOT NULL` を使う** こと。
+これは初学者が最もよく間違えるポイントの1つである。
+:::
+
+---
+
+## Step 7: ORDER BY（並び替え）
+
+### ORDER BYの基本構文
+
+`ORDER BY` を使うと、結果を **特定の列の値で並び替え** られる。
+
+```sql
+SELECT 列名 FROM テーブル名 ORDER BY 列名 ASC|DESC;
+```
+
+| キーワード | 意味 | デフォルト |
+|-----------|------|-----------|
+| `ASC` | 昇順（小さい順） | ✅（省略可） |
+| `DESC` | 降順（大きい順） | |
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER,
+    salary INTEGER,
+    hire_date DATE NOT NULL
+);
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, 350000, '2020-04-01');
+INSERT INTO employees VALUES (2, '佐藤花子', 2, 400000, '2021-04-01');
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, 320000, '2022-04-01');
+INSERT INTO employees VALUES (4, '高橋美咲', 3, 280000, '2023-04-01');
+INSERT INTO employees VALUES (5, '伊藤健太', 1, 330000, '2021-10-01');
+
+-- 給与の高い順（降順）
+SELECT emp_name, salary FROM employees ORDER BY salary DESC;
+
+-- 入社日の古い順（昇順）
+SELECT emp_name, hire_date FROM employees ORDER BY hire_date ASC;
+
+-- 複数列で並び替え: 部門ごとに、給与の高い順
+SELECT emp_name, dept_id, salary FROM employees ORDER BY dept_id ASC, salary DESC;`}
+/>
+
+### 複数列による並び替え
+
+`ORDER BY` にカンマ区切りで複数の列を指定すると、第1キー、第2キーの順で並び替えが行われる。
+
+```sql
+-- 部門ID昇順 → 同じ部門内では給与降順
+ORDER BY dept_id ASC, salary DESC
+```
+
+### WHERE句とORDER BYの組み合わせ
+
+WHERE句とORDER BYは同時に使える。 **WHEREで絞り込んでからORDER BYで並び替える** 。
+
+```sql
+-- 開発部の社員を給与の高い順に表示
+SELECT emp_name, salary
+FROM employees
+WHERE dept_id = 2
+ORDER BY salary DESC;
+```
+
+---
+
+## Step 8: 実践課題
+
+### 課題1：給与範囲で絞り込もう
+
+給与が30万円以上40万円以下の社員を、給与の高い順に表示するSQLを書いてみよう。
+
+### 課題2：複数条件で絞り込もう
+
+営業部（dept_id = 1）または開発部（dept_id = 2）の社員を取得するSQLを書いてみよう。
+
+### 課題3：あいまい検索と並び替えを組み合わせよう
+
+名前に「田」が含まれる社員を、給与の高い順に取得するSQLを書いてみよう。
+
+### 課題4：NULLの扱いを確認しよう
+
+メールアドレスが未登録（NULL）の社員を取得するSQLを書いてみよう。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER REFERENCES departments(dept_id),
+    hire_date DATE NOT NULL,
+    salary INTEGER CHECK (salary > 0),
+    email VARCHAR(100)
+);
+
+INSERT INTO departments VALUES (1, '営業部', '東京');
+INSERT INTO departments VALUES (2, '開発部', '大阪');
+INSERT INTO departments VALUES (3, '人事部', '東京');
+
+INSERT INTO employees VALUES (1, '田中太郎', 1, '2020-04-01', 350000, 'tanaka@example.com');
+INSERT INTO employees VALUES (2, '佐藤花子', 2, '2021-04-01', 400000, 'sato@example.com');
+INSERT INTO employees VALUES (3, '鈴木一郎', 2, '2022-04-01', 320000, 'suzuki@example.com');
+INSERT INTO employees VALUES (4, '高橋美咲', 3, '2023-04-01', 280000, NULL);
+INSERT INTO employees VALUES (5, '伊藤健太', 1, '2021-10-01', 330000, 'ito@example.com');
+INSERT INTO employees VALUES (6, '渡辺あかり', 2, '2023-07-01', 300000, NULL);
+INSERT INTO employees VALUES (7, '田村裕子', 1, '2022-04-01', 310000, 'tamura@example.com');
+
+-- ここにSQLを書こう`}
+/>
+
+---
+
+## まとめ
+
+この章では、 **データの絞り込みと並び替え** を学んだ。
+
+### 🎯 達成できたこと
+- ✅ WHERE句で条件を指定してデータを絞り込めるようになった
+- ✅ 比較演算子と論理演算子を使って複雑な条件を書けるようになった
+- ✅ BETWEEN、IN、LIKEを使った条件指定ができるようになった
+- ✅ NULL値の判定ができるようになった
+- ✅ ORDER BYでデータを並び替えられるようになった
+
+### 📚 学んだ内容
+
+| 構文 | 意味 | 例 |
+|------|------|-----|
+| `WHERE` | 条件で絞り込む | `WHERE salary > 300000` |
+| `AND` / `OR` | 複数条件を組み合わせる | `WHERE dept_id = 1 AND salary > 300000` |
+| `BETWEEN` | 範囲を指定する | `WHERE salary BETWEEN 300000 AND 400000` |
+| `IN` | 複数の値のいずれかに一致 | `WHERE dept_id IN (1, 2)` |
+| `LIKE` | あいまい検索 | `WHERE emp_name LIKE '%田%'` |
+| `IS NULL` | NULLかどうか判定 | `WHERE email IS NULL` |
+| `ORDER BY` | 並び替え | `ORDER BY salary DESC` |
+
+### 🚀 次のステップ
+次の章では、 **データの集計** を学ぶ。
+COUNT、SUM、AVGなどの集約関数とGROUP BYを使って、データを集計する方法を理解しよう。
+
+---
+
+## 💡 よくある質問
+
+### Q1: WHEREとHAVINGの違いは何か？
+
+**A:** `WHERE` はグループ化（GROUP BY） **前** にデータを絞り込む。 `HAVING` はグループ化 **後** に集計結果を絞り込む。HAVINGについては第6章で学ぶ。
+
+### Q2: LIKEは大文字と小文字を区別するか？
+
+**A:** PostgreSQLの `LIKE` は大文字と小文字を **区別する** 。区別しない検索をしたい場合は `ILIKE` を使う（PostgreSQL固有の機能）。
+
+### Q3: ORDER BYでNULLはどこに来るか？
+
+**A:** PostgreSQLでは、昇順（ASC）の場合NULLは **最後** に、降順（DESC）の場合NULLは **最初** に来る。この順序を変えたい場合は `NULLS FIRST` や `NULLS LAST` を指定できる。
+
+### Q4: WHERE句に書ける条件の数に制限はあるか？
+
+**A:** 技術的には制限はない。ただし、条件が多すぎるとSQLが読みにくくなる。実務では、複雑な条件はビュー（VIEW）を作成して整理することがある。
+
+### Q5: BETWEENとIN、どちらを使えばよいか？
+
+**A:** **連続した範囲** の場合は `BETWEEN`（例：給与が30万〜40万）を使う。 **離散的な値のリスト** の場合は `IN`（例：部門ID が 1, 3, 5）を使う。用途に応じて使い分けよう。

@@ -1,0 +1,467 @@
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+
+# テーブル設計の基礎
+
+この章で得られるスキル：
+- ✅ CREATE TABLE文でテーブルを作成できる
+- ✅ 適切なデータ型を選択できる
+- ✅ NOT NULL制約、UNIQUE制約を設定できる
+- ✅ 主キー（PRIMARY KEY）の役割を説明できる
+- ✅ 外部キー（FOREIGN KEY）の役割を説明できる
+- ✅ CHECK制約でデータの妥当性を保証できる
+
+---
+
+## Step 0: まず体験してみよう
+
+### シナリオ：制約がないテーブルに不正データを入れてみる
+
+以下のSQLを実行してみよう。
+制約がないテーブルには、 **どんなデータでも登録できてしまう** ことがわかる。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- 制約がないテーブル
+CREATE TABLE employees_bad (
+    emp_id INTEGER,
+    emp_name VARCHAR(50),
+    salary INTEGER,
+    email VARCHAR(100)
+);
+
+-- 給与が負の数で登録できてしまう！
+INSERT INTO employees_bad VALUES (1, '田中太郎', -100000, 'tanaka@example.com');
+
+-- 名前がNULL（空）で登録できてしまう！
+INSERT INTO employees_bad VALUES (2, NULL, 300000, 'unknown@example.com');
+
+-- 同じメールアドレスで重複登録できてしまう！
+INSERT INTO employees_bad VALUES (3, '佐藤花子', 400000, 'tanaka@example.com');
+
+-- 同じIDで重複登録できてしまう！
+INSERT INTO employees_bad VALUES (1, '鈴木一郎', 350000, 'suzuki@example.com');
+
+-- 登録されたデータを確認
+SELECT * FROM employees_bad;`}
+/>
+
+### 問題点
+
+- 給与が **マイナス** になっている（現実にはあり得ない）
+- 名前が **NULL（空）** のレコードがある
+- メールアドレスが **重複** している
+- IDが **重複** しており、どのレコードが誰かわからない
+
+:::caution 重要
+制約がないテーブルは、 **不正なデータの入り放題** である。
+アプリケーション側のバグで不正なデータが送られてきても、データベースが止めてくれない。
+適切な制約を設定することで、データベース自体が **データの正しさを守る門番** になる。
+:::
+
+---
+
+## Step 1: テーブルの作成（CREATE TABLE）
+
+### CREATE TABLE文の基本構文
+
+テーブルを作成するには、 `CREATE TABLE` 文を使う。
+
+```sql
+CREATE TABLE テーブル名 (
+    列名1 データ型,
+    列名2 データ型,
+    列名3 データ型
+);
+```
+
+### 最もシンプルなテーブルの例
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- 最もシンプルなテーブル
+CREATE TABLE fruits (
+    id INTEGER,
+    name VARCHAR(50),
+    price INTEGER
+);
+
+-- データを追加
+INSERT INTO fruits VALUES (1, 'りんご', 150);
+INSERT INTO fruits VALUES (2, 'みかん', 80);
+INSERT INTO fruits VALUES (3, 'バナナ', 120);
+
+-- 確認
+SELECT * FROM fruits;`}
+/>
+
+### 命名規則
+
+テーブル名や列名には、以下のルールを守ることが推奨される。
+
+| ルール | 良い例 | 悪い例 |
+|--------|--------|--------|
+| **英小文字** を使う | `employees` | `Employees` |
+| **複数形** をテーブル名に使う | `departments` | `department` |
+| 単語の区切りは **アンダースコア** | `hire_date` | `hireDate` |
+| **予約語** を避ける | `order_date` | `date` |
+
+---
+
+## Step 2: データ型の選択
+
+### 主なデータ型
+
+テーブルの各列には、 **データ型** を指定する。
+データ型は「その列にどんな種類のデータを入れるか」を定義する。
+
+| データ型 | 意味 | 使用例 |
+|----------|------|--------|
+| `INTEGER` | 整数 | 社員ID、年齢、給与 |
+| `VARCHAR(n)` | 最大n文字の可変長文字列 | 名前、メールアドレス |
+| `TEXT` | 長さ制限なしの文字列 | 備考、説明文 |
+| `DATE` | 日付（年月日） | 入社日、生年月日 |
+| `TIMESTAMP` | 日付と時刻 | 作成日時、更新日時 |
+| `BOOLEAN` | 真偽値（TRUE / FALSE） | 有効フラグ、削除フラグ |
+
+### データ型の選び方
+
+| データ | 推奨するデータ型 | 理由 |
+|--------|----------------|------|
+| 社員ID | `INTEGER` | 数値で連番にする |
+| 社員名 | `VARCHAR(50)` | 名前は50文字あれば十分 |
+| メールアドレス | `VARCHAR(100)` | 一般的なメールアドレスの長さ |
+| 入社日 | `DATE` | 年月日だけで十分 |
+| 給与 | `INTEGER` | 円単位の整数 |
+| 備考 | `TEXT` | 長さが不定の自由記述 |
+
+:::tip ポイント
+`VARCHAR(n)` の `n` は最大文字数を表す。
+必要以上に大きな値を指定する必要はないが、小さすぎて入力できないことがないように注意しよう。
+:::
+
+---
+
+## Step 3: NOT NULL制約
+
+### NULLとは
+
+**NULL** とは、「値がわからない」「値がない」状態を表す特別な値である。
+空文字（`""`）やゼロ（`0`）とは異なる。
+
+| 値 | 意味 |
+|-----|------|
+| `0` | 数値のゼロ |
+| `""` | 空の文字列 |
+| `NULL` | 値が存在しない |
+
+### NOT NULL制約の役割
+
+**NOT NULL制約** を付けると、その列にNULLを入れることができなくなる。
+必ず値が必要な列に設定する。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- NOT NULL制約を付けたテーブル
+CREATE TABLE employees_v2 (
+    emp_id INTEGER,
+    emp_name VARCHAR(50) NOT NULL,  -- 名前は必須
+    salary INTEGER
+);
+
+-- 名前ありで登録 → 成功
+INSERT INTO employees_v2 VALUES (1, '田中太郎', 350000);
+
+-- 名前なし（NULL）で登録 → エラー！
+INSERT INTO employees_v2 VALUES (2, NULL, 300000);`}
+/>
+
+### NOT NULLを付けるべき列の例
+
+- 社員名（名前のない社員は存在しない）
+- 入社日（入社日がわからない社員はおかしい）
+- メールアドレス（業務連絡に必要）
+
+### NULLを許可するケース
+
+- 備考（書かなくてもよい）
+- 退職日（まだ退職していない社員はNULL）
+
+---
+
+## Step 4: UNIQUE制約
+
+### UNIQUE制約の役割
+
+**UNIQUE制約** を付けると、その列に **同じ値を2回入れることができなくなる** 。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- UNIQUE制約を付けたテーブル
+CREATE TABLE employees_v3 (
+    emp_id INTEGER,
+    emp_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE  -- メールアドレスは重複禁止
+);
+
+-- 1人目の登録 → 成功
+INSERT INTO employees_v3 VALUES (1, '田中太郎', 'tanaka@example.com');
+
+-- 違うメールアドレスで登録 → 成功
+INSERT INTO employees_v3 VALUES (2, '佐藤花子', 'sato@example.com');
+
+-- 同じメールアドレスで登録 → エラー！
+INSERT INTO employees_v3 VALUES (3, '鈴木一郎', 'tanaka@example.com');`}
+/>
+
+### PRIMARY KEYとの違い
+
+| | UNIQUE | PRIMARY KEY |
+|--|--------|-------------|
+| 重複 | 不可 | 不可 |
+| NULL | 許可（1つだけ） | 不可 |
+| テーブルに複数設定 | 可能 | 1つだけ |
+| 用途 | メールアドレスなど | 行の一意識別 |
+
+---
+
+## Step 5: PRIMARY KEY（主キー）
+
+### 主キーの役割
+
+**主キー（PRIMARY KEY）** は、テーブルの各行を **一意に識別** するための列である。
+
+主キーの特徴：
+- 値の **重複が許されない** （UNIQUE）
+- **NULLが許されない** （NOT NULL）
+- テーブルに **1つだけ** 設定できる
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- PRIMARY KEYを設定したテーブル
+CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,  -- 主キー
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+-- 正常にデータを登録
+INSERT INTO departments VALUES (1, '営業部', '東京');
+INSERT INTO departments VALUES (2, '開発部', '大阪');
+
+-- 同じIDで登録 → エラー！（重複不可）
+INSERT INTO departments VALUES (1, '人事部', '東京');
+
+-- IDがNULLで登録 → エラー！（NULLは不可）
+INSERT INTO departments VALUES (NULL, '総務部', '福岡');`}
+/>
+
+### 自然キーと代理キー
+
+主キーの選び方には2つの考え方がある。
+
+| | 自然キー | 代理キー |
+|--|---------|---------|
+| 説明 | データそのものをキーにする | 連番などの人工的なキーを作る |
+| 例 | メールアドレス、学籍番号 | emp_id、dept_id |
+| メリット | 意味がわかりやすい | 変更されない |
+| デメリット | 変更される可能性がある | 意味がない数値 |
+
+:::info 実務では代理キーが多い
+業務でよく使われるのは **代理キー（連番のID）** である。メールアドレスや電話番号は変更される可能性があるが、
+IDは一度割り当てたら変更しないため、安定した一意識別が可能になる。
+:::
+
+---
+
+## Step 6: FOREIGN KEY（外部キー）
+
+### 外部キーの役割
+
+**外部キー（FOREIGN KEY）** は、あるテーブルの列が **別のテーブルの主キーを参照する** ことを示す制約である。
+これにより、テーブル間の **関連性** を定義し、 **データの整合性** を保証する。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- 部門テーブル（参照される側）
+CREATE TABLE departments (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(50)
+);
+
+-- 社員テーブル（参照する側）
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INTEGER REFERENCES departments(dept_id),  -- 外部キー
+    salary INTEGER
+);
+
+-- 部門を先に登録（参照先が必要）
+INSERT INTO departments VALUES (1, '営業部', '東京');
+INSERT INTO departments VALUES (2, '開発部', '大阪');
+
+-- 存在する部門IDで社員を登録 → 成功
+INSERT INTO employees VALUES (1, '田中太郎', 1, 350000);
+INSERT INTO employees VALUES (2, '佐藤花子', 2, 400000);
+
+-- 存在しない部門ID（99）で社員を登録 → エラー！
+INSERT INTO employees VALUES (3, '鈴木一郎', 99, 320000);`}
+/>
+
+### 参照整合性制約
+
+外部キーによって保証されるルールを **参照整合性制約** と呼ぶ。
+
+| ルール | 説明 |
+|--------|------|
+| **参照先が存在すること** | 存在しない部門IDを社員テーブルに登録できない |
+| **参照されている行は削除できない** | 社員が所属している部門は削除できない（第3章で学ぶ） |
+
+:::warning 注意
+外部キーのあるテーブルにデータを追加する際は、 **参照先のテーブルに先にデータを登録** する必要がある。
+上の例では、departmentsにデータを入れてからemployeesにデータを入れている。順序を逆にするとエラーになる。
+:::
+
+---
+
+## Step 7: CHECK制約
+
+### CHECK制約の役割
+
+**CHECK制約** は、列の値が **特定の条件を満たすこと** をチェックする制約である。
+ビジネスルールに基づいたデータの妥当性を保証できる。
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- CHECK制約を設定したテーブル
+CREATE TABLE employees (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    salary INTEGER CHECK (salary > 0),          -- 給与は正の数
+    age INTEGER CHECK (age >= 18 AND age <= 65)  -- 年齢は18〜65歳
+);
+
+-- 正常なデータ → 成功
+INSERT INTO employees VALUES (1, '田中太郎', 350000, 30);
+
+-- 給与が負の数 → エラー！
+INSERT INTO employees VALUES (2, '佐藤花子', -100000, 25);
+
+-- 年齢が範囲外 → エラー！
+INSERT INTO employees VALUES (3, '鈴木一郎', 300000, 10);`}
+/>
+
+### CHECK制約の使用例
+
+| 列 | CHECK制約 | 意味 |
+|-----|----------|------|
+| 給与 | `CHECK (salary > 0)` | 給与は正の数でなければならない |
+| 年齢 | `CHECK (age >= 18 AND age <= 65)` | 年齢は18歳以上65歳以下 |
+| 評価 | `CHECK (rating >= 1 AND rating <= 5)` | 評価は1〜5の範囲 |
+| 在庫数 | `CHECK (stock >= 0)` | 在庫数は0以上 |
+
+---
+
+## Step 8: 実践課題
+
+### 課題1：商品テーブルを設計しよう
+
+以下の要件を満たす `products`（商品）テーブルを設計し、 `CREATE TABLE` 文を書いてみよう。
+
+**要件：**
+- 商品ID（整数、主キー）
+- 商品名（最大100文字、必須）
+- 価格（整数、0より大きい）
+- 在庫数（整数、0以上）
+- カテゴリ（最大50文字）
+
+<OneCompilerCodeBlock
+  language="postgresql"
+  codeId="TODO"
+  code={`-- ここに商品テーブルのCREATE TABLE文を書いてみよう
+-- 要件に合った型と制約を設定すること
+
+
+-- テストデータの追加
+-- INSERT INTO products VALUES (...);
+
+-- 確認
+-- SELECT * FROM products;`}
+/>
+
+### 課題2：制約違反を確認しよう
+
+Step 0のように、作成した商品テーブルに対して **制約に違反するデータ** を追加してみよう。
+エラーメッセージを確認し、制約が正しく機能していることを確かめよう。
+
+### 課題3：制約一覧の振り返り
+
+以下の表を完成させてみよう（頭の中で答えを考えてから確認する）。
+
+| 制約 | 役割 |
+|------|------|
+| NOT NULL | ？ |
+| UNIQUE | ？ |
+| PRIMARY KEY | ？ |
+| FOREIGN KEY | ？ |
+| CHECK | ？ |
+
+---
+
+## まとめ
+
+この章では、 **テーブル設計の基礎** を学んだ。
+
+### 🎯 達成できたこと
+- ✅ CREATE TABLE文でテーブルを作成できるようになった
+- ✅ 適切なデータ型を選択できるようになった
+- ✅ NOT NULL制約、UNIQUE制約を設定できるようになった
+- ✅ 主キーの役割を説明できるようになった
+- ✅ 外部キーの役割を説明できるようになった
+- ✅ CHECK制約でデータの妥当性を保証できるようになった
+
+### 📚 学んだ内容
+
+| 制約 | 役割 |
+|------|------|
+| **NOT NULL** | NULLを禁止し、必ず値を入れさせる |
+| **UNIQUE** | 同じ値の重複を禁止する |
+| **PRIMARY KEY** | 各行を一意に識別する（NOT NULL + UNIQUE） |
+| **FOREIGN KEY** | 別テーブルの主キーを参照し、データの整合性を保つ |
+| **CHECK** | 値が特定の条件を満たすことをチェックする |
+
+### 🚀 次のステップ
+次の章では、 **データの作成・更新・削除** を学ぶ。
+INSERT、UPDATE、DELETE文の使い方と、トランザクションの概念を理解しよう。
+
+---
+
+## 💡 よくある質問
+
+### Q1: CREATE TABLE文を毎回書く必要があるのか？
+
+**A:** 実務では、テーブルの作成はプロジェクトの初期に一度だけ行うことが多い。Spring Bootでは `schema.sql` というファイルにCREATE TABLE文を書いておくと、アプリケーション起動時に自動的にテーブルが作成される。ただし、テーブル設計の内容を理解していることは必須である。
+
+### Q2: データ型で VARCHAR と TEXT のどちらを使うべきか？
+
+**A:** 最大文字数がある程度決まっている場合は `VARCHAR(n)` を使い、不定長の長いテキスト（備考や本文など）には `TEXT` を使う。 `VARCHAR(n)` は最大文字数を超えるとエラーになるため、入力ミスの早期発見にも役立つ。
+
+### Q3: 主キーは必ず設定しなければならないのか？
+
+**A:** 技術的にはPRIMARY KEYなしのテーブルも作成できる。しかし、実務では **必ず主キーを設定する** のが原則である。主キーがないと、特定の行を確実に識別する手段がなくなり、更新や削除で意図しないデータを操作してしまうリスクがある。
+
+### Q4: 外部キーを設定しないとどうなるのか？
+
+**A:** 外部キーを設定しなくても、テーブル自体は作成できる。しかし、存在しない部門IDで社員を登録できてしまうなど、データの整合性が保てなくなる。外部キー制約は「データベースが自動的にチェックしてくれる安全装置」のようなものである。
+
+### Q5: CHECK制約はどこまで複雑な条件を書けるのか？
+
+**A:** PostgreSQLでは、かなり複雑な条件も書ける（例：`CHECK (start_date < end_date)`）。ただし、あまり複雑なビジネスルールはアプリケーション側でチェックし、データベースの制約はシンプルに保つのが一般的である。

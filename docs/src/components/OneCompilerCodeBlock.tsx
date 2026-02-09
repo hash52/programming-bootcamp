@@ -2,7 +2,7 @@
 import { useColorMode } from "@docusaurus/theme-common";
 import React, { useMemo } from "react";
 
-type Language = "java" | "mysql" | "html";
+type Language = "java" | "mysql" | "postgresql" | "html";
 
 /**
  * OneCompiler 埋め込みエディタ
