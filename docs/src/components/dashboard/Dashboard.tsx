@@ -10,7 +10,14 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import { ALL_TOPIC_STRUCTURE, CATEGORIES_LABELS } from "@site/src/structure";
+import {
+  ALL_TOPIC_STRUCTURE,
+  CATEGORIES_LABELS,
+  ALL_MAJOR_CHAPTERS,
+  MAJOR_CHAPTER_LABELS,
+  CATEGORY_SHORT_LABELS,
+  getMajorChapterFromCategory,
+} from "@site/src/structure";
 import { ChevronDown } from "mdi-material-ui";
 import { useStoredProgress } from "@site/src/hooks/useStoredProgress";
 import { ProgressBarWithLabel } from "./ProgressBarWithLabel";
@@ -18,6 +25,7 @@ import { ProgressLineChart } from "./ProgressLineChart";
 import {
   calcCategoryProgressRate,
   calcTopicProgressRate,
+  calcMajorChapterProgressRate,
 } from "../lib/calcProgressRate";
 import { daysAgo } from "../lib/date";
 import { QuestionDialog } from "../question/QuestionDialog";
@@ -103,11 +111,6 @@ const mockedHistory = {
 export const Dashboard: FC = () => {
   const storedProgress = useStoredProgress();
 
-  /** 全カテゴリ一覧を重複除去して抽出 */
-  const categories = Array.from(
-    new Set(ALL_TOPIC_STRUCTURE.map((t) => t.category))
-  );
-
   /** 選択された質問のコンテキスト情報（ダイアログ表示＋ナビゲーション用） */
   const [selectedQuestionContext, setSelectedQuestionContext] = useState<{
     questionId: string;
@@ -152,24 +155,31 @@ export const Dashboard: FC = () => {
         <ProgressLineChart history={storedProgress.history} />
       </OverAllProgressCard>
 
-      {/* 進捗一覧 */}
-      <CategoryProgressStack>
-        {categories.map((cat) => {
-          const topics = ALL_TOPIC_STRUCTURE.filter((t) => t.category === cat);
-          const catRatio = calcCategoryProgressRate(
-            cat,
+      {/* 進捗一覧（大章 → 中章 → トピック の3階層） */}
+      <MajorChapterStack>
+        {ALL_MAJOR_CHAPTERS.map((major) => {
+          const majorCategories = Array.from(
+            new Set(
+              ALL_TOPIC_STRUCTURE
+                .filter((t) => getMajorChapterFromCategory(t.category) === major)
+                .map((t) => t.category)
+            )
+          );
+          if (majorCategories.length === 0) return null;
+
+          const majorRatio = calcMajorChapterProgressRate(
+            major,
             storedProgress.progress
           );
-          const catValue = catRatio * 100;
-          const categoryLabel = CATEGORIES_LABELS[cat];
+          const majorValue = majorRatio * 100;
+          const isSingleCategory = majorCategories.length === 1;
 
-          return (
-            <CategoryProgressCard key={cat}>
-              {/* カテゴリ名＋進捗バー */}
-              <CategoryTitle>{categoryLabel}</CategoryTitle>
-              <ProgressBarWithLabel value={catValue} />
-
-              {/* トピックごとのAccordion */}
+          /** トピック一覧のレンダリング（中章・単一カテゴリ共通） */
+          const renderTopics = (cat: typeof majorCategories[number]) => {
+            const topics = ALL_TOPIC_STRUCTURE.filter(
+              (t) => t.category === cat
+            );
+            return (
               <TopicProgressStack>
                 {topics.map((topic) => {
                   const topicRatio = calcTopicProgressRate(
@@ -181,7 +191,6 @@ export const Dashboard: FC = () => {
                     <TopicProgressAccordion key={topic.id}>
                       <AccordionSummary expandIcon={<ChevronDown />}>
                         <TopicProgressBox>
-                          {/* トピックタイトル */}
                           <TopicTitle
                             onClick={() =>
                               window.open(
@@ -192,21 +201,17 @@ export const Dashboard: FC = () => {
                           >
                             {topic.label}
                           </TopicTitle>
-
-                          {/* トピック進捗バー */}
                           <TopicProgressBarBox>
                             <ProgressBarWithLabel value={topicValue} />
                           </TopicProgressBarBox>
                         </TopicProgressBox>
                       </AccordionSummary>
 
-                      {/* 設問リスト */}
                       <AccordionDetails>
                         {topic.questions.map((q) => {
                           const qProg = storedProgress.progress[q.id];
                           return (
                             <QuestionRowBox key={q.id}>
-                              {/* 設問タイトル＋チェックボックス */}
                               <QuestionRowLeftBox>
                                 <Checkbox
                                   checked={Boolean(qProg?.lastCheckedAt)}
@@ -220,9 +225,10 @@ export const Dashboard: FC = () => {
                                 <QuestionTitle
                                   onClick={() => {
                                     const topicQuestions = topic.questions;
-                                    const currentIndex = topicQuestions.findIndex(
-                                      (question) => question.id === q.id
-                                    );
+                                    const currentIndex =
+                                      topicQuestions.findIndex(
+                                        (question) => question.id === q.id
+                                      );
                                     setSelectedQuestionContext({
                                       questionId: q.id,
                                       topicQuestions,
@@ -233,7 +239,6 @@ export const Dashboard: FC = () => {
                                   {q.title}
                                 </QuestionTitle>
                               </QuestionRowLeftBox>
-                              {/* 経過日数表示（色付き） */}
                               <QuestionDaysSinceText
                                 lastCheckedAt={qProg?.lastCheckedAt}
                               />
@@ -245,10 +250,62 @@ export const Dashboard: FC = () => {
                   );
                 })}
               </TopicProgressStack>
-            </CategoryProgressCard>
+            );
+          };
+
+          return (
+            <MajorChapterAccordion key={major} >
+              <AccordionSummary expandIcon={<ChevronDown />}>
+                <MajorChapterSummaryBox>
+                  <MajorChapterTitle>
+                    {MAJOR_CHAPTER_LABELS[major]}
+                  </MajorChapterTitle>
+                  <MajorChapterProgressBarBox>
+                    <ProgressBarWithLabel value={majorValue} />
+                  </MajorChapterProgressBarBox>
+                </MajorChapterSummaryBox>
+              </AccordionSummary>
+
+              <AccordionDetails>
+                {isSingleCategory ? (
+                  /* 単一カテゴリの場合は中章レベルを省略 */
+                  renderTopics(majorCategories[0])
+                ) : (
+                  /* 複数カテゴリの場合は中章Accordionを表示 */
+                  <CategorySubStack>
+                    {majorCategories.map((cat) => {
+                      const catValue =
+                        calcCategoryProgressRate(
+                          cat,
+                          storedProgress.progress
+                        ) * 100;
+
+                      return (
+                        <CategorySubAccordion key={cat} >
+                          <AccordionSummary expandIcon={<ChevronDown />}>
+                            <CategorySubSummaryBox>
+                              <CategorySubTitle>
+                                {CATEGORY_SHORT_LABELS[cat]}
+                              </CategorySubTitle>
+                              <CategorySubProgressBarBox>
+                                <ProgressBarWithLabel value={catValue} />
+                              </CategorySubProgressBarBox>
+                            </CategorySubSummaryBox>
+                          </AccordionSummary>
+
+                          <AccordionDetails>
+                            {renderTopics(cat)}
+                          </AccordionDetails>
+                        </CategorySubAccordion>
+                      );
+                    })}
+                  </CategorySubStack>
+                )}
+              </AccordionDetails>
+            </MajorChapterAccordion>
           );
         })}
-      </CategoryProgressStack>
+      </MajorChapterStack>
 
       {/* QuestionDialog */}
       <QuestionDialog
@@ -294,30 +351,75 @@ const OverAllProgressTitle: FC<PropsWithChildren> = ({ children }) => {
   return <StyledTypography variant="h6">{children}</StyledTypography>;
 };
 
-/** カテゴリごとの進捗一覧エリア */
-const CategoryProgressStack: FC<PropsWithChildren> = ({ children }) => {
+/** 大章ごとの進捗一覧エリア */
+const MajorChapterStack: FC<PropsWithChildren> = ({ children }) => {
   return <Stack spacing={3}>{children}</Stack>;
 };
 
-/** カテゴリの表示エリア */
-const CategoryProgressCard = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(2),
-  boxShadow: theme.shadows[2],
-  borderRadius: `${Number(theme.shape.borderRadius) * 2}px`,
+/** 大章Accordion */
+const MajorChapterAccordion = styled(Accordion)(({ theme }) => ({
+  boxShadow: theme.shadows[3],
+  borderRadius: `${Number(theme.shape.borderRadius) * 2}px !important`,
   background:
     theme.palette.mode === "dark"
-      ? "#1b263b" // ← ダーク時：背景が黒でも浮かない深めの紺
-      : "linear-gradient(135deg, #f7f7f7, #fafafa)", // ← ライト時：既存の明るいグラデーション
+      ? "#1b263b"
+      : "linear-gradient(135deg, #f7f7f7, #fafafa)",
+  "&:before": { display: "none" },
 }));
 
-/** カテゴリタイトル */
-const CategoryTitle: FC<PropsWithChildren> = ({ children }) => {
-  const StyledTypography = styled(Typography)(({ theme }) => ({
-    marginBottom: theme.spacing(1),
-    fontWeight: "bold",
-  }));
-  return <StyledTypography variant="h6">{children}</StyledTypography>;
-};
+/** 大章Summary内のレイアウト */
+const MajorChapterSummaryBox = styled(Box)({
+  flexGrow: 1,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+});
+
+/** 大章タイトル */
+const MajorChapterTitle = styled(Typography)({
+  fontWeight: "bold",
+  fontSize: "1.25rem",
+});
+
+/** 大章の進捗バー幅 */
+const MajorChapterProgressBarBox = styled(Box)({
+  width: 200,
+  flexShrink: 0,
+  marginLeft: 16,
+});
+
+/** 中章の一覧エリア */
+const CategorySubStack = styled(Stack)(({ theme }) => ({
+  gap: theme.spacing(1.5),
+}));
+
+/** 中章Accordion */
+const CategorySubAccordion = styled(Accordion)(({ theme }) => ({
+  boxShadow: theme.shadows[2],
+  borderRadius: `${theme.shape.borderRadius}px !important`,
+  "&:before": { display: "none" },
+}));
+
+/** 中章Summary内のレイアウト */
+const CategorySubSummaryBox = styled(Box)({
+  flexGrow: 1,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+});
+
+/** 中章タイトル */
+const CategorySubTitle = styled(Typography)({
+  fontWeight: "bold",
+  fontSize: "1.1rem",
+});
+
+/** 中章の進捗バー幅 */
+const CategorySubProgressBarBox = styled(Box)({
+  width: 180,
+  flexShrink: 0,
+  marginLeft: 16,
+});
 
 /** トピックごとの進捗一覧エリア */
 const TopicProgressStack = styled(Stack)(({ theme }) => ({
@@ -372,10 +474,7 @@ const QuestionRowLeftBox = styled(Box)({
 
 /** 設問タイトル（クリックで問題ページを開く） */
 const QuestionTitle = styled(Typography)({
-  maxWidth: 400,
   cursor: "pointer",
-  whiteSpace: "normal", // 折り返しを許可
-  wordBreak: "break-word", // 長文時の改行制御
   transition: "color 0.2s, text-decoration 0.2s",
   "&:hover": {
     textDecoration: "underline",

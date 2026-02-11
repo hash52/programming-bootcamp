@@ -37,3 +37,15 @@ export function calcTopicProgressRate(
   const done = topic.questions.filter((q) => progress[q.id]).length;
   return topic.questions.length > 0 ? done / topic.questions.length : 0;
 }
+
+/** 大章ごとの進捗率を計算する */
+export function calcMajorChapterProgressRate(
+  majorChapter: string,
+  progress: ProgressRecord
+) {
+  const majorQuestions = ALL_TOPIC_STRUCTURE
+    .filter((t) => t.category.split("/")[0] === majorChapter)
+    .flatMap((t) => t.questions);
+  const done = majorQuestions.filter((q) => progress[q.id]).length;
+  return majorQuestions.length > 0 ? done / majorQuestions.length : 0;
+}

@@ -2,6 +2,7 @@ import {
   calcOverallProgressRate,
   calcCategoryProgressRate,
   calcTopicProgressRate,
+  calcMajorChapterProgressRate,
 } from "./calcProgressRate";
 import { ProgressRecord } from "@site/src/hooks/useStoredProgress";
 
@@ -91,5 +92,20 @@ describe("calcProgressRate系ユーティリティ", () => {
     expect(calcOverallProgressRate(empty)).toBe(0);
     expect(calcCategoryProgressRate("java", empty)).toBe(0);
     expect(calcTopicProgressRate("topic1", empty)).toBe(0);
+    expect(calcMajorChapterProgressRate("java", empty)).toBe(0);
+  });
+
+  test("大章単位の進捗率を正しく計算する（java→0.6, spring→0.75）", () => {
+    const javaRate = calcMajorChapterProgressRate("java", mockProgress);
+    const springRate = calcMajorChapterProgressRate("spring", mockProgress);
+    // java: topic1(q1,q3完了=2/3) + topic2(q5完了=1/2) → 3/5 = 0.6
+    expect(javaRate).toBeCloseTo(0.6, 3);
+    // spring: topic3(q7,q8,q9完了=3/4) → 0.75
+    expect(springRate).toBeCloseTo(0.75, 3);
+  });
+
+  test("存在しない大章の場合は0を返す", () => {
+    const rate = calcMajorChapterProgressRate("unknown", mockProgress);
+    expect(rate).toBe(0);
   });
 });

@@ -32,6 +32,42 @@ export const CATEGORIES_LABELS: Record<Category, string> = {
   "git/teamwork": "Git - チーム開発",
 };
 
+/** 大章の定義 */
+const ALL_MAJOR_CHAPTERS = ["java", "spring", "db", "frontend", "git"] as const;
+type MajorChapter = (typeof ALL_MAJOR_CHAPTERS)[number];
+
+/** 大章の日本語ラベル */
+export const MAJOR_CHAPTER_LABELS: Record<MajorChapter, string> = {
+  java: "Java",
+  spring: "Spring",
+  db: "データベース",
+  frontend: "フロントエンド",
+  git: "Git",
+};
+
+/** 中章の短縮ラベル（大章名を除いたもの） */
+export const CATEGORY_SHORT_LABELS: Record<Category, string> = {
+  "java/basics": "基本文法",
+  "java/oop": "オブジェクト指向",
+  "java/stdlib": "標準ライブラリ",
+  spring: "Spring",
+  "db/basics": "基礎",
+  "db/select": "SELECT",
+  "db/design": "設計",
+  frontend: "フロントエンド",
+  "git/basics": "入門",
+  "git/teamwork": "チーム開発",
+};
+
+/** カテゴリから大章を取得する */
+export function getMajorChapterFromCategory(category: Category): MajorChapter {
+  const prefix = category.split("/")[0];
+  return prefix as MajorChapter;
+}
+
+export { ALL_MAJOR_CHAPTERS };
+export type { MajorChapter, Category };
+
 /** 難易度(数値が大きいほど難しい) */
 export enum Difficulty {
   Easy = 1,
