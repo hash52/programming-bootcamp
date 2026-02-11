@@ -1,0 +1,38 @@
+---
+id: "git/basics/01_version_control#three_areas"
+title: "3つのエリアの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "01_version_control"
+category: "git/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "作業ディレクトリ → ステージ → リポジトリ"
+  - id: "B"
+    text: "リポジトリ → ステージ → 作業ディレクトリ"
+  - id: "C"
+    text: "ステージ → 作業ディレクトリ → リポジトリ"
+  - id: "D"
+    text: "作業ディレクトリ → リポジトリ → ステージ"
+answers:
+  correct: ["A"]
+explanation: |
+  Gitでは、ファイルの状態が以下の **3つのエリア** を順番に移動する。
+
+  1. **作業ディレクトリ（Working Directory）**: 実際にファイルを編集する場所
+  2. **ステージ（Staging Area / Index）**: 次のコミットに含めるファイルを一時的に置く場所
+  3. **リポジトリ（Repository）**: コミットとして変更履歴が保存される場所
+
+  流れ：
+  - ファイルを **編集** する（作業ディレクトリ）
+  - `git add` で **ステージに追加** する
+  - `git commit` で **リポジトリに記録** する
+
+  **なぜステージが必要なのか**：
+  - 変更したファイルの中から、コミットに含めたいものだけを選べる
+  - 複数の変更をまとめて1つのコミットにしたり、別々のコミットに分けたりできる
+---
+
+Gitでファイルの変更を記録する際、正しい順番はどれか。

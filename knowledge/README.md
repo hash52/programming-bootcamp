@@ -19,21 +19,20 @@
 
 ```
 knowledge/
-├── README.md                  # このファイル
-├── syllabi/                   # シラバス・カリキュラム設計
-│   ├── schedule.md            # カリキュラムスケジュール（Day 1-29）
-│   ├── java-design.md         # Java教材設計書（詳細版、2,200行以上）
-│   └── java-design-summary.md # Java教材設計書（軽量版、概要のみ）
-└── guides/                    # ガイドライン・仕様書
-    ├── project-overview.md    # プロジェクト概要・対象者特性
-    ├── writing-style.md       # 文体・表記ルール
-    ├── chapter-structure.md   # 章構成テンプレート
-    ├── structure-ts-rules.md  # structure.ts・質問タイトルルール
-    ├── mdx-syntax.md          # MDX構文ルール
-    ├── admonitions-guide.md   # Admonitions活用ガイド
-    ├── exercise-rules.md      # 演習問題作成ルール
-    ├── question-files.md      # 問題ファイル作成ガイド
-    └── dashboard-spec.md      # ダッシュボード仕様
+├── README.md                      # このファイル
+├── syllabi/                       # シラバス・カリキュラム設計
+│   ├── schedule.md                # カリキュラムスケジュール（Day 1-29）
+│   ├── java-design.md             # Java教材設計書（詳細版、2,200行以上）
+│   └── java-design-summary.md     # Java教材設計書（軽量版、概要のみ）
+└── guides/                        # ガイドライン・仕様書
+    ├── project-overview.md        # プロジェクト概要・対象者特性
+    ├── writing-style.md           # 文体・表記ルール
+    ├── chapter-structure.md       # 章構成テンプレート
+    ├── structure-ts-rules.md      # structure.ts・質問タイトルルール
+    ├── mdx-syntax.md              # MDX構文ルール
+    ├── admonitions-guide.md       # Admonitions活用ガイド
+    ├── exercise-format-spec.md    # 演習問題フォーマット仕様書（包括版）
+    └── dashboard-spec.md          # ダッシュボード仕様
 ```
 
 ---
@@ -55,15 +54,13 @@ knowledge/
 | 参照すべきドキュメント                                  | 優先度   |
 | ------------------------------------------------------- | -------- |
 | [structure-ts-rules.md](./guides/structure-ts-rules.md) | **必須** |
-| [exercise-rules.md](./guides/exercise-rules.md)         | 推奨     |
 
 ### 演習問題の作成
 
-| 参照すべきドキュメント                                  | 優先度 |
-| ------------------------------------------------------- | ------ |
-| [question-files.md](./guides/question-files.md)         | 必須   |
-| [exercise-rules.md](./guides/exercise-rules.md)         | 必須   |
-| [structure-ts-rules.md](./guides/structure-ts-rules.md) | 必須   |
+| 参照すべきドキュメント                                            | 優先度   |
+| ----------------------------------------------------------------- | -------- |
+| [exercise-format-spec.md](./guides/exercise-format-spec.md)       | **必須** |
+| [structure-ts-rules.md](./guides/structure-ts-rules.md)           | 推奨     |
 
 ### Java教材の作成
 
@@ -93,21 +90,21 @@ knowledge/
 
 ### ガイドライン（guides/）
 
-| ファイル                                                | 内容                                   |
-| ------------------------------------------------------- | -------------------------------------- |
-| [project-overview.md](./guides/project-overview.md)     | プロジェクト概要、対象者特性、配慮事項 |
-| [writing-style.md](./guides/writing-style.md)           | 文体ルール、専門用語の注釈             |
-| [chapter-structure.md](./guides/chapter-structure.md)   | 章構成テンプレート、重要原則           |
-| [structure-ts-rules.md](./guides/structure-ts-rules.md) | structure.ts管理、質問タイトルルール   |
-| [mdx-syntax.md](./guides/mdx-syntax.md)                 | MDX構文、改行、強調記号、特殊文字      |
-| [admonitions-guide.md](./guides/admonitions-guide.md)   | Docusaurus admonitions の使い方        |
-| [exercise-rules.md](./guides/exercise-rules.md)         | 演習問題のファイル名規則、対応関係     |
-| [question-files.md](./guides/question-files.md)         | 問題ファイル作成・配置ガイド           |
-| [dashboard-spec.md](./guides/dashboard-spec.md)         | 進捗ダッシュボードの仕様               |
+| ファイル                                                          | 内容                                         |
+| ----------------------------------------------------------------- | -------------------------------------------- |
+| [project-overview.md](./guides/project-overview.md)               | プロジェクト概要、対象者特性、配慮事項       |
+| [writing-style.md](./guides/writing-style.md)                     | 文体ルール、専門用語の注釈                   |
+| [chapter-structure.md](./guides/chapter-structure.md)             | 章構成テンプレート、重要原則                 |
+| [structure-ts-rules.md](./guides/structure-ts-rules.md)           | structure.ts管理、質問タイトルルール         |
+| [mdx-syntax.md](./guides/mdx-syntax.md)                           | MDX構文、改行、強調記号、特殊文字            |
+| [admonitions-guide.md](./guides/admonitions-guide.md)             | Docusaurus admonitions の使い方              |
+| [exercise-format-spec.md](./guides/exercise-format-spec.md)       | 演習問題フォーマット仕様書（包括版）         |
+| [dashboard-spec.md](./guides/dashboard-spec.md)                   | 進捗ダッシュボードの仕様                     |
 
 ---
 
 ## 更新履歴
 
+- 2026-02-11: 演習問題ドキュメントを統合（exercise-rules.md, question-files.md → exercise-format-spec.md）
 - 2025-01-28: ドキュメント構成を大幅リファクタリング（CLAUDE.md から分離）
 - 2025-01-27: 初版作成、.claude/curriculum/ と .claude/specs/ から移行

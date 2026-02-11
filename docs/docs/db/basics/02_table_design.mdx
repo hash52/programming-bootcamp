@@ -1,4 +1,5 @@
 import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+import { QuestionList } from "@site/src/components/question/QuestionList";
 
 # テーブル設計の基礎
 
@@ -465,3 +466,9 @@ INSERT、UPDATE、DELETE文の使い方と、トランザクションの概念�
 ### Q5: CHECK制約はどこまで複雑な条件を書けるのか？
 
 **A:** PostgreSQLでは、かなり複雑な条件も書ける（例：`CHECK (start_date < end_date)`）。ただし、あまり複雑なビジネスルールはアプリケーション側でチェックし、データベースの制約はシンプルに保つのが一般的である。
+
+---
+
+## 確認問題
+
+<QuestionList topicId="02_table_design" category="db/basics" />

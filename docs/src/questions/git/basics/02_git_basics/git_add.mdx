@@ -1,0 +1,37 @@
+---
+id: "git/basics/02_git_basics#git_add"
+title: "ファイルをステージに追加できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "02_git_basics"
+category: "git/basics"
+fillInBlankAnswers:
+  blank1: ["git add", "git  add"]
+sampleAnswer: "git add Main.java"
+explanation: |
+  `git add` コマンドは、変更したファイルを **ステージ（ステージングエリア）** に追加するコマンドである。
+
+  基本的な使い方：
+  ```bash
+  git add ファイル名       # 特定のファイルをステージに追加
+  git add .               # カレントディレクトリの全ファイルをステージに追加
+  ```
+
+  **ポイント**：
+  - ステージに追加したファイルだけが、次の `git commit` に含まれる
+  - 変更したファイルをすべてコミットする必要はない。含めたいものだけを `git add` する
+
+  **よくある間違い**：
+  - `git add` を実行せずに `git commit` する → 変更が記録されない
+  - `git add .` で不要なファイル（ログファイル等）まで追加してしまう → `.gitignore` で除外する
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコマンドの空欄を埋めて、`Main.java` をステージに追加せよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{` Main.java`}
+</CodeBlock>

@@ -19,7 +19,7 @@
 | `knowledge/guides/structure-ts-rules.md` | structure.ts・質問タイトルルール |
 | `knowledge/guides/mdx-syntax.md` | MDX構文ルール |
 | `knowledge/guides/admonitions-guide.md` | Admonitions活用ガイド |
-| `knowledge/guides/exercise-rules.md` | 演習問題作成ルール |
+| `knowledge/guides/exercise-format-spec.md` | 演習問題フォーマット仕様書 |
 
 ### シラバス参照ルール
 

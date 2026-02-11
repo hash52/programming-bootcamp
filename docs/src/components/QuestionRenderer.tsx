@@ -9,6 +9,7 @@ import {
   Collapse,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import LightbulbOutlined from "@mui/icons-material/LightbulbOutlined";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { QuestionMetadata, QuestionResult } from "@site/src/types/question";
@@ -51,6 +52,8 @@ const QuestionRendererInner: React.FC<
   const [result, setResult] = useState<QuestionResult | null>(null);
   // 解答・解説の表示状態
   const [showExplanation, setShowExplanation] = useState<boolean>(false);
+  // ヒントの表示状態
+  const [showHint, setShowHint] = useState<boolean>(false);
 
   // 進捗管理フック
   const { progress, updateProgress } = useStoredProgress();
@@ -136,6 +139,35 @@ const QuestionRendererInner: React.FC<
       {showHintLink && (
         <Box mt={2}>
           <HintLink category={metadata.category} topicId={metadata.topicId} />
+        </Box>
+      )}
+
+      {/* ヒント表示 */}
+      {metadata.hint && (
+        <Box mt={2}>
+          <Button
+            variant="text"
+            color="warning"
+            startIcon={<LightbulbOutlined />}
+            onClick={() => setShowHint(!showHint)}
+          >
+            {showHint ? "ヒントを隠す" : "ヒントを表示"}
+          </Button>
+          <Collapse in={showHint} timeout={400}>
+            <Box
+              mt={1}
+              p={2}
+              sx={{
+                backgroundColor: "rgba(255, 167, 38, 0.08)",
+                borderRadius: 1,
+                borderLeft: "3px solid #ffa726",
+              }}
+            >
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {metadata.hint}
+              </ReactMarkdown>
+            </Box>
+          </Collapse>
         </Box>
       )}
 

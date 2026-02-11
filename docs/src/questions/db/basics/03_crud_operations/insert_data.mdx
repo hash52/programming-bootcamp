@@ -1,0 +1,42 @@
+---
+id: "db/basics/03_crud_operations#insert_data"
+title: "データを追加できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_crud_operations"
+category: "db/basics"
+fillInBlankAnswers:
+  blank1: ["INSERT INTO", "insert into", "INSERT  INTO", "insert  into"]
+  blank2: ["VALUES", "values"]
+sampleAnswer: "INSERT INTO employees (name, department) VALUES ('鈴木一郎', '開発部');"
+explanation: |
+  テーブルにデータを追加するには **INSERT INTO** 文を使用する。
+
+  基本構文：
+  ```sql
+  INSERT INTO テーブル名 (列名1, 列名2, ...) VALUES (値1, 値2, ...);
+  ```
+
+  **ポイント**：
+  - `INSERT INTO` でテーブル名と列名を指定する
+  - `VALUES` の後に、対応する値をカッコで囲んで指定する
+  - 文字列は **シングルクォート** `'...'` で囲む
+  - 数値はクォートなしで記述する
+  - 列の順番と値の順番を一致させること
+
+  **よくある間違い**：
+  - 文字列をダブルクォートで囲む（SQLではシングルクォートを使う）
+  - `VALUES` を書き忘れる
+  - 列の数と値の数が一致しない
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のSQL文の空欄を埋めて、`employees` テーブルにデータを追加せよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{` employees (name, department)
+`}<BlankInput id="blank2" />{` ('鈴木一郎', '開発部');`}
+</CodeBlock>

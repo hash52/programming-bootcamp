@@ -17,6 +17,8 @@ export interface QuestionMetadata {
   sampleAnswer?: string;
   // 解説（簡潔な文章）
   explanation?: string;
+  // ヒント（採点前に表示可能）
+  hint?: string;
 }
 
 export type QuestionFormat = "fillInBlank" | "multipleChoice" | "freeText";

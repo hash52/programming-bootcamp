@@ -137,5 +137,5 @@ withAutoIds({
 
 ## 関連ドキュメント
 
-- [演習問題作成ルール](./exercise-rules.md)
+- [演習問題フォーマット仕様書](./exercise-format-spec.md)
 - [ダッシュボード仕様](./dashboard-spec.md)
