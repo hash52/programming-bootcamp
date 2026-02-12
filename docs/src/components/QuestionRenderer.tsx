@@ -14,10 +14,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { QuestionMetadata, QuestionResult } from "@site/src/types/question";
 import { MultipleChoiceInput } from "./question/inputs/MultipleChoiceInput";
-import { FreeTextInput } from "./question/inputs/FreeTextInput";
 import { GradingFeedback } from "./question/GradingFeedback";
 import { AchievementCheckbox } from "./question/AchievementCheckbox";
-import { HintLink } from "./question/HintLink";
+import { ChapterLink } from "./question/ChapterLink";
 import { gradeMultipleChoice, gradeFillInBlank } from "@site/src/lib/grading";
 import { useStoredProgress } from "@site/src/hooks/useStoredProgress";
 import {
@@ -32,7 +31,7 @@ interface QuestionRendererProps {
   id: string;
   mode?: "embedded" | "dialog" | "dojo";
   showTitle?: boolean;
-  showHintLink?: boolean;
+  showChapterLink?: boolean;
 }
 
 // 内部コンポーネント（BlankInputContext内で使用）
@@ -43,11 +42,9 @@ const QuestionRendererInner: React.FC<
     fileNamePart: string;
     id: string;
   }
-> = ({ Module, metadata, fileNamePart, id, showTitle, showHintLink }) => {
+> = ({ Module, metadata, fileNamePart, id, showTitle, showChapterLink }) => {
   // 選択式の状態管理
   const [selectedChoices, setSelectedChoices] = useState<string[]>([]);
-  // 自由記述の状態管理
-  const [freeText, setFreeText] = useState<string>("");
   // 採点結果
   const [result, setResult] = useState<QuestionResult | null>(null);
   // 解答・解説の表示状態
@@ -136,9 +133,9 @@ const QuestionRendererInner: React.FC<
       {/* MDXコンテンツ */}
       <Module.default />
 
-      {showHintLink && (
+      {showChapterLink && (
         <Box mt={2}>
-          <HintLink category={metadata.category} topicId={metadata.topicId} />
+          <ChapterLink category={metadata.category} topicId={metadata.topicId} />
         </Box>
       )}
 
@@ -211,24 +208,21 @@ const QuestionRendererInner: React.FC<
       )}
 
       {metadata.format === "freeText" && (
-        <>
-          <FreeTextInput value={freeText} onChange={setFreeText} />
-          <Box mt={2} display="flex" gap={2} flexWrap="wrap">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleShowExplanation}
-            >
-              解答を表示する
-            </Button>
-            <Button variant="outlined" color="secondary" onClick={handleGiveUp}>
-              諦めて解答を表示する
-              <Typography variant="caption" sx={{ ml: 1, opacity: 0.7 }}>
-                （達成済みステータスを外します）
-              </Typography>
-            </Button>
-          </Box>
-        </>
+        <Box mt={2} display="flex" gap={2} flexWrap="wrap">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleShowExplanation}
+          >
+            解答を表示する
+          </Button>
+          <Button variant="outlined" color="secondary" onClick={handleGiveUp}>
+            諦めて解答を表示する
+            <Typography variant="caption" sx={{ ml: 1, opacity: 0.7 }}>
+              （達成済みステータスを外します）
+            </Typography>
+          </Button>
+        </Box>
       )}
 
       {/* 採点結果フィードバック */}

@@ -149,14 +149,14 @@ fillInBlankAnswers:
 
 > **重要**: `fillInBlank` 形式では `fillInBlankAnswers` は **必須** である。欠落すると採点が動作しない。
 
-### 3.4 自由記述問題固有フィールド
+### 3.4 自由記述問題・コーディング問題固有フィールド
 
 | フィールド | 型 | 必須 | 説明 |
 |-----------|------|------|------|
 | `sampleAnswer` | `string` | 推奨 | 模範解答テキスト |
 
-自由記述問題は自動採点の対象外である。
-ユーザーが「解答を表示する」ボタンで解答例と解説を確認する形式をとる。
+自由記述問題・コーディング問題は自動採点の対象外である。
+ユーザーが「解答を表示する」ボタンで解答例と解説を確認する形式をとる。テキスト入力欄は表示されない。
 
 ### 3.5 hintフィールド
 
@@ -169,8 +169,7 @@ hint: |
   教材の「論理演算子」セクションを復習しよう。
 ```
 
-> **注意**: `hint` フィールドのUI表示は未実装である（将来のコード変更で対応予定）。
-> 現時点では、MDX本体内に直接ヒントを記述するパターンも許容する。
+ヒントは **frontmatter の `hint` フィールドに記述** すること。MDX本体にベタ書きしてはならない。
 
 ---
 
@@ -194,9 +193,9 @@ import文（必要な場合のみ、frontmatter直後）
 
 1. **import文は frontmatter 直後** に配置する
 2. **問題文は簡潔** に記述する（1〜3文が目安）
-3. **見出し `## 問題` は任意** である（問題文が短い場合は不要、長い場合は付けてもよい）
+3. **見出し `## 問題` は不要** である（問題文を直接記述する）
 4. **文体は「である調」** で統一する（explanation 含む）
-5. **MDX本体にヒントや解説をベタ書きする場合**、frontmatter の `explanation` と内容が重複しないよう注意する
+5. **MDX本体には問題文とコンポーネントのみ** を記載する。解説（`## 解説`）やヒント（`**ヒント**:`）をベタ書きしてはならない。解説は frontmatter の `explanation` に、ヒントは `hint` に記述すること
 
 ### 穴埋め問題の構造
 
@@ -207,11 +206,18 @@ import { CodeBlock } from '@site/src/components/question/CodeBlock';
 以下のコードの空欄を埋めよ。
 
 <CodeBlock>
-  <BlankInput id="blank1" /> age = <BlankInput id="blank2" />;
+{`int count = 10;
+
+// countに5を加算
+count `}<BlankInput id="blank1" />{` 5;
+
+// countから3を減算
+count `}<BlankInput id="blank2" />{` 3;`}
 </CodeBlock>
 ```
 
 - `<BlankInput id="blankN" />` の `id` は frontmatter の `fillInBlankAnswers` のキーと一致させる
+- **CodeBlock内の可読性**: 変数宣言と各空欄の間に **空行やコメント行** を入れて、コードブロックが横一列にならないようにする。`<CodeBlock>` は `whiteSpace: pre-wrap` で改行を保持するため、テンプレートリテラル内の改行がそのまま表示される
 
 ### コーディング問題の構造
 
@@ -493,16 +499,23 @@ withAutoIds({
 ### ヒント（hint）
 
 - **表示条件**: frontmatter に `hint` フィールドがある問題のみ表示
-- **UIイメージ**: 「ヒントを表示」ボタン → Collapse でトグル表示
-- **独立性**: 採点ボタンや解答表示とは独立して動作する
-- **実装状況**: 未実装（将来のコード変更で対応予定）
+- **UI**: 「ヒントを表示」ボタン（`LightbulbOutlined` アイコン、warning色）をクリックすると、Collapse アニメーション（400ms）でヒントが展開される
+- **スタイル**: オレンジ系の左ボーダー付きボックス（`backgroundColor: rgba(255, 167, 38, 0.08)`, `borderLeft: 3px solid #ffa726`）
+- **独立性**: 採点ボタンや解答表示とは独立して動作する（採点前でも表示可能）
+- **実装ファイル**: `QuestionRenderer.tsx`（state: `showHint`）
 
-> 現時点では、MDX本体に直接ヒントを記述してもよい。
+### 教材リンク（ChapterLink）
+
+- **表示条件**: ダイアログモードで問題を表示する際に自動表示
+- **UI**: 本アイコン（`MenuBookOutlined`）+ 「この章の教材を見る」のリンク
+- **リンク先**: `/docs/{category}/{topicId}` に遷移する
+- **実装ファイル**: `docs/src/components/question/ChapterLink.tsx`
+- **呼び出し**: `QuestionRenderer` の `showChapterLink` prop で表示/非表示を制御
 
 ### 解答 + 解説
 
 - 選択/穴埋め: 「採点する」ボタン押下後に自動表示（Collapse アニメーション）
-- freeText: 「解答を表示する」ボタンで表示
+- freeText/コーディング: 「解答を表示する」ボタンで表示（テキスト入力欄はなし）
 - Accordion コンポーネント内に「解答例」と「解説」を表示
 
 ### 達成チェックボックス
@@ -588,7 +601,7 @@ fillInBlankAnswers:
 | `docs/src/components/question/inputs/` | 入力UIコンポーネント群 |
 | `docs/src/components/question/GradingFeedback.tsx` | 採点結果表示 |
 | `docs/src/components/question/AchievementCheckbox.tsx` | 達成チェックボックス |
-| `docs/src/components/question/HintLink.tsx` | ヒントリンク |
+| `docs/src/components/question/ChapterLink.tsx` | 教材リンク（「この章の教材を見る」） |
 | `docs/src/components/question/CodeBlock.tsx` | コードブロック（穴埋め用） |
 | `docs/src/components/QuestionList.tsx` | 問題一覧表示 |
 | `docs/src/components/QuestionDialog.tsx` | ダイアログモード表示 |
@@ -608,6 +621,7 @@ fillInBlankAnswers:
 - [ ] `difficulty` が `Easy` / `Medium` / `Hard` のいずれかか
 - [ ] `topicId` と `category` が structure.ts の定義と一致しているか
 - [ ] `explanation` がである調で書かれているか
+- [ ] difficulty が Medium 以上の場合、`hint` が設定されているか
 
 ### 選択問題
 
@@ -622,6 +636,7 @@ fillInBlankAnswers:
 - [ ] 各 `<BlankInput id="..." />` の `id` が `fillInBlankAnswers` のキーと一致しているか
 - [ ] 入力のゆらぎ（スペース有無等）を `string[]` で対応しているか
 - [ ] `sampleAnswer` に完成した解答例があるか
+- [ ] `<CodeBlock>` 内に適切な空行・コメント行を入れて可読性を確保しているか
 
 ### コーディング問題
 
@@ -633,6 +648,12 @@ fillInBlankAnswers:
 - [ ] 対応するTopicに `questionId` 付きのQuestionが定義されているか
 - [ ] `questionId` がファイル名（.mdx除く）と完全一致しているか
 - [ ] `title` に答えが見えていないか
+
+### MDX本体
+
+- [ ] 本体に `## 解説` や `**ヒント**:` のベタ書きがないか（frontmatter に記述すること）
+- [ ] 本体に `## 問題` 見出しがないか（問題文を直接記述すること）
+- [ ] import文が frontmatter 直後に配置されているか
 
 ### ファイル配置
 

@@ -18,10 +18,12 @@ choices:
     text: "エラーが発生する"
 answers:
   correct: ["B"]
+hint: |
+  **同じ型同士の演算結果は同じ型になる** というJavaのルールを思い出そう。
+  `int` 同士の計算結果は何型になるだろうか？
 explanation: |
-  Javaでは、**整数同士の割り算の結果は整数になり、小数点以下は切り捨てられる**。
+  Javaでは、 **整数同士の割り算の結果は整数になり、小数点以下は切り捨てられる** 。
 
-  例：
   ```java
   int a = 5 / 2;  // 2（2.5ではない）
   int b = 7 / 3;  // 2（2.333...ではない）
@@ -29,58 +31,22 @@ explanation: |
   ```
 
   **小数を含む計算にする方法**：
-  - `double`型を使う
-  - 少なくとも1つの数値を`double`型にする
+  - `double` 型を使う
+  - 少なくとも1つの数値を `double` 型にする
 
   ```java
   double d = 5.0 / 2;  // 2.5
   double e = 5 / 2.0;  // 2.5
   double f = (double) 5 / 2;  // 2.5（キャスト）
   ```
+
+  **よくある間違い**：
+  ```java
+  int a = 5;
+  int b = 2;
+  double result = a / b;  // これは2.0になる（2.5ではない）
+  ```
+  `a / b` の時点で整数の割り算（結果2）になり、その後 `double` 型に変換されるため `2.0` になる。正しくは `(double) a / b` とする。
 ---
 
-## 問題
-
-Javaで`int`型同士の割り算を行った場合、結果はどうなるか。最も適切なものを選べ。
-
-## 解説
-
-整数同士の割り算は、**小数点以下が切り捨てられて整数になる**。
-
-これは、**同じ型同士の演算結果は同じ型になる**というJavaのルールによるものである。
-
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
-
-<OneCompilerCodeBlock language="java" code={`public class Main {
-    public static void main(String[] args) {
-        // int型同士の割り算
-        int result1 = 5 / 2;
-        System.out.println("5 / 2 = " + result1);  // 2
-
-        int result2 = 7 / 3;
-        System.out.println("7 / 3 = " + result2);  // 2
-
-        // double型を使った割り算
-        double result3 = 5.0 / 2;
-        System.out.println("5.0 / 2 = " + result3);  // 2.5
-
-        double result4 = 5 / 2.0;
-        System.out.println("5 / 2.0 = " + result4);  // 2.5
-    }
-}`} />
-
-**重要なポイント**：
-- `5 / 2`は`2`（小数点以下切り捨て）
-- `5.0 / 2`は`2.5`（どちらかがdouble型なので結果もdouble型）
-- 平均値の計算など、小数が必要な場合は`double`型を使う
-
-**よくある間違い**：
-```java
-int a = 5;
-int b = 2;
-double result = a / b;  // これは2.0になる（2.5ではない）
-```
-上記のコードは、`a / b`の時点で整数の割り算（結果2）になり、その後`double`型に変換されるため、`2.0`になる。正しくは以下のようにする：
-```java
-double result = (double) a / b;  // 2.5
-```
+Javaで `int` 型同士の割り算を行った場合、結果はどうなるか。最も適切なものを選べ。

@@ -13,20 +13,19 @@ fillInBlankAnswers:
   blank4: ["/=", "/ ="]
 sampleAnswer: "count += 5;"
 explanation: |
-  **複合代入演算子**は、**演算と代入を同時に行う演算子**である。
+  **複合代入演算子** は、 **演算と代入を同時に行う演算子** である。
 
   主な複合代入演算子：
-  - `+=`：加算して代入（`a += 5`は`a = a + 5`と同じ）
-  - `-=`：減算して代入（`a -= 3`は`a = a - 3`と同じ）
-  - `*=`：乗算して代入（`a *= 2`は`a = a * 2`と同じ）
-  - `/=`：除算して代入（`a /= 4`は`a = a / 4`と同じ）
-  - `%=`：剰余演算して代入（`a %= 3`は`a = a % 3`と同じ）
+  - `+=`：加算して代入（`a += 5` は `a = a + 5` と同じ）
+  - `-=`：減算して代入（`a -= 3` は `a = a - 3` と同じ）
+  - `*=`：乗算して代入（`a *= 2` は `a = a * 2` と同じ）
+  - `/=`：除算して代入（`a /= 4` は `a = a / 4` と同じ）
+  - `%=`：剰余演算して代入（`a %= 3` は `a = a % 3` と同じ）
 
   **メリット**：
   - コードが短く、読みやすくなる
   - 変数名を2回書かなくて済む
 
-  例：
   ```java
   int score = 100;
   score += 50;  // score = score + 50; と同じ
@@ -37,61 +36,20 @@ explanation: |
 import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
 import { CodeBlock } from '@site/src/components/question/CodeBlock';
 
-## 問題
-
-以下のコードの空欄を埋めて、複合代入演算子を正しく使ってください。
+以下のコードの空欄を埋めて、複合代入演算子を正しく使え。
 
 <CodeBlock>
 {`int count = 10;
-count `}<BlankInput id="blank1" />{` 5;  // countに5を加算
-count `}<BlankInput id="blank2" />{` 3;  // countから3を減算
-count `}<BlankInput id="blank3" />{` 2;  // countに2を乗算
-count `}<BlankInput id="blank4" />{` 4;  // countを4で除算`}
+
+// countに5を加算
+count `}<BlankInput id="blank1" />{` 5;
+
+// countから3を減算
+count `}<BlankInput id="blank2" />{` 3;
+
+// countに2を乗算
+count `}<BlankInput id="blank3" />{` 2;
+
+// countを4で除算
+count `}<BlankInput id="blank4" />{` 4;`}
 </CodeBlock>
-
-**ヒント**：
-- 加算して代入：`+=`
-- 減算して代入：`-=`
-- 乗算して代入：`*=`
-- 除算して代入：`/=`
-
----
-
-## 解説
-
-複合代入演算子を使うと、**演算と代入を1行で簡潔に書ける**。
-
-**通常の書き方と複合代入演算子の比較**：
-
-| 通常の書き方 | 複合代入演算子 |
-|-------------|---------------|
-| `count = count + 5` | `count += 5` |
-| `count = count - 3` | `count -= 3` |
-| `count = count * 2` | `count *= 2` |
-| `count = count / 4` | `count /= 4` |
-
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
-
-<OneCompilerCodeBlock language="java" code={`public class Main {
-    public static void main(String[] args) {
-        int score = 100;
-        System.out.println("初期スコア: " + score);
-
-        score += 50;  // ボーナス得点
-        System.out.println("ボーナス後: " + score);  // 150
-
-        score -= 20;  // ペナルティ
-        System.out.println("ペナルティ後: " + score);  // 130
-
-        score *= 2;  // 2倍キャンペーン
-        System.out.println("2倍後: " + score);  // 260
-
-        score /= 10;  // 10で割る
-        System.out.println("最終スコア: " + score);  // 26
-    }
-}`} />
-
-**よくある使用例**：
-- ゲームのスコア加算：`score += points;`
-- 商品の在庫減少：`stock -= soldCount;`
-- 価格の倍率計算：`price *= 1.1;`（10%増）

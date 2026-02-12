@@ -24,6 +24,8 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ children, language = "java
         fontSize: "14px",
         border: colorMode === "dark" ? "1px solid #3e3e3e" : "1px solid #e0e0e0",
         lineHeight: "1.6",
+        whiteSpace: "pre-wrap",
+        wordBreak: "break-word",
         position: "relative",
         "&::before": {
           content: `"${language}"`,

@@ -87,7 +87,7 @@ export const QuestionDialog: React.FC<QuestionDialogProps> = ({
       <DialogContent dividers>
         <QuestionRenderer
           showTitle
-          showHintLink
+          showChapterLink
           key={questionId} // 変更時に再マウントさせ、内部状態をリセット
           id={questionId}
           mode="dialog"

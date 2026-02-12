@@ -19,14 +19,13 @@ choices:
 answers:
   correct: ["C"]
 explanation: |
-  **論理演算子**は、**複数の条件を組み合わせたり、条件を反転させたりする演算子**である。
+  **論理演算子** は、 **複数の条件を組み合わせたり、条件を反転させたりする演算子** である。
 
   主な論理演算子：
   - `&&`（かつ：両方の条件がtrueの場合にtrue）
   - `||`（または：どちらかの条件がtrueの場合にtrue）
   - `!`（否定：条件を反転）
 
-  例：
   ```java
   int age = 20;
   boolean hasLicense = true;
@@ -37,45 +36,15 @@ explanation: |
   // 年齢が18歳未満 または 免許を持っていない
   boolean cannotDrive = age < 18 || !hasLicense;  // false
   ```
+
+  **論理演算子の組み合わせ表**：
+
+  | A | B | A && B | A \|\| B | !A |
+  |---|---|--------|----------|-----|
+  | true | true | true | true | false |
+  | true | false | false | true | false |
+  | false | true | false | true | true |
+  | false | false | false | false | true |
 ---
 
-## 問題
-
 論理演算子の説明として最も適切なものを選べ。
-
-## 解説
-
-論理演算子は、**複数の条件を組み合わせて判定する演算子**である。
-
-プログラムでは、複数の条件を同時に満たす必要があることが多い：
-- 年齢が18歳以上**かつ**免許を持っている → 運転できる
-- ユーザー名が空**または**パスワードが空 → ログインできない
-- パスワードが一致**しない** → エラー
-
-このような複雑な判定に論理演算子を使う。
-
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
-
-<OneCompilerCodeBlock language="java" code={`public class Main {
-    public static void main(String[] args) {
-        int temperature = 28;
-        boolean isSunny = true;
-
-        // 気温が25度以上 かつ 晴れている
-        boolean isGoodForSwimming = temperature >= 25 && isSunny;
-        System.out.println("プールに最適: " + isGoodForSwimming);  // true
-
-        // 気温が30度以上 または 雨が降っている
-        boolean stayIndoors = temperature >= 30 || !isSunny;
-        System.out.println("屋内にいるべき: " + stayIndoors);  // false
-    }
-}`} />
-
-**論理演算子の組み合わせ表**：
-
-| A | B | A && B | A \|\| B | !A |
-|---|---|--------|----------|-----|
-| true | true | true | true | false |
-| true | false | false | true | false |
-| false | true | false | true | true |
-| false | false | false | false | true |

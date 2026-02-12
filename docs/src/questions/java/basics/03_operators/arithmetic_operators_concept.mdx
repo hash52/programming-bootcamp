@@ -19,7 +19,7 @@ choices:
 answers:
   correct: ["A"]
 explanation: |
-  **算術演算子**は、**四則演算や剰余演算を行う演算子**である。
+  **算術演算子** は、 **四則演算や剰余演算を行う演算子** である。
 
   主な算術演算子：
   - `+`（足し算）
@@ -28,7 +28,6 @@ explanation: |
   - `/`（割り算）
   - `%`（剰余：割り算の余り）
 
-  例：
   ```java
   int a = 10 + 5;  // 15
   int b = 10 - 5;  // 5
@@ -36,38 +35,11 @@ explanation: |
   int d = 10 / 5;  // 2
   int e = 10 % 3;  // 1（10を3で割った余り）
   ```
+
+  **よくある間違い**：
+  - `*`（掛け算）を `×` と書いてしまう
+  - `/`（割り算）を `÷` と書いてしまう
+  - `%`（剰余）の意味を理解していない
 ---
 
-## 問題
-
 算術演算子の説明として最も適切なものを選べ。
-
-## 解説
-
-算術演算子は、**数値の計算を行うための演算子**である。
-
-プログラムでは、以下のような計算を頻繁に行う：
-- ユーザーの入力値を合計する
-- 商品の価格を計算する
-- ゲームのスコアを加算する
-
-このような計算に算術演算子を使う。
-
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
-
-<OneCompilerCodeBlock language="java" code={`public class Main {
-    public static void main(String[] args) {
-        int price = 100;
-        int quantity = 3;
-        int total = price * quantity;
-        System.out.println("合計金額: " + total + "円");
-
-        int change = 1000 - total;
-        System.out.println("お釣り: " + change + "円");
-    }
-}`} />
-
-**よくある間違い**：
-- `*`（掛け算）を`×`と書いてしまう
-- `/`（割り算）を`÷`と書いてしまう
-- `%`（剰余）の意味を理解していない

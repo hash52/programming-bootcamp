@@ -3,12 +3,12 @@ id: "java/basics/03_operators#modulo_operation"
 title: "剰余演算ができる"
 type: "WRITE"
 difficulty: "Easy"
+format: "freeText"
 topicId: "03_operators"
 category: "java/basics"
 explanation: |
-  **剰余演算**（`%`）は、**割り算の余り**を求める演算である。
+  **剰余演算**（`%`）は、 **割り算の余り** を求める演算である。
 
-  例：
   ```java
   int a = 10 % 3;  // 10を3で割った余りは1
   int b = 15 % 4;  // 15を4で割った余りは3
@@ -16,14 +16,13 @@ explanation: |
   ```
 
   **剰余演算の使い所**：
-  - 偶数・奇数の判定（`n % 2 == 0`なら偶数）
-  - 特定の倍数の判定（`n % 3 == 0`なら3の倍数）
+  - 偶数・奇数の判定（`n % 2 == 0` なら偶数）
+  - 特定の倍数の判定（`n % 3 == 0` なら3の倍数）
   - 時計の計算（24時を超えたら0時に戻る）
-  - 配列のインデックスの循環
 
   **ポイント**：
-  - 割り切れる場合、余りは`0`
-  - 余りは常に割る数より小さい（`10 % 3`の余りは0〜2の範囲）
+  - 割り切れる場合、余りは `0`
+  - 余りは常に割る数より小さい
 
   **解答例**：
   ```java
@@ -34,34 +33,9 @@ explanation: |
           int remainder = number % 2;
           System.out.println(number + "を2で割った余り: " + remainder);
 
-          // 別の例
           int number2 = 10;
           int remainder2 = number2 % 2;
           System.out.println(number2 + "を2で割った余り: " + remainder2);
-      }
-  }
-  ```
-
-  **実行結果**：
-  ```
-  7を2で割った余り: 1
-  10を2で割った余り: 0
-  ```
-
-  **応用例**：
-  ```java
-  public class Main {
-      public static void main(String[] args) {
-          // 3の倍数の判定
-          int num = 15;
-          int remainder = num % 3;
-          System.out.println(num + "を3で割った余り: " + remainder);
-          // 余りが0なので、15は3の倍数
-
-          // 時計の計算（25時 → 1時）
-          int hour = 25;
-          int normalizedHour = hour % 24;
-          System.out.println(hour + "時は " + normalizedHour + "時と同じ");
       }
   }
   ```
@@ -69,18 +43,12 @@ explanation: |
 
 import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
-## 問題
-
-剰余演算を使って、数値が偶数か奇数かを判定するプログラムを書いて実行してください。
+剰余演算を使って、数値が偶数か奇数かを判定するプログラムを書いて実行せよ。
 
 **要件**：
-- 変数`number`に任意の整数を代入する
-- `number`を2で割った余りを求める
-- 余りが0なら「偶数」、余りが1なら「奇数」と表示する（まだif文を学んでいないので、両方表示して確認）
-
-**実行環境**：
-- 以下のOneCompiler（ブラウザ上で実行可能）
-- または、Eclipse等のIDE
+- 変数 `number` に任意の整数を代入する
+- `number` を2で割った余りを求める
+- 余りが `0` なら「偶数」、余りが `1` なら「奇数」と表示する（まだif文を学んでいないので、余りの値を表示して確認する）
 
 <OneCompilerCodeBlock
   language="java"
@@ -91,8 +59,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
     }
 }`}
 />
-
-**ヒント**：
-- `number % 2`で2で割った余りを求める
-- 余りが`0`なら偶数、`1`なら奇数
-- `System.out.println()`で余りを表示して確認
