@@ -16,7 +16,9 @@ import {
 import { DojoTopicSelector } from "./DojoTopicSelector";
 import { DojoFilterPanel } from "./DojoFilterPanel";
 import { DojoImportPanel } from "./DojoImportPanel";
+import { DojoPresetPanel } from "./DojoPresetPanel";
 import { DojoQuestionView } from "./DojoQuestionView";
+import type { DojoPreset } from "@site/src/lib/dojoPreset";
 
 type Screen = "settings" | "questions";
 
@@ -95,6 +97,18 @@ export const DojoContent: React.FC = () => {
     []
   );
 
+  /** プリセット選択 */
+  const handleSelectPreset = useCallback((preset: DojoPreset) => {
+    setCheckedQuestionIds(new Set(preset.checkedQuestionIds));
+    setSelectedTypes(new Set(preset.selectedTypes));
+    setSelectedDifficulties(new Set(preset.selectedDifficulties));
+    setAchievementFilter(preset.achievementFilter);
+    setDaysAgoFilter(preset.daysAgoFilter);
+    setOrderMode(preset.orderMode);
+    setQuestionLimit(preset.questionLimit);
+    setAllQuestions(preset.allQuestions);
+  }, []);
+
   /** 条件変更画面に戻る */
   const handleBack = useCallback(() => {
     setScreen("settings");
@@ -137,6 +151,9 @@ export const DojoContent: React.FC = () => {
 
           {/* インポートパネル */}
           <DojoImportPanel onImport={handleImport} />
+
+          {/* プリセットパネル */}
+          <DojoPresetPanel onSelect={handleSelectPreset} />
 
           {/* フィルターパネル */}
           <DojoFilterPanel

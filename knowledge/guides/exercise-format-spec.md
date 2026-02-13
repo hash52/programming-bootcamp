@@ -666,3 +666,62 @@ fillInBlankAnswers:
 - [ ] 選択/穴埋め問題の採点が動作するか
 - [ ] ダッシュボードに問題が表示されるか
 - [ ] 達成チェックボックスが動作するか
+
+---
+
+## 11. プリセット機能
+
+### 概要
+
+問題道場の出題条件（出題範囲、問題タイプ、難易度、進捗フィルター、出題設定）をlocalStorageにプリセットとして保存し、ワンクリックで呼び出せる機能。プリセットはあくまで出題条件の **初期値** として適用され、選択後も条件の変更は自由である。
+
+### データ構造
+
+```typescript
+// docs/src/lib/dojoPreset.ts
+
+interface DojoPreset {
+  id: string;                          // crypto.randomUUID()
+  name: string;                        // ユーザーが付ける名前
+  createdAt: string;                   // ISO 8601
+  checkedQuestionIds: string[];        // Set→Array変換して保存
+  selectedTypes: QuestionType[];
+  selectedDifficulties: Difficulty[];
+  achievementFilter: AchievementFilter;
+  daysAgoFilter: DaysAgoFilter;
+  orderMode: OrderMode;
+  questionLimit: number | null;
+  allQuestions: boolean;
+}
+```
+
+### localStorageキー
+
+- キー名: `"dojoPresets"`
+- 保存形式: `DojoPreset[]` のJSON文字列
+- 保存上限: なし
+
+### UI配置
+
+DojoContent.tsx の設定画面（`screen === "settings"`）において、以下の順序で配置する:
+
+1. `DojoImportPanel` — 既存: 共有された問題セットを読み込む
+2. `DojoPresetPanel` — プリセットの選択・管理
+3. `DojoFilterPanel` — 既存: 出題条件を設定
+
+### 操作仕様
+
+| 操作 | 説明 |
+|------|------|
+| 保存 | DojoFilterPanelで条件を設定 → 「現在の条件をプリセットとして保存」ボタン → 名前入力ダイアログ → localStorage保存 |
+| 適用 | リスト内の「適用」ボタン → DojoContent内の全フィルターstateを上書き → フィルターパネルに反映 |
+| 名前変更 | 編集アイコン → 名前入力ダイアログ → localStorage更新 |
+| 削除 | 削除アイコン → 確認なしで即削除（低リスクのため） |
+
+### 関連ファイル
+
+| ファイル | 役割 |
+|---------|------|
+| `docs/src/lib/dojoPreset.ts` | Preset型定義、localStorage CRUD関数 |
+| `docs/src/components/dojo/DojoPresetPanel.tsx` | プリセット選択・保存・削除UI |
+| `docs/src/components/dojo/DojoContent.tsx` | PresetPanel配置、プリセット選択時のstate反映ハンドラ |

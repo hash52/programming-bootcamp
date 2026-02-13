@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import {
   Box,
   Typography,
@@ -18,9 +18,18 @@ import {
   CardContent,
   Divider,
   Collapse,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   styled,
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import SaveIcon from "@mui/icons-material/Save";
+import {
+  buildPresetFromState,
+  savePreset,
+} from "@site/src/lib/dojoPreset";
 import {
   ALL_TOPIC_STRUCTURE,
   Difficulty,
@@ -101,6 +110,40 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
   progress,
   onStart,
 }) => {
+  // プリセット保存
+  const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+  const [savePresetName, setSavePresetName] = useState("");
+
+  const handleSavePreset = useCallback(() => {
+    const name = savePresetName.trim();
+    if (!name) return;
+    const preset = buildPresetFromState(name, {
+      checkedQuestionIds,
+      selectedTypes,
+      selectedDifficulties,
+      achievementFilter,
+      daysAgoFilter,
+      orderMode,
+      questionLimit,
+      allQuestions,
+    });
+    savePreset(preset);
+    setSavePresetName("");
+    setSaveDialogOpen(false);
+    // DojoPresetPanel に変更を通知
+    window.dispatchEvent(new Event("dojoPresetsChanged"));
+  }, [
+    savePresetName,
+    checkedQuestionIds,
+    selectedTypes,
+    selectedDifficulties,
+    achievementFilter,
+    daysAgoFilter,
+    orderMode,
+    questionLimit,
+    allQuestions,
+  ]);
+
   /** 選択中の出題範囲を大章ごとに集計 */
   const rangeSummary = useMemo(() => {
     const counts = new Map<MajorChapter, number>();
@@ -361,6 +404,21 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
           </Typography>
         </Box>
 
+        {/* プリセット保存 */}
+        <Box mb={2}>
+          <Button
+            variant="outlined"
+            startIcon={<SaveIcon />}
+            onClick={() => {
+              setSavePresetName("");
+              setSaveDialogOpen(true);
+            }}
+            size="small"
+          >
+            現在の条件をプリセットとして保存
+          </Button>
+        </Box>
+
         {/* 開始ボタン */}
         <Button
           variant="contained"
@@ -373,6 +431,40 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
           演習を開始する
         </Button>
       </CardContent>
+
+      {/* プリセット保存ダイアログ */}
+      <Dialog
+        open={saveDialogOpen}
+        onClose={() => setSaveDialogOpen(false)}
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle>プリセットを保存</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            fullWidth
+            label="プリセット名"
+            placeholder="例: 苦手なJava問題"
+            value={savePresetName}
+            onChange={(e) => setSavePresetName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSavePreset();
+            }}
+            sx={{ mt: 1 }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSaveDialogOpen(false)}>キャンセル</Button>
+          <Button
+            onClick={handleSavePreset}
+            variant="contained"
+            disabled={!savePresetName.trim()}
+          >
+            保存
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 };

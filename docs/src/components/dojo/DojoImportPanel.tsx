@@ -73,10 +73,13 @@ export const DojoImportPanel: React.FC<DojoImportPanelProps> = ({
         )}
         <Button
           variant="contained"
+          size="large"
+          fullWidth
           onClick={handleImport}
           disabled={!inputText.trim()}
+          sx={{ py: 1.5, fontSize: "1.1rem" }}
         >
-          読み込む
+          演習を開始する
         </Button>
       </AccordionDetails>
     </Accordion>
