@@ -1,5 +1,14 @@
-import React, { useState, useCallback, useMemo } from "react";
-import { Box, Typography } from "@mui/material";
+import React, { useState, useCallback, useMemo, useEffect, useRef } from "react";
+import {
+  Box,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import {
   ALL_TOPIC_STRUCTURE,
   Difficulty,
@@ -54,6 +63,11 @@ export const DojoContent: React.FC = () => {
   const [isImported, setIsImported] = useState(false);
   // 入力リセット用カウンター（再出題時にインクリメントしてコンポーネントを再マウント）
   const [resetKey, setResetKey] = useState(0);
+  // ブラウザバック確認ダイアログ
+  const [browserBackConfirmOpen, setBrowserBackConfirmOpen] = useState(false);
+  // 再出題履歴スタック（popstateハンドラ内でstale closureを避けるためref）
+  const questionHistoryRef = useRef<Question[][]>([]);
+  const retryCountRef = useRef(0);
 
   /** 演習開始 */
   const handleStart = useCallback(() => {
@@ -69,6 +83,7 @@ export const DojoContent: React.FC = () => {
     });
     setActiveQuestions(questions);
     setIsImported(false);
+    history.pushState(null, "", location.pathname + location.search + "#questions");
     setScreen("questions");
   }, [
     checkedQuestionIds,
@@ -92,6 +107,7 @@ export const DojoContent: React.FC = () => {
       ).filter((q) => idSet.has(q.id));
       setActiveQuestions(questions);
       setIsImported(true);
+      history.pushState(null, "", location.pathname + location.search + "#questions");
       setScreen("questions");
     },
     []
@@ -111,6 +127,11 @@ export const DojoContent: React.FC = () => {
 
   /** 条件変更画面に戻る */
   const handleBack = useCallback(() => {
+    if (location.hash) {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+    questionHistoryRef.current = [];
+    retryCountRef.current = 0;
     setScreen("settings");
     setIsImported(false);
   }, []);
@@ -118,6 +139,9 @@ export const DojoContent: React.FC = () => {
   /** 未達成の問題だけ再出題 */
   const handleRetryWrong = useCallback(
     (wrongIds: string[]) => {
+      // 現在の問題セットをスタックに保存
+      questionHistoryRef.current.push([...activeQuestions]);
+
       const idSet = new Set(wrongIds);
       const questions = ALL_TOPIC_STRUCTURE.flatMap((t) =>
         t.questions
@@ -131,6 +155,13 @@ export const DojoContent: React.FC = () => {
         }
       }
 
+      retryCountRef.current += 1;
+      history.pushState(
+        null,
+        "",
+        location.pathname + location.search + `#retry-${retryCountRef.current}`
+      );
+
       setActiveQuestions(questions);
       setResetKey((prev) => prev + 1);
       setScreen("questions");
@@ -138,8 +169,57 @@ export const DojoContent: React.FC = () => {
       // ページ最上部にスクロール
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
-    [orderMode]
+    [orderMode, activeQuestions]
   );
+
+  // ブラウザバック確認ダイアログのハンドラー
+  const handleBrowserBackConfirmed = useCallback(() => {
+    setBrowserBackConfirmOpen(false);
+    handleBack();
+  }, [handleBack]);
+
+  const handleBrowserBackCancelled = useCallback(() => {
+    setBrowserBackConfirmOpen(false);
+  }, []);
+
+  // questions画面でのpopstateリスナー
+  useEffect(() => {
+    if (screen !== "questions") return;
+
+    const handlePopState = () => {
+      const stack = questionHistoryRef.current;
+      if (stack.length > 0) {
+        // 前の問題セットに戻る
+        const prevQuestions = stack.pop()!;
+        retryCountRef.current = Math.max(0, retryCountRef.current - 1);
+        const hash =
+          retryCountRef.current > 0
+            ? `#retry-${retryCountRef.current}`
+            : "#questions";
+        history.replaceState(null, "", location.pathname + location.search + hash);
+        setActiveQuestions(prevQuestions);
+        setResetKey((prev) => prev + 1);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        // スタックが空 → settings に戻る確認ダイアログ
+        history.pushState(null, "", location.pathname + location.search + "#questions");
+        setBrowserBackConfirmOpen(true);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [screen]);
+
+  // #questions/#retry-*付きURLに直接アクセスした場合のハッシュ除去
+  useEffect(() => {
+    if (
+      (location.hash === "#questions" || location.hash.startsWith("#retry-")) &&
+      screen === "settings"
+    ) {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+  }, []);
 
   return (
     <Box maxWidth="1200px" mx="auto">
@@ -196,6 +276,20 @@ export const DojoContent: React.FC = () => {
           resetKey={resetKey}
         />
       )}
+      <Dialog open={browserBackConfirmOpen} onClose={handleBrowserBackCancelled}>
+        <DialogTitle>条件設定に戻りますか？</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            現在の問題セットは破棄されます。ランダム出題の場合、同じ並び順を再現することはできません。
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleBrowserBackCancelled}>キャンセル</Button>
+          <Button onClick={handleBrowserBackConfirmed} color="primary" variant="contained">
+            戻る
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
