@@ -5,6 +5,7 @@ import {
   AccordionSummary,
   Box,
   Checkbox,
+  Chip,
   Paper,
   Stack,
   styled,
@@ -26,6 +27,9 @@ import {
   calcCategoryProgressRate,
   calcTopicProgressRate,
   calcMajorChapterProgressRate,
+  calcTopicProgressCount,
+  calcCategoryProgressCount,
+  calcMajorChapterProgressCount,
 } from "../lib/calcProgressRate";
 import { daysAgo } from "../lib/date";
 import { QuestionDialog } from "../question/QuestionDialog";
@@ -172,6 +176,10 @@ export const Dashboard: FC = () => {
             storedProgress.progress
           );
           const majorValue = majorRatio * 100;
+          const majorCount = calcMajorChapterProgressCount(
+            major,
+            storedProgress.progress
+          );
           const isSingleCategory = majorCategories.length === 1;
 
           /** トピック一覧のレンダリング（中章・単一カテゴリ共通） */
@@ -187,6 +195,10 @@ export const Dashboard: FC = () => {
                     storedProgress.progress
                   );
                   const topicValue = topicRatio * 100;
+                  const topicCount = calcTopicProgressCount(
+                    topic.id,
+                    storedProgress.progress
+                  );
                   return (
                     <TopicProgressAccordion key={topic.id}>
                       <AccordionSummary expandIcon={<ChevronDown />}>
@@ -201,9 +213,16 @@ export const Dashboard: FC = () => {
                           >
                             {topic.label}
                           </TopicTitle>
-                          <TopicProgressBarBox>
-                            <ProgressBarWithLabel value={topicValue} />
-                          </TopicProgressBarBox>
+                          <ProgressWithCountBox>
+                            <ProgressCountChip
+                              label={`${topicCount.done} / ${topicCount.total}`}
+                              size="small"
+                              variant="outlined"
+                            />
+                            <TopicProgressBarBox>
+                              <ProgressBarWithLabel value={topicValue} />
+                            </TopicProgressBarBox>
+                          </ProgressWithCountBox>
                         </TopicProgressBox>
                       </AccordionSummary>
 
@@ -260,9 +279,16 @@ export const Dashboard: FC = () => {
                   <MajorChapterTitle>
                     {MAJOR_CHAPTER_LABELS[major]}
                   </MajorChapterTitle>
-                  <MajorChapterProgressBarBox>
-                    <ProgressBarWithLabel value={majorValue} />
-                  </MajorChapterProgressBarBox>
+                  <ProgressWithCountBox>
+                    <ProgressCountChip
+                      label={`${majorCount.done} / ${majorCount.total}`}
+                      size="small"
+                      variant="outlined"
+                    />
+                    <MajorChapterProgressBarBox>
+                      <ProgressBarWithLabel value={majorValue} />
+                    </MajorChapterProgressBarBox>
+                  </ProgressWithCountBox>
                 </MajorChapterSummaryBox>
               </AccordionSummary>
 
@@ -279,6 +305,10 @@ export const Dashboard: FC = () => {
                           cat,
                           storedProgress.progress
                         ) * 100;
+                      const catCount = calcCategoryProgressCount(
+                        cat,
+                        storedProgress.progress
+                      );
 
                       return (
                         <CategorySubAccordion key={cat} >
@@ -287,9 +317,16 @@ export const Dashboard: FC = () => {
                               <CategorySubTitle>
                                 {CATEGORY_SHORT_LABELS[cat]}
                               </CategorySubTitle>
-                              <CategorySubProgressBarBox>
-                                <ProgressBarWithLabel value={catValue} />
-                              </CategorySubProgressBarBox>
+                              <ProgressWithCountBox>
+                                <ProgressCountChip
+                                  label={`${catCount.done} / ${catCount.total}`}
+                                  size="small"
+                                  variant="outlined"
+                                />
+                                <CategorySubProgressBarBox>
+                                  <ProgressBarWithLabel value={catValue} />
+                                </CategorySubProgressBarBox>
+                              </ProgressWithCountBox>
                             </CategorySubSummaryBox>
                           </AccordionSummary>
 
@@ -385,7 +422,6 @@ const MajorChapterTitle = styled(Typography)({
 const MajorChapterProgressBarBox = styled(Box)({
   width: 200,
   flexShrink: 0,
-  marginLeft: 16,
 });
 
 /** 中章の一覧エリア */
@@ -418,7 +454,6 @@ const CategorySubTitle = styled(Typography)({
 const CategorySubProgressBarBox = styled(Box)({
   width: 180,
   flexShrink: 0,
-  marginLeft: 16,
 });
 
 /** トピックごとの進捗一覧エリア */
@@ -480,6 +515,22 @@ const QuestionTitle = styled(Typography)({
     textDecoration: "underline",
     color: "#0d47a1",
   },
+});
+
+/** 進捗バー＋個数チップのラッパー */
+const ProgressWithCountBox = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+  flexShrink: 0,
+  marginLeft: 16,
+  gap: 8,
+});
+
+/** 個数チップ */
+const ProgressCountChip = styled(Chip)({
+  fontWeight: "bold",
+  fontSize: "0.75rem",
+  height: 22,
 });
 
 /** 経過日数表示（色付き） */

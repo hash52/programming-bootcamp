@@ -49,3 +49,41 @@ export function calcMajorChapterProgressRate(
   const done = majorQuestions.filter((q) => progress[q.id]).length;
   return majorQuestions.length > 0 ? done / majorQuestions.length : 0;
 }
+
+/** 達成済み個数と全個数を返す型 */
+export type ProgressCount = { done: number; total: number };
+
+/** トピックごとの達成個数を返す */
+export function calcTopicProgressCount(
+  topicId: string,
+  progress: ProgressRecord
+): ProgressCount {
+  const topic = ALL_TOPIC_STRUCTURE.find((t) => t.id === topicId);
+  if (!topic) return { done: 0, total: 0 };
+  const done = topic.questions.filter((q) => progress[q.id]).length;
+  return { done, total: topic.questions.length };
+}
+
+/** カテゴリごとの達成個数を返す */
+export function calcCategoryProgressCount(
+  category: string,
+  progress: ProgressRecord
+): ProgressCount {
+  const categoryQuestions = ALL_TOPIC_STRUCTURE
+    .filter((t) => t.category === category)
+    .flatMap((t) => t.questions);
+  const done = categoryQuestions.filter((q) => progress[q.id]).length;
+  return { done, total: categoryQuestions.length };
+}
+
+/** 大章ごとの達成個数を返す */
+export function calcMajorChapterProgressCount(
+  majorChapter: string,
+  progress: ProgressRecord
+): ProgressCount {
+  const majorQuestions = ALL_TOPIC_STRUCTURE
+    .filter((t) => t.category.split("/")[0] === majorChapter)
+    .flatMap((t) => t.questions);
+  const done = majorQuestions.filter((q) => progress[q.id]).length;
+  return { done, total: majorQuestions.length };
+}
