@@ -76,11 +76,11 @@ export enum Difficulty {
 }
 
 /** 設問タイプ */
-type QuestionType = "KNOW" | "READ" | "WRITE";
+export type QuestionType = "KNOW" | "READ" | "WRITE";
 
 /** 各設問の基本構造(ID生成前) */
 // IDは自動付与だが、ID付与前はタイトルなどの情報だけを持つ
-interface QuestionBase {
+export interface QuestionBase {
   /** 問題の固定識別子（例: "variables_concept", "type_casting"）。
    * 未指定の場合は旧形式（type+index）でIDが生成される */
   questionId?: string;
@@ -93,7 +93,7 @@ interface QuestionBase {
 }
 
 /** 各設問（ID付与後） */
-interface Question extends QuestionBase {
+export interface Question extends QuestionBase {
   /** src/questions/{id}.mdxのid部分。ローカルストレージに保存する際のキー */
   id: string;
   /** 最後に達成済みとしてチェックした日 */
@@ -101,7 +101,7 @@ interface Question extends QuestionBase {
 }
 
 /** 各カテゴリのトピック */
-interface Topic {
+export interface Topic {
   /** ファイル名`01_{id}.mdx`のid部分。URLパスになる */
   id: string;
   /** トピックのタイトル */
