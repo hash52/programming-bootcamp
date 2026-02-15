@@ -66,6 +66,10 @@ const config: Config = {
       },
       items: [
         {
+          type: "custom-offlineModeToggle" as any,
+          position: "right",
+        },
+        {
           href: "https://github.com/hash52/programming-bootcamp",
           label: "GitHub",
           position: "right",

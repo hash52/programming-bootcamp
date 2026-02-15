@@ -1,8 +1,17 @@
 // src/components/OneCompilerCodeBlock.tsx
 import { useColorMode } from "@docusaurus/theme-common";
 import React, { useMemo } from "react";
+import { Highlight, themes } from "prism-react-renderer";
+import { useOfflineMode } from "../contexts/OfflineModeContext";
 
 type Language = "java" | "mysql" | "postgresql" | "html";
+
+const languageToPrism: Record<Language, string> = {
+  java: "java",
+  mysql: "sql",
+  postgresql: "sql",
+  html: "html",
+};
 
 /**
  * OneCompiler 埋め込みエディタ
@@ -65,6 +74,8 @@ type OneCompilerCodeBlockProps = {
   id?: string;
   /** iframe の style 属性 */
   style?: React.CSSProperties;
+  /** オフラインモードを個別に指定（グローバル設定を上書き） */
+  offline?: boolean;
 };
 
 export const OneCompilerCodeBlock: React.FC<OneCompilerCodeBlockProps> = ({
@@ -90,9 +101,64 @@ export const OneCompilerCodeBlock: React.FC<OneCompilerCodeBlockProps> = ({
   width = "100%",
   id,
   style,
+  offline,
 }) => {
-  const params = new URLSearchParams();
   const { colorMode } = useColorMode();
+  const { isOffline: globalOffline } = useOfflineMode();
+
+  const effectiveOffline = offline ?? globalOffline;
+
+  if (effectiveOffline) {
+    const prismLang = languageToPrism[language];
+    const highlightTheme =
+      colorMode === "dark" ? themes.dracula : themes.github;
+
+    return (
+      <>
+        <span style={{ display: "none" }}>{code}</span>
+        <Highlight code={code} language={prismLang} theme={highlightTheme}>
+          {({ className, style: hlStyle, tokens, getLineProps, getTokenProps }) => (
+            <pre
+              className={className}
+              style={{
+                ...hlStyle,
+                padding: "1em",
+                overflowY: "auto",
+                maxHeight: typeof height === "number" ? `${height}px` : height,
+                backgroundColor: highlightTheme.plain.backgroundColor,
+                color: highlightTheme.plain.color,
+                margin: 0,
+              }}
+            >
+              {tokens.map((line, i) => (
+                <div key={i} {...getLineProps({ line })}>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: "3em",
+                      textAlign: "right",
+                      paddingRight: "1em",
+                      userSelect: "none",
+                      opacity: 0.5,
+                    }}
+                  >
+                    {i + 1}
+                  </span>
+                  <span>
+                    {line.map((token, key) => (
+                      <span key={key} {...getTokenProps({ token })} />
+                    ))}
+                  </span>
+                </div>
+              ))}
+            </pre>
+          )}
+        </Highlight>
+      </>
+    );
+  }
+
+  const params = new URLSearchParams();
 
   // propsで明示的に指定されていればそれを使う
   // 指定されていなければ、Docusaurusのカラーモードを使用
