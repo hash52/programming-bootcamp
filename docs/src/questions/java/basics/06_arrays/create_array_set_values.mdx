@@ -1,0 +1,27 @@
+---
+id: "java/basics/06_arrays#create_array_set_values"
+title: "配列を作って値を入れられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "06_arrays"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["new int[3]", "new int[ 3 ]"]
+  blank2: ["scores[0]", "scores[ 0 ]"]
+sampleAnswer: "new int[3] / scores[0]"
+explanation: |
+  配列を作成するには `new 型[要素数]` と書く。`new int[3]` で要素数3のint型配列が作成される。配列の各要素にはインデックスを使って `配列名[インデックス] = 値;` で代入できる。インデックスは0から始まることに注意する。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、要素数3のint型配列を作成し、最初の要素に90を代入するプログラムを完成させよ。
+
+<CodeBlock>
+{`int[] scores = `}<BlankInput id="blank1" />{`;
+
+// 最初の要素に90を代入
+`}<BlankInput id="blank2" />{` = 90;`}
+</CodeBlock>

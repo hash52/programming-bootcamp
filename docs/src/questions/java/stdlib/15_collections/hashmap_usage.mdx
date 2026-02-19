@@ -1,0 +1,48 @@
+---
+id: "java/stdlib/15_collections#hashmap_usage"
+title: "HashMapでキーと値のペアを保存できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "15_collections"
+category: "java/stdlib"
+hint: |
+  HashMapは **キーと値のペア** を管理するコレクションである。`put(キー, 値)` で追加、`get(キー)` で値を取得する。キーは重複できないが、値は重複できる。
+explanation: |
+  **解答例**：
+  ```java
+  HashMap<String, Integer> scores = new HashMap<>();
+  scores.put("田中", 85);
+  scores.put("佐藤", 92);
+  scores.put("鈴木", 78);
+
+  System.out.println("佐藤の点数: " + scores.get("佐藤"));
+
+  for (String name : scores.keySet()) {
+      System.out.println(name + ": " + scores.get(name));
+  }
+  ```
+
+  HashMapはキーと値のペアを格納する。`keySet()` でキーの一覧を取得し、ループで全エントリにアクセスできる。同じキーで `put()` すると値が上書きされる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- HashMapで名前（String）と点数（Integer）のペアを管理する
+- 3人分のデータを追加する
+- 特定の名前の点数を取得して表示する
+- ループで全員の名前と点数を表示する
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.HashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        // ここにHashMapを使ったコードを書いてください
+    }
+}`}
+/>

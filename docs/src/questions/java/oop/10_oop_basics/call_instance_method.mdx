@@ -1,0 +1,27 @@
+---
+id: "java/oop/10_oop_basics#call_instance_method"
+title: "インスタンスメソッドを呼び出せる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "10_oop_basics"
+category: "java/oop"
+fillInBlankAnswers:
+  blank1: ["dog.bark()", "dog.bark( )"]
+sampleAnswer: "dog.bark()"
+explanation: |
+  インスタンスメソッドを呼び出すには `オブジェクト名.メソッド名()` と書く。staticメソッドと違い、オブジェクトを作成してから呼び出す必要がある。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、dogオブジェクトのbarkメソッドを呼び出すプログラムを完成させよ。
+
+<CodeBlock>
+{`// Dogクラス: public void bark() { System.out.println("ワン！"); }
+Dog dog = new Dog();
+
+// barkメソッドを呼び出す
+`}<BlankInput id="blank1" />{`;`}
+</CodeBlock>

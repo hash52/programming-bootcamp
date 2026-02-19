@@ -1,0 +1,29 @@
+---
+id: "java/oop/14_encapsulation#setter_method"
+title: "setterで値を設定するメソッドを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "14_encapsulation"
+category: "java/oop"
+fillInBlankAnswers:
+  blank1: ["this.name = name", "this.name=name"]
+sampleAnswer: "this.name = name"
+explanation: |
+  setter メソッドは、privateフィールドに値を設定するためのメソッドである。慣例として `set + フィールド名（先頭大文字）` の命名にする（例: `setName()`）。`this.name = name;` で引数の値をフィールドに代入する。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、nameフィールドのsetterメソッドを完成させよ。
+
+<CodeBlock>
+{`class Person {
+    private String name;
+
+    public void setName(String name) {
+        `}<BlankInput id="blank1" />{`;
+    }
+}`}
+</CodeBlock>

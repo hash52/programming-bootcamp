@@ -1,0 +1,32 @@
+---
+id: "java/stdlib/16_datetime#date_plus_minus"
+title: "日付に日数を足したり引いたりできる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "16_datetime"
+category: "java/stdlib"
+hint: |
+  `plusDays()`, `minusDays()` で日数の加算・減算ができる。同様に `plusMonths()`, `plusYears()` なども使える。元のオブジェクトは変更されず、新しいオブジェクトが返される点に注意。
+fillInBlankAnswers:
+  blank1: ["today.plusDays(7)", "today.plusDays( 7 )"]
+  blank2: ["today.minusDays(3)", "today.minusDays( 3 )"]
+sampleAnswer: "today.plusDays(7) / today.minusDays(3)"
+explanation: |
+  日付の加算は `plusDays()`, `plusMonths()`, `plusYears()` で行う。減算は `minusDays()`, `minusMonths()`, `minusYears()` を使う。**元のオブジェクトは変更されず、新しいオブジェクトが返される**（イミュータブル）。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、今日から7日後と3日前の日付を求めるプログラムを完成させよ。
+
+<CodeBlock>
+{`LocalDate today = LocalDate.now();
+
+// 7日後
+LocalDate nextWeek = `}<BlankInput id="blank1" />{`;
+
+// 3日前
+LocalDate threeDaysAgo = `}<BlankInput id="blank2" />{`;`}
+</CodeBlock>

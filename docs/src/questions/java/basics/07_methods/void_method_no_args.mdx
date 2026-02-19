@@ -1,0 +1,30 @@
+---
+id: "java/basics/07_methods#void_method_no_args"
+title: "引数なし・戻り値なしのメソッドを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "07_methods"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: "void"
+  blank2: ["greet()", "greet( )"]
+sampleAnswer: "void / greet()"
+explanation: |
+  戻り値がないメソッドは戻り値の型に **`void`** を指定する。メソッドを呼び出すには `メソッド名()` と書く。引数がない場合でも丸括弧 `()` は必要である。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、「こんにちは！」と表示するメソッドを定義・呼び出すプログラムを完成させよ。
+
+<CodeBlock>
+{`public static `}<BlankInput id="blank1" />{` greet() {
+    System.out.println("こんにちは！");
+}
+
+public static void main(String[] args) {
+    `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>

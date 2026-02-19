@@ -1,0 +1,27 @@
+---
+id: "java/oop/14_encapsulation#readonly_field"
+title: "読み取り専用のフィールドを作れる"
+type: "WRITE"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "14_encapsulation"
+category: "java/oop"
+multipleSelect: false
+hint: |
+  読み取り専用にするには、フィールドをprivateにしてgetterだけを提供し、**setterを作らない** ことで実現できる。
+choices:
+  - id: "A"
+    text: "フィールドをprivateにし、getterのみを提供してsetterを作らない"
+  - id: "B"
+    text: "フィールドをpublicにして、finalを付ける"
+  - id: "C"
+    text: "フィールドをprotectedにする"
+  - id: "D"
+    text: "読み取り専用のフィールドはJavaでは作れない"
+answers:
+  correct: ["A"]
+explanation: |
+  読み取り専用（外部から変更不可）のフィールドを作るには、フィールドを **private** にして **getter のみ** を提供する。setterを作らないことで、外部からの値の変更を防げる。コンストラクタでのみ値を設定する設計パターンがよく使われる。
+---
+
+フィールドを外部から読み取りはできるが変更はできないようにする方法として、最も適切なものを選べ。

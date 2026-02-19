@@ -1,0 +1,86 @@
+---
+id: "java/oop/14_encapsulation#class_design_access"
+title: "適切なアクセス修飾子を選んでクラスを設計できる"
+type: "WRITE"
+difficulty: "Hard"
+format: "freeText"
+topicId: "14_encapsulation"
+category: "java/oop"
+hint: |
+  カプセル化の基本方針：
+  - フィールドは **private** にする
+  - 外部に公開するメソッドは **public** にする
+  - クラス内部でのみ使うヘルパーメソッドは **private** にする
+  - getter/setterで必要に応じてバリデーションを入れる
+explanation: |
+  **解答例**：
+  ```java
+  class BankAccount {
+      private String owner;
+      private int balance;
+
+      public BankAccount(String owner, int initialBalance) {
+          if (initialBalance < 0) {
+              throw new IllegalArgumentException("初期残高は0以上である必要があります");
+          }
+          this.owner = owner;
+          this.balance = initialBalance;
+      }
+
+      public String getOwner() { return owner; }
+      public int getBalance() { return balance; }
+
+      public void deposit(int amount) {
+          validateAmount(amount);
+          balance += amount;
+      }
+
+      public boolean withdraw(int amount) {
+          validateAmount(amount);
+          if (amount > balance) {
+              return false;
+          }
+          balance -= amount;
+          return true;
+      }
+
+      private void validateAmount(int amount) {
+          if (amount <= 0) {
+              throw new IllegalArgumentException("金額は正の数である必要があります");
+          }
+      }
+  }
+  ```
+
+  - フィールドは `private` で外部から直接変更できないようにする
+  - `getOwner()` と `getBalance()` は読み取り専用（setterなし）
+  - `deposit()` と `withdraw()` でバリデーション付きの操作を提供
+  - `validateAmount()` は内部ヘルパーなので `private`
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- `BankAccount` クラスを適切なカプセル化で設計する
+- フィールド: `owner`（読み取り専用）、`balance`（直接変更不可）
+- メソッド: `deposit(int amount)`（入金、0以下の金額は拒否）、`withdraw(int amount)`（出金、残高不足チェック付き）
+- 内部でのみ使うバリデーションメソッドは `private` にする
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class BankAccount {
+    // ここにカプセル化を意識したクラスを設計してください
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount("田中", 10000);
+        account.deposit(5000);
+        System.out.println("残高: " + account.getBalance());
+        account.withdraw(3000);
+        System.out.println("残高: " + account.getBalance());
+    }
+}`}
+/>

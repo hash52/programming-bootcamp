@@ -1,0 +1,27 @@
+---
+id: "java/basics/07_methods#variable_scope"
+title: "メソッド内外での変数のスコープを説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "07_methods"
+category: "java/basics"
+multipleSelect: false
+hint: |
+  メソッド内で宣言した変数は **ローカル変数** と呼ばれ、そのメソッド内でのみ使用できる。メソッドの実行が終わると変数は破棄される。
+choices:
+  - id: "A"
+    text: "メソッド内で宣言した変数は、そのメソッド内でのみ使える"
+  - id: "B"
+    text: "メソッド内で宣言した変数は、プログラム全体で使える"
+  - id: "C"
+    text: "メソッドの引数は、呼び出し元のメソッドでも使える"
+  - id: "D"
+    text: "すべての変数は、どのメソッドからでもアクセスできる"
+answers:
+  correct: ["A"]
+explanation: |
+  メソッド内で宣言した変数（ローカル変数）は、そのメソッドの **スコープ（有効範囲）** 内でのみ使用できる。メソッドの実行が終了すると、ローカル変数はメモリから解放される。他のメソッドからはアクセスできない。引数もそのメソッド内でのみ有効である。
+---
+
+変数のスコープについて、正しい説明を選べ。

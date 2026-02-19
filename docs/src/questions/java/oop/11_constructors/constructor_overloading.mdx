@@ -1,0 +1,70 @@
+---
+id: "java/oop/11_constructors#constructor_overloading"
+title: "引数が違う複数のコンストラクタを作れる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "11_constructors"
+category: "java/oop"
+hint: |
+  コンストラクタも引数の数や型を変えて複数定義できる（オーバーロード）。引数なし版、名前のみ版、名前+年齢版のように段階的に作ろう。
+explanation: |
+  **解答例**：
+  ```java
+  class Person {
+      String name;
+      int age;
+
+      Person() {
+          this.name = "未設定";
+          this.age = 0;
+      }
+
+      Person(String name) {
+          this.name = name;
+          this.age = 0;
+      }
+
+      Person(String name, int age) {
+          this.name = name;
+          this.age = age;
+      }
+  }
+  ```
+
+  コンストラクタのオーバーロードでは、引数の組み合わせを変えて複数のコンストラクタを定義できる。利用者は必要な情報だけを渡してオブジェクトを作成できる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+Personクラスに以下の3つのコンストラクタを作成せよ。
+
+**要件**：
+- 引数なし（name="未設定", age=0に初期化）
+- 名前のみ（name=引数, age=0）
+- 名前と年齢の両方
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Person {
+    String name;
+    int age;
+
+    // ここに3つのコンストラクタを書いてください
+
+    void showInfo() {
+        System.out.println("名前: " + name + ", 年齢: " + age);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person p1 = new Person();
+        Person p2 = new Person("田中");
+        Person p3 = new Person("佐藤", 25);
+        p1.showInfo();
+        p2.showInfo();
+        p3.showInfo();
+    }
+}`}
+/>

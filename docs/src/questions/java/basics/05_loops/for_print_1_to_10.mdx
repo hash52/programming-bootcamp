@@ -1,0 +1,26 @@
+---
+id: "java/basics/05_loops#for_print_1_to_10"
+title: "for文で1〜10まで表示できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "05_loops"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["int i = 1", "int i=1"]
+  blank2: ["i <= 10", "i<=10", "i < 11", "i<11"]
+sampleAnswer: "for (int i = 1; i <= 10; i++)"
+explanation: |
+  1から10を表示するには、カウンタ変数を **1から開始** し、**10以下** の間繰り返す。`i <= 10` と `i < 11` はどちらも同じ結果になる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、1から10までの数字を表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`for (`}<BlankInput id="blank1" />{`; `}<BlankInput id="blank2" />{`; i++) {
+    System.out.println(i);
+}`}
+</CodeBlock>

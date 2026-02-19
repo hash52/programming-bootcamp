@@ -1,0 +1,47 @@
+---
+id: "java/basics/09_exception_handling#exception_io_network"
+title: "ファイル操作やネットワーク処理で例外処理を書ける"
+type: "WRITE"
+difficulty: "Hard"
+format: "freeText"
+topicId: "09_exception_handling"
+category: "java/basics"
+hint: |
+  ファイル操作では `FileNotFoundException` や `IOException` が発生する可能性がある。`BufferedReader` を使ってファイルを読む場合、必ずtry-catchで囲む必要がある。`finally` でリソースを閉じるか、try-with-resources文を使うとよい。
+explanation: |
+  **解答例**（try-with-resources文を使用）：
+  ```java
+  try (BufferedReader reader = new BufferedReader(new FileReader("sample.txt"))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+          System.out.println(line);
+      }
+  } catch (FileNotFoundException e) {
+      System.out.println("ファイルが見つかりません: " + e.getMessage());
+  } catch (IOException e) {
+      System.out.println("読み込みエラー: " + e.getMessage());
+  }
+  ```
+
+  try-with-resources文（`try (リソース) { }`）を使うと、tryブロック終了時にリソースが **自動的に閉じられる**。`BufferedReader` や `FileReader` は `AutoCloseable` インターフェースを実装しているため、この構文が使える。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- ファイル「sample.txt」を読み込んで内容を表示する
+- ファイルが見つからない場合は `FileNotFoundException` を捕捉してメッセージを表示する
+- 読み込みエラーが発生した場合は `IOException` を捕捉してメッセージを表示する
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // ここにファイル読み込みの例外処理を書いてください
+    }
+}`}
+/>

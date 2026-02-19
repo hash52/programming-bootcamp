@@ -1,0 +1,44 @@
+---
+id: "java/basics/05_loops#read_while_output"
+title: "while文のコードを読んで出力を予測できる"
+type: "READ"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "05_loops"
+category: "java/basics"
+multipleSelect: false
+hint: |
+  変数 `n` の変化を1ステップずつ追跡してみよう。各ステップでnの値がどう変わり、条件 `n > 1` がどうなるかを確認しよう。
+choices:
+  - id: "A"
+    text: "5 2 1（各行に1つずつ）"
+  - id: "B"
+    text: "10 5 2 1（各行に1つずつ）"
+  - id: "C"
+    text: "5 2（各行に1つずつ）"
+  - id: "D"
+    text: "10 5 2（各行に1つずつ）"
+answers:
+  correct: ["A"]
+explanation: |
+  変数nの変化を追跡する。
+
+  | ステップ | nの値（ループ開始時） | n > 1 | n / 2 | 出力 |
+  |---------|---------------------|-------|-------|------|
+  | 1 | 10 | true | 5 | 5 |
+  | 2 | 5 | true | 2 | 2 |
+  | 3 | 2 | true | 1 | 1 |
+  | 4 | 1 | false | - | 終了 |
+
+  int型の除算は **小数点以下が切り捨て** られる（5 / 2 = 2）。nが1になると条件 `n > 1` がfalseになりループが終了する。
+---
+
+以下のJavaコードを実行した場合、何が出力されるか。
+
+```java
+int n = 10;
+while (n > 1) {
+    n = n / 2;
+    System.out.println(n);
+}
+```

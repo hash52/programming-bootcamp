@@ -1,0 +1,73 @@
+---
+id: "java/oop/11_constructors#constructor_validation"
+title: "コンストラクタで値をチェックできる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "11_constructors"
+category: "java/oop"
+hint: |
+  コンストラクタ内でif文を使って引数の値をチェックし、不正な値の場合は例外を投げるか、デフォルト値を設定する。
+explanation: |
+  **解答例**：
+  ```java
+  class Person {
+      String name;
+      int age;
+
+      Person(String name, int age) {
+          if (age < 0) {
+              throw new IllegalArgumentException("年齢は0以上である必要があります");
+          }
+          if (name.isEmpty()) {
+              this.name = "名無し";
+          } else {
+              this.name = name;
+          }
+          this.age = age;
+      }
+  }
+  ```
+
+  コンストラクタでバリデーションを行うことで、不正な状態のオブジェクトが作られることを防げる。値のチェックはカプセル化の一部でもあり、データの整合性を保つために重要である。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+Personクラスのコンストラクタで、バリデーション付きの初期化を実装せよ。
+
+**要件**：
+- 年齢が0未満の場合は `IllegalArgumentException` を投げる
+- 名前が空文字の場合は「名無し」をデフォルト値に設定する
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Person {
+    String name;
+    int age;
+
+    Person(String name, int age) {
+        // ここにバリデーション付きの初期化を書いてください
+    }
+
+    void showInfo() {
+        System.out.println("名前: " + name + ", 年齢: " + age);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person p1 = new Person("田中", 25);
+        p1.showInfo();
+
+        Person p2 = new Person("", 30);
+        p2.showInfo();
+
+        try {
+            Person p3 = new Person("佐藤", -5);
+        } catch (IllegalArgumentException e) {
+            System.out.println("エラー: " + e.getMessage());
+        }
+    }
+}`}
+/>

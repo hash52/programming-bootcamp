@@ -1,0 +1,32 @@
+---
+id: "java/basics/09_exception_handling#try_catch_basic"
+title: "try-catchでエラーを捕まえて処理できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "09_exception_handling"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: "try"
+  blank2: ["catch (ArithmeticException e)", "catch(ArithmeticException e)", "catch (Exception e)", "catch(Exception e)"]
+sampleAnswer: "try / catch (ArithmeticException e)"
+explanation: |
+  `try` ブロックに例外が起きる可能性のある処理を記述し、`catch` ブロックで例外を捕捉して処理する。`catch` の引数には例外の型と変数名を指定する。0での除算は `ArithmeticException` が発生する。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、0での除算エラーを捕まえるプログラムを完成させよ。
+
+<CodeBlock>
+{`int a = 10;
+int b = 0;
+
+`}<BlankInput id="blank1" />{` {
+    int result = a / b;
+    System.out.println(result);
+} `}<BlankInput id="blank2" />{` {
+    System.out.println("エラー: 0で割ることはできません");
+}`}
+</CodeBlock>

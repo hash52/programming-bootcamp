@@ -1,0 +1,26 @@
+---
+id: "java/basics/07_methods#method_with_return"
+title: "returnで値を返すメソッドを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "07_methods"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: "int"
+  blank2: ["return a + b", "return a+b", "return (a + b)", "return (a+b)"]
+sampleAnswer: "int / return a + b"
+explanation: |
+  値を返すメソッドでは、戻り値の型（この場合は `int`）を指定し、`return` 文で値を返す。`return a + b;` はaとbの合計値をメソッドの呼び出し元に返す。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、2つの整数の合計を返すメソッドを完成させよ。
+
+<CodeBlock>
+{`public static `}<BlankInput id="blank1" />{` add(int a, int b) {
+    `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>

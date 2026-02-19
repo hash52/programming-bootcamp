@@ -1,0 +1,30 @@
+---
+id: "java/basics/08_multiple_classes#import_statement"
+title: "import文で他のクラスを使えるようにできる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "08_multiple_classes"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["import java.util.Scanner", "import java.util.Scanner;"]
+sampleAnswer: "import java.util.Scanner;"
+explanation: |
+  他のパッケージのクラスを使うには、`import パッケージ名.クラス名;` と書く。`Scanner` クラスは `java.util` パッケージに含まれているため、`import java.util.Scanner;` と宣言する。import文はクラス定義の前に記述する。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、Scannerクラスを使えるようにせよ。
+
+<CodeBlock>
+{`// Scannerクラスをインポート
+`}<BlankInput id="blank1" />{`;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+    }
+}`}
+</CodeBlock>

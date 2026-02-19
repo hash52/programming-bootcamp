@@ -1,0 +1,28 @@
+---
+id: "java/basics/05_loops#continue_skip_iteration"
+title: "continueで次の繰り返しにスキップできる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "05_loops"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: "continue"
+sampleAnswer: "continue"
+explanation: |
+  `continue` 文は **現在の繰り返しだけをスキップ** して、次の繰り返しに進む。このコードでは0, 1, 2, 4が出力され、3はスキップされる。breakと異なり、ループ自体は継続する。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、iが3のときだけスキップして他の値を表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`for (int i = 0; i < 5; i++) {
+    if (i == 3) {
+        `}<BlankInput id="blank1" />{`;
+    }
+    System.out.println(i);
+}`}
+</CodeBlock>

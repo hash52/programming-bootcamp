@@ -1,0 +1,54 @@
+---
+id: "java/stdlib/15_collections#collection_loop"
+title: "コレクションをループで処理できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "15_collections"
+category: "java/stdlib"
+hint: |
+  拡張for文（for-each文）でArrayListやHashSetの要素を順に処理できる。HashMapは `entrySet()` を使って `Map.Entry` でキーと値の両方を取得する方法が便利である。
+explanation: |
+  **解答例**：
+  ```java
+  // ArrayListのループ
+  ArrayList<String> fruits = new ArrayList<>();
+  fruits.add("りんご");
+  fruits.add("バナナ");
+  fruits.add("みかん");
+  for (String fruit : fruits) {
+      System.out.println(fruit);
+  }
+
+  // HashMapのループ
+  HashMap<String, Integer> prices = new HashMap<>();
+  prices.put("りんご", 150);
+  prices.put("バナナ", 100);
+  for (Map.Entry<String, Integer> entry : prices.entrySet()) {
+      System.out.println(entry.getKey() + ": " + entry.getValue() + "円");
+  }
+  ```
+
+  拡張for文でListやSetを直接ループできる。MapはkeySet()でキーだけループするか、entrySet()でキーと値の両方をループする。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- ArrayListに果物名を3つ追加し、拡張for文で全要素を表示する
+- HashMapに果物名と価格のペアを追加し、ループで全エントリを「果物名: 価格円」の形式で表示する
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        // ここにコードを書いてください
+    }
+}`}
+/>

@@ -1,0 +1,47 @@
+---
+id: "java/stdlib/15_collections#hashset_usage"
+title: "HashSetで重複しないデータを管理できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "15_collections"
+category: "java/stdlib"
+hint: |
+  HashSetは **重複を自動的に排除** するコレクションである。`add()` で同じ値を追加しても、1つだけ保持される。要素の順序は保証されない。
+explanation: |
+  **解答例**：
+  ```java
+  HashSet<String> set = new HashSet<>();
+  set.add("Java");
+  set.add("Python");
+  set.add("Java");    // 重複は追加されない
+  set.add("C++");
+
+  System.out.println("要素数: " + set.size());  // 3
+  for (String lang : set) {
+      System.out.println(lang);
+  }
+  ```
+
+  HashSetは **重複する値を自動的に排除** する。`set.size()` は3になる（"Java"は1つだけ）。要素の格納順序は保証されないため、出力順序は実行のたびに異なる可能性がある。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- HashSetを使って、プログラミング言語の名前を管理する
+- 同じ言語名を複数回追加しても重複しないことを確認する
+- 要素数と全要素を表示する
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.util.HashSet;
+
+public class Main {
+    public static void main(String[] args) {
+        // ここにHashSetを使ったコードを書いてください
+    }
+}`}
+/>

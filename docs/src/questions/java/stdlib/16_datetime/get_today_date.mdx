@@ -1,0 +1,26 @@
+---
+id: "java/stdlib/16_datetime#get_today_date"
+title: "LocalDateで今日の日付を取得できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "16_datetime"
+category: "java/stdlib"
+fillInBlankAnswers:
+  blank1: ["LocalDate.now()", "LocalDate.now( )"]
+sampleAnswer: "LocalDate.now()"
+explanation: |
+  `LocalDate.now()` で現在の日付を取得できる。`now()` はstaticメソッドで、`new` は使わない。`LocalDate.of(2024, 4, 1)` のように特定の日付を作成することもできる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、今日の日付を取得して表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`import java.time.LocalDate;
+
+LocalDate today = `}<BlankInput id="blank1" />{`;
+System.out.println("今日の日付: " + today);`}
+</CodeBlock>

@@ -1,0 +1,29 @@
+---
+id: "java/stdlib/15_collections#arraylist_remove"
+title: "ArrayListから要素を削除できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "15_collections"
+category: "java/stdlib"
+fillInBlankAnswers:
+  blank1: ["names.remove(1)", "names.remove( 1 )"]
+sampleAnswer: "names.remove(1)"
+explanation: |
+  `remove(インデックス)` でArrayListから要素を削除できる。削除すると後続の要素のインデックスが1つずつ前にずれる。`remove("佐藤")` のように値を指定して削除することも可能である。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、ArrayListの2番目の要素（インデックス1）を削除するプログラムを完成させよ。
+
+<CodeBlock>
+{`ArrayList<String> names = new ArrayList<>();
+names.add("田中");
+names.add("佐藤");
+names.add("鈴木");
+
+// 2番目の要素を削除
+`}<BlankInput id="blank1" />{`;`}
+</CodeBlock>

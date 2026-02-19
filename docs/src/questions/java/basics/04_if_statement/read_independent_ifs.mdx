@@ -1,0 +1,45 @@
+---
+id: "java/basics/04_if_statement#read_independent_ifs"
+title: "独立したif文の実行結果を予測できる"
+type: "READ"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "04_if_statement"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "Aのみ"
+  - id: "B"
+    text: "AとB"
+  - id: "C"
+    text: "AとBとC"
+  - id: "D"
+    text: "Bのみ"
+answers:
+  correct: ["B"]
+explanation: |
+  このコードには **独立した3つのif文** がある。else ifではないため、各if文はそれぞれ独立して条件を評価する。
+
+  1. `x > 10` → `15 > 10` は `true` → **Aが出力される**
+  2. `x > 5` → `15 > 5` は `true` → **Bが出力される**
+  3. `x > 20` → `15 > 20` は `false` → Cは出力されない
+
+  独立したif文は **すべての条件が個別に評価** される点がポイントである。
+---
+
+以下のJavaコードを実行した場合、何が出力されるか。
+
+```java
+int x = 15;
+
+if (x > 10) {
+    System.out.println("A");
+}
+if (x > 5) {
+    System.out.println("B");
+}
+if (x > 20) {
+    System.out.println("C");
+}
+```

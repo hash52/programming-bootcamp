@@ -1,0 +1,32 @@
+---
+id: "java/basics/04_if_statement#if_elseif_else_statement"
+title: "if-else if-elseで3つ以上の処理を分けられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_if_statement"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["else if", "else  if"]
+  blank2: "else"
+sampleAnswer: "else if / else"
+explanation: |
+  3つ以上の分岐をするには `else if` を使う。条件は上から順に評価され、最初に `true` になったブロックだけが実行される。どの条件にも当てはまらない場合は `else` ブロックが実行される。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、点数に応じてA〜Cの評価を表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`int score = 75;
+
+if (score >= 80) {
+    System.out.println("A");
+} `}<BlankInput id="blank1" />{` (score >= 60) {
+    System.out.println("B");
+} `}<BlankInput id="blank2" />{` {
+    System.out.println("C");
+}`}
+</CodeBlock>

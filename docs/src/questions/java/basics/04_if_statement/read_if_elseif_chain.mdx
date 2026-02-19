@@ -1,0 +1,42 @@
+---
+id: "java/basics/04_if_statement#read_if_elseif_chain"
+title: "if-else ifの実行結果を予測できる"
+type: "READ"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "04_if_statement"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "AとB"
+  - id: "B"
+    text: "Aのみ"
+  - id: "C"
+    text: "AとBとC"
+  - id: "D"
+    text: "Cのみ"
+answers:
+  correct: ["B"]
+explanation: |
+  このコードは **if-else if** で連結されている。else ifの場合、上から順に条件を評価し、**最初にtrueになった条件のブロックだけ** が実行される。
+
+  1. `x > 10` → `15 > 10` は `true` → **Aが出力される**
+  2. 最初の条件がtrueだったので、以降のelse ifは **評価されない**
+
+  独立したif文（前の問題）とは異なり、else ifでは1つの条件が成り立った時点で残りはスキップされる。
+---
+
+以下のJavaコードを実行した場合、何が出力されるか。
+
+```java
+int x = 15;
+
+if (x > 10) {
+    System.out.println("A");
+} else if (x > 5) {
+    System.out.println("B");
+} else if (x > 20) {
+    System.out.println("C");
+}
+```

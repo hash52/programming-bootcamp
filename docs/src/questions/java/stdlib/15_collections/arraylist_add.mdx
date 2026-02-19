@@ -1,0 +1,29 @@
+---
+id: "java/stdlib/15_collections#arraylist_add"
+title: "ArrayListに要素を追加できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "15_collections"
+category: "java/stdlib"
+fillInBlankAnswers:
+  blank1: ["ArrayList<String>", "ArrayList< String >"]
+  blank2: ["names.add(\"田中\")", "names.add( \"田中\" )"]
+sampleAnswer: "ArrayList<String> / names.add(\"田中\")"
+explanation: |
+  ArrayListの作成は `new ArrayList<型>()` で行う。要素の追加は `add()` メソッドを使う。ジェネリクスで型を指定しているため、指定した型以外の値を追加するとコンパイルエラーになる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、String型のArrayListを作成し、要素を追加するプログラムを完成させよ。
+
+<CodeBlock>
+{`import java.util.ArrayList;
+
+`}<BlankInput id="blank1" />{` names = new ArrayList<>();
+
+`}<BlankInput id="blank2" />{`;
+names.add("佐藤");`}
+</CodeBlock>

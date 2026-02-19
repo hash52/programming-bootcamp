@@ -1,0 +1,42 @@
+---
+id: "java/basics/04_if_statement#read_conditional_code"
+title: "条件分岐のコードを読んで結果を予測できる"
+type: "READ"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "04_if_statement"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "A"
+  - id: "B"
+    text: "B"
+  - id: "C"
+    text: "C"
+  - id: "D"
+    text: "何も出力されない"
+answers:
+  correct: ["B"]
+explanation: |
+  変数 `x` の値は15である。
+
+  1. `x > 20` → `15 > 20` は `false` → Aは出力されない
+  2. `x > 10` → `15 > 10` は `true` → **Bが出力される**
+
+  else ifは上から順に評価され、最初にtrueになった条件のブロックだけが実行される。`x > 10` がtrueなので、elseブロックは実行されない。
+---
+
+以下のJavaコードを実行した場合、何が出力されるか。
+
+```java
+int x = 15;
+
+if (x > 20) {
+    System.out.println("A");
+} else if (x > 10) {
+    System.out.println("B");
+} else {
+    System.out.println("C");
+}
+```

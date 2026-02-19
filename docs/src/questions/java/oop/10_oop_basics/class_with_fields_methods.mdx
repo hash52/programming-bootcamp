@@ -1,0 +1,66 @@
+---
+id: "java/oop/10_oop_basics#class_with_fields_methods"
+title: "フィールドとメソッドを持つクラスを作れる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "10_oop_basics"
+category: "java/oop"
+hint: |
+  クラスにはフィールド（データ）とメソッド（処理）を定義する。フィールドには型と変数名を、メソッドには戻り値の型とメソッド名を指定する。
+explanation: |
+  **解答例**：
+  ```java
+  class BankAccount {
+      String owner;
+      int balance;
+
+      void deposit(int amount) {
+          balance += amount;
+          System.out.println(amount + "円を入金しました");
+      }
+
+      void withdraw(int amount) {
+          if (amount <= balance) {
+              balance -= amount;
+              System.out.println(amount + "円を出金しました");
+          } else {
+              System.out.println("残高不足です");
+          }
+      }
+
+      void showBalance() {
+          System.out.println(owner + "の残高: " + balance + "円");
+      }
+  }
+  ```
+
+  クラスはフィールドでデータを保持し、メソッドでそのデータを操作する。`withdraw` メソッドでは残高チェックを行い、不正な出金を防いでいる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- `BankAccount` クラスを作成する
+- フィールド: `owner`（所有者名、String型）、`balance`（残高、int型）
+- メソッド: `deposit(int amount)`（入金）、`withdraw(int amount)`（出金、残高不足チェック付き）、`showBalance()`（残高表示）
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class BankAccount {
+    // ここにフィールドとメソッドを書いてください
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount();
+        account.owner = "田中";
+        account.balance = 1000;
+        account.deposit(500);
+        account.withdraw(200);
+        account.showBalance();
+    }
+}`}
+/>

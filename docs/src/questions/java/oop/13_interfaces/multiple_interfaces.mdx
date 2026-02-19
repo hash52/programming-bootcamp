@@ -1,0 +1,66 @@
+---
+id: "java/oop/13_interfaces#multiple_interfaces"
+title: "複数のインターフェースを実装できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "13_interfaces"
+category: "java/oop"
+hint: |
+  Javaではクラスの継承は1つだけだが、インターフェースは **複数実装** できる。`implements A, B` のようにカンマで区切る。
+explanation: |
+  **解答例**：
+  ```java
+  interface Printable {
+      void print();
+  }
+
+  interface Savable {
+      void save();
+  }
+
+  class Document implements Printable, Savable {
+      String content;
+
+      Document(String content) {
+          this.content = content;
+      }
+
+      public void print() {
+          System.out.println("印刷: " + content);
+      }
+
+      public void save() {
+          System.out.println("保存: " + content);
+      }
+  }
+  ```
+
+  `implements インターフェースA, インターフェースB` で複数実装できる。Javaのクラスは単一継承だが、インターフェースは多重実装が可能である。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+PrintableとSavableの2つのインターフェースを実装するDocumentクラスを作成せよ。
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`interface Printable {
+    void print();
+}
+
+interface Savable {
+    void save();
+}
+
+// ここにDocumentクラスを作成してください
+// PrintableとSavableの両方を実装すること
+
+public class Main {
+    public static void main(String[] args) {
+        Document doc = new Document("会議資料");
+        doc.print();
+        doc.save();
+    }
+}`}
+/>

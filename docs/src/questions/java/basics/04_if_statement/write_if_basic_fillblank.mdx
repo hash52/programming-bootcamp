@@ -1,0 +1,27 @@
+---
+id: "java/basics/04_if_statement#write_if_basic_fillblank"
+title: "if文の構文を穴埋めで書ける"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_if_statement"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["number % 2 == 0", "number%2==0", "number % 2==0", "number%2 == 0"]
+sampleAnswer: "number % 2 == 0"
+explanation: |
+  偶数の判定には **剰余演算子 `%`** を使う。`number % 2` は「numberを2で割った余り」であり、偶数であれば余りは0になる。したがって `number % 2 == 0` が偶数判定の条件式となる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、数値が偶数かどうかを判定するプログラムを完成させよ。
+
+<CodeBlock>
+{`int number = 8;
+
+if (`}<BlankInput id="blank1" />{`) {
+    System.out.println("偶数です");
+}`}
+</CodeBlock>

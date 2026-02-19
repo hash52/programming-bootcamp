@@ -1,0 +1,35 @@
+---
+id: "java/stdlib/15_collections#list_set_map_choice"
+title: "List、Set、Mapの使い分けができる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "15_collections"
+category: "java/stdlib"
+multipleSelect: false
+hint: |
+  List: 順序あり・重複OK、Set: 順序なし・重複NG、Map: キーと値のペアで管理。用途に応じて使い分ける。
+choices:
+  - id: "A"
+    text: "ユーザーIDの重複チェック → Set"
+  - id: "B"
+    text: "ユーザーIDの重複チェック → List"
+  - id: "C"
+    text: "ユーザーIDの重複チェック → Map"
+  - id: "D"
+    text: "どれを使っても同じ"
+answers:
+  correct: ["A"]
+explanation: |
+  各コレクションの特徴と適した用途：
+
+  | コレクション | 特徴 | 適した用途 |
+  |------------|------|-----------|
+  | **List** | 順序あり、重複OK | 順番に並んだデータ（名簿、履歴等） |
+  | **Set** | 順序なし、**重複NG** | 重複チェック、一意なデータの管理 |
+  | **Map** | キーと値のペア | IDと名前の対応関係、辞書的なデータ |
+
+  ユーザーIDの重複チェックには、重複を自動排除する **Set** が最適である。
+---
+
+ユーザーIDの重複チェックに最も適したコレクションを選べ。

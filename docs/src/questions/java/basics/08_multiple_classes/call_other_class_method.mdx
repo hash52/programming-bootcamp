@@ -1,0 +1,33 @@
+---
+id: "java/basics/08_multiple_classes#call_other_class_method"
+title: "別のクラスのメソッドを呼び出せる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "08_multiple_classes"
+category: "java/basics"
+hint: |
+  staticメソッドを呼び出すには `クラス名.メソッド名()` と書く。
+fillInBlankAnswers:
+  blank1: ["Calculator.add(3, 5)", "Calculator.add(3,5)"]
+sampleAnswer: "Calculator.add(3, 5)"
+explanation: |
+  別のクラスのstaticメソッドを呼び出すには、`クラス名.メソッド名(引数)` と書く。`Calculator.add(3, 5)` で、Calculatorクラスのaddメソッドを呼び出して結果を受け取れる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+Calculatorクラスにstaticな `add` メソッドが定義されている。以下のコードの空欄を埋めて、このメソッドを呼び出すプログラムを完成させよ。
+
+<CodeBlock>
+{`// Calculatorクラス（別ファイル）:
+// public static int add(int a, int b) { return a + b; }
+
+public class Main {
+    public static void main(String[] args) {
+        int result = `}<BlankInput id="blank1" />{`;
+        System.out.println(result);
+    }
+}`}
+</CodeBlock>

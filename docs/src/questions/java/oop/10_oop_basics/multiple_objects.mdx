@@ -1,0 +1,48 @@
+---
+id: "java/oop/10_oop_basics#multiple_objects"
+title: "同じクラスから複数のオブジェクトを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "freeText"
+topicId: "10_oop_basics"
+category: "java/oop"
+explanation: |
+  **解答例**：
+  ```java
+  Student s1 = new Student();
+  s1.name = "田中";
+  s1.score = 85;
+
+  Student s2 = new Student();
+  s2.name = "佐藤";
+  s2.score = 92;
+
+  System.out.println(s1.name + ": " + s1.score);
+  System.out.println(s2.name + ": " + s2.score);
+  ```
+
+  1つのクラスから `new` で複数のオブジェクトを作成でき、各オブジェクトは **独立したフィールド値** を持つ。s1のnameを変更してもs2のnameには影響しない。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- Studentクラスから2つのオブジェクト（s1, s2）を作成する
+- それぞれ異なる名前と点数を設定する
+- 両方の情報を表示する
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Student {
+    String name;
+    int score;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // ここに2つのStudentオブジェクトを作成してください
+    }
+}`}
+/>

@@ -1,0 +1,40 @@
+---
+id: "java/stdlib/16_datetime#datetime_format"
+title: "DateTimeFormatterで日付を好きな形式で表示できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "16_datetime"
+category: "java/stdlib"
+hint: |
+  `DateTimeFormatter.ofPattern("yyyy年MM月dd日")` でフォーマットを指定する。`yyyy`=年4桁、`MM`=月2桁、`dd`=日2桁、`HH`=時2桁、`mm`=分2桁である。
+fillInBlankAnswers:
+  blank1: ["DateTimeFormatter.ofPattern(\"yyyy/MM/dd\")", "DateTimeFormatter.ofPattern( \"yyyy/MM/dd\" )"]
+sampleAnswer: "DateTimeFormatter.ofPattern(\"yyyy/MM/dd\")"
+explanation: |
+  `DateTimeFormatter.ofPattern()` で日時の表示形式を指定する。主なパターン文字：
+
+  | パターン | 意味 | 例 |
+  |---------|------|-----|
+  | yyyy | 年（4桁） | 2024 |
+  | MM | 月（2桁） | 04 |
+  | dd | 日（2桁） | 01 |
+  | HH | 時（24時間） | 14 |
+  | mm | 分 | 30 |
+
+  `today.format(formatter)` で指定した形式の文字列に変換される。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、日付を「yyyy/MM/dd」形式で表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+LocalDate today = LocalDate.now();
+DateTimeFormatter formatter = `}<BlankInput id="blank1" />{`;
+System.out.println(today.format(formatter));`}
+</CodeBlock>

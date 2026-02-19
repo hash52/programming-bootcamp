@@ -1,0 +1,33 @@
+---
+id: "java/oop/12_inheritance#extends_keyword"
+title: "extendsで親クラスを指定できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "12_inheritance"
+category: "java/oop"
+fillInBlankAnswers:
+  blank1: ["extends Animal", "extends  Animal"]
+sampleAnswer: "extends Animal"
+explanation: |
+  `extends` キーワードで親クラスを指定する。`class Dog extends Animal` でDogはAnimalのフィールドやメソッドを引き継ぐ。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、DogクラスがAnimalクラスを継承するようにせよ。
+
+<CodeBlock>
+{`class Animal {
+    void eat() {
+        System.out.println("食べる");
+    }
+}
+
+class Dog `}<BlankInput id="blank1" />{` {
+    void bark() {
+        System.out.println("ワン！");
+    }
+}`}
+</CodeBlock>

@@ -1,0 +1,28 @@
+---
+id: "java/basics/06_arrays#for_loop_display_array"
+title: "forループで配列の全要素を表示できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "06_arrays"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["i < numbers.length", "i<numbers.length", "i < numbers. length"]
+  blank2: ["numbers[i]", "numbers[ i ]"]
+sampleAnswer: "i < numbers.length / numbers[i]"
+explanation: |
+  for文で配列の全要素にアクセスするには、インデックスを0から `配列名.length - 1` まで変化させる。条件式に `i < numbers.length` を使うことで、配列の要素数が変わっても正しく動作する。`numbers[i]` でi番目の要素を取得できる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、配列の全要素を表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`int[] numbers = {10, 20, 30, 40, 50};
+
+for (int i = 0; `}<BlankInput id="blank1" />{`; i++) {
+    System.out.println(`}<BlankInput id="blank2" />{`);
+}`}
+</CodeBlock>

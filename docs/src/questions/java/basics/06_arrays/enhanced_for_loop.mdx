@@ -1,0 +1,27 @@
+---
+id: "java/basics/06_arrays#enhanced_for_loop"
+title: "拡張for文で配列を簡単に処理できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "06_arrays"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["String name : names", "String name: names"]
+sampleAnswer: "String name : names"
+explanation: |
+  拡張for文（for-each文）は `for (型 変数名 : 配列名)` という構文で、配列の各要素を順番に取り出して処理する。通常のfor文と比べてインデックスの管理が不要で、コードがシンプルになる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、拡張for文で配列の全要素を表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`String[] names = {"田中", "佐藤", "鈴木"};
+
+for (`}<BlankInput id="blank1" />{`) {
+    System.out.println(name);
+}`}
+</CodeBlock>

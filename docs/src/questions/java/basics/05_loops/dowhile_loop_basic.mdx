@@ -1,0 +1,40 @@
+---
+id: "java/basics/05_loops#dowhile_loop_basic"
+title: "do-while文で最低1回は実行できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "05_loops"
+category: "java/basics"
+hint: |
+  do-while文の構文は `do { 処理; } while (条件式);` である。while文と違い、**条件の判定がループの最後** にある点に注目しよう。
+explanation: |
+  **解答例**：
+  ```java
+  do {
+      System.out.println(num);
+      num--;
+  } while (num > 0);
+  ```
+
+  do-while文は `do { }` 内の処理を **最低1回実行した後** に条件を判定する。仮に `num` が0以下で始まっても、1回は実行される点がwhile文との違いである。末尾の `while (条件式);` のセミコロンを忘れないこと。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- do-while文を使って、変数 `num` の値を表示し、`num` を1ずつ減らす
+- `num` が0より大きい間、繰り返す
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int num = 3;
+
+        // ここにdo-while文を書いてください
+    }
+}`}
+/>

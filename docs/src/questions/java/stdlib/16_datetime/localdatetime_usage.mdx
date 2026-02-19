@@ -1,0 +1,26 @@
+---
+id: "java/stdlib/16_datetime#localdatetime_usage"
+title: "LocalDateTimeで日付と時刻を一緒に扱える"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "16_datetime"
+category: "java/stdlib"
+fillInBlankAnswers:
+  blank1: ["LocalDateTime.now()", "LocalDateTime.now( )"]
+sampleAnswer: "LocalDateTime.now()"
+explanation: |
+  `LocalDateTime.now()` で現在の日付と時刻を取得できる。`LocalDateTime.of(2024, 4, 1, 14, 30)` のように日付と時刻を指定して作成することも可能である。`toLocalDate()` と `toLocalTime()` で日付部分と時刻部分を個別に取得できる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、現在の日時を取得して表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`import java.time.LocalDateTime;
+
+LocalDateTime now = `}<BlankInput id="blank1" />{`;
+System.out.println("現在日時: " + now);`}
+</CodeBlock>

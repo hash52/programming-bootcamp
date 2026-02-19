@@ -1,0 +1,47 @@
+---
+id: "java/basics/06_arrays#array_max_min"
+title: "配列から最大値・最小値を見つけられる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "06_arrays"
+category: "java/basics"
+hint: |
+  最大値を求めるには、最初の要素を仮の最大値として設定し、残りの要素と比較して大きい方に更新していく。最小値も同様の考え方で求められる。
+explanation: |
+  **解答例**：
+  ```java
+  int max = numbers[0];
+  int min = numbers[0];
+  for (int i = 1; i < numbers.length; i++) {
+      if (numbers[i] > max) {
+          max = numbers[i];
+      }
+      if (numbers[i] < min) {
+          min = numbers[i];
+      }
+  }
+  System.out.println("最大値: " + max);
+  System.out.println("最小値: " + min);
+  ```
+
+  最大値・最小値のアルゴリズムでは、最初の要素を初期値として設定するのがポイントである。0を初期値にすると、全要素が負の場合に正しい結果が得られない。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- 配列 `numbers` の最大値と最小値を見つけて表示する
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int[] numbers = {34, 12, 56, 78, 23, 45};
+
+        // ここに最大値・最小値を求めるコードを書いてください
+    }
+}`}
+/>

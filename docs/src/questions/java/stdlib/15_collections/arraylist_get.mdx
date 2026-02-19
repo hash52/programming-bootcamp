@@ -1,0 +1,29 @@
+---
+id: "java/stdlib/15_collections#arraylist_get"
+title: "ArrayListから要素を取得できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "15_collections"
+category: "java/stdlib"
+fillInBlankAnswers:
+  blank1: ["names.get(0)", "names.get( 0 )"]
+sampleAnswer: "names.get(0)"
+explanation: |
+  ArrayListから要素を取得するには `get(インデックス)` メソッドを使う。配列と同様にインデックスは **0から始まる**。範囲外のインデックスを指定すると `IndexOutOfBoundsException` が発生する。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、ArrayListの最初の要素を取得して表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`ArrayList<String> names = new ArrayList<>();
+names.add("田中");
+names.add("佐藤");
+
+// 最初の要素を取得
+String first = `}<BlankInput id="blank1" />{`;
+System.out.println(first);`}
+</CodeBlock>

@@ -1,0 +1,24 @@
+---
+id: "java/oop/10_oop_basics#new_keyword_create_object"
+title: "newキーワードでオブジェクトを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "10_oop_basics"
+category: "java/oop"
+fillInBlankAnswers:
+  blank1: ["new Car()", "new Car( )"]
+sampleAnswer: "new Car()"
+explanation: |
+  オブジェクトを作成するには `new クラス名()` と書く。`new` キーワードでメモリ上にオブジェクトが作成され、変数に格納される。`Car car = new Car();` で、Carクラスのオブジェクトがcar変数に代入される。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、Carクラスのオブジェクトを作成するプログラムを完成させよ。
+
+<CodeBlock>
+{`Car car = `}<BlankInput id="blank1" />{`;
+System.out.println("車を作成しました");`}
+</CodeBlock>

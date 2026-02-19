@@ -1,0 +1,47 @@
+---
+id: "java/basics/04_if_statement#read_if_vs_elseif_difference"
+title: "独立ifとelse ifの動作の違いを見分けられる"
+type: "READ"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "04_if_statement"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "コードA: XYZ、コードB: X"
+  - id: "B"
+    text: "コードA: X、コードB: XYZ"
+  - id: "C"
+    text: "コードA: XYZ、コードB: XYZ"
+  - id: "D"
+    text: "コードA: Z、コードB: X"
+answers:
+  correct: ["A"]
+hint: |
+  独立したif文は **すべての条件を個別に評価** する。if-else ifは **最初にtrueになった条件のブロックだけ** を実行する。n=30のとき、各条件がtrueかfalseかを1つずつ確認してみよう。
+explanation: |
+  **コードA**（独立if文）: 3つのif文はそれぞれ独立しているため、すべての条件が評価される。n=30なので `n >= 10`, `n >= 20`, `n >= 30` はすべてtrue → **XYZ** が出力される。
+
+  **コードB**（if-else if文）: 最初の `n >= 10` がtrueなので「X」が出力され、残りのelse ifは評価されない → **X** のみ出力される。
+
+  この違いを理解することは、バグを防ぐ上で非常に重要である。
+---
+
+以下の2つのコードについて、出力結果の違いとして正しいものを選べ。
+
+**コードA**（独立if文）:
+```java
+int n = 30;
+if (n >= 10) { System.out.print("X"); }
+if (n >= 20) { System.out.print("Y"); }
+if (n >= 30) { System.out.print("Z"); }
+```
+
+**コードB**（if-else if文）:
+```java
+int n = 30;
+if (n >= 10) { System.out.print("X"); }
+else if (n >= 20) { System.out.print("Y"); }
+else if (n >= 30) { System.out.print("Z"); }
+```

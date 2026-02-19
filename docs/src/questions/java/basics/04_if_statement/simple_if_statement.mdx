@@ -1,0 +1,27 @@
+---
+id: "java/basics/04_if_statement#simple_if_statement"
+title: "if文で条件によって処理を分けられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_if_statement"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["score >= 80", "score>=80", "80 <= score", "80<=score"]
+sampleAnswer: "score >= 80"
+explanation: |
+  if文の条件式には **比較演算子** を使う。「80点以上」は `score >= 80` と書く。`>=` は「以上」を意味する比較演算子である。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、点数が80点以上のときに「合格」と表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`int score = 85;
+
+if (`}<BlankInput id="blank1" />{`) {
+    System.out.println("合格");
+}`}
+</CodeBlock>

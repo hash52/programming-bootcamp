@@ -1,0 +1,37 @@
+---
+id: "java/oop/11_constructors#this_constructor_call"
+title: "this()で別のコンストラクタを呼び出せる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "11_constructors"
+category: "java/oop"
+hint: |
+  コンストラクタ内で `this(引数)` と書くと、同じクラスの別のコンストラクタを呼び出せる。**コンストラクタの最初の行** でのみ使用可能である。
+fillInBlankAnswers:
+  blank1: ["this(\"未設定\", 0)", "this( \"未設定\", 0 )", "this(\"未設定\",0)"]
+sampleAnswer: "this(\"未設定\", 0)"
+explanation: |
+  `this(引数)` を使うと、同じクラスの別のコンストラクタを呼び出せる。コードの重複を避けるために有効である。`this()` はコンストラクタの **最初の行** でしか使えない。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、引数なしコンストラクタから引数ありコンストラクタを呼び出すプログラムを完成させよ。
+
+<CodeBlock>
+{`class Person {
+    String name;
+    int age;
+
+    Person() {
+        `}<BlankInput id="blank1" />{`;
+    }
+
+    Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}`}
+</CodeBlock>

@@ -1,0 +1,37 @@
+---
+id: "java/oop/12_inheritance#use_parent_method"
+title: "子クラスで親のメソッドを使える"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "12_inheritance"
+category: "java/oop"
+fillInBlankAnswers:
+  blank1: ["dog.eat()", "dog.eat( )"]
+sampleAnswer: "dog.eat()"
+explanation: |
+  子クラスは親クラスのpublic/protectedメソッドを **そのまま使える** 。Dogクラスにはeatメソッドを定義していないが、Animalから継承しているため呼び出せる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、Dogオブジェクトから親クラスAnimalのeatメソッドを呼び出せ。
+
+<CodeBlock>
+{`class Animal {
+    void eat() {
+        System.out.println("食べる");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("ワン！");
+    }
+}
+
+// mainメソッド内
+Dog dog = new Dog();
+`}<BlankInput id="blank1" />{`;`}
+</CodeBlock>

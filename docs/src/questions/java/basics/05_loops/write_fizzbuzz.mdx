@@ -1,0 +1,48 @@
+---
+id: "java/basics/05_loops#write_fizzbuzz"
+title: "FizzBuzzプログラムを書ける"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "05_loops"
+category: "java/basics"
+hint: |
+  条件の順番に注意しよう。「3の倍数かつ5の倍数」の判定を **最初に** 行う必要がある。`%` 演算子で余りが0かを判定する。
+explanation: |
+  **解答例**：
+  ```java
+  for (int i = 1; i <= 30; i++) {
+      if (i % 3 == 0 && i % 5 == 0) {
+          System.out.println("FizzBuzz");
+      } else if (i % 3 == 0) {
+          System.out.println("Fizz");
+      } else if (i % 5 == 0) {
+          System.out.println("Buzz");
+      } else {
+          System.out.println(i);
+      }
+  }
+  ```
+
+  FizzBuzzでは **判定の順序** が重要である。「3の倍数かつ5の倍数」の判定を最初に行わないと、先に「3の倍数」に該当してしまい「FizzBuzz」が出力されない。15の倍数（15, 30）が「FizzBuzz」になることを確認しよう。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- 1から30までの数字を順に処理する
+- 3の倍数かつ5の倍数のとき「FizzBuzz」と表示
+- 3の倍数のとき「Fizz」と表示
+- 5の倍数のとき「Buzz」と表示
+- それ以外のとき、数字をそのまま表示
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // ここにFizzBuzzプログラムを書いてください
+    }
+}`}
+/>

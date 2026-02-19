@@ -1,0 +1,26 @@
+---
+id: "java/basics/06_arrays#get_array_value"
+title: "配列の値を取り出せる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "06_arrays"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["fruits[1]", "fruits[ 1 ]"]
+sampleAnswer: "fruits[1]"
+explanation: |
+  配列から値を取り出すには `配列名[インデックス]` と書く。インデックスは0から始まるため、2番目の要素は `fruits[1]` でアクセスする。`fruits[0]` が「りんご」、`fruits[1]` が「バナナ」、`fruits[2]` が「みかん」である。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、配列の2番目の要素（「バナナ」）を表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`String[] fruits = {"りんご", "バナナ", "みかん"};
+
+// 2番目の要素を表示
+System.out.println(`}<BlankInput id="blank1" />{`);`}
+</CodeBlock>

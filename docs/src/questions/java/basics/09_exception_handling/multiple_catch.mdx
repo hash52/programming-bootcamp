@@ -1,0 +1,47 @@
+---
+id: "java/basics/09_exception_handling#multiple_catch"
+title: "catchで複数の例外を処理できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "09_exception_handling"
+category: "java/basics"
+hint: |
+  catchブロックは複数書くことができる。**具体的な例外型を先に、汎用的な例外型を後に** 書く。`Exception` は最も汎用的な例外クラスである。
+explanation: |
+  **解答例**：
+  ```java
+  try {
+      int[] arr = {1, 2, 3};
+      System.out.println(arr[5]);
+      int result = 10 / 0;
+  } catch (ArrayIndexOutOfBoundsException e) {
+      System.out.println("配列の範囲外です");
+  } catch (ArithmeticException e) {
+      System.out.println("計算エラーです");
+  } catch (Exception e) {
+      System.out.println("予期しないエラーです: " + e.getMessage());
+  }
+  ```
+
+  複数のcatchブロックを使うことで、例外の種類に応じた処理ができる。**具体的な例外型を先に** 書かないとコンパイルエラーになる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- `ArrayIndexOutOfBoundsException` と `ArithmeticException` をそれぞれ個別に処理する
+- それ以外の例外は `Exception` で捕捉する
+- 各catchブロックで適切なメッセージを表示する
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // ここにtry-catch文を書いてください
+        // tryブロック内で配列の範囲外アクセスと0除算を試す
+    }
+}`}
+/>

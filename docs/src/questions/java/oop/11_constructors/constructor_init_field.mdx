@@ -1,0 +1,32 @@
+---
+id: "java/oop/11_constructors#constructor_init_field"
+title: "コンストラクタでフィールドに初期値を設定できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "11_constructors"
+category: "java/oop"
+fillInBlankAnswers:
+  blank1: ["this.name = \"未設定\"", "this.name=\"未設定\"", "name = \"未設定\""]
+  blank2: ["this.age = 0", "this.age=0", "age = 0"]
+sampleAnswer: "this.name = \"未設定\"; this.age = 0;"
+explanation: |
+  引数なしコンストラクタ内でフィールドにデフォルト値を設定する。`this.name` でフィールドを指定しているが、引数名と衝突しない場合は `this.` を省略してもよい。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、引数なしコンストラクタでフィールドにデフォルト値を設定するプログラムを完成させよ。
+
+<CodeBlock>
+{`class Person {
+    String name;
+    int age;
+
+    Person() {
+        `}<BlankInput id="blank1" />{`;
+        `}<BlankInput id="blank2" />{`;
+    }
+}`}
+</CodeBlock>

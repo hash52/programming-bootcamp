@@ -1,0 +1,29 @@
+---
+id: "java/stdlib/15_collections#generics_type_param"
+title: "ジェネリクスで型を指定できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "15_collections"
+category: "java/stdlib"
+hint: |
+  ジェネリクスで型を指定すると、コンパイル時に型チェックが行われる。基本型（int, double等）は使えないため、ラッパークラス（Integer, Double等）を使う。
+fillInBlankAnswers:
+  blank1: ["ArrayList<Integer>", "ArrayList< Integer >"]
+sampleAnswer: "ArrayList<Integer>"
+explanation: |
+  基本型（int）はジェネリクスに使えないため、ラッパークラス `Integer` を使う。`ArrayList<Integer>` はInteger型（整数）の要素のみ格納できるArrayListになる。オートボクシングにより、`add(10)` のようにint値を直接追加できる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、整数を格納するArrayListを作成せよ。
+
+<CodeBlock>
+{`// 整数を格納するArrayList
+`}<BlankInput id="blank1" />{` numbers = new ArrayList<>();
+numbers.add(10);
+numbers.add(20);
+numbers.add(30);`}
+</CodeBlock>

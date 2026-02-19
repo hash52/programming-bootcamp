@@ -1,0 +1,41 @@
+---
+id: "java/basics/05_loops#nested_loop"
+title: "二重ループが書ける"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "05_loops"
+category: "java/basics"
+hint: |
+  外側のループで段（1〜9）、内側のループで列（1〜9）を回す。`i * j` の結果をタブ文字 `\t` で区切って表示しよう。
+explanation: |
+  **解答例**：
+  ```java
+  for (int i = 1; i <= 9; i++) {
+      for (int j = 1; j <= 9; j++) {
+          System.out.print(i * j + "\t");
+      }
+      System.out.println();
+  }
+  ```
+
+  外側のループ（i）が行を、内側のループ（j）が列を制御する。`System.out.print()` で改行せずにタブ区切りで出力し、内側のループが終わったら `System.out.println()` で改行する。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- 二重ループを使って、九九の表（1×1から9×9まで）を表示する
+- 各行の値はタブ文字（`\t`）で区切る
+- 1行分を表示したら改行する
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // ここに二重ループを書いてください
+    }
+}`}
+/>

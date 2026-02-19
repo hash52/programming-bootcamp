@@ -1,0 +1,27 @@
+---
+id: "java/basics/04_if_statement#switch_vs_if"
+title: "switch文とif文の使い分けを説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "04_if_statement"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "1つの変数の値が複数の固定値のどれに一致するかで処理を分ける場合"
+  - id: "B"
+    text: "数値の大小を比較する場合"
+  - id: "C"
+    text: "複数の条件を&&や||で組み合わせる場合"
+  - id: "D"
+    text: "条件が2つしかない場合"
+answers:
+  correct: ["A"]
+hint: |
+  switch文は **値の一致** を判定する。大小比較（`>`, `<`）や複雑な条件式はif文の方が適している。
+explanation: |
+  switch文は、1つの変数の値が特定の値に一致するかを判定するのに適している。`case 1:`, `case 2:` のように固定値との一致を判定する場面で使う。一方、大小比較（`age >= 18`）や複雑な条件（`&&`, `||`）を使う場合はif文の方が適切である。
+---
+
+switch文の使用が最も適切な場面を選べ。

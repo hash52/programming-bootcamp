@@ -1,0 +1,34 @@
+---
+id: "java/oop/12_inheritance#override_annotation"
+title: "@Overrideアノテーションを付けられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "12_inheritance"
+category: "java/oop"
+fillInBlankAnswers:
+  blank1: ["@Override"]
+sampleAnswer: "@Override"
+explanation: |
+  `@Override` はオーバーライドであることを明示するアノテーションである。付けることで、親クラスにそのメソッドがない場合にコンパイルエラーで教えてくれるため、タイプミスを防げる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、toStringメソッドがオーバーライドであることを明示せよ。
+
+<CodeBlock>
+{`class Person {
+    String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    `}<BlankInput id="blank1" />{`
+    public String toString() {
+        return "名前: " + name;
+    }
+}`}
+</CodeBlock>

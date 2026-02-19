@@ -1,0 +1,51 @@
+---
+id: "java/basics/07_methods#method_overloading"
+title: "同じ名前で引数が違うメソッドを作れる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "07_methods"
+category: "java/basics"
+hint: |
+  オーバーロードとは、同じメソッド名で **引数の型や数が異なる** メソッドを複数定義することである。呼び出し時の引数で自動的に適切なメソッドが選ばれる。
+explanation: |
+  **解答例**：
+  ```java
+  public static int add(int a, int b) {
+      return a + b;
+  }
+
+  public static int add(int a, int b, int c) {
+      return a + b + c;
+  }
+
+  public static double add(double a, double b) {
+      return a + b;
+  }
+  ```
+
+  メソッドのオーバーロードでは、メソッド名は同じでも **引数の数や型が異なれば** 別のメソッドとして定義できる。Javaは呼び出し時の引数から自動的に適切なメソッドを選択する。戻り値の型だけが異なるメソッドはオーバーロードできない。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- `add` メソッドを以下の3つのバージョンでオーバーロードする
+  - `add(int, int)`: 2つのintの合計を返す
+  - `add(int, int, int)`: 3つのintの合計を返す
+  - `add(double, double)`: 2つのdoubleの合計を返す
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    // ここにaddメソッドの3つのバージョンを書いてください
+
+    public static void main(String[] args) {
+        System.out.println(add(3, 5));
+        System.out.println(add(1, 2, 3));
+        System.out.println(add(1.5, 2.5));
+    }
+}`}
+/>

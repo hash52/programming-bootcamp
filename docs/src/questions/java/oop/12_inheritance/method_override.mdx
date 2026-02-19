@@ -1,0 +1,66 @@
+---
+id: "java/oop/12_inheritance#method_override"
+title: "メソッドをオーバーライドして動きを変えられる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "12_inheritance"
+category: "java/oop"
+hint: |
+  オーバーライドとは、親クラスのメソッドと同じ名前・引数・戻り値のメソッドを子クラスで再定義すること。`@Override` アノテーションを付けるのが推奨。
+explanation: |
+  オーバーライドにより、同じメソッド名でもクラスごとに異なる動作を定義できる。
+
+  **解答例**：
+  ```java
+  class Animal {
+      String speed() {
+          return "普通の速さ";
+      }
+  }
+
+  class Dog extends Animal {
+      @Override
+      String speed() {
+          return "時速60km";
+      }
+  }
+
+  class Cat extends Animal {
+      @Override
+      String speed() {
+          return "時速48km";
+      }
+  }
+  ```
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+AnimalクラスのspeedメソッドをDogクラスとCatクラスでそれぞれオーバーライドし、異なる速度を返すようにせよ。
+
+**要件**：
+- Animalクラスにはspeedメソッド（String型を返す）を定義する
+- DogクラスとCatクラスでspeedメソッドをオーバーライドし、それぞれ異なる文字列を返す
+- `@Override` アノテーションを付ける
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        Cat cat = new Cat();
+        System.out.println("犬: " + dog.speed());
+        System.out.println("猫: " + cat.speed());
+    }
+}
+
+class Animal {
+    String speed() {
+        return "普通の速さ";
+    }
+}
+
+// ここにDogクラスとCatクラスを作成してください
+`}
+/>

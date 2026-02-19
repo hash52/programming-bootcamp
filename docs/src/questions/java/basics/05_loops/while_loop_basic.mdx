@@ -1,0 +1,38 @@
+---
+id: "java/basics/05_loops#while_loop_basic"
+title: "while文で条件が満たされる間繰り返せる"
+type: "WRITE"
+difficulty: "Easy"
+format: "freeText"
+topicId: "05_loops"
+category: "java/basics"
+explanation: |
+  **解答例**：
+  ```java
+  while (count <= 5) {
+      System.out.println("count: " + count);
+      count++;
+  }
+  ```
+
+  while文では条件式 `count <= 5` がtrueの間、ループ内の処理が繰り返される。**カウンタ変数の更新（`count++`）を忘れると無限ループ** になるため注意が必要である。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- 変数 `count` を1から始めて、5以下の間「count: 1」「count: 2」...と表示する
+- while文を使用すること
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int count = 1;
+
+        // ここにwhile文を書いてください
+    }
+}`}
+/>

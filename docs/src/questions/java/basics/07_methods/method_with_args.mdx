@@ -1,0 +1,30 @@
+---
+id: "java/basics/07_methods#method_with_args"
+title: "引数でメソッドに値を渡せる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "07_methods"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["String name", "String  name"]
+  blank2: ["greet(\"太郎\")", "greet( \"太郎\" )"]
+sampleAnswer: "String name / greet(\"太郎\")"
+explanation: |
+  メソッドの引数は `型 変数名` の形式で定義する。呼び出し時には引数に実際の値（実引数）を渡す。メソッド内では引数を通常の変数として使用できる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、名前を受け取って挨拶するメソッドを完成させよ。
+
+<CodeBlock>
+{`public static void greet(`}<BlankInput id="blank1" />{`) {
+    System.out.println(name + "さん、こんにちは！");
+}
+
+public static void main(String[] args) {
+    `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>

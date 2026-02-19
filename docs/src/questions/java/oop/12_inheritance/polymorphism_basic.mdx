@@ -1,0 +1,72 @@
+---
+id: "java/oop/12_inheritance#polymorphism_basic"
+title: "親クラス型で子クラスのオブジェクトを扱える"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "12_inheritance"
+category: "java/oop"
+hint: |
+  親クラス型の変数に子クラスのオブジェクトを代入できる。メソッドを呼び出すと、実際のオブジェクトの型のメソッドが実行される（ポリモーフィズム）。
+explanation: |
+  ポリモーフィズムにより、親クラス型の変数で子クラスのオブジェクトを扱える。`animals[i].sound()` で、実際のオブジェクトの型に応じたメソッドが実行される。
+
+  **解答例**：
+  ```java
+  class Animal {
+      String sound() {
+          return "...";
+      }
+  }
+
+  class Dog extends Animal {
+      @Override
+      String sound() {
+          return "ワン！";
+      }
+  }
+
+  class Cat extends Animal {
+      @Override
+      String sound() {
+          return "ニャー！";
+      }
+  }
+
+  // mainメソッド内
+  Animal[] animals = { new Dog(), new Cat() };
+  for (int i = 0; i < animals.length; i++) {
+      System.out.println(animals[i].sound());
+  }
+  ```
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+Animal型の配列にDogとCatのオブジェクトを入れ、ループでそれぞれのsound()メソッドを呼び出せ。
+
+**要件**：
+- Animalクラスにsoundメソッド（String型を返す）を定義する
+- DogクラスとCatクラスでsoundメソッドをオーバーライドし、異なる鳴き声を返す
+- Animal型の配列にDogとCatのオブジェクトを格納する
+- ループで各要素のsound()を呼び出して出力する
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // Animal型の配列にDogとCatを入れる
+
+        // ループでsound()を呼び出す
+    }
+}
+
+class Animal {
+    String sound() {
+        return "...";
+    }
+}
+
+// ここにDogクラスとCatクラスを作成してください
+`}
+/>

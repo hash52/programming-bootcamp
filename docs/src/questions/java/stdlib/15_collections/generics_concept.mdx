@@ -1,0 +1,27 @@
+---
+id: "java/stdlib/15_collections#generics_concept"
+title: "ジェネリクスとは何かを説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "15_collections"
+category: "java/stdlib"
+multipleSelect: false
+hint: |
+  `ArrayList<String>` の `<String>` がジェネリクスである。格納する型を指定することで、型の安全性が保証される。
+choices:
+  - id: "A"
+    text: "コレクションに格納する要素の型を指定し、型安全性を保証する仕組み"
+  - id: "B"
+    text: "コレクションのサイズを指定する仕組み"
+  - id: "C"
+    text: "コレクションの要素を自動でソートする仕組み"
+  - id: "D"
+    text: "コレクションを配列に変換する仕組み"
+answers:
+  correct: ["A"]
+explanation: |
+  ジェネリクスは `<型>` で格納する要素の型を指定する仕組みである。`ArrayList<String>` はString型のみ格納できるArrayListになる。型を指定することで、**コンパイル時に型の不一致を検出** でき、キャストも不要になる。
+---
+
+ジェネリクスの説明として最も適切なものを選べ。

@@ -1,0 +1,46 @@
+---
+id: "java/basics/06_arrays#two_dimensional_array"
+title: "2次元配列を使える"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "06_arrays"
+category: "java/basics"
+hint: |
+  2次元配列は `型[][] 変数名` で宣言する。外側の配列が「行」、内側の配列が「列」に対応する。二重ループで全要素にアクセスできる。
+explanation: |
+  **解答例**：
+  ```java
+  int[][] matrix = {
+      {1, 2, 3},
+      {4, 5, 6},
+      {7, 8, 9}
+  };
+
+  for (int i = 0; i < matrix.length; i++) {
+      for (int j = 0; j < matrix[i].length; j++) {
+          System.out.print(matrix[i][j] + " ");
+      }
+      System.out.println();
+  }
+  ```
+
+  2次元配列は「配列の配列」である。`matrix.length` で行数、`matrix[i].length` で各行の列数を取得できる。`matrix[i][j]` でi行j列の要素にアクセスする。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- 3×3の2次元配列に1〜9の値を格納する
+- 二重ループで全要素を表示する（行ごとにスペース区切り、行末で改行）
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // ここに2次元配列を作成し、全要素を表示するコードを書いてください
+    }
+}`}
+/>

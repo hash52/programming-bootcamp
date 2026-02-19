@@ -1,0 +1,35 @@
+---
+id: "java/basics/04_if_statement#write_elseif_fillblank"
+title: "if-else if-else文を穴埋めで書ける"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_if_statement"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["score >= 80", "score>=80", "80 <= score"]
+  blank2: ["score >= 60", "score>=60", "60 <= score"]
+sampleAnswer: "score >= 80 / score >= 60"
+explanation: |
+  if-else if文では上から順に条件が評価されるため、2番目の条件 `score >= 60` は、すでに `score < 80` が保証されている（最初のifでfalseだったため）。したがって「60以上かつ80未満」を明示的に書く必要はない。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、点数に応じた評価を表示するプログラムを完成させよ。
+- 80点以上：「A」
+- 60点以上80点未満：「B」
+- 60点未満：「C」
+
+<CodeBlock>
+{`int score = 72;
+
+if (`}<BlankInput id="blank1" />{`) {
+    System.out.println("A");
+} else if (`}<BlankInput id="blank2" />{`) {
+    System.out.println("B");
+} else {
+    System.out.println("C");
+}`}
+</CodeBlock>

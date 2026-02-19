@@ -1,0 +1,60 @@
+---
+id: "java/oop/14_encapsulation#setter_validation"
+title: "setterで値をチェックして不正な値を防げる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "14_encapsulation"
+category: "java/oop"
+hint: |
+  setterメソッド内でif文を使い、値が有効範囲内かチェックする。不正な場合はフィールドを更新しないか、例外を投げる。
+explanation: |
+  **解答例**：
+  ```java
+  public void setAge(int age) {
+      if (age < 0 || age > 150) {
+          throw new IllegalArgumentException("年齢は0〜150の範囲で指定してください");
+      }
+      this.age = age;
+  }
+
+  public void setName(String name) {
+      if (name == null || name.isEmpty()) {
+          throw new IllegalArgumentException("名前は空にできません");
+      }
+      this.name = name;
+  }
+  ```
+
+  setterにバリデーションを入れることで、**不正な値が設定されることを防ぐ** ことができる。これがカプセル化の大きなメリットの1つである。フィールドがpublicだと、どこからでも直接不正な値を設定できてしまう。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- `setAge` メソッドで、年齢が0未満または150超の場合に `IllegalArgumentException` を投げる
+- `setName` メソッドで、名前がnullまたは空文字の場合に `IllegalArgumentException` を投げる
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Person {
+    private String name;
+    private int age;
+
+    // ここにバリデーション付きのsetter/getterを書いてください
+
+    public String getName() { return name; }
+    public int getAge() { return age; }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person p = new Person();
+        p.setName("田中");
+        p.setAge(25);
+        System.out.println(p.getName() + " (" + p.getAge() + "歳)");
+    }
+}`}
+/>

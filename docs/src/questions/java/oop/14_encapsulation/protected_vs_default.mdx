@@ -1,0 +1,36 @@
+---
+id: "java/oop/14_encapsulation#protected_vs_default"
+title: "protectedとデフォルトアクセスの違いがわかる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "14_encapsulation"
+category: "java/oop"
+multipleSelect: false
+hint: |
+  Javaには4つのアクセスレベルがある。`private` < デフォルト（修飾子なし） < `protected` < `public` の順にアクセス範囲が広がる。
+choices:
+  - id: "A"
+    text: "protectedは同じパッケージ+子クラスからアクセス可能、デフォルトは同じパッケージからのみアクセス可能"
+  - id: "B"
+    text: "protectedは同じクラスからのみ、デフォルトはどこからでもアクセス可能"
+  - id: "C"
+    text: "protectedとデフォルトは同じアクセス範囲"
+  - id: "D"
+    text: "protectedはprivateと同じ、デフォルトはpublicと同じ"
+answers:
+  correct: ["A"]
+explanation: |
+  Javaの4つのアクセスレベル：
+
+  | 修飾子 | 同じクラス | 同じパッケージ | 子クラス | 全体 |
+  |--------|-----------|-------------|---------|------|
+  | private | ○ | × | × | × |
+  | デフォルト | ○ | ○ | × | × |
+  | protected | ○ | ○ | ○ | × |
+  | public | ○ | ○ | ○ | ○ |
+
+  `protected` はデフォルトに加えて **他パッケージの子クラス** からもアクセスできる点が異なる。
+---
+
+`protected` とデフォルトアクセス（修飾子なし）の違いについて、正しい説明を選べ。

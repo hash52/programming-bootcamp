@@ -1,0 +1,42 @@
+---
+id: "java/basics/05_loops#read_loop_execution_count"
+title: "ループのコードを読んで何回実行されるかわかる"
+type: "READ"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "05_loops"
+category: "java/basics"
+multipleSelect: false
+hint: |
+  ループ変数 `i` の初期値、条件式、更新処理に注目しよう。iが条件を満たす値をすべて書き出してみよう。
+choices:
+  - id: "A"
+    text: "2回"
+  - id: "B"
+    text: "3回"
+  - id: "C"
+    text: "4回"
+  - id: "D"
+    text: "10回"
+answers:
+  correct: ["B"]
+explanation: |
+  ループ変数iの変化を追うと以下のようになる。
+
+  | 回数 | iの値 | i <= 10 | 実行 |
+  |------|-------|---------|------|
+  | 1回目 | 2 | true | 出力 |
+  | 2回目 | 5 | true | 出力 |
+  | 3回目 | 8 | true | 出力 |
+  | 4回目 | 11 | false | 終了 |
+
+  iは2から始まり、3ずつ増える（2→5→8→11）。11で条件 `i <= 10` がfalseになるため、**3回** 実行される。
+---
+
+以下のJavaコードで、`System.out.println(i)` は何回実行されるか。
+
+```java
+for (int i = 2; i <= 10; i += 3) {
+    System.out.println(i);
+}
+```

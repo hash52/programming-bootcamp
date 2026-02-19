@@ -1,0 +1,32 @@
+---
+id: "java/basics/09_exception_handling#finally_block"
+title: "finallyで必ず実行される処理を書ける"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "09_exception_handling"
+category: "java/basics"
+hint: |
+  `finally` ブロックは、例外が発生してもしなくても **必ず** 実行される。リソースの後片付け処理に適している。
+fillInBlankAnswers:
+  blank1: "finally"
+sampleAnswer: "finally"
+explanation: |
+  `finally` ブロックは、try-catchの後に記述し、例外の有無に関わらず **必ず実行** される。データベース接続やファイルのクローズなど、確実に実行したい後処理に使用する。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、例外の有無に関わらず「処理終了」と表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`try {
+    int result = 10 / 2;
+    System.out.println("結果: " + result);
+} catch (ArithmeticException e) {
+    System.out.println("エラー発生");
+} `}<BlankInput id="blank1" />{` {
+    System.out.println("処理終了");
+}`}
+</CodeBlock>

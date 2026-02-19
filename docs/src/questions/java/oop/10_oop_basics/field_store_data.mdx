@@ -1,0 +1,28 @@
+---
+id: "java/oop/10_oop_basics#field_store_data"
+title: "フィールドでデータを保存できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "10_oop_basics"
+category: "java/oop"
+fillInBlankAnswers:
+  blank1: ["student.name", "student .name"]
+  blank2: ["student.age", "student .age"]
+sampleAnswer: "student.name / student.age"
+explanation: |
+  オブジェクトのフィールドにアクセスするには `オブジェクト名.フィールド名` と書く。フィールドへの値の代入も同じ構文で行える。`student.name = "田中"` でstudentオブジェクトのnameフィールドに「田中」が設定される。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、studentオブジェクトのフィールドに値を設定するプログラムを完成させよ。
+
+<CodeBlock>
+{`// Studentクラス: String name; int age; フィールドを持つ
+Student student = new Student();
+
+`}<BlankInput id="blank1" />{` = "田中";
+`}<BlankInput id="blank2" />{` = 20;`}
+</CodeBlock>

@@ -1,0 +1,50 @@
+---
+id: "java/basics/04_if_statement#read_switch_fallthrough"
+title: "switchのフォールスルーの結果を予測できる"
+type: "READ"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "04_if_statement"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "Bのみ"
+  - id: "B"
+    text: "BとC"
+  - id: "C"
+    text: "BとCとD"
+  - id: "D"
+    text: "AとBとC"
+answers:
+  correct: ["B"]
+hint: |
+  breakがない場合、switch文では **フォールスルー** が発生する。case 2に一致した後、breakが見つかるまで次のcaseの処理も実行される。
+explanation: |
+  `num` は2なので `case 2` に一致し、「B」が出力される。しかし `case 2` の後にbreakがないため、**フォールスルー** が発生し、次の `case 3` の処理も実行されて「C」が出力される。`case 3` の後にはbreakがあるため、ここでswitch文を抜ける。
+
+  | case | 処理 | break |
+  |------|------|-------|
+  | case 1 | スキップ | - |
+  | case 2 | 「B」出力 | **なし（フォールスルー）** |
+  | case 3 | 「C」出力 | **あり（ここで抜ける）** |
+  | default | 実行されない | - |
+---
+
+以下のJavaコードを実行した場合、何が出力されるか。
+
+```java
+int num = 2;
+
+switch (num) {
+    case 1:
+        System.out.println("A");
+    case 2:
+        System.out.println("B");
+    case 3:
+        System.out.println("C");
+        break;
+    default:
+        System.out.println("D");
+}
+```

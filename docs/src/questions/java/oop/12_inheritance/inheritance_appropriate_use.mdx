@@ -1,0 +1,27 @@
+---
+id: "java/oop/12_inheritance#inheritance_appropriate_use"
+title: "継承の適切な使い方を判断できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "12_inheritance"
+category: "java/oop"
+hint: |
+  継承は「is-a」関係（〜は〜の一種）のときに使う。「has-a」関係（〜は〜を持つ）のときはフィールドとして持つ。
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "DogクラスがAnimalクラスを継承する（犬は動物の一種）"
+  - id: "B"
+    text: "CarクラスがEngineクラスを継承する（車はエンジンを持つ）"
+  - id: "C"
+    text: "StudentクラスがArrayListクラスを継承する（生徒一覧を作る）"
+  - id: "D"
+    text: "Mainクラスがすべてのクラスを継承する"
+answers:
+  correct: ["A"]
+explanation: |
+  継承は「is-a」関係のときに使う。「犬は動物の一種」はis-a関係なので適切である。「車はエンジンを持つ」はhas-a関係なのでフィールドとして持つべきである。「StudentがArrayListを継承する」は意味的に不適切であり、フィールドとしてListを持つべきである。
+---
+
+継承の使い方として最も適切なものを選べ。

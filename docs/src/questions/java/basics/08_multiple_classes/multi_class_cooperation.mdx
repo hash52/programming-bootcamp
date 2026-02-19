@@ -1,0 +1,56 @@
+---
+id: "java/basics/08_multiple_classes#multi_class_cooperation"
+title: "複数クラスで連携するプログラムを書ける"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "08_multiple_classes"
+category: "java/basics"
+hint: |
+  MathUtilクラスにstaticメソッドを定義し、Mainクラスから呼び出す形にしよう。各メソッドは引数を受け取り、計算結果を返す。
+explanation: |
+  **解答例**：
+  ```java
+  // MathUtilクラス
+  public class MathUtil {
+      public static int max(int a, int b) {
+          return (a > b) ? a : b;
+      }
+
+      public static int min(int a, int b) {
+          return (a < b) ? a : b;
+      }
+
+      public static double average(int a, int b) {
+          return (a + b) / 2.0;
+      }
+  }
+  ```
+
+  ユーティリティクラスは、関連する処理をまとめて提供するクラスである。メソッドをstaticにすることで、インスタンスを作らずに `MathUtil.max(10, 20)` のように直接呼び出せる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- `MathUtil` クラスに以下のstaticメソッドを作成する
+  - `max(int a, int b)`: 2つの値のうち大きい方を返す
+  - `min(int a, int b)`: 2つの値のうち小さい方を返す
+  - `average(int a, int b)`: 2つの値の平均を返す（小数も含む）
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class MathUtil {
+    // ここにstaticメソッドを書いてください
+}
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("最大値: " + MathUtil.max(10, 20));
+        System.out.println("最小値: " + MathUtil.min(10, 20));
+        System.out.println("平均: " + MathUtil.average(10, 20));
+    }
+}`}
+/>

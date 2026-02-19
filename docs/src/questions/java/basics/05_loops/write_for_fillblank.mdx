@@ -1,0 +1,27 @@
+---
+id: "java/basics/05_loops#write_for_fillblank"
+title: "for文の構文を穴埋めで書ける"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "05_loops"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["int i = 10", "int i=10"]
+  blank2: ["i >= 1", "i>=1", "i > 0", "i>0"]
+  blank3: ["i--"]
+sampleAnswer: "for (int i = 10; i >= 1; i--)"
+explanation: |
+  カウントダウンするfor文では、カウンタ変数を **大きい値から開始** し、条件式で下限を指定し、更新処理で **デクリメント（`i--`）** する。`i >= 1` と `i > 0` はどちらも同じ結果になる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、10から1までのカウントダウンを表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`for (`}<BlankInput id="blank1" />{`; `}<BlankInput id="blank2" />{`; `}<BlankInput id="blank3" />{`) {
+    System.out.println(i);
+}`}
+</CodeBlock>

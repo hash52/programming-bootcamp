@@ -1,0 +1,28 @@
+---
+id: "java/basics/05_loops#break_exit_loop"
+title: "breakでループを途中で抜けられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "05_loops"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: "break"
+sampleAnswer: "break"
+explanation: |
+  `break` 文はループを **即座に終了** する。このコードではiが0, 1, 2のときに出力が行われ、iが3になった時点でbreakが実行されてループを抜ける。iが3のときの `System.out.println(i)` はbreakの後にあるため実行されない。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、iが3のときにループを終了するプログラムを完成させよ。
+
+<CodeBlock>
+{`for (int i = 0; i < 10; i++) {
+    if (i == 3) {
+        `}<BlankInput id="blank1" />{`;
+    }
+    System.out.println(i);
+}`}
+</CodeBlock>

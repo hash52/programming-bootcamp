@@ -1,0 +1,29 @@
+---
+id: "java/basics/04_if_statement#if_else_statement"
+title: "if-else文で2つの処理を切り替えられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_if_statement"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: "else"
+sampleAnswer: "else"
+explanation: |
+  if-else文は、条件が成り立つ場合と成り立たない場合の2つの処理を切り替える。`else` ブロックはif文の条件が `false` のときに実行される。`else` の後に条件式は書かない。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、数値が正のときに「正の数」、それ以外のときに「正の数ではない」と表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`int number = -3;
+
+if (number > 0) {
+    System.out.println("正の数");
+} `}<BlankInput id="blank1" />{` {
+    System.out.println("正の数ではない");
+}`}
+</CodeBlock>

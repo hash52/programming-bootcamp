@@ -1,0 +1,27 @@
+---
+id: "java/basics/09_exception_handling#throws_declaration"
+title: "throwsでエラーを呼び出し元に任せられる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "09_exception_handling"
+category: "java/basics"
+multipleSelect: false
+hint: |
+  `throws` をメソッド宣言に付けると、そのメソッド内で発生した例外を自分では処理せず、呼び出し元に処理を委ねる。
+choices:
+  - id: "A"
+    text: "メソッド内で例外をキャッチせず、呼び出し元に処理を委ねることを宣言する"
+  - id: "B"
+    text: "メソッド内で例外を発生させる"
+  - id: "C"
+    text: "メソッドが例外を無視することを宣言する"
+  - id: "D"
+    text: "例外が発生しないことを保証する"
+answers:
+  correct: ["A"]
+explanation: |
+  `throws` はメソッド宣言に付けて、そのメソッドが **例外を投げる可能性がある** ことを示す。メソッド内でtry-catchで処理する代わりに、呼び出し元に例外処理を任せる。呼び出し元はtry-catchで処理するか、さらにthrowsで上位に委譲する必要がある。
+---
+
+メソッド宣言の `throws` キーワードの役割として正しいものを選べ。

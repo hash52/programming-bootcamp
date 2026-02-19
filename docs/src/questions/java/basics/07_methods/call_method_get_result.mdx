@@ -1,0 +1,30 @@
+---
+id: "java/basics/07_methods#call_method_get_result"
+title: "メソッドを呼び出して結果を受け取れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "07_methods"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["int result = add(3, 5)", "int result=add(3,5)", "int result = add(3,5)", "int result =add(3, 5)"]
+sampleAnswer: "int result = add(3, 5)"
+explanation: |
+  戻り値があるメソッドを呼び出すとき、その戻り値を変数に代入して受け取ることができる。`int result = add(3, 5);` と書くと、addメソッドの戻り値（8）がresult変数に格納される。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、addメソッドの結果を変数 `result` に受け取るプログラムを完成させよ。
+
+<CodeBlock>
+{`public static int add(int a, int b) {
+    return a + b;
+}
+
+public static void main(String[] args) {
+    `}<BlankInput id="blank1" />{`;
+    System.out.println(result);
+}`}
+</CodeBlock>

@@ -43,38 +43,38 @@ Webサービスでユーザー登録をしてもらいたいとする。
   defaultTab="html"
   height="450"
   htmlCode={`<h2>ユーザー登録</h2>
-<form>
-  <label>ユーザー名：<input type="text" name="username"></label><br>
-  <label>メールアドレス：<input type="email" name="email"></label><br>
-  <label>パスワード：<input type="password" name="password"></label><br>
-  <button type="submit">登録</button>
-</form>`}
+  <form>
+      <label>ユーザー名：<input type="text" name="username"></label><br>
+      <label>メールアドレス：<input type="email" name="email"></label><br>
+      <label>パスワード：<input type="password" name="password"></label><br>
+      <button type="submit">登録</button>
+  </form>`}
   cssCode={`body {
-  font-family: sans-serif;
-  padding: 20px;
-}
-form {
-  background-color: #f5f5f5;
-  padding: 20px;
-  border-radius: 8px;
-}
-label {
-  display: block;
-  margin-bottom: 10px;
-}
-input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}`}
+      font-family: sans-serif;
+      padding: 20px;
+  }
+  form {
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+  }
+  label {
+      display: block;
+      margin-bottom: 10px;
+  }
+  input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+  }
+  button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+  }`}
 />
 
 **なぜフォームが必要なのか？**
@@ -145,10 +145,10 @@ button {
   defaultTab="html"
   height="300"
   htmlCode={`<form action="#" method="POST">
-  <label>名前：<input type="text" name="username"></label><br>
-  <button type="submit">送信</button>
-</form>
-<p>※ 送信ボタンを押すとフォームがsubmitされる</p>`}
+    <label>名前：<input type="text" name="username"></label><br>
+    <button type="submit">送信</button>
+  </form>
+  <p>※ 送信ボタンを押すとフォームがsubmitされる</p>`}
 />
 
 **なぜformタグが必要なのか？**
@@ -177,13 +177,13 @@ button {
   defaultTab="html"
   height="250"
   htmlCode={`<label for="username">ユーザー名：</label>
-<input type="text" id="username" name="username" placeholder="例：yamada_taro">`}
+  <input type="text" id="username" name="username" placeholder="例：yamada_taro">`}
   cssCode={`input {
-  padding: 8px;
-  border: 2px solid #007bff;
-  border-radius: 4px;
-  font-size: 16px;
-}`}
+    padding: 8px;
+    border: 2px solid #007bff;
+    border-radius: 4px;
+    font-size: 16px;
+  }`}
 />
 
 **なぜtype="text"なのか？**
@@ -210,13 +210,13 @@ button {
   defaultTab="html"
   height="250"
   htmlCode={`<label for="password">パスワード：</label>
-<input type="password" id="password" name="password" placeholder="8文字以上">`}
+  <input type="password" id="password" name="password" placeholder="8文字以上">`}
   cssCode={`input {
-  padding: 8px;
-  border: 2px solid #28a745;
-  border-radius: 4px;
-  font-size: 16px;
-}`}
+    padding: 8px;
+    border: 2px solid #28a745;
+    border-radius: 4px;
+    font-size: 16px;
+  }`}
 />
 
 **なぜ入力内容が隠されるのか？**
@@ -243,11 +243,11 @@ button {
   defaultTab="html"
   height="300"
   htmlCode={`<form>
-  <label for="email">メールアドレス：</label>
-  <input type="email" id="email" name="email" placeholder="例：user@example.com" required><br>
-  <button type="submit">送信</button>
-</form>
-<p>※ 正しい形式でないと送信できない</p>`}
+    <label for="email">メールアドレス：</label>
+    <input type="email" id="email" name="email" placeholder="例：user@example.com" required><br>
+    <button type="submit">送信</button>
+  </form>
+  <p>※ 正しい形式でないと送信できない</p>`}
 />
 
 **なぜtype="email"を使うのか？**
@@ -275,14 +275,14 @@ button {
   defaultTab="html"
   height="250"
   htmlCode={`<label for="age">年齢：</label>
-<input type="number" id="age" name="age" min="0" max="120" value="20">`}
+  <input type="number" id="age" name="age" min="0" max="120" value="20">`}
   cssCode={`input {
-  padding: 8px;
-  border: 2px solid #ffc107;
-  border-radius: 4px;
-  font-size: 16px;
-  width: 100px;
-}`}
+    padding: 8px;
+    border: 2px solid #ffc107;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100px;
+  }`}
 />
 
 **なぜtype="number"を使うのか？**
@@ -336,18 +336,18 @@ HTML5では、他にも多くの入力タイプがある：
   defaultTab="html"
   height="300"
   htmlCode={`<p><strong>好きな果物を選んでください（複数選択可）：</strong></p>
-<label>
-  <input type="checkbox" name="fruit" value="apple">
-  りんご
-</label><br>
-<label>
-  <input type="checkbox" name="fruit" value="banana">
-  バナナ
-</label><br>
-<label>
-  <input type="checkbox" name="fruit" value="orange">
-  オレンジ
-</label>`}
+  <label>
+    <input type="checkbox" name="fruit" value="apple">
+    りんご
+  </label><br>
+  <label>
+    <input type="checkbox" name="fruit" value="banana">
+    バナナ
+  </label><br>
+  <label>
+    <input type="checkbox" name="fruit" value="orange">
+    オレンジ
+  </label>`}
 />
 
 **なぜ複数選択できるのか？**
@@ -386,18 +386,18 @@ checkboxは、それぞれが独立したON/OFF状態を持つ。そのため、
   defaultTab="html"
   height="300"
   htmlCode={`<p><strong>性別を選んでください：</strong></p>
-<label>
-  <input type="radio" name="gender" value="male">
-  男性
-</label><br>
-<label>
-  <input type="radio" name="gender" value="female">
-  女性
-</label><br>
-<label>
-  <input type="radio" name="gender" value="other">
-  その他
-</label>`}
+  <label>
+    <input type="radio" name="gender" value="male">
+    男性
+  </label><br>
+  <label>
+    <input type="radio" name="gender" value="female">
+    女性
+  </label><br>
+  <label>
+    <input type="radio" name="gender" value="other">
+    その他
+  </label>`}
 />
 
 **なぜ1つしか選択できないのか？**
@@ -442,19 +442,19 @@ radioボタンは、同じ`name`を持つグループ内で排他的に動作す
   defaultTab="html"
   height="250"
   htmlCode={`<label for="prefecture">都道府県：</label>
-<select id="prefecture" name="prefecture">
-  <option value="">選択してください</option>
-  <option value="tokyo">東京都</option>
-  <option value="osaka">大阪府</option>
-  <option value="fukuoka">福岡県</option>
-  <option value="hokkaido">北海道</option>
-</select>`}
+  <select id="prefecture" name="prefecture">
+    <option value="">選択してください</option>
+    <option value="tokyo">東京都</option>
+    <option value="osaka">大阪府</option>
+    <option value="fukuoka">福岡県</option>
+    <option value="hokkaido">北海道</option>
+  </select>`}
   cssCode={`select {
-  padding: 8px;
-  border: 2px solid #6c757d;
-  border-radius: 4px;
-  font-size: 16px;
-}`}
+    padding: 8px;
+    border: 2px solid #6c757d;
+    border-radius: 4px;
+    font-size: 16px;
+  }`}
 />
 
 **なぜselectを使うのか？**
@@ -507,16 +507,16 @@ radioボタンは、同じ`name`を持つグループ内で排他的に動作す
   defaultTab="html"
   height="350"
   htmlCode={`<label for="message">お問い合わせ内容：</label><br>
-<textarea id="message" name="message" rows="5" placeholder="ご質問やご意見をお書きください"></textarea>`}
+  <textarea id="message" name="message" rows="5" placeholder="ご質問やご意見をお書きください"></textarea>`}
   cssCode={`textarea {
-  width: 100%;
-  padding: 8px;
-  border: 2px solid #17a2b8;
-  border-radius: 4px;
-  font-size: 16px;
-  font-family: sans-serif;
-  resize: vertical;
-}`}
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #17a2b8;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: sans-serif;
+    resize: vertical;
+  }`}
 />
 
 **なぜtextareaを使うのか？**
@@ -581,21 +581,21 @@ textarea {
   defaultTab="html"
   height="350"
   htmlCode={`<h3>labelなし</h3>
-<p>ユーザー名：<input type="text" name="username1"></p>
+  <p>ユーザー名：<input type="text" name="username1"></p>
 
-<h3>labelあり</h3>
-<label>
-  ユーザー名：<input type="text" name="username2">
-</label>
-<p>※「ユーザー名：」のテキストをクリックしてみよう</p>`}
+  <h3>labelあり</h3>
+  <label>
+    ユーザー名：<input type="text" name="username2">
+  </label>
+  <p>※「ユーザー名：」のテキストをクリックしてみよう</p>`}
   cssCode={`input {
-  padding: 8px;
-  border: 2px solid #007bff;
-  border-radius: 4px;
-}
-label {
-  cursor: pointer;
-}`}
+    padding: 8px;
+    border: 2px solid #007bff;
+    border-radius: 4px;
+  }
+  label {
+    cursor: pointer;
+  }`}
 />
 
 **なぜlabelを使うと良いのか？**

@@ -1,0 +1,42 @@
+---
+id: "java/basics/04_if_statement#complex_conditions"
+title: "&&や||を使った複雑な条件を書ける"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "04_if_statement"
+category: "java/basics"
+hint: |
+  **ポイント**: `&&` は「かつ（AND）」を意味する論理演算子である。2つの条件を両方満たす場合に `true` になる。
+explanation: |
+  **解答例**：
+  ```java
+  if (age >= 18 && hasTicket) {
+      System.out.println("入場できます");
+  } else {
+      System.out.println("入場できません");
+  }
+  ```
+
+  `&&`（AND演算子）は左辺と右辺の両方が `true` の場合のみ全体が `true` になる。`boolean` 型の変数は `== true` を省略して直接条件に使える。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下の要件を満たすプログラムを完成させよ。
+
+**要件**：
+- 変数 `age` が18以上 **かつ** 変数 `hasTicket` が `true` のとき、「入場できます」と表示する
+- それ以外のとき、「入場できません」と表示する
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int age = 20;
+        boolean hasTicket = true;
+
+        // ここにif-else文を書いてください
+    }
+}`}
+/>

@@ -1,0 +1,51 @@
+---
+id: "java/basics/07_methods#refactor_to_method"
+title: "重複したコードをメソッドにまとめられる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "07_methods"
+category: "java/basics"
+hint: |
+  重複している処理を見つけて、共通部分をメソッドとして抽出しよう。変わる部分（名前と点数）は引数にする。
+explanation: |
+  **解答例**：
+  ```java
+  public static void printResult(String name, int score) {
+      System.out.println(name + "さんの点数: " + score);
+      if (score >= 60) {
+          System.out.println("合格");
+      } else {
+          System.out.println("不合格");
+      }
+  }
+  ```
+
+  重複するコードをメソッドにまとめることで、修正が1箇所で済む、コードが読みやすくなる、などのメリットがある。異なる部分を引数にすることで、共通の処理を汎用化できる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のコードには重複した処理がある。共通部分を `printResult` メソッドとして切り出し、mainメソッドから呼び出すようにリファクタリングせよ。
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    // ここにprintResultメソッドを作成してください
+
+    public static void main(String[] args) {
+        // 元のコード（重複あり）:
+        // System.out.println("田中さんの点数: " + 85);
+        // if (85 >= 60) { System.out.println("合格"); }
+        // else { System.out.println("不合格"); }
+        //
+        // System.out.println("佐藤さんの点数: " + 45);
+        // if (45 >= 60) { System.out.println("合格"); }
+        // else { System.out.println("不合格"); }
+
+        // printResultメソッドを使って書き直してください
+        printResult("田中", 85);
+        printResult("佐藤", 45);
+    }
+}`}
+/>

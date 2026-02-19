@@ -1,0 +1,68 @@
+---
+id: "java/oop/13_interfaces#interface_type_polymorphism"
+title: "インターフェース型で複数のクラスをまとめて扱える"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "13_interfaces"
+category: "java/oop"
+hint: |
+  インターフェース型の変数に、そのインターフェースを実装したクラスのオブジェクトを代入できる。配列やリストで異なるクラスのオブジェクトをまとめて処理できる。
+explanation: |
+  **解答例**：
+  ```java
+  interface Printable {
+      void print();
+  }
+
+  class Document implements Printable {
+      public void print() {
+          System.out.println("ドキュメントを印刷");
+      }
+  }
+
+  class Image implements Printable {
+      public void print() {
+          System.out.println("画像を印刷");
+      }
+  }
+
+  class Spreadsheet implements Printable {
+      public void print() {
+          System.out.println("スプレッドシートを印刷");
+      }
+  }
+  ```
+
+  インターフェース型の変数は、そのインターフェースを実装するすべてのクラスのオブジェクトを格納できる。これにより異なるクラスのオブジェクトを統一的に扱える。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+Printable型の配列にDocument, Image, Spreadsheetのオブジェクトを入れ、ループで `print()` を呼び出せ。
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`interface Printable {
+    void print();
+}
+
+class Document implements Printable {
+    // ここにprint()を実装してください
+}
+
+class Image implements Printable {
+    // ここにprint()を実装してください
+}
+
+class Spreadsheet implements Printable {
+    // ここにprint()を実装してください
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Printable型の配列を作り、各オブジェクトを格納してください
+        // ループでprint()を呼び出してください
+    }
+}`}
+/>

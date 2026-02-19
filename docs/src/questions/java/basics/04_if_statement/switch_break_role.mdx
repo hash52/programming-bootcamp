@@ -1,0 +1,27 @@
+---
+id: "java/basics/04_if_statement#switch_break_role"
+title: "switchのbreakの役割を説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "04_if_statement"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "一致したcaseの処理だけが実行される"
+  - id: "B"
+    text: "一致したcaseから以降のcaseの処理もすべて実行される"
+  - id: "C"
+    text: "コンパイルエラーになる"
+  - id: "D"
+    text: "switch文全体がスキップされる"
+answers:
+  correct: ["B"]
+hint: |
+  breakがない場合の動作を **フォールスルー** と呼ぶ。case 2に一致した場合、case 3以降の処理も順番に実行される。
+explanation: |
+  switch文でbreakを省略すると、一致したcaseの処理が実行された後、次のcaseの処理もそのまま実行される。これを **フォールスルー（fall-through）** と呼ぶ。意図しないフォールスルーはバグの原因となるため、各caseの末尾にbreakを書くのが基本である。
+---
+
+switch文でbreakを書かなかった場合、どのような動作になるか。最も適切なものを選べ。

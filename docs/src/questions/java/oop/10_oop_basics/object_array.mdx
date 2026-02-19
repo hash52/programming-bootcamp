@@ -1,0 +1,57 @@
+---
+id: "java/oop/10_oop_basics#object_array"
+title: "配列でオブジェクトをまとめて管理できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "10_oop_basics"
+category: "java/oop"
+hint: |
+  オブジェクトの配列は `クラス名[] 変数名 = new クラス名[要素数]` で作成する。各要素には `new` でオブジェクトを代入する必要がある。
+explanation: |
+  **解答例**：
+  ```java
+  Student[] students = new Student[3];
+
+  students[0] = new Student();
+  students[0].name = "田中";
+  students[0].score = 85;
+
+  students[1] = new Student();
+  students[1].name = "佐藤";
+  students[1].score = 92;
+
+  students[2] = new Student();
+  students[2].name = "鈴木";
+  students[2].score = 78;
+
+  for (Student s : students) {
+      System.out.println(s.name + ": " + s.score + "点");
+  }
+  ```
+
+  オブジェクトの配列を作成しただけでは、各要素は `null` である。必ず `new` でオブジェクトを代入してから使用する。拡張for文で配列内のオブジェクトを順に処理できる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- Studentオブジェクトを3つ作成し、配列で管理する
+- 各Studentに異なる名前と点数を設定する
+- ループで全Studentの情報を表示する
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`class Student {
+    String name;
+    int score;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // ここにStudentの配列を作成してください
+    }
+}`}
+/>

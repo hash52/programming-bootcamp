@@ -1,0 +1,30 @@
+---
+id: "java/basics/09_exception_handling#throw_exception"
+title: "throwで自分でエラーを発生させられる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "09_exception_handling"
+category: "java/basics"
+hint: |
+  `throw new 例外クラス("メッセージ")` で例外を発生させられる。不正な引数に対して `IllegalArgumentException` を投げるのが一般的である。
+fillInBlankAnswers:
+  blank1: ["throw new IllegalArgumentException", "throw new IllegalArgumentException(\"年齢は0以上である必要があります\")", "throw new IllegalArgumentException(\"不正な値\")"]
+sampleAnswer: "throw new IllegalArgumentException(\"年齢は0以上である必要があります\")"
+explanation: |
+  `throw` 文を使うと、自分で例外を発生させることができる。不正な引数が渡された場合に `IllegalArgumentException` を投げるのはよくあるパターンである。`throw new 例外クラス("メッセージ")` のように `new` で例外オブジェクトを作成して投げる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、年齢が0未満の場合に例外を発生させるメソッドを完成させよ。
+
+<CodeBlock>
+{`public static void setAge(int age) {
+    if (age < 0) {
+        `}<BlankInput id="blank1" />{`;
+    }
+    System.out.println("年齢: " + age);
+}`}
+</CodeBlock>

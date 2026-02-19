@@ -1,0 +1,45 @@
+---
+id: "java/stdlib/16_datetime#date_difference"
+title: "2つの日付の差を計算できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "16_datetime"
+category: "java/stdlib"
+hint: |
+  `ChronoUnit.DAYS.between(開始日, 終了日)` で2つの日付の差を日数で取得できる。`Period.between()` を使うと年・月・日単位で差を取得できる。
+explanation: |
+  **解答例**：
+  ```java
+  LocalDate start = LocalDate.of(2024, 1, 1);
+  LocalDate end = LocalDate.of(2024, 12, 31);
+
+  long days = ChronoUnit.DAYS.between(start, end);
+  System.out.println("日数の差: " + days + "日");
+
+  Period period = Period.between(start, end);
+  System.out.println(period.getMonths() + "ヶ月" + period.getDays() + "日");
+  ```
+
+  `ChronoUnit.DAYS.between()` は日数を `long` で返す。`Period.between()` は年月日の差を `Period` オブジェクトで返し、`getYears()`, `getMonths()`, `getDays()` で個別に取得できる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- 2024年1月1日と2024年12月31日の差を日数で計算して表示する
+- `ChronoUnit.DAYS.between()` を使用する
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+public class Main {
+    public static void main(String[] args) {
+        // ここにコードを書いてください
+    }
+}`}
+/>

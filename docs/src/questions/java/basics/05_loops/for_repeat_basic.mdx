@@ -1,0 +1,31 @@
+---
+id: "java/basics/05_loops#for_repeat_basic"
+title: "for文で同じ処理を繰り返せる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "05_loops"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: ["int i = 0", "int i=0"]
+  blank2: ["i < 5", "i<5"]
+  blank3: ["i++"]
+sampleAnswer: "for (int i = 0; i < 5; i++)"
+explanation: |
+  for文の3つの部分はそれぞれ以下の役割を持つ。
+
+  - **初期化** `int i = 0`: カウンタ変数iを0で初期化
+  - **条件式** `i < 5`: iが5未満の間、繰り返す（0,1,2,3,4の5回）
+  - **更新処理** `i++`: 1回の繰り返しごとにiを1増やす
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、「Hello」を5回表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`for (`}<BlankInput id="blank1" />{`; `}<BlankInput id="blank2" />{`; `}<BlankInput id="blank3" />{`) {
+    System.out.println("Hello");
+}`}
+</CodeBlock>

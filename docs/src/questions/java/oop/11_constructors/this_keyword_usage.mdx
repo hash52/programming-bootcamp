@@ -1,0 +1,32 @@
+---
+id: "java/oop/11_constructors#this_keyword_usage"
+title: "thisキーワードでフィールドを指定できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "11_constructors"
+category: "java/oop"
+hint: |
+  引数名 `name` とフィールド名 `name` が同じとき、`this.name` でフィールドを指定する。`this` がないと引数自身に代入してしまう。
+fillInBlankAnswers:
+  blank1: ["this.name", "this .name"]
+sampleAnswer: "this.name"
+explanation: |
+  引数名 `name` とフィールド名 `name` が同じ場合、`this.name` でフィールドを指定する。`this` を付けないと引数nameに引数nameを代入することになり、フィールドは変更されない。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、フィールドに値を設定するsetterメソッドを完成させよ。
+
+<CodeBlock>
+{`class Product {
+    String name;
+    int price;
+
+    void setName(String name) {
+        `}<BlankInput id="blank1" />{` = name;
+    }
+}`}
+</CodeBlock>

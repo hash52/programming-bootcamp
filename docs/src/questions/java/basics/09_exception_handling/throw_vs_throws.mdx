@@ -1,0 +1,30 @@
+---
+id: "java/basics/09_exception_handling#throw_vs_throws"
+title: "throwとthrowsの違いを説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "09_exception_handling"
+category: "java/basics"
+multipleSelect: false
+hint: |
+  `throw` は例外を「投げる」（発生させる）動作、`throws` はメソッドが「投げる可能性がある」ことの宣言である。使う場所が異なる点に注目しよう。
+choices:
+  - id: "A"
+    text: "throwは例外を発生させる文、throwsはメソッド宣言で例外を投げる可能性を示すキーワード"
+  - id: "B"
+    text: "throwは例外をキャッチする文、throwsは例外を無視するキーワード"
+  - id: "C"
+    text: "throwとthrowsは同じ意味で、どちらを使っても同じ動作になる"
+  - id: "D"
+    text: "throwはメソッド宣言に書き、throwsはメソッド内部で使う"
+answers:
+  correct: ["A"]
+explanation: |
+  - **`throw`**: メソッド内で例外オブジェクトを **発生させる**（例: `throw new IllegalArgumentException("不正な値");`）
+  - **`throws`**: メソッドの **宣言部分** に書いて、そのメソッドが例外を投げる可能性があることを示す（例: `public void read() throws IOException`）
+
+  `throw` は動作（例外を投げる）、`throws` は宣言（例外を投げるかもしれない）という違いがある。
+---
+
+`throw` と `throws` の違いについて、正しい説明を選べ。

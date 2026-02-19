@@ -1,0 +1,25 @@
+---
+id: "java/oop/13_interfaces#create_interface"
+title: "interfaceでインターフェースを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "13_interfaces"
+category: "java/oop"
+fillInBlankAnswers:
+  blank1: "interface"
+sampleAnswer: "interface"
+explanation: |
+  インターフェースは `interface` キーワードで定義する。メソッドは宣言のみで本体は書かない（Java 8以降のdefaultメソッドを除く）。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、インターフェースの定義を完成させよ。
+
+<CodeBlock>
+{`public `}<BlankInput id="blank1" />{` Printable {
+    void print();
+}`}
+</CodeBlock>

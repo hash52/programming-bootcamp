@@ -1,0 +1,42 @@
+---
+id: "java/basics/06_arrays#array_sum_average"
+title: "配列の合計や平均を計算できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "06_arrays"
+category: "java/basics"
+hint: |
+  合計を求めるには、変数 `sum` を0で初期化し、ループで各要素を加算していく。平均は `合計 / 要素数` で求められるが、**int同士の割り算は小数点以下が切り捨て** られる点に注意しよう。
+explanation: |
+  **解答例**：
+  ```java
+  int sum = 0;
+  for (int score : scores) {
+      sum += score;
+  }
+  System.out.println("合計: " + sum);
+  System.out.println("平均: " + (double) sum / scores.length);
+  ```
+
+  合計は拡張for文で各要素を `sum` に加算して求める。平均を求めるときは `(double)` でキャストするか、`1.0 *` を掛けることでdouble型の除算にする。int同士の除算では小数点以下が切り捨てられてしまう。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下のプログラムを完成させよ。
+
+**要件**：
+- 配列 `scores` の全要素の合計と平均を計算して表示する
+- 平均は小数点以下も表示すること
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int[] scores = {80, 75, 90, 65, 100};
+
+        // ここに合計と平均を求めるコードを書いてください
+    }
+}`}
+/>

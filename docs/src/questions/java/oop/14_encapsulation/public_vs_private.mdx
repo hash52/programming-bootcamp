@@ -1,0 +1,28 @@
+---
+id: "java/oop/14_encapsulation#public_vs_private"
+title: "publicとprivateの違いがわかる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "14_encapsulation"
+category: "java/oop"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "publicはどこからでもアクセスでき、privateは同じクラス内からのみアクセスできる"
+  - id: "B"
+    text: "publicは読み取り専用、privateは書き込み専用"
+  - id: "C"
+    text: "publicはメソッドに使い、privateはフィールドにしか使えない"
+  - id: "D"
+    text: "publicとprivateに違いはない"
+answers:
+  correct: ["A"]
+explanation: |
+  - **public**: **どこからでも** アクセスできる（他のクラス、他のパッケージからもOK）
+  - **private**: **同じクラス内からのみ** アクセスできる（外部のクラスからはアクセス不可）
+
+  フィールドは `private`、メソッド（getter/setter等）は `public` にするのがカプセル化の基本パターンである。
+---
+
+`public` と `private` の違いについて、正しい説明を選べ。

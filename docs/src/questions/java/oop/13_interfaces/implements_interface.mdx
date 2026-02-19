@@ -1,0 +1,27 @@
+---
+id: "java/oop/13_interfaces#implements_interface"
+title: "implementsでインターフェースを実装できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "13_interfaces"
+category: "java/oop"
+fillInBlankAnswers:
+  blank1: ["implements Printable", "implements  Printable"]
+sampleAnswer: "implements Printable"
+explanation: |
+  `implements` キーワードでインターフェースを実装する。実装クラスはインターフェースで宣言されたすべてのメソッドを実装する必要がある。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、DocumentクラスがPrintableインターフェースを実装するようにせよ。
+
+<CodeBlock>
+{`class Document `}<BlankInput id="blank1" />{` {
+    public void print() {
+        System.out.println("ドキュメントを印刷します");
+    }
+}`}
+</CodeBlock>

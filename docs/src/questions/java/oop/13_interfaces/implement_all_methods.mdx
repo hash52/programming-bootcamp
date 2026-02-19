@@ -1,0 +1,101 @@
+---
+id: "java/oop/13_interfaces#implement_all_methods"
+title: "実装クラスで全てのメソッドを実装できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "13_interfaces"
+category: "java/oop"
+hint: |
+  インターフェースのすべてのメソッドを実装しないとコンパイルエラーになる。各メソッドに `public` を付けて実装する。
+explanation: |
+  **解答例**：
+  ```java
+  interface Shape {
+      double getArea();
+      double getPerimeter();
+  }
+
+  class Circle implements Shape {
+      double radius;
+
+      Circle(double radius) {
+          this.radius = radius;
+      }
+
+      public double getArea() {
+          return 3.14 * radius * radius;
+      }
+
+      public double getPerimeter() {
+          return 2 * 3.14 * radius;
+      }
+  }
+
+  class Rectangle implements Shape {
+      double width;
+      double height;
+
+      Rectangle(double width, double height) {
+          this.width = width;
+          this.height = height;
+      }
+
+      public double getArea() {
+          return width * height;
+      }
+
+      public double getPerimeter() {
+          return 2 * (width + height);
+      }
+  }
+  ```
+
+  インターフェースのメソッドをすべて実装する必要がある。実装時は必ず `public` を付ける。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+Shapeインターフェース（`getArea()`, `getPerimeter()` メソッド）を実装するCircleクラスとRectangleクラスを作成せよ。
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`interface Shape {
+    double getArea();
+    double getPerimeter();
+}
+
+class Circle implements Shape {
+    double radius;
+
+    Circle(double radius) {
+        this.radius = radius;
+    }
+
+    // ここにgetArea()とgetPerimeter()を実装してください
+}
+
+class Rectangle implements Shape {
+    double width;
+    double height;
+
+    Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    // ここにgetArea()とgetPerimeter()を実装してください
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Circle c = new Circle(5);
+        System.out.println("円の面積: " + c.getArea());
+        System.out.println("円の周長: " + c.getPerimeter());
+
+        Rectangle r = new Rectangle(4, 6);
+        System.out.println("長方形の面積: " + r.getArea());
+        System.out.println("長方形の周長: " + r.getPerimeter());
+    }
+}`}
+/>

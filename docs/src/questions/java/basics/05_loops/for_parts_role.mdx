@@ -1,0 +1,31 @@
+---
+id: "java/basics/05_loops#for_parts_role"
+title: "for文の3つの部分の役割がわかる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "05_loops"
+category: "java/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "ループ変数の初期値を設定する"
+  - id: "B"
+    text: "ループを続ける条件を指定する"
+  - id: "C"
+    text: "各繰り返しの後にループ変数を更新する"
+  - id: "D"
+    text: "ループの実行回数を指定する"
+answers:
+  correct: ["C"]
+explanation: |
+  for文の3つの部分はそれぞれ以下の役割を持つ。
+
+  - `int i = 0`：**初期化** — ループ変数の初期値を設定（ループ開始前に1回だけ実行）
+  - `i < 10`：**条件式** — 各繰り返しの前に評価し、trueならループを続ける
+  - `i++`：**更新処理** — 各繰り返しの **後** にループ変数を更新する
+
+  `i++` はループ本体の処理が終わった後に実行される。
+---
+
+`for (int i = 0; i < 10; i++)` において、`i++` の役割として正しいものを選べ。

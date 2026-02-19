@@ -1,0 +1,40 @@
+---
+id: "java/basics/04_if_statement#switch_statement"
+title: "switch文で複数の選択肢から選べる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_if_statement"
+category: "java/basics"
+fillInBlankAnswers:
+  blank1: "switch"
+  blank2: "break"
+  blank3: "default"
+sampleAnswer: "switch / break / default"
+explanation: |
+  switch文は変数の値に応じて処理を分岐する。`switch(変数)` で対象を指定し、`case 値:` で一致する処理を記述する。`break` でswitch文を抜け、`default` はどのcaseにも一致しない場合に実行される。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、曜日番号に応じた曜日名を表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`int day = 3;
+
+`}<BlankInput id="blank1" />{` (day) {
+    case 1:
+        System.out.println("月曜日");
+        `}<BlankInput id="blank2" />{`;
+    case 2:
+        System.out.println("火曜日");
+        break;
+    case 3:
+        System.out.println("水曜日");
+        break;
+    `}<BlankInput id="blank3" />{`:
+        System.out.println("不明");
+        break;
+}`}
+</CodeBlock>

@@ -1,0 +1,40 @@
+---
+id: "java/oop/12_inheritance#super_constructor_call"
+title: "super()で親のコンストラクタを呼び出せる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "12_inheritance"
+category: "java/oop"
+hint: |
+  `super(引数)` で親クラスのコンストラクタを呼び出せる。子クラスのコンストラクタの **最初の行** に書く必要がある。
+fillInBlankAnswers:
+  blank1: ["super(name)", "super( name )"]
+sampleAnswer: "super(name)"
+explanation: |
+  `super(引数)` で親クラスのコンストラクタを呼び出す。子クラスのコンストラクタの **最初の行** でのみ使用可能。親クラスの初期化処理を再利用できる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、Dogのコンストラクタから親クラスAnimalのコンストラクタを呼び出せ。
+
+<CodeBlock>
+{`class Animal {
+    String name;
+
+    Animal(String name) {
+        this.name = name;
+    }
+}
+
+class Dog extends Animal {
+    String breed;
+
+    Dog(String name, String breed) {
+        `}<BlankInput id="blank1" />{`;
+        this.breed = breed;
+    }
+}`}
+</CodeBlock>

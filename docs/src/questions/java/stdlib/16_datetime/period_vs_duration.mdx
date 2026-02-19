@@ -1,0 +1,30 @@
+---
+id: "java/stdlib/16_datetime#period_vs_duration"
+title: "PeriodとDurationの違いがわかる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "16_datetime"
+category: "java/stdlib"
+multipleSelect: false
+hint: |
+  Periodは日付ベース（年・月・日）、Durationは時間ベース（時・分・秒）の差を表す。それぞれ対応するクラスが異なる。
+choices:
+  - id: "A"
+    text: "Periodは年月日の差を表し、Durationは時分秒の差を表す"
+  - id: "B"
+    text: "Periodは時分秒の差を表し、Durationは年月日の差を表す"
+  - id: "C"
+    text: "PeriodとDurationは同じ機能で名前が違うだけ"
+  - id: "D"
+    text: "Periodは過去の日時、Durationは未来の日時を表す"
+answers:
+  correct: ["A"]
+explanation: |
+  - **Period**: **年・月・日** 単位の差を表す（`LocalDate` と一緒に使う）
+  - **Duration**: **時・分・秒** 単位の差を表す（`LocalTime`, `LocalDateTime` と一緒に使う）
+
+  例：`Period.between(date1, date2)` で日付の差、`Duration.between(time1, time2)` で時刻の差を取得する。
+---
+
+PeriodとDurationの違いについて、正しい説明を選べ。

@@ -1,0 +1,26 @@
+---
+id: "java/stdlib/16_datetime#get_current_time"
+title: "LocalTimeで現在時刻を取得できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "16_datetime"
+category: "java/stdlib"
+fillInBlankAnswers:
+  blank1: ["LocalTime.now()", "LocalTime.now( )"]
+sampleAnswer: "LocalTime.now()"
+explanation: |
+  `LocalTime.now()` で現在の時刻を取得できる。`LocalTime.of(14, 30)` で特定の時刻（14時30分）を作成することもできる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、現在時刻を取得して表示するプログラムを完成させよ。
+
+<CodeBlock>
+{`import java.time.LocalTime;
+
+LocalTime now = `}<BlankInput id="blank1" />{`;
+System.out.println("現在時刻: " + now);`}
+</CodeBlock>

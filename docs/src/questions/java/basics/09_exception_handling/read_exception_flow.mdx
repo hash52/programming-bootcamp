@@ -1,0 +1,47 @@
+---
+id: "java/basics/09_exception_handling#read_exception_flow"
+title: "例外処理のコードを読んで流れを理解できる"
+type: "READ"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "09_exception_handling"
+category: "java/basics"
+multipleSelect: false
+hint: |
+  tryブロック内で例外が発生すると、その行以降のtryブロック内の処理は **スキップ** され、対応するcatchブロックに移る。finallyは必ず実行される。
+choices:
+  - id: "A"
+    text: "開始 → 結果: 5 → 終了"
+  - id: "B"
+    text: "開始 → エラー発生 → 終了"
+  - id: "C"
+    text: "開始 → 結果: 5 → エラー発生 → 終了"
+  - id: "D"
+    text: "開始 → 終了"
+answers:
+  correct: ["B"]
+explanation: |
+  コードの実行の流れ：
+
+  1. `System.out.println("開始")` → **「開始」が出力される**
+  2. `int result = 10 / 0;` → **ArithmeticExceptionが発生**
+  3. `System.out.println("結果: " + result);` → **スキップされる**（例外発生でtryの残りは実行されない）
+  4. catchブロック → **「エラー発生」が出力される**
+  5. finallyブロック → **「終了」が出力される**
+
+  例外が発生すると、tryブロック内のそれ以降のコードはスキップされる点がポイントである。
+---
+
+以下のJavaコードを実行した場合、何が出力されるか。
+
+```java
+try {
+    System.out.println("開始");
+    int result = 10 / 0;
+    System.out.println("結果: " + result);
+} catch (ArithmeticException e) {
+    System.out.println("エラー発生");
+} finally {
+    System.out.println("終了");
+}
+```

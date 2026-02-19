@@ -1,0 +1,48 @@
+---
+id: "java/basics/04_if_statement#conditional_by_value"
+title: "年齢や点数で処理を変えるプログラムが書ける"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "04_if_statement"
+category: "java/basics"
+hint: |
+  if-else if-else文を使って上から順に条件を絞り込んでいこう。`score >= 90` から始めると、else if以降では自動的に90未満が保証される。
+explanation: |
+  **解答例**：
+  ```java
+  if (score >= 90) {
+      System.out.println("優");
+  } else if (score >= 70) {
+      System.out.println("良");
+  } else if (score >= 50) {
+      System.out.println("可");
+  } else {
+      System.out.println("不可");
+  }
+  ```
+
+  if-else if文では条件を上から順に評価するため、`score >= 70` の時点ですでに `score < 90` が保証されている。このように条件を絞り込むことで、シンプルに書ける。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+以下の要件を満たすプログラムを完成させよ。
+
+**要件**：
+- 変数 `score` の値に応じて、以下のように評価を表示する
+  - 90点以上：「優」
+  - 70点以上90点未満：「良」
+  - 50点以上70点未満：「可」
+  - 50点未満：「不可」
+
+<OneCompilerCodeBlock
+  language="java"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int score = 75;
+
+        // ここにif-else if-else文を書いてください
+    }
+}`}
+/>

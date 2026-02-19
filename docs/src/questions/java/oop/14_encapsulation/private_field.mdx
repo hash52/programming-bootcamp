@@ -1,0 +1,27 @@
+---
+id: "java/oop/14_encapsulation#private_field"
+title: "フィールドをprivateにできる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "14_encapsulation"
+category: "java/oop"
+fillInBlankAnswers:
+  blank1: "private"
+  blank2: "private"
+sampleAnswer: "private"
+explanation: |
+  `private` 修飾子を付けたフィールドは、**そのクラス内からのみ** アクセスできる。外部のクラスから直接値を読み書きできなくなるため、データの保護に使われる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、フィールドを外部から直接アクセスできないようにせよ。
+
+<CodeBlock>
+{`class Person {
+    `}<BlankInput id="blank1" />{` String name;
+    `}<BlankInput id="blank2" />{` int age;
+}`}
+</CodeBlock>

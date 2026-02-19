@@ -1,0 +1,33 @@
+---
+id: "java/oop/11_constructors#constructor_with_args"
+title: "引数ありのコンストラクタを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "11_constructors"
+category: "java/oop"
+fillInBlankAnswers:
+  blank1: ["String name, int age", "String name,int age"]
+  blank2: ["this.name = name", "this.name=name"]
+  blank3: ["this.age = age", "this.age=age"]
+sampleAnswer: "String name, int age / this.name = name / this.age = age"
+explanation: |
+  引数ありコンストラクタでは、引数で受け取った値をフィールドに設定する。`this.name = name;` で「このオブジェクトのnameフィールドに引数nameの値を代入する」という意味になる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、引数ありのコンストラクタを完成させよ。
+
+<CodeBlock>
+{`class Person {
+    String name;
+    int age;
+
+    Person(`}<BlankInput id="blank1" />{`) {
+        `}<BlankInput id="blank2" />{`;
+        `}<BlankInput id="blank3" />{`;
+    }
+}`}
+</CodeBlock>
