@@ -1,0 +1,47 @@
+---
+id: "git/basics/03_github_remote#git_pull"
+title: "リモートの変更をローカルに取り込める"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_github_remote"
+category: "git/basics"
+fillInBlankAnswers:
+  blank1: ["git pull origin main"]
+sampleAnswer: "git pull origin main"
+explanation: |
+  `git pull origin main` は、リモートリポジトリ（origin）の `main` ブランチの変更をローカルに取り込むコマンドである。
+
+  `git pull` は `git fetch` + `git merge` を一度に行う操作である。
+
+  **使用タイミング**：
+  - チームメンバーが変更をpushした後、作業を始める前
+  - 自分のローカルとリモートが乖離してきたと感じたとき
+
+  ```bash
+  git pull origin main
+  # From https://github.com/user/repo
+  #  * branch main -> FETCH_HEAD
+  # Updating a1b2c3d..d4e5f6a
+  # Fast-forward
+  #  Main.java | 5 +++++
+  ```
+
+  **pushとpullの違い**：
+  | コマンド | 方向 |
+  |----------|------|
+  | `git push` | ローカル → リモート |
+  | `git pull` | リモート → ローカル |
+
+  **注意点**：
+  - `git pull` 前にローカルの変更をコミットしておくとコンフリクトを防ぎやすい
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコマンドの空欄を埋めて、リモートリポジトリ（origin）の `main` ブランチの変更をローカルに取り込め。
+
+<CodeBlock>
+{`$ `}<BlankInput id="blank1" />
+</CodeBlock>

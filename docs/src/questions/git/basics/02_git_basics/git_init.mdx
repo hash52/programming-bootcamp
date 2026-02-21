@@ -1,0 +1,35 @@
+---
+id: "git/basics/02_git_basics#git_init"
+title: "リポジトリを作成できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "02_git_basics"
+category: "git/basics"
+fillInBlankAnswers:
+  blank1: ["git init"]
+sampleAnswer: "git init"
+explanation: |
+  `git init` は、カレントディレクトリをGitリポジトリとして初期化するコマンドである。
+
+  実行すると `.git` ディレクトリが作成され、Gitがそのディレクトリの変更履歴を管理できるようになる。
+
+  ```bash
+  git init
+  # → Initialized empty Git repository in /path/to/project/.git/
+  ```
+
+  **注意点**：
+  - `git init` は一度だけ実行すればよい。プロジェクト作成時に1回実行する
+  - すでに `.git` が存在するディレクトリで実行しても問題ないが、通常は不要
+  - `.git` ディレクトリを削除するとGitの管理対象外になる（履歴も消える）
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコマンドの空欄を埋めて、カレントディレクトリをGitリポジトリとして初期化せよ。
+
+<CodeBlock>
+{`$ `}<BlankInput id="blank1" />
+</CodeBlock>

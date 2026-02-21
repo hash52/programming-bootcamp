@@ -1,0 +1,41 @@
+---
+id: "git/basics/04_undo_restore#git_restore_staged"
+title: "ステージの取り消しができる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_undo_restore"
+category: "git/basics"
+fillInBlankAnswers:
+  blank1: ["git restore --staged"]
+sampleAnswer: "git restore --staged Main.java"
+explanation: |
+  `git restore --staged ファイル名` は、`git add` でステージに追加したファイルをステージから取り除くコマンドである。
+
+  **ポイント**：
+  - ファイルの変更内容は保持される（変更を消すわけではない）
+  - ステージングエリアから取り除くだけであり、作業ディレクトリのファイルは変わらない
+
+  ```bash
+  git add Main.java          # ステージに追加
+  git restore --staged Main.java  # ステージから取り除く（変更は残る）
+  git status                 # Changes not staged for commit: に戻っている
+  ```
+
+  **使いどころ**：
+  - `git add .` で余分なファイルまでステージに追加してしまったとき
+  - コミット前に「このファイルは今回含めたくない」と気づいたとき
+
+  **ファイルへの影響**：
+  - `git restore Main.java` → ファイルの変更が消える（注意が必要）
+  - `git restore --staged Main.java` → ファイルの変更は残る（安全）
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`git add` でステージに追加した `Main.java` をステージから取り除くコマンドの空欄を埋めよ。
+
+<CodeBlock>
+{`$ `}<BlankInput id="blank1" />{` Main.java`}
+</CodeBlock>

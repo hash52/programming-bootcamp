@@ -1,0 +1,50 @@
+---
+id: "git/basics/04_undo_restore#git_log_show"
+title: "過去のコミットを確認できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "04_undo_restore"
+category: "git/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "git log --oneline でコミット一覧を確認し、git show コミットID で詳細を確認する"
+  - id: "B"
+    text: "git status でコミット一覧を確認し、git diff でコミットの詳細を確認する"
+  - id: "C"
+    text: "git history でコミット一覧を確認し、git detail でコミットの詳細を確認する"
+  - id: "D"
+    text: "git log --all でコミットの詳細を含めて表示する"
+answers:
+  correct: ["A"]
+explanation: |
+  過去のコミットを確認する際は、`git log` と `git show` を組み合わせて使う。
+
+  **ステップ1: コミット一覧を確認**
+  ```bash
+  git log --oneline
+  # a1b2c3d (HEAD -> main) ログイン機能を追加
+  # d4e5f6a Calculator.javaを追加
+  # f7a8b9c 最初のコミット
+  ```
+
+  **ステップ2: 特定のコミットの詳細を確認**
+  ```bash
+  git show d4e5f6a
+  # commit d4e5f6a...
+  # Author: 山田太郎 <yamada@example.com>
+  # Date:   ...
+  #
+  #     Calculator.javaを追加
+  #
+  # diff --git a/Calculator.java b/Calculator.java
+  # +public class Calculator { ... }
+  ```
+
+  **コミットIDの使い方**：
+  - コミットIDは最初の7文字程度で指定できる
+  - `git revert`, `git show`, `git checkout` などにコミットIDを使う
+---
+
+過去のコミット内容を調べる正しい方法を選べ。

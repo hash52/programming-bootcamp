@@ -1,0 +1,85 @@
+---
+id: "git/teamwork/07_issue_team_practice#team_practice"
+title: "ペアでIssue駆動の開発を実践できる"
+type: "WRITE"
+difficulty: "Hard"
+format: "freeText"
+topicId: "07_issue_team_practice"
+category: "git/teamwork"
+sampleAnswer: |
+  # ペアで実施した手順（Aさん視点）
+
+  ## 1. Issue作成（GitHubのWebUI）
+  タイトル: "Greeter.javaにあいさつメソッドを追加する"
+  説明: "Greeter.javaを作成し、名前を受け取ってあいさつ文を返すgreet()メソッドを実装する"
+  Assignees: Aさん
+
+  ## 2. ブランチ作成
+  git switch -c feature/3-add-greeter
+  # Issue番号 #3 をブランチ名に含めた
+
+  ## 3. 実装・コミット
+  # Greeter.java を作成
+  git add Greeter.java
+  git commit -m "feat: Greeter.javaにgreet()メソッドを追加"
+
+  ## 4. GitHubにpush
+  git push origin feature/3-add-greeter
+
+  ## 5. PR作成（GitHubのWebUI）
+  タイトル: "Greeter.javaを追加"
+  説明:
+  ## 変更内容
+  - Greeter.javaを新規作成
+  - greet(String name)メソッドを実装
+
+  Closes #3
+
+  ## 6. レビュー（Bさんの操作）
+  Files changedでコードを確認 → コメント追加 → Approve
+
+  ## 7. マージ（Aさんの操作）
+  Merge pull request をクリック
+  → Issue #3 が自動クローズされることを確認
+
+  ## 8. ローカル同期
+  git switch main
+  git pull origin main
+  git branch -d feature/3-add-greeter
+explanation: |
+  Issue駆動開発 + PRベース開発の組み合わせは、チーム開発の標準的なフローである。
+
+  **フロー全体の確認**：
+  ```
+  Issue作成 → ブランチ作成 → 実装 → push → PR作成
+    → レビュー → マージ → Issue自動クローズ → ローカル同期
+  ```
+
+  **この演習で習得すること**：
+  1. Issueで作業のスコープを明確にする習慣
+  2. ブランチ名にIssue番号を含めて追跡しやすくする
+  3. PRでコードレビューの体験をする
+  4. `Closes #番号` でIssueとPRを紐づける
+
+  **役割交代の重要性**：
+  - AさんがPR作成者・Bさんがレビュワーでやったら、次はBさんがPR作成者・Aさんがレビュワーで行う
+  - 両方の立場を体験することで、レビューの視点が身につく
+
+  **振り返り観点**：
+  - コミットメッセージは変更内容を正確に表しているか
+  - PRの説明文でレビュワーが変更内容を理解できるか
+  - IssueとPRが正しく紐づいているか
+---
+
+ペアで以下の手順を分担して実施し、全フローを通して記述せよ。
+
+1. **Aさん**: GitHubにIssueを作成する（例：「Greeter.javaにあいさつメソッドを追加する」）
+2. **Aさん**: Issue番号を含むブランチ名（例：`feature/1-add-greeter`）でブランチを作成する
+3. **Aさん**: `Greeter.java` を実装し、Conventional Commitsの規約に従ってコミットする
+4. **Aさん**: GitHubにpushしてPRを作成する（説明文に `Closes #番号` を含める）
+5. **Bさん**: PRのコードをレビューし、コメントまたはApproveする
+6. **Aさん**: PRをマージし、Issueが自動クローズされることを確認する
+7. **両者**: ローカルの `main` を `git pull` で同期し、featureブランチを削除する
+8. **役割を交代**して、別の機能（例：「Calculator.javaに引き算メソッドを追加」）で同じフローを繰り返す
+
+各手順で実行したコマンドとGitHub上での操作を、時系列でまとめて記述せよ。

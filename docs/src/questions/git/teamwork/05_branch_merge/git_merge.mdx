@@ -1,0 +1,46 @@
+---
+id: "git/teamwork/05_branch_merge#git_merge"
+title: "ブランチをマージできる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "05_branch_merge"
+category: "git/teamwork"
+fillInBlankAnswers:
+  blank1: ["git switch main"]
+  blank2: ["git merge feature/login"]
+sampleAnswer: |
+  git switch main
+  git merge feature/login
+explanation: |
+  ブランチをマージするには、取り込み先のブランチ（`main`）に移動してから `git merge` を実行する。
+
+  ```bash
+  git switch main              # mainブランチに切り替える
+  git merge feature/login      # feature/loginをmainに取り込む
+  # Fast-forward または Merge commit が作成される
+  ```
+
+  **マージの種類**：
+  - **Fast-forward**: `main` が分岐以降変更されていない場合。ポインタが移動するだけ（マージコミットなし）
+  - **Merge commit**: 両ブランチで変更がある場合。マージコミットが作成される
+
+  **マージ後の後処理**：
+  ```bash
+  git branch -d feature/login   # マージ済みのブランチを削除
+  git push origin main          # リモートに反映
+  ```
+
+  **注意点**：
+  - マージ先（`main`）にいることを確認してから `git merge` を実行する
+  - `git status` や `git branch` で現在のブランチを確認するとよい
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`feature/login` ブランチの変更を `main` ブランチに取り込む手順の空欄を埋めよ。
+
+<CodeBlock>
+{`$ `}<BlankInput id="blank1" />{`\n$ `}<BlankInput id="blank2" />
+</CodeBlock>

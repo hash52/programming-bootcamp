@@ -1,3 +1,5 @@
+import { QuestionList } from "@site/src/components/question/QuestionList";
+
 # 変更の取り消しとバージョンの復元
 
 この章で得られるスキル：
@@ -435,3 +437,11 @@ git show e4f5g6h
 ### Q5: git revert の後、revert自体を取り消したくなった場合はどうすればよいか？
 
 **A:** revert コミット自体をさらに `git revert` すればよい。revertは通常のコミットなので、それを再びrevertすることで元の変更が復活する。
+
+---
+
+## 練習問題
+
+この章の内容を理解できたか確認しよう。
+
+<QuestionList topicId="04_undo_restore" category="git/basics" />

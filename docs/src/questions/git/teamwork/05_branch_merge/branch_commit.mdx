@@ -1,0 +1,44 @@
+---
+id: "git/teamwork/05_branch_merge#branch_commit"
+title: "ブランチ上で作業してコミットできる"
+type: "WRITE"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "05_branch_merge"
+category: "git/teamwork"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "コミットはカレントブランチにのみ記録され、他のブランチには影響しない"
+  - id: "B"
+    text: "コミットは全ブランチに同時に記録される"
+  - id: "C"
+    text: "featureブランチでのコミットは、自動的にmainブランチにも反映される"
+  - id: "D"
+    text: "ブランチを切り替えると、前のブランチのコミットが消える"
+answers:
+  correct: ["A"]
+explanation: |
+  ブランチ上でのコミットは、**カレントブランチにのみ記録**される。他のブランチには影響しない。
+
+  **確認方法**：
+  ```bash
+  git switch -c feature/login   # feature/loginブランチを作成・切り替え
+  # Login.java を作成・編集
+  git add Login.java
+  git commit -m "ログイン画面を追加"
+
+  git switch main               # mainブランチに戻る
+  ls                            # Login.javaが見えない（mainには影響していない）
+
+  git switch feature/login      # feature/loginに戻る
+  ls                            # Login.javaが見える
+  ```
+
+  **ブランチの独立性**：
+  - ブランチを切り替えると、作業ディレクトリの内容もそのブランチの状態に切り替わる
+  - `feature` ブランチでの変更は、`main` にマージするまで `main` には反映されない
+  - これによってチームメンバーが互いの作業を妨げずに開発できる
+---
+
+`feature/login` ブランチでコミットした場合、そのコミットはどこに記録されるか。正しいものを選べ。

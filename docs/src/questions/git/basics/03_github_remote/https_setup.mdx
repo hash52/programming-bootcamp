@@ -1,0 +1,44 @@
+---
+id: "git/basics/03_github_remote#https_setup"
+title: "HTTPS接続を設定できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "03_github_remote"
+category: "git/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "GitHubのSettings → Developer settings → Personal access tokens でトークンを生成し、git push 時のパスワードとして使用する"
+  - id: "B"
+    text: "GitHubのパスワードをそのまま git push 時のパスワードとして使用する"
+  - id: "C"
+    text: "HTTPS接続のためにSSH鍵を生成する必要がある"
+  - id: "D"
+    text: "git config --global http.password コマンドでパスワードを設定する"
+answers:
+  correct: ["A"]
+explanation: |
+  GitHubのHTTPS接続には、**Personal Access Token（PAT）** を使用する。
+
+  GitHubは2021年8月以降、パスワード認証を廃止した。代わりにPATを使う。
+
+  **PATの生成手順**：
+  1. GitHub右上のアイコン → Settings
+  2. 左メニュー最下部「Developer settings」
+  3. Personal access tokens → Tokens (classic) → Generate new token
+  4. Note（説明）を入力し、`repo` スコープにチェック
+  5. 「Generate token」でトークンを生成（一度しか表示されないため必ずコピーする）
+
+  **使い方**：
+  ```bash
+  git push origin main
+  # Username: GitHubのユーザー名
+  # Password: 生成したPAT（パスワードではない）
+  ```
+
+  **便利な設定**：
+  macOSではキーチェーンに保存されるため、2回目以降の入力が不要になる。
+---
+
+GitHubへのHTTPS接続で認証する正しい方法を選べ。

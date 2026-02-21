@@ -1,0 +1,43 @@
+---
+id: "git/teamwork/05_branch_merge#branch_switch"
+title: "ブランチを作成・切り替えできる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "05_branch_merge"
+category: "git/teamwork"
+fillInBlankAnswers:
+  blank1: ["git switch -c feature/login"]
+sampleAnswer: "git switch -c feature/login"
+explanation: |
+  `git switch -c ブランチ名` は、新しいブランチを作成して同時に切り替えるコマンドである。
+
+  - `-c` オプション: create（新規作成）の意味
+
+  ```bash
+  git switch -c feature/login
+  # Switched to a new branch 'feature/login'
+  ```
+
+  **ブランチ操作のコマンド一覧**：
+  ```bash
+  git switch -c feature/login  # 作成 + 切り替え
+  git switch main              # 既存ブランチへの切り替え
+  git branch                   # ブランチ一覧表示（現在のブランチに*）
+  git branch -d feature/login  # ブランチを削除（マージ済みのもの）
+  ```
+
+  **命名規則の例**：
+  - `feature/ログイン機能` ではなく英語で `feature/login` とする
+  - `fix/null-pointer-error` のように修正内容を表す名前にする
+  - チームで命名規則を統一するとよい
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコマンドの空欄を埋めて、`feature/login` という名前の新しいブランチを作成して切り替えよ。
+
+<CodeBlock>
+{`$ `}<BlankInput id="blank1" />
+</CodeBlock>

@@ -1,0 +1,46 @@
+---
+id: "git/basics/02_git_basics#git_log"
+title: "履歴を確認できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_git_basics"
+category: "git/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "git log"
+  - id: "B"
+    text: "git history"
+  - id: "C"
+    text: "git show"
+  - id: "D"
+    text: "git status"
+answers:
+  correct: ["A"]
+explanation: |
+  コミット履歴を一覧表示するコマンドは `git log` である。
+
+  ```bash
+  $ git log
+  commit a1b2c3d4e5f6... (HEAD -> main)
+  Author: 山田太郎 <yamada@example.com>
+  Date:   Mon Feb 21 10:00:00 2026 +0900
+
+      ログイン機能を追加
+  ```
+
+  **よく使うオプション**：
+  ```bash
+  git log --oneline          # 1行で簡潔に表示
+  git log --oneline --graph  # ブランチの分岐をグラフ表示
+  git log -n 5               # 直近5件のみ表示
+  ```
+
+  **各選択肢の説明**：
+  - `git history` — そのようなコマンドは存在しない
+  - `git show` — 特定のコミットの詳細を表示するコマンド（履歴の一覧ではない）
+  - `git status` — 現在の作業ディレクトリとステージの状態を表示する
+---
+
+コミット履歴を一覧表示するコマンドとして正しいものを選べ。

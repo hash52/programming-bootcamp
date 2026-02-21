@@ -1,0 +1,58 @@
+---
+id: "git/teamwork/05_branch_merge#branch_practice"
+title: "featureブランチで機能追加しmainにマージできる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "05_branch_merge"
+category: "git/teamwork"
+sampleAnswer: |
+  # 手順例
+
+  # 1. mainブランチから feature ブランチを作成
+  git switch -c feature/calculator
+
+  # 2. 新機能を実装してコミット
+  # Calculator.java を作成
+  git add Calculator.java
+  git commit -m "Calculator.javaを追加"
+
+  # 3. mainブランチに戻ってマージ
+  git switch main
+  git merge feature/calculator
+
+  # 4. featureブランチを削除
+  git branch -d feature/calculator
+
+  # 5. 履歴を確認
+  git log --oneline --graph
+explanation: |
+  featureブランチを使った開発フローは以下の通りである。
+
+  **フローの全体像**：
+  ```
+  git switch -c feature/xxx  →  開発・コミット  →  git switch main  →  git merge
+  ```
+
+  **各ステップの確認方法**：
+  - ブランチ確認: `git branch`
+  - 現在のブランチ確認: `git status`（1行目に表示）
+  - マージ後の確認: `git log --oneline --graph`
+
+  **よくある失敗**：
+  - `main` ブランチに戻らずに `git merge` を実行する → マージ先が間違う
+  - featureブランチを削除しないまま放置 → ブランチが溜まっていく
+
+  **コンフリクトが発生した場合**：
+  1. `git status` でコンフリクトファイルを確認
+  2. ファイルを開いてマーカーを修正
+  3. `git add` → `git commit` でマージを完了
+---
+
+以下の手順を実施し、コマンドの実行記録を記述せよ。
+
+1. `main` ブランチから `feature/calculator` という名前のブランチを作成・切り替えする
+2. `Calculator.java` を作成し、足し算メソッドを実装してコミットする
+3. `main` ブランチに切り替えて、`feature/calculator` をマージする
+4. マージ済みの `feature/calculator` ブランチを削除する
+5. `git log --oneline --graph` でコミット履歴を確認する

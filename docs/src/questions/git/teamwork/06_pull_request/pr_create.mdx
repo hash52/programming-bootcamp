@@ -1,0 +1,44 @@
+---
+id: "git/teamwork/06_pull_request#pr_create"
+title: "PRを作成できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "06_pull_request"
+category: "git/teamwork"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "featureブランチをGitHubにpushし、GitHubのPull requestsタブから「New pull request」で作成する"
+  - id: "B"
+    text: "git pull-request コマンドをターミナルで実行して作成する"
+  - id: "C"
+    text: "git merge コマンドを実行するとPRが自動的に作成される"
+  - id: "D"
+    text: "mainブランチをpushするとPRが自動的に作成される"
+answers:
+  correct: ["A"]
+explanation: |
+  PRを作成する手順は以下の通りである。
+
+  **ステップ1: featureブランチをGitHubにpush**
+  ```bash
+  git push origin feature/login
+  ```
+
+  **ステップ2: GitHubでPRを作成**
+  1. GitHubのリポジトリページを開く
+  2. 「Pull requests」タブをクリック
+  3. 「New pull request」ボタンをクリック
+  4. base（マージ先）: `main`、compare（マージ元）: `feature/login` を選択
+  5. タイトルと説明文を入力する
+  6. 「Create pull request」をクリック
+
+  **GitHubが表示するバナー**：
+  pushした直後にGitHubのリポジトリページを開くと、「Compare & pull request」という緑のバナーが表示されることが多い。これをクリックすると手順2〜6がショートカットできる。
+
+  **レビュワーの指定**：
+  PRを作成する際に「Reviewers」でレビューしてほしい人を指定できる。
+---
+
+GitHubでPull Requestを作成する正しい手順を選べ。

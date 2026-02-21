@@ -1,0 +1,50 @@
+---
+id: "git/teamwork/06_pull_request#pr_description"
+title: "PRの説明文を適切に書ける"
+type: "WRITE"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "06_pull_request"
+category: "git/teamwork"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "変更の目的・変更内容の概要・テスト方法・関連するIssue番号を含める"
+  - id: "B"
+    text: "タイトルだけ書けば、説明文は空でよい"
+  - id: "C"
+    text: "変更したコードをすべてコピーして説明文に貼り付ける"
+  - id: "D"
+    text: "説明文は日本語ではなく英語で書かなければならない"
+answers:
+  correct: ["A"]
+explanation: |
+  良いPR説明文には以下の情報を含めることが推奨される。
+
+  **PR説明文のテンプレート**：
+  ```markdown
+  ## 変更の概要
+  ログイン機能を実装しました。
+
+  ## 変更内容
+  - Login.java: ログインフォームのバリデーション追加
+  - UserService.java: 認証ロジックの実装
+
+  ## テスト方法
+  1. アプリを起動する
+  2. /login にアクセスする
+  3. 正しいID/パスワードでログインできることを確認する
+
+  ## 関連Issue
+  Closes #12
+  ```
+
+  **良いPR説明文のポイント**：
+  - **レビュワーの時間を大切にする**: 何をなぜ変更したかが一目でわかるように書く
+  - **テスト方法を明記する**: レビュワーが動作確認できるよう手順を書く
+  - **関連するIssueを紐づける**: `Closes #番号` でマージ時にIssueを自動クローズできる
+
+  PRの説明が充実しているほどレビューがスムーズになり、チーム全体の生産性が上がる。
+---
+
+Pull Requestの説明文に含めるべき内容として最も適切なものを選べ。

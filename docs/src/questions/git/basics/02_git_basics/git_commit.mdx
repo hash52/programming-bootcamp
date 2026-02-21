@@ -1,0 +1,39 @@
+---
+id: "git/basics/02_git_basics#git_commit"
+title: "変更を記録できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "02_git_basics"
+category: "git/basics"
+fillInBlankAnswers:
+  blank1: ["git commit -m"]
+sampleAnswer: 'git commit -m "最初のコミット"'
+explanation: |
+  `git commit -m "メッセージ"` は、ステージに追加されたファイルの変更を履歴として記録するコマンドである。
+
+  `-m` オプションでコミットメッセージを指定する。
+
+  ```bash
+  git commit -m "最初のコミット"
+  # → [main (root-commit) a1b2c3d] 最初のコミット
+  ```
+
+  **良いコミットメッセージとは**：
+  - 「何を」「なぜ」変更したかを簡潔に書く
+  - 「修正した」「変更した」ではなく、具体的に書く
+  - 例：「ログイン機能を追加」「NullPointerExceptionを修正」
+
+  **注意点**：
+  - `git add` でステージに追加したファイルのみがコミットに含まれる
+  - `-m` を省略するとテキストエディタが開く（初心者には `git commit -m` が便利）
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコマンドの空欄を埋めて、「最初のコミット」というメッセージでコミットせよ。
+
+<CodeBlock>
+{`$ `}<BlankInput id="blank1" />{` "最初のコミット"`}
+</CodeBlock>

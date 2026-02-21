@@ -1,0 +1,47 @@
+---
+id: "git/basics/03_github_remote#git_clone"
+title: "既存リポジトリをクローンできる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_github_remote"
+category: "git/basics"
+fillInBlankAnswers:
+  blank1: ["git clone"]
+sampleAnswer: "git clone https://github.com/user/repo.git"
+explanation: |
+  `git clone URL` は、リモートリポジトリをローカルにコピーするコマンドである。
+
+  クローンを実行すると：
+  - リポジトリ名のディレクトリが自動作成される
+  - リモートリポジトリの全履歴がコピーされる
+  - `origin` というリモート名が自動設定される
+
+  ```bash
+  git clone https://github.com/user/repo.git
+  # Cloning into 'repo'...
+  # remote: Counting objects: 100, done.
+  ```
+
+  **git clone と git init の違い**：
+  | | git init | git clone |
+  |--|----------|-----------|
+  | 用途 | 新規リポジトリの作成 | 既存リポジトリのコピー |
+  | origin | 設定されない | 自動設定される |
+
+  **クローン後の作業**：
+  ```bash
+  cd repo          # クローンされたディレクトリに移動
+  git log          # 履歴を確認
+  git branch -a    # ブランチを確認
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコマンドの空欄を埋めて、GitHubのリポジトリをローカルにクローンせよ。
+
+<CodeBlock>
+{`$ `}<BlankInput id="blank1" />{` https://github.com/user/repo.git`}
+</CodeBlock>

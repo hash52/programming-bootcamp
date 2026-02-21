@@ -1,0 +1,46 @@
+---
+id: "git/teamwork/07_issue_team_practice#issue_driven"
+title: "Issue駆動開発の流れを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "07_issue_team_practice"
+category: "git/teamwork"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "Issue作成 → ブランチ作成 → 開発・コミット → PR作成 → レビュー → マージ → Issueクローズ"
+  - id: "B"
+    text: "ブランチ作成 → 開発・コミット → Issue作成 → PR作成 → マージ"
+  - id: "C"
+    text: "Issue作成 → mainブランチで直接開発 → コミット → Issueクローズ"
+  - id: "D"
+    text: "PR作成 → Issue作成 → 開発・コミット → マージ → Issueクローズ"
+answers:
+  correct: ["A"]
+explanation: |
+  **Issue駆動開発**（Issue-driven development）は、全ての作業をIssueで管理してから開発を進めるアプローチである。
+
+  **フロー全体**：
+  ```
+  1. Issue作成（何をするかを明確にする）
+  2. ブランチ作成（issue/#番号-機能名）
+  3. 開発・コミット
+  4. PR作成（Closes #番号 を説明文に含める）
+  5. コードレビュー → Approve
+  6. mainにマージ
+  7. Issueが自動クローズ（Closes #番号 の効果）
+  ```
+
+  **Issue駆動開発のメリット**：
+  - **作業の可視化**: チーム全員が「誰が何をやっているか」を把握できる
+  - **なぜを残す**: コードの変更理由がIssueとPRに記録される
+  - **優先度管理**: LabelやMilestoneでタスクの重要度を管理できる
+  - **レビューの基準**: Issueの要件を満たしているかでレビューの判断基準ができる
+
+  **ブランチ名の命名例**：
+  - Issue #5 の場合: `feature/5-login-function`
+  - Issue #12 の場合: `fix/12-null-pointer-error`
+---
+
+Issue駆動開発の正しいフローを選べ。

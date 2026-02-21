@@ -1,0 +1,46 @@
+---
+id: "git/teamwork/05_branch_merge#conflict_resolve"
+title: "マージコンフリクトを解決できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "05_branch_merge"
+category: "git/teamwork"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "コンフリクトマーカーを手動で編集して解決し、git add → git commit を実行する"
+  - id: "B"
+    text: "git revert を実行するとコンフリクトが自動解決される"
+  - id: "C"
+    text: "コンフリクトが起きたら git merge を再実行すると自動解決される"
+  - id: "D"
+    text: "コンフリクトが起きたら、ブランチを削除して最初からやり直す必要がある"
+answers:
+  correct: ["A"]
+explanation: |
+  コンフリクト（競合）は、同じ箇所が複数のブランチで別々に変更されたときに発生する。
+
+  **コンフリクトマーカーの見方**：
+  ```
+  <<<<<<< HEAD（現在のブランチ）
+  int result = a + b;
+  =======
+  int result = a * b;
+  >>>>>>> feature/calculator（マージするブランチ）
+  ```
+
+  **解決手順**：
+  1. コンフリクトが発生したファイルを開く（`git status` で確認）
+  2. マーカー（`<<<<<<<`, `=======`, `>>>>>>>`）を見つける
+  3. 残したいコードを選択し、マーカーを含む不要な行を削除する
+  4. ファイルを保存する
+  5. `git add ファイル名` でステージに追加する
+  6. `git commit` でマージを完了させる
+
+  **コンフリクトを防ぐ方法**：
+  - こまめに `git pull` してリモートの変更を取り込む
+  - 同じファイルの同じ箇所を複数人が変更しないよう作業を分担する
+---
+
+マージコンフリクトが発生した場合の解決手順として正しいものを選べ。

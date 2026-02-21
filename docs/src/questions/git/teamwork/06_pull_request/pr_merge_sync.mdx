@@ -1,0 +1,44 @@
+---
+id: "git/teamwork/06_pull_request#pr_merge_sync"
+title: "PRマージ後にローカルを同期できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "06_pull_request"
+category: "git/teamwork"
+fillInBlankAnswers:
+  blank1: ["git switch main"]
+  blank2: ["git pull origin main"]
+sampleAnswer: |
+  git switch main
+  git pull origin main
+explanation: |
+  GitHubでPRがマージされた後、ローカルの `main` ブランチを最新の状態に更新する手順は以下の通りである。
+
+  ```bash
+  git switch main          # mainブランチに切り替える
+  git pull origin main     # リモートのmainを取り込む
+  ```
+
+  **なぜこの手順が必要か**：
+  - GitHubでPRをマージしても、ローカルの `main` は自動では更新されない
+  - `git pull` を実行して初めてローカルにマージ内容が反映される
+
+  **その後の後処理**：
+  ```bash
+  git branch -d feature/login   # マージ済みのfeatureブランチを削除
+  ```
+
+  **チーム開発での活用**：
+  - 自分のPRがマージされた後は必ず `git switch main && git pull` を実行する
+  - 次のfeatureブランチは最新の `main` から作成する（`git switch -c feature/次の機能`）
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+GitHubでPRがマージされた後、ローカルの `main` を最新状態に更新する手順の空欄を埋めよ。
+
+<CodeBlock>
+{`$ `}<BlankInput id="blank1" />{`\n$ `}<BlankInput id="blank2" />
+</CodeBlock>

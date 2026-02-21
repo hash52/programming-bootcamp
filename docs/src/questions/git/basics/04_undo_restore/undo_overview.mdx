@@ -1,0 +1,38 @@
+---
+id: "git/basics/04_undo_restore#undo_overview"
+title: "取り消し操作の全体像を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "04_undo_restore"
+category: "git/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "git restore はワークツリーの変更を取り消し、git restore --staged はステージを取り消し、git revert はコミットを安全に取り消す"
+  - id: "B"
+    text: "git restore はコミット済みの変更を取り消し、git revert はステージの変更を取り消す"
+  - id: "C"
+    text: "git restore --staged はファイルを削除し、git revert はファイルを作成する"
+  - id: "D"
+    text: "git restore と git revert は同じ操作を指す別名のコマンドである"
+answers:
+  correct: ["A"]
+explanation: |
+  Gitの取り消しコマンドは、対象の状態によって使い分ける。
+
+  | コマンド | 対象 | 説明 |
+  |----------|------|------|
+  | `git restore ファイル名` | 作業ディレクトリ | `git add` 前の変更を取り消す。元に戻すと復元不可 |
+  | `git restore --staged ファイル名` | ステージ | `git add` をなかったことにする（ファイル自体は変更したまま） |
+  | `git revert コミットID` | コミット履歴 | 特定コミットを取り消す「打ち消しコミット」を作成する |
+
+  **使い分けの目安**：
+  1. まだ `git add` していない変更を取り消したい → `git restore`
+  2. `git add` した後でステージを取り消したい → `git restore --staged`
+  3. すでにコミットした内容を取り消したい → `git revert`
+
+  **注意**：`git restore` でワークツリーの変更を取り消すと、その内容は**復元できない**。
+---
+
+Gitの取り消しコマンドの組み合わせとして正しいものを選べ。

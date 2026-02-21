@@ -1,0 +1,44 @@
+---
+id: "git/basics/01_version_control#git_config"
+title: "Gitの初期設定ができる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "01_version_control"
+category: "git/basics"
+fillInBlankAnswers:
+  blank1: ["git config --global user.name"]
+  blank2: ["git config --global user.email"]
+sampleAnswer: |
+  git config --global user.name "山田太郎"
+  git config --global user.email "yamada@example.com"
+explanation: |
+  `git config` コマンドは、Gitの設定を変更するコマンドである。
+
+  `--global` オプションを付けると、そのPCのすべてのリポジトリに共通の設定になる。
+
+  ```bash
+  git config --global user.name "名前"
+  git config --global user.email "メールアドレス"
+  ```
+
+  **設定の確認方法**：
+  ```bash
+  git config --list           # 全設定を一覧表示
+  git config user.name        # user.nameの値だけ確認
+  ```
+
+  **なぜ設定が必要か**：
+  - コミットには「誰が変更したか」という情報が記録される
+  - `user.name` と `user.email` を設定しないと、GitHubのコミット履歴に正しく紐づかない
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+Gitの初期設定として、ユーザー名とメールアドレスを設定するコマンドの空欄を埋めよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{` "山田太郎"`}
+{`$ `}<BlankInput id="blank2" />{` "yamada@example.com"`}
+</CodeBlock>

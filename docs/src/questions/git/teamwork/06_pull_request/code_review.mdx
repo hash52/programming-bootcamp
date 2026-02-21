@@ -1,0 +1,43 @@
+---
+id: "git/teamwork/06_pull_request#code_review"
+title: "コードレビューができる"
+type: "WRITE"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "06_pull_request"
+category: "git/teamwork"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "変更点を確認し、問題があればコメントし、問題なければApproveしてマージを承認する"
+  - id: "B"
+    text: "レビュワーはコードを変更できないため、コメントを書いてもPRの作成者が対応するかは任意である"
+  - id: "C"
+    text: "コードレビューはリポジトリのオーナーのみが実施できる"
+  - id: "D"
+    text: "Approveを押すと、自動的にmainブランチにマージされる"
+answers:
+  correct: ["A"]
+explanation: |
+  コードレビューの一般的な流れは以下の通りである。
+
+  **レビューの手順**：
+  1. PRの「Files changed」タブで変更内容を確認する
+  2. 気になる行の左にある「+」アイコンでコメントを追加する
+  3. 全体を確認したら「Review changes」ボタンをクリック
+  4. **Comment**: 意見・提案のみ（マージを止めない）
+  5. **Approve**: 承認（マージOK）
+  6. **Request changes**: 修正を要求（承認なしにはマージできない設定も可能）
+
+  **良いレビューコメントの書き方**：
+  - 「このコードは間違い」ではなく「〜のような問題が起きる可能性があります。〜に変更してはいかがでしょうか」
+  - 指摘だけでなく、改善案も提示する
+  - 良い点も積極的にコメントする（感謝・称賛）
+
+  **コードレビューの目的**：
+  - バグの早期発見
+  - コードの品質向上
+  - チームへの知識共有
+---
+
+GitHubのPull Requestでコードレビューを行う際の正しい説明を選べ。

@@ -1,0 +1,39 @@
+---
+id: "git/basics/03_github_remote#git_push"
+title: "ローカルの変更をリモートに送れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_github_remote"
+category: "git/basics"
+fillInBlankAnswers:
+  blank1: ["git push origin main"]
+sampleAnswer: "git push origin main"
+explanation: |
+  `git push origin main` は、ローカルの `main` ブランチをリモートリポジトリ（origin）に送信するコマンドである。
+
+  - **origin**: リモートリポジトリの別名（`git remote add origin URL` で登録したURL）
+  - **main**: 送信するブランチ名
+
+  **初回のpush**：
+  ```bash
+  git push -u origin main
+  ```
+  `-u` オプションを付けると、以降は `git push` だけで同じリモートへ送れるようになる。
+
+  **よくあるエラー**：
+  - `rejected`: リモートに自分のローカルにない変更がある → `git pull` してからpushする
+  - `Permission denied`: 認証情報が間違っている → PATを確認する
+
+  **pushの流れ**：
+  ローカルリポジトリ → `git push` → リモートリポジトリ（GitHub）
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコマンドの空欄を埋めて、ローカルの `main` ブランチをリモートリポジトリ（origin）に送信せよ。
+
+<CodeBlock>
+{`$ `}<BlankInput id="blank1" />
+</CodeBlock>

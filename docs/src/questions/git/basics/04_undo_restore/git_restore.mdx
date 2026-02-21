@@ -1,0 +1,43 @@
+---
+id: "git/basics/04_undo_restore#git_restore"
+title: "作業ディレクトリの変更を元に戻せる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_undo_restore"
+category: "git/basics"
+fillInBlankAnswers:
+  blank1: ["git restore"]
+sampleAnswer: "git restore Main.java"
+explanation: |
+  `git restore ファイル名` は、作業ディレクトリ（ワークツリー）のファイルを最後のコミット時の状態に戻すコマンドである。
+
+  ```bash
+  git restore Main.java
+  # Main.javaの変更が取り消され、最後のコミット時の状態に戻る
+  ```
+
+  **重要な注意点**：
+  - `git restore` で取り消した変更は **復元できない**
+  - `git add` 前の変更のみが対象（`git add` 後の取り消しは `git restore --staged` を使う）
+
+  **実行前の確認**：
+  ```bash
+  git diff Main.java    # 変更内容を確認してから取り消す
+  git restore Main.java # 実行（取り消し後は戻せない）
+  ```
+
+  **全ファイルを一括で取り消す場合**：
+  ```bash
+  git restore .    # カレントディレクトリ以下の全変更を取り消す
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコマンドの空欄を埋めて、`Main.java` の変更を取り消し、最後のコミット時の状態に戻せ。
+
+<CodeBlock>
+{`$ `}<BlankInput id="blank1" />{` Main.java`}
+</CodeBlock>

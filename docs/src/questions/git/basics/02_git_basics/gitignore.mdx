@@ -1,0 +1,47 @@
+---
+id: "git/basics/02_git_basics#gitignore"
+title: "管理対象外のファイルを設定できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "02_git_basics"
+category: "git/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "Gitのバージョン管理から除外したいファイルやディレクトリのパターンを記述するファイルである"
+  - id: "B"
+    text: "コミット時に自動で実行されるスクリプトを記述するファイルである"
+  - id: "C"
+    text: "リモートリポジトリのURLを記述するファイルである"
+  - id: "D"
+    text: "ユーザー名とメールアドレスなどのGit設定を記述するファイルである"
+answers:
+  correct: ["A"]
+explanation: |
+  `.gitignore` は、Gitのバージョン管理から除外したいファイルやディレクトリを指定するファイルである。
+
+  プロジェクトルートに `.gitignore` という名前で作成し、除外したいパターンを記述する。
+
+  ```
+  # コンパイル済みファイル
+  *.class
+  *.jar
+
+  # IDEの設定ファイル
+  .idea/
+  *.iml
+
+  # macOSのシステムファイル
+  .DS_Store
+  ```
+
+  **除外すべき代表的なファイル**：
+  - コンパイル済みファイル（`.class`, `.jar`）: 生成物であり、ソースコードから再生成できる
+  - IDE設定ファイル（`.idea/`, `.vscode/`）: 個人の環境設定を共有する必要はない
+  - パスワードや秘密鍵などの機密情報: 絶対にリポジトリに含めてはいけない
+
+  **確認方法**：`git status` でグリーンに表示されていれば `.gitignore` が正しく機能している
+---
+
+`.gitignore` ファイルの説明として正しいものを選べ。

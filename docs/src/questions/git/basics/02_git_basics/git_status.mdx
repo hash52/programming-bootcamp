@@ -1,0 +1,40 @@
+---
+id: "git/basics/02_git_basics#git_status"
+title: "ファイルの状態を確認できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "02_git_basics"
+category: "git/basics"
+fillInBlankAnswers:
+  blank1: ["git status"]
+sampleAnswer: "git status"
+explanation: |
+  `git status` は、リポジトリ内のファイルの現在の状態を確認するコマンドである。
+
+  以下の情報を表示する：
+  - **Untracked files（未追跡ファイル）**: Gitが管理していない新しいファイル
+  - **Changes not staged for commit**: 変更されたが `git add` されていないファイル
+  - **Changes to be committed**: `git add` 済み（ステージ済み）のファイル
+
+  ```bash
+  $ git status
+  On branch main
+  Untracked files:
+    (use "git add <file>..." to include in what will be committed)
+          Main.java
+  ```
+
+  **活用ポイント**：
+  - `git add` や `git commit` の前後に実行して状態を確認するのがよい習慣である
+  - コマンドを実行し過ぎても副作用はないため、不安なときはこまめに確認する
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコマンドの空欄を埋めて、リポジトリ内のファイルの状態を確認せよ。
+
+<CodeBlock>
+{`$ `}<BlankInput id="blank1" />
+</CodeBlock>

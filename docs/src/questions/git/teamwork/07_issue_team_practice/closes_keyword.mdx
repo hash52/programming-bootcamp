@@ -1,0 +1,45 @@
+---
+id: "git/teamwork/07_issue_team_practice#closes_keyword"
+title: "PRとIssueを紐づけられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "07_issue_team_practice"
+category: "git/teamwork"
+fillInBlankAnswers:
+  blank1: ["Closes #5", "Closes #5.", "closes #5", "Fix #5", "Fixes #5", "Resolve #5", "Resolves #5"]
+sampleAnswer: "Closes #5"
+explanation: |
+  PRの説明文に `Closes #番号` と書くと、そのPRが `main` にマージされた瞬間に、指定したIssueが自動的にクローズされる。
+
+  ```markdown
+  ## 変更内容
+  ログイン機能を実装しました。
+
+  Closes #5
+  ```
+
+  **使えるキーワード**（大文字・小文字不問）：
+  - `Closes #番号`
+  - `Fixes #番号`
+  - `Resolves #番号`
+
+  **紐づけの効果**：
+  1. PRページにIssueへのリンクが表示される
+  2. PRがマージされるとIssueが自動クローズされる
+  3. 「この変更はIssue #5に対応した作業だ」という履歴が残る
+
+  **複数のIssueを紐づける場合**：
+  ```markdown
+  Closes #5, Closes #8
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+PRの説明文に以下のように記載することで、Issue #5 とこのPRを紐づけ、マージ時に自動クローズされるようにせよ。空欄を埋めよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />
+</CodeBlock>

@@ -1,0 +1,49 @@
+---
+id: "git/basics/04_undo_restore#git_revert"
+title: "コミットを安全に取り消せる"
+type: "WRITE"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "04_undo_restore"
+category: "git/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "指定したコミットの変更を打ち消す新しいコミットを作成する"
+  - id: "B"
+    text: "指定したコミットを履歴から完全に削除する"
+  - id: "C"
+    text: "指定したコミットより後の全コミットを削除する"
+  - id: "D"
+    text: "指定したコミットをステージに戻す"
+answers:
+  correct: ["A"]
+explanation: |
+  `git revert コミットID` は、指定したコミットの変更内容を**打ち消す新しいコミット**を作成するコマンドである。
+
+  ```bash
+  git log --oneline
+  # a1b2c3d バグを混入させた変更
+  # d4e5f6a 前の正常なコミット
+
+  git revert a1b2c3d
+  # → "Revert 'バグを混入させた変更'" という新しいコミットが作成される
+  ```
+
+  **git revert の特徴**：
+  - 履歴が書き換わらない（既存のコミットを削除しない）
+  - 新しい「打ち消しコミット」が追加される
+  - チームでの共有リポジトリでも安全に使える
+
+  **git reset との違い**：
+  | | git revert | git reset |
+  |--|------------|-----------|
+  | 履歴への影響 | 削除しない | 削除する |
+  | チームでの使用 | 安全 | 危険（pushした後は使わない） |
+
+  **初心者へのアドバイス**：
+  - 共有リポジトリでコミットを取り消すときは `git revert` を使う
+  - `git reset` は履歴が消えるため、プッシュ済みのコミットには使わない
+---
+
+`git revert コミットID` の動作として正しいものを選べ。

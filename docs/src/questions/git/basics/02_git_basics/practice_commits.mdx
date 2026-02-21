@@ -1,0 +1,63 @@
+---
+id: "git/basics/02_git_basics#practice_commits"
+title: "Javaプロジェクトで複数のコミットを行える"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "02_git_basics"
+category: "git/basics"
+sampleAnswer: |
+  # 手順例
+  mkdir MyProject && cd MyProject
+  git init
+
+  # 1回目のコミット
+  # Main.java を作成してHello Worldを実装
+  git add Main.java
+  git commit -m "Main.javaを追加"
+
+  # 2回目のコミット
+  # Calculator.java を作成して足し算メソッドを実装
+  git add Calculator.java
+  git commit -m "Calculator.javaを追加"
+
+  # 3回目のコミット
+  # Calculator.javaに引き算メソッドを追加
+  git add Calculator.java
+  git commit -m "引き算メソッドを追加"
+
+  git log --oneline  # 3件のコミット履歴を確認
+explanation: |
+  複数のコミットを行う際は、論理的なまとまりごとにコミットすることが重要である。
+
+  **良いコミット粒度の目安**：
+  - 1つの機能追加 → 1コミット
+  - 1つのバグ修正 → 1コミット
+  - 複数の無関係な変更をまとめない
+
+  **コミットメッセージの書き方**：
+  ```
+  [種別] 変更内容の概要
+  例:
+  - "ログイン機能を追加"
+  - "NullPointerExceptionを修正"
+  - "リファクタリング: メソッドを分割"
+  ```
+
+  **コミット前のチェックリスト**：
+  1. `git status` でステージの状態を確認
+  2. `git diff --staged` でコミット予定の変更内容を確認
+  3. コミットメッセージが変更内容を正確に表しているか確認
+
+  小さく、意味のある単位でコミットすることで、バグの原因特定や変更の取り消しが容易になる。
+---
+
+以下の手順でJavaプロジェクトを作成し、3回以上のコミットを実施せよ。
+
+1. 新しいディレクトリを作成し `git init` でリポジトリを初期化する
+2. `Main.java` を作成して `git add` と `git commit` を行う
+3. 新たに `Calculator.java` を作成してコミットする
+4. `Calculator.java` にメソッドを追加してコミットする
+5. `git log --oneline` でコミット履歴を確認する
+
+コマンドの実行手順と、各コミットで使ったメッセージを記述せよ。

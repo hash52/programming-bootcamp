@@ -1,0 +1,52 @@
+---
+id: "git/teamwork/07_issue_team_practice#commit_convention"
+title: "コミットメッセージの規約を守れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "07_issue_team_practice"
+category: "git/teamwork"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "feat: ログイン機能を追加"
+  - id: "B"
+    text: "修正しました"
+  - id: "C"
+    text: "update"
+  - id: "D"
+    text: "コードを変更した"
+answers:
+  correct: ["A"]
+explanation: |
+  コミットメッセージの規約として広く使われているのが **Conventional Commits** である。
+
+  **フォーマット**：
+  ```
+  種別: 変更内容の概要
+  ```
+
+  **主な種別（prefix）**：
+  | 種別 | 説明 |
+  |------|------|
+  | `feat` | 新機能の追加 |
+  | `fix` | バグ修正 |
+  | `docs` | ドキュメントのみの変更 |
+  | `refactor` | リファクタリング（動作変更なし） |
+  | `test` | テストの追加・修正 |
+  | `chore` | ビルドプロセスや補助ツールの変更 |
+
+  **良いメッセージの例**：
+  - `feat: ユーザー登録機能を追加`
+  - `fix: ログイン時のNullPointerExceptionを修正`
+  - `docs: READMEにセットアップ手順を追加`
+
+  **悪いメッセージの例**（なぜ悪いか）：
+  - `修正しました` → 何を修正したか不明
+  - `update` → 英語1単語では情報が少なすぎる
+  - `コードを変更した` → 何のコードをなぜ変更したか不明
+
+  コミットメッセージは「未来の自分やチームへのメモ」である。後から変更理由を追えるよう具体的に書く。
+---
+
+コミットメッセージとして最も適切なものを選べ。

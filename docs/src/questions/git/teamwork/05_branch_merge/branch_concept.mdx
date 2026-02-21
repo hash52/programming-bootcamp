@@ -1,0 +1,44 @@
+---
+id: "git/teamwork/05_branch_merge#branch_concept"
+title: "ブランチの概念を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "05_branch_merge"
+category: "git/teamwork"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "コミット履歴を分岐させることで、複数の作業を並行して安全に進める仕組み"
+  - id: "B"
+    text: "コミット済みのファイルをバックアップするための仕組み"
+  - id: "C"
+    text: "リモートリポジトリとローカルリポジトリを同期させる仕組み"
+  - id: "D"
+    text: "コンフリクトを自動で解決するための仕組み"
+answers:
+  correct: ["A"]
+explanation: |
+  **ブランチ（branch）** は、コミット履歴を分岐させることで、複数の作業を安全に並行して進める仕組みである。
+
+  **ブランチを使う理由**：
+  - `main` ブランチを安定した状態に保ちながら、新機能の開発や修正を行える
+  - 複数のメンバーが互いの作業を妨げずに同時に開発できる
+  - 開発した機能を `main` にマージする前にレビューできる
+
+  **ブランチのイメージ**：
+  ```
+  main:    A --- B --- C
+                  \
+  feature:         D --- E
+  ```
+  - `feature` ブランチは `B` から分岐し、`D`・`E` という独自の変更を持つ
+  - `feature` での変更が `main` に影響しない
+
+  **代表的なブランチ**：
+  - `main` / `master`: 本番リリース用の安定ブランチ
+  - `feature/xxx`: 新機能開発用ブランチ
+  - `fix/xxx`: バグ修正用ブランチ
+---
+
+Gitのブランチの説明として最も適切なものを選べ。

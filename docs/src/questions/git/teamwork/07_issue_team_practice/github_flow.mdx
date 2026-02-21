@@ -1,0 +1,42 @@
+---
+id: "git/teamwork/07_issue_team_practice#github_flow"
+title: "GitHub Flowの全体像を説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "07_issue_team_practice"
+category: "git/teamwork"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "mainは常にデプロイ可能な状態を保ち、作業はfeatureブランチで行い、PRでレビューしてマージする"
+  - id: "B"
+    text: "developブランチ・releaseブランチ・hotfixブランチを使い分ける複雑なフロー"
+  - id: "C"
+    text: "全員が直接mainブランチにコミットして開発を進めるシンプルなフロー"
+  - id: "D"
+    text: "1人のリードエンジニアだけがmainブランチに変更を加えるフロー"
+answers:
+  correct: ["A"]
+explanation: |
+  **GitHub Flow** は、GitHubが推奨するシンプルなブランチ戦略である。
+
+  **6つのルール**：
+  1. **mainブランチは常にデプロイ可能な状態にする**
+  2. 新しい作業は説明的な名前のブランチを作成して行う
+  3. 定期的にリモートにpushする（バックアップ・共有目的）
+  4. PRを作成してレビューを依頼する
+  5. レビューが通ったらmainにマージする
+  6. mainにマージしたら即デプロイ（またはデプロイ可能状態にする）
+
+  **Git FlowとGitHub Flowの比較**：
+  | | GitHub Flow | Git Flow |
+  |--|-------------|----------|
+  | ブランチ数 | 少ない（main + feature） | 多い（main, develop, feature, release, hotfix） |
+  | リリース頻度 | 高い（継続的デプロイ） | 定期リリース向け |
+  | 複雑さ | シンプル | 複雑 |
+
+  初学者やスタートアップには **GitHub Flow** が適している。
+---
+
+GitHub Flowの説明として最も適切なものを選べ。

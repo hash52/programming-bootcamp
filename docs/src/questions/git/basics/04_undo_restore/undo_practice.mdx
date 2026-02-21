@@ -1,0 +1,44 @@
+---
+id: "git/basics/04_undo_restore#undo_practice"
+title: "各取り消し操作を状況に応じて使い分けられる"
+type: "WRITE"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "04_undo_restore"
+category: "git/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "git restore --staged Main.java を実行してステージから取り除く"
+  - id: "B"
+    text: "git restore Main.java を実行してファイルの変更を取り消す"
+  - id: "C"
+    text: "git revert を実行して打ち消しコミットを作成する"
+  - id: "D"
+    text: "git reset --hard を実行してコミットを削除する"
+answers:
+  correct: ["A"]
+explanation: |
+  この状況では `git restore --staged Main.java` が正しい選択である。
+
+  **状況の整理**：
+  - `Main.java` を変更し、`git add Main.java` を実行済み
+  - コミットはまだしていない
+  - 「やっぱりコミットに含めたくない」と気づいた
+
+  **各コマンドの適用場面**：
+
+  | コマンド | 適用場面 |
+  |----------|----------|
+  | `git restore Main.java` | `git add` 前の変更を取り消したい（ファイルの変更が消える） |
+  | `git restore --staged Main.java` | `git add` 後にステージから取り除きたい（ファイルの変更は残る） |
+  | `git revert コミットID` | コミット済みの内容を安全に取り消したい |
+  | `git reset --hard` | 複数のコミットをまとめて取り消したい（共有リポジトリでは危険） |
+
+  **この問題のポイント**：
+  - ファイルの変更は保持したい → `git restore Main.java` は不適（変更が消える）
+  - コミットはしていない → `git revert` は不適
+  - `git add` 済みをステージから取り除く → `git restore --staged` が正解
+---
+
+`Main.java` を変更して `git add` した後、「やっぱり今回のコミットには含めたくない（ただしファイルの変更は残したい）」と気づいた。次に実行すべきコマンドとして最も適切なものを選べ。

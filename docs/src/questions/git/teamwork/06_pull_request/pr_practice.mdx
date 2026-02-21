@@ -1,0 +1,70 @@
+---
+id: "git/teamwork/06_pull_request#pr_practice"
+title: "ペアでPRベースの開発を実践できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "06_pull_request"
+category: "git/teamwork"
+sampleAnswer: |
+  # Aさんの操作手順
+
+  # 1. featureブランチを作成して開発
+  git switch -c feature/greet
+  # Greeter.java を作成・実装
+  git add Greeter.java
+  git commit -m "Greeter.javaを追加"
+
+  # 2. GitHubにpush
+  git push origin feature/greet
+
+  # 3. GitHubでPRを作成（WebUI）
+  # base: main, compare: feature/greet
+  # タイトル: "Greeter.javaを追加"
+  # 説明文: 変更概要・テスト方法・関連Issue
+
+  # Bさんの操作手順
+
+  # 4. PRをレビュー（WebUI）
+  # Files changedで変更内容を確認
+  # コメントがあれば追加
+  # 問題なければApprove
+
+  # Aさんの操作手順
+
+  # 5. PRをマージ（WebUI）
+  # "Merge pull request" をクリック
+
+  # 6. ローカルを同期
+  git switch main
+  git pull origin main
+  git branch -d feature/greet
+explanation: |
+  PRベースの開発フローは、現代のチーム開発の標準的な進め方である。
+
+  **フロー全体のまとめ**：
+  ```
+  featureブランチ作成 → 開発・コミット → push → PR作成
+    → レビュー → 修正 → Approve → マージ → ローカル同期
+  ```
+
+  **ペア演習のポイント**：
+  - AさんとBさんで役割を分担する（PRの作成者とレビュワー）
+  - レビュワーは「Approve」だけでなく、コメントも追加してみる
+  - 一度やったら役割を交代して両方の立場を体験する
+
+  **このフローの利点**：
+  - `main` に直接コミットしないため、壊れたコードが混入しにくい
+  - PRで変更の履歴と議論が残り、後から変更の意図を追える
+  - コードレビューによって品質が向上し、メンバー同士で学び合える
+---
+
+ペアで以下の手順を実施し、PR作成からマージまでの操作を記述せよ。
+
+1. Aさんが `feature/greet` ブランチを作成し、`Greeter.java` を実装してコミットする
+2. Aさんが GitHubに push してPRを作成する（タイトル・説明文を書く）
+3. BさんがPRの「Files changed」でコードを確認し、コメントまたはApproveを行う
+4. AさんがPRをマージする
+5. Aさんがローカルの `main` を `git pull` で同期し、featureブランチを削除する
+
+各手順で実行したコマンドとGitHub上での操作をまとめて記述せよ。

@@ -1,0 +1,38 @@
+---
+id: "git/basics/02_git_basics#git_diff"
+title: "変更内容を確認できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "02_git_basics"
+category: "git/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "git diff はステージに追加していない変更を、git diff --staged はステージ済みの変更を表示する"
+  - id: "B"
+    text: "git diff はコミット済みの変更を、git diff --staged は未保存の変更を表示する"
+  - id: "C"
+    text: "git diff と git diff --staged は同じ内容を表示する"
+  - id: "D"
+    text: "git diff はステージ済みの変更を、git diff --staged はステージに追加していない変更を表示する"
+answers:
+  correct: ["A"]
+explanation: |
+  `git diff` と `git diff --staged` の違いは、比較対象である。
+
+  | コマンド | 比較対象 |
+  |----------|----------|
+  | `git diff` | 作業ディレクトリ ↔ ステージ（未 `git add` の変更） |
+  | `git diff --staged` | ステージ ↔ 最新コミット（`git add` 済みで未コミットの変更） |
+
+  **使い分けの例**：
+  1. `git diff` → 「どのファイルをどう変更したか」を `git add` 前に確認する
+  2. `git add ファイル名` → ステージに追加
+  3. `git diff --staged` → 「次のコミットに何が含まれるか」を確認する
+  4. `git commit -m "メッセージ"` → コミット
+
+  こまめに `git diff` を確認することで、意図しない変更のコミットを防げる。
+---
+
+`git diff` と `git diff --staged` の違いとして正しい説明を選べ。

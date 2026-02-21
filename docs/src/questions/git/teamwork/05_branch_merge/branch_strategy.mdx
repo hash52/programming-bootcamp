@@ -1,0 +1,49 @@
+---
+id: "git/teamwork/05_branch_merge#branch_strategy"
+title: "ブランチ戦略を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "05_branch_merge"
+category: "git/teamwork"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "mainブランチを安定状態に保ち、新機能や修正はfeatureブランチで開発してからマージする"
+  - id: "B"
+    text: "全てのメンバーが直接mainブランチにコミットして開発を進める"
+  - id: "C"
+    text: "ブランチは1人1つしか作れないため、作業が終わったらブランチを共有して使う"
+  - id: "D"
+    text: "featureブランチは必ずmainと同じ名前にする必要がある"
+answers:
+  correct: ["A"]
+explanation: |
+  **ブランチ戦略**とは、チームでブランチをどう活用するかのルールである。
+
+  **基本的なブランチ戦略（GitHub Flow）**：
+  ```
+  main（常に安定・デプロイ可能）
+   └── feature/login        ← 機能開発
+   └── fix/null-pointer     ← バグ修正
+   └── feature/search       ← 別の機能開発
+  ```
+
+  1. `main` から `feature/xxx` ブランチを作成する
+  2. `feature` ブランチで開発・コミットする
+  3. Pull Requestを作成してコードレビューを受ける
+  4. レビューが通ったら `main` にマージする
+  5. 使い終わったブランチを削除する
+
+  **mainブランチを守る理由**：
+  - `main` が壊れると全員の作業に影響する
+  - 本番環境は `main` からデプロイされることが多い
+  - レビューなしでいきなり `main` に変更を入れると品質が下がる
+
+  **featureブランチの命名例**：
+  - `feature/user-authentication`
+  - `fix/login-validation-error`
+  - `docs/api-reference`
+---
+
+チーム開発でのブランチ戦略の説明として正しいものを選べ。

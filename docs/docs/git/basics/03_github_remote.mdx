@@ -1,3 +1,5 @@
+import { QuestionList } from "@site/src/components/question/QuestionList";
+
 # GitHubとリモート操作
 
 この章で得られるスキル：
@@ -400,3 +402,11 @@ Day 7で学ぶGitの入門はここまでである。
 ### Q6: `git push` でパスワードを毎回聞かれるのが面倒な場合はどうすればよいか？
 
 **A:** Gitの **資格情報ヘルパー（credential helper）** を設定すると、トークンを記憶してくれる。macOSの場合は `git config --global credential.helper osxkeychain`、Windowsの場合は `git config --global credential.helper manager` を実行すると、次回以降はパスワードの入力が不要になる。
+
+---
+
+## 練習問題
+
+この章の内容を理解できたか確認しよう。
+
+<QuestionList topicId="03_github_remote" category="git/basics" />

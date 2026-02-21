@@ -1,0 +1,42 @@
+---
+id: "git/teamwork/06_pull_request#pr_purpose"
+title: "プルリクエストの意義を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "06_pull_request"
+category: "git/teamwork"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "変更をmainにマージする前にチームにレビューを依頼し、コードの品質を保つ仕組み"
+  - id: "B"
+    text: "リモートリポジトリからローカルに変更を取り込むコマンドのこと"
+  - id: "C"
+    text: "コミット履歴を他のメンバーに送信する操作のこと"
+  - id: "D"
+    text: "ブランチを自動的にmainにマージするツールのこと"
+answers:
+  correct: ["A"]
+explanation: |
+  **Pull Request（PR）** は、featureブランチの変更を `main` にマージする前に、チームメンバーにレビューを依頼する仕組みである。
+
+  **PRの目的**：
+  - **コードレビュー**: バグや設計の問題を事前に発見する
+  - **知識共有**: チーム全員がコードの変更内容を把握できる
+  - **品質保証**: `main` ブランチに問題のあるコードが入るのを防ぐ
+
+  **PRの流れ**：
+  ```
+  featureブランチ作成 → 開発・コミット → GitHubにpush
+    → PR作成 → レビュー・修正 → approve → mainにマージ
+  ```
+
+  **PRとgit pullの違い**：
+  - `git pull`: ローカルでリモートの変更を取り込むコマンド
+  - Pull Request（PR）: GitHubのコードレビュー機能（コマンドではなくWebUI操作）
+
+  名前は似ているが全く異なる概念である。
+---
+
+Pull Request（PR）の説明として最も適切なものを選べ。

@@ -1,0 +1,41 @@
+---
+id: "git/teamwork/07_issue_team_practice#github_issue"
+title: "GitHub Issueを作成・活用できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "07_issue_team_practice"
+category: "git/teamwork"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "Issuesタブから「New issue」でタイトルと説明を入力して作成する"
+  - id: "B"
+    text: "git issue コマンドをターミナルで実行して作成する"
+  - id: "C"
+    text: "Pull requestを作成するとIssueが自動的に生成される"
+  - id: "D"
+    text: "Issueはリポジトリのオーナーしか作成できない"
+answers:
+  correct: ["A"]
+explanation: |
+  GitHub Issueの作成手順：
+
+  1. リポジトリの「Issues」タブをクリック
+  2. 「New issue」ボタンをクリック
+  3. **タイトル**: 「何の問題か」を簡潔に（例：「ログイン時にNullPointerExceptionが発生する」）
+  4. **説明文**: 詳細情報を記入する
+     - バグの場合: 再現手順・期待する動作・実際の動作・環境情報
+     - 機能要望の場合: なぜ必要か・どう動作してほしいか
+  5. 「Submit new issue」をクリック
+
+  **Issueの活用方法**：
+  - **Assignees**: 担当者を設定する
+  - **Labels**: バグ・機能追加・質問などのラベルで分類する
+  - **Milestone**: リリースバージョンと紐づける
+  - **PRとの紐づけ**: PRの説明文に `Closes #番号` と書くとマージ時にIssueが自動クローズされる
+
+  Issueはタスク管理ツールとして機能し、「何を」「なぜ」「誰が」対応するかを可視化できる。
+---
+
+GitHub Issueを作成する正しい方法を選べ。

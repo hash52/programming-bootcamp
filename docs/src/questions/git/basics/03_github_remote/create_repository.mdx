@@ -1,0 +1,43 @@
+---
+id: "git/basics/03_github_remote#create_repository"
+title: "GitHubでリポジトリを作成できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03_github_remote"
+category: "git/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "GitHubにログインし、「New repository」ボタンから名前を入力して作成する"
+  - id: "B"
+    text: "ローカルで git init を実行すると、自動的にGitHubにリポジトリが作成される"
+  - id: "C"
+    text: "git push コマンドを実行すると、GitHubにリポジトリが自動作成される"
+  - id: "D"
+    text: "GitHub CLIをインストールしないとリポジトリは作成できない"
+answers:
+  correct: ["A"]
+explanation: |
+  GitHubでリポジトリを作成する手順：
+
+  1. GitHubにログインする
+  2. 右上の「+」ボタン → 「New repository」を選択
+  3. リポジトリ名を入力する（例：`my-project`）
+  4. 公開範囲を選択する（Public / Private）
+  5. 「Create repository」ボタンをクリック
+
+  **作成後に表示されるコマンド**：
+  既存のローカルリポジトリと接続する場合：
+  ```bash
+  git remote add origin https://github.com/ユーザー名/リポジトリ名.git
+  git push -u origin main
+  ```
+
+  **リポジトリ名のルール**：
+  - 英数字、ハイフン、アンダースコアが使える
+  - スペースは使えない（代わりにハイフンを使う）
+  - 同じアカウント内で重複できない
+---
+
+GitHubでリポジトリを作成する正しい方法を選べ。

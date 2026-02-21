@@ -1,0 +1,61 @@
+---
+id: "git/basics/03_github_remote#practice_remote"
+title: "push・clone・pullの一連の流れを実践できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "03_github_remote"
+category: "git/basics"
+sampleAnswer: |
+  # 手順例
+
+  ## Aさんの操作（push）
+  # ローカルリポジトリを作成してGitHubに接続
+  git init my-project
+  cd my-project
+  git remote add origin https://github.com/Aさん/my-project.git
+
+  # ファイルを作成してpush
+  # Main.java を作成
+  git add Main.java
+  git commit -m "Main.javaを追加"
+  git push -u origin main
+
+  ## Bさんの操作（clone + pull）
+  # AさんのリポジトリをB環境にクローン
+  git clone https://github.com/Aさん/my-project.git
+  cd my-project
+
+  # AさんがさらにREADME.mdを追加してpushした場合
+  git pull origin main  # Bさんがローカルに反映
+explanation: |
+  push・clone・pullの一連の流れは、チーム開発の基本操作である。
+
+  **典型的なワークフロー**：
+
+  1. **リポジトリ作成（Aさん）**
+     ```bash
+     git init → git add → git commit → git remote add → git push
+     ```
+
+  2. **クローン（Bさん）**
+     ```bash
+     git clone URL → cd プロジェクト名
+     ```
+
+  3. **変更の共有サイクル**
+     - 変更した人: `git add` → `git commit` → `git push`
+     - 受け取る人: `git pull`
+
+  **よくある問題**：
+  - pushしたのに相手に反映されない → 相手が `git pull` を忘れている
+  - pushがrejectされる → 先に `git pull` して相手の変更を取り込む必要がある
+---
+
+以下の手順を実際に実施し、コマンドの実行結果とともに手順を記述せよ。
+
+1. ローカルでリポジトリを初期化し、`Main.java` を作成してコミットする
+2. GitHubにリポジトリを作成し、`git remote add origin` で接続する
+3. `git push -u origin main` でGitHubに送信する
+4. 別のディレクトリ（または別のPC）で `git clone` してコードを取得する
+5. 元のリポジトリで `README.md` を追加してpushし、クローン側で `git pull` して反映させる
