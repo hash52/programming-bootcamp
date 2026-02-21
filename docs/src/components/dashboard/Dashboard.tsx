@@ -8,20 +8,22 @@ import {
   Box,
   Checkbox,
   Chip,
+  IconButton,
   Paper,
   Stack,
   styled,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import {
   ALL_TOPIC_STRUCTURE,
-  CATEGORIES_LABELS,
   ALL_MAJOR_CHAPTERS,
   MAJOR_CHAPTER_LABELS,
   CATEGORY_SHORT_LABELS,
   getMajorChapterFromCategory,
 } from "@site/src/structure";
 import { ChevronDown } from "mdi-material-ui";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useStoredProgress } from "@site/src/hooks/useStoredProgress";
 import { ProgressBarWithLabel } from "./ProgressBarWithLabel";
 import { ProgressLineChart } from "./ProgressLineChart";
@@ -207,15 +209,22 @@ export const Dashboard: FC = () => {
                     <TopicProgressAccordion key={topic.id}>
                       <AccordionSummary expandIcon={<ChevronDown />}>
                         <TopicProgressBox>
-                          <TopicTitle
-                            onClick={() =>
-                              history.push(
-                                `${siteConfig.baseUrl}${topic.category}/${topic.id.replace(/^\d+_/, "")}`
-                              )
-                            }
-                          >
-                            {topic.label}
-                          </TopicTitle>
+                          <Box sx={{ display: "flex", alignItems: "center" }}>
+                            <TopicTitle>{topic.label}</TopicTitle>
+                            <Tooltip title="教材を開く">
+                              <IconButton
+                                size="small"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  history.push(
+                                    `${siteConfig.baseUrl}${topic.category}/${topic.id.replace(/^\d+_/, "")}`
+                                  );
+                                }}
+                              >
+                                <ExitToAppIcon fontSize="small" />
+                              </IconButton>
+                            </Tooltip>
+                          </Box>
                           <ProgressWithCountBox>
                             <ProgressCountChip
                               label={`${topicCount.done} / ${topicCount.total}`}
@@ -473,15 +482,9 @@ const TopicProgressBox = styled(Box)(({ theme }) => ({
 }));
 
 /** トピックタイトル */
-const TopicTitle = styled(Typography)(({ theme }) => ({
+const TopicTitle = styled(Typography)({
   fontWeight: 500,
-  cursor: "pointer",
-  transition: "color 0.2s, text-decoration 0.2s",
-  "&:hover": {
-    textDecoration: "underline",
-    color: "#0d47a1",
-  },
-}));
+});
 
 const TopicProgressBarBox = styled(Box)({
   width: 150,
