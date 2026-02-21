@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -31,6 +31,21 @@ export const QuestionDialog: React.FC<QuestionDialogProps> = ({
   hasPrevious = false,
   hasNext = false,
 }) => {
+  useEffect(() => {
+    if (!questionId || !showNavigation) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft" && hasPrevious && onPrevious) {
+        onPrevious();
+      } else if (e.key === "ArrowRight" && hasNext && onNext) {
+        onNext();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [questionId, showNavigation, hasPrevious, hasNext, onPrevious, onNext]);
+
   if (!questionId) return null;
 
   return (
