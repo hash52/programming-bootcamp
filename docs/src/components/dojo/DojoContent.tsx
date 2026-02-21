@@ -27,9 +27,10 @@ import { DojoFilterPanel } from "./DojoFilterPanel";
 import { DojoImportPanel } from "./DojoImportPanel";
 import { DojoPresetPanel } from "./DojoPresetPanel";
 import { DojoQuestionView } from "./DojoQuestionView";
+import { DojoLoadingOverlay } from "./DojoLoadingOverlay";
 import type { DojoPreset } from "@site/src/lib/dojoPreset";
 
-type Screen = "settings" | "questions";
+type Screen = "settings" | "loading" | "questions";
 
 export const DojoContent: React.FC = () => {
   const { progress } = useStoredProgress();
@@ -63,6 +64,10 @@ export const DojoContent: React.FC = () => {
   const [isImported, setIsImported] = useState(false);
   // 入力リセット用カウンター（再出題時にインクリメントしてコンポーネントを再マウント）
   const [resetKey, setResetKey] = useState(0);
+  // バックグラウンドレンダリング有効フラグ（オーバーレイ描画後に有効化してラグを防ぐ）
+  const [bgRenderEnabled, setBgRenderEnabled] = useState(false);
+  // QuestionView のマウント完了フラグ
+  const [qvReady, setQvReady] = useState(false);
   // ブラウザバック確認ダイアログ
   const [browserBackConfirmOpen, setBrowserBackConfirmOpen] = useState(false);
   // 再出題履歴スタック（popstateハンドラ内でstale closureを避けるためref）
@@ -83,8 +88,9 @@ export const DojoContent: React.FC = () => {
     });
     setActiveQuestions(questions);
     setIsImported(false);
+    setSelectorOpen(false);
     history.pushState(null, "", location.pathname + location.search + "#questions");
-    setScreen("questions");
+    setScreen("loading");
   }, [
     checkedQuestionIds,
     selectedTypes,
@@ -108,7 +114,7 @@ export const DojoContent: React.FC = () => {
       setActiveQuestions(questions);
       setIsImported(true);
       history.pushState(null, "", location.pathname + location.search + "#questions");
-      setScreen("questions");
+      setScreen("loading");
     },
     []
   );
@@ -182,6 +188,20 @@ export const DojoContent: React.FC = () => {
     setBrowserBackConfirmOpen(false);
   }, []);
 
+  // loading 画面：オーバーレイを先に描画してからバックグラウンドレンダリングを開始
+  useEffect(() => {
+    if (screen !== "loading") {
+      setBgRenderEnabled(false);
+      setQvReady(false);
+      return;
+    }
+    // rAF でオーバーレイが描画された後にバックグラウンドレンダリングを有効化
+    const rafId = requestAnimationFrame(() => {
+      setBgRenderEnabled(true);
+    });
+    return () => cancelAnimationFrame(rafId);
+  }, [screen]);
+
   // questions画面でのpopstateリスナー
   useEffect(() => {
     if (screen !== "questions") return;
@@ -223,7 +243,8 @@ export const DojoContent: React.FC = () => {
 
   return (
     <Box maxWidth="1200px" mx="auto">
-      {screen === "settings" && (
+      {/* Settings画面: settings と loading 両方で表示（loading時はオーバーレイが上に乗る） */}
+      {(screen === "settings" || screen === "loading") && (
         <>
           <Typography variant="body1" color="text.secondary" mb={3}>
             出題範囲やフィルターを設定して、演習問題に取り組みましょう。
@@ -263,6 +284,40 @@ export const DojoContent: React.FC = () => {
             onClose={() => setSelectorOpen(false)}
             checkedQuestionIds={checkedQuestionIds}
             onConfirm={setCheckedQuestionIds}
+          />
+        </>
+      )}
+
+      {/* Loading中: Questions画面をvisibility:hiddenで先行レンダリング + オーバーレイ表示 */}
+      {screen === "loading" && (
+        <>
+          {/* オーバーレイが先に描画された後（rAF後）にバックグラウンドレンダリングを開始 */}
+          {bgRenderEnabled && (
+            <Box
+              sx={{
+                position: "fixed",
+                visibility: "hidden",
+                pointerEvents: "none",
+                top: 0,
+                left: 0,
+                width: "100%",
+              }}
+            >
+              <DojoQuestionView
+                questions={activeQuestions}
+                onBack={handleBack}
+                isImported={isImported}
+                onRetryWrong={handleRetryWrong}
+                resetKey={resetKey}
+                onReady={() => setQvReady(true)}
+              />
+            </Box>
+          )}
+          {/* ローディングオーバーレイ（position:fixed で全画面） */}
+          <DojoLoadingOverlay
+            questionCount={activeQuestions.length}
+            triggerComplete={qvReady}
+            onComplete={() => setScreen("questions")}
           />
         </>
       )}

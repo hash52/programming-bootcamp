@@ -25,7 +25,7 @@ export const AchievementCheckbox: React.FC<AchievementCheckboxProps> = ({
       }
       label={
         <Typography variant="body2">
-          {isChecked ? "✅ 達成済み" : "この問題を達成済みにする"}
+          {isChecked ? "達成済み" : "この問題を達成済みにする"}
         </Typography>
       }
     />

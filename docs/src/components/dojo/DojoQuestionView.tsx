@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -39,6 +39,8 @@ interface DojoQuestionViewProps {
   onRetryWrong?: (wrongIds: string[]) => void;
   /** 入力リセット用キー（変更されると全問題コンポーネントが再マウントされる） */
   resetKey?: number;
+  /** Reactツリーのマウント完了時に呼ばれるコールバック */
+  onReady?: () => void;
 }
 
 const TYPE_COLORS: Record<QuestionType, "info" | "warning" | "success"> = {
@@ -65,8 +67,14 @@ export const DojoQuestionView: React.FC<DojoQuestionViewProps> = ({
   isImported = false,
   onRetryWrong,
   resetKey = 0,
+  onReady,
 }) => {
   const { progress } = useStoredProgress();
+
+  // Reactツリーのマウント完了を通知（MDX非同期ロードは別途並行進行）
+  useEffect(() => {
+    onReady?.();
+  }, []);
   const [exportOpen, setExportOpen] = useState(false);
   const [backConfirmOpen, setBackConfirmOpen] = useState(false);
 
