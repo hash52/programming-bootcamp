@@ -1,4 +1,5 @@
 import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
+import { QuestionList } from "@site/src/components/question/QuestionList";
 
 # データの集計
 
@@ -578,3 +579,11 @@ INSERT INTO employees VALUES (8, '中村大輔', 3, '2020-10-01', 360000, 'nakam
 ### Q5: COUNT(*)とCOUNT(1)の違いは何か？
 
 **A:** 結果は同じで、どちらも全行数を返す。`COUNT(*)` は「全ての行」を数え、 `COUNT(1)` は「各行に1を割り当てて数える」。PostgreSQLではパフォーマンスの差はない。一般的には `COUNT(*)` が使われる。
+
+---
+
+## 練習問題
+
+この章の内容を理解できたか確認しよう。
+
+<QuestionList topicId="06_aggregation" category="db/select" />

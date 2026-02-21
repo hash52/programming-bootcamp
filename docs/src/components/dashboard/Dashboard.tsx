@@ -1,4 +1,6 @@
 import { FC, PropsWithChildren, useState } from "react";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { useHistory } from "@docusaurus/router";
 import {
   Accordion,
   AccordionDetails,
@@ -113,6 +115,8 @@ const mockedHistory = {
  * - 達成率をLinearProgress＋％表示で可視化
  */
 export const Dashboard: FC = () => {
+  const { siteConfig } = useDocusaurusContext();
+  const history = useHistory();
   const storedProgress = useStoredProgress();
 
   /** 選択された質問のコンテキスト情報（ダイアログ表示＋ナビゲーション用） */
@@ -205,9 +209,8 @@ export const Dashboard: FC = () => {
                         <TopicProgressBox>
                           <TopicTitle
                             onClick={() =>
-                              window.open(
-                                `${topic.category}/${topic.id}`,
-                                "_blank"
+                              history.push(
+                                `${siteConfig.baseUrl}${topic.category}/${topic.id.replace(/^\d+_/, "")}`
                               )
                             }
                           >
