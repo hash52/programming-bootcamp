@@ -1,0 +1,42 @@
+---
+id: "db/design/08_join#join_necessity"
+title: "JOINの必要性を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "08_join"
+category: "db/design"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "1つのテーブルのデータを高速に検索するため"
+  - id: "B"
+    text: "正規化によって分割されたテーブルの関連データをまとめて取得するため"
+  - id: "C"
+    text: "NULL値をデフォルト値に置き換えるため"
+  - id: "D"
+    text: "テーブルのデータを並び替えるため"
+answers:
+  correct: ["B"]
+explanation: |
+  正規化によってデータは複数のテーブルに分割されている。
+  JOINはその分割されたテーブルのデータをまとめて取得するための操作である。
+
+  **具体例**：
+  `employees` テーブルには `dept_id` しかなく、部門名（`dept_name`）は `departments` テーブルにある。
+  「社員名と所属部門名」を一度に取得したい場合、2つのテーブルをJOINする必要がある。
+
+  ```sql
+  SELECT e.emp_name, d.dept_name
+  FROM employees e
+  INNER JOIN departments d ON e.dept_id = d.dept_id;
+  ```
+
+  **JOINの種類**：
+  - `INNER JOIN`: 両テーブルに一致する行のみ取得
+  - `LEFT JOIN`: 左テーブルの全行を取得（右テーブルに一致なければNULL）
+  - `RIGHT JOIN`: 右テーブルの全行を取得（左テーブルに一致なければNULL）
+  - `FULL OUTER JOIN`: 両テーブルの全行を取得
+---
+
+テーブルの結合（JOIN）が必要な理由として正しいものを選べ。

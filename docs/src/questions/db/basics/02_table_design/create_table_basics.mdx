@@ -1,0 +1,51 @@
+---
+id: "db/basics/02_table_design#create_table_basics"
+title: "テーブルを作成できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "02_table_design"
+category: "db/basics"
+fillInBlankAnswers:
+  blank1: ["CREATE", "create"]
+  blank2: ["PRIMARY", "primary"]
+  blank3: ["NOT", "not"]
+sampleAnswer: "CREATE TABLE departments (dept_id INTEGER PRIMARY KEY, dept_name VARCHAR(50) NOT NULL);"
+explanation: |
+  `CREATE TABLE` でテーブルを作成する。列定義には列名、データ型、制約を記述する。
+
+  基本構文：
+  ```sql
+  CREATE TABLE テーブル名 (
+      列名1 データ型 制約,
+      列名2 データ型 制約,
+      ...
+  );
+  ```
+
+  **主な制約**：
+  - `PRIMARY KEY`: 主キー（各行を一意に識別する。`NOT NULL` かつ `UNIQUE` が自動保証）
+  - `NOT NULL`: NULL禁止（必須項目に設定する）
+  - `UNIQUE`: 重複禁止
+  - `REFERENCES テーブル名(列名)`: 外部キー
+  - `CHECK (条件)`: 条件チェック
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+以下のCREATE TABLE文の空欄を埋めて、`departments` テーブルを作成せよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{` TABLE departments (
+    dept_id   INTEGER     `}<BlankInput id="blank2" />{` KEY,
+    dept_name VARCHAR(50) `}<BlankInput id="blank3" />{` NULL
+);`}
+</CodeBlock>

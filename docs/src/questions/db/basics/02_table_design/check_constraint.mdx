@@ -1,0 +1,43 @@
+---
+id: "db/basics/02_table_design#check_constraint"
+title: "CHECK制約でデータの妥当性を保証できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "02_table_design"
+category: "db/basics"
+fillInBlankAnswers:
+  blank1: ["CHECK", "check"]
+  blank2: [">"]
+sampleAnswer: "salary INTEGER CHECK (salary > 0)"
+explanation: |
+  `CHECK` 制約は条件式を指定して、条件を満たさない値の挿入・更新を禁止する制約である。
+
+  基本構文：
+  ```sql
+  列名 データ型 CHECK (条件式)
+  ```
+
+  **使用例**：
+  - `salary INTEGER CHECK (salary > 0)`: 給与は0より大きい値のみ許可
+  - `age INTEGER CHECK (age >= 0 AND age <= 150)`: 年齢は0〜150の範囲のみ許可
+  - `status VARCHAR(20) CHECK (status IN ('active', 'inactive'))`: 特定の値のみ許可
+
+  条件を満たさない値を `INSERT` または `UPDATE` しようとするとエラーが発生する。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+`salary` が0より大きい値のみ許可する `CHECK` 制約を含む列定義の空欄を埋めよ。
+
+<CodeBlock>
+{`salary INTEGER `}<BlankInput id="blank1" />{` (salary `}<BlankInput id="blank2" />{` 0)`}
+</CodeBlock>

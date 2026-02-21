@@ -1,0 +1,42 @@
+---
+id: "db/select/06_aggregation#null_aggregation_impact"
+title: "NULLが集計に与える影響を説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "06_aggregation"
+category: "db/select"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "NULL行を含めた全行数で割った平均を返す"
+  - id: "B"
+    text: "NULL行を除いた行数で割った平均を返す"
+  - id: "C"
+    text: "NULLが含まれるためエラーが発生する"
+  - id: "D"
+    text: "NULLを0として計算した平均を返す"
+answers:
+  correct: ["B"]
+explanation: |
+  集約関数（`AVG`、`SUM`、`MAX`、`MIN`）はNULL値を自動的に無視して計算する。
+
+  **具体例**：
+  5人の社員の `salary` データ: 350000, 420000, 310000, NULL, 480000
+
+  - `COUNT(*)` = 5（NULLの行も数える）
+  - `COUNT(salary)` = 4（NULLを除いた行数）
+  - `AVG(salary)` = (350000 + 420000 + 310000 + 480000) / 4 = 390000
+
+  選択肢Aのように5で割る（NULLを0として計算）のではなく、4で割ることに注意。
+
+  **NULLを0として扱いたい場合**：
+  ```sql
+  SELECT AVG(COALESCE(salary, 0)) FROM employees;
+  -- COALESCE(salary, 0) は salary が NULL なら 0 を返す
+  ```
+hint: "集約関数はNULLをどう扱うか考えよう"
+---
+
+`salary` にNULLが入っている行が1件あるとき、`AVG(salary)` の結果について正しいものを選べ。
+（`employees` テーブルには5行あり、4行に値があり1行がNULLである）

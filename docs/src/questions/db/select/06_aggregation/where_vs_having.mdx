@@ -1,0 +1,47 @@
+---
+id: "db/select/06_aggregation#where_vs_having"
+title: "WHEREとHAVINGの違いを説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "06_aggregation"
+category: "db/select"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "WHERE 句はGROUP BYの後に書き、HAVING 句はGROUP BYの前に書く"
+  - id: "B"
+    text: "WHERE 句はグループ化前の行を絞り込み、HAVING 句はグループ化後の集計結果を絞り込む"
+  - id: "C"
+    text: "WHERE 句では集約関数（COUNT等）が使えるが、HAVING 句では使えない"
+  - id: "D"
+    text: "WHERE 句と HAVING 句は同じ機能であり、どちらに書いても同じ結果になる"
+answers:
+  correct: ["B"]
+explanation: |
+  **WHERE と HAVING の違い**：
+
+  | 項目 | WHERE | HAVING |
+  |------|-------|--------|
+  | タイミング | GROUP BY の前 | GROUP BY の後 |
+  | 対象 | 個々の行 | グループ |
+  | 集約関数 | 使えない | 使える |
+
+  **書き方の順序**：
+  ```sql
+  SELECT dept_id, COUNT(*)
+  FROM employees
+  WHERE salary > 200000    -- ①グループ化前に行を絞り込む
+  GROUP BY dept_id
+  HAVING COUNT(*) >= 2     -- ②グループ化後に集計結果を絞り込む
+  ORDER BY dept_id;
+  ```
+
+  上の例では：
+  ①まず `salary > 200000` の社員のみに絞り込んでから
+  ②部門ごとにグループ化し、2人以上の部門のみを表示する
+
+  `WHERE COUNT(*) >= 2` と書くとエラーになる。
+---
+
+`WHERE` 句と `HAVING` 句の違いとして正しいものを選べ。

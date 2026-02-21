@@ -1,0 +1,73 @@
+---
+id: "db/design/09_er_diagram#identify_attribute"
+title: "ER図の属性を識別できる"
+type: "READ"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "09_er_diagram"
+category: "db/design"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "departments（部門テーブル）"
+  - id: "B"
+    text: "assignments（アサインメントテーブル）"
+  - id: "C"
+    text: "emp_name（社員名）"
+  - id: "D"
+    text: "employees と projects を結ぶ関係線"
+answers:
+  correct: ["C"]
+explanation: |
+  属性はエンティティが持つ情報であり、テーブルの列に対応する。
+
+  **属性 vs エンティティ**：
+  - `emp_name`（社員名）: `employees` エンティティの **属性**（列名）← 正解
+  - `departments`: 別のエンティティ（テーブル）
+  - `assignments`: 別のエンティティ（中間テーブル）
+  - 関係線: リレーションシップを表すもの（属性でもエンティティでもない）
+
+  **`employees` エンティティの属性例**：
+  - `emp_id`（社員ID）: 主キー
+  - `emp_name`（社員名）: 必須
+  - `dept_id`（部門ID）: 外部キー
+  - `hire_date`（入社日）
+  - `salary`（給与）
+  - `email`（メールアドレス）: UNIQUE
+
+  **ER図での属性の表し方**：
+  属性はエンティティの長方形の中に列名として記述される。
+  Mermaid ER図では `{ INTEGER emp_id PK }` のような形式で記述する。
+---
+
+以下のER図を参照し、`employees` エンティティの属性（列に対応する情報）として正しいものを選べ。
+
+```mermaid
+erDiagram
+    departments {
+        INTEGER dept_id PK
+        VARCHAR dept_name
+        VARCHAR location
+    }
+    employees {
+        INTEGER emp_id PK
+        VARCHAR emp_name
+        INTEGER dept_id FK
+        DATE hire_date
+        INTEGER salary
+    }
+    projects {
+        INTEGER project_id PK
+        VARCHAR project_name
+        DATE start_date
+        DATE end_date
+    }
+    assignments {
+        INTEGER emp_id FK
+        INTEGER project_id FK
+        VARCHAR role
+    }
+    departments ||--o{ employees : "所属"
+    employees ||--o{ assignments : "アサイン"
+    projects ||--o{ assignments : "アサイン"
+```

@@ -1,0 +1,43 @@
+---
+id: "db/select/04_select_basics#select_all_data"
+title: "テーブルから全データを取得できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_select_basics"
+category: "db/select"
+fillInBlankAnswers:
+  blank1: ["SELECT", "select"]
+  blank2: ["FROM", "from"]
+sampleAnswer: "SELECT * FROM departments;"
+explanation: |
+  `SELECT * FROM テーブル名` はテーブルの全列・全行を取得する最も基本的なSQL文である。
+
+  基本構文：
+  ```sql
+  SELECT * FROM テーブル名;
+  ```
+
+  **ポイント**：
+  - `*` はすべての列を意味するワイルドカード
+  - `FROM` の後にテーブル名を指定する
+  - セミコロン `;` でSQL文を終了する
+  - 実務では `SELECT *` よりも必要な列だけを指定することが推奨される（パフォーマンス向上のため）
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+`departments` テーブルの全データを取得するSQL文を完成させよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{` *
+`}<BlankInput id="blank2" />{` departments;`}
+</CodeBlock>

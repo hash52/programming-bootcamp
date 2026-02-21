@@ -1,0 +1,59 @@
+---
+id: "db/design/07_normalization#design_normalized_table"
+title: "要件から正規化されたテーブル設計ができる"
+type: "WRITE"
+difficulty: "Hard"
+format: "fillInBlank"
+topicId: "07_normalization"
+category: "db/design"
+fillInBlankAnswers:
+  blank1: ["PRIMARY", "primary"]
+  blank2: ["NOT", "not"]
+  blank3: ["REFERENCES", "references"]
+sampleAnswer: "CREATE TABLE customers (customer_id INTEGER PRIMARY KEY, customer_name VARCHAR(100) NOT NULL); CREATE TABLE orders (order_id INTEGER PRIMARY KEY, customer_id INTEGER REFERENCES customers(customer_id), order_date DATE);"
+explanation: |
+  正規化されたテーブル設計では、各エンティティを別テーブルに分離し、外部キーで関係を表現する。
+
+  **設計手順**：
+  1. エンティティ（実体）を識別する（顧客、注文など）
+  2. 各エンティティのテーブルを作成する
+  3. テーブル間の関係を外部キーで表現する
+
+  **`REFERENCES` の書き方**：
+  ```sql
+  列名 データ型 REFERENCES 参照先テーブル名(参照先列名)
+  ```
+
+  **1対多の関係**：
+  - 顧客（customers）: 注文（orders）= 1: 多
+  - 1人の顧客が複数の注文を持てる
+  - `orders.customer_id` が `customers.customer_id` を参照する外部キーになる
+hint: "PRIMARY KEY、NOT NULL、REFERENCES の3つの制約を使う"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+以下の要件から2つのテーブルを作成するCREATE TABLE文を完成させよ。
+
+- `customers(customer_id: 整数・主キー, customer_name: 最大100文字・NULL禁止)`
+- `orders(order_id: 整数・主キー, customer_id: customers.customer_idへの外部キー, order_date: 日付)`
+
+<CodeBlock>
+{`CREATE TABLE customers (
+    customer_id   INTEGER      `}<BlankInput id="blank1" />{` KEY,
+    customer_name VARCHAR(100) `}<BlankInput id="blank2" />{` NULL
+);
+CREATE TABLE orders (
+    order_id    INTEGER PRIMARY KEY,
+    customer_id INTEGER `}<BlankInput id="blank3" />{` customers(customer_id),
+    order_date  DATE
+);`}
+</CodeBlock>

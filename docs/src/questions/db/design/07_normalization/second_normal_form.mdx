@@ -1,0 +1,45 @@
+---
+id: "db/design/07_normalization#second_normal_form"
+title: "第2正規形を説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "07_normalization"
+category: "db/design"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "繰り返しグループを排除する"
+  - id: "B"
+    text: "主キーの一部にのみ依存する列を別テーブルに分離する（部分関数従属の排除）"
+  - id: "C"
+    text: "主キー以外の列を経由した依存関係を排除する（推移的関数従属の排除）"
+  - id: "D"
+    text: "すべてのNULL値を別テーブルに移動する"
+answers:
+  correct: ["B"]
+explanation: |
+  第2正規形（2NF）の条件は「第1正規形を満たし、かつ部分関数従属がないこと」である。
+
+  **部分関数従属とは**：
+  複合主キーの一部にのみ依存する列が存在すること。
+
+  **2NFを満たさない例**（複合主キー: emp_id + project_id）：
+  ```
+  | emp_id | project_id | emp_name | project_name | role    |
+  |--------|------------|----------|--------------|---------|
+  | 1      | 1          | 田中太郎 | 新サービス   | メンバー |
+  | 2      | 1          | 鈴木花子 | 新サービス   | リーダー |
+  | 2      | 2          | 鈴木花子 | 基幹刷新     | メンバー |
+  ```
+  - `emp_name` は `emp_id` だけで決まる（部分関数従属）
+  - `project_name` は `project_id` だけで決まる（部分関数従属）
+
+  **2NFに変換（分離）**：
+  - `employees(emp_id, emp_name, ...)`
+  - `projects(project_id, project_name, ...)`
+  - `assignments(emp_id, project_id, role)` ← roleだけが複合主キーに完全従属
+hint: "部分関数従属とは「主キーの一部だけで値が決まる」状態"
+---
+
+第2正規形（2NF）を達成するために排除する問題として正しいものを選べ。

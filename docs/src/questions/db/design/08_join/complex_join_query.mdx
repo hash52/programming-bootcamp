@@ -1,0 +1,51 @@
+---
+id: "db/design/08_join#complex_join_query"
+title: "複雑な結合を含むSQLを書ける"
+type: "WRITE"
+difficulty: "Hard"
+format: "fillInBlank"
+topicId: "08_join"
+category: "db/design"
+fillInBlankAnswers:
+  blank1: ["INNER JOIN", "inner join", "JOIN", "join"]
+  blank2: ["WHERE", "where"]
+sampleAnswer: "SELECT e.emp_name, a.role FROM employees e INNER JOIN departments d ON e.dept_id = d.dept_id INNER JOIN assignments a ON e.emp_id = a.emp_id WHERE d.dept_name = '開発部';"
+explanation: |
+  複数テーブルのJOINと `WHERE` による絞り込みを組み合わせることで、
+  複雑な条件のデータを取得できる。
+
+  **この問題の解法**：
+  1. 「アサインされている社員」→ `employees` と `assignments` を INNER JOIN
+  2. 「開発部に所属」→ `employees` と `departments` を INNER JOIN して `WHERE dept_name = '開発部'`
+
+  **INNER JOIN の自動フィルタリング**：
+  - `INNER JOIN assignments a ON e.emp_id = a.emp_id` は
+    `assignments` に存在する社員のみを返す（アサインされていない社員は除外）
+  - これにより「アサインされている社員のみ」が自動的に絞り込まれる
+
+  **JOINとWHEREの組み合わせ**：
+  JOINで関連テーブルを結合した後、WHEREで条件を絞り込む。
+  JOINはテーブルを繋ぐ、WHEREは結果を絞り込む、という役割分担を意識すると良い。
+hint: "3テーブルをJOINした後にWHEREで絞り込む順序を考えよう"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+「開発部（`dept_name='開発部'`）に所属し、かつプロジェクトにアサインされている社員の名前と役割を取得せよ」
+を実装するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT e.emp_name, a.role
+FROM employees e
+INNER JOIN departments d ON e.dept_id = d.dept_id
+`}<BlankInput id="blank1" />{` assignments a ON e.emp_id = a.emp_id
+`}<BlankInput id="blank2" />{` d.dept_name = '開発部';`}
+</CodeBlock>

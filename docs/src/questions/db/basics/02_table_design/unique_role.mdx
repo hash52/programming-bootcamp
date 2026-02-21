@@ -1,0 +1,35 @@
+---
+id: "db/basics/02_table_design#unique_role"
+title: "UNIQUE制約の役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_table_design"
+category: "db/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "列にNULLを入れることを禁止する"
+  - id: "B"
+    text: "列の値を他のテーブルで参照できるようにする"
+  - id: "C"
+    text: "列の値が重複しないことを保証する"
+  - id: "D"
+    text: "列の値が0以上であることを保証する"
+answers:
+  correct: ["C"]
+explanation: |
+  `UNIQUE` 制約はその列に重複した値を入れることを禁止する制約である。
+  メールアドレスや社員番号など、全行で値が一意である必要がある列に設定する。
+
+  **各制約との比較**：
+  - `NOT NULL`: NULLの禁止（値の省略を禁止する）
+  - `UNIQUE`: 重複の禁止（同じ値の登録を禁止する）
+  - `REFERENCES`: 外部キー（他テーブルの行を参照する）
+  - `CHECK (条件)`: 値の範囲や形式を制限する
+
+  サンプルDBでは `employees.email` に `UNIQUE` 制約が設定されており、
+  同じメールアドレスを持つ社員が複数登録されることを防いでいる。
+---
+
+`UNIQUE` 制約の説明として正しいものを選べ。

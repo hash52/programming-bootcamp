@@ -1,0 +1,44 @@
+---
+id: "db/design/09_er_diagram#er_diagram_necessity"
+title: "ER図の必要性を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "09_er_diagram"
+category: "db/design"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "SQLのクエリ実行速度を向上させるため"
+  - id: "B"
+    text: "データベースの構造を視覚的に表現し、設計の共通認識を持つため"
+  - id: "C"
+    text: "データをCSV形式でエクスポートするため"
+  - id: "D"
+    text: "トランザクションを自動的に管理するため"
+answers:
+  correct: ["B"]
+explanation: |
+  ER図（Entity Relationship Diagram：実体関連図）はデータベースのテーブル構造と
+  テーブル間の関係を視覚的に表現する設計図である。
+
+  **ER図の役割**：
+  - 設計者・開発者・顧客の間でデータ構造の共通認識を持つ
+  - SQL文を書く前にテーブル設計を確認・議論できる
+  - リレーションシップ（1対多、多対多）を直感的に把握できる
+
+  **ER図の主な要素**：
+  - **エンティティ**: テーブルに対応する「モノ」（長方形で表現）
+  - **属性**: テーブルの列（エンティティ内に記述）
+  - **リレーションシップ**: テーブル間の関係（線で表現）
+  - **カーディナリティ**: 関係の多重度（1対1、1対多、多対多）
+
+  **Mermaid記法（本サイトで使用）**：
+  ```
+  departments ||--o{ employees : "所属"
+  ||   = ちょうど1
+  o{   = 0以上（多数）
+  ```
+---
+
+ER図を使う主な目的として正しいものを選べ。

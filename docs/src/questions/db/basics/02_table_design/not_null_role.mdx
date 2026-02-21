@@ -1,0 +1,32 @@
+---
+id: "db/basics/02_table_design#not_null_role"
+title: "NOT NULL制約の役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_table_design"
+category: "db/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "値が重複することを禁止する"
+  - id: "B"
+    text: "値を省略（NULL）することを禁止する"
+  - id: "C"
+    text: "整数値のみ格納できるようにする"
+  - id: "D"
+    text: "他のテーブルの主キーを参照する"
+answers:
+  correct: ["B"]
+explanation: |
+  `NOT NULL` 制約はその列にNULL値（未入力状態）を禁止する制約である。
+  必須項目（名前、IDなど）に設定することでデータの欠落を防げる。
+
+  **各制約の役割**：
+  - `NOT NULL`: NULL禁止（値の省略を禁止する）
+  - `UNIQUE`: 重複禁止（同じ値の重複を禁止する）
+  - データ型（例: `INTEGER`）: 格納できる値の種類を定義する
+  - `REFERENCES テーブル名(列名)`: 外部キー（他テーブルの行を参照する）
+---
+
+`NOT NULL` 制約を設定した列の説明として正しいものを選べ。

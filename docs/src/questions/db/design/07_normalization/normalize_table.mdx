@@ -1,0 +1,53 @@
+---
+id: "db/design/07_normalization#normalize_table"
+title: "非正規形のテーブルを正規化できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "07_normalization"
+category: "db/design"
+fillInBlankAnswers:
+  blank1: ["REFERENCES", "references"]
+  blank2: ["PRIMARY", "primary"]
+sampleAnswer: "CREATE TABLE employee_skills (emp_id INTEGER REFERENCES employees(emp_id), skill_name VARCHAR(50) NOT NULL, PRIMARY KEY (emp_id, skill_name));"
+explanation: |
+  繰り返しグループを別テーブルに分離することで第1正規形を達成できる。
+
+  **変換前（1NFを満たさない）**：
+  ```sql
+  -- skill1, skill2 という繰り返しグループが問題
+  employees_skills(emp_id, emp_name, skill1, skill2)
+  ```
+
+  **変換後（1NF）**：
+  ```sql
+  employees(emp_id, emp_name, ...)       -- 社員情報
+  employee_skills(emp_id, skill_name)    -- スキル情報（繰り返しを分離）
+  ```
+
+  **ポイント**：
+  - `REFERENCES テーブル名(列名)` で外部キー制約を設定する
+  - `PRIMARY KEY (列1, 列2)` で複合主キーを設定する
+  - 複合主キーにより「同じ社員が同じスキルを重複して登録」することを防ぐ
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+非正規形テーブル `employees_skills(emp_id, emp_name, skill1, skill2)` を第1正規形に変換するため、
+スキル情報を別テーブルに分離する。以下のCREATE TABLE文の空欄を埋めよ。
+
+<CodeBlock>
+{`CREATE TABLE employee_skills (
+    emp_id     INTEGER `}<BlankInput id="blank1" />{` employees(emp_id),
+    skill_name VARCHAR(50) NOT NULL,
+    `}<BlankInput id="blank2" />{` KEY (emp_id, skill_name)
+);`}
+</CodeBlock>

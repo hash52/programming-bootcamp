@@ -1,0 +1,48 @@
+---
+id: "db/design/08_join#table_alias"
+title: "テーブルに別名を付けられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "08_join"
+category: "db/design"
+fillInBlankAnswers:
+  blank1: ["e"]
+  blank2: ["e"]
+sampleAnswer: "SELECT e.emp_name FROM employees e;"
+explanation: |
+  テーブルに別名（エイリアス）を付けるには `FROM テーブル名 別名` と記述する。
+
+  基本構文：
+  ```sql
+  SELECT 別名.列名 FROM テーブル名 別名;
+  ```
+
+  **テーブル別名の用途**：
+  - JOINで同名の列（例: `dept_id`）が複数テーブルにある場合に区別できる
+  - 長いテーブル名を短縮して記述量を減らせる
+  - 自己結合（同じテーブルを2回JOIN）では必須
+
+  **命名規則**：
+  - 慣例としてテーブル名の頭文字1〜2文字を使うことが多い（例: `employees` → `e`、`departments` → `d`）
+  - `AS` を付けて `employees AS e` と書くこともできる
+
+  JOINを使うときはテーブル別名を付けるのが一般的である。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+`employees` テーブルに `e` という別名を付けて、`emp_name` を取得するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT `}<BlankInput id="blank1" />{`.emp_name
+FROM employees `}<BlankInput id="blank2" />{`;`}
+</CodeBlock>

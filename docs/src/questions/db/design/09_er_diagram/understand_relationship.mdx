@@ -1,0 +1,60 @@
+---
+id: "db/design/09_er_diagram#understand_relationship"
+title: "ER図のリレーションシップを理解できる"
+type: "READ"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "09_er_diagram"
+category: "db/design"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "1人の社員が複数の部門に所属できる（社員が多、部門が1）"
+  - id: "B"
+    text: "部門と社員が1対1の関係"
+  - id: "C"
+    text: "社員は部門に所属しなくてもよく、1つの部門に複数の社員が所属できる"
+  - id: "D"
+    text: "部門には必ず1人以上の社員が所属していなければならない"
+answers:
+  correct: ["C"]
+explanation: |
+  Mermaid ER図の記法では以下のシンボルでカーディナリティを表す。
+
+  **カーディナリティ記号（Mermaid）**：
+  | 記号 | 意味 |
+  |------|------|
+  | `\|\|` | ちょうど1（必須） |
+  | `\|o` | 0または1（任意） |
+  | `o{` | 0以上（任意・多数） |
+  | `\|{` | 1以上（必須・多数） |
+
+  **`departments \|\|--o{ employees : "所属"` の解読**：
+  - 左側 `\|\|`（departments側）: 1つの部門（必須）
+  - 右側 `o{`（employees側）: 0以上の社員（任意・多数）
+  - つまり「1つの部門に0以上の社員が所属できる（社員がいない部門もあり得る）」
+
+  **選択肢との対応**：
+  - C が正解: 「所属しなくてもよく（o=0以上）、複数の社員が所属できる（{=多数）」
+  - D は間違い: `o{` は0以上なので、社員がいない部門も許容される
+hint: "記号の左側(||)と右側(o{)がそれぞれ何を意味するか読み解こう"
+---
+
+以下のER図が表す意味として正しいものを選べ。
+
+```mermaid
+erDiagram
+    departments {
+        INTEGER dept_id PK
+        VARCHAR dept_name
+        VARCHAR location
+    }
+    employees {
+        INTEGER emp_id PK
+        VARCHAR emp_name
+        INTEGER dept_id FK
+        DATE hire_date
+        INTEGER salary
+    }
+    departments ||--o{ employees : "所属"
+```

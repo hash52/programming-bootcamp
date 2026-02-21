@@ -1,0 +1,44 @@
+---
+id: "db/select/05_where_and_order#where_multiple_conditions"
+title: "複数条件を組み合わせて絞り込める"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "05_where_and_order"
+category: "db/select"
+fillInBlankAnswers:
+  blank1: ["AND", "and"]
+  blank2: [">="]
+sampleAnswer: "SELECT * FROM employees WHERE dept_id = 2 AND salary >= 300000;"
+explanation: |
+  複数の条件を組み合わせるには `AND`（かつ）または `OR`（または）を使う。
+
+  **論理演算子**：
+  - `AND`: 両方の条件を満たす行のみ取得（「かつ」）
+  - `OR`: いずれか一方を満たす行を取得（「または」）
+  - `NOT`: 条件を否定する（「〜でない」）
+
+  **優先順位**：
+  `NOT` > `AND` > `OR` の順に評価される。
+  複雑な条件は `()` でグループ化して優先順位を明確にすること。
+
+  例: `WHERE (dept_id = 1 OR dept_id = 2) AND salary >= 300000`
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+開発部（`dept_id=2`）かつ給与が300000以上の社員を取得するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT *
+FROM employees
+WHERE dept_id = 2 `}<BlankInput id="blank1" />{` salary `}<BlankInput id="blank2" />{` 300000;`}
+</CodeBlock>

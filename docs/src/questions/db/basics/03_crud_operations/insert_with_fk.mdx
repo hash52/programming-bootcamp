@@ -1,0 +1,46 @@
+---
+id: "db/basics/03_crud_operations#insert_with_fk"
+title: "外部キー制約を考慮してデータを追加できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "03_crud_operations"
+category: "db/basics"
+fillInBlankAnswers:
+  blank1: ["INTO", "into"]
+  blank2: ["VALUES", "values"]
+sampleAnswer: "INSERT INTO employees (emp_id, emp_name, dept_id, hire_date, salary, email) VALUES (10, '新入社員', 1, '2024-04-01', 250000, 'new@example.com');"
+explanation: |
+  `INSERT INTO テーブル名 (列名...) VALUES (値...)` の形式でデータを追加する。
+
+  **外部キー制約の注意点**：
+  - `dept_id` には `departments` テーブルに存在する値（1〜4）のみ指定できる
+  - 存在しない `dept_id`（例: `dept_id=99`）を指定すると外部キー制約エラーが発生する
+  - `dept_id` は `NOT NULL` ではないため `NULL` を指定することはできる（部門未所属）
+
+  **挿入時のルール**：
+  - 列の順番と値の順番を一致させる
+  - 文字列は **シングルクォート** `'...'` で囲む
+  - 日付も `'2024-04-01'` のようにシングルクォートで囲む
+  - 数値はクォートなしで記述する
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+`employees` テーブルに以下のデータを追加するSQL文を完成させよ。
+（`dept_id=1` は `departments` テーブルに存在する値である）
+
+- `emp_id`=10, `emp_name`='新入社員', `dept_id`=1, `hire_date`='2024-04-01', `salary`=250000, `email`='new@example.com'
+
+<CodeBlock>
+{`INSERT `}<BlankInput id="blank1" />{` employees (emp_id, emp_name, dept_id, hire_date, salary, email)
+`}<BlankInput id="blank2" />{` (10, '新入社員', 1, '2024-04-01', 250000, 'new@example.com');`}
+</CodeBlock>

@@ -1,0 +1,49 @@
+---
+id: "db/select/04_select_basics#limit_rows"
+title: "取得件数を制限できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_select_basics"
+category: "db/select"
+fillInBlankAnswers:
+  blank1: ["LIMIT", "limit"]
+  blank2: ["3"]
+sampleAnswer: "SELECT * FROM employees LIMIT 3;"
+explanation: |
+  `LIMIT n` で取得する行数を制限できる。
+
+  基本構文：
+  ```sql
+  SELECT * FROM テーブル名 LIMIT 件数;
+  ```
+
+  **ポイント**：
+  - 大量のデータが存在するテーブルで先頭の数件だけ確認したいときに使用する
+  - `ORDER BY` と組み合わせてランキングの上位N件を取得するときによく使う
+  - `OFFSET n` を組み合わせるとn件をスキップしてから取得できる（ページング機能などに使用）
+  - 例: `LIMIT 10 OFFSET 20` → 21〜30件目を取得
+
+  **DBMSによる違い**：
+  - PostgreSQL・MySQL: `LIMIT n`
+  - SQL Server: `SELECT TOP n ...`
+  - Oracle: `WHERE ROWNUM <= n`
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+`employees` テーブルから最初の3件だけ取得するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT *
+FROM employees
+`}<BlankInput id="blank1" />{` `}<BlankInput id="blank2" />{`;`}
+</CodeBlock>

@@ -1,0 +1,47 @@
+---
+id: "db/design/08_join#join_with_where_group"
+title: "JOINとWHERE、GROUP BYを組み合わせられる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "08_join"
+category: "db/design"
+fillInBlankAnswers:
+  blank1: ["GROUP BY", "group by"]
+  blank2: ["dept_name"]
+sampleAnswer: "SELECT d.dept_name, COUNT(*) AS 社員数 FROM departments d INNER JOIN employees e ON d.dept_id = e.dept_id GROUP BY d.dept_name;"
+explanation: |
+  `JOIN` と `GROUP BY` を組み合わせることで、結合後のデータをグループ集計できる。
+
+  **SQL句の実行順序**：
+  `FROM` → `JOIN` → `WHERE` → `GROUP BY` → `HAVING` → `SELECT` → `ORDER BY` → `LIMIT`
+
+  **`GROUP BY` に使用できる列**：
+  - `GROUP BY` に指定した列のみ `SELECT` に書ける（集約関数以外）
+  - `d.dept_name` で `GROUP BY` しているため `SELECT` に `d.dept_name` を書ける
+
+  **注意点**：
+  - `GROUP BY d.dept_id` でも正しいが、`SELECT` 句に `dept_name` を表示したいため `dept_name` でグループ化する
+  - `INNER JOIN` なので部門に所属する社員のみ数えられる
+  - `LEFT JOIN` に変えると社員が0人の部門も結果に含まれる
+hint: "JOIN後のデータをグループ集計するには GROUP BY を使う"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+部門名（`dept_name`）と部門ごとの社員数を取得するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT d.dept_name, COUNT(*) AS 社員数
+FROM departments d
+INNER JOIN employees e ON d.dept_id = e.dept_id
+`}<BlankInput id="blank1" />{` d.`}<BlankInput id="blank2" />{`;`}
+</CodeBlock>

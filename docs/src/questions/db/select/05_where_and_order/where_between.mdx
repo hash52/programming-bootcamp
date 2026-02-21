@@ -1,0 +1,47 @@
+---
+id: "db/select/05_where_and_order#where_between"
+title: "範囲を指定して絞り込める"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "05_where_and_order"
+category: "db/select"
+fillInBlankAnswers:
+  blank1: ["BETWEEN", "between"]
+  blank2: ["AND", "and"]
+sampleAnswer: "SELECT * FROM employees WHERE salary BETWEEN 300000 AND 400000;"
+explanation: |
+  `BETWEEN 値1 AND 値2` で指定した範囲（両端を含む）のデータを取得できる。
+
+  基本構文：
+  ```sql
+  WHERE 列名 BETWEEN 最小値 AND 最大値
+  ```
+
+  **ポイント**：
+  - 両端の値（300000と400000）を含む（`>=` と `<=` と同じ）
+  - `NOT BETWEEN` で範囲外のデータを取得できる
+  - 文字列や日付にも使用可能（例: `WHERE hire_date BETWEEN '2020-01-01' AND '2023-12-31'`）
+
+  **`AND` との比較**：
+  `WHERE salary BETWEEN 300000 AND 400000` は
+  `WHERE salary >= 300000 AND salary <= 400000` と同じ意味である。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+給与が300000以上400000以下の社員を取得するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT *
+FROM employees
+WHERE salary `}<BlankInput id="blank1" />{` 300000 `}<BlankInput id="blank2" />{` 400000;`}
+</CodeBlock>

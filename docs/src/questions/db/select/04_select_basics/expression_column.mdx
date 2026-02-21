@@ -1,0 +1,44 @@
+---
+id: "db/select/04_select_basics#expression_column"
+title: "計算式を使った列を作成できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_select_basics"
+category: "db/select"
+fillInBlankAnswers:
+  blank1: ["12"]
+  blank2: ["AS", "as"]
+sampleAnswer: "SELECT emp_name, salary * 12 AS 年収 FROM employees;"
+explanation: |
+  `SELECT` 句では列名だけでなく計算式も記述できる。
+
+  **使用できる演算子**：
+  - `+`: 加算
+  - `-`: 減算
+  - `*`: 乗算
+  - `/`: 除算
+  - `%`: 剰余（余り）
+
+  **ポイント**：
+  - 計算式にも `AS` で別名を付けることが推奨される
+  - データベースに保存されている値から動的に計算結果を取得できる
+  - 文字列の結合は `||` または `CONCAT()` 関数を使う
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+全社員の `salary` を12倍した「年収」を計算して取得するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT emp_name, salary * `}<BlankInput id="blank1" />{` `}<BlankInput id="blank2" />{` 年収
+FROM employees;`}
+</CodeBlock>

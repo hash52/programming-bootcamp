@@ -1,0 +1,41 @@
+---
+id: "db/basics/03_crud_operations#commit_rollback_role"
+title: "COMMITとROLLBACKの役割を説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "03_crud_operations"
+category: "db/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "トランザクション中に行った変更を確定して保存する"
+  - id: "B"
+    text: "トランザクション中に行った変更を取り消して元の状態に戻す"
+  - id: "C"
+    text: "テーブルを削除してデータを初期化する"
+  - id: "D"
+    text: "次のトランザクションを自動的に開始する"
+answers:
+  correct: ["B"]
+explanation: |
+  この問題は `ROLLBACK` の動作を問うている。
+
+  **COMMIT と ROLLBACK の違い**：
+  - `COMMIT`: トランザクション中に行った変更を **確定** して保存する
+  - `ROLLBACK`: トランザクション中に行った変更を **取り消し** て `BEGIN` 前の状態に戻す
+
+  **使い方**：
+  ```sql
+  BEGIN;                                          -- トランザクション開始
+  UPDATE employees SET salary = salary + 10000;  -- 操作
+  -- エラーが発生した場合 → ROLLBACK で取り消し
+  -- 正常に完了した場合 → COMMIT で確定
+  COMMIT;                                         -- または ROLLBACK;
+  ```
+
+  選択肢Aは `COMMIT` の説明であることに注意する。
+hint: "COMMIT と ROLLBACK のどちらが「取り消し」か考えてみよう"
+---
+
+`ROLLBACK` を実行したとき、何が起きるか選べ。

@@ -1,0 +1,40 @@
+---
+id: "db/basics/03_crud_operations#fk_constraint_on_delete"
+title: "外部キー制約が削除に与える影響を説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "03_crud_operations"
+category: "db/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "正常に削除される"
+  - id: "B"
+    text: "外部キー制約エラーが発生し、削除できない"
+  - id: "C"
+    text: "employees テーブルの該当行も自動的に削除される"
+  - id: "D"
+    text: "employees テーブルの dept_id が自動的にNULLに更新される"
+answers:
+  correct: ["B"]
+explanation: |
+  `employees.dept_id` は `departments.dept_id` を参照する外部キーが設定されている。
+  この外部キーを参照している行が `employees` テーブルに存在する場合、
+  参照先（`departments`）のデータは削除できず、外部キー制約エラーが発生する。
+
+  **外部キー制約の削除オプション**（明示的に設定した場合のみ動作）：
+  - `ON DELETE CASCADE`: 参照元の行も自動削除（選択肢C）
+  - `ON DELETE SET NULL`: 参照元の外部キー列をNULLに更新（選択肢D）
+  - `ON DELETE RESTRICT`（デフォルト）: 参照元が存在する場合は削除を禁止（選択肢B）
+
+  設定しない場合のデフォルトは `RESTRICT` であるため、エラーが発生する。
+hint: "外部キー制約のデフォルト動作を考えてみよう"
+---
+
+以下のSQL文を実行したとき、何が起きるか選べ。
+（`employees` テーブルに `dept_id=1` の社員が存在する状態で実行する）
+
+```sql
+DELETE FROM departments WHERE dept_id = 1;
+```

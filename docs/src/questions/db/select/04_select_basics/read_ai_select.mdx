@@ -1,0 +1,47 @@
+---
+id: "db/select/04_select_basics#read_ai_select"
+title: "AIが生成したSELECT文を理解できる"
+type: "READ"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "04_select_basics"
+category: "db/select"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "開発部（dept_id=2）の社員を年収の高い順に上位3件取得する"
+  - id: "B"
+    text: "全社員を給与の低い順に並べて3件取得する"
+  - id: "C"
+    text: "dept_id=2の部門名と年収の合計を取得する"
+  - id: "D"
+    text: "全部門のデータを3件ずつ取得する"
+answers:
+  correct: ["A"]
+explanation: |
+  SQL文を各句に分けて読み解くと以下の通りである。
+
+  - `SELECT emp_name, salary * 12 AS 年収`: 社員名と年収（月給×12）を取得
+  - `FROM employees`: employeesテーブルから
+  - `WHERE dept_id = 2`: 開発部（dept_id=2）に絞り込む
+  - `ORDER BY salary DESC`: 給与の降順（高い順）に並べる
+  - `LIMIT 3`: 上位3件に制限する
+
+  **SQL文の読み方のコツ**：
+  1. まず `FROM` で対象テーブルを確認する
+  2. `WHERE` で絞り込み条件を確認する
+  3. `SELECT` で取得する列と計算式を確認する
+  4. `ORDER BY` と `LIMIT` で並び順と件数制限を確認する
+
+  AIが生成したSQL文も、各句の意味を理解すれば正確に読み解くことができる。
+---
+
+以下のAIが生成したSQL文を見て、何を取得するSQL文かを正しく説明しているものを選べ。
+
+```sql
+SELECT emp_name, salary * 12 AS 年収
+FROM employees
+WHERE dept_id = 2
+ORDER BY salary DESC
+LIMIT 3;
+```

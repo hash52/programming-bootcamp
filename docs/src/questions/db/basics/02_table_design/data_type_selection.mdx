@@ -1,0 +1,35 @@
+---
+id: "db/basics/02_table_design#data_type_selection"
+title: "適切なデータ型を選択できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_table_design"
+category: "db/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "INTEGER（整数）"
+  - id: "B"
+    text: "VARCHAR(50)（最大50文字の文字列）"
+  - id: "C"
+    text: "DATE（日付）"
+  - id: "D"
+    text: "BOOLEAN（真偽値）"
+answers:
+  correct: ["B"]
+explanation: |
+  文字列を格納するには `VARCHAR(n)` を使用する。`n` は格納できる最大文字数である。
+
+  **主なデータ型**：
+  - `INTEGER`: 整数（社員ID、年齢など）
+  - `VARCHAR(n)`: 最大n文字の可変長文字列（名前、メールアドレスなど）
+  - `CHAR(n)`: 固定長n文字の文字列（郵便番号など）
+  - `DATE`: 日付（2024-04-01 の形式）
+  - `DECIMAL(p, s)` / `NUMERIC(p, s)`: 小数を含む数値（金額など）
+  - `BOOLEAN`: 真偽値（TRUE / FALSE）
+
+  名前には `VARCHAR(50)` が適切である。
+---
+
+社員の名前を格納する列のデータ型として最も適切なものを選べ。

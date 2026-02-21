@@ -1,0 +1,48 @@
+---
+id: "db/basics/02_table_design#design_table_from_requirements"
+title: "要件からテーブル定義を作成できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "02_table_design"
+category: "db/basics"
+fillInBlankAnswers:
+  blank1: ["CREATE", "create"]
+  blank2: ["PRIMARY", "primary"]
+  blank3: ["VARCHAR", "varchar"]
+sampleAnswer: "CREATE TABLE projects (project_id INTEGER PRIMARY KEY, project_name VARCHAR(100) NOT NULL);"
+explanation: |
+  要件を読んでCREATE TABLE文に変換する手順：
+
+  1. テーブル名を確認する
+  2. 各列のデータ型を決定する（整数 → `INTEGER`、文字列 → `VARCHAR(n)`、日付 → `DATE`）
+  3. 各列の制約を決定する（主キー → `PRIMARY KEY`、NULL禁止 → `NOT NULL`、外部キー → `REFERENCES`）
+
+  **要件の読み方**：
+  - 「主キー」または「ID」→ `PRIMARY KEY`
+  - 「必須」または「NULL禁止」→ `NOT NULL`
+  - 「最大〇文字の文字列」→ `VARCHAR(〇)`
+  - 「整数」または「〜番号」→ `INTEGER`
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+以下の要件から `projects` テーブルの `CREATE TABLE` 文を完成させよ。
+
+- `project_id`: 整数・主キー
+- `project_name`: 最大100文字の文字列・NULL禁止
+
+<CodeBlock>
+<BlankInput id="blank1" />{` TABLE projects (
+    project_id   INTEGER       `}<BlankInput id="blank2" />{` KEY,
+    project_name `}<BlankInput id="blank3" />{`(100) NOT NULL
+);`}
+</CodeBlock>

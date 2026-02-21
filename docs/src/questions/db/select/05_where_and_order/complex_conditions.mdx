@@ -1,0 +1,51 @@
+---
+id: "db/select/05_where_and_order#complex_conditions"
+title: "複雑な条件でデータを取得できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "05_where_and_order"
+category: "db/select"
+fillInBlankAnswers:
+  blank1: ["OR", "or"]
+  blank2: [">="]
+sampleAnswer: "SELECT emp_name, salary FROM employees WHERE dept_id = 1 OR salary >= 400000;"
+explanation: |
+  「または」の条件は `OR` で結ぶ。
+
+  **AND と OR の使い分け**：
+  - `AND`: 両方の条件を同時に満たす行（積集合）
+  - `OR`: いずれか一方を満たす行（和集合）
+
+  **優先順位と括弧**：
+  `AND` は `OR` より優先される。
+  複数の条件を組み合わせるときは `()` を使って意図を明確にすること。
+
+  ```sql
+  -- 誤った解釈が生まれやすい例
+  WHERE dept_id = 1 OR dept_id = 2 AND salary > 300000
+  -- これは (dept_id = 1) OR (dept_id = 2 AND salary > 300000) と解釈される
+
+  -- 括弧で明確に
+  WHERE (dept_id = 1 OR dept_id = 2) AND salary > 300000
+  ```
+hint: "「または」を表す論理演算子を考えよう"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+「営業部（`dept_id=1`）または給与が400000以上の社員」の `emp_name` と `salary` を取得するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT emp_name, salary
+FROM employees
+WHERE dept_id = 1 `}<BlankInput id="blank1" />{` salary `}<BlankInput id="blank2" />{` 400000;`}
+</CodeBlock>

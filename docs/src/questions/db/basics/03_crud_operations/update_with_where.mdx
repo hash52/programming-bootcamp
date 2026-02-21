@@ -1,0 +1,49 @@
+---
+id: "db/basics/03_crud_operations#update_with_where"
+title: "条件を指定してデータを更新できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_crud_operations"
+category: "db/basics"
+fillInBlankAnswers:
+  blank1: ["UPDATE", "update"]
+  blank2: ["SET", "set"]
+sampleAnswer: "UPDATE employees SET salary = 380000 WHERE emp_id = 1;"
+explanation: |
+  データを更新するには `UPDATE テーブル名 SET 列名 = 値 WHERE 条件` を使用する。
+
+  基本構文：
+  ```sql
+  UPDATE テーブル名
+  SET 列名 = 新しい値
+  WHERE 条件;
+  ```
+
+  **注意点**：
+  - `WHERE` 句を省略すると **全行** が更新されるため、必ず対象を絞り込む条件を指定すること
+  - 複数列を同時に更新する場合: `SET 列1 = 値1, 列2 = 値2`
+  - 更新前に `SELECT` で対象行を確認するのがベストプラクティス
+
+  **よくある間違い**：
+  - `SET` を書き忘れる
+  - `WHERE` を省略して全データを更新してしまう
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+`emp_id` が1の社員の `salary` を380000に更新するSQL文を完成させよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{` employees
+`}<BlankInput id="blank2" />{` salary = 380000
+WHERE emp_id = 1;`}
+</CodeBlock>

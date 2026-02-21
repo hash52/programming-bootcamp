@@ -1,0 +1,43 @@
+---
+id: "db/design/07_normalization#table_split_necessity"
+title: "テーブル分割の必要性を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "07_normalization"
+category: "db/design"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "SQLの実行速度を向上させるため"
+  - id: "B"
+    text: "データの重複を排除し、更新時の不整合（異常）を防ぐため"
+  - id: "C"
+    text: "テーブルごとにパスワードを設定できるようにするため"
+  - id: "D"
+    text: "1つのテーブルに保存できるデータ量を増やすため"
+answers:
+  correct: ["B"]
+explanation: |
+  テーブルを分割する主な目的はデータの重複排除と更新異常の防止である。
+
+  **テーブルを分割しない場合の問題**：
+
+  例: 社員と部門情報を1つのテーブルに混在させた場合
+  ```
+  | emp_id | emp_name | dept_name | dept_location |
+  |--------|----------|-----------|---------------|
+  | 1      | 田中太郎 | 営業部    | 東京          |
+  | 2      | 鈴木花子 | 開発部    | 大阪          |
+  | 5      | 中村健一 | 営業部    | 東京          |
+  ```
+
+  - **更新異常**: 「営業部」を「セールス部」に変更するとき、複数行を更新しなければならず漏れが生じる
+  - **挿入異常**: 社員のいない部門を登録できない（社員情報が必要なため）
+  - **削除異常**: 部門の社員が全員退職すると、部門情報も消えてしまう
+
+  **分割後**:
+  `departments(dept_id, dept_name, location)` + `employees(emp_id, emp_name, dept_id, ...)` に分離することで、部門名の変更は `departments` テーブルの1行を更新するだけで済む。
+---
+
+テーブルを分割（正規化）する主な目的として正しいものを選べ。

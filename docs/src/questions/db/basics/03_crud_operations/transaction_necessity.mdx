@@ -1,0 +1,39 @@
+---
+id: "db/basics/03_crud_operations#transaction_necessity"
+title: "トランザクションの必要性を説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "03_crud_operations"
+category: "db/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "SQLの実行速度を向上させるため"
+  - id: "B"
+    text: "複数の操作を「全部成功」か「全部失敗」に一括管理するため"
+  - id: "C"
+    text: "複数のテーブルに同時にアクセスできるようにするため"
+  - id: "D"
+    text: "データのバックアップを自動的に作成するため"
+answers:
+  correct: ["B"]
+explanation: |
+  トランザクションは複数のSQL操作をひとまとまりとして扱う仕組みである。
+
+  **なぜ必要か（具体例）**：
+  銀行振込を考えてみよう。
+
+  1. 振込元の口座から10万円を引く: `UPDATE accounts SET balance = balance - 100000 WHERE id = 1;`
+  2. 振込先の口座に10万円を加える: `UPDATE accounts SET balance = balance + 100000 WHERE id = 2;`
+
+  もし①の後、②の前にシステムがクラッシュしたら？振込元からお金が消えているのに、
+  振込先に届いていないという不整合が発生する。
+
+  **トランザクションの役割**：
+  - どちらも成功した場合のみ確定（`COMMIT`）
+  - 一方が失敗したら両方取り消す（`ROLLBACK`）
+  - これにより「全部成功」か「全部失敗」かのどちらかにしか結果がならない（原子性）
+---
+
+トランザクションを使う最大の目的として正しいものを選べ。

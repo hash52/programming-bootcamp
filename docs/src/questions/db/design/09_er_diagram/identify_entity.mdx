@@ -1,0 +1,51 @@
+---
+id: "db/design/09_er_diagram#identify_entity"
+title: "ER図のエンティティを識別できる"
+type: "READ"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "09_er_diagram"
+category: "db/design"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "emp_id（社員ID）"
+  - id: "B"
+    text: "employees（社員テーブル）"
+  - id: "C"
+    text: "emp_name（社員名）"
+  - id: "D"
+    text: "dept_id（部門ID）"
+answers:
+  correct: ["B"]
+explanation: |
+  エンティティはER図において「モノ」の概念を表し、テーブルに対応する。
+
+  **エンティティ vs 属性**：
+  - **エンティティ**: 管理したいモノや概念（テーブル名）→ 図の長方形ボックス全体
+    - 例: `employees`（社員）、`departments`（部門）、`projects`（プロジェクト）
+  - **属性**: エンティティが持つ情報（列名）→ ボックス内に列挙されている項目
+    - 例: `emp_id`、`emp_name`、`dept_id`
+
+  `emp_id` や `emp_name` は `employees` エンティティの **属性**（列）であり、
+  エンティティそのものではない。`dept_id` も同様に属性の一つである。
+---
+
+以下のER図を見て、エンティティ（テーブルに対応する「モノ」）として正しいものを選べ。
+
+```mermaid
+erDiagram
+    departments {
+        INTEGER dept_id PK
+        VARCHAR dept_name
+        VARCHAR location
+    }
+    employees {
+        INTEGER emp_id PK
+        VARCHAR emp_name
+        INTEGER dept_id FK
+        DATE hire_date
+        INTEGER salary
+    }
+    departments ||--o{ employees : "所属"
+```

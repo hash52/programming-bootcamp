@@ -1,0 +1,48 @@
+---
+id: "db/select/05_where_and_order#where_like"
+title: "あいまい検索ができる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "05_where_and_order"
+category: "db/select"
+fillInBlankAnswers:
+  blank1: ["LIKE", "like"]
+sampleAnswer: "SELECT * FROM employees WHERE emp_name LIKE '%田%';"
+explanation: |
+  `LIKE` は部分一致検索（あいまい検索）を行う演算子である。
+
+  **ワイルドカード**：
+  - `%`: 任意の0文字以上の文字列にマッチする
+  - `_`: 任意の1文字にマッチする
+
+  **使用例**：
+  - `LIKE '%田%'`: 「田」を含む文字列（田中、田村、吉田など）
+  - `LIKE '田%'`: 「田」で始まる文字列（田中、田村など）
+  - `LIKE '%田'`: 「田」で終わる文字列（吉田、上田など）
+  - `LIKE '田_'`: 「田」の後に1文字が続く文字列（田中、田村など）
+  - `NOT LIKE '%田%'`: 「田」を含まない文字列
+
+  **注意点**：
+  - 大文字小文字の区別はDBMSの設定によって異なる
+  - 大量データへの `LIKE` 検索はパフォーマンスに影響する場合がある
+hint: "部分一致検索に使う演算子を考えよう"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+`emp_name` に「田」という文字が含まれる社員を取得するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT *
+FROM employees
+WHERE emp_name `}<BlankInput id="blank1" />{` '%田%';`}
+</CodeBlock>

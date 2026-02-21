@@ -1,0 +1,50 @@
+---
+id: "db/select/06_aggregation#group_by_multiple"
+title: "複数列でグループ化できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "06_aggregation"
+category: "db/select"
+fillInBlankAnswers:
+  blank1: ["GROUP BY", "group by"]
+  blank2: ["ORDER BY", "order by"]
+  blank3: ["DESC", "desc"]
+sampleAnswer: "SELECT dept_id, AVG(salary) AS 平均給与 FROM employees GROUP BY dept_id ORDER BY AVG(salary) DESC;"
+explanation: |
+  `GROUP BY` と `ORDER BY` を組み合わせることで、グループ集計の結果を並び替えることができる。
+
+  **`ORDER BY` での集約関数の使用**：
+  - `ORDER BY AVG(salary) DESC`: 平均給与の降順で並べる
+  - `ORDER BY 平均給与 DESC`: 別名を使って並べることも可能
+  - `ORDER BY 2 DESC`: SELECT句の2番目の列を基準に並べる（列番号参照）
+
+  **複数列での GROUP BY**：
+  ```sql
+  GROUP BY dept_id, hire_date
+  -- dept_id と hire_date の組み合わせごとにグループ化する
+  ```
+
+  **実行順序**：
+  `FROM` → `WHERE` → `GROUP BY` → `HAVING` → `SELECT` → `ORDER BY` → `LIMIT`
+hint: "GROUP BY の後に並び替えをするには ORDER BY を使う"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+部門ごと（`dept_id`）の平均給与を、平均給与の降順で取得するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT dept_id, AVG(salary) AS 平均給与
+FROM employees
+`}<BlankInput id="blank1" />{` dept_id
+`}<BlankInput id="blank2" />{` AVG(salary) `}<BlankInput id="blank3" />{`;`}
+</CodeBlock>

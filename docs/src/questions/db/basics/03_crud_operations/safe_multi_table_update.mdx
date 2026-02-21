@@ -1,0 +1,55 @@
+---
+id: "db/basics/03_crud_operations#safe_multi_table_update"
+title: "複数テーブルを安全に更新できる"
+type: "WRITE"
+difficulty: "Hard"
+format: "fillInBlank"
+topicId: "03_crud_operations"
+category: "db/basics"
+fillInBlankAnswers:
+  blank1: ["BEGIN", "begin"]
+  blank2: ["COMMIT", "commit"]
+sampleAnswer: "BEGIN; UPDATE employees SET salary = salary + 10000 WHERE dept_id = 1; COMMIT;"
+explanation: |
+  `BEGIN`（または `START TRANSACTION`）でトランザクションを開始し、
+  操作が正常に完了したら `COMMIT` で確定する。
+
+  **トランザクション制御コマンド**：
+  - `BEGIN`: トランザクションを開始する
+  - `COMMIT`: 変更を確定する（取り消し不可になる）
+  - `ROLLBACK`: 変更を取り消して `BEGIN` 前の状態に戻す
+
+  **実務でのパターン**：
+  ```sql
+  BEGIN;
+  -- 操作1
+  UPDATE employees SET salary = salary + 10000 WHERE dept_id = 1;
+  -- 操作2（追加の操作がある場合）
+  INSERT INTO salary_history VALUES (...);
+  COMMIT;   -- 全操作が成功したら確定
+  -- エラーが起きたら ROLLBACK で全取り消し
+  ```
+
+  複数テーブルにまたがる更新や、失敗が許されない重要なデータ操作には
+  必ずトランザクションを使うことが推奨される。
+hint: "トランザクションの開始コマンドと終了コマンドを思い出そう"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+以下のトランザクション処理の空欄を埋めよ。
+`dept_id=1` の全社員の `salary` を10000円増やし、正常に完了したら確定する。
+
+<CodeBlock>
+<BlankInput id="blank1" />{`;
+UPDATE employees SET salary = salary + 10000 WHERE dept_id = 1;
+`}<BlankInput id="blank2" />{`;`}
+</CodeBlock>

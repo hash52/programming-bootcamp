@@ -1,0 +1,53 @@
+---
+id: "db/design/08_join#multi_table_join"
+title: "3つ以上のテーブルを結合できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "08_join"
+category: "db/design"
+fillInBlankAnswers:
+  blank1: ["INNER JOIN", "inner join", "JOIN", "join"]
+  blank2: ["e"]
+sampleAnswer: "SELECT e.emp_name, d.dept_name, a.project_id FROM employees e INNER JOIN departments d ON e.dept_id = d.dept_id INNER JOIN assignments a ON e.emp_id = a.emp_id;"
+explanation: |
+  3つ以上のテーブルを結合するには `INNER JOIN ... ON ...` を連続して記述する。
+
+  基本構文：
+  ```sql
+  FROM テーブル1 t1
+  INNER JOIN テーブル2 t2 ON t1.外部キー = t2.主キー
+  INNER JOIN テーブル3 t3 ON t1.外部キー = t3.主キー;
+  -- または t2.外部キー = t3.主キー（結合元は状況による）
+  ```
+
+  **各結合条件**：
+  - `employees JOIN departments`: `e.dept_id = d.dept_id`（社員の所属部門）
+  - `employees JOIN assignments`: `e.emp_id = a.emp_id`（社員のアサインメント）
+
+  **注意点**：
+  - 各 `JOIN` の `ON` 条件に正しいテーブル別名と列名を使う
+  - 同名の列が複数テーブルに存在する場合は必ず `別名.列名` で区別する
+  - `assignments` は `employees` と直接関係しているため `e.emp_id = a.emp_id` が結合条件
+hint: "3テーブルの結合はINNER JOINを2回連続して書く"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+`employees`、`departments`、`assignments` の3テーブルを結合して、
+社員名・部門名・担当プロジェクトIDを取得するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT e.emp_name, d.dept_name, a.project_id
+FROM employees e
+INNER JOIN departments d ON e.dept_id = d.dept_id
+`}<BlankInput id="blank1" />{` assignments a ON `}<BlankInput id="blank2" />{`.emp_id = a.emp_id;`}
+</CodeBlock>

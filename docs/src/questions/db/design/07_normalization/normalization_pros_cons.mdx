@@ -1,0 +1,38 @@
+---
+id: "db/design/07_normalization#normalization_pros_cons"
+title: "正規化のメリットとデメリットを説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "07_normalization"
+category: "db/design"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "データの重複が増えてストレージを圧迫する"
+  - id: "B"
+    text: "テーブルが増えるため、データを取得するときにJOINが必要になりクエリが複雑になる"
+  - id: "C"
+    text: "INSERT・UPDATE・DELETEができなくなる"
+  - id: "D"
+    text: "主キーを設定できなくなる"
+answers:
+  correct: ["B"]
+explanation: |
+  **正規化のメリット**：
+  - データの重複を排除できる（ストレージ節約）
+  - 更新異常・挿入異常・削除異常を防げる
+  - データの一貫性が保たれる
+
+  **正規化のデメリット**：
+  - テーブルが増えるため、複数テーブルのデータを取得するときに `JOIN` が必要になる
+  - `JOIN` が多くなるとクエリが複雑になり、可読性が低下する
+  - 場合によっては `JOIN` の多用がパフォーマンスに影響することもある
+
+  **実務でのトレードオフ**：
+  - データの更新頻度が高い場合 → 正規化を徹底してデータの一貫性を優先
+  - 検索性能が重要な場合 → あえて一部の非正規化（反正規化）を行うこともある
+  - データウェアハウスなどのBI用途 → 検索しやすい非正規形（スタースキーマなど）が使われる
+---
+
+正規化のデメリットとして正しいものを選べ。

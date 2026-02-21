@@ -1,0 +1,49 @@
+---
+id: "db/design/07_normalization#first_normal_form"
+title: "第1正規形を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "07_normalization"
+category: "db/design"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "すべての列が主キーに完全関数従属している"
+  - id: "B"
+    text: "推移的関数従属が存在しない"
+  - id: "C"
+    text: "各セルに値が1つだけ格納されている（繰り返しグループがない）"
+  - id: "D"
+    text: "テーブルに外部キーが設定されている"
+answers:
+  correct: ["C"]
+explanation: |
+  第1正規形（1NF: First Normal Form）の条件は「各セルに原子的な値（1つの値）のみが格納されていること」である。
+
+  **1NFを満たさない例**：
+  ```
+  | emp_id | emp_name | skills          |
+  |--------|----------|-----------------|
+  | 1      | 田中太郎 | Java, Python    |  ← 1つのセルに複数の値
+  | 2      | 鈴木花子 | SQL, Java, HTML |  ← 繰り返しグループ
+  ```
+
+  **1NFを満たす形に変換**：
+  ```
+  | emp_id | emp_name | skill  |
+  |--------|----------|--------|
+  | 1      | 田中太郎 | Java   |
+  | 1      | 田中太郎 | Python |
+  | 2      | 鈴木花子 | SQL    |
+  | 2      | 鈴木花子 | Java   |
+  | 2      | 鈴木花子 | HTML   |
+  ```
+
+  **各正規形の条件**：
+  - 第1正規形（1NF）: 繰り返しグループの排除（選択肢C）
+  - 第2正規形（2NF）: 部分関数従属の排除（選択肢A）
+  - 第3正規形（3NF）: 推移的関数従属の排除（選択肢B）
+---
+
+第1正規形（1NF）を満たす条件として正しいものを選べ。

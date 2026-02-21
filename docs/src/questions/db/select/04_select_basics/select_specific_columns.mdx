@@ -1,0 +1,42 @@
+---
+id: "db/select/04_select_basics#select_specific_columns"
+title: "特定の列だけを取得できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_select_basics"
+category: "db/select"
+fillInBlankAnswers:
+  blank1: ["SELECT", "select"]
+sampleAnswer: "SELECT emp_name, salary FROM employees;"
+explanation: |
+  特定の列だけを取得するには `SELECT 列名1, 列名2, ...` のように列名をカンマ区切りで指定する。
+
+  基本構文：
+  ```sql
+  SELECT 列名1, 列名2, ... FROM テーブル名;
+  ```
+
+  **ポイント**：
+  - 列名はカンマ `,` で区切る
+  - 列名の順序は取得結果の列の並び順になる
+  - `*` の代わりに列名を列挙することで、必要なデータだけを効率的に取得できる
+  - ネットワーク転送量の削減やクエリの可読性向上のために、必要な列だけを指定するのが推奨される
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+`employees` テーブルから `emp_name` と `salary` の列のみを取得するSQL文を完成させよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{` emp_name, salary
+FROM employees;`}
+</CodeBlock>

@@ -236,6 +236,26 @@ const QuestionRendererInner: React.FC<
               <Typography fontWeight="bold">解答・解説を見る</Typography>
             </AccordionSummary>
             <AccordionDetails>
+              {/* 選択問題の正解表示 */}
+              {metadata.format === "multipleChoice" &&
+                metadata.answers &&
+                metadata.choices && (
+                  <Box mb={2}>
+                    <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+                      正解
+                    </Typography>
+                    {metadata.answers.correct.map((answerId) => {
+                      const choice = metadata.choices!.find(
+                        (c) => c.id === answerId
+                      );
+                      return (
+                        <Typography key={answerId} sx={{ color: "success.main", fontWeight: "bold" }}>
+                          {answerId}. {choice?.text}
+                        </Typography>
+                      );
+                    })}
+                  </Box>
+                )}
               {metadata.sampleAnswer && (
                 <Box mb={2}>
                   <Typography

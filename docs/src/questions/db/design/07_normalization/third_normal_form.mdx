@@ -1,0 +1,48 @@
+---
+id: "db/design/07_normalization#third_normal_form"
+title: "第3正規形を説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "07_normalization"
+category: "db/design"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "繰り返しグループ（1つのセルに複数の値）を排除する"
+  - id: "B"
+    text: "主キーの一部にのみ依存する列（部分関数従属）を排除する"
+  - id: "C"
+    text: "主キー以外の列を経由した依存関係（推移的関数従属）を排除する"
+  - id: "D"
+    text: "NULLが含まれる列をすべて別テーブルに移動する"
+answers:
+  correct: ["C"]
+explanation: |
+  第3正規形（3NF）の条件は「第2正規形を満たし、かつ推移的関数従属がないこと」である。
+
+  **推移的関数従属とは**：
+  「主キー → 非キー列A → 非キー列B」という連鎖的な依存関係のこと。
+
+  **3NFを満たさない例**：
+  ```
+  | emp_id | emp_name | dept_id | dept_name | dept_location |
+  |--------|----------|---------|-----------|---------------|
+  | 1      | 田中太郎 | 1       | 営業部    | 東京          |
+  | 2      | 鈴木花子 | 2       | 開発部    | 大阪          |
+  ```
+  - `dept_name` と `dept_location` は `emp_id` ではなく `dept_id` を経由して決まる
+  - `emp_id` → `dept_id` → `dept_name`（推移的関数従属）
+
+  **3NFに変換（分離）**：
+  - `employees(emp_id, emp_name, dept_id)` ← dept_idだけ残す
+  - `departments(dept_id, dept_name, dept_location)` ← 部門情報を分離
+
+  **各正規形まとめ**：
+  - 1NF: 繰り返しグループの排除
+  - 2NF: 部分関数従属の排除（複合主キーの場合に関係する）
+  - 3NF: 推移的関数従属の排除
+hint: "推移的関数従属とは主キー以外の列を経由した依存関係"
+---
+
+第3正規形（3NF）で排除する問題として正しいものを選べ。

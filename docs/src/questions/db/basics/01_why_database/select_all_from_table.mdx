@@ -1,0 +1,43 @@
+---
+id: "db/basics/01_why_database#select_all_from_table"
+title: "OneCompilerでテーブルの内容を表示できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "01_why_database"
+category: "db/basics"
+fillInBlankAnswers:
+  blank1: ["SELECT", "select"]
+  blank2: ["FROM", "from"]
+sampleAnswer: "SELECT * FROM employees;"
+explanation: |
+  `SELECT *` ですべての列を取得し、`FROM テーブル名` でどのテーブルからデータを取得するかを指定する。
+
+  基本構文：
+  ```sql
+  SELECT * FROM テーブル名;
+  ```
+
+  **ポイント**：
+  - `*` はすべての列を意味するワイルドカード
+  - `FROM` の後にテーブル名を指定する
+  - テーブル名は **小文字** で入力する
+  - `SELECT` と `FROM` などのキーワードは **大文字** で入力する
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+`employees` テーブルの全データを取得するSQL文の空欄を埋めよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{` *
+`}<BlankInput id="blank2" />{` employees;`}
+</CodeBlock>

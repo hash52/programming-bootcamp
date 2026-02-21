@@ -1,0 +1,64 @@
+---
+id: "db/design/09_er_diagram#many_to_many_resolution"
+title: "多対多を中間テーブルで解決できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "09_er_diagram"
+category: "db/design"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "一方のテーブルに配列型の列を追加する"
+  - id: "B"
+    text: "中間テーブル（関連テーブル）を作成し、両テーブルのIDを外部キーとして持たせる"
+  - id: "C"
+    text: "片方のテーブルを削除して1対多に変換する"
+  - id: "D"
+    text: "多対多はリレーショナルデータベースでは実装できない"
+answers:
+  correct: ["B"]
+explanation: |
+  リレーショナルデータベースでは多対多を直接表現できないため、
+  **中間テーブル**（関連テーブル、ジャンクションテーブル）を使って
+  2つの1対多に分解する。
+
+  **サンプルDBでの実装例**：
+  ```
+  employees(1) ---<  assignments  >--- (1)projects
+                    (多対多の中間)
+  ```
+
+  `assignments` テーブル：
+  - `emp_id` → `employees` への外部キー（1対多の「多」側）
+  - `project_id` → `projects` への外部キー（1対多の「多」側）
+  - `PRIMARY KEY(emp_id, project_id)` → 同じ組み合わせの重複を防ぐ
+  - `role` → 関係そのものの属性（このアサインメントでの役割）
+
+  **中間テーブルの特徴**：
+  - 両エンティティのIDを外部キーとして持つ
+  - (ID1, ID2) の複合主キーで重複を防ぐ
+  - 関係に関する追加情報（属性）を持てる（例: role, 参加日時）
+---
+
+以下のER図は、社員（`employees`）とプロジェクト（`projects`）の多対多関係を実装したものである。
+多対多のリレーションシップをRDBで実装する方法として正しいものを選べ。
+
+```mermaid
+erDiagram
+    employees {
+        INTEGER emp_id PK
+        VARCHAR emp_name
+    }
+    assignments {
+        INTEGER emp_id FK
+        INTEGER project_id FK
+        VARCHAR role
+    }
+    projects {
+        INTEGER project_id PK
+        VARCHAR project_name
+    }
+    employees ||--o{ assignments : "アサイン"
+    projects ||--o{ assignments : "アサイン"
+```

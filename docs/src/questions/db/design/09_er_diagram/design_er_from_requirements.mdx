@@ -1,0 +1,76 @@
+---
+id: "db/design/09_er_diagram#design_er_from_requirements"
+title: "要件からER図を作成できる"
+type: "WRITE"
+difficulty: "Hard"
+format: "fillInBlank"
+topicId: "09_er_diagram"
+category: "db/design"
+fillInBlankAnswers:
+  blank1: ["REFERENCES", "references"]
+  blank2: ["REFERENCES", "references"]
+  blank3: ["PRIMARY", "primary"]
+sampleAnswer: "CREATE TABLE enrollments (student_id INTEGER REFERENCES students(student_id), course_id INTEGER REFERENCES courses(course_id), enrolled_at DATE, PRIMARY KEY (student_id, course_id));"
+explanation: |
+  多対多の中間テーブル設計は `assignments` テーブルと同じパターンである。
+
+  **設計パターン（多対多の解決）**：
+  1. 多対多の関係を確認する（学生 ←多対多→ 授業）
+  2. 中間テーブルを作成する（`enrollments`）
+  3. 両エンティティのIDを外部キーとして持たせる
+  4. 複合主キーで重複を防ぐ
+
+  **`enrollments` テーブルの設計**：
+  - `student_id`: `students.student_id` への外部キー
+  - `course_id`: `courses.course_id` への外部キー
+  - `enrolled_at`: 関係の属性（登録日）
+  - `PRIMARY KEY(student_id, course_id)`: 同じ学生が同じ授業に重複登録されることを防ぐ
+
+  **このパターンを覚えれば**:
+  社員とプロジェクト、学生と授業、ユーザーとタグなど
+  あらゆる多対多の関係に応用できる。
+hint: "多対多の中間テーブルは assignments テーブルと同じパターンで設計する"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+以下のER図を参照し、`enrollments`（中間テーブル）を作成するCREATE TABLE文を完成させよ。
+
+```mermaid
+erDiagram
+    students {
+        INTEGER student_id PK
+        VARCHAR student_name
+    }
+    enrollments {
+        INTEGER student_id FK
+        INTEGER course_id FK
+        DATE enrolled_at
+    }
+    courses {
+        INTEGER course_id PK
+        VARCHAR course_name
+    }
+    students ||--o{ enrollments : "受講"
+    courses ||--o{ enrollments : "受講"
+```
+
+「学生（`students`）と授業（`courses`）の多対多関係を管理する中間テーブル `enrollments` を設計せよ」
+という要件で、以下のCREATE TABLE文を完成させよ。
+
+<CodeBlock>
+{`CREATE TABLE enrollments (
+    student_id  INTEGER `}<BlankInput id="blank1" />{` students(student_id),
+    course_id   INTEGER `}<BlankInput id="blank2" />{` courses(course_id),
+    enrolled_at DATE,
+    `}<BlankInput id="blank3" />{` KEY (student_id, course_id)
+);`}
+</CodeBlock>

@@ -1,0 +1,66 @@
+---
+id: "db/design/09_er_diagram#cardinality"
+title: "カーディナリティ（1対多、多対多）を説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "09_er_diagram"
+category: "db/design"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "1対1（one-to-one）"
+  - id: "B"
+    text: "1対多（one-to-many）"
+  - id: "C"
+    text: "多対多（many-to-many）"
+  - id: "D"
+    text: "0対1（zero-to-one）"
+answers:
+  correct: ["C"]
+explanation: |
+  「1人の社員が複数のプロジェクトに参加でき、1つのプロジェクトには複数の社員が参加できる」関係は **多対多** である。
+
+  **カーディナリティの種類**：
+
+  | 種類 | 例 |
+  |------|----|
+  | 1対1 | 社員と社員証（1人に1枚） |
+  | 1対多 | 部門と社員（1部門に複数社員） |
+  | 多対多 | 社員とプロジェクト（社員も複数プロジェクト、プロジェクトも複数社員） |
+
+  **多対多の特徴**：
+  - 「社員からみてもプロジェクトが多数」かつ「プロジェクトからみても社員が多数」
+  - RDBでは直接表現できないため、中間テーブルで2つの1対多に分解する
+  - サンプルDBでは `assignments(emp_id, project_id)` が中間テーブル
+
+  **Mermaid記法**：
+  ```
+  employees }o--o{ projects : "アサイン"
+  ```
+  - 両側に `o{` があるので多対多を表す
+---
+
+以下のER図において、`employees`（社員）と `projects`（プロジェクト）の関係のカーディナリティを選べ。
+
+```mermaid
+erDiagram
+    employees {
+        INTEGER emp_id PK
+        VARCHAR emp_name
+        INTEGER dept_id FK
+    }
+    assignments {
+        INTEGER emp_id FK
+        INTEGER project_id FK
+        VARCHAR role
+    }
+    projects {
+        INTEGER project_id PK
+        VARCHAR project_name
+        DATE start_date
+        DATE end_date
+    }
+    employees ||--o{ assignments : "アサイン"
+    projects ||--o{ assignments : "アサイン"
+```

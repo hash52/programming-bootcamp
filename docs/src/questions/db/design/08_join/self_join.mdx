@@ -1,0 +1,54 @@
+---
+id: "db/design/08_join#self_join"
+title: "自己結合ができる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "08_join"
+category: "db/design"
+fillInBlankAnswers:
+  blank1: ["e1"]
+sampleAnswer: "SELECT e1.emp_name AS 社員1, e2.emp_name AS 社員2 FROM employees e1 INNER JOIN employees e2 ON e1.dept_id = e2.dept_id AND e1.emp_id < e2.emp_id;"
+explanation: |
+  自己結合は同じテーブルを異なる別名で複数回参照する結合である。
+
+  基本構文：
+  ```sql
+  SELECT e1.列名, e2.列名
+  FROM テーブル名 e1
+  INNER JOIN テーブル名 e2 ON 結合条件;
+  ```
+
+  **自己結合の用途**：
+  - 社員同士の関係（同じ部門に所属する社員のペアなど）
+  - 階層構造（上司・部下の関係）
+  - 同一テーブル内の比較
+
+  **重複排除の条件**：
+  `e1.emp_id < e2.emp_id` という条件で
+  - (田中, 中村) のペアのみ返す
+  - (中村, 田中) の逆順の重複を除外する
+
+  この条件がないと同じペアが2回表示されてしまう。
+hint: "同じテーブルを2つの別名で使うのが自己結合のポイント"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+`employees` テーブルを `e1`、`e2` の2つの別名で自己結合し、
+同じ部門に所属する社員のペアを取得するSQL文を完成させよ。
+（`e1.emp_id < e2.emp_id` で重複の組み合わせを除去する）
+
+<CodeBlock>
+{`SELECT e1.emp_name AS 社員1, e2.emp_name AS 社員2
+FROM employees `}<BlankInput id="blank1" />{`
+INNER JOIN employees e2 ON e1.dept_id = e2.dept_id AND e1.emp_id < e2.emp_id;`}
+</CodeBlock>

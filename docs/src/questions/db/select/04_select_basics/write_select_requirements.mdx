@@ -1,0 +1,48 @@
+---
+id: "db/select/04_select_basics#write_select_requirements"
+title: "要件に応じたSELECT文を書ける"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "04_select_basics"
+category: "db/select"
+fillInBlankAnswers:
+  blank1: [">="]
+  blank2: ["350000"]
+sampleAnswer: "SELECT emp_name, salary FROM employees WHERE salary >= 350000;"
+explanation: |
+  要件を読んでSQL文に変換するときは、各条件を適切なSQL構文に対応させる。
+
+  **比較演算子の対応**：
+  - 「〜以上」→ `>=`
+  - 「〜以下」→ `<=`
+  - 「〜より大きい」→ `>`
+  - 「〜より小さい」→ `<`
+  - 「〜と等しい」→ `=`
+  - 「〜と等しくない」→ `!=` または `<>`
+
+  **要件からSQL文への変換手順**：
+  1. 何のデータが必要か（SELECT句）
+  2. どのテーブルから取得するか（FROM句）
+  3. どんな条件で絞り込むか（WHERE句）
+  4. 並び替えや件数制限が必要か（ORDER BY、LIMIT）
+hint: "「以上」を表す比較演算子を考えよう"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+「給与が350000以上の社員の `emp_name` と `salary` を取得せよ」という要件を満たすSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT emp_name, salary
+FROM employees
+WHERE salary `}<BlankInput id="blank1" />{` `}<BlankInput id="blank2" />{`;`}
+</CodeBlock>

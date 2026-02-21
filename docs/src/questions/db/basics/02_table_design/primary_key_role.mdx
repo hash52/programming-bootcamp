@@ -1,0 +1,35 @@
+---
+id: "db/basics/02_table_design#primary_key_role"
+title: "主キーの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_table_design"
+category: "db/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "テーブル内の各行を一意に識別するためのキー（NOT NULL かつ UNIQUE が保証される）"
+  - id: "B"
+    text: "他のテーブルの主キーを参照するためのキー"
+  - id: "C"
+    text: "列の値が重複しないことのみを保証する制約"
+  - id: "D"
+    text: "NULLを許可する特別な制約"
+answers:
+  correct: ["A"]
+explanation: |
+  主キー（`PRIMARY KEY`）はテーブル内の各行を一意に識別する列（または列の組み合わせ）である。
+
+  **主キーの特性**：
+  - `NOT NULL`: NULLは許可されない（各行に必ず値が必要）
+  - `UNIQUE`: 重複は許可されない（同じ値は1行のみ）
+  - 1テーブルに1つだけ設定できる
+
+  **各キーの役割**：
+  - **主キー（PRIMARY KEY）**: 自テーブルの行を一意に識別する
+  - **外部キー（FOREIGN KEY / REFERENCES）**: 他のテーブルの主キーを参照する
+  - **UNIQUE制約**: 重複を禁止するが主キーではない（NULLを許可する点が主キーと異なる）
+---
+
+主キー（`PRIMARY KEY`）の説明として正しいものを選べ。

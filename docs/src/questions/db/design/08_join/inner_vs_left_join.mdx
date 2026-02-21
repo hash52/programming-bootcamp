@@ -1,0 +1,38 @@
+---
+id: "db/design/08_join#inner_vs_left_join"
+title: "INNER JOINとLEFT JOINの違いを説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "08_join"
+category: "db/design"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "INNER JOIN は両テーブルに一致する行のみ取得し、LEFT JOIN は左テーブルの全行を取得する（右テーブルに一致がなければNULL）"
+  - id: "B"
+    text: "INNER JOIN は左テーブルの全行を取得し、LEFT JOIN は右テーブルの全行を取得する"
+  - id: "C"
+    text: "INNER JOIN は複数テーブルの結合に使えないが、LEFT JOIN は使える"
+  - id: "D"
+    text: "2つは常に同じ結果を返す"
+answers:
+  correct: ["A"]
+explanation: |
+  **INNER JOIN**（内部結合）：
+  - 両テーブルで結合条件が一致する行のみを返す
+  - 一方に対応する行がなければその行は除外される
+  - `employees` の中で `dept_id=NULL` の社員（渡辺あかり）は除外される
+
+  **LEFT JOIN**（左外部結合）：
+  - 左テーブル（`FROM` に書いたテーブル）の全行を返す
+  - 右テーブルに一致がない場合は `NULL` で埋める
+  - 渡辺あかりも結果に含まれ、`dept_name` は `NULL` になる
+
+  **使い分け**：
+  - 関連データが必ず存在する場合 → `INNER JOIN`
+  - 関連データが存在しない行も含めたい場合 → `LEFT JOIN`
+  - 例: 「全社員と、所属部門名（未所属の場合はNULL）を取得」→ `LEFT JOIN`
+---
+
+`INNER JOIN` と `LEFT JOIN` の違いとして正しいものを選べ。

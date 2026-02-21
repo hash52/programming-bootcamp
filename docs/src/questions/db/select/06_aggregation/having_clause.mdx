@@ -1,0 +1,51 @@
+---
+id: "db/select/06_aggregation#having_clause"
+title: "集計結果を絞り込める"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "06_aggregation"
+category: "db/select"
+fillInBlankAnswers:
+  blank1: ["HAVING", "having"]
+  blank2: [">="]
+sampleAnswer: "SELECT dept_id, COUNT(*) AS 社員数 FROM employees GROUP BY dept_id HAVING COUNT(*) >= 2;"
+explanation: |
+  `HAVING` は `GROUP BY` でグループ化した後の集計結果に対して条件を絞り込む句である。
+
+  基本構文：
+  ```sql
+  SELECT グループ列, 集約関数
+  FROM テーブル名
+  GROUP BY グループ列
+  HAVING 集約条件;
+  ```
+
+  **WHERE との使い分け**：
+  - `WHERE`: グループ化・集計の **前** に行を絞り込む（集約関数は使えない）
+  - `HAVING`: グループ化・集計の **後** にグループを絞り込む（集約関数が使える）
+
+  **よくある間違い**：
+  `WHERE COUNT(*) >= 2` ← エラー！集約関数は WHERE には書けない
+  `HAVING COUNT(*) >= 2` ← 正しい
+hint: "集計後の絞り込みには WHERE ではなく別のキーワードを使う"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+社員数が2人以上の部門のみを表示するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT dept_id, COUNT(*) AS 社員数
+FROM employees
+GROUP BY dept_id
+`}<BlankInput id="blank1" />{` COUNT(*) `}<BlankInput id="blank2" />{` 2;`}
+</CodeBlock>

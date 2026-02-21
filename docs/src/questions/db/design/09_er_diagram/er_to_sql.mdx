@@ -1,0 +1,78 @@
+---
+id: "db/design/09_er_diagram#er_to_sql"
+title: "ER図からCREATE TABLE文を書ける"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "09_er_diagram"
+category: "db/design"
+fillInBlankAnswers:
+  blank1: ["REFERENCES", "references"]
+  blank2: ["PRIMARY", "primary"]
+sampleAnswer: "CREATE TABLE assignments (emp_id INTEGER REFERENCES employees(emp_id), project_id INTEGER REFERENCES projects(project_id), role VARCHAR(50), PRIMARY KEY (emp_id, project_id));"
+explanation: |
+  ER図のエンティティとリレーションシップからCREATE TABLE文を作成するステップ：
+
+  1. **エンティティ → テーブル名**
+  2. **属性 → 列名・データ型**
+  3. **主キー → `PRIMARY KEY`**
+  4. **外部キー（他エンティティへの参照） → `REFERENCES`**
+  5. **多対多の中間テーブル → 複合主キー `PRIMARY KEY (列1, 列2)`**
+
+  **`REFERENCES` の書き方**：
+  ```sql
+  列名 データ型 REFERENCES 参照先テーブル名(参照先列名)
+  ```
+
+  **複合主キーの書き方**：
+  ```sql
+  PRIMARY KEY (列1, 列2)
+  -- CREATE TABLE の最後に記述する
+  ```
+
+  複合主キーを使うことで、同じ社員とプロジェクトの組み合わせが
+  重複して登録されることを防ぐことができる。
+hint: "外部キーは REFERENCES、複合主キーは PRIMARY KEY (col1, col2) で指定する"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+以下のER図を参照し、`assignments` テーブルを作成するCREATE TABLE文を完成させよ。
+（`emp_id` と `project_id` が複合主キー、それぞれ外部キー）
+
+```mermaid
+erDiagram
+    employees {
+        INTEGER emp_id PK
+        VARCHAR emp_name
+        INTEGER dept_id FK
+    }
+    assignments {
+        INTEGER emp_id FK
+        INTEGER project_id FK
+        VARCHAR role
+    }
+    projects {
+        INTEGER project_id PK
+        VARCHAR project_name
+    }
+    employees ||--o{ assignments : "アサイン"
+    projects ||--o{ assignments : "アサイン"
+```
+
+<CodeBlock>
+{`CREATE TABLE assignments (
+    emp_id     INTEGER `}<BlankInput id="blank1" />{` employees(emp_id),
+    project_id INTEGER REFERENCES projects(project_id),
+    role       VARCHAR(50),
+    `}<BlankInput id="blank2" />{` KEY (emp_id, project_id)
+);`}
+</CodeBlock>

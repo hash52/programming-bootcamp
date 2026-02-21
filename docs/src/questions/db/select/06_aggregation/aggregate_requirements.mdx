@@ -1,0 +1,50 @@
+---
+id: "db/select/06_aggregation#aggregate_requirements"
+title: "要件に応じた集計SQLを書ける"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "06_aggregation"
+category: "db/select"
+fillInBlankAnswers:
+  blank1: ["MIN", "min"]
+  blank2: ["MAX", "max"]
+sampleAnswer: "SELECT dept_id, MAX(salary) AS 最高給与, MIN(salary) AS 最低給与 FROM employees GROUP BY dept_id HAVING MAX(salary) >= 350000;"
+explanation: |
+  要件を読んで集計SQLに変換するときは、必要な集約関数と条件を整理する。
+
+  **この問題の要件の分解**：
+  - 「部門ごとの最高給与と最低給与を取得」
+    → `SELECT dept_id, MAX(salary), MIN(salary) ... GROUP BY dept_id`
+  - 「最高給与が350000以上の部門のみ」
+    → `HAVING MAX(salary) >= 350000`
+
+  **集約関数の選び方**：
+  - 「最大」→ `MAX`
+  - 「最小」→ `MIN`
+  - 「合計」→ `SUM`
+  - 「平均」→ `AVG`
+  - 「件数」→ `COUNT`
+
+  要件を読んで適切な集約関数を選ぶことが重要である。
+hint: "最大・最小それぞれの集約関数を思い出そう"
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+「部門ごとの最高給与と最低給与を取得し、最高給与が350000以上の部門のみ表示せよ」を実装するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT dept_id, MAX(salary) AS 最高給与, `}<BlankInput id="blank1" />{`(salary) AS 最低給与
+FROM employees
+GROUP BY dept_id
+HAVING `}<BlankInput id="blank2" />{`(salary) >= 350000;`}
+</CodeBlock>

@@ -1,0 +1,51 @@
+---
+id: "db/select/06_aggregation#group_by_basic"
+title: "グループごとに集計できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "06_aggregation"
+category: "db/select"
+fillInBlankAnswers:
+  blank1: ["GROUP BY", "group by"]
+  blank2: ["dept_id"]
+sampleAnswer: "SELECT dept_id, COUNT(*) AS 社員数 FROM employees GROUP BY dept_id;"
+explanation: |
+  `GROUP BY 列名` で指定した列の値ごとにグループに分けて集計できる。
+
+  基本構文：
+  ```sql
+  SELECT グループ列, 集約関数 FROM テーブル名 GROUP BY グループ列;
+  ```
+
+  **ポイント**：
+  - `GROUP BY` を使うとき、`SELECT` 句に書ける列は以下のみ
+    - `GROUP BY` に指定した列
+    - 集約関数（`COUNT`, `SUM`, `AVG`, `MAX`, `MIN`）
+  - `GROUP BY` に指定していない列を `SELECT` に書くとエラーになる（標準SQLの場合）
+
+  **実行イメージ**：
+  ```
+  dept_id=1: 田中太郎, 中村健一  → COUNT(*)=2
+  dept_id=2: 鈴木花子, 佐藤次郎  → COUNT(*)=2
+  dept_id=NULL: 渡辺あかり      → COUNT(*)=1
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+:::note SQL記述の約束
+- テーブル名・カラム名は **小文字** で入力する（例: `employees`, `dept_id`）
+- SQLキーワードは **大文字** で入力する（例: `SELECT`, `FROM`, `WHERE`）
+
+正しい例: `SELECT emp_name FROM employees WHERE dept_id = 1;`
+:::
+
+部門ごと（`dept_id`）の社員数を集計するSQL文を完成させよ。
+
+<CodeBlock>
+{`SELECT dept_id, COUNT(*) AS 社員数
+FROM employees
+`}<BlankInput id="blank1" />{` `}<BlankInput id="blank2" />{`;`}
+</CodeBlock>

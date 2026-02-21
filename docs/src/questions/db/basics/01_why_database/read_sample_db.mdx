@@ -1,0 +1,41 @@
+---
+id: "db/basics/01_why_database#read_sample_db"
+title: "サンプルDBのテーブル構造を理解できる"
+type: "READ"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "01_why_database"
+category: "db/basics"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "employees.dept_id は departments.dept_id を参照する外部キーであり、NULLも許可される"
+  - id: "B"
+    text: "employees テーブルには部門ごとに1人しか所属できない制約がある"
+  - id: "C"
+    text: "departments.dept_id はNULLを許可する"
+  - id: "D"
+    text: "employees.salary にはどんな値でも入れることができる"
+answers:
+  correct: ["A"]
+explanation: |
+  `employees.dept_id` は `REFERENCES departments(dept_id)` で外部キーが設定されているが、
+  `NOT NULL` 制約がないためNULLも許可される。部門未所属の社員（渡辺あかり）がその例である。
+
+  - **B**: 部門ごとの人数を制限する制約は存在しない
+  - **C**: `departments.dept_id` は `PRIMARY KEY` であるためNULLは禁止される
+  - **D**: `employees.salary` には `CHECK (salary > 0)` 制約があるため、0以下の値は入れられない
+---
+
+以下のサンプルDBの `employees` テーブルの定義を見て、正しい説明を選べ。
+
+```sql
+CREATE TABLE employees (
+    emp_id    INTEGER      PRIMARY KEY,
+    emp_name  VARCHAR(50)  NOT NULL,
+    dept_id   INTEGER      REFERENCES departments(dept_id),
+    hire_date DATE,
+    salary    INTEGER      CHECK (salary > 0),
+    email     VARCHAR(100) UNIQUE
+);
+```
