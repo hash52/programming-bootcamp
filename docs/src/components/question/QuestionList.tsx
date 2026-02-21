@@ -50,9 +50,6 @@ export const QuestionList: React.FC<QuestionListProps> = ({
 
   return (
     <Box mt={4}>
-      <Typography variant="h4" gutterBottom>
-        演習問題
-      </Typography>
       {questions.map((question, index) => {
         const isAchieved = !!progress[question.id];
 
