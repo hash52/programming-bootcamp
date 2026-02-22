@@ -9,15 +9,15 @@ category: "java/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "`int[] numbers = {1, 2, 3};`"
+    text: "`int[] numbers = [1, 2, 3];`"
   - id: "B"
     text: "`int numbers[] = (1, 2, 3);`"
   - id: "C"
-    text: "`int[] numbers = [1, 2, 3];`"
+    text: "`int[] numbers = {1, 2, 3};`"
   - id: "D"
     text: "`array int numbers = {1, 2, 3};`"
 answers:
-  correct: ["A"]
+  correct: ["C"]
 explanation: |
   Javaで配列を宣言と同時に初期化するには、**波括弧 `{}`** を使う。`int[] numbers = {1, 2, 3};` のように書く。丸括弧 `()` や角括弧 `[]` で初期値を囲むのは構文エラーである。`new` キーワードを使った `int[] numbers = new int[]{1, 2, 3};` という書き方も正しい。
 ---

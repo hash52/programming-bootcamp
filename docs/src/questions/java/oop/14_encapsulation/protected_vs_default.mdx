@@ -11,15 +11,15 @@ hint: |
   Javaには4つのアクセスレベルがある。`private` < デフォルト（修飾子なし） < `protected` < `public` の順にアクセス範囲が広がる。
 choices:
   - id: "A"
-    text: "protectedは同じパッケージ+子クラスからアクセス可能、デフォルトは同じパッケージからのみアクセス可能"
+    text: "protectedはprivateと同じ、デフォルトはpublicと同じ"
   - id: "B"
     text: "protectedは同じクラスからのみ、デフォルトはどこからでもアクセス可能"
   - id: "C"
     text: "protectedとデフォルトは同じアクセス範囲"
   - id: "D"
-    text: "protectedはprivateと同じ、デフォルトはpublicと同じ"
+    text: "protectedは同じパッケージ+子クラスからアクセス可能、デフォルトは同じパッケージからのみアクセス可能"
 answers:
-  correct: ["A"]
+  correct: ["D"]
 explanation: |
   Javaの4つのアクセスレベル：
 

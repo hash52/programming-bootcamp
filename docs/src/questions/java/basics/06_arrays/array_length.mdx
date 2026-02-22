@@ -9,15 +9,15 @@ category: "java/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "`配列名.length`"
+    text: "`配列名.size()`"
   - id: "B"
     text: "`配列名.length()`"
   - id: "C"
-    text: "`配列名.size()`"
+    text: "`配列名.length`"
   - id: "D"
     text: "`len(配列名)`"
 answers:
-  correct: ["A"]
+  correct: ["C"]
 explanation: |
   配列の要素数を取得するには **`配列名.length`** を使う。`length` はメソッドではなく **フィールド** であるため、丸括弧 `()` を付けない。`length()` はString（文字列）のメソッド、`size()` はArrayListなどのコレクションのメソッドである。
 ---

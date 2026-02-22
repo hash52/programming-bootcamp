@@ -11,15 +11,15 @@ hint: |
   読み取り専用にするには、フィールドをprivateにしてgetterだけを提供し、**setterを作らない** ことで実現できる。
 choices:
   - id: "A"
-    text: "フィールドをprivateにし、getterのみを提供してsetterを作らない"
+    text: "読み取り専用のフィールドはJavaでは作れない"
   - id: "B"
     text: "フィールドをpublicにして、finalを付ける"
   - id: "C"
     text: "フィールドをprotectedにする"
   - id: "D"
-    text: "読み取り専用のフィールドはJavaでは作れない"
+    text: "フィールドをprivateにし、getterのみを提供してsetterを作らない"
 answers:
-  correct: ["A"]
+  correct: ["D"]
 explanation: |
   読み取り専用（外部から変更不可）のフィールドを作るには、フィールドを **private** にして **getter のみ** を提供する。setterを作らないことで、外部からの値の変更を防げる。コンストラクタでのみ値を設定する設計パターンがよく使われる。
 ---

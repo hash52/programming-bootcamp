@@ -9,15 +9,15 @@ category: "java/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "nextLine()は1行全体を文字列として読み取り、nextInt()は整数のみを読み取る"
+    text: "nextLine()とnextInt()は全く同じ動作をする"
   - id: "B"
     text: "nextLine()は数値のみ読み取り、nextInt()は文字列を読み取る"
   - id: "C"
-    text: "nextLine()とnextInt()は全く同じ動作をする"
+    text: "nextLine()は1行全体を文字列として読み取り、nextInt()は整数のみを読み取る"
   - id: "D"
     text: "nextLine()はファイルから読み取り、nextInt()はキーボードから読み取る"
 answers:
-  correct: ["A"]
+  correct: ["C"]
 explanation: |
   **nextLine()とnextInt()の違い**：
 
@@ -40,56 +40,50 @@ explanation: |
   // "田中太郎"と入力してEnter
   String name = scanner.nextLine();  // "田中太郎"が読み取られる
   ```
+
+  **nextLine()の使い所**：
+  - 名前や住所など、文字列全体を読み取る
+  - 数字と文字が混ざった入力（例：「123abc」）
+  - 空白を含む文字列（例：「田中 太郎」）
+
+  **nextInt()の使い所**：
+  - 年齢や数量など、整数のみを読み取る
+  - 計算に使う数値
+  - ユーザーの選択肢（1, 2, 3など）
+
+  ```java
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          // 文字列を読み取る例
+          System.out.print("あなたの名前を入力してください: ");
+          String name = scanner.nextLine();
+          System.out.println("名前: " + name);
+
+          // 整数を読み取る例
+          System.out.print("あなたの年齢を入力してください: ");
+          int age = scanner.nextInt();
+          System.out.println("年齢: " + age);
+
+          // 小数を読み取る例
+          System.out.print("あなたの身長を入力してください(m): ");
+          double height = scanner.nextDouble();
+          System.out.println("身長: " + height + "m");
+      }
+  }
+  ```
+
+  **よくあるエラー**：
+  ```java
+  int age = scanner.nextInt();  // "25"と入力
+  scanner.nextLine();  // 改行文字を消費（これを忘れると次のnextLine()が空文字列を返す）
+  String name = scanner.nextLine();  // "田中太郎"と入力
+  ```
+
+  このように、`nextInt()`の後に`nextLine()`を使う場合は、間に`scanner.nextLine()`を挟んで改行文字を消費する必要がある。
 ---
 
-## 問題
-
 nextLine()とnextInt()の違いとして最も適切なものを選べ。
-
-## 解説
-
-nextLine()とnextInt()は、**読み取るデータの種類が異なる**。
-
-**nextLine()の使い所**：
-- 名前や住所など、文字列全体を読み取る
-- 数字と文字が混ざった入力（例：「123abc」）
-- 空白を含む文字列（例：「田中 太郎」）
-
-**nextInt()の使い所**：
-- 年齢や数量など、整数のみを読み取る
-- 計算に使う数値
-- ユーザーの選択肢（1, 2, 3など）
-
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
-
-<OneCompilerCodeBlock language="java" code={`import java.util.Scanner;
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        // 文字列を読み取る例
-        System.out.print("あなたの名前を入力してください: ");
-        String name = scanner.nextLine();
-        System.out.println("名前: " + name);
-
-        // 整数を読み取る例
-        System.out.print("あなたの年齢を入力してください: ");
-        int age = scanner.nextInt();
-        System.out.println("年齢: " + age);
-
-        // 小数を読み取る例
-        System.out.print("あなたの身長を入力してください(m): ");
-        double height = scanner.nextDouble();
-        System.out.println("身長: " + height + "m");
-    }
-}`} />
-
-**よくあるエラー**：
-```java
-int age = scanner.nextInt();  // "25"と入力
-scanner.nextLine();  // 改行文字を消費（これを忘れると次のnextLine()が空文字列を返す）
-String name = scanner.nextLine();  // "田中太郎"と入力
-```
-
-このように、`nextInt()`の後に`nextLine()`を使う場合は、間に`scanner.nextLine()`を挟んで改行文字を消費する必要がある。

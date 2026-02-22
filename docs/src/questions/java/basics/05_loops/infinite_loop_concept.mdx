@@ -9,15 +9,15 @@ category: "java/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "`while (true) { System.out.println(\"Hello\"); }`"
+    text: "`for (int i = 10; i > 0; i--) { System.out.println(i); }`"
   - id: "B"
     text: "`for (int i = 0; i < 10; i++) { System.out.println(i); }`"
   - id: "C"
-    text: "`for (int i = 10; i > 0; i--) { System.out.println(i); }`"
+    text: "`while (true) { System.out.println(\"Hello\"); }`"
   - id: "D"
     text: "`while (false) { System.out.println(\"Hello\"); }`"
 answers:
-  correct: ["A"]
+  correct: ["C"]
 explanation: |
   `while (true)` は条件が常に `true` であるため、ループが永遠に終わらない **無限ループ** になる。無限ループは `break` 文と組み合わせて使うことがある。`while (false)` は条件が常にfalseなので一度も実行されない。
 ---

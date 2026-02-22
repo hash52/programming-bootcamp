@@ -172,9 +172,6 @@ export const DojoPresetPanel: React.FC<DojoPresetPanelProps> = ({
             label="新しい名前"
             value={presetName}
             onChange={(e) => setPresetName(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleRename();
-            }}
             sx={{ mt: 1 }}
           />
         </DialogContent>

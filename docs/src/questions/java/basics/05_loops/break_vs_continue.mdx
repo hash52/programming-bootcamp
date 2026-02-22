@@ -9,15 +9,15 @@ category: "java/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "breakはループ全体を終了し、continueは現在の回をスキップして次の繰り返しに進む"
+    text: "breakはエラーを発生させ、continueはエラーを無視する"
   - id: "B"
     text: "breakは現在の回をスキップし、continueはループ全体を終了する"
   - id: "C"
-    text: "breakはエラーを発生させ、continueはエラーを無視する"
+    text: "breakはループ全体を終了し、continueは現在の回をスキップして次の繰り返しに進む"
   - id: "D"
     text: "breakは外側のループを、continueは内側のループを終了する"
 answers:
-  correct: ["A"]
+  correct: ["C"]
 explanation: |
   `break` はループを **完全に終了** してループの次の処理に進む。`continue` は **現在の繰り返しだけをスキップ** して、次の繰り返しに進む。ループ自体は終了しない。
 ---

@@ -9,19 +9,19 @@ category: "java/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "コードA: XYZ、コードB: X"
+    text: "コードA: XYZ、コードB: XYZ"
   - id: "B"
     text: "コードA: X、コードB: XYZ"
   - id: "C"
-    text: "コードA: XYZ、コードB: XYZ"
+    text: "コードA: XYZ、コードB: X"
   - id: "D"
     text: "コードA: Z、コードB: X"
 answers:
-  correct: ["A"]
+  correct: ["C"]
 hint: |
   独立したif文は **すべての条件を個別に評価** する。if-else ifは **最初にtrueになった条件のブロックだけ** を実行する。n=30のとき、各条件がtrueかfalseかを1つずつ確認してみよう。
 explanation: |
-  **コードA**（独立if文）: 3つのif文はそれぞれ独立しているため、すべての条件が評価される。n=30なので `n >= 10`, `n >= 20`, `n >= 30` はすべてtrue → **XYZ** が出力される。
+  **コードC**（独立if文）: 3つのif文はそれぞれ独立しているため、すべての条件が評価される。n=30なので `n >= 10`, `n >= 20`, `n >= 30` はすべてtrue → **XYZ** が出力される。
 
   **コードB**（if-else if文）: 最初の `n >= 10` がtrueなので「X」が出力され、残りのelse ifは評価されない → **X** のみ出力される。
 

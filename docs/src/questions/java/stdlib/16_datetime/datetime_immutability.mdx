@@ -11,15 +11,15 @@ hint: |
   `plusDays()` などのメソッドは元のオブジェクトを変更するのか、新しいオブジェクトを返すのかに注目しよう。
 choices:
   - id: "A"
-    text: "日時オブジェクトはイミュータブル（不変）で、plusDays()などは新しいオブジェクトを返す"
+    text: "日時オブジェクトのイミュータブル性は設定で変更できる"
   - id: "B"
     text: "日時オブジェクトはミュータブル（可変）で、plusDays()は元のオブジェクトを変更する"
   - id: "C"
     text: "LocalDateはイミュータブルだがLocalTimeはミュータブルである"
   - id: "D"
-    text: "日時オブジェクトのイミュータブル性は設定で変更できる"
+    text: "日時オブジェクトはイミュータブル（不変）で、plusDays()などは新しいオブジェクトを返す"
 answers:
-  correct: ["A"]
+  correct: ["D"]
 explanation: |
   Java 8の日時クラス（LocalDate, LocalTime, LocalDateTime等）はすべて **イミュータブル（不変）** である。`plusDays()` や `minusHours()` などのメソッドは **元のオブジェクトを変更せず、新しいオブジェクトを返す**。
 

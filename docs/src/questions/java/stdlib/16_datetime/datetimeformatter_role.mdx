@@ -11,15 +11,15 @@ hint: |
   DateTimeFormatterは日時オブジェクトと文字列を相互に変換する。`ofPattern("yyyy/MM/dd")` で表示形式を指定できる。
 choices:
   - id: "A"
-    text: "日時オブジェクトを指定した形式の文字列に変換したり、文字列を日時オブジェクトに変換する"
+    text: "日時オブジェクトを作成する"
   - id: "B"
     text: "日時の計算（加算・減算）を行う"
   - id: "C"
     text: "タイムゾーンを管理する"
   - id: "D"
-    text: "日時オブジェクトを作成する"
+    text: "日時オブジェクトを指定した形式の文字列に変換したり、文字列を日時オブジェクトに変換する"
 answers:
-  correct: ["A"]
+  correct: ["D"]
 explanation: |
   DateTimeFormatterは日時の **フォーマット（整形）** と **パース（解析）** を行うクラスである。`format()` で日時を文字列に変換し、`parse()` で文字列を日時に変換する。`ofPattern("yyyy年MM月dd日")` のようにパターンを指定できる。
 ---

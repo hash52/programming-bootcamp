@@ -9,15 +9,15 @@ category: "java/oop"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "メソッドの処理本体（中身）を書かず、シグネチャだけを定義する"
+    text: "メソッドにはprivateを指定する"
   - id: "B"
     text: "メソッドは必ずstaticで定義する"
   - id: "C"
     text: "メソッドは1つしか定義できない"
   - id: "D"
-    text: "メソッドにはprivateを指定する"
+    text: "メソッドの処理本体（中身）を書かず、シグネチャだけを定義する"
 answers:
-  correct: ["A"]
+  correct: ["D"]
 explanation: |
   インターフェースのメソッドは **シグネチャのみ** を定義し、処理の本体 `{ }` は書かない。メソッドは暗黙的に `public abstract` である。Java 8以降ではdefaultメソッドで本体を持たせることもできる。
 ---

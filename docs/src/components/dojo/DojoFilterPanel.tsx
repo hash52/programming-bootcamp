@@ -448,9 +448,6 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
             placeholder="例: 苦手なJava問題"
             value={savePresetName}
             onChange={(e) => setSavePresetName(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleSavePreset();
-            }}
             sx={{ mt: 1 }}
           />
         </DialogContent>
