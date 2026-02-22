@@ -1,0 +1,45 @@
+---
+id: "frontend/03_css_layout#display_flex"
+title: "display: flexでFlexboxレイアウトを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_css_layout"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["display", "DISPLAY"]
+  blank2: ["flex", "FLEX"]
+sampleAnswer: "display: flex;"
+explanation: |
+  `display: flex` を親要素に指定すると、その要素が **フレックスコンテナ** になり、子要素が **フレックスアイテム** として横並びに配置される。
+
+  ```css
+  .container {
+    display: flex; /* これだけで子要素が横並びになる */
+  }
+  ```
+
+  ```html
+  <div class="container">
+    <div>アイテム1</div>
+    <div>アイテム2</div>
+    <div>アイテム3</div>
+  </div>
+  ```
+
+  デフォルトの動作：
+  - 子要素が **左から右** に横並びになる
+  - 子要素の高さが揃う（stretch）
+  - 子要素は内容に応じた幅になる
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のCSSの空欄を埋めて、`.container` の子要素を横並びにするFlexboxレイアウトを完成させよ。
+
+<CodeBlock>
+{`.container {
+  `}<BlankInput id="blank1" />{`: `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>

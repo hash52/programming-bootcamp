@@ -1,0 +1,41 @@
+---
+id: "frontend/02_css_basics#property_and_value"
+title: "プロパティと値の役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_css_basics"
+category: "frontend"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "プロパティはCSSの種類（色・フォントなど）を指定し、値はHTMLのタグ名を指定する"
+  - id: "B"
+    text: "プロパティはどのHTML要素に適用するかを指定し、値はCSSファイルのパスを指定する"
+  - id: "C"
+    text: "プロパティはどの見た目を変えるかを指定し、値はどのように変えるかを指定する"
+answers:
+  correct: ["C"]
+explanation: |
+  CSSのルールは **プロパティ** と **値** の組み合わせで記述する。
+
+  ```css
+  セレクタ {
+    プロパティ: 値;
+  }
+  ```
+
+  例：
+  ```css
+  p {
+    color: red;        /* プロパティ: color、値: red */
+    font-size: 16px;   /* プロパティ: font-size、値: 16px */
+  }
+  ```
+
+  - **プロパティ**: 変更したいスタイルの種類（`color`, `font-size`, `margin` など）
+  - **値**: そのプロパティをどのように設定するか（`red`, `16px`, `10px` など）
+  - プロパティと値はコロン（`:`）で区切り、末尾にセミコロン（`;`）を付ける
+---
+
+CSSのプロパティと値の役割として最も適切なものを選べ。

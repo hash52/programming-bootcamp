@@ -1,0 +1,36 @@
+---
+id: "frontend/03_css_layout#float_vs_flexbox"
+title: "floatとFlexboxの違いを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03_css_layout"
+category: "frontend"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "floatはモバイル専用、FlexboxはPC専用のレイアウト手法である"
+  - id: "B"
+    text: "floatはCSSのプロパティで、FlexboxはHTMLのタグである"
+  - id: "C"
+    text: "floatは要素を左右に回り込ませる古い手法で、Flexboxは現代的な柔軟なレイアウト手法である"
+answers:
+  correct: ["C"]
+explanation: |
+  **float** と **Flexbox** はどちらも要素を横並びにするために使われるが、登場時期や機能が異なる。
+
+  **float**（古い手法）
+  - 本来は画像の周りにテキストを回り込ませるための機能
+  - レイアウトに使うと `clearfix` などの回避策が必要で複雑になる
+  - 現在はレイアウト目的で使う機会は少ない
+
+  **Flexbox**（現代的な手法）
+  - レイアウトのために設計されたモデル
+  - 縦横の配置、均等配分などが直感的に書ける
+  - `clearfix` などの回避策が不要
+  - 現在のCSSレイアウトの主流
+
+  現在の開発では **Flexbox（またはCSS Grid）を優先的に使う** のが推奨されている。
+---
+
+floatとFlexboxの違いとして最も適切なものを選べ。

@@ -1,0 +1,37 @@
+---
+id: "frontend/04_html_forms#input_text"
+title: 'input type="text"でテキスト入力欄を作れる'
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_html_forms"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["input", "INPUT"]
+  blank2: ["text", "TEXT"]
+  blank3: ["username", "USERNAME"]
+sampleAnswer: '<input type="text" name="username">'
+explanation: |
+  `<input type="text">` は1行のテキスト入力欄を作成する。
+
+  ```html
+  <input type="text" name="username" placeholder="ユーザー名を入力">
+  ```
+
+  重要な属性：
+  - `type="text"`: テキスト入力欄の種類を指定
+  - `name`: フォーム送信時のキー名（サーバーでの識別に使う）
+  - `placeholder`: 入力前に薄く表示されるヒントテキスト
+  - `value`: 初期値
+  - `maxlength`: 最大入力文字数
+  - `required`: 必須入力にする
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、`username` という名前のテキスト入力欄を作成するHTMLを完成させよ。
+
+<CodeBlock>
+{`<`}<BlankInput id="blank1" />{` type="`}<BlankInput id="blank2" />{`" name="`}<BlankInput id="blank3" />{`">`}
+</CodeBlock>

@@ -1,0 +1,32 @@
+---
+id: "frontend/04_html_forms#input_email"
+title: 'input type="email"でメール入力欄を作れる'
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_html_forms"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["email", "EMAIL"]
+sampleAnswer: '<input type="email" name="email">'
+explanation: |
+  `<input type="email">` はメールアドレス入力欄を作成する。`type="text"` との違いは、フォーム送信時に **メールアドレスの形式（@を含む）かどうか** を自動でチェックする点である。
+
+  ```html
+  <input type="email" name="email" placeholder="example@example.com">
+  ```
+
+  特徴：
+  - フォーム送信時に `@` を含む形式かどうかを検証する
+  - スマートフォンでは @記号 が入力しやすいキーボードが表示される
+  - HTMLだけのバリデーションなので、サーバー側でも検証が必要
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、メールアドレス形式を検証するメール入力欄を完成させよ。
+
+<CodeBlock>
+{`<input type="`}<BlankInput id="blank1" />{`" name="email">`}
+</CodeBlock>

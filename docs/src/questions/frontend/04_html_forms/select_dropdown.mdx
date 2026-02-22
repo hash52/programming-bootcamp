@@ -1,0 +1,46 @@
+---
+id: "frontend/04_html_forms#select_dropdown"
+title: "selectタグでドロップダウンを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_html_forms"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["select", "SELECT"]
+  blank2: ["option", "OPTION"]
+  blank3: ["option", "OPTION"]
+  blank4: ["option", "OPTION"]
+  blank5: ["select", "SELECT"]
+sampleAnswer: "<select name=\"country\"><option value=\"jp\">日本</option></select>"
+explanation: |
+  `<select>` タグと `<option>` タグの組み合わせでドロップダウンリストを作成する。
+
+  ```html
+  <select name="country">
+    <option value="jp">日本</option>
+    <option value="us">アメリカ</option>
+    <option value="uk">イギリス</option>
+  </select>
+  ```
+
+  属性：
+  - `<select>` の `name`: フォーム送信時のキー名
+  - `<option>` の `value`: 送信される値
+  - `<option>` のテキスト: 画面に表示されるテキスト
+  - `selected` 属性: 最初から選択された状態にする（`<option value="jp" selected>`）
+  - `multiple` 属性: 複数選択を可能にする（`<select multiple>`）
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、都道府県を選ぶドロップダウンリストを完成させよ。
+
+<CodeBlock>
+{`<`}<BlankInput id="blank1" />{` name="prefecture">
+  <`}<BlankInput id="blank2" />{` value="tokyo">東京</`}<BlankInput id="blank2" />{`>
+  <`}<BlankInput id="blank3" />{` value="osaka">大阪</`}<BlankInput id="blank3" />{`>
+  <`}<BlankInput id="blank4" />{` value="aichi">愛知</`}<BlankInput id="blank4" />{`>
+</`}<BlankInput id="blank5" />{`>`}
+</CodeBlock>

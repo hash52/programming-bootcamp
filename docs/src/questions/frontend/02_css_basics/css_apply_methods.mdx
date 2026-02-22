@@ -1,0 +1,42 @@
+---
+id: "frontend/02_css_basics#css_apply_methods"
+title: "CSSの適用方法を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_css_basics"
+category: "frontend"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "CSSはJavaScriptファイルの中に書かなければならない"
+  - id: "B"
+    text: "CSSはHTMLファイルとは別のサーバーに保存しなければならない"
+  - id: "C"
+    text: "外部CSSファイルをlinkタグで読み込む方法、styleタグ内に書く方法、style属性で直接書く方法の3種類がある"
+answers:
+  correct: ["C"]
+explanation: |
+  CSSをHTMLに適用する方法は **3種類** ある。
+
+  **1. 外部CSSファイル**（推奨）
+  ```html
+  <link rel="stylesheet" href="style.css">
+  ```
+
+  **2. `<style>` タグ内（内部スタイル）**
+  ```html
+  <style>
+    p { color: red; }
+  </style>
+  ```
+
+  **3. `style` 属性（インラインスタイル）**
+  ```html
+  <p style="color: red;">テキスト</p>
+  ```
+
+  通常は **外部CSSファイルを使う方法が推奨** される。HTMLとCSSを分離することで保守性が上がり、複数のHTMLファイルに同じスタイルを適用しやすくなる。
+---
+
+CSSをHTMLページに適用する方法として最も適切なものを選べ。

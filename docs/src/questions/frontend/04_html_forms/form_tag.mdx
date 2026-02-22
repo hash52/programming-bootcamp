@@ -1,0 +1,42 @@
+---
+id: "frontend/04_html_forms#form_tag"
+title: "formタグでフォームを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_html_forms"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["form", "FORM"]
+  blank2: ["action", "ACTION"]
+  blank3: ["method", "METHOD"]
+  blank4: ["form", "FORM"]
+sampleAnswer: '<form action="/login" method="post"></form>'
+explanation: |
+  `<form>` タグはフォーム全体を囲むタグである。入力要素（`<input>` など）を内側に配置する。
+
+  ```html
+  <form action="/login" method="post">
+    <input type="text" name="username" placeholder="ユーザー名">
+    <input type="password" name="password" placeholder="パスワード">
+    <button type="submit">ログイン</button>
+  </form>
+  ```
+
+  重要な属性：
+  - `action`: フォームデータの送信先URL（省略すると現在のURLに送信）
+  - `method`: 送信方法
+    - `get`: URLにデータを付けて送信（検索フォームなどに使用）
+    - `post`: リクエストのボディにデータを付けて送信（ログインフォームなどに使用）
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、`/login` というURLにPOSTメソッドでデータを送信するフォームを完成させよ。
+
+<CodeBlock>
+{`<`}<BlankInput id="blank1" />{` `}<BlankInput id="blank2" />{`="/login" `}<BlankInput id="blank3" />{`="post">
+  <!-- 入力要素をここに書く -->
+</`}<BlankInput id="blank4" />{`>`}
+</CodeBlock>

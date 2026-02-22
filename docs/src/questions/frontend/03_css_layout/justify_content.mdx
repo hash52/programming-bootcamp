@@ -1,0 +1,42 @@
+---
+id: "frontend/03_css_layout#justify_content"
+title: "justify-contentで横方向の配置を調整できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_css_layout"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["justify-content", "JUSTIFY-CONTENT"]
+  blank2: ["center", "CENTER"]
+sampleAnswer: "justify-content: center;"
+explanation: |
+  `justify-content` プロパティは、Flexbox内の子要素の **主軸方向（デフォルトは横方向）の配置** を指定する。
+
+  ```css
+  .container {
+    display: flex;
+    justify-content: center; /* 中央揃え */
+  }
+  ```
+
+  主な値：
+  - `flex-start`（デフォルト）: 左寄せ
+  - `flex-end`: 右寄せ
+  - `center`: 中央揃え
+  - `space-between`: 最初と最後を端に置き、残りを均等配分
+  - `space-around`: 各要素の左右に均等なスペースを配置
+  - `space-evenly`: 全てのスペースを均等に配分
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のCSSの空欄を埋めて、`.container` 内の子要素を中央揃えにするスタイルを完成させよ。
+
+<CodeBlock>
+{`.container {
+  display: flex;
+  `}<BlankInput id="blank1" />{`: `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>

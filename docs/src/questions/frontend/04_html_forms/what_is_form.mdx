@@ -1,0 +1,39 @@
+---
+id: "frontend/04_html_forms#what_is_form"
+title: "フォームとは何かを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "04_html_forms"
+category: "frontend"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "CSSでページのレイアウトを整えるための格子状の枠組みである"
+  - id: "B"
+    text: "ユーザーがデータを入力してサーバーに送信するための仕組みである"
+  - id: "C"
+    text: "HTMLファイルをサーバーにアップロードするためのプロトコルである"
+answers:
+  correct: ["B"]
+explanation: |
+  HTMLの **フォーム** は、ユーザーが情報を入力してサーバーに送信するための仕組みである。
+
+  代表的な使用例：
+  - ログインフォーム（ユーザー名・パスワード入力）
+  - 会員登録フォーム
+  - 検索フォーム
+  - お問い合わせフォーム
+
+  ```html
+  <form action="/submit" method="post">
+    <input type="text" name="username">
+    <button type="submit">送信</button>
+  </form>
+  ```
+
+  - `action` 属性: データの送信先URL
+  - `method` 属性: 送信方法（`get` または `post`）
+---
+
+HTMLのフォームの説明として最も適切なものを選べ。

@@ -1,0 +1,45 @@
+---
+id: "frontend/02_css_basics#what_is_selector"
+title: "セレクタとは何かを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_css_basics"
+category: "frontend"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "スタイルを適用したいHTML要素を指定するための記法である"
+  - id: "B"
+    text: "CSSのプロパティに設定する値のことである"
+  - id: "C"
+    text: "HTMLファイルにCSSを読み込むためのタグである"
+answers:
+  correct: ["A"]
+explanation: |
+  **セレクタ** は、CSSでスタイルを適用したいHTML要素を指定するための記法である。
+
+  ```css
+  /* pタグすべてに適用 */
+  p {
+    color: blue;
+  }
+
+  /* class="highlight"の要素に適用 */
+  .highlight {
+    background-color: yellow;
+  }
+
+  /* id="header"の要素に適用 */
+  #header {
+    font-size: 24px;
+  }
+  ```
+
+  セレクタの種類：
+  - **要素セレクタ**: タグ名で指定（例: `p`, `h1`, `div`）
+  - **クラスセレクタ**: `.(クラス名)` で指定
+  - **IDセレクタ**: `#(ID名)` で指定
+---
+
+CSSのセレクタの説明として最も適切なものを選べ。

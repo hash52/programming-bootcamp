@@ -1,0 +1,45 @@
+---
+id: "frontend/04_html_forms#label_tag"
+title: "labelタグで入力欄にラベルを付けられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_html_forms"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["label", "LABEL"]
+  blank2: ["for", "FOR"]
+  blank3: ["username", "USERNAME"]
+  blank4: ["label", "LABEL"]
+sampleAnswer: '<label for="username">ユーザー名</label>'
+explanation: |
+  `<label>` タグは入力欄に関連するラベルを付けるためのタグである。
+
+  ```html
+  <label for="username">ユーザー名</label>
+  <input type="text" id="username" name="username">
+  ```
+
+  `<label>` を使うメリット：
+  - `for` 属性に入力欄の `id` を指定すると、ラベルをクリックしても入力欄にフォーカスが当たる
+  - スクリーンリーダー（視覚障害者向けの読み上げソフト）が入力欄の目的を読み上げられる
+  - **アクセシビリティ** の向上に重要
+
+  または `<label>` で入力欄を囲む書き方もある：
+  ```html
+  <label>
+    ユーザー名
+    <input type="text" name="username">
+  </label>
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、`username` IDを持つ入力欄に関連付けられたラベルを完成させよ。
+
+<CodeBlock>
+{`<`}<BlankInput id="blank1" />{` `}<BlankInput id="blank2" />{`="`}<BlankInput id="blank3" />{`">ユーザー名</`}<BlankInput id="blank4" />{`>
+<input type="text" id="username" name="username">`}
+</CodeBlock>

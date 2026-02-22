@@ -1,0 +1,43 @@
+---
+id: "frontend/02_css_basics#border_property"
+title: "borderプロパティで枠線を付けられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "02_css_basics"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["border", "BORDER"]
+  blank2: ["1px solid black", "1px solid #000", "1px solid #000000"]
+sampleAnswer: "border: 1px solid black;"
+explanation: |
+  `border` プロパティは要素の **枠線** を指定するプロパティである。
+
+  ```css
+  .box {
+    border: 1px solid black; /* 幅・スタイル・色をまとめて指定 */
+  }
+  ```
+
+  borderの3つの値：
+  - **幅**: `1px`, `2px` など
+  - **スタイル**: `solid`（実線）, `dashed`（破線）, `dotted`（点線）など
+  - **色**: `black`, `#333`, `rgb(0,0,0)` など
+
+  個別に指定するプロパティ：
+  - `border-width`: 枠線の幅
+  - `border-style`: 枠線のスタイル
+  - `border-color`: 枠線の色
+  - `border-radius`: 角を丸くする
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のCSSの空欄を埋めて、`.box` クラスに1pxの黒い実線の枠線を付けるスタイルを完成させよ。
+
+<CodeBlock>
+{`.box {
+  `}<BlankInput id="blank1" />{`: `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>

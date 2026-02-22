@@ -1,0 +1,47 @@
+---
+id: "frontend/03_css_layout#descendant_selector"
+title: "子孫セレクタを使える"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "03_css_layout"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: [".nav a", ".nav  a"]
+  blank2: ["none", "NONE"]
+sampleAnswer: ".nav a { text-decoration: none; }"
+explanation: |
+  **子孫セレクタ** は、特定の要素の **子孫（内側にあるすべての要素）** に対してスタイルを適用する。セレクタとセレクタの間にスペースを入れて書く。
+
+  ```css
+  /* .navの中にあるaタグすべてに適用 */
+  .nav a {
+    text-decoration: none;
+    color: white;
+  }
+  ```
+
+  ```html
+  <nav class="nav">
+    <ul>
+      <li><a href="/">ホーム</a></li>  <!-- これに適用される -->
+      <li><a href="/about">概要</a></li>  <!-- これにも適用される -->
+    </ul>
+  </nav>
+  <a href="/other">別のリンク</a>  <!-- これには適用されない -->
+  ```
+
+  - 直下の子要素だけに適用したい場合は `>` を使う（**子セレクタ**: `.nav > a`）
+  - 子孫セレクタは階層が深くても適用される
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のCSSの空欄を埋めて、`.nav` クラスの中にあるすべての `<a>` タグのアンダーラインを消すスタイルを完成させよ。
+
+<CodeBlock>
+{`<BlankInput id="blank1" /> {
+  text-decoration: `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>

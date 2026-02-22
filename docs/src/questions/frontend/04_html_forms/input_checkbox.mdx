@@ -1,0 +1,36 @@
+---
+id: "frontend/04_html_forms#input_checkbox"
+title: 'input type="checkbox"でチェックボックスを作れる'
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_html_forms"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["checkbox", "CHECKBOX"]
+  blank2: ["agree", "AGREE"]
+sampleAnswer: '<input type="checkbox" name="agree">'
+explanation: |
+  `<input type="checkbox">` はチェックボックスを作成する。ユーザーがオン/オフを切り替えられる。
+
+  ```html
+  <input type="checkbox" name="agree" value="yes" id="agree">
+  <label for="agree">利用規約に同意する</label>
+  ```
+
+  特徴と属性：
+  - チェックされた場合のみフォームデータとして送信される
+  - `value`: 送信する値（デフォルトは `"on"`）
+  - `checked`: 最初からチェックされた状態にする
+  - 複数のオプションから複数選択させたい場合に使う（ラジオボタンは1つのみ選択）
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、`agree` という名前のチェックボックスを完成させよ。
+
+<CodeBlock>
+{`<input type="`}<BlankInput id="blank1" />{`" name="`}<BlankInput id="blank2" />{`" value="yes">
+<label>利用規約に同意する</label>`}
+</CodeBlock>

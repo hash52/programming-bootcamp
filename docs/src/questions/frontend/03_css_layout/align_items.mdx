@@ -1,0 +1,45 @@
+---
+id: "frontend/03_css_layout#align_items"
+title: "align-itemsで縦方向の配置を調整できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_css_layout"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["align-items", "ALIGN-ITEMS"]
+  blank2: ["center", "CENTER"]
+sampleAnswer: "align-items: center;"
+explanation: |
+  `align-items` プロパティは、Flexbox内の子要素の **交差軸方向（デフォルトは縦方向）の配置** を指定する。
+
+  ```css
+  .container {
+    display: flex;
+    height: 200px;
+    align-items: center; /* 縦方向の中央揃え */
+  }
+  ```
+
+  主な値：
+  - `stretch`（デフォルト）: 子要素をコンテナの高さに伸ばす
+  - `flex-start`: 上寄せ
+  - `flex-end`: 下寄せ
+  - `center`: 縦方向の中央揃え
+  - `baseline`: テキストのベースラインに揃える
+
+  `justify-content: center` と `align-items: center` を組み合わせると、**縦横の完全中央揃え** ができる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のCSSの空欄を埋めて、`.container` 内の子要素を縦方向に中央揃えにするスタイルを完成させよ。
+
+<CodeBlock>
+{`.container {
+  display: flex;
+  height: 200px;
+  `}<BlankInput id="blank1" />{`: `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>

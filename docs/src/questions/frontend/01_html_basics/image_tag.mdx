@@ -1,0 +1,33 @@
+---
+id: "frontend/01_html_basics#image_tag"
+title: "imgタグで画像を表示できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "01_html_basics"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["img", "IMG"]
+  blank2: ["src", "SRC"]
+  blank3: ["alt", "ALT"]
+sampleAnswer: '<img src="photo.jpg" alt="写真の説明">'
+explanation: |
+  `<img>` タグは画像を表示するための **空要素**（終了タグなし）である。
+
+  ```html
+  <img src="photo.jpg" alt="山の写真">
+  ```
+
+  - `src` 属性: 画像ファイルのパスまたはURLを指定する（必須）
+  - `alt` 属性: 画像が表示できない場合の代替テキストを指定する（アクセシビリティのために重要）
+  - `width` や `height` 属性でサイズを指定することもできる
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、`logo.png` という画像を「会社ロゴ」という説明付きで表示するHTMLを完成させよ。
+
+<CodeBlock>
+{`<`}<BlankInput id="blank1" />{` `}<BlankInput id="blank2" />{`="logo.png" `}<BlankInput id="blank3" />{`="会社ロゴ">`}
+</CodeBlock>

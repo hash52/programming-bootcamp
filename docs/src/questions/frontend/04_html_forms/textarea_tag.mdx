@@ -1,0 +1,36 @@
+---
+id: "frontend/04_html_forms#textarea_tag"
+title: "textareaタグで複数行テキスト入力欄を作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_html_forms"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["textarea", "TEXTAREA"]
+  blank2: ["message", "MESSAGE"]
+  blank3: ["textarea", "TEXTAREA"]
+sampleAnswer: "<textarea name=\"message\"></textarea>"
+explanation: |
+  `<textarea>` タグは複数行のテキスト入力欄を作成する。`<input type="text">` との違いは、複数行の入力ができる点である。
+
+  ```html
+  <textarea name="message" rows="5" cols="40" placeholder="お問い合わせ内容を入力してください"></textarea>
+  ```
+
+  重要な点：
+  - `<textarea>` は **終了タグが必要**（`<input>` は終了タグ不要）
+  - `rows`: 表示する行数
+  - `cols`: 表示する列数（文字数）
+  - `placeholder`: 入力前に表示されるヒントテキスト
+  - 初期値を設定する場合は `value` 属性ではなく、開始タグと終了タグの間にテキストを書く
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、`message` という名前の複数行テキスト入力欄を完成させよ。
+
+<CodeBlock>
+{`<`}<BlankInput id="blank1" />{` name="`}<BlankInput id="blank2" />{`" rows="5"></`}<BlankInput id="blank3" />{`>`}
+</CodeBlock>

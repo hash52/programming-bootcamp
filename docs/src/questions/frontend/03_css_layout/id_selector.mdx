@@ -1,0 +1,44 @@
+---
+id: "frontend/03_css_layout#id_selector"
+title: "IDセレクタを使える"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_css_layout"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["#header", "#HEADER"]
+  blank2: ["100px", "100PX"]
+sampleAnswer: "#header { height: 100px; }"
+explanation: |
+  **IDセレクタ** はHTMLの `id` 属性の値に対してスタイルを適用する。シャープ（`#`）の後にID名を書く。
+
+  ```css
+  /* IDセレクタ */
+  #header {
+    height: 100px;
+    background-color: navy;
+  }
+  ```
+
+  ```html
+  <div id="header">ヘッダー</div>
+  ```
+
+  クラスセレクタとの違い：
+  - **ID**: ページ内で **1つの要素のみ** に使う（一意性が必要）
+  - **クラス**: 複数の要素に同じクラスを付けられる
+
+  IDセレクタはCSSの **詳細度（specificity）** が高く、クラスセレクタより優先される。一般的に、スタイルの適用にはクラスセレクタを優先し、IDはアンカーリンクやJavaScriptでの要素取得に使うことが多い。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のCSSの空欄を埋めて、`header` というIDを持つ要素の高さを100pxにするスタイルを完成させよ。
+
+<CodeBlock>
+{`<BlankInput id="blank1" /> {
+  height: `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>

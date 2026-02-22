@@ -1,0 +1,34 @@
+---
+id: "frontend/04_html_forms#input_number"
+title: 'input type="number"で数値入力欄を作れる'
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_html_forms"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["number", "NUMBER"]
+sampleAnswer: '<input type="number" name="age">'
+explanation: |
+  `<input type="number">` は数値入力欄を作成する。数値以外の文字は入力できず、スピナー（上下の矢印ボタン）が表示される。
+
+  ```html
+  <input type="number" name="age" min="0" max="120" step="1">
+  ```
+
+  特徴と属性：
+  - 数値のみ入力可能（ブラウザが制限する）
+  - `min`: 最小値
+  - `max`: 最大値
+  - `step`: 増減のステップ（デフォルトは1）
+  - スマートフォンでは数字キーボードが表示される
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、数値のみ入力できる入力欄を完成させよ。
+
+<CodeBlock>
+{`<input type="`}<BlankInput id="blank1" />{`" name="age" min="0" max="120">`}
+</CodeBlock>

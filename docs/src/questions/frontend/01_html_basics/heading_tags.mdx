@@ -1,0 +1,37 @@
+---
+id: "frontend/01_html_basics#heading_tags"
+title: "h1〜h6タグで見出しを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "01_html_basics"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["h1", "H1"]
+  blank2: ["h1", "H1"]
+  blank3: ["h2", "H2"]
+  blank4: ["h2", "H2"]
+sampleAnswer: "<h1>大見出し</h1>"
+explanation: |
+  見出しタグは **h1〜h6** の6段階があり、数字が小さいほど重要度が高い（大きな見出し）である。
+
+  ```html
+  <h1>最も重要な見出し（大）</h1>
+  <h2>第2レベルの見出し</h2>
+  <h3>第3レベルの見出し</h3>
+  ```
+
+  - `<h1>` はページ全体のタイトルに使う（1ページに1つが推奨）
+  - `<h2>` は章のタイトル、`<h3>` は節のタイトルといった使い方をする
+  - 見た目だけでなく、SEO（検索エンジン最適化）でも重要な役割を持つ
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、大見出しと中見出しを作成するHTMLを完成させよ。
+
+<CodeBlock>
+{`<`}<BlankInput id="blank1" />{`>大見出し</`}<BlankInput id="blank2" />{`>
+<`}<BlankInput id="blank3" />{`>中見出し</`}<BlankInput id="blank4" />{`>`}
+</CodeBlock>

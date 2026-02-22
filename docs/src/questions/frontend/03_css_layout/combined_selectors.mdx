@@ -1,0 +1,45 @@
+---
+id: "frontend/03_css_layout#combined_selectors"
+title: "複数のセレクタを組み合わせて使える"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "03_css_layout"
+category: "frontend"
+sampleAnswer: |
+  .card p {
+    color: gray;
+    font-size: 14px;
+  }
+
+  .card .title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+explanation: |
+  複数のセレクタを組み合わせることで、より細かくスタイルを指定できる。
+
+  **子孫セレクタ（スペース）**: ある要素の中にある別の要素
+  ```css
+  .card p { color: gray; }          /* .cardの中のpタグ */
+  ```
+
+  **クラスと要素の組み合わせ**
+  ```css
+  p.note { font-style: italic; }    /* noteクラスを持つpタグのみ */
+  ```
+
+  **複数のクラス**
+  ```css
+  .btn.primary { background: blue; } /* btnクラスとprimaryクラスの両方を持つ要素 */
+  ```
+
+  **グループ化（カンマ）**: 複数のセレクタに同じスタイルを適用
+  ```css
+  h1, h2, h3 { font-weight: bold; }
+  ```
+
+  セレクタを上手く組み合わせることで、HTMLに余分なクラスを付けずにスタイルを適用できる。
+---
+
+`.card` クラスを持つ要素の中の `<p>` タグの文字色をグレーにし、さらに `.card` の中の `.title` クラスのフォントサイズを大きくするCSSを記述せよ。

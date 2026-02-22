@@ -1,0 +1,44 @@
+---
+id: "frontend/03_css_layout#class_selector"
+title: "クラスセレクタを使える"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_css_layout"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: [".highlight", ".HIGHLIGHT"]
+  blank2: ["yellow", "YELLOW", "#ffff00", "#FFFF00"]
+sampleAnswer: ".highlight { background-color: yellow; }"
+explanation: |
+  **クラスセレクタ** はHTMLの `class` 属性の値に対してスタイルを適用する。ピリオド（`.`）の後にクラス名を書く。
+
+  ```css
+  /* クラスセレクタ */
+  .highlight {
+    background-color: yellow;
+  }
+  ```
+
+  ```html
+  <p class="highlight">このテキストが黄色くなる</p>
+  <p>このテキストは変わらない</p>
+  <span class="highlight">これも黄色くなる</span>
+  ```
+
+  特徴：
+  - 複数の要素に同じクラスを付けられる（1対多）
+  - 1つの要素に複数のクラスを付けられる（`class="btn primary"`）
+  - 同じCSSファイルで何度でも使い回せる
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のCSSの空欄を埋めて、`highlight` クラスが付いた要素の背景色を黄色にするスタイルを完成させよ。
+
+<CodeBlock>
+{`<BlankInput id="blank1" /> {
+  background-color: `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>

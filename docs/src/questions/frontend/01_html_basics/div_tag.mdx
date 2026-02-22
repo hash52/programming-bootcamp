@@ -1,0 +1,39 @@
+---
+id: "frontend/01_html_basics#div_tag"
+title: "divタグでブロックをまとめられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "01_html_basics"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["div", "DIV"]
+  blank2: ["div", "DIV"]
+sampleAnswer: "<div>まとめたい内容</div>"
+explanation: |
+  `<div>` タグは **汎用的なブロックコンテナ** である。それ自体には意味はないが、複数の要素をグループ化するために使う。
+
+  ```html
+  <div class="card">
+    <h2>カードのタイトル</h2>
+    <p>カードの説明文</p>
+  </div>
+  ```
+
+  - CSSでスタイルを当てるためのグループ化によく使われる
+  - `class` や `id` 属性と組み合わせて使うことが多い
+  - `<div>` はブロック要素のため、前後に改行が入る
+  - テキストをまとめる場合はインライン要素の `<span>` を使う
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、見出しと段落をグループ化するブロックを完成させよ。
+
+<CodeBlock>
+{`<`}<BlankInput id="blank1" />{` class="section">
+  <h2>セクションタイトル</h2>
+  <p>セクションの内容</p>
+</`}<BlankInput id="blank2" />{`>`}
+</CodeBlock>

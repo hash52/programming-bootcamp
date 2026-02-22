@@ -1,0 +1,33 @@
+---
+id: "frontend/01_html_basics#anchor_tag"
+title: "aタグでリンクを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "01_html_basics"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["a", "A"]
+  blank2: ["href", "HREF"]
+  blank3: ["a", "A"]
+sampleAnswer: '<a href="https://example.com">リンク</a>'
+explanation: |
+  `<a>` タグは **アンカー（anchor）** タグで、リンクを作成するために使う。
+
+  ```html
+  <a href="https://example.com">例のサイト</a>
+  ```
+
+  - `href` 属性にリンク先のURLを指定する
+  - `target="_blank"` を追加すると新しいタブで開く
+  - ページ内リンクは `href="#id名"` のように `#` を使う
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、「Google」というテキストでGoogleのトップページへのリンクを作成するHTMLを完成させよ。
+
+<CodeBlock>
+{`<`}<BlankInput id="blank1" />{` `}<BlankInput id="blank2" />{`="https://www.google.com">Google</`}<BlankInput id="blank3" />{`>`}
+</CodeBlock>

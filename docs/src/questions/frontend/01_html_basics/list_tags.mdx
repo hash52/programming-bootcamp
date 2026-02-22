@@ -1,0 +1,51 @@
+---
+id: "frontend/01_html_basics#list_tags"
+title: "ulとolでリストを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "01_html_basics"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["ul", "UL"]
+  blank2: ["li", "LI"]
+  blank3: ["li", "LI"]
+  blank4: ["ul", "UL"]
+sampleAnswer: "<ul><li>項目</li></ul>"
+explanation: |
+  リストには2種類ある。
+
+  **順序なしリスト（`<ul>`）** - 箇条書き（bullet points）
+  ```html
+  <ul>
+    <li>りんご</li>
+    <li>みかん</li>
+    <li>ぶどう</li>
+  </ul>
+  ```
+
+  **順序ありリスト（`<ol>`）** - 番号付きリスト
+  ```html
+  <ol>
+    <li>まず準備する</li>
+    <li>次に実行する</li>
+    <li>最後に確認する</li>
+  </ol>
+  ```
+
+  - `<li>` は list item の略で、各リスト項目を表す
+  - `<ul>` と `<ol>` の子要素には `<li>` のみを使う
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、「HTML」「CSS」「JavaScript」の3項目を箇条書きで表示する順序なしリストを完成させよ。
+
+<CodeBlock>
+{`<`}<BlankInput id="blank1" />{`>
+  <`}<BlankInput id="blank2" />{`>HTML</`}<BlankInput id="blank2" />{`>
+  <`}<BlankInput id="blank3" />{`>CSS</`}<BlankInput id="blank3" />{`>
+  <`}<BlankInput id="blank3" />{`>JavaScript</`}<BlankInput id="blank3" />{`>
+</`}<BlankInput id="blank4" />{`>`}
+</CodeBlock>

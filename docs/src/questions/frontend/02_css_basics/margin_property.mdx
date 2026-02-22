@@ -1,0 +1,42 @@
+---
+id: "frontend/02_css_basics#margin_property"
+title: "marginプロパティで外側の余白を調整できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "02_css_basics"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["margin", "MARGIN"]
+  blank2: ["16px", "16PX"]
+sampleAnswer: "margin: 16px;"
+explanation: |
+  `margin` プロパティは要素の **外側の余白** を指定するプロパティである。
+
+  ```css
+  p {
+    margin: 16px;           /* 上下左右すべて16px */
+    margin: 10px 20px;      /* 上下10px、左右20px */
+    margin: 5px 10px 15px 20px; /* 上・右・下・左の順 */
+  }
+  ```
+
+  個別に指定するプロパティ：
+  - `margin-top`: 上の余白
+  - `margin-right`: 右の余白
+  - `margin-bottom`: 下の余白
+  - `margin-left`: 左の余白
+
+  `margin: 0 auto;` を使うと要素を中央揃えにできる（要素に幅が指定されている場合）。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のCSSの空欄を埋めて、`<p>` タグの外側の余白を上下左右すべて16pxにするスタイルを完成させよ。
+
+<CodeBlock>
+{`p {
+  `}<BlankInput id="blank1" />{`: `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>

@@ -1,0 +1,39 @@
+---
+id: "frontend/02_css_basics#color_property"
+title: "colorプロパティで文字色を変えられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "02_css_basics"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["color", "COLOR"]
+  blank2: ["red", "RED", "#ff0000", "#FF0000", "rgb(255,0,0)", "rgb(255, 0, 0)"]
+sampleAnswer: "color: red;"
+explanation: |
+  `color` プロパティは **文字色** を指定するプロパティである。
+
+  ```css
+  p {
+    color: red;          /* 色名で指定 */
+    color: #ff0000;      /* 16進数カラーコードで指定 */
+    color: rgb(255,0,0); /* RGB値で指定 */
+  }
+  ```
+
+  色の指定方法：
+  - **色名**: `red`, `blue`, `green`, `black`, `white` などの英語名
+  - **16進数**: `#ff0000`（赤）, `#0000ff`（青）など
+  - **RGB値**: `rgb(255, 0, 0)`（赤）など
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のCSSの空欄を埋めて、`<p>` タグの文字色を赤色にするスタイルを完成させよ。
+
+<CodeBlock>
+{`p {
+  `}<BlankInput id="blank1" />{`: `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>

@@ -1,0 +1,41 @@
+---
+id: "frontend/04_html_forms#input_radio"
+title: 'input type="radio"でラジオボタンを作れる'
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_html_forms"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["radio", "RADIO"]
+  blank2: ["gender", "GENDER"]
+  blank3: ["radio", "RADIO"]
+  blank4: ["gender", "GENDER"]
+sampleAnswer: '<input type="radio" name="gender" value="male">'
+explanation: |
+  `<input type="radio">` はラジオボタンを作成する。同じ `name` 属性を持つグループの中から **1つだけ** 選択できる。
+
+  ```html
+  <input type="radio" name="gender" value="male" id="male">
+  <label for="male">男性</label>
+
+  <input type="radio" name="gender" value="female" id="female">
+  <label for="female">女性</label>
+  ```
+
+  特徴と属性：
+  - 同じ `name` を持つラジオボタンは **同じグループ** になり、1つしか選べない
+  - `value`: 選択された場合に送信される値
+  - `checked`: 最初から選択された状態にする
+  - チェックボックスとの違い：ラジオボタンは1つのみ、チェックボックスは複数選択可
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、`gender` という名前でグループ化されたラジオボタンを完成させよ。
+
+<CodeBlock>
+{`<input type="`}<BlankInput id="blank1" />{`" name="`}<BlankInput id="blank2" />{`" value="male"> 男性
+<input type="`}<BlankInput id="blank3" />{`" name="`}<BlankInput id="blank4" />{`" value="female"> 女性`}
+</CodeBlock>

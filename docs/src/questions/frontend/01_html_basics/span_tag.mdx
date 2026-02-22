@@ -1,0 +1,33 @@
+---
+id: "frontend/01_html_basics#span_tag"
+title: "spanタグでテキストをまとめられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "01_html_basics"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["span", "SPAN"]
+  blank2: ["span", "SPAN"]
+sampleAnswer: "<span>対象テキスト</span>"
+explanation: |
+  `<span>` タグは **汎用的なインラインコンテナ** である。テキストの一部をグループ化するために使う。
+
+  ```html
+  <p>今日の気温は<span class="highlight">30度</span>です。</p>
+  ```
+
+  - `<div>` がブロック要素なのに対し、`<span>` はインライン要素である
+  - テキストの一部にスタイルを当てたい場合によく使う
+  - `class` や `id` 属性と組み合わせてCSSを適用する
+  - 前後に改行は入らず、テキストと同じ行に並ぶ
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、「重要」という単語を赤色にするためのインライングループを完成させよ。
+
+<CodeBlock>
+{`<p>この項目は<`}<BlankInput id="blank1" />{` class="red">重要</`}<BlankInput id="blank2" />{`>です。</p>`}
+</CodeBlock>

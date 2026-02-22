@@ -1,0 +1,38 @@
+---
+id: "frontend/02_css_basics#background_color_property"
+title: "background-colorプロパティで背景色を変えられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "02_css_basics"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["background-color", "BACKGROUND-COLOR"]
+  blank2: ["lightblue", "LightBlue", "LIGHTBLUE", "#add8e6", "#ADD8E6"]
+sampleAnswer: "background-color: lightblue;"
+explanation: |
+  `background-color` プロパティは **背景色** を指定するプロパティである。
+
+  ```css
+  div {
+    background-color: lightblue;     /* 色名で指定 */
+    background-color: #add8e6;       /* 16進数で指定 */
+    background-color: rgba(0,0,255,0.1); /* 半透明の青 */
+  }
+  ```
+
+  - `background-color` は背景色のみを変える
+  - `background` プロパティを使うと背景色・背景画像などをまとめて指定できる
+  - `transparent`（透明）を指定することもできる
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のCSSの空欄を埋めて、`<div>` タグの背景色をライトブルーにするスタイルを完成させよ。
+
+<CodeBlock>
+{`div {
+  `}<BlankInput id="blank1" />{`: `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>

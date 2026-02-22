@@ -1,0 +1,48 @@
+---
+id: "frontend/01_html_basics#table_tag"
+title: "tableタグで表を作れる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "01_html_basics"
+category: "frontend"
+sampleAnswer: |
+  <table>
+    <tr>
+      <th>名前</th>
+      <th>年齢</th>
+    </tr>
+    <tr>
+      <td>田中</td>
+      <td>25</td>
+    </tr>
+  </table>
+explanation: |
+  表は複数のタグを組み合わせて作成する。
+
+  ```html
+  <table>
+    <tr>
+      <th>名前</th>
+      <th>年齢</th>
+    </tr>
+    <tr>
+      <td>田中</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <td>鈴木</td>
+      <td>30</td>
+    </tr>
+  </table>
+  ```
+
+  - `<table>`: 表全体を囲む
+  - `<tr>` (table row): 行を表す
+  - `<th>` (table header): 見出しセルを表す（太字・中央揃えになる）
+  - `<td>` (table data): データセルを表す
+
+  表は行（`<tr>`）が複数あり、各行の中にセル（`<th>` または `<td>`）が並ぶ構造である。
+---
+
+「名前」と「年齢」という2列の表ヘッダーを持ち、「田中」「25」という1行のデータを持つHTMLの表を記述せよ。

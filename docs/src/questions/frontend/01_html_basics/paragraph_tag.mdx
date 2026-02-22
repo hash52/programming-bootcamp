@@ -1,0 +1,33 @@
+---
+id: "frontend/01_html_basics#paragraph_tag"
+title: "pタグで段落を作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "01_html_basics"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["p", "P"]
+  blank2: ["p", "P"]
+sampleAnswer: "<p>段落のテキスト</p>"
+explanation: |
+  `<p>` タグは **段落（paragraph）** を表すタグである。ブロック要素であり、前後に余白が付く。
+
+  ```html
+  <p>最初の段落のテキストをここに書く。</p>
+  <p>次の段落のテキストをここに書く。</p>
+  ```
+
+  - `<p>` タグはブロック要素のため、自動的に前後で改行される
+  - 段落と段落の間には自動的に余白（マージン）が付く
+  - `<br>` タグで強制改行することもできるが、段落の区切りには `<p>` タグを使うのが適切である
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、段落のHTMLを完成させよ。
+
+<CodeBlock>
+{`<`}<BlankInput id="blank1" />{`>Webページを作るにはHTMLを学ぶ必要がある。</`}<BlankInput id="blank2" />{`>`}
+</CodeBlock>

@@ -1,0 +1,40 @@
+---
+id: "frontend/02_css_basics#font_size_property"
+title: "font-sizeプロパティで文字サイズを変えられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "02_css_basics"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["font-size", "FONT-SIZE"]
+  blank2: ["24px", "24PX"]
+sampleAnswer: "font-size: 24px;"
+explanation: |
+  `font-size` プロパティは **文字サイズ** を指定するプロパティである。
+
+  ```css
+  h1 {
+    font-size: 32px;   /* ピクセル単位 */
+    font-size: 2rem;   /* ルート要素のフォントサイズの2倍 */
+    font-size: 150%;   /* 親要素のフォントサイズの150% */
+  }
+  ```
+
+  単位の種類：
+  - **px（ピクセル）**: 画面上の固定サイズ。最もよく使われる
+  - **rem**: ルート要素（`<html>`）のフォントサイズを基準にした相対サイズ
+  - **em**: 親要素のフォントサイズを基準にした相対サイズ
+  - **%**: 親要素のフォントサイズに対するパーセンテージ
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のCSSの空欄を埋めて、`<h1>` タグの文字サイズを24pxにするスタイルを完成させよ。
+
+<CodeBlock>
+{`h1 {
+  `}<BlankInput id="blank1" />{`: `}<BlankInput id="blank2" />{`;
+}`}
+</CodeBlock>
