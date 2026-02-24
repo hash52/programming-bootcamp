@@ -1,0 +1,103 @@
+/* TeachingCodeBlock コンポーネント用スタイル */
+
+.wrapper {
+  margin-bottom: 1.25em;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+/* ダークモード用のボーダー色 */
+[data-theme="dark"] .wrapper {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* タイトルバー */
+.titleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4em 0.8em;
+  font-size: 0.82em;
+  font-family: var(--ifm-font-family-monospace, monospace);
+  background: rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  user-select: none;
+}
+
+[data-theme="dark"] .titleBar {
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.titleFileName {
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.titleLang {
+  font-size: 0.9em;
+  opacity: 0.5;
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="dark"] .titleLang {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* コード本体のコンテナ */
+.codeContainer {
+  overflow-x: auto;
+}
+
+.pre {
+  margin: 0 !important;
+  padding: 0.9em 0 !important;
+  border-radius: 0 !important;
+}
+
+/* 1行ずつの表示 */
+.line {
+  display: flex;
+  align-items: stretch;
+  min-height: 1.5em;
+  padding-right: 1em;
+}
+
+/* ハイライト行 */
+.lineHighlighted {
+  background: rgba(255, 213, 0, 0.18);
+  border-left: 3px solid #e6b800;
+}
+
+[data-theme="dark"] .lineHighlighted {
+  background: rgba(255, 200, 0, 0.12);
+  border-left-color: #f0c800;
+}
+
+/* 通常行（ハイライトなし）はインデント分のダミーボーダー */
+.lineNormal {
+  border-left: 3px solid transparent;
+}
+
+/* 行番号 */
+.lineNumber {
+  display: inline-block;
+  width: 2.8em;
+  text-align: right;
+  padding-right: 0.8em;
+  padding-left: 0.5em;
+  flex-shrink: 0;
+  user-select: none;
+  opacity: 0.4;
+  font-size: 0.88em;
+  line-height: 1.5em;
+}
+
+/* コードトークン */
+.codeContent {
+  flex: 1;
+  white-space: pre;
+}

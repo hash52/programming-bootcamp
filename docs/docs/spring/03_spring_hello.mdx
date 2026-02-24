@@ -1,5 +1,317 @@
+import { TeachingCodeBlock } from "@site/src/components/TeachingCodeBlock";
+
 # Springプロジェクト作成とHello World
 
-//todo: アノテーションの説明を追加する
-//todo: 例として@SpringBootApplicationの説明を追加する
-//todo: pom.xmlの説明を追加する
+この章では、Spring Bootで実際にプロジェクトを作成し、ブラウザに「Hello World」を表示するまでの手順を学ぶ。
+Springアプリがどのような構成になっているのか、最初に大まかな全体像を掴むことが目的である。
+
+## 学習のゴール
+
+- Spring Initializrを使ってSpring Bootプロジェクトを作成できる
+- プロジェクトの基本的なディレクトリ構成を説明できる
+- `@SpringBootApplication` の役割を理解できる
+- `pom.xml` の基本的な役割を理解できる
+- コントローラを作成してブラウザに文字列を表示できる
+- `@Controller` と `@ResponseBody` の違いを理解できる
+- Thymeleafテンプレートを使って画面を表示できる
+
+---
+
+## Spring Initializrでのプロジェクト作成
+
+Spring Bootプロジェクトは **Spring Initializr**（spring.io のサービス）という公式ウェブサービスを使って簡単に作成できる。
+以下の設定で新しいプロジェクトを生成する。
+
+| 項目 | 設定値 |
+|------|--------|
+| Project | Maven |
+| Language | Java |
+| Spring Boot | 3.x.x（最新の安定版） |
+| Group | com.example |
+| Artifact | demo |
+| Packaging | Jar |
+| Java | 21 |
+
+**依存関係（Dependencies）** に以下を追加する。
+
+- **Spring Web** — HTTPリクエストの処理（必須）
+- **Thymeleaf** — HTMLテンプレートエンジン
+- **Spring Boot DevTools** — ファイル変更時の自動再起動（開発用）
+
+「GENERATE」ボタンを押すと `demo.zip` がダウンロードされるので、解凍してIDEで開く。
+
+---
+
+## プロジェクトの構成
+
+Spring Initializrで生成したプロジェクトの構成を確認する。
+
+<TeachingCodeBlock
+  code={`demo/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/example/demo/
+│   │   │       └── DemoApplication.java   ← エントリポイント
+│   │   └── resources/
+│   │       ├── templates/   ← Thymeleafのテンプレート（HTMLファイル）
+│   │       ├── static/      ← CSS・画像など静的ファイル
+│   │       └── application.properties  ← アプリ設定
+│   └── test/
+│       └── java/
+│           └── com/example/demo/
+│               └── DemoApplicationTests.java
+└── pom.xml   ← 依存関係の管理`}
+  language="text"
+  showLineNumbers={false}
+/>
+
+:::info コントローラを置く場所
+
+コントローラは `DemoApplication.java` と **同じパッケージか、そのサブパッケージ** に置く必要がある。
+よく使われる慣習として `controller/` サブパッケージを作成する。
+
+```
+com.example.demo/
+ ├── DemoApplication.java       ← @SpringBootApplication
+ └── controller/
+      └── HelloController.java  ← コントローラはここに置く
+```
+
+:::
+
+---
+
+## DemoApplication.java：エントリポイント
+
+Springアプリの起動クラスを確認する。生成直後から次のようなコードが入っている。
+
+<TeachingCodeBlock
+  code={`package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}`}
+  title="DemoApplication.java"
+  highlightLines={[6, 10]}
+/>
+
+- **`@SpringBootApplication`**（6行目）：このアノテーション1つで「Spring Bootアプリ」として動く設定がすべて有効になる
+  - コンポーネントスキャン（`@Controller` などを自動検出する仕組み）が有効になる
+  - 自動設定（MVC・DataSourceなど）が有効になる
+- **`SpringApplication.run(...)`**（10行目）：アプリを起動し、組み込みのTomcatサーバーを立ち上げる
+
+:::info @SpringBootApplicationの中身
+
+`@SpringBootApplication` は実は3つのアノテーションをまとめた省略形である。
+
+| アノテーション | 役割 |
+|--------------|------|
+| `@SpringBootConfiguration` | Springの設定クラスとして認識させる |
+| `@EnableAutoConfiguration` | DB・MVCなどの自動設定を有効化 |
+| `@ComponentScan` | 同パッケージ以下の `@Controller` / `@Service` 等を自動検出 |
+
+初学者は「`@SpringBootApplication` を付けたクラスが起動クラス」とだけ覚えればよい。
+
+:::
+
+---
+
+## pom.xml：依存関係の管理
+
+`pom.xml`（Project Object Model）は、このプロジェクトが使うライブラリ（依存関係）を管理するファイルである。
+
+```xml
+<dependencies>
+    <!-- Spring MVC（Webアプリの基盤） -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <!-- Thymeleaf（HTMLテンプレートエンジン） -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+</dependencies>
+```
+
+- **`spring-boot-starter-web`** … Spring MVC + 組み込みTomcatが含まれる
+- **`spring-boot-starter-thymeleaf`** … ThymeleafのHTMLテンプレート機能が使えるようになる
+
+:::tip starter（スターター）とは？
+
+Spring Bootでは `spring-boot-starter-xxx` というパターンの依存関係を使う。
+「starter」は関連するライブラリをまとめてくれる便利なパッケージである。
+例えば `spring-boot-starter-web` 1つで、Spring MVC・内蔵Tomcat・JSONライブラリなど必要なものが全部入る。
+
+:::
+
+---
+
+## Hello World：最初のコントローラ
+
+`src/main/java/com/example/demo/` の下に `controller` パッケージを作成し、次のコントローラクラスを作成する。
+
+<TeachingCodeBlock
+  code={`package com.example.demo.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+public class HelloController {
+
+    @GetMapping("/hello")
+    @ResponseBody
+    public String hello() {
+        return "Hello, Spring Boot!";
+    }
+}`}
+  title="HelloController.java"
+  highlightLines={[7, 10, 11, 12]}
+/>
+
+- **`@Controller`**（7行目）：このクラスをSpringのコントローラとして認識させる
+- **`@GetMapping("/hello")`**（10行目）：`/hello` へのGETリクエストをこのメソッドで処理する
+- **`@ResponseBody`**（11行目）：メソッドの戻り値をHTMLではなく、レスポンス本文としてそのまま返す
+- **戻り値 `"Hello, Spring Boot!"`**（12行目）：ブラウザに直接テキストとして表示される
+
+アプリを起動して `http://localhost:8080/hello` にアクセスすると、「Hello, Spring Boot!」が表示される。
+
+:::warning アプリが起動しない場合
+
+よくある原因：
+
+1. **`@SpringBootApplication` が置かれているパッケージが間違っている**
+   `DemoApplication.java` の `@SpringBootApplication` と同じパッケージか、その配下にコントローラを置く必要がある
+2. **8080ポートが使用中**
+   他のアプリが8080番ポートを使っている場合は起動に失敗する。`application.properties` で `server.port=8081` のように別のポートを指定する
+3. **pom.xmlの依存関係が解決されていない**
+   IDEで「Maven再インポート」または `mvn install` を実行する
+
+:::
+
+---
+
+## HTMLテンプレートを使ったページ表示
+
+`@ResponseBody` を使うとテキストが返るだけだが、実際のWebアプリでは **HTMLテンプレート** を使って画面を作る。
+
+### コントローラの修正
+
+先ほどの `HelloController` を次のように修正する。
+
+<TeachingCodeBlock
+  code={`package com.example.demo.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class HelloController {
+
+    @GetMapping("/hello")
+    public String hello(Model model) {
+        model.addAttribute("message", "Hello, Spring Boot!");
+        return "hello"; // templates/hello.html を表示する
+    }
+}`}
+  title="HelloController.java"
+  highlightLines={[11, 12, 13]}
+/>
+
+- **`@ResponseBody` がない** ため、戻り値はビュー名（テンプレートファイル名）として解釈される
+- **`Model`**：コントローラからテンプレートへ値を渡すための入れ物（詳細は後の章で学ぶ）
+- **`model.addAttribute("message", ...)`**（12行目）：`message` という名前で値をテンプレートに渡す
+- **`return "hello"`**（13行目）：`src/main/resources/templates/hello.html` を探して表示する
+
+### テンプレートの作成
+
+`src/main/resources/templates/` に `hello.html` を作成する。
+
+```html title="hello.html"
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+</head>
+<body>
+    <h1>[[${message}]]</h1>
+</body>
+</html>
+```
+
+- `xmlns:th="http://www.thymeleaf.org"` ：ThymeleafのHTML属性を使えるようにする宣言
+- `[[${message}]]` ：コントローラから渡された `message` の値を表示する（詳細は後の章で学ぶ）
+
+再起動して `http://localhost:8080/hello` にアクセスすると、「Hello, Spring Boot!」が大きな見出しで表示される。
+
+:::info @ResponseBody と HTMLテンプレートの使い分け
+
+| 方法 | 使い所 |
+|------|--------|
+| `@ResponseBody` を使う | JSONを返すREST APIを作るとき |
+| テンプレートを返す（通常） | HTMLページを表示するとき |
+
+本研修のSpring教材では主に「テンプレートを返す」方式を使う。
+
+:::
+
+---
+
+## よくある質問
+
+**Q. 起動したが `http://localhost:8080/hello` でエラーになります。**
+
+A. 以下を確認する：
+1. コントローラファイルが `DemoApplication.java` と同じパッケージか、そのサブパッケージにあるか
+2. `@Controller` アノテーションが付いているか
+3. `@GetMapping("/hello")` のパスが正しいか
+
+---
+
+**Q. `@Controller` と `@RestController` の違いは何ですか？**
+
+A. `@RestController` は `@Controller` + `@ResponseBody` を合わせたものである。
+すべてのメソッドで自動的に `@ResponseBody` が適用されるため、JSONを返すREST APIを作るときに使う。
+HTMLテンプレートを返す通常のWebアプリでは `@Controller` を使う。
+
+---
+
+**Q. `return "hello"` と書いたとき、なぜ `templates/hello.html` が見つかるのですか？**
+
+A. Spring Boot + Thymeleafの組み合わせでは、 `ViewResolver` という仕組みがビュー名を解決する。
+`return "hello"` と書くと、自動的に `classpath:/templates/hello.html` を探すよう設定されている。
+（`classpath:` とは `src/main/resources/` のこと）
+
+---
+
+**Q. DevToolsを依存関係に追加するとどんな利点がありますか？**
+
+A. `spring-boot-starter-devtools` を追加すると、JavaファイルやHTMLファイルを保存したときに
+アプリが自動で再起動する。毎回手動で再起動する手間が省けるため、開発効率が上がる。
+本番環境では自動的に無効化される。
+
+---
+
+## 本章のまとめ
+
+- Spring Initializrを使うと、プロジェクトの雛形を自動生成できる
+- `@SpringBootApplication` は起動クラスに1つだけ付けるアノテーションで、コンポーネントスキャンや自動設定を有効化する
+- `pom.xml` で依存ライブラリを管理する。 `spring-boot-starter-xxx` は関連ライブラリをまとめたもの
+- `@Controller` + `@GetMapping` でURLに対応する処理を定義できる
+- `@ResponseBody` を付けるとテキスト/JSONをそのまま返す。付けない場合はテンプレート名として解釈される
+- `Model` を通じてコントローラからテンプレートへ値を渡し、 `[[${message}]]` で表示できる
+- 次章では、コントローラとルーティングをより詳しく学ぶ

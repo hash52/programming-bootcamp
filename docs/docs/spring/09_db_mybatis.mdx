@@ -1,36 +1,39 @@
+import { TeachingCodeBlock } from "@site/src/components/TeachingCodeBlock";
+
 # MyBatisによるDBアクセス
 
-この章では、Spring Bootでデータベースにアクセスする方法として **MyBatis** を学ぶ。  
-Webアプリケーションはデータを保存・取得するためにDBとのやりとりが不可欠であり、  
+この章では、Spring Bootでデータベースにアクセスする方法として **MyBatis** を学ぶ。
+Webアプリケーションはデータを保存・取得するためにDBとのやりとりが不可欠であり、
 MyBatisを使うことで **JavaのクラスとSQLを結びつけた安全で整理されたDBアクセス** を実現できる。
 
 ## 学習のゴール
-- MyBatisが「O/Rマッパー」であることを理解できる  
-- `application.properties` によるDB接続設定を行える  
-- `schema.sql` と `data.sql` でテーブル作成と初期データ登録を行える  
-- テーブルと対応するエンティティクラス（Javaクラス）を定義できる  
+
+- MyBatisが「O/Rマッパー」であることを理解できる
+- `application.properties` によるDB接続設定を行える
+- `schema.sql` と `data.sql` でテーブル作成と初期データ登録を行える
+- テーブルと対応するエンティティクラス（Javaクラス）を定義できる
 - Mapperインターフェースにアノテーションを定義して、SQLとメソッドを結びつけられる
-- MapperインターフェースとXMLマッパーファイルを対応付け、SQLとメソッドを結びつけられる  
-- `@Mapper` により、MyBatisが自動で実装クラスを生成する仕組みを理解できる  
-- `resultMap` と `<collection>` を用いて1対多のリレーションを扱える  
-- コントローラからMapperを呼び出し、DBのデータを画面表示まで連携できる 
+- MapperインターフェースとXMLマッパーファイルを対応付け、SQLとメソッドを結びつけられる
+- `@Mapper` により、MyBatisが自動で実装クラスを生成する仕組みを理解できる
+- `resultMap` と `<collection>` を用いて1対多のリレーションを扱える
+- コントローラからMapperを呼び出し、DBのデータを画面表示まで連携できる
 
 ---
 
 ## MyBatisとは？
 
-MyBatisは **O/Rマッパー** のひとつである。  
+MyBatisは **O/Rマッパー** のひとつである。
 
-- **O/Rマッピング（Object-Relational Mapping）** とは  
-  - Javaのオブジェクト（クラスのインスタンス）と、RDB（リレーショナルデータベース）のレコードを対応付ける仕組み  
-  - 例：`users` テーブルの1行を、`User` クラスのインスタンスとして扱える  
-  - 「JavaとDBは本来別世界のもの」だが、**テーブルの行をオブジェクトにできた方が便利**という発想  
+- **O/Rマッピング（Object-Relational Mapping）** とは
+  - Javaのオブジェクト（クラスのインスタンス）と、RDB（リレーショナルデータベース）のレコードを対応付ける仕組み
+  - 例：`users` テーブルの1行を、`User` クラスのインスタンスとして扱える
+  - 「JavaとDBは本来別世界のもの」だが、**テーブルの行をオブジェクトにできた方が便利**という発想
 
-- **MyBatisの特徴**  
-  - SQLを自分で書くスタイルのO/Rマッパー  
-  - SQLを自動生成するHibernateに比べて、学習や業務では理解しやすく、自由度が高い  
-  - SQLは **アノテーション** でも **XMLファイル** でも書ける  
-  - 実務では **複雑なSQLをXMLで管理するのが一般的**  
+- **MyBatisの特徴**
+  - SQLを自分で書くスタイルのO/Rマッパー
+  - SQLを自動生成するHibernateに比べて、学習や業務では理解しやすく、自由度が高い
+  - SQLは **アノテーション** でも **XMLファイル** でも書ける
+  - 実務では **複雑なSQLをXMLで管理するのが一般的**
 
 👉 初学者にとっては、**「SQLを書くのは自分。実装はMyBatisが自動でやってくれる」** という理解でよい。
 
@@ -38,7 +41,7 @@ MyBatisは **O/Rマッパー** のひとつである。
 
 ## DB接続の設定（application.properties）
 
-Spring Bootでは、DB接続の設定を `application.properties` に記述する。  
+Spring Bootでは、DB接続の設定を `application.properties` に記述する。
 
 ```properties showLineNumbers
 spring.datasource.url=jdbc:h2:mem:testdb
@@ -48,27 +51,38 @@ spring.datasource.password=
 mybatis.mapper-locations=classpath*:mapper/*.xml
 ```
 
-- `spring.datasource.url` : DBの接続先（ここではH2という組み込みDBを利用）  
-- `spring.datasource.driver-class-name` : JDBCドライバの指定  
-- `mybatis.mapper-locations` : MyBatisのマッパーファイル（SQLを書くXMLファイル）の場所  
+- `spring.datasource.url` : DBの接続先（ここではH2という組み込みDBを利用）
+- `spring.datasource.driver-class-name` : JDBCドライバの指定
+- `mybatis.mapper-locations` : MyBatisのマッパーファイル（SQLを書くXMLファイル）の場所
   - `classpath*:` … 「クラスパス上のフォルダを探してね」という意味
   - `mapper/*.xml` … mapper フォルダにある .xml ファイルを全部読み込む、という指定
-  - 具体的には `src/main/resources/mapper/UserMapper.xml` のようなファイルが対象になる  
+  - 具体的には `src/main/resources/mapper/UserMapper.xml` のようなファイルが対象になる
   👉 つまり、**`resources/mapper` フォルダに置いたすべてのXMLファイルを、MyBatisが自動的に読み込む** という意味。
 
-👉 新人研修では「この設定は先輩が用意したものをコピペすればOK」と考えてよい。  
+:::warning application.properties の設定ミスはエラーの原因になる
+
+DB接続設定が間違っていると、アプリ起動時にエラーが発生する。よくあるミス：
+
+- `spring.datasource.url` のURL形式が間違っている
+- `mybatis.mapper-locations` のパスが `UserMapper.xml` の実際の配置場所と一致していない
+
+エラーメッセージに `Cannot obtain connection` や `No qualifying bean of type 'DataSource'` が出た場合は、設定値を見直す。
+
+:::
+
+👉 新人研修では「この設定は先輩が用意したものをコピペすればOK」と考えてよい。
 大切なのは、**このファイルにDB接続やMyBatisの設定を書く**ということ。
 
 ---
 
 ## schema.sql と data.sql
 
-Spring Bootでは、`resources` フォルダに `schema.sql` と `data.sql` を置くと、起動時に自動実行される。  
+Spring Bootでは、`resources` フォルダに `schema.sql` と `data.sql` を置くと、起動時に自動実行される。
 
-- `schema.sql` : テーブル定義を記述する  
-- `data.sql` : 初期データを挿入する  
+- `schema.sql` : テーブル定義を記述する
+- `data.sql` : 初期データを挿入する
 
-例：  
+例：
 
 ```sql showLineNumbers title="schema.sql"
 CREATE TABLE users (
@@ -89,14 +103,14 @@ INSERT INTO users (name, age) VALUES ('Hanako', 25);
 
 ## エンティティの作成
 
-**エンティティ（Entity）** とは、データベースのテーブルと1対1で対応するJavaクラスのことを指す。  
-テーブルの「1行（レコード）」をJavaの「1つのオブジェクト」として扱う役割を持つ。  
+**エンティティ（Entity）** とは、データベースのテーブルと1対1で対応するJavaクラスのことを指す。
+テーブルの「1行（レコード）」をJavaの「1つのオブジェクト」として扱う役割を持つ。
 
-例えば `users` テーブルには「id」「name」「age」というカラム（列）があるが、これをJava側では `User` クラスの `id`、`name`、`age` フィールドとして表現する。  
-これにより、**SQLの結果をそのままJavaのオブジェクトとして扱えるようになる。**  
+例えば `users` テーブルには「id」「name」「age」というカラム（列）があるが、これをJava側では `User` クラスの `id`、`name`、`age` フィールドとして表現する。
+これにより、**SQLの結果をそのままJavaのオブジェクトとして扱えるようになる。**
 
-```java showLineNumbers
-package com.example.demo.entity;
+<TeachingCodeBlock
+  code={`package com.example.demo.entity;
 
 public class User {
     private int id;
@@ -112,11 +126,13 @@ public class User {
 
     public int getAge() { return age; }
     public void setAge(int age) { this.age = age; }
-}
-```
+}`}
+  title="User.java"
+  highlightLines={[4, 5, 6]}
+/>
 
-- フィールド名はテーブルのカラム名と一致している必要がある  
-- getter / setter を必ず用意する  
+- フィールド名はテーブルのカラム名と一致している必要がある
+- getter / setter を必ず用意する
 
 👉 これで、`users` テーブルの1行を `User` クラスのインスタンスとして扱えるようになる。
 
@@ -124,13 +140,13 @@ public class User {
 
 ## Mapperインターフェースとマッパーファイル
 
-MyBatisでは、SQLを呼び出すために **Mapperインターフェース** を定義し、そこに記述したメソッドとSQLを対応付ける。  
-SQLはアノテーションで直接書くこともできるし、XMLファイルに分離して管理することもできる。  
+MyBatisでは、SQLを呼び出すために **Mapperインターフェース** を定義し、そこに記述したメソッドとSQLを対応付ける。
+SQLはアノテーションで直接書くこともできるし、XMLファイルに分離して管理することもできる。
 
 ### アノテーションを使ったMapper（最も簡単な方法）
 
-```java showLineNumbers
-package com.example.demo.mapper;
+<TeachingCodeBlock
+  code={`package com.example.demo.mapper;
 
 import com.example.demo.entity.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -145,20 +161,22 @@ public interface UserMapper {
 
     @Select("SELECT id, name, age FROM users WHERE id = #{id}")
     User findById(int id);
-}
-```
+}`}
+  title="UserMapper.java"
+  highlightLines={[8, 11, 14]}
+/>
 
-- **メリット**：Javaファイルだけで完結するので手軽  
-- **デメリット**：SQLが増えるとJavaコードが読みにくくなり、複雑なJOINや改行の多いSQLには不向き  
+- **メリット**：Javaファイルだけで完結するので手軽
+- **デメリット**：SQLが増えるとJavaコードが読みにくくなり、複雑なJOINや改行の多いSQLには不向き
 
-👉 実務では **SQLをXMLに分離して管理する方法** が推奨される。  
+👉 実務では **SQLをXMLに分離して管理する方法** が推奨される。
 
 ---
 
 ### Mapperインターフェース（XMLと対応させる）
 
-```java showLineNumbers
-package com.example.demo.mapper;
+<TeachingCodeBlock
+  code={`package com.example.demo.mapper;
 
 import com.example.demo.entity.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -168,11 +186,21 @@ import java.util.List;
 public interface UserMapper {
     List<User> findAll(); // 全件取得
     User findById(int id); // idで検索
-}
-```
+}`}
+  title="UserMapper.java"
+  highlightLines={[7, 8, 9, 10]}
+/>
 
-- `@Mapper` を付けるだけで、実装クラスは不要  
-- 実際のSQLは **マッパーファイル（XML）** に記述する  
+- `@Mapper` を付けるだけで、実装クラスは不要
+- 実際のSQLは **マッパーファイル（XML）** に記述する
+
+:::info @Mapper アノテーションを付け忘れると？
+
+`@Mapper` を忘れると、MyBatisはそのインターフェースを認識せず、
+起動時に `No qualifying bean of type 'UserMapper'` などのエラーが発生する。
+Mapperインターフェースには必ず `@Mapper` を付けること。
+
+:::
 
 ### マッパーファイル（UserMapper.xml）
 
@@ -197,20 +225,28 @@ public interface UserMapper {
 </mapper>
 ```
 
-- `namespace` は **インターフェースの完全修飾名** に一致させる必要がある  
-- `<select id="findAll">` の `id` は、インターフェースのメソッド名と一致させる  
-- `resultType` で返り値のクラスを指定  
+- `namespace` は **インターフェースの完全修飾名** に一致させる必要がある
+- `<select id="findAll">` の `id` は、インターフェースのメソッド名と一致させる
+- `resultType` で返り値のクラスを指定
 
-👉 これにより、Java側の `UserMapper.findAll()` を呼ぶとSQLが実行され、結果が `User` のリストとして返る。  
+:::warning namespace の値を間違えると動作しない
+
+`namespace` には `@Mapper` を付けたインターフェースの **完全修飾クラス名** を指定する必要がある。
+パッケージ名を間違えると、MyBatisがMapperインターフェースとXMLを対応付けられず、
+`Invalid bound statement (not found)` というエラーが発生する。
+
+:::
+
+👉 これにより、Java側の `UserMapper.findAll()` を呼ぶとSQLが実行され、結果が `User` のリストとして返る。
 
 ---
 
 ## コントローラで利用する
 
-作成した `UserMapper` インターフェースをコントローラから呼び出してみよう。  
+作成した `UserMapper` インターフェースをコントローラから呼び出してみよう。
 
-```java showLineNumbers
-package com.example.demo.controller;
+<TeachingCodeBlock
+  code={`package com.example.demo.controller;
 
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.entity.User;
@@ -220,12 +256,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @Controller
-public class UserController {
+public class UserListController {
 
     private final UserMapper userMapper;
 
     // コンストラクタインジェクション
-    public UserController(UserMapper userMapper) {
+    public UserListController(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
@@ -235,26 +271,28 @@ public class UserController {
         model.addAttribute("users", users);
         return "user-list";
     }
-}
-```
+}`}
+  title="UserListController.java"
+  highlightLines={[13, 16, 21, 22]}
+/>
 
-- `@Mapper` を付けた `UserMapper` は、Springが自動でBean登録してくれる  
-- `@Autowired` を明示しなくてもコンストラクタインジェクションで利用可能  
-- `userMapper.findAll()` を呼ぶと、`UserMapper.xml` のSQLが実行される  
+- `@Mapper` を付けた `UserMapper` は、Springが自動でBean登録してくれる
+- `@Autowired` を明示しなくてもコンストラクタインジェクションで利用可能
+- `userMapper.findAll()` を呼ぶと、`UserMapper.xml` のSQLが実行される
 
-👉 **コントローラ側はSQLを意識せず、メソッド呼び出しだけでDBアクセスができる。**  
+👉 **コントローラ側はSQLを意識せず、メソッド呼び出しだけでDBアクセスができる。**
 
 ---
 
 ## 1対多のリレーションを扱う（UserとPost）
 
-`User` に関連する `Post` を一緒に取得する例を見てみよう。  
-ここでは、**User（1人のユーザー）に対して複数のPost（投稿）が存在する** という関係を扱う。  
+`User` に関連する `Post` を一緒に取得する例を見てみよう。
+ここでは、**User（1人のユーザー）に対して複数のPost（投稿）が存在する** という関係を扱う。
 
 ### エンティティの定義
 
-まずはエンティティクラスを定義する。  
-`User` エンティティには `List<Post>` フィールドを持たせ、ユーザーに紐づく投稿を保持できるようにする。  
+まずはエンティティクラスを定義する。
+`User` エンティティには `List<Post>` フィールドを持たせ、ユーザーに紐づく投稿を保持できるようにする。
 
 ```java showLineNumbers
 package com.example.demo.entity;
@@ -304,7 +342,7 @@ public class Post {
 }
 ```
 
-👉 これで、`User` エンティティは `posts` フィールドを通じて、自分に紐づく投稿一覧を持てるようになる。  
+👉 これで、`User` エンティティは `posts` フィールドを通じて、自分に紐づく投稿一覧を持てるようになる。
 
 ---
 
@@ -348,12 +386,12 @@ public interface UserMapper {
 </mapper>
 ```
 
-- `resultMap` を使うと、JOIN結果をエンティティにマッピングできる  
-- `<collection>` によって、`List<Post>` を `User` に格納できる  
+- `resultMap` を使うと、JOIN結果をエンティティにマッピングできる
+- `<collection>` によって、`List<Post>` を `User` に格納できる
 
 ---
 
-## コントローラで利用する
+## コントローラで利用する（1対多）
 
 ```java showLineNumbers
 package com.example.demo.controller;
@@ -365,11 +403,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class UserController {
+public class UserListController {
 
     private final UserMapper userMapper;
 
-    public UserController(UserMapper userMapper) {
+    public UserListController(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
@@ -382,27 +420,59 @@ public class UserController {
 }
 ```
 
-- `findUserWithPosts(1)` を呼ぶと、`users` と `posts` テーブルを結合した結果が返る  
-- コントローラでは `user.getPosts()` で投稿リストにアクセスできる  
+- `findUserWithPosts(1)` を呼ぶと、`users` と `posts` テーブルを結合した結果が返る
+- コントローラでは `user.getPosts()` で投稿リストにアクセスできる
 
 ---
 
-👉 まとめ  
-- 簡単なSQLはアノテーションで書ける  
-- 実務ではSQLをXMLに分離し、Mapperインターフェースと対応付ける  
-- `resultMap` と `<collection>` を使うと、リレーションを持つデータも扱える  
+👉 まとめ
+- 簡単なSQLはアノテーションで書ける
+- 実務ではSQLをXMLに分離し、Mapperインターフェースと対応付ける
+- `resultMap` と `<collection>` を使うと、リレーションを持つデータも扱える
+
+---
+
+## よくある質問
+
+**Q. アノテーション方式とXML方式はどちらを使えばよいですか？**
+
+A. 簡単なCRUDには **アノテーション方式** が手軽だが、実務では **XML方式** が一般的である。
+XMLに分離することで、SQLを読みやすく管理でき、複雑なJOINや動的SQLも書きやすい。
+本研修ではXML方式を中心に学ぶ。
+
+---
+
+**Q. `#{id}` と `${id}` の違いは何ですか？**
+
+A. `#{id}` はプリペアドステートメント（パラメータバインド）として扱われ、SQLインジェクションを防止する。
+`${id}` は文字列として直接埋め込まれるため、SQLインジェクションのリスクがある。
+ユーザー入力値には必ず `#{...}` を使うこと。
+
+---
+
+**Q. カラム名とフィールド名が異なる場合はどうすればよいですか？**
+
+A. XMLの `resultMap` や `<result>` タグを使って対応付けを指定する。
+
+```xml
+<resultMap id="UserResultMap" type="com.example.demo.entity.User">
+  <id property="id" column="user_id"/>      <!-- user_id カラム → id フィールド -->
+  <result property="name" column="user_name"/> <!-- user_name カラム → name フィールド -->
+</resultMap>
+```
+
+または `application.properties` に `mybatis.configuration.map-underscore-to-camel-case=true` を設定すると、
+`user_name` → `userName` のようにスネークケースからキャメルケースへ自動変換される。
 
 ---
 
 ## 本章のまとめ
 
-- MyBatisは **O/Rマッパー** のひとつで、SQLを自分で書けるのが特徴  
-- `application.properties` でDB接続を設定する  
-- `schema.sql` と `data.sql` でテーブルと初期データを準備できる  
-- エンティティ（Javaクラス）を作り、テーブルの1行をオブジェクトとして扱える  
-- MapperインターフェースとXMLマッパーファイルで、JavaメソッドとSQLを結びつける  
-- `@Mapper` を付けると、MyBatisが自動で実装クラスを生成してくれる  
-- コントローラでは、Mapperのメソッドを呼ぶだけでDBアクセスが可能になる  
-
----
-
+- MyBatisは **O/Rマッパー** のひとつで、SQLを自分で書けるのが特徴
+- `application.properties` でDB接続を設定する
+- `schema.sql` と `data.sql` でテーブルと初期データを準備できる
+- エンティティ（Javaクラス）を作り、テーブルの1行をオブジェクトとして扱える
+- MapperインターフェースとXMLマッパーファイルで、JavaメソッドとSQLを結びつける
+- `@Mapper` を付けると、MyBatisが自動で実装クラスを生成してくれる
+- コントローラでは、Mapperのメソッドを呼ぶだけでDBアクセスが可能になる
+- 次章では、リクエストをまたいでデータを保持するための **セッション** と **ログインの仕組み** を学ぶ

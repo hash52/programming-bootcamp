@@ -1946,58 +1946,6 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
     ],
   }),
-  withAutoIds({
-    id: "11_spring_security_login",
-    label: "Spring Securityでのログイン実装",
-    category: "spring",
-    questions: [
-      {
-        title: "認証とは何かを説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "認可とは何かを説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "パスワードのハッシュ化の必要性を説明できる",
-        type: "KNOW",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "UserDetailsServiceでユーザー情報を取得できる",
-        type: "WRITE",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "BCryptPasswordEncoderでパスワードを暗号化できる",
-        type: "WRITE",
-        difficulty: Difficulty.Easy,
-      },
-      {
-        title: "SecurityFilterChainでログイン画面を設定できる",
-        type: "WRITE",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "Spring SecurityとMyBatisを組み合わせて認証できる",
-        type: "WRITE",
-        difficulty: Difficulty.Hard,
-      },
-      {
-        title: "ログイン成功後のセッション情報を理解している",
-        type: "READ",
-        difficulty: Difficulty.Medium,
-      },
-      {
-        title: "ログアウト処理を実装できる",
-        type: "WRITE",
-        difficulty: Difficulty.Medium,
-      },
-    ],
-  }),
   // DB - 基礎
   withAutoIds({
     id: "01_why_database",
