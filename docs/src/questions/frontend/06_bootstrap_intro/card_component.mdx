@@ -1,0 +1,42 @@
+---
+id: "frontend/06_bootstrap_intro#card_component"
+title: "card系クラスでカードコンポーネントを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "freeText"
+topicId: "06_bootstrap_intro"
+category: "frontend"
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <div class="container mt-3">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">カードタイトル</h5>
+        <p class="card-text">カードの本文テキストが入る場所である。説明文などを書く。</p>
+        <a href="#" class="btn btn-primary">詳細を見る</a>
+      </div>
+    </div>
+  </div>
+explanation: |
+  Bootstrap のカードコンポーネントは、`card` クラスを持つ div を外側に配置し、その中に `card-body` クラスの div を入れる構造である。
+
+  ```html
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">タイトル</h5>
+      <p class="card-text">テキスト</p>
+    </div>
+  </div>
+  ```
+
+  - `card-title`: カードの見出しに使うクラス
+  - `card-text`: カードの本文テキストに使うクラス
+  - `card-footer`: カードの下部エリアを定義するクラス
+  - カード内には btn クラスのリンクやボタンを配置することもできる
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、Bootstrap のカードコンポーネントを作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />

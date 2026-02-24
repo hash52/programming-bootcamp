@@ -9,15 +9,15 @@ category: "git/teamwork"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "コミットはカレントブランチにのみ記録され、他のブランチには影響しない"
-  - id: "B"
     text: "コミットは全ブランチに同時に記録される"
+  - id: "B"
+    text: "コミットはカレントブランチにのみ記録され、他のブランチには影響しない"
   - id: "C"
     text: "featureブランチでのコミットは、自動的にmainブランチにも反映される"
   - id: "D"
     text: "ブランチを切り替えると、前のブランチのコミットが消える"
 answers:
-  correct: ["A"]
+  correct: ["B"]
 explanation: |
   ブランチ上でのコミットは、**カレントブランチにのみ記録**される。他のブランチには影響しない。
 

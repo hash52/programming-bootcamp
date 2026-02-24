@@ -9,15 +9,15 @@ category: "git/teamwork"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "変更点を確認し、問題があればコメントし、問題なければApproveしてマージを承認する"
+    text: "コードレビューはリポジトリのオーナーのみが実施できる"
   - id: "B"
     text: "レビュワーはコードを変更できないため、コメントを書いてもPRの作成者が対応するかは任意である"
   - id: "C"
-    text: "コードレビューはリポジトリのオーナーのみが実施できる"
+    text: "変更点を確認し、問題があればコメントし、問題なければApproveしてマージを承認する"
   - id: "D"
     text: "Approveを押すと、自動的にmainブランチにマージされる"
 answers:
-  correct: ["A"]
+  correct: ["C"]
 explanation: |
   コードレビューの一般的な流れは以下の通りである。
 

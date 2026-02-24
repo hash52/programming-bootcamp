@@ -1,0 +1,38 @@
+---
+id: "frontend/08_responsive_design#mobile_first"
+title: "モバイルファーストとは何かを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "08_responsive_design"
+category: "frontend"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "PCのデザインを先に作り、後からスマホ向けに縮小する手法である"
+  - id: "B"
+    text: "スマホ向けのデザインを先に作り、大きい画面向けに拡張する手法である"
+  - id: "C"
+    text: "スマホアプリを先に開発し、後でWebサイトを作る手法である"
+answers:
+  correct: ["B"]
+explanation: |
+  **モバイルファースト（Mobile First）** とは、スマートフォン向けのデザインを先に作り、画面が大きくなるにつれてレイアウトを拡張する手法である。
+
+  CSSの書き方の違い：
+  - **モバイルファースト（推奨）**: 基本スタイルをスマホ向けに書き、`min-width` のメディアクエリで上書き
+  - **デスクトップファースト**: 基本スタイルをPC向けに書き、`max-width` のメディアクエリで上書き
+
+  ```css
+  /* モバイルファースト */
+  .column { width: 100%; }
+
+  @media (min-width: 768px) {
+    .column { width: 50%; }
+  }
+  ```
+
+  Bootstrap もモバイルファーストで設計されており、`col-12`（全幅）を基本に `col-md-6` 等で上書きするパターンが基本である。
+---
+
+モバイルファーストの説明として正しいものを選べ。

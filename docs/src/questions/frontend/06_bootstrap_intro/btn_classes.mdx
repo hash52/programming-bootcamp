@@ -1,0 +1,37 @@
+---
+id: "frontend/06_bootstrap_intro#btn_classes"
+title: "btn系クラスでボタンをスタイリングできる"
+type: "WRITE"
+difficulty: "Easy"
+format: "freeText"
+topicId: "06_bootstrap_intro"
+category: "frontend"
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <div class="container mt-3">
+    <button class="btn btn-primary">プライマリボタン</button>
+    <button class="btn btn-secondary ms-2">セカンダリボタン</button>
+    <button class="btn btn-success ms-2">成功ボタン</button>
+    <button class="btn btn-danger ms-2">危険ボタン</button>
+    <br><br>
+    <button class="btn btn-outline-primary">アウトラインボタン</button>
+    <button class="btn btn-lg btn-warning ms-2">大きいボタン</button>
+  </div>
+explanation: |
+  Bootstrap のボタンスタイルは `btn` クラスを基本とし、カラークラスを組み合わせて使う。
+
+  ```html
+  <button class="btn btn-primary">ボタン</button>
+  ```
+
+  - `btn-primary`、`btn-secondary`、`btn-success`、`btn-danger` 等: 塗りつぶしボタン
+  - `btn-outline-*`: アウトライン（枠線のみ）ボタン
+  - `btn-lg`、`btn-sm`: ボタンのサイズを変更する
+  - `ms-2`（margin-start）等のスペーシングユーティリティと組み合わせて余白を調整できる
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、Bootstrap の btn クラスを使って複数のスタイルのボタンを作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />

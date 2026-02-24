@@ -15,6 +15,12 @@ export interface QuestionMetadata {
   fillInBlankAnswers?: FillInBlankAnswer;
   // 自由記述のサンプル解答
   sampleAnswer?: string;
+  // 解答プレビュー用 CodePen slugHash（例: "ByKOEqx"）
+  sampleCodepen?: string;
+  // オフライン時タブ表示用コード（CodePenEmbed に渡す）
+  sampleHtmlCode?: string;
+  sampleCssCode?: string;
+  sampleJsCode?: string;
   // 解説（簡潔な文章）
   explanation?: string;
   // ヒント（採点前に表示可能）

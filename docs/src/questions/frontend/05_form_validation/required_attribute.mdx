@@ -1,0 +1,32 @@
+---
+id: "frontend/05_form_validation#required_attribute"
+title: "required属性で必須入力を設定できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "freeText"
+topicId: "05_form_validation"
+category: "frontend"
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <form>
+    <input type="text" name="username" required placeholder="ユーザー名">
+    <input type="email" name="email" required placeholder="メールアドレス">
+    <button type="submit">送信</button>
+  </form>
+explanation: |
+  `required` 属性を付けると、そのフィールドが空欄のまま送信しようとしたときにブラウザが自動でエラーを表示し、送信をブロックする。
+
+  ```html
+  <input type="text" name="username" required>
+  ```
+
+  - `required` は値を持たない **論理属性** であり、属性名を書くだけで有効になる
+  - テキスト入力、メール入力、セレクトボックスなど、ほとんどのフォーム要素に使用できる
+  - バリデーションはブラウザが行うため、JavaScriptは不要である
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、ユーザー名とメールアドレスを必須入力にするフォームを作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />

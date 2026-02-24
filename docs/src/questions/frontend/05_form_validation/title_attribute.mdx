@@ -1,0 +1,35 @@
+---
+id: "frontend/05_form_validation#title_attribute"
+title: "title属性でエラーメッセージをカスタマイズできる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "05_form_validation"
+category: "frontend"
+hint: |
+  **ポイント**: `title` 属性はバリデーション失敗時にブラウザのエラーメッセージに追加される。
+  `pattern` 属性と組み合わせると効果的である。
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <form>
+    <input type="text" name="phone" pattern="[0-9]{10,11}" title="10〜11桁の数字（ハイフンなし）で入力してください" placeholder="電話番号（例: 09012345678）">
+    <button type="submit">送信</button>
+  </form>
+explanation: |
+  `title` 属性は、要素にマウスカーソルを乗せたときにツールチップとして表示される。
+  さらに、`pattern` 属性と組み合わせた場合、バリデーション失敗時にブラウザが表示するエラーメッセージに `title` の内容が追加される。
+
+  ```html
+  <input type="text" pattern="[0-9]{10,11}" title="10〜11桁の数字（ハイフンなし）で入力してください">
+  ```
+
+  - `title` 単体では入力制限は行えない。バリデーションには `pattern` や `required` などの属性と組み合わせる
+  - エラーメッセージのブラウザ表示形式は各ブラウザによって異なるが、`title` の内容は必ず含まれる
+  - より詳細なエラーメッセージのカスタマイズには、JavaScriptの `setCustomValidity()` を使用する
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、電話番号（10〜11桁の数字のみ）の入力欄を作成し、バリデーション失敗時に「10〜11桁の数字（ハイフンなし）で入力してください」というエラーメッセージが表示されるようにせよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />

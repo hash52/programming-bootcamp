@@ -1,0 +1,49 @@
+---
+id: "frontend/07_bootstrap_grid#navbar_component"
+title: "navbarコンポーネントを使える"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "07_bootstrap_grid"
+category: "frontend"
+hint: |
+  **ポイント**: `navbar` クラスを持つ `<nav>` タグに `navbar-expand-lg` と `navbar-dark bg-dark` 等を組み合わせる。
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">サイト名</a>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link text-white" href="#">ホーム</a>
+        <a class="nav-link text-white" href="#">会社概要</a>
+        <a class="nav-link text-white" href="#">お問い合わせ</a>
+      </div>
+    </div>
+  </nav>
+explanation: |
+  Bootstrap の navbar コンポーネントは `<nav>` タグに複数のクラスを組み合わせて使う。
+
+  ```html
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">サイト名</a>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="#">リンク</a>
+      </div>
+    </div>
+  </nav>
+  ```
+
+  主要クラスの役割：
+  - `navbar-expand-lg`: lg以上の画面でメニューを展開（それ以下では折りたたむ）
+  - `navbar-dark`: 暗い背景向けのテキスト色設定
+  - `bg-dark`: 背景色を黒に設定
+  - `navbar-brand`: ロゴやサイト名のリンク
+  - `ms-auto`: メニューを右端に寄せる
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、Bootstrap の navbar コンポーネントを使って黒背景のナビゲーションバーを作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />

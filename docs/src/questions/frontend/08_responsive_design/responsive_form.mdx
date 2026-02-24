@@ -1,0 +1,61 @@
+---
+id: "frontend/08_responsive_design#responsive_form"
+title: "レスポンシブなフォームを作れる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "08_responsive_design"
+category: "frontend"
+hint: |
+  **ポイント**: Bootstrap の `row` と `col-*` をフォーム内に使うと、横並びのフォームをレスポンシブにできる。
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <div class="container mt-3" style="max-width: 600px;">
+    <h4>お問い合わせ</h4>
+    <form>
+      <div class="row mb-3">
+        <div class="col-12 col-sm-6 mb-3 mb-sm-0">
+          <label class="form-label">姓</label>
+          <input type="text" class="form-control" placeholder="田中">
+        </div>
+        <div class="col-12 col-sm-6">
+          <label class="form-label">名</label>
+          <input type="text" class="form-control" placeholder="太郎">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">メールアドレス</label>
+        <input type="email" class="form-control" placeholder="example@email.com">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">メッセージ</label>
+        <textarea class="form-control" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">送信</button>
+    </form>
+  </div>
+explanation: |
+  フォーム内でも Bootstrap のグリッドを使って姓・名フィールドを横並びにできる。
+
+  ```html
+  <div class="row mb-3">
+    <div class="col-12 col-sm-6 mb-3 mb-sm-0">
+      <label class="form-label">姓</label>
+      <input type="text" class="form-control">
+    </div>
+    <div class="col-12 col-sm-6">
+      <label class="form-label">名</label>
+      <input type="text" class="form-control">
+    </div>
+  </div>
+  ```
+
+  `mb-3 mb-sm-0` はスマホ時のみ下余白を付け、sm以上では余白をなくすことを意味する。
+  これによりスマホでは縦並び・タブレット以上では横並びになる。
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、姓・名フィールドをタブレット以上で横並び、スマホで縦並びにするレスポンシブなお問い合わせフォームを作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={300} />

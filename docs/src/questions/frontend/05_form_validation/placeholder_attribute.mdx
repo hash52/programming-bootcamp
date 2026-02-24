@@ -1,0 +1,32 @@
+---
+id: "frontend/05_form_validation#placeholder_attribute"
+title: "placeholder属性でヒントを表示できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "05_form_validation"
+category: "frontend"
+fillInBlankAnswers:
+  blank1: ["placeholder", "PLACEHOLDER"]
+  blank2: ["メールアドレスを入力してください"]
+sampleAnswer: '<input type="email" placeholder="メールアドレスを入力してください">'
+explanation: |
+  `placeholder` 属性を使うと、入力欄が空のときにグレーのヒントテキストを表示できる。
+
+  ```html
+  <input type="email" placeholder="メールアドレスを入力してください">
+  ```
+
+  - 入力欄にフォーカスしても `placeholder` は表示され続け、文字を入力すると消える
+  - ラベルの代わりに使うのは避けること。アクセシビリティの観点から `<label>` タグを併用することが推奨される
+  - 入力形式の例（例: `example@mail.com`）や補足説明を表示するのに適している
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、メールアドレス入力欄に「メールアドレスを入力してください」というヒントを表示させよ。
+
+<CodeBlock>
+{`<input type="email" `}<BlankInput id="blank1" />{`="`}<BlankInput id="blank2" />{`">`}
+</CodeBlock>

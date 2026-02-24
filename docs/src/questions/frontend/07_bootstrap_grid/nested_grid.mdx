@@ -1,0 +1,51 @@
+---
+id: "frontend/07_bootstrap_grid#nested_grid"
+title: "グリッドをネストできる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "07_bootstrap_grid"
+category: "frontend"
+hint: |
+  **ポイント**: col の中にさらに row と col を入れることでグリッドをネストできる。内側の row も12列として扱われる。
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-8 bg-light border p-2">
+        <p class="fw-bold">外側: col-8</p>
+        <div class="row">
+          <div class="col-6 bg-primary text-white p-2">内側: col-6</div>
+          <div class="col-6 bg-info text-white p-2">内側: col-6</div>
+        </div>
+      </div>
+      <div class="col-4 bg-secondary text-white p-2">
+        外側: col-4
+      </div>
+    </div>
+  </div>
+explanation: |
+  グリッドは入れ子にできる。`col` の中にさらに `row > col` を入れると、内側も12列として計算される。
+
+  ```html
+  <div class="row">
+    <div class="col-8">
+      <!-- 内側のグリッド（8列の中の12列） -->
+      <div class="row">
+        <div class="col-6">左半分</div>
+        <div class="col-6">右半分</div>
+      </div>
+    </div>
+    <div class="col-4">サイドバー</div>
+  </div>
+  ```
+
+  内側の `col-6` は外側の `col-8` の半分（全体の約33%）になる。
+  複雑なレイアウトを組む際に活用できる。
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、col-8の内側にさらにcol-6×2の入れ子グリッドを作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />

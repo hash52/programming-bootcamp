@@ -9,15 +9,15 @@ category: "git/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "GitHubのSettings → Developer settings → Personal access tokens でトークンを生成し、git push 時のパスワードとして使用する"
+    text: "HTTPS接続のためにSSH鍵を生成する必要がある"
   - id: "B"
     text: "GitHubのパスワードをそのまま git push 時のパスワードとして使用する"
   - id: "C"
-    text: "HTTPS接続のためにSSH鍵を生成する必要がある"
+    text: "GitHubのSettings → Developer settings → Personal access tokens でトークンを生成し、git push 時のパスワードとして使用する"
   - id: "D"
     text: "git config --global http.password コマンドでパスワードを設定する"
 answers:
-  correct: ["A"]
+  correct: ["C"]
 explanation: |
   GitHubのHTTPS接続には、**Personal Access Token（PAT）** を使用する。
 

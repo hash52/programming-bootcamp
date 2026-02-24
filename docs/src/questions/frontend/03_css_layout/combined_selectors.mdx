@@ -6,7 +6,13 @@ difficulty: "Medium"
 format: "freeText"
 topicId: "03_css_layout"
 category: "frontend"
-sampleAnswer: |
+sampleCodepen: "ByKOEqx"
+sampleHtmlCode: |
+  <div class="card">
+    <p class="title">タイトル</p>
+    <p>テキスト段落</p>
+  </div>
+sampleCssCode: |
   .card p {
     color: gray;
     font-size: 14px;
@@ -42,4 +48,8 @@ explanation: |
   セレクタを上手く組み合わせることで、HTMLに余分なクラスを付けずにスタイルを適用できる。
 ---
 
-`.card` クラスを持つ要素の中の `<p>` タグの文字色をグレーにし、さらに `.card` の中の `.title` クラスのフォントサイズを大きくするCSSを記述せよ。
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューと同じ見た目になるよう、`.card` クラスを持つ要素の中の `<p>` タグの文字色をグレーにし、さらに `.card` の中の `.title` クラスのフォントサイズを大きくするCSSを記述せよ。
+
+<CodePenEmbed slugHash="ByKOEqx" defaultTab="result" editable={true} height={250} />

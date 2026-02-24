@@ -1,0 +1,39 @@
+---
+id: "frontend/05_form_validation#pattern_attribute"
+title: "pattern属性で入力形式を制限できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "05_form_validation"
+category: "frontend"
+hint: |
+  **ポイント**: `pattern` 属性には正規表現を指定する。
+  郵便番号（例: 123-4567）は `[0-9]{3}-[0-9]{4}` で表現できる。
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <form>
+    <input type="text" name="zip" pattern="[0-9]{3}-[0-9]{4}" placeholder="郵便番号（例: 123-4567）" title="ハイフン付き7桁の郵便番号を入力してください">
+    <button type="submit">送信</button>
+  </form>
+explanation: |
+  `pattern` 属性に **正規表現** を指定すると、特定の形式の入力のみを受け付けられる。
+
+  ```html
+  <input type="text" pattern="[0-9]{3}-[0-9]{4}" title="ハイフン付き7桁の郵便番号を入力してください">
+  ```
+
+  よく使う正規表現パターンの例：
+  - `[0-9]{3}-[0-9]{4}`: 郵便番号（例: 123-4567）
+  - `[0-9]{10,11}`: 電話番号（10〜11桁の数字）
+  - `[A-Za-z]+`: アルファベットのみ
+  - `[a-zA-Z0-9]+`: 英数字のみ
+
+  `title` 属性を組み合わせると、バリデーション失敗時にブラウザが表示するエラーメッセージに `title` の内容が追加される。
+  ユーザーに入力形式を分かりやすく伝えるために積極的に使用するとよい。
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、郵便番号（ハイフン付き7桁、例: 123-4567）のみ受け付ける入力欄を作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />

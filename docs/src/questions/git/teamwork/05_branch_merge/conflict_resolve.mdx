@@ -9,15 +9,15 @@ category: "git/teamwork"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "コンフリクトマーカーを手動で編集して解決し、git add → git commit を実行する"
+    text: "コンフリクトが起きたら git merge を再実行すると自動解決される"
   - id: "B"
     text: "git revert を実行するとコンフリクトが自動解決される"
   - id: "C"
-    text: "コンフリクトが起きたら git merge を再実行すると自動解決される"
+    text: "コンフリクトマーカーを手動で編集して解決し、git add → git commit を実行する"
   - id: "D"
     text: "コンフリクトが起きたら、ブランチを削除して最初からやり直す必要がある"
 answers:
-  correct: ["A"]
+  correct: ["C"]
 explanation: |
   コンフリクト（競合）は、同じ箇所が複数のブランチで別々に変更されたときに発生する。
 

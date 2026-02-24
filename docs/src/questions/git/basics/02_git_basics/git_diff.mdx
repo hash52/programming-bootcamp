@@ -9,15 +9,15 @@ category: "git/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "git diff はステージに追加していない変更を、git diff --staged はステージ済みの変更を表示する"
-  - id: "B"
     text: "git diff はコミット済みの変更を、git diff --staged は未保存の変更を表示する"
+  - id: "B"
+    text: "git diff はステージに追加していない変更を、git diff --staged はステージ済みの変更を表示する"
   - id: "C"
     text: "git diff と git diff --staged は同じ内容を表示する"
   - id: "D"
     text: "git diff はステージ済みの変更を、git diff --staged はステージに追加していない変更を表示する"
 answers:
-  correct: ["A"]
+  correct: ["B"]
 explanation: |
   `git diff` と `git diff --staged` の違いは、比較対象である。
 

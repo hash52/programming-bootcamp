@@ -1,0 +1,65 @@
+---
+id: "frontend/08_responsive_design#responsive_card_grid"
+title: "レスポンシブなカードグリッドを作れる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "08_responsive_design"
+category: "frontend"
+hint: |
+  **ポイント**: Bootstrap の `col-12 col-sm-6 col-lg-4` でスマホ1列、タブレット2列、PC3列のグリッドを作れる。
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <div class="container mt-3">
+    <div class="row g-3">
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">カード1</h5>
+            <p class="card-text">カードの説明文が入る。</p>
+            <a href="#" class="btn btn-primary btn-sm">詳細</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">カード2</h5>
+            <p class="card-text">カードの説明文が入る。</p>
+            <a href="#" class="btn btn-primary btn-sm">詳細</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">カード3</h5>
+            <p class="card-text">カードの説明文が入る。</p>
+            <a href="#" class="btn btn-primary btn-sm">詳細</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+explanation: |
+  レスポンシブなカードグリッドは、Bootstrap のグリッドとカードコンポーネントを組み合わせて作る。
+
+  ```html
+  <div class="row g-3">
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="card h-100">...</div>
+    </div>
+  </div>
+  ```
+
+  ポイント：
+  - `g-3`: カード間のガター（余白）を指定する
+  - `h-100`: カードの高さを親要素に合わせる（カードの高さが揃う）
+  - `col-12 col-sm-6 col-lg-4`: スマホ1列・タブレット2列・PC3列
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、スマホ1列・タブレット2列・PC3列のレスポンシブカードグリッドを作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={300} />

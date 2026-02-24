@@ -1,0 +1,44 @@
+---
+id: "frontend/07_bootstrap_grid#bootstrap_form"
+title: "Bootstrapでフォームをスタイリングできる"
+type: "WRITE"
+difficulty: "Easy"
+format: "freeText"
+topicId: "07_bootstrap_grid"
+category: "frontend"
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <div class="container mt-3" style="max-width: 400px;">
+    <h4>ログイン</h4>
+    <div class="mb-3">
+      <label for="username" class="form-label">ユーザー名</label>
+      <input type="text" class="form-control" id="username" placeholder="ユーザー名を入力">
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">パスワード</label>
+      <input type="password" class="form-control" id="password" placeholder="パスワードを入力">
+    </div>
+    <button type="submit" class="btn btn-primary w-100">ログイン</button>
+  </div>
+explanation: |
+  Bootstrap のフォームクラスを使うとインプット要素を統一されたスタイルで整えられる。
+
+  ```html
+  <div class="mb-3">
+    <label class="form-label">ラベル</label>
+    <input type="text" class="form-control">
+  </div>
+  ```
+
+  主要クラスの役割：
+  - `form-control`: input・textarea・select に付けるクラス。全幅・角丸・ボーダー付きのスタイルになる
+  - `form-label`: ラベルのスタイル（`<label>` タグに付ける）
+  - `mb-3`: フォームグループ間の余白（margin-bottom）
+  - `w-100`: ボタンを全幅にするクラス
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、Bootstrap の form-control と form-label を使ってログインフォームを作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />

@@ -1,0 +1,78 @@
+---
+id: "frontend/08_responsive_design#mobile_first_css"
+title: "モバイルファーストでCSSを書ける"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "08_responsive_design"
+category: "frontend"
+hint: |
+  **ポイント**: モバイルファーストでは `min-width` を使ったメディアクエリを書く。基本スタイルはスマホ向けに書き、`@media (min-width: 768px)` で上書きする。
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <div class="layout">
+    <header class="site-header">ヘッダー</header>
+    <main class="site-main">メインコンテンツ</main>
+    <aside class="site-sidebar">サイドバー</aside>
+    <footer class="site-footer">フッター</footer>
+  </div>
+sampleCssCode: |
+  .layout {
+    display: flex;
+    flex-direction: column;
+  }
+  .site-header, .site-footer {
+    background: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+  }
+  .site-main {
+    background: #f0f0f0;
+    padding: 1rem;
+    flex: 1;
+  }
+  .site-sidebar {
+    background: #ddd;
+    padding: 1rem;
+  }
+  @media (min-width: 768px) {
+    .layout {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .site-header, .site-footer {
+      width: 100%;
+    }
+    .site-main {
+      flex: 3;
+    }
+    .site-sidebar {
+      flex: 1;
+    }
+  }
+explanation: |
+  モバイルファーストでは基本スタイルをスマホ向けに書き、`@media (min-width: ...)` で大きい画面向けに上書きする。
+
+  ```css
+  /* 基本（スマホ向け） */
+  .layout { flex-direction: column; }
+
+  /* タブレット以上で上書き */
+  @media (min-width: 768px) {
+    .layout { flex-direction: row; }
+  }
+  ```
+
+  デスクトップファーストとの違い：
+  - **モバイルファースト**: `min-width` → 基本がスマホ、大きい画面で拡張
+  - **デスクトップファースト**: `max-width` → 基本がPC、小さい画面で縮小
+
+  モバイルファーストのほうがシンプルなCSSになりやすく、パフォーマンスも良い。
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、モバイルファースト（min-widthメディアクエリ使用）でスマホでは縦並び・タブレット以上ではサイドバー付き横並びレイアウトをCSSで実装せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={300} />

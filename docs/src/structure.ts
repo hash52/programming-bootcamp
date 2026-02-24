@@ -2771,36 +2771,43 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "frontend",
     questions: [
       {
+        questionId: "what_is_validation",
         title: "バリデーションとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "required_attribute",
         title: "required属性で必須入力を設定できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "minlength_maxlength",
         title: "minlength/maxlength属性で文字数制限を設定できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "min_max_attribute",
         title: "min/max属性で数値範囲を制限できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "pattern_attribute",
         title: "pattern属性で入力形式を制限できる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "placeholder_attribute",
         title: "placeholder属性でヒントを表示できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "title_attribute",
         title: "title属性でエラーメッセージをカスタマイズできる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
@@ -2813,36 +2820,43 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "frontend",
     questions: [
       {
+        questionId: "what_is_bootstrap",
         title: "Bootstrapとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "what_is_cdn",
         title: "CDNとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "bootstrap_cdn_setup",
         title: "BootstrapをCDNで導入できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "utility_classes",
         title: "Bootstrapのユーティリティクラスを使える",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "btn_classes",
         title: "btn系クラスでボタンをスタイリングできる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "card_component",
         title: "card系クラスでカードコンポーネントを作れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "alert_component",
         title: "alert系クラスでアラートを作れる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
@@ -2855,36 +2869,43 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "frontend",
     questions: [
       {
+        questionId: "what_is_grid_system",
         title: "Bootstrapのグリッドシステムとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "container_row_col",
         title: "containerとrowとcolの役割を説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "col_width",
         title: "col-*でカラム幅を指定できる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "responsive_grid",
         title: "レスポンシブグリッドを作れる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "nested_grid",
         title: "グリッドをネストできる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "navbar_component",
         title: "navbarコンポーネントを使える",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "bootstrap_form",
         title: "Bootstrapでフォームをスタイリングできる",
         type: "WRITE",
         difficulty: Difficulty.Easy,
@@ -2897,51 +2918,61 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
     category: "frontend",
     questions: [
       {
+        questionId: "what_is_responsive",
         title: "レスポンシブデザインとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "mobile_first",
         title: "モバイルファーストとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "what_is_media_query",
         title: "メディアクエリとは何かを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
+        questionId: "combine_html_css_bootstrap",
         title: "HTML/CSS/Bootstrapを組み合わせて使える",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "responsive_header",
         title: "レスポンシブなヘッダーを作れる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "responsive_card_grid",
         title: "レスポンシブなカードグリッドを作れる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "responsive_form",
         title: "レスポンシブなフォームを作れる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "responsive_footer",
         title: "レスポンシブなフッターを作れる",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "mobile_first_css",
         title: "モバイルファーストでCSSを書ける",
         type: "WRITE",
         difficulty: Difficulty.Medium,
       },
       {
+        questionId: "full_responsive_site",
         title: "完全なレスポンシブサイトを構築できる",
         type: "WRITE",
         difficulty: Difficulty.Hard,

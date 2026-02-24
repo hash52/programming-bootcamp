@@ -1,0 +1,52 @@
+---
+id: "frontend/08_responsive_design#responsive_footer"
+title: "レスポンシブなフッターを作れる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "08_responsive_design"
+category: "frontend"
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <footer class="bg-dark text-white mt-5 py-4">
+    <div class="container">
+      <div class="row g-3">
+        <div class="col-12 col-md-4">
+          <h5>MyApp</h5>
+          <p class="text-muted">サービスの簡単な説明文が入る。</p>
+        </div>
+        <div class="col-12 col-md-4">
+          <h6>リンク</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-muted text-decoration-none">利用規約</a></li>
+            <li><a href="#" class="text-muted text-decoration-none">プライバシーポリシー</a></li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-4">
+          <h6>お問い合わせ</h6>
+          <p class="text-muted">contact@example.com</p>
+        </div>
+      </div>
+      <hr class="border-secondary">
+      <p class="text-center text-muted mb-0">© 2024 MyApp. All rights reserved.</p>
+    </div>
+  </footer>
+explanation: |
+  フッターも Bootstrap のグリッドで複数カラムにできる。
+
+  使用しているクラスの説明：
+  - `bg-dark text-white`: 黒背景・白テキスト
+  - `py-4`: 上下パディング
+  - `text-muted`: グレーのテキスト色
+  - `list-unstyled`: リストのデフォルトスタイル（・記号）を除去する
+  - `text-decoration-none`: リンクの下線を除去する
+  - `border-secondary`: グレーの区切り線
+
+  スマホでは `col-12`（1列）、タブレット以上では `col-md-4`（3列）になる。
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、Bootstrap を使ってスマホで1列・PCで3列になるレスポンシブなフッターを作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={300} />

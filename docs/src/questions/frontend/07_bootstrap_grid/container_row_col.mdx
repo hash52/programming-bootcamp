@@ -1,0 +1,29 @@
+---
+id: "frontend/07_bootstrap_grid#container_row_col"
+title: "containerとrowとcolの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "07_bootstrap_grid"
+category: "frontend"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "container は背景色、row は文字サイズ、col はパディングを指定する"
+  - id: "B"
+    text: "container はコンテンツの最大幅を制御し、row はカラムを並べる行、col はカラムの幅を指定する"
+  - id: "C"
+    text: "container・row・col はすべて同じ役割を持つ別名クラスである"
+  - id: "D"
+    text: "container は table タグ、row は tr タグ、col は td タグに対応するクラスである"
+answers:
+  correct: ["B"]
+explanation: |
+  Bootstrap グリッドの3つのクラスにはそれぞれ明確な役割がある。
+  container はコンテンツ全体の最大幅を制御し、画面中央に配置する役割を持つ（container-fluid を使うと全幅になる）。
+  row はカラムを横並びにするための行であり、内部で Flexbox が設定されている。
+  col は実際のコンテンツを配置するカラムで、col-{数字} で12列中の幅を指定する。
+  この container > row > col の3層構造を正しく守ることがレイアウト崩れを防ぐ基本となる。
+---
+
+Bootstrap グリッドにおける container・row・col の役割の説明として正しいものはどれか。

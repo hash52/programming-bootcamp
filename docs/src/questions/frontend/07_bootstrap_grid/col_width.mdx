@@ -1,0 +1,43 @@
+---
+id: "frontend/07_bootstrap_grid#col_width"
+title: "col-*でカラム幅を指定できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "freeText"
+topicId: "07_bootstrap_grid"
+category: "frontend"
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-8 bg-primary text-white p-2">col-8（8/12列）</div>
+      <div class="col-4 bg-secondary text-white p-2">col-4（4/12列）</div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-6 bg-success text-white p-2">col-6（半分）</div>
+      <div class="col-6 bg-danger text-white p-2">col-6（半分）</div>
+    </div>
+  </div>
+explanation: |
+  `col-{数字}` で12分割したうちの幅を指定する。同じ `row` 内の `col` の数字の合計を12にするとちょうど全幅になる。
+
+  ```html
+  <div class="row">
+    <div class="col-8">8列分（約67%）</div>
+    <div class="col-4">4列分（約33%）</div>
+  </div>
+  ```
+
+  - `col-12`: 全幅（1列レイアウト）
+  - `col-6`: 半分（2列レイアウト）
+  - `col-4`: 3分の1（3列レイアウト）
+  - `col-3`: 4分の1（4列レイアウト）
+
+  `col`（数字なし）を使うと、残りのスペースを均等に分配する。
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、col-8とcol-4でカラムを分割したレイアウトと、col-6×2の均等2列レイアウトを作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />

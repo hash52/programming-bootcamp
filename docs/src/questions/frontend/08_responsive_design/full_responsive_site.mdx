@@ -1,0 +1,102 @@
+---
+id: "frontend/08_responsive_design#full_responsive_site"
+title: "完全なレスポンシブサイトを構築できる"
+type: "WRITE"
+difficulty: "Hard"
+format: "freeText"
+topicId: "08_responsive_design"
+category: "frontend"
+hint: |
+  **ポイント**: Bootstrap の navbar・グリッド・カード・フォームを組み合わせる。
+  各セクションをコンポーネント単位で考えて組み立てると整理しやすい。
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <!DOCTYPE html>
+  <html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レスポンシブサイト</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="#">MyPortfolio</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#">ホーム</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">作品</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">連絡先</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <section class="bg-light py-5 text-center">
+      <div class="container">
+        <h1 class="display-4 fw-bold">ようこそ</h1>
+        <p class="lead">Bootstrap で作るレスポンシブポートフォリオサイト</p>
+        <a href="#" class="btn btn-primary btn-lg">作品を見る</a>
+      </div>
+    </section>
+    <section class="py-5">
+      <div class="container">
+        <h2 class="text-center mb-4">作品一覧</h2>
+        <div class="row g-3">
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">プロジェクト1</h5>
+                <p class="card-text">プロジェクトの説明文。</p>
+                <a href="#" class="btn btn-outline-primary btn-sm">詳細</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">プロジェクト2</h5>
+                <p class="card-text">プロジェクトの説明文。</p>
+                <a href="#" class="btn btn-outline-primary btn-sm">詳細</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">プロジェクト3</h5>
+                <p class="card-text">プロジェクトの説明文。</p>
+                <a href="#" class="btn btn-outline-primary btn-sm">詳細</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="bg-dark text-white text-center py-3">
+      <p class="mb-0">© 2024 MyPortfolio. All rights reserved.</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+  </html>
+explanation: |
+  Bootstrap の主要コンポーネントを組み合わせて完全なレスポンシブサイトを構築する。
+
+  構成要素：
+  1. **navbar**: ハンバーガーメニュー付きのナビゲーション
+  2. **ヒーローセクション**: `bg-light py-5 text-center` で目立つ導入エリア
+  3. **カードグリッド**: `row g-3` + `col-12 col-sm-6 col-lg-4` のレスポンシブ配置
+  4. **フッター**: `bg-dark text-white` のシンプルなフッター
+
+  Bootstrap JS（`bootstrap.bundle.min.js`）はナビゲーションの折りたたみ機能に必要である。
+  `display-4`・`lead` はタイポグラフィユーティリティで、大きなテキストを表現できる。
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、Bootstrap を使ってナビゲーション・ヒーローセクション・カードグリッド・フッターを含む完全なレスポンシブポートフォリオサイトを構築せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={300} />

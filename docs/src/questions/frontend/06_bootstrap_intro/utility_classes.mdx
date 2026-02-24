@@ -1,0 +1,37 @@
+---
+id: "frontend/06_bootstrap_intro#utility_classes"
+title: "Bootstrapのユーティリティクラスを使える"
+type: "WRITE"
+difficulty: "Easy"
+format: "freeText"
+topicId: "06_bootstrap_intro"
+category: "frontend"
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <div class="container">
+    <p class="text-center text-primary fw-bold fs-4">中央揃えの太字テキスト</p>
+    <p class="text-end text-danger">右揃えの赤いテキスト</p>
+    <div class="bg-warning p-3 mt-2 rounded">
+      背景が黄色でパディング付きのボックス
+    </div>
+  </div>
+explanation: |
+  Bootstrap のユーティリティクラスを使うと、CSS を書かずにスタイルを指定できる。
+
+  主なクラスの種類：
+  - `text-*`（text-primary, text-danger 等）: テキストの色を指定する
+  - `bg-*`（bg-warning, bg-success 等）: 背景色を指定する
+  - `fw-bold`、`fw-normal`: フォントの太さを指定する
+  - `fs-*`（fs-1〜fs-6）: フォントサイズを指定する
+  - `text-center`、`text-end`、`text-start`: テキストの配置を指定する
+  - `p-*`、`m-*`（p-1〜p-5, m-1〜m-5）: パディングとマージンを指定する
+  - `rounded`: 角丸を指定する
+
+  これらを組み合わせることで、様々なスタイルをCSSなしで実現できる。
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、Bootstrap のユーティリティクラスを使ってテキストの色・太さ・配置を指定せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />

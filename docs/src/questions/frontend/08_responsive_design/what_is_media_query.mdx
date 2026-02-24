@@ -1,0 +1,40 @@
+---
+id: "frontend/08_responsive_design#what_is_media_query"
+title: "メディアクエリとは何かを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "08_responsive_design"
+category: "frontend"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "画面幅などの条件に応じてCSSスタイルを切り替える仕組みである"
+  - id: "B"
+    text: "データベースから情報を検索するためのクエリ言語である"
+  - id: "C"
+    text: "Webページの動画や音声を扱うためのHTML要素の総称である"
+answers:
+  correct: ["A"]
+explanation: |
+  **メディアクエリ（Media Query）** とは、画面幅・解像度・向きなどの条件に応じてCSSスタイルを切り替える仕組みである。
+
+  ```css
+  /* 768px以上のときにスタイルを適用 */
+  @media (min-width: 768px) {
+    .container {
+      display: flex;
+    }
+  }
+  ```
+
+  よく使うブレークポイントの目安：
+  - `576px`: スマホ横向き（Bootstrap の sm）
+  - `768px`: タブレット（Bootstrap の md）
+  - `992px`: 小型PC（Bootstrap の lg）
+  - `1200px`: 大型PC（Bootstrap の xl）
+
+  Bootstrap を使う場合はメディアクエリを直接書く機会は少ないが、カスタムCSSと組み合わせる際に知っておくと便利である。
+---
+
+メディアクエリの説明として最も適切なものを選べ。

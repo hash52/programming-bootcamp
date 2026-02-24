@@ -1,0 +1,45 @@
+---
+id: "frontend/08_responsive_design#responsive_header"
+title: "レスポンシブなヘッダーを作れる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "08_responsive_design"
+category: "frontend"
+hint: |
+  **ポイント**: Bootstrap の navbar と `navbar-toggler`（ハンバーガーボタン）を使うと、スマホではメニューが折りたたまれる。
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">MyApp</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#">ホーム</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">機能</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">料金</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">お問い合わせ</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+explanation: |
+  `navbar-expand-md` を指定すると、md（768px）以上でメニューを展開し、それ以下ではハンバーガーボタンで折りたたむ。
+
+  折りたたみ機能の仕組み：
+  - `navbar-toggler`: ハンバーガーボタン
+  - `data-bs-toggle="collapse"`: クリックで折りたたみを切り替える
+  - `data-bs-target="#navMenu"`: 対象要素のIDを指定する
+  - `collapse navbar-collapse id="navMenu"`: 折りたたまれるメニュー本体
+
+  この機能には Bootstrap の JavaScript（bootstrap.bundle.min.js）が必要である。
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、Bootstrap の navbar コンポーネントを使って、タブレット未満の画面ではハンバーガーボタンが表示されるレスポンシブなヘッダーを作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={300} />

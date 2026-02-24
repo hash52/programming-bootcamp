@@ -13,6 +13,7 @@ import LightbulbOutlined from "@mui/icons-material/LightbulbOutlined";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { QuestionMetadata, QuestionResult } from "@site/src/types/question";
+import { CodePenEmbed } from "@site/src/components/CodePenEmbed";
 import { MultipleChoiceInput } from "./question/inputs/MultipleChoiceInput";
 import { GradingFeedback } from "./question/GradingFeedback";
 import { AchievementCheckbox } from "./question/AchievementCheckbox";
@@ -54,6 +55,7 @@ const QuestionRendererInner: React.FC<
 
   // 進捗管理フック
   const { progress, updateProgress } = useStoredProgress();
+
 
   // 穴埋め問題用のContext
   const { blanks, setBlankCorrectness, resetBlanks } = useBlankInput();
@@ -256,29 +258,44 @@ const QuestionRendererInner: React.FC<
                     })}
                   </Box>
                 )}
-              {metadata.sampleAnswer && (
+              {metadata.sampleCodepen ? (
+                // CodePenEmbed に委譲（オンライン: iframe、オフライン: タブ表示）
                 <Box mb={2}>
-                  <Typography
-                    variant="subtitle1"
-                    fontWeight="bold"
-                    gutterBottom
-                  >
-                    解答例
-                  </Typography>
-                  <Typography
-                    component="div"
-                    sx={{
-                      "& code": {
-                        backgroundColor: "rgba(0, 0, 0, 0.05)",
-                        padding: "2px 4px",
-                        borderRadius: "4px",
-                        fontFamily: "monospace",
-                      },
-                    }}
-                  >
-                    {metadata.sampleAnswer}
-                  </Typography>
+                  <CodePenEmbed
+                    slugHash={metadata.sampleCodepen}
+                    editable={false}
+                    height={350}
+                    htmlCode={metadata.sampleHtmlCode}
+                    cssCode={metadata.sampleCssCode}
+                    jsCode={metadata.sampleJsCode}
+                  />
                 </Box>
+              ) : (
+                // sampleCodepen なし: 従来の sampleAnswer テキスト表示
+                metadata.sampleAnswer && (
+                  <Box mb={2}>
+                    <Typography
+                      variant="subtitle1"
+                      fontWeight="bold"
+                      gutterBottom
+                    >
+                      解答例
+                    </Typography>
+                    <Typography
+                      component="div"
+                      sx={{
+                        "& code": {
+                          backgroundColor: "rgba(0, 0, 0, 0.05)",
+                          padding: "2px 4px",
+                          borderRadius: "4px",
+                          fontFamily: "monospace",
+                        },
+                      }}
+                    >
+                      {metadata.sampleAnswer}
+                    </Typography>
+                  </Box>
+                )
               )}
               {metadata.explanation && (
                 <Box>

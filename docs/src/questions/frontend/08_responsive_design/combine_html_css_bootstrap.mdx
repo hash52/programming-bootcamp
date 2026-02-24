@@ -1,0 +1,46 @@
+---
+id: "frontend/08_responsive_design#combine_html_css_bootstrap"
+title: "HTML/CSS/Bootstrapを組み合わせて使える"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "08_responsive_design"
+category: "frontend"
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <div class="container mt-3">
+    <div class="row g-3">
+      <div class="col-12 col-md-8">
+        <div class="p-3 border rounded" style="background-color: #f8f9fa;">
+          <h2 style="color: #333;">メインコンテンツ</h2>
+          <p>ここにメインの記事や説明文が入る。Bootstrapのグリッドと自前CSSを組み合わせている。</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="p-3 border rounded bg-light">
+          <h5>サイドバー</h5>
+          <ul class="list-unstyled">
+            <li>リンク1</li>
+            <li>リンク2</li>
+            <li>リンク3</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+explanation: |
+  Bootstrap のグリッドとユーティリティクラスに加え、`style` 属性やカスタムCSSを組み合わせることで、Bootstrap だけでは表現しきれない細かいスタイルを適用できる。
+
+  組み合わせのポイント：
+  - **レイアウト**: Bootstrap グリッド（col-*）でカラム構成を制御する
+  - **余白・色**: Bootstrap ユーティリティ（p-*, m-*, bg-*）で基本スタイルを適用する
+  - **細かい調整**: `style` 属性やカスタムCSS で Bootstrap で表現できない部分を補う
+
+  `g-3` はグリッドのガター（カラム間の余白）を指定するクラスである。
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、Bootstrap のグリッドとカスタムCSS（色・背景）を組み合わせて2カラムレイアウトを作成せよ（スマホでは1列、タブレット以上で2列）。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={300} />

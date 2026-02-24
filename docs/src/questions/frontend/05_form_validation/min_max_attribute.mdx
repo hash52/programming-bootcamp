@@ -1,0 +1,32 @@
+---
+id: "frontend/05_form_validation#min_max_attribute"
+title: "min/max属性で数値範囲を制限できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "freeText"
+topicId: "05_form_validation"
+category: "frontend"
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <form>
+    <input type="number" name="age" min="0" max="120" placeholder="年齢（0〜120）">
+    <button type="submit">送信</button>
+  </form>
+explanation: |
+  `min` 属性と `max` 属性を使うと、入力できる値の範囲を制限できる。
+
+  ```html
+  <input type="number" min="0" max="120">
+  ```
+
+  - `min`: 入力できる最小値。これより小さい値を入力すると送信時にエラーが表示される
+  - `max`: 入力できる最大値。これより大きい値を入力すると送信時にエラーが表示される
+  - `type="number"` のほか、`type="date"` や `type="range"` でも使用できる
+  - テキスト入力の文字数制限には `minlength` / `maxlength` を使う点に注意する
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、0〜120の数値のみ入力できる年齢入力欄を作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />

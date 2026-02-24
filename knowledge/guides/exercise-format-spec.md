@@ -153,10 +153,39 @@ fillInBlankAnswers:
 
 | フィールド | 型 | 必須 | 説明 |
 |-----------|------|------|------|
-| `sampleAnswer` | `string` | 推奨 | 模範解答テキスト |
+| `sampleAnswer` | `string` | 任意 | 模範解答テキスト（`sampleCodepen` がある場合は不要） |
+| `sampleCodepen` | `string` | 任意 | 解答プレビュー用 CodePen の slugHash（例: `"ByKOEqx"`） |
+| `sampleHtmlCode` | `string` | 条件付き | オフライン時タブ表示用 HTML コード |
+| `sampleCssCode` | `string` | 条件付き | オフライン時タブ表示用 CSS コード |
+| `sampleJsCode` | `string` | 条件付き | オフライン時タブ表示用 JS コード |
 
 自由記述問題・コーディング問題は自動採点の対象外である。
 ユーザーが「解答を表示する」ボタンで解答例と解説を確認する形式をとる。テキスト入力欄は表示されない。
+
+#### `sampleCodepen` を使うフロントエンドコーディング問題の仕様
+
+HTML/CSS を記述するコーディング問題では、`sampleCodepen` による **ビジュアルプレビュー自己採点** を推奨する。
+
+| 状態 | 表示 |
+|------|------|
+| オンライン | 「解答を表示する」後、CodePen の iframe プレビューを表示（`editable=false`） |
+| オフライン | `sampleHtmlCode` / `sampleCssCode` / `sampleJsCode` をタブ切り替えUIで表示（CodePenEmbed の既存オフライン機能を使用） |
+
+**ルール**：
+- `sampleCodepen` を指定する場合、オフライン対応のため `sampleHtmlCode` または `sampleCssCode` を **必ず** 記述すること
+- 存在するコードのタブのみ表示される（例: `sampleHtmlCode` のみなら HTML タブ 1 つ）
+- `sampleAnswer`（テキスト解答例）は `sampleCodepen` があれば省略可
+- `slugHash: "TODO"` は CodePen でペンを作成後、実際の slugHash に差し替えること
+
+問題本文には CodePenEmbed（`editable=true`）でターゲットを提示する：
+
+```mdx
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューと同じ見た目になるよう、HTMLを記述せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />
+```
 
 ### 3.5 hintフィールド
 
@@ -395,6 +424,41 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 }`}
 />
 ```
+
+### 5.6 フロントエンドコーディング問題（CodePenプレビュー付き）
+
+```mdx
+---
+id: "frontend/{topicId}#{questionId}"
+title: "質問タイトル"
+type: "WRITE"
+difficulty: "Easy"
+format: "freeText"
+topicId: "{topicId}"
+category: "frontend"
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <!-- 解答の HTML コード -->
+  <div class="example">
+    <p>テキスト</p>
+  </div>
+sampleCssCode: |
+  /* 解答の CSS コード（CSS 問題のみ） */
+  .example { color: red; }
+explanation: |
+  解説文をここに記述する。である調で統一すること。
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューと同じ見た目になるよう、HTMLを記述せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />
+```
+
+- `sampleCodepen: "TODO"` は CodePen でペンを作成後、実際の slugHash に差し替える
+- CSS を記述する問題では `sampleCssCode` も記述する
+- Bootstrap を使う問題では `sampleCssCode` は不要なことが多い
 
 ---
 
@@ -649,6 +713,13 @@ fillInBlankAnswers:
 
 - [ ] `<OneCompilerCodeBlock>` に適切なスケルトンコードが含まれているか
 - [ ] 要件が明確に箇条書きされているか
+
+### フロントエンドコーディング問題（CodePenプレビュー付き）
+
+- [ ] `sampleCodepen` が設定されているか（または `"TODO"` プレースホルダーが入っているか）
+- [ ] `sampleHtmlCode` または `sampleCssCode` が設定されているか（オフライン対応必須）
+- [ ] 問題本文に `<CodePenEmbed slugHash="..." editable={true} />` が配置されているか
+- [ ] import 文 `import { CodePenEmbed } from '@site/src/components/CodePenEmbed';` が frontmatter 直後にあるか
 
 ### structure.ts
 

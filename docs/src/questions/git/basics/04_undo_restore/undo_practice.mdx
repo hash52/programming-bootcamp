@@ -9,15 +9,15 @@ category: "git/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "git restore --staged Main.java を実行してステージから取り除く"
-  - id: "B"
     text: "git restore Main.java を実行してファイルの変更を取り消す"
+  - id: "B"
+    text: "git restore --staged Main.java を実行してステージから取り除く"
   - id: "C"
     text: "git revert を実行して打ち消しコミットを作成する"
   - id: "D"
     text: "git reset --hard を実行してコミットを削除する"
 answers:
-  correct: ["A"]
+  correct: ["B"]
 explanation: |
   この状況では `git restore --staged Main.java` が正しい選択である。
 

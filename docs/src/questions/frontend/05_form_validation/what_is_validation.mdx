@@ -1,0 +1,35 @@
+---
+id: "frontend/05_form_validation#what_is_validation"
+title: "バリデーションとは何かを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "05_form_validation"
+category: "frontend"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "ユーザーが入力したデータが正しい形式か検証すること"
+  - id: "B"
+    text: "入力フォームのデザインを整えること"
+  - id: "C"
+    text: "フォームのデータをサーバーへ送信すること"
+answers:
+  correct: ["A"]
+explanation: |
+  **バリデーション（Validation）** とは、ユーザーが入力したデータが正しい形式・条件を満たしているかを検証することである。
+
+  HTMLには **クライアントサイドバリデーション** の仕組みが組み込まれており、JavaScriptなしでも基本的な検証が行える。
+
+  代表的なHTML属性によるバリデーション：
+  - `required`: 必須入力のチェック
+  - `minlength` / `maxlength`: 文字数制限
+  - `min` / `max`: 数値の範囲制限
+  - `pattern`: 正規表現による形式チェック
+  - `type="email"` / `type="url"`: 入力形式の自動チェック
+
+  バリデーションは **ユーザー体験の向上** とともに、**不正なデータの送信を防ぐ** 役割を持つ。
+  ただし、クライアントサイドバリデーションは迂回可能であるため、サーバーサイドでも検証することが重要である。
+---
+
+フォームにおけるバリデーションの説明として最も適切なものを選べ。

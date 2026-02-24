@@ -1,0 +1,50 @@
+---
+id: "frontend/07_bootstrap_grid#responsive_grid"
+title: "レスポンシブグリッドを作れる"
+type: "WRITE"
+difficulty: "Medium"
+format: "freeText"
+topicId: "07_bootstrap_grid"
+category: "frontend"
+hint: |
+  **ポイント**: `col-{ブレークポイント}-{数字}` の形式でレスポンシブ対応できる。
+  ブレークポイントは `sm`（576px〜）, `md`（768px〜）, `lg`（992px〜）等がある。
+sampleCodepen: "TODO"
+sampleHtmlCode: |
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-4 bg-primary text-white p-2 mb-2">
+        カラム1（スマホ:全幅、タブレット:半分、PC:3分の1）
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 bg-secondary text-white p-2 mb-2">
+        カラム2（スマホ:全幅、タブレット:半分、PC:3分の1）
+      </div>
+      <div class="col-12 col-md-12 col-lg-4 bg-success text-white p-2 mb-2">
+        カラム3（スマホ:全幅、タブレット:全幅、PC:3分の1）
+      </div>
+    </div>
+  </div>
+explanation: |
+  `col-12 col-md-6 col-lg-4` のようにブレークポイントごとにクラスを重ねて指定する。
+
+  ```html
+  <div class="col-12 col-md-6 col-lg-4">
+    コンテンツ
+  </div>
+  ```
+
+  ブレークポイント一覧：
+  - `col-*`: すべての画面サイズ（576px未満）
+  - `col-sm-*`: 576px以上
+  - `col-md-*`: 768px以上
+  - `col-lg-*`: 992px以上
+  - `col-xl-*`: 1200px以上
+
+  小さい画面のスタイルが基本となり、大きい画面のブレークポイントで上書きされる（モバイルファースト）。
+---
+
+import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
+
+以下のプレビューのように、スマホでは1列・タブレットでは2列・PCでは3列になるレスポンシブグリッドを作成せよ。
+
+<CodePenEmbed slugHash="TODO" defaultTab="result" editable={true} height={250} />

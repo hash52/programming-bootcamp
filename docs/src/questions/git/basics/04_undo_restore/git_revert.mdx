@@ -9,15 +9,15 @@ category: "git/basics"
 multipleSelect: false
 choices:
   - id: "A"
-    text: "指定したコミットの変更を打ち消す新しいコミットを作成する"
+    text: "指定したコミットより後の全コミットを削除する"
   - id: "B"
     text: "指定したコミットを履歴から完全に削除する"
   - id: "C"
-    text: "指定したコミットより後の全コミットを削除する"
+    text: "指定したコミットの変更を打ち消す新しいコミットを作成する"
   - id: "D"
     text: "指定したコミットをステージに戻す"
 answers:
-  correct: ["A"]
+  correct: ["C"]
 explanation: |
   `git revert コミットID` は、指定したコミットの変更内容を**打ち消す新しいコミット**を作成するコマンドである。
 
