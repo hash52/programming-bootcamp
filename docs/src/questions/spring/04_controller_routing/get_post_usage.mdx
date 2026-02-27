@@ -1,0 +1,35 @@
+---
+id: "spring/04_controller_routing#get_post_usage"
+title: "@GetMappingと@PostMappingの使い分けができる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "04_controller_routing"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "すべてのURLマッピングに`@GetMapping`を使い、`@PostMapping`はフォームのデータ検証にのみ使う"
+  - id: "B"
+    text: "データ表示・検索には`@GetMapping`、フォーム送信・データ登録・更新・削除には`@PostMapping`を使う"
+  - id: "C"
+    text: "`@GetMapping`はHTTPS通信でのみ動作し、`@PostMapping`はHTTP通信でのみ動作する"
+  - id: "D"
+    text: "`@GetMapping`と`@PostMapping`は同じURLには設定できないため、URLを分けて定義する必要がある"
+answers:
+  correct: ["B"]
+explanation: |
+  同じURL（例：`/items`）に対して `@GetMapping`（一覧表示）と `@PostMapping`（新規登録）の両方を設定することができる。
+
+  一般的な使い分け：
+  - `@GetMapping`: データ取得・ページ表示（べき等な操作）
+  - `@PostMapping`: フォーム送信・データの作成・更新・削除（べき等でない操作）
+
+  例：
+  ```java
+  @GetMapping("/items")   // 一覧表示
+  @PostMapping("/items")  // 新規登録
+  ```
+---
+
+SpringMVCにおける `@GetMapping` と `@PostMapping` の適切な使い分けとして、正しいものを選べ。

@@ -1,0 +1,31 @@
+---
+id: "spring/01_web_basics#get_vs_post"
+title: "GETとPOSTの違いを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "01_web_basics"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "GETはURLにパラメータが付加されてデータを送信し、POSTはリクエストボディにデータを格納して送信する"
+  - id: "B"
+    text: "GETはデータを更新する際に使い、POSTはデータを取得する際に使う"
+  - id: "C"
+    text: "GETはHTTPS通信でのみ使用でき、POSTはHTTP通信でのみ使用できる"
+  - id: "D"
+    text: "GETとPOSTに機能的な違いはなく、どちらも同じ目的で使用できる"
+answers:
+  correct: ["A"]
+explanation: |
+  GETはURLのクエリ文字列（`?name=value`）としてデータを送信するため、ブラウザの履歴やURLバーに表示される。
+
+  POSTはリクエストボディにデータを格納して送信するため、パスワードなどの機密情報の送信に適している。
+
+  一般的な使い分け：
+  - **GET**: データ取得（ページ表示、検索）→ URLに情報が残る
+  - **POST**: データ送信（フォーム送信、ログイン）→ URLに情報が残らない
+---
+
+HTTPのGETメソッドとPOSTメソッドの違いとして、正しいものを選べ。

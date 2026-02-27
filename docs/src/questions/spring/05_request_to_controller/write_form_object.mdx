@@ -1,0 +1,41 @@
+---
+id: "spring/05_request_to_controller#write_form_object"
+title: "フォームオブジェクトで複数の値をまとめて受け取れる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "05_request_to_controller"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["UserForm"]
+  blank2: ["form.getName()"]
+sampleAnswer: "public String register(UserForm form, Model model) {\n    String name = form.getName();\n}"
+explanation: |
+  フォームオブジェクト（フォームクラス）を使うと、複数のフォームフィールドをまとめて受け取ることができる。
+
+  フォームクラスのフィールド名とHTMLのname属性が一致していれば、Springが自動的にバインドする。
+
+  ```java
+  public class UserForm {
+      private String name;
+      private String email;
+      // getter/setter
+  }
+  ```
+
+  `@RequestParam` を複数使うより、フォームオブジェクトの方が管理しやすい。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+フォームオブジェクト（`UserForm`クラス：`name`と`email`フィールドを持つ）でフォームデータをまとめて受け取るメソッドを完成させよ。
+
+<CodeBlock>
+{`@PostMapping("/register")
+public String register(`}<BlankInput id="blank1" />{` form, Model model) {
+    String name = `}<BlankInput id="blank2" />{`;
+    model.addAttribute("name", name);
+    return "register/complete";
+}`}
+</CodeBlock>

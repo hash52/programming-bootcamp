@@ -1,0 +1,34 @@
+---
+id: "spring/06_controller_to_view_thymeleaf#write_inline_text"
+title: "[[...]]で値を埋め込める"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "06_controller_to_view_thymeleaf"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["[[${username}]]"]
+sampleAnswer: "<p>こんにちは、[[${username}]]さん！</p>"
+explanation: |
+  Thymeleafでは `[[${変数名}]]`（インライン式）を使って、テキストの途中に値を埋め込むことができる。
+
+  ```html
+  <p>こんにちは、[[${username}]]さん！</p>
+  <!-- "こんにちは、山田太郎さん！" と表示される -->
+  ```
+
+  `th:text` との違い：
+  - `th:text`: 要素のテキスト全体を置き換える
+  - `[[...]]`: テキストの一部に値を埋め込める（インライン）
+
+  どちらもHTMLエスケープが行われるため安全である。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+Thymeleafのインライン式を使って `"username"` の値をテキスト中に埋め込むHTMLを完成させよ。
+
+<CodeBlock language="html">
+{`<p>こんにちは、`}<BlankInput id="blank1" />{`さん！</p>`}
+</CodeBlock>

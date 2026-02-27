@@ -1,0 +1,38 @@
+---
+id: "spring/08_spring_di#write_constructor_injection"
+title: "コンストラクタでサービスを受け取れる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "08_spring_di"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["private final MessageService messageService;"]
+  blank2: ["@Autowired"]
+sampleAnswer: "private final MessageService messageService;\n\n@Autowired\npublic MessageController(MessageService messageService) {\n    this.messageService = messageService;\n}"
+explanation: |
+  コンストラクタインジェクションは最も推奨されるDIの方式である。
+
+  `@Autowired` をコンストラクタに付けると、Springが適切なBeanをコンストラクタの引数に自動注入する。
+
+  `final` フィールドにすることで、注入後に値が変更されないことを保証できる。
+
+  Spring 4.3以降、コンストラクタが1つだけの場合は `@Autowired` を省略できる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`MessageService` をコンストラクタインジェクションで受け取るコントローラを完成させよ。
+
+<CodeBlock>
+{`@Controller
+public class MessageController {
+    `}<BlankInput id="blank1" />{`
+
+    `}<BlankInput id="blank2" />{`
+    public MessageController(MessageService messageService) {
+        this.messageService = messageService;
+    }
+}`}
+</CodeBlock>

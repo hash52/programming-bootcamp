@@ -1,0 +1,33 @@
+---
+id: "spring/09_db_mybatis#mybatis_role"
+title: "MyBatisの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "09_db_mybatis"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "HTMLテンプレートを動的に生成するためのライブラリ"
+  - id: "B"
+    text: "SQLを自動生成してデータベースのスキーマ（テーブル）も自動作成するORM"
+  - id: "C"
+    text: "JavaScriptのデータバインディングを担当するフレームワーク"
+  - id: "D"
+    text: "SQLをそのまま記述しつつ、JavaオブジェクトとDBの行を自動変換するO/Rマッパー"
+answers:
+  correct: ["D"]
+explanation: |
+  MyBatisはSQLマッパーフレームワークであり、以下の特徴を持つ。
+
+  - **SQLを直接記述**: 開発者がSQLを完全にコントロールできる
+  - **自動マッピング**: SQLの結果（ResultSet）をJavaオブジェクトに自動変換する
+  - **アノテーション方式** と **XMLマッパー方式** の2つの記述方法がある
+
+  JPA/Hibernateとの違い：
+  - MyBatis: SQLを自分で書く → 複雑なSQLも書ける
+  - JPA/Hibernate: SQLを自動生成する → シンプルなCRUDは楽だが複雑なSQLは苦手
+---
+
+MyBatisの役割として、正しいものを選べ。

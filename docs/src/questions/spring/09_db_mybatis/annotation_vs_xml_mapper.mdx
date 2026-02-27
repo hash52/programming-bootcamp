@@ -1,0 +1,35 @@
+---
+id: "spring/09_db_mybatis#annotation_vs_xml_mapper"
+title: "アノテーションマッパーとXMLマッパーの違いを説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "09_db_mybatis"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "アノテーション方式はJavaコードにSQLを直接書き、XML方式はSQLを別ファイルに分離して記述する"
+  - id: "B"
+    text: "アノテーション方式はSpring専用で、XML方式はどのフレームワークでも使える"
+  - id: "C"
+    text: "アノテーション方式は読み取り専用で、XML方式は書き込み処理にのみ使える"
+  - id: "D"
+    text: "アノテーション方式はMyBatis 3以降でのみ使え、XML方式はMyBatis 2以前の古い記法である"
+answers:
+  correct: ["A"]
+explanation: |
+  **アノテーション方式**：
+  - Javaのインターフェースメソッドに `@Select`、`@Insert` などでSQLを直接記述する
+  - シンプルなSQLに向いている
+  - SQLがJavaコードに混在するため、長いSQLは読みにくくなる
+
+  **XML方式**：
+  - SQLを別のXMLファイル（Mapperファイル）に記述する
+  - 複雑なSQL（動的SQL、長いSQL）に向いている
+  - SQLとJavaコードが分離されるため、保守性が高い
+
+  実際のプロジェクトでは両方を混在させることもある。
+---
+
+MyBatisのアノテーション方式とXMLマッパー方式の違いとして、正しいものを選べ。

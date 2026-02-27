@@ -1,0 +1,31 @@
+---
+id: "spring/05_request_to_controller#write_path_variable"
+title: "@PathVariableでURLの一部を受け取れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "05_request_to_controller"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@PathVariable"]
+sampleAnswer: "@GetMapping(\"/products/{id}\")\npublic String detail(@PathVariable Long id, Model model) {\n    model.addAttribute(\"id\", id);\n    return \"products/detail\";\n}"
+explanation: |
+  `@PathVariable` を使うことでURLパスの変数部分（`{id}`）をメソッドの引数として受け取ることができる。
+
+  URLが `/products/5` の場合、`id` 引数に `5` が渡される。
+
+  `@GetMapping` のパスパターン内の `{変数名}` と引数名を一致させる必要がある。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`/products/{id}` のパス変数を受け取るメソッドを完成させよ。
+
+<CodeBlock>
+{`@GetMapping("/products/{id}")
+public String detail(`}<BlankInput id="blank1" />{` Long id, Model model) {
+    model.addAttribute("id", id);
+    return "products/detail";
+}`}
+</CodeBlock>

@@ -1,0 +1,45 @@
+---
+id: "spring/05_request_to_controller#read_url_params"
+title: "URLから送られた値を読み取れる"
+type: "READ"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "05_request_to_controller"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "`page`は`null`、`category`は`\"books\"`"
+  - id: "B"
+    text: "`page`は`1`、`category`は`\"books\"`"
+  - id: "C"
+    text: "`page`は`0`、`category`は`\"books\"`"
+  - id: "D"
+    text: "コンパイルエラーになるため実行できない"
+answers:
+  correct: ["B"]
+explanation: |
+  `@RequestParam(defaultValue = "1")` は、パラメータが指定されていない場合のデフォルト値を設定する。
+
+  `/items?category=books` では `page` が指定されていないため、デフォルト値の `1` が使われる。
+
+  `@RequestParam(required = false)` はパラメータを省略可能にし、指定されない場合は `null` になるが、
+  `category=books` が指定されているため `"books"` が渡される。
+
+  - `page` → 指定なし → デフォルト値 `1`
+  - `category` → 指定あり → `"books"`
+---
+
+以下のコードで `/items?category=books` にアクセスしたとき、`page` と `category` の値として正しいものを選べ。
+
+```java
+@GetMapping("/items")
+public String search(
+    @RequestParam(defaultValue = "1") int page,
+    @RequestParam(required = false) String category,
+    Model model) {
+    model.addAttribute("page", page);
+    model.addAttribute("category", category);
+    return "items/list";
+}
+```

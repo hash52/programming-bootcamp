@@ -1,0 +1,30 @@
+---
+id: "spring/07_validation#write_retain_input"
+title: "エラー時に入力値を保持できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "07_validation"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["th:field=\"*{name}\""]
+sampleAnswer: "<input type=\"text\" th:field=\"*{name}\">"
+explanation: |
+  Thymeleafの `th:field="*{フィールド名}"` を使うと、バリデーションエラー時に入力値が保持される。
+
+  `th:field` は以下を自動設定する：
+  - `id` 属性
+  - `name` 属性
+  - `value` 属性（フォームオブジェクトの値）
+
+  コントローラ側では、バリデーションエラー時にフォームオブジェクトをモデルに渡す（Springが自動で行う）。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+バリデーションエラー時に入力値を保持するフォーム入力フィールドを完成させよ（`th:object="${userForm}"` が設定されているフォーム内）。
+
+<CodeBlock language="html">
+{`<input type="text" `}<BlankInput id="blank1" />{`>`}
+</CodeBlock>

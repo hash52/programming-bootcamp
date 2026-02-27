@@ -1,0 +1,55 @@
+---
+id: "spring/04_controller_routing#read_controller_not_found"
+title: "コントローラが検出されない原因を推測できる"
+type: "READ"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "04_controller_routing"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "`@Controller`アノテーションのスペルが間違っているため"
+  - id: "B"
+    text: "`@GetMapping`の引数のURLパターンが正しくないため"
+  - id: "C"
+    text: "コントローラのパッケージがメインクラスのパッケージ配下にないため、コンポーネントスキャンに含まれないから"
+  - id: "D"
+    text: "`return \"hello\"`の戻り値の型が間違っているため"
+answers:
+  correct: ["C"]
+explanation: |
+  `@SpringBootApplication` が付いたクラスのパッケージと、そのサブパッケージにあるクラスだけがコンポーネントスキャンの対象となる。
+
+  例：
+  - メインクラスのパッケージ: `com.example.demo`
+  - スキャン対象: `com.example.demo.*`（サブパッケージすべて）
+  - スキャン対象外: `com.other.controller`（別のルートパッケージ）
+
+  コントローラはメインクラスと同じパッケージか、そのサブパッケージに配置する必要がある。
+---
+
+以下のSpring Bootアプリで `/hello` にアクセスしても404エラーになる。原因として最も適切なものを選べ。
+
+```java
+// メインクラス（パッケージ: com.example.demo）
+package com.example.demo;
+
+@SpringBootApplication
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+
+// コントローラ（パッケージ: com.other.controller）
+package com.other.controller;
+
+@Controller
+public class HelloController {
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello";
+    }
+}
+```

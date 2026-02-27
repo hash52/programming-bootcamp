@@ -1,0 +1,40 @@
+---
+id: "spring/10_session_login#write_cart_session"
+title: "セッションを使ったカート機能を作れる"
+type: "WRITE"
+difficulty: "Hard"
+format: "fillInBlank"
+topicId: "10_session_login"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["(List<CartItem>) session.getAttribute(\"cart\")"]
+  blank2: ["session.setAttribute(\"cart\", cart)"]
+sampleAnswer: "List<CartItem> cart = (List<CartItem>) session.getAttribute(\"cart\");\nif (cart == null) { cart = new ArrayList<>(); }\ncart.add(new CartItem(productId));\nsession.setAttribute(\"cart\", cart);"
+explanation: |
+  セッションを使ったカート機能の実装パターン：
+
+  1. セッションからカートを取得する（初回は `null`）
+  2. `null` の場合は新しいリストを生成する
+  3. 商品を追加する
+  4. 更新したカートをセッションに保存する
+
+  このパターンはカート以外にも「複数リクエストにまたがってデータを蓄積する」場面で活用できる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+セッションを使って商品をカートに追加するコードを完成させよ。
+
+<CodeBlock>
+{`@PostMapping("/cart/add")
+public String addToCart(Long productId, HttpSession session) {
+    List<CartItem> cart = `}<BlankInput id="blank1" />{`;
+    if (cart == null) {
+        cart = new ArrayList<>();
+    }
+    cart.add(new CartItem(productId));
+    `}<BlankInput id="blank2" />{`;
+    return "redirect:/cart";
+}`}
+</CodeBlock>

@@ -1,0 +1,50 @@
+---
+id: "spring/06_controller_to_view_thymeleaf#write_fragment"
+title: "フラグメントで共通部品を再利用できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "06_controller_to_view_thymeleaf"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["th:fragment=\"header\""]
+  blank2: ["th:replace=\"~{fragments/header :: header}\""]
+sampleAnswer: "<header th:fragment=\"header\">...</header>\n<div th:replace=\"~{fragments/header :: header}\"></div>"
+explanation: |
+  Thymeleafのフラグメント機能を使うと、ヘッダーやフッターなどの共通部品を別ファイルに定義して再利用できる。
+
+  **フラグメントの定義**（`fragments/header.html`）：
+  ```html
+  <header th:fragment="header">
+    <h1>サイトタイトル</h1>
+  </header>
+  ```
+
+  **フラグメントの使用**：
+  ```html
+  <!-- th:replace: 要素ごと置き換える -->
+  <div th:replace="~{fragments/header :: header}"></div>
+
+  <!-- th:insert: 要素の中に挿入する -->
+  <div th:insert="~{fragments/header :: header}"></div>
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`fragments/header.html` にヘッダーのフラグメントを定義し、別のページからそれを使うコードを完成させよ。
+
+**フラグメント定義（fragments/header.html）**
+
+<CodeBlock language="html">
+{`<header `}<BlankInput id="blank1" />{`>
+  <h1>サイトタイトル</h1>
+</header>`}
+</CodeBlock>
+
+**フラグメントの使用（index.html）**
+
+<CodeBlock language="html">
+{`<div `}<BlankInput id="blank2" />{`></div>`}
+</CodeBlock>

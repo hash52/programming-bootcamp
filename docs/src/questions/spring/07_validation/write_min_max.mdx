@@ -1,0 +1,30 @@
+---
+id: "spring/07_validation#write_min_max"
+title: "@Min/@Maxで数値の範囲をチェックできる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "07_validation"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@Min(1)"]
+  blank2: ["@Max(100)"]
+sampleAnswer: "@Min(1)\n@Max(100)\nprivate int quantity;"
+explanation: |
+  `@Min(value)` は数値の最小値チェック、`@Max(value)` は最大値チェックのアノテーションである。
+
+  複数のアノテーションを重ねることができる。
+
+  数値の範囲チェックには `@Range(min, max)` を使う方法もある（Hibernate Validatorの拡張）。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+フォームオブジェクトの `quantity` フィールドに「1以上100以下」の範囲チェックを設定せよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{`
+`}<BlankInput id="blank2" />{`
+private int quantity;`}
+</CodeBlock>

@@ -1,0 +1,34 @@
+---
+id: "spring/05_request_to_controller#query_vs_path"
+title: "クエリパラメータとパスパラメータの違いがわかる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "05_request_to_controller"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "クエリパラメータは必須、パスパラメータはオプションである"
+  - id: "B"
+    text: "クエリパラメータはPOSTリクエスト専用で、パスパラメータはGETリクエスト専用である"
+  - id: "C"
+    text: "パスパラメータはリソースの識別（`/users/1`）に使い、クエリパラメータは絞り込み・ソートなどの修飾情報（`?sort=name`）に使うのが一般的である"
+  - id: "D"
+    text: "クエリパラメータとパスパラメータは同じものであり、用語が違うだけである"
+answers:
+  correct: ["C"]
+explanation: |
+  パスパラメータとクエリパラメータの使い分けの一般的な指針：
+
+  - **パスパラメータ**（`/users/1`）: リソースを一意に識別する
+    → `@PathVariable` で受け取る
+  - **クエリパラメータ**（`?page=2&sort=name`）: 絞り込み・ソート・ページングなどの補助情報
+    → `@RequestParam` で受け取る
+
+  例：
+  - 特定ユーザーの取得: `GET /users/1`（パスパラメータ）
+  - ユーザー一覧の絞り込み: `GET /users?role=admin`（クエリパラメータ）
+---
+
+パスパラメータ（`@PathVariable`）とクエリパラメータ（`@RequestParam`）の使い分けとして、最も適切なものを選べ。

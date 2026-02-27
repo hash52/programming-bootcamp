@@ -1,0 +1,31 @@
+---
+id: "spring/09_db_mybatis#write_data_sql"
+title: "data.sqlで初期データを入れられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "09_db_mybatis"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["INSERT INTO"]
+  blank2: ["VALUES"]
+sampleAnswer: "INSERT INTO products (name) VALUES ('商品A');"
+explanation: |
+  `src/main/resources/data.sql` に記述したSQLは、schema.sqlの実行後に自動実行される。
+
+  テーブルの初期データ（マスターデータや開発用テストデータ）の投入に使う。
+
+  複数レコードを一度に挿入する場合：
+  ```sql
+  INSERT INTO products (name) VALUES ('商品A'), ('商品B'), ('商品C');
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`products` テーブルに初期データを挿入するdata.sqlを完成させよ。
+
+<CodeBlock language="sql">
+<BlankInput id="blank1" />{` products (name) `}<BlankInput id="blank2" />{` ('商品A');`}
+</CodeBlock>

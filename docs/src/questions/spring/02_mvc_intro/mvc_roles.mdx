@@ -1,0 +1,31 @@
+---
+id: "spring/02_mvc_intro#mvc_roles"
+title: "MVCの各要素を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_mvc_intro"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "M（Model）は画面表示、V（View）はデータ管理、C（Controller）はURLのこと"
+  - id: "B"
+    text: "M（Model）はURL、V（View）はビジネスロジック、C（Controller）は画面表示のこと"
+  - id: "C"
+    text: "M（Model）はHTMLファイル、V（View）はJavaクラス、C（Controller）はデータベースのこと"
+  - id: "D"
+    text: "M（Model）はデータ・ビジネスロジック、V（View）は画面表示、C（Controller）はリクエストの受け取りと処理の指示のこと"
+answers:
+  correct: ["D"]
+explanation: |
+  MVCはModel・View・Controllerの頭文字で、ソフトウェアの役割を3つに分ける設計パターンである。
+
+  - **Model（モデル）**: データやビジネスロジックを担当する
+  - **View（ビュー）**: HTMLなどの画面表示を担当する（Thymeleafなど）
+  - **Controller（コントローラ）**: リクエストを受け取り、ModelとViewを橋渡しする
+
+  役割を分けることで、修正・テスト・再利用がしやすくなる。
+---
+
+MVCアーキテクチャにおけるModel・View・Controllerの役割として、正しいものを選べ。

@@ -1,0 +1,32 @@
+---
+id: "spring/10_session_login#write_session_status"
+title: "SessionStatusでセッションを破棄できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "10_session_login"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["SessionStatus"]
+  blank2: ["status.setComplete()"]
+sampleAnswer: "public String complete(SessionStatus status) {\n    status.setComplete();\n    return \"order/complete\";\n}"
+explanation: |
+  `SessionStatus.setComplete()` を呼び出すことで、`@SessionAttributes` で保持していたセッションデータを削除できる。
+
+  多段階フォームの完了時に呼び出すことで、不要なセッションデータをクリアすることが重要である。
+
+  注意：`session.invalidate()` はセッション全体を破棄するが、`status.setComplete()` は `@SessionAttributes` で指定した属性のみを削除する。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+フォーム完了後にセッションデータを破棄するメソッドを完成させよ。
+
+<CodeBlock>
+{`@PostMapping("/complete")
+public String complete(`}<BlankInput id="blank1" />{` status) {
+    `}<BlankInput id="blank2" />{`;
+    return "order/complete";
+}`}
+</CodeBlock>

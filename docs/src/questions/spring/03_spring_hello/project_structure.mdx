@@ -1,0 +1,40 @@
+---
+id: "spring/03_spring_hello#project_structure"
+title: "プロジェクト構成を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03_spring_hello"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "`src/main/java/` にHTMLファイルを配置し、`src/main/resources/templates/` にJavaファイルを配置する"
+  - id: "B"
+    text: "`src/main/java/` にCSSファイルとJavaScriptを配置し、`src/main/resources/` にJavaのソースコードを配置する"
+  - id: "C"
+    text: "`src/main/resources/` にJavaのソースコードを配置し、`src/main/java/` にSQL文を配置する"
+  - id: "D"
+    text: "`src/main/java/` にJavaのソースコードを配置し、`src/main/resources/templates/` にThymeleafのHTMLテンプレートを配置する"
+answers:
+  correct: ["D"]
+explanation: |
+  Spring Bootプロジェクトの標準的なディレクトリ構成：
+
+  ```
+  src/
+  └── main/
+      ├── java/com/example/demo/
+      │   ├── DemoApplication.java  （メインクラス）
+      │   ├── controller/           （コントローラクラス）
+      │   ├── service/              （サービスクラス）
+      │   └── mapper/               （MyBatisマッパー）
+      └── resources/
+          ├── templates/            （ThymeleafのHTMLテンプレート）
+          ├── static/               （CSS・JavaScript・画像）
+          ├── application.properties（設定ファイル）
+          └── schema.sql / data.sql （DB初期化）
+  ```
+---
+
+Spring Bootプロジェクトの標準的なディレクトリ構成として、正しいものを選べ。

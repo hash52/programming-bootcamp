@@ -1,0 +1,36 @@
+---
+id: "spring/07_validation#client_vs_server_validation"
+title: "クライアントサイドとサーバーサイドのバリデーションの違いを説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "07_validation"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "クライアントサイドはブラウザ上でJavaScriptが即座に実行し、サーバーサイドはサーバー上でJavaが実行するバリデーションである"
+  - id: "B"
+    text: "クライアントサイドはHTTP通信を使い、サーバーサイドはHTTPS通信を使うバリデーションである"
+  - id: "C"
+    text: "クライアントサイドはデータベースを使い、サーバーサイドはメモリを使うバリデーションである"
+  - id: "D"
+    text: "クライアントサイドはJava専用で、サーバーサイドはJavaScriptのみで実行するバリデーションである"
+answers:
+  correct: ["A"]
+explanation: |
+  クライアントサイドとサーバーサイドのバリデーションの違い：
+
+  **クライアントサイドバリデーション**（ブラウザ上）:
+  - JavaScriptやHTML5のバリデーション属性（`required`、`pattern`など）で実行
+  - ページ遷移なしに即座にフィードバックできる（UXが良い）
+  - しかしブラウザの開発ツールで迂回できるため、セキュリティ上は不十分
+
+  **サーバーサイドバリデーション**（サーバー上）:
+  - Springの `@NotBlank`、`@Email` などのアノテーションで実行
+  - 迂回することができないため、必ず実施する必要がある
+
+  両方を組み合わせることが理想的である。
+---
+
+クライアントサイドバリデーションとサーバーサイドバリデーションの違いとして、正しいものを選べ。

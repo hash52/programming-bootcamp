@@ -24,6 +24,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ReplayIcon from "@mui/icons-material/Replay";
 import { QuestionRenderer } from "../QuestionRenderer";
+import { QuestionErrorBoundary } from "../question/QuestionErrorBoundary";
 import { useStoredProgress } from "@site/src/hooks/useStoredProgress";
 import { Difficulty, type Question, type QuestionType } from "@site/src/structure";
 import { DojoExportDialog } from "./DojoExportDialog";
@@ -225,11 +226,13 @@ export const DojoQuestionView: React.FC<DojoQuestionViewProps> = ({
               </Box>
             </AccordionSummary>
             <AccordionDetails>
-              <QuestionRenderer
-                id={q.id}
-                mode="dojo"
-                showTitle={false}
-              />
+              <QuestionErrorBoundary questionId={q.id}>
+                <QuestionRenderer
+                  id={q.id}
+                  mode="dojo"
+                  showTitle={false}
+                />
+              </QuestionErrorBoundary>
             </AccordionDetails>
           </QuestionAccordion>
         );

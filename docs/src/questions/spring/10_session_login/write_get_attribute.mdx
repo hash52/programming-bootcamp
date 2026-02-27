@@ -1,0 +1,33 @@
+---
+id: "spring/10_session_login#write_get_attribute"
+title: "HttpSessionで値を取得できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "10_session_login"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["session.getAttribute"]
+  blank2: ["(User)"]
+sampleAnswer: "User loginUser = (User) session.getAttribute(\"loginUser\");"
+explanation: |
+  `session.getAttribute("key")` はセッションから値を取得する。
+
+  戻り値の型は `Object` なのでキャスト（型変換）が必要である。
+
+  セッションに値が存在しない場合は `null` が返るため、`null` チェックを行うことが重要である。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+セッションからログインユーザー情報を取得するコードを完成させよ。
+
+<CodeBlock>
+{`@GetMapping("/home")
+public String home(HttpSession session, Model model) {
+    User loginUser = `}<BlankInput id="blank2" />{` `}<BlankInput id="blank1" />{`("loginUser");
+    model.addAttribute("user", loginUser);
+    return "home";
+}`}
+</CodeBlock>

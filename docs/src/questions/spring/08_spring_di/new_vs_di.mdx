@@ -1,0 +1,43 @@
+---
+id: "spring/08_spring_di#new_vs_di"
+title: "newとDIの使い分けを判断できる"
+type: "READ"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "08_spring_di"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "`UserService` と `EmailSender` はDIに任せ、`List<String>` と `User` は `new` で生成する"
+  - id: "B"
+    text: "すべてをDIに任せ、自分で `new` することは禁止されている"
+  - id: "C"
+    text: "すべてを自分で `new` し、DIは使わない方が制御しやすい"
+  - id: "D"
+    text: "`User` と `UserService` をDIに任せ、`List<String>` と `EmailSender` は `new` で生成する"
+answers:
+  correct: ["A"]
+explanation: |
+  `new` とDIの使い分けの判断基準：
+
+  **DIに任せるもの**（Springが管理するもの）:
+  - サービスクラス（`UserService`、`EmailSender`など）
+  - リポジトリクラス
+  - アプリ全体で共有するコンポーネント
+  → ライフサイクル管理や依存関係解決をSpringに任せることで保守性が高まる
+
+  **`new` するもの**:
+  - 一時的なデータ（`new User("Taro", 20)`、`new ArrayList<>()`）
+  - 特定の処理内だけで使うローカルなオブジェクト
+  → 毎回新しいインスタンスが必要なものは自分で `new` する
+---
+
+以下のコードのうち、SpringのDIに任せるべきものを正しく選んでいるのはどれか。
+
+```java
+List<String> names = new ArrayList<>();
+User user = new User("Taro", 20);
+UserService userService = new UserService();
+EmailSender emailSender = new EmailSender();
+```

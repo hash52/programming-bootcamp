@@ -1,0 +1,31 @@
+---
+id: "spring/02_mvc_intro#view_role"
+title: "Viewの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_mvc_intro"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "ControllerやModelから受け取ったデータをもとに、HTMLなどの画面を生成してユーザーに表示する"
+  - id: "B"
+    text: "データベースに接続して商品情報や会員情報などを取得・更新する"
+  - id: "C"
+    text: "ブラウザからのURLリクエストを解析し、どの処理を実行するかを決定する"
+  - id: "D"
+    text: "セッション情報を管理して、ユーザーのログイン状態を維持する"
+answers:
+  correct: ["A"]
+explanation: |
+  MVCにおけるViewは、ユーザーに見える画面を生成する役割を担当する。
+
+  Springでは主に **Thymeleaf** というテンプレートエンジンを使い、コントローラから渡されたデータをHTMLに埋め込んでブラウザに返す。
+
+  例：商品一覧ページ（`products/list.html`）は、Modelから受け取った商品リストをHTMLのテーブルとして表示する。
+
+  ViewはControllerから「何を表示するか」の指示を受けるが、ビジネスロジックは持たない。
+---
+
+MVCパターンにおけるViewの役割として、最も適切なものを選べ。

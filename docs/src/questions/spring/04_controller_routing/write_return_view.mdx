@@ -1,0 +1,31 @@
+---
+id: "spring/04_controller_routing#write_return_view"
+title: "メソッドからビュー名を返せる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_controller_routing"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["\"items/list\""]
+sampleAnswer: "return \"items/list\";"
+explanation: |
+  `@Controller` のメソッドが返す文字列はビュー名として解釈される。
+
+  Springは `src/main/resources/templates/` 配下の対応するHTMLファイルをThymeleafで描画してレスポンスを返す。
+
+  - `return "items/list"` → `templates/items/list.html` を描画
+  - `return "redirect:/items"` → `/items` にリダイレクト
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`/items` にアクセスしたとき、`templates/items/list.html` を表示するようにメソッドを完成させよ。
+
+<CodeBlock>
+{`@GetMapping("/items")
+public String itemList() {
+    return `}<BlankInput id="blank1" />{`;
+}`}
+</CodeBlock>

@@ -1,0 +1,35 @@
+---
+id: "spring/09_db_mybatis#write_schema_sql"
+title: "schema.sqlでテーブルを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "09_db_mybatis"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["CREATE TABLE"]
+  blank2: ["PRIMARY KEY"]
+sampleAnswer: "CREATE TABLE products (\n    id BIGINT PRIMARY KEY AUTO_INCREMENT,\n    name VARCHAR(100) NOT NULL\n);"
+explanation: |
+  `src/main/resources/schema.sql` に記述したSQLは、Spring Boot起動時に自動実行される（H2などの組み込みDBを使う場合）。
+
+  テーブル定義に使う主な制約：
+  - `PRIMARY KEY`: 主キー
+  - `AUTO_INCREMENT`: 自動採番
+  - `NOT NULL`: NULL禁止
+  - `VARCHAR(n)`: 可変長文字列
+
+  `application.properties` で `spring.sql.init.mode=always` を設定すると常に実行される。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`products` テーブルを作成するschema.sqlを完成させよ。
+
+<CodeBlock language="sql">
+<BlankInput id="blank1" />{` products (
+    id   BIGINT `}<BlankInput id="blank2" />{` AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL
+);`}
+</CodeBlock>

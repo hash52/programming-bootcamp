@@ -1,0 +1,31 @@
+---
+id: "spring/06_controller_to_view_thymeleaf#write_utilities"
+title: "#stringsなどのユーティリティを使える"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "06_controller_to_view_thymeleaf"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["#strings.toUpperCase(name)"]
+sampleAnswer: "<p th:text=\"${#strings.toUpperCase(name)}\">NAME</p>"
+explanation: |
+  Thymeleafには便利なユーティリティオブジェクトが用意されている。
+
+  主なユーティリティ：
+  - `#strings`: 文字列操作（`toUpperCase`、`toLowerCase`、`contains`、`isEmpty`など）
+  - `#dates`: 日付操作（`format`、`year`、`month`など）
+  - `#numbers`: 数値フォーマット（`formatDecimal`など）
+  - `#lists`: リスト操作（`size`、`contains`など）
+
+  `${...}` の中で `#ユーティリティ名.メソッド名(引数)` の形式で使用する。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`name` を大文字に変換して表示するHTMLを完成させよ（`#strings.toUpperCase()` を使う）。
+
+<CodeBlock language="html">
+{`<p th:text="\${`}<BlankInput id="blank1" />{`}">NAME</p>`}
+</CodeBlock>

@@ -1,0 +1,38 @@
+---
+id: "spring/05_request_to_controller#request_param_annotation"
+title: "@RequestParamの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "05_request_to_controller"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "コントローラクラスをSpringのBeanとして登録するためのアノテーション"
+  - id: "B"
+    text: "URLのクエリパラメータやフォームデータを、コントローラのメソッドの引数として受け取るためのアノテーション"
+  - id: "C"
+    text: "HTTPレスポンスのヘッダー情報をメソッドの引数に注入するためのアノテーション"
+  - id: "D"
+    text: "DIコンテナからBeanを自動注入するためのアノテーション"
+answers:
+  correct: ["B"]
+explanation: |
+  `@RequestParam` はURLのクエリパラメータまたはフォームデータをコントローラのメソッドの引数にバインドするアノテーションである。
+
+  使用例：
+  ```java
+  // /search?keyword=spring にアクセスした場合
+  @GetMapping("/search")
+  public String search(@RequestParam String keyword) {
+      // keyword = "spring"
+  }
+  ```
+
+  オプション引数：
+  - `required = false`: パラメータを省略可能にする（省略時は null）
+  - `defaultValue = "値"`: 省略時のデフォルト値を指定する
+---
+
+SpringMVCの `@RequestParam` アノテーションの役割として、最も適切なものを選べ。

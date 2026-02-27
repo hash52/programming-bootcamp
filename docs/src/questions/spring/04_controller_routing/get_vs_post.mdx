@@ -1,0 +1,33 @@
+---
+id: "spring/04_controller_routing#get_vs_post"
+title: "GETとPOSTの違いを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "04_controller_routing"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "GETはページの表示・検索など情報取得に使い、POSTはフォーム送信など情報の登録・更新に使うのが一般的である"
+  - id: "B"
+    text: "GETはサーバーのデータを変更するために使い、POSTはサーバーのデータを取得するために使う"
+  - id: "C"
+    text: "GETはSpringのみが対応し、POSTはすべてのWebフレームワークで使える"
+  - id: "D"
+    text: "GETとPOSTの違いはセキュリティレベルだけであり、機能的に差はない"
+answers:
+  correct: ["A"]
+explanation: |
+  GETリクエストは主にリソースの取得（ページ表示や検索）に使い、パラメータはURLに付加される。
+
+  POSTリクエストは主にデータの送信（フォーム送信や登録処理）に使い、データはリクエストボディに格納される。
+
+  同じURLでもGETとPOSTで異なる処理を割り当てることができる。
+
+  例：
+  - `GET /items` → 一覧表示
+  - `POST /items` → 新規登録
+---
+
+SpringにおけるGETとPOSTの使い分けとして、最も適切なものを選べ。

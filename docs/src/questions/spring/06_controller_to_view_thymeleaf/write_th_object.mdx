@@ -1,0 +1,39 @@
+---
+id: "spring/06_controller_to_view_thymeleaf#write_th_object"
+title: "th:objectでオブジェクトを簡潔に参照できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "06_controller_to_view_thymeleaf"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["th:object=\"${user}\""]
+  blank2: ["*{name}"]
+sampleAnswer: "<div th:object=\"${user}\"><p th:text=\"*{name}\">名前</p></div>"
+explanation: |
+  `th:object="${オブジェクト}"` を使うと、その要素の子要素内で `*{フィールド名}` という短縮記法でフィールドにアクセスできる。
+
+  ```html
+  <!-- th:objectなし -->
+  <p th:text="${user.name}">名前</p>
+
+  <!-- th:objectあり -->
+  <div th:object="${user}">
+    <p th:text="*{name}">名前</p>
+    <p th:text="*{email}">メール</p>
+  </div>
+  ```
+
+  フォームのバインディングにもよく使われる（`th:field="*{name}"`）。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`user` オブジェクトの `name` フィールドを `th:object` を使って表示するHTMLを完成させよ。
+
+<CodeBlock language="html">
+{`<div `}<BlankInput id="blank1" />{`>
+  <p th:text="`}<BlankInput id="blank2" />{`">名前</p>
+</div>`}
+</CodeBlock>

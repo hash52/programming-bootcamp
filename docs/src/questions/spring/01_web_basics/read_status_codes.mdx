@@ -1,0 +1,33 @@
+---
+id: "spring/01_web_basics#read_status_codes"
+title: "コードからステータスを読み取れる"
+type: "READ"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "01_web_basics"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "正常にリクエストが処理されてページが表示された"
+  - id: "B"
+    text: "ページが別のURLに移動した"
+  - id: "C"
+    text: "アクセスしようとしたページが見つからなかった"
+  - id: "D"
+    text: "サーバー内部でエラーが発生した"
+answers:
+  correct: ["C"]
+explanation: |
+  ステータスコード **404** は "Not Found" を意味する。
+
+  クライアントがリクエストしたリソース（ページやファイルなど）がサーバー上に存在しないことを示す。
+
+  よく見るステータスコード：
+  - **200 OK**: 成功
+  - **301/302**: リダイレクト
+  - **404 Not Found**: ページが存在しない
+  - **500 Internal Server Error**: サーバー内部エラー
+---
+
+ブラウザのデベロッパーツールで、あるリクエストのステータスコードが `404` と表示されていた。このとき何が起きているかを選べ。

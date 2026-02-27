@@ -1,0 +1,35 @@
+---
+id: "spring/06_controller_to_view_thymeleaf#utext_caution"
+title: "th:utextの注意点を説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "06_controller_to_view_thymeleaf"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "`th:utext`はHTMLエスケープを行うため、スクリプトタグが含まれていても安全に表示できる"
+  - id: "B"
+    text: "`th:utext`はHTMLエスケープを行わないため、ユーザーが入力した値をそのまま使うとXSSの脆弱性が生じる"
+  - id: "C"
+    text: "`th:utext`はJavaScript専用の記法であり、HTMLには使用できない"
+  - id: "D"
+    text: "`th:utext`は廃止された古い属性であり、現在は`th:html`を使う必要がある"
+answers:
+  correct: ["B"]
+explanation: |
+  `th:utext` は値をHTMLとして解釈するため、ユーザーが入力した値をそのまま使うとクロスサイトスクリプティング（XSS）攻撃が可能になる。
+
+  XSSの危険例：
+  ```html
+  <!-- ユーザーが "<script>alert('XSS')</script>" と入力した場合 -->
+  <p th:utext="${userInput}"><!-- スクリプトが実行される！ -->
+  ```
+
+  安全な使い方：
+  - 基本的には `th:text` を使う
+  - `th:utext` を使う場合は、表示するデータが管理者など信頼できるソースからのものであることを確認する
+---
+
+Thymeleafの `th:utext` を使う際の注意点として、最も適切なものを選べ。

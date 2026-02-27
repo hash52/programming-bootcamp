@@ -1,0 +1,45 @@
+---
+id: "spring/09_db_mybatis#write_one_to_many"
+title: "1対多のリレーションをresultMapで表現できる"
+type: "WRITE"
+difficulty: "Hard"
+format: "fillInBlank"
+topicId: "09_db_mybatis"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["collection"]
+  blank2: ["property=\"reviews\" ofType=\"Review\""]
+sampleAnswer: "<collection property=\"reviews\" ofType=\"Review\"><id column=\"review_id\" property=\"reviewId\"/></collection>"
+explanation: |
+  1対多リレーション（1つの商品に複数のレビューがある場合）は `<collection>` タグを使う。
+
+  ```xml
+  <resultMap id="productResultMap" type="Product">
+    <id column="id" property="id"/>
+    <result column="name" property="name"/>
+    <collection property="reviews" ofType="Review">
+      <id column="review_id" property="reviewId"/>
+      <result column="content" property="content"/>
+    </collection>
+  </resultMap>
+  ```
+
+  `property`: Javaオブジェクトのコレクション型フィールド名
+  `ofType`: コレクションの要素の型
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`Product` が複数の `Review` を持つ1対多リレーションのresultMapを完成させよ。
+
+<CodeBlock language="xml">
+{`<resultMap id="productResultMap" type="Product">
+  <id column="id" property="id"/>
+  <result column="name" property="name"/>
+  <`}<BlankInput id="blank1" />{` `}<BlankInput id="blank2" />{`>
+    <id column="review_id" property="reviewId"/>
+    <result column="content" property="content"/>
+  </`}<BlankInput id="blank1" />{`>
+</resultMap>`}
+</CodeBlock>

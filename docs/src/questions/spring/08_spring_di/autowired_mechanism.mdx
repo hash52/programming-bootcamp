@@ -1,0 +1,32 @@
+---
+id: "spring/08_spring_di#autowired_mechanism"
+title: "@Autowiredの仕組みがわかる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "08_spring_di"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "`@Autowired` が付いたフィールドに、プログラマーが手動で値をセットしなければならない"
+  - id: "B"
+    text: "`@Autowired` が付いた箇所に、DIコンテナが管理している同型のBeanを自動的に注入する"
+  - id: "C"
+    text: "`@Autowired` はデータベースからデータを取得して自動でフィールドに設定するアノテーションである"
+  - id: "D"
+    text: "`@Autowired` はHTTPリクエストのパラメータを自動でフィールドに設定するアノテーションである"
+answers:
+  correct: ["B"]
+explanation: |
+  `@Autowired` が付いた箇所に、SpringのDIコンテナが同じ型のBeanを自動的に注入する。
+
+  注入の方式：
+  1. **コンストラクタインジェクション**（推奨）: コンストラクタに `@Autowired` を付ける
+  2. **フィールドインジェクション**: フィールドに直接 `@Autowired` を付ける（テストしにくいため非推奨）
+  3. **セッターインジェクション**: セッターメソッドに `@Autowired` を付ける
+
+  同型のBeanが複数ある場合は `@Primary` や `@Qualifier` で注入するBeanを指定できる。
+---
+
+`@Autowired` アノテーションの仕組みとして、正しいものを選べ。

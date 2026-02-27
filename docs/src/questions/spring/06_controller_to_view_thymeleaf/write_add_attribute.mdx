@@ -1,0 +1,32 @@
+---
+id: "spring/06_controller_to_view_thymeleaf#write_add_attribute"
+title: "ModelのaddAttributeで値を渡せる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "06_controller_to_view_thymeleaf"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["model.addAttribute"]
+sampleAnswer: "model.addAttribute(\"message\", \"こんにちは！\");"
+explanation: |
+  `model.addAttribute("キー", 値)` でModelにデータを追加する。
+
+  - キーは文字列で、ThymeleafのHTML内で `${キー}` の形式で参照できる
+  - 値はどのようなオブジェクトでも渡すことができる（String、Integer、List、独自クラスなど）
+
+  複数のデータを渡す場合は、`addAttribute` を複数回呼び出す。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+コントローラから `"message"` というキーで `"こんにちは！"` をThymeleafのビューに渡すコードを完成させよ。
+
+<CodeBlock>
+{`@GetMapping("/greet")
+public String greet(Model model) {
+    `}<BlankInput id="blank1" />{`("message", "こんにちは！");
+    return "greet";
+}`}
+</CodeBlock>

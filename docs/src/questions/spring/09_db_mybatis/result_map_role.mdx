@@ -1,0 +1,37 @@
+---
+id: "spring/09_db_mybatis#result_map_role"
+title: "resultMapの役割を説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "09_db_mybatis"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "SQLの結果を別のSQLに渡すためのマッピング定義"
+  - id: "B"
+    text: "HTML画面のフォームとJavaオブジェクトを対応付けるための定義"
+  - id: "C"
+    text: "データベースの列名とJavaオブジェクトのフィールド名を明示的に対応付ける定義"
+  - id: "D"
+    text: "SpringのBeanとデータベースのテーブルを自動生成するための設定"
+answers:
+  correct: ["C"]
+explanation: |
+  `resultMap` はデータベースのテーブルの列名とJavaオブジェクトのフィールド名を対応付ける定義である。
+
+  列名とフィールド名が一致していれば自動マッピングされるが、異なる場合や1対多リレーションがある場合は `resultMap` を使う。
+
+  ```xml
+  <resultMap id="productResultMap" type="Product">
+    <id column="product_id" property="productId"/>
+    <result column="product_name" property="productName"/>
+    <collection property="reviews" ofType="Review">
+      <id column="review_id" property="reviewId"/>
+    </collection>
+  </resultMap>
+  ```
+---
+
+MyBatisの `resultMap` の役割として、最も適切なものを選べ。

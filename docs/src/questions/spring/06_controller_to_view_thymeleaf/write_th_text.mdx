@@ -1,0 +1,32 @@
+---
+id: "spring/06_controller_to_view_thymeleaf#write_th_text"
+title: "th:textで値を画面に表示できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "06_controller_to_view_thymeleaf"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["th:text=\"${message}\""]
+sampleAnswer: "<p th:text=\"${message}\"></p>"
+explanation: |
+  `th:text="${変数名}"` で、ModelにaddAttributeした値を要素のテキストコンテンツとして表示できる。
+
+  `th:text` がある場合、HTMLのタグ内のテキストは置き換えられる。
+
+  ```html
+  <!-- "こんにちは！" が表示される -->
+  <p th:text="${message}">仮テキスト</p>
+  ```
+
+  静的なプレースホルダーとして `仮テキスト` と書いても、実行時に動的に置換される。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`"message"` というキーでモデルに格納されたデータを表示するHTMLを完成させよ。
+
+<CodeBlock language="html">
+{`<p `}<BlankInput id="blank1" />{`>ここにメッセージが表示されます</p>`}
+</CodeBlock>

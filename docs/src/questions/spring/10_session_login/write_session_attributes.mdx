@@ -1,0 +1,39 @@
+---
+id: "spring/10_session_login#write_session_attributes"
+title: "@SessionAttributesでフォーム情報を保持できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "10_session_login"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@SessionAttributes(\"orderForm\")"]
+sampleAnswer: "@Controller\n@SessionAttributes(\"orderForm\")\npublic class OrderController { }"
+explanation: |
+  `@SessionAttributes("属性名")` をコントローラクラスに付けると、指定した名前のモデル属性がセッションに自動保存される。
+
+  複数ステップのフォーム（ウィザード）でフォームデータを保持するのに使う。
+
+  セッションのクリアには `SessionStatus.setComplete()` を呼び出す。
+
+  ```java
+  @PostMapping("/complete")
+  public String complete(SessionStatus status) {
+      status.setComplete(); // セッションから@SessionAttributesのデータを削除
+      return "order/complete";
+  }
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`orderForm` という名前のモデル属性をセッションに保持するコントローラを完成させよ。
+
+<CodeBlock>
+{`@Controller
+`}<BlankInput id="blank1" />{`
+public class OrderController {
+    // 多段階フォームの処理
+}`}
+</CodeBlock>

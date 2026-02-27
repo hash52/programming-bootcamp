@@ -1,0 +1,36 @@
+---
+id: "spring/01_web_basics#url_structure"
+title: "URLの構造を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "01_web_basics"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "`https://example.com/users?id=1` において、`/users` はドメイン名、`id=1` はパスである"
+  - id: "B"
+    text: "`https://example.com/users?id=1` において、`https` はスキーム、`example.com` はホスト名、`/users` はパス、`id=1` はクエリパラメータである"
+  - id: "C"
+    text: "`https://example.com/users?id=1` において、`example.com` はパス、`/users` はポート番号である"
+  - id: "D"
+    text: "`https://example.com/users?id=1` において、`?id=1` はフラグメント識別子である"
+answers:
+  correct: ["B"]
+explanation: |
+  URLは以下の要素で構成される。
+
+  ```
+  https://example.com/users?id=1
+  ↑       ↑           ↑     ↑
+  スキーム ホスト名    パス  クエリパラメータ
+  ```
+
+  - **スキーム** (`https`): 通信プロトコルの種類
+  - **ホスト名** (`example.com`): サーバーのアドレス
+  - **パス** (`/users`): サーバー上のリソースの場所
+  - **クエリパラメータ** (`id=1`): `?`以降の追加情報（複数は`&`で区切る）
+---
+
+`https://example.com/users?id=1` というURLの各要素の説明として、正しいものを選べ。

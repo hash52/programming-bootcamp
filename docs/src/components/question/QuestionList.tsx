@@ -9,6 +9,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { QuestionRenderer } from "../QuestionRenderer";
+import { QuestionErrorBoundary } from "./QuestionErrorBoundary";
 import { ALL_TOPIC_STRUCTURE } from "@site/src/structure";
 import { useStoredProgress } from "@site/src/hooks/useStoredProgress";
 
@@ -73,11 +74,13 @@ export const QuestionList: React.FC<QuestionListProps> = ({
               </Box>
             </AccordionSummary>
             <AccordionDetails>
-              <QuestionRenderer
-                id={question.id}
-                mode="embedded"
-                showTitle={false}
-              />
+              <QuestionErrorBoundary questionId={question.id}>
+                <QuestionRenderer
+                  id={question.id}
+                  mode="embedded"
+                  showTitle={false}
+                />
+              </QuestionErrorBoundary>
             </AccordionDetails>
           </Accordion>
         );

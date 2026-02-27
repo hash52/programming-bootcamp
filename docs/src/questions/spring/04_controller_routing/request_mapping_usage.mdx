@@ -1,0 +1,37 @@
+---
+id: "spring/04_controller_routing#request_mapping_usage"
+title: "@RequestMappingの使い方がわかる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "04_controller_routing"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "`@RequestMapping`は`@GetMapping`の省略形であり、同じ意味で使える"
+  - id: "B"
+    text: "`@RequestMapping`はクラスに付けて共通のURLプレフィックスを指定したり、method属性でHTTPメソッドを指定したりできる"
+  - id: "C"
+    text: "`@RequestMapping`はデータベースへのリクエストを処理するためのアノテーションである"
+  - id: "D"
+    text: "`@RequestMapping`はSpring Boot 3以降で廃止され、現在は使用できない"
+answers:
+  correct: ["B"]
+explanation: |
+  `@RequestMapping` はメソッドとHTTPメソッドを指定できる汎用的なマッピングアノテーションである。
+
+  **クラスへの使用例（共通プレフィックス）**：
+  ```java
+  @Controller
+  @RequestMapping("/products")
+  public class ProductController {
+      @GetMapping("/list")    // → /products/list
+      @GetMapping("/{id}")    // → /products/{id}
+  }
+  ```
+
+  `@GetMapping` は `@RequestMapping(method = RequestMethod.GET)` の省略形である。
+---
+
+`@RequestMapping` アノテーションの使い方として、正しいものを選べ。

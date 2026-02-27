@@ -1,0 +1,40 @@
+---
+id: "spring/07_validation#binding_result_role"
+title: "BindingResultの役割を説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "07_validation"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "フォームオブジェクトとHTMLのフィールドを自動的にバインドするためのオブジェクト"
+  - id: "B"
+    text: "バリデーション結果（エラー情報）を保持し、エラーの有無やメッセージを確認できるオブジェクト"
+  - id: "C"
+    text: "データベースへのSQL実行結果を保持するオブジェクト"
+  - id: "D"
+    text: "HTTPリクエストのボディとレスポンスのボディを紐付けるオブジェクト"
+answers:
+  correct: ["B"]
+explanation: |
+  `BindingResult` はバリデーションの結果（エラー情報）を保持するオブジェクトである。
+
+  使い方：
+  ```java
+  @PostMapping("/register")
+  public String register(@Validated UserForm form, BindingResult result) {
+      if (result.hasErrors()) {
+          // エラーあり → 入力フォームに戻る
+          return "register/form";
+      }
+      // エラーなし → 登録処理
+      return "redirect:/register/complete";
+  }
+  ```
+
+  重要：`BindingResult` はバリデーション対象の引数（`@Validated` が付いた引数）の直後に記述する必要がある。
+---
+
+SpringMVCにおける `BindingResult` の役割として、最も適切なものを選べ。

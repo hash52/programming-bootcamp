@@ -1,0 +1,34 @@
+---
+id: "spring/01_web_basics#webapp_vs_static"
+title: "WebアプリとHTML静的サイトの違いを説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "01_web_basics"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "静的サイトはJavaScriptが使えないが、WebアプリはJavaScriptが使える"
+  - id: "B"
+    text: "静的サイトはあらかじめ用意されたファイルをそのまま返すが、Webアプリはサーバーでプログラムが実行されてHTMLを動的に生成する"
+  - id: "C"
+    text: "静的サイトはHTTPS通信が必須だが、WebアプリはHTTPでも動作する"
+  - id: "D"
+    text: "WebアプリはデータベースなしでもOKだが、静的サイトはデータベースが必須である"
+answers:
+  correct: ["B"]
+explanation: |
+  静的サイトとWebアプリの違いは、サーバー側での処理の有無にある。
+
+  **静的サイト**:
+  - HTMLファイルをそのまま返すだけ
+  - 内容は変わらない（誰が見ても同じ）
+
+  **Webアプリ（動的サイト）**:
+  - Springなどのサーバーサイドプログラムが実行される
+  - データベースの内容やユーザー操作に応じてHTMLを動的に生成
+  - ユーザーごとに異なる内容を表示できる（ログイン後のマイページなど）
+---
+
+静的なHTMLサイトとSpringのようなフレームワークを使ったWebアプリの違いとして、正しいものを選べ。

@@ -1,0 +1,50 @@
+---
+id: "spring/04_controller_routing#read_url_to_method"
+title: "URLからどのメソッドが実行されるか判断できる"
+type: "READ"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "04_controller_routing"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "GETで`/products`にアクセスすると`list()`が実行される"
+  - id: "B"
+    text: "GETで`/products`にアクセスすると`create()`が実行される"
+  - id: "C"
+    text: "POSTで`/products`にアクセスすると`list()`が実行される"
+  - id: "D"
+    text: "GETで`/products/1`にアクセスすると`list()`が実行される"
+answers:
+  correct: ["A"]
+explanation: |
+  `@GetMapping("/products")` はGETメソッドかつ `/products` というURLへのリクエストを `list()` メソッドに対応付ける。
+
+  - 同じ `/products` でもPOSTリクエストは `create()` が実行される
+  - `/products/1` のようなパスパラメータ付きのURLには `@GetMapping("/products/{id}")` の `detail()` が対応する
+
+  HTTPメソッド（GET/POST）とURLの組み合わせで、実行されるメソッドが決まる。
+---
+
+以下のコントローラで、ブラウザからGETリクエストで `/products` にアクセスしたとき、実行されるメソッドとして正しいものを選べ。
+
+```java
+@Controller
+public class ProductController {
+    @GetMapping("/products")
+    public String list() {
+        return "products/list";
+    }
+
+    @GetMapping("/products/{id}")
+    public String detail() {
+        return "products/detail";
+    }
+
+    @PostMapping("/products")
+    public String create() {
+        return "redirect:/products";
+    }
+}
+```

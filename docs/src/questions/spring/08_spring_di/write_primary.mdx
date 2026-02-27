@@ -1,0 +1,39 @@
+---
+id: "spring/08_spring_di#write_primary"
+title: "@Primaryで優先するBeanを指定できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "08_spring_di"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@Primary"]
+sampleAnswer: "@Service\n@Primary\npublic class FormalGreetingService implements GreetingService {\n    public String getMessage() {\n        return \"こんにちは。\";\n    }\n}"
+explanation: |
+  同じインターフェースを実装したBeanが複数ある場合、Springはどれを注入するか迷う。
+
+  `@Primary` を付けると、そのBeanが優先的に注入される。
+
+  `@Primary` の代わりに `@Qualifier("beanName")` で名前を指定することもできる。
+
+  ```java
+  @Autowired
+  @Qualifier("casualGreetingService")
+  private GreetingService greetingService; // CasualGreetingServiceが注入される
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`GreetingService` インターフェースの実装クラス `FormalGreetingService` を優先的に注入されるBeanとして設定せよ。
+
+<CodeBlock>
+{`@Service
+`}<BlankInput id="blank1" />{`
+public class FormalGreetingService implements GreetingService {
+    public String getMessage() {
+        return "こんにちは。";
+    }
+}`}
+</CodeBlock>

@@ -1,0 +1,39 @@
+---
+id: "spring/08_spring_di#write_interface_di"
+title: "インターフェースを使ったDI構成を作れる"
+type: "WRITE"
+difficulty: "Hard"
+format: "fillInBlank"
+topicId: "08_spring_di"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["GreetingService"]
+  blank2: ["GreetingService"]
+sampleAnswer: "public interface GreetingService { String getMessage(); }\n@Service\n@Primary\npublic class FormalGreetingService implements GreetingService { ... }\n@Controller\npublic class GreetingController {\n    private final GreetingService service;\n    @Autowired\n    public GreetingController(GreetingService service) { this.service = service; }\n}"
+explanation: |
+  インターフェースを使ったDI構成のメリット：
+
+  1. コントローラはインターフェース（`GreetingService`）にのみ依存する
+  2. 具体的な実装（`FormalGreetingService`、`CasualGreetingService`）は交換可能
+  3. テスト時にモック実装に差し替えやすい
+
+  これを「依存関係逆転の原則（DIP）」と呼び、保守性・拡張性が高い設計である。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+インターフェース `GreetingService` を使って、コントローラが実装クラスに直接依存しないDI構成を完成させよ。
+
+<CodeBlock>
+{`// コントローラはインターフェースに依存する
+@Controller
+public class GreetingController {
+    private final `}<BlankInput id="blank1" />{` service;
+
+    @Autowired
+    public GreetingController(`}<BlankInput id="blank2" />{` service) {
+        this.service = service;
+    }
+}`}
+</CodeBlock>

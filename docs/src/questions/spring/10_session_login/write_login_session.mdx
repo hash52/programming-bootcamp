@@ -1,0 +1,46 @@
+---
+id: "spring/10_session_login#write_login_session"
+title: "セッションでログイン状態を保持できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "10_session_login"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["session.setAttribute(\"loginUser\", user)"]
+  blank2: ["session.invalidate()"]
+sampleAnswer: "session.setAttribute(\"loginUser\", user);\n// ログアウト時\nsession.invalidate();"
+explanation: |
+  セッションを使ったログイン機能の実装パターン：
+
+  **ログイン処理**:
+  1. フォームの入力値でユーザーを検索する
+  2. パスワードを検証する
+  3. `session.setAttribute("loginUser", user)` でセッションに保存する
+
+  **ログアウト処理**:
+  - `session.invalidate()` でセッション全体を無効化する
+
+  **ログインチェック**:
+  - `session.getAttribute("loginUser") == null` の場合は未ログイン
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+ログイン処理とログアウト処理を完成させよ。
+
+**ログイン**
+
+<CodeBlock>
+{`User user = userService.authenticate(form);
+`}<BlankInput id="blank1" />{`;
+return "redirect:/home";`}
+</CodeBlock>
+
+**ログアウト**
+
+<CodeBlock>
+<BlankInput id="blank2" />{`;
+return "redirect:/login";`}
+</CodeBlock>

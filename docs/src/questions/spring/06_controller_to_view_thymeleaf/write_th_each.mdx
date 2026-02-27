@@ -1,0 +1,40 @@
+---
+id: "spring/06_controller_to_view_thymeleaf#write_th_each"
+title: "th:eachで繰り返し表示できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "06_controller_to_view_thymeleaf"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["th:each=\"item : ${items}\""]
+sampleAnswer: "<li th:each=\"item : ${items}\" th:text=\"${item.name}\">商品名</li>"
+explanation: |
+  `th:each="変数 : ${リスト}"` でリストの各要素を繰り返し表示できる。
+
+  Javaの拡張for文（`for (Item item : items)`）と同様の概念である。
+
+  ```html
+  <ul>
+    <li th:each="item : ${items}" th:text="${item.name}">商品名</li>
+  </ul>
+  ```
+
+  ループのインデックスなども取得できる：
+  ```html
+  <li th:each="item, stat : ${items}">
+    [[${stat.index}]]: [[${item.name}]]
+  </li>
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`items`（`Item`オブジェクトのリスト）の各要素の `name` を繰り返し表示するHTMLを完成させよ。
+
+<CodeBlock language="html">
+{`<ul>
+  <li `}<BlankInput id="blank1" />{` th:text="\${item.name}">商品名</li>
+</ul>`}
+</CodeBlock>

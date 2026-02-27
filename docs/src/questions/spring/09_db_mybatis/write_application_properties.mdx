@@ -1,0 +1,42 @@
+---
+id: "spring/09_db_mybatis#write_application_properties"
+title: "application.propertiesでDB接続を設定できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "09_db_mybatis"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["spring.datasource.url"]
+  blank2: ["spring.datasource.username"]
+sampleAnswer: "spring.datasource.url=jdbc:h2:mem:testdb\nspring.datasource.username=sa\nspring.datasource.password="
+explanation: |
+  `application.properties` でデータベース接続情報を設定する。
+
+  H2（インメモリDB）の例：
+  ```properties
+  spring.datasource.url=jdbc:h2:mem:testdb
+  spring.datasource.driver-class-name=org.h2.Driver
+  spring.datasource.username=sa
+  spring.datasource.password=
+  spring.h2.console.enabled=true
+  ```
+
+  MySQLの例：
+  ```properties
+  spring.datasource.url=jdbc:mysql://localhost:3306/mydb
+  spring.datasource.username=root
+  spring.datasource.password=password
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+H2インメモリデータベースへの接続設定を完成させよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{`=jdbc:h2:mem:testdb
+`}<BlankInput id="blank2" />{`=sa
+spring.datasource.password=`}
+</CodeBlock>

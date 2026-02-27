@@ -1,0 +1,34 @@
+---
+id: "spring/09_db_mybatis#write_select_annotation"
+title: "@SelectでSELECT文を実行できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "09_db_mybatis"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@Select(\"SELECT * FROM products\")"]
+sampleAnswer: "@Select(\"SELECT * FROM products\")\nList<Product> findAll();"
+explanation: |
+  `@Select` アノテーションにSQL文を記述することで、SELECT文を実行するメソッドを定義できる。
+
+  MyBatisはメソッドの戻り値の型に合わせてSQLの結果を自動変換する。
+
+  パラメータを使う場合：
+  ```java
+  @Select("SELECT * FROM products WHERE id = #{id}")
+  Product findById(Long id);
+  ```
+
+  `#{変数名}` の形式でメソッドの引数をSQLに渡すことができる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`products` テーブルの全件を取得するマッパーメソッドを完成させよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{`
+List<Product> findAll();`}
+</CodeBlock>

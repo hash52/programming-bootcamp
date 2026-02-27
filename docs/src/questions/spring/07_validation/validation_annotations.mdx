@@ -1,0 +1,36 @@
+---
+id: "spring/07_validation#validation_annotations"
+title: "主要なバリデーションアノテーションを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "07_validation"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "`@NotNull`は文字列の空チェック、`@Size`はメール形式チェック、`@Email`は文字数チェックに使う"
+  - id: "B"
+    text: "`@Min`はメール形式チェック、`@Max`は必須チェック、`@NotBlank`は数値の最大値チェックに使う"
+  - id: "C"
+    text: "`@NotBlank`は空文字・空白のみの文字列を禁止し、`@Min`/`@Max`は数値の範囲チェック、`@Email`はメール形式チェックに使う"
+  - id: "D"
+    text: "`@Required`は必須チェック、`@Range`は範囲チェック、`@Format`は形式チェックに使う"
+answers:
+  correct: ["C"]
+explanation: |
+  Java Bean Validation（Jakarta Validation）の主要なアノテーション：
+
+  | アノテーション | 用途 |
+  |---|---|
+  | `@NotNull` | null禁止 |
+  | `@NotBlank` | null・空文字・空白のみを禁止（文字列用） |
+  | `@NotEmpty` | null・空コレクションを禁止 |
+  | `@Size(min, max)` | 文字列長・コレクションサイズの範囲チェック |
+  | `@Min(value)` | 数値の最小値チェック |
+  | `@Max(value)` | 数値の最大値チェック |
+  | `@Email` | メールアドレス形式チェック |
+  | `@Pattern(regexp)` | 正規表現による形式チェック |
+---
+
+SpringのバリデーションアノテーションとしてC, D, Eの役割に関する説明として、正しいものを選べ。

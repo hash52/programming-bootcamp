@@ -1,0 +1,37 @@
+---
+id: "spring/07_validation#write_binding_result"
+title: "BindingResultでエラーを受け取れる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "07_validation"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["BindingResult"]
+  blank2: ["result.hasErrors()"]
+sampleAnswer: "public String register(@Validated UserForm form, BindingResult result) {\n    if (result.hasErrors()) {\n        return \"register/form\";\n    }\n}"
+explanation: |
+  `BindingResult` はバリデーションエラーの情報を保持するオブジェクトである。
+
+  主なメソッド：
+  - `result.hasErrors()`: エラーが1つでもある場合に `true` を返す
+  - `result.getFieldErrors()`: フィールドごとのエラーリストを取得する
+  - `result.getAllErrors()`: すべてのエラーリストを取得する
+
+  `BindingResult` は必ず `@Validated` が付いた引数の直後に配置する。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+バリデーションエラーを受け取り、エラーがあれば入力フォームに戻るコントローラを完成させよ。
+
+<CodeBlock>
+{`@PostMapping("/register")
+public String register(@Validated UserForm form, `}<BlankInput id="blank1" />{` result) {
+    if (`}<BlankInput id="blank2" />{`) {
+        return "register/form";
+    }
+    return "redirect:/register/complete";
+}`}
+</CodeBlock>

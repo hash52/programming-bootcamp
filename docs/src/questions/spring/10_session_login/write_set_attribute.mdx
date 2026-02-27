@@ -1,0 +1,32 @@
+---
+id: "spring/10_session_login#write_set_attribute"
+title: "HttpSessionで値を保存できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "10_session_login"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["session.setAttribute"]
+sampleAnswer: "session.setAttribute(\"loginUser\", user);"
+explanation: |
+  `session.setAttribute("key", value)` でセッションにデータを保存する。
+
+  保存できる値はシリアライズ可能なJavaオブジェクトならすべて対応している。
+
+  セッションデータはサーバー側のメモリに保存されるため、大きなオブジェクトを大量に保存するとメモリを圧迫する点に注意する。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+ログインしたユーザー情報をセッションに保存するコードを完成させよ。
+
+<CodeBlock>
+{`@PostMapping("/login")
+public String login(LoginForm form, HttpSession session) {
+    User user = userService.authenticate(form);
+    `}<BlankInput id="blank1" />{`("loginUser", user);
+    return "redirect:/home";
+}`}
+</CodeBlock>

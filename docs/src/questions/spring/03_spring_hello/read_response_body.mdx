@@ -1,0 +1,45 @@
+---
+id: "spring/03_spring_hello#read_response_body"
+title: "@ResponseBodyのあるなしの違いを読み取れる"
+type: "READ"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03_spring_hello"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "どちらも同じ動作をする（`@ResponseBody`は旧バージョンのアノテーションであり、現在は不要）"
+  - id: "B"
+    text: "`@ResponseBody`なしはビュー名として解釈されHTMLが返され、`@ResponseBody`ありは返り値の文字列がそのままHTTPレスポンスのボディとして返される"
+  - id: "C"
+    text: "`@ResponseBody`なしはJSONデータが返され、`@ResponseBody`ありはHTMLが返される"
+  - id: "D"
+    text: "`@ResponseBody`なしは404エラーになり、`@ResponseBody`ありは正常に文字列が返される"
+answers:
+  correct: ["B"]
+explanation: |
+  `@Controller` のメソッドの返り値の扱いは `@ResponseBody` の有無で変わる。
+
+  - **`@ResponseBody`なし**: 返り値の文字列がビュー名として扱われ、対応するHTMLテンプレートが描画される
+  - **`@ResponseBody`あり**: 返り値がそのままHTTPレスポンスのボディに書き込まれる
+
+  `@RestController` は `@Controller + @ResponseBody` をまとめたアノテーションで、REST APIのコントローラ作成に使う。
+---
+
+以下の2つのコントローラメソッドの動作の違いとして、正しいものを選べ。
+
+```java
+// メソッドA：@ResponseBodyなし
+@GetMapping("/a")
+public String methodA() {
+    return "hello";
+}
+
+// メソッドB：@ResponseBodyあり
+@GetMapping("/b")
+@ResponseBody
+public String methodB() {
+    return "hello";
+}
+```

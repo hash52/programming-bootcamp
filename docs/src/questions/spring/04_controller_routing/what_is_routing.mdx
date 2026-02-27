@@ -1,0 +1,31 @@
+---
+id: "spring/04_controller_routing#what_is_routing"
+title: "ルーティングとは何かを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "04_controller_routing"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "データベースのテーブルとJavaオブジェクトを対応付ける仕組みのこと"
+  - id: "B"
+    text: "HTMLのリンクからCSSスタイルシートへのパスを指定する設定のこと"
+  - id: "C"
+    text: "URLのパスと、そのリクエストを処理するメソッドを対応付ける仕組みのこと"
+  - id: "D"
+    text: "Javaクラスのフィールドとコンストラクタの引数を対応付けるDIの仕組みのこと"
+answers:
+  correct: ["C"]
+explanation: |
+  ルーティングとは、受信したHTTPリクエストのURLパスに対して、どのコントローラのどのメソッドで処理するかを対応付ける仕組みである。
+
+  Springでは `@GetMapping` や `@PostMapping` などのアノテーションを使って、URLとメソッドを紐付けるルーティングを設定する。
+
+  例：
+  - `@GetMapping("/products")` → 商品一覧表示メソッド
+  - `@PostMapping("/products")` → 商品登録処理メソッド
+---
+
+Webアプリケーションにおける「ルーティング」の説明として、最も適切なものを選べ。

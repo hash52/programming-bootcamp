@@ -1,0 +1,37 @@
+---
+id: "spring/05_request_to_controller#write_optional_param"
+title: "必須/オプションパラメータを使い分けられる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "05_request_to_controller"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["required = false"]
+  blank2: ["defaultValue = \"all\""]
+sampleAnswer: "@RequestParam(required = false) String keyword, @RequestParam(defaultValue = \"all\") String category"
+explanation: |
+  `@RequestParam` のオプション設定：
+
+  - `required = false`: パラメータを省略可能にする。省略時の値は `null`
+  - `defaultValue = "値"`: 省略時のデフォルト値を指定する。設定すると `required` は自動的に `false` になる
+
+  使い分け：
+  - 省略可能で `null` チェックが必要な場合: `required = false`
+  - 省略時にデフォルト値を使う場合: `defaultValue = "値"`
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`keyword`（任意・省略可）と `category`（省略時は `"all"`）のクエリパラメータを受け取るメソッドを完成させよ。
+
+<CodeBlock>
+{`@GetMapping("/products")
+public String list(
+    @RequestParam(`}<BlankInput id="blank1" />{`) String keyword,
+    @RequestParam(`}<BlankInput id="blank2" />{`) String category,
+    Model model) {
+    return "products/list";
+}`}
+</CodeBlock>

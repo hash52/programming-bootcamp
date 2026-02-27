@@ -1,0 +1,31 @@
+---
+id: "spring/05_request_to_controller#what_is_request_param"
+title: "リクエストパラメータとは何かを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "05_request_to_controller"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "SpringのBeanをコンテナに登録する際に指定するメタデータのこと"
+  - id: "B"
+    text: "Thymeleafのテンプレートファイルに埋め込む変数のこと"
+  - id: "C"
+    text: "データベースに接続するための接続文字列のこと"
+  - id: "D"
+    text: "URLの`?`以降に付加されるキーと値のペア（クエリ文字列）や、フォームから送信されるデータのこと"
+answers:
+  correct: ["D"]
+explanation: |
+  リクエストパラメータとは、HTTPリクエストとともにサーバーに送られるデータである。
+
+  - **GETリクエスト**: URL末尾に `?name=value` の形式でURLに付加される
+    例：`/search?keyword=spring&page=2`
+  - **POSTリクエスト**: リクエストボディに格納される（フォームデータ）
+
+  Springでは `@RequestParam` アノテーションでこれらのパラメータをメソッドの引数として受け取ることができる。
+---
+
+Webアプリケーションにおける「リクエストパラメータ」の説明として、最も適切なものを選べ。

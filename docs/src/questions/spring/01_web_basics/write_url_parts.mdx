@@ -1,0 +1,29 @@
+---
+id: "spring/01_web_basics#write_url_parts"
+title: "URLのパスとクエリパラメータを区別できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "01_web_basics"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["/products"]
+  blank2: ["category=shoes"]
+sampleAnswer: "https://example.com/products?category=shoes"
+explanation: |
+  URLは `スキーム://ホスト名/パス?クエリパラメータ` の構造を持つ。
+
+  - **パス** (`/products`): サーバー上のリソースの場所を示す
+  - **クエリパラメータ** (`category=shoes`): `?` 以降に `キー=値` 形式で付与する追加情報
+
+  複数のクエリパラメータは `&` で区切る（例：`?category=shoes&sort=price`）。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のURLにおいて、パス部分とクエリパラメータ部分の空欄を埋めよ。
+
+<CodeBlock>
+{`https://example.com`}<BlankInput id="blank1" />{`?`}<BlankInput id="blank2" />
+</CodeBlock>

@@ -1,0 +1,42 @@
+---
+id: "spring/03_spring_hello#read_hello_controller"
+title: "コントローラとビューの対応を読み取れる"
+type: "READ"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03_spring_hello"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "`/hello` にアクセスすると `hello.html` というテキストが画面に表示される"
+  - id: "B"
+    text: "`/hello` にアクセスすると `\"Hello, Spring!\"` というテキストがJSON形式で返される"
+  - id: "C"
+    text: "`/hello` にアクセスすると `templates/hello.html` というThymeleafテンプレートが描画される"
+  - id: "D"
+    text: "`/hello` にアクセスすると500エラーになる（returnした文字列はHTTPレスポンスにできないため）"
+answers:
+  correct: ["C"]
+explanation: |
+  `@Controller` アノテーションが付いたクラスのメソッドが String を返す場合、その文字列はビュー名として扱われる。
+
+  Springは `src/main/resources/templates/` 配下の同名のHTMLファイルをThymeleafで描画してレスポンスとして返す。
+
+  - `return "hello"` → `templates/hello.html` を描画
+  - `return "user/list"` → `templates/user/list.html` を描画
+
+  もし `@ResponseBody` が付いていれば、文字列がそのままレスポンスのボディになる。
+---
+
+```java
+@Controller
+public class HelloController {
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello";
+    }
+}
+```
+
+上記のコントローラで `/hello` にアクセスしたとき、何が起きるかを選べ。

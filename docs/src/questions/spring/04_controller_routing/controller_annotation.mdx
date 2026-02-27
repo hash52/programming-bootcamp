@@ -1,0 +1,33 @@
+---
+id: "spring/04_controller_routing#controller_annotation"
+title: "@Controllerアノテーションの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "04_controller_routing"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "クラスがSpringのサービスレイヤーであることを示し、ビジネスロジックを記述できるようにする"
+  - id: "B"
+    text: "クラスがデータアクセスオブジェクトであることを示し、データベース操作を担当する"
+  - id: "C"
+    text: "クラスがSpringの設定クラスであることを示し、Beanの定義を記述できるようにする"
+  - id: "D"
+    text: "クラスがSpringMVCのコントローラであることを示し、HTTPリクエストを処理するメソッドを定義できるようにする"
+answers:
+  correct: ["D"]
+explanation: |
+  `@Controller` アノテーションはSpringにそのクラスがMVCのコントローラであることを知らせる。
+
+  Springはアプリ起動時に `@Controller` が付いたクラスを自動検出し、`@GetMapping` などのアノテーションで定義されたURLマッピングを有効にする。
+
+  各アノテーションの役割：
+  - `@Controller`: Webリクエストを処理するコントローラ
+  - `@Service`: ビジネスロジックを担当するサービス
+  - `@Repository`: データアクセスを担当するリポジトリ
+  - `@Component`: 汎用的なSpringコンポーネント
+---
+
+SpringMVCにおける `@Controller` アノテーションの役割として、最も適切なものを選べ。

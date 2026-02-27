@@ -1,0 +1,32 @@
+---
+id: "spring/07_validation#write_email"
+title: "@Emailでメール形式をチェックできる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "07_validation"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@Email"]
+sampleAnswer: "@Email\nprivate String email;"
+explanation: |
+  `@Email` はメールアドレス形式（`xxx@xxx.xxx`）かどうかを検証するアノテーションである。
+
+  `@Email` だけでは空文字を許可してしまうため、必須チェックと組み合わせる場合は `@NotBlank` も付ける。
+
+  ```java
+  @NotBlank
+  @Email
+  private String email;
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+フォームオブジェクトの `email` フィールドにメールアドレス形式チェックを設定せよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{`
+private String email;`}
+</CodeBlock>

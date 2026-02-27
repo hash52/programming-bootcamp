@@ -1,0 +1,29 @@
+---
+id: "spring/09_db_mybatis#write_mapper_interface"
+title: "@Mapperでデータアクセスクラスを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "09_db_mybatis"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@Mapper"]
+sampleAnswer: "@Mapper\npublic interface ProductMapper {\n}"
+explanation: |
+  `@Mapper` アノテーションを付けることでMyBatisがそのインターフェースをマッパーとして認識し、SQLを実行できるようにする。
+
+  MyBatisはインターフェースの実装クラスを自動生成するため、自分で実装クラスを書く必要はない。
+
+  `@Mapper` が付いたインターフェースはSpringのDIコンテナにも登録されるため、`@Autowired` で注入できる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+商品データへのアクセスを担当するマッパーインターフェースを作成せよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{`
+public interface ProductMapper {
+}`}
+</CodeBlock>

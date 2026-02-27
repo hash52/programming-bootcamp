@@ -1,0 +1,32 @@
+---
+id: "spring/02_mvc_intro#model_role"
+title: "Modelの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_mvc_intro"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "HTMLテンプレートファイルを管理し、画面に表示するレイアウトを決定する"
+  - id: "B"
+    text: "アプリケーションのデータやビジネスロジックを担当し、データの処理や保持を行う"
+  - id: "C"
+    text: "ブラウザからのHTTPリクエストを受け取り、適切な処理に振り分ける"
+  - id: "D"
+    text: "データベースへの接続情報を管理し、SQLを直接実行する"
+answers:
+  correct: ["B"]
+explanation: |
+  MVCにおけるModelは、アプリケーションのデータとビジネスロジックを担当する層である。
+
+  Modelの例：
+  - 商品情報を保持するクラス（`Product`クラス）
+  - 割引計算などのビジネスルールを含むサービスクラス（`PriceService`クラス）
+  - データベースからデータを取得・保存するリポジトリクラス
+
+  Modelは画面の見た目（View）やリクエストの受け取り（Controller）とは独立して設計する。
+---
+
+MVCパターンにおけるModelの役割として、最も適切なものを選べ。

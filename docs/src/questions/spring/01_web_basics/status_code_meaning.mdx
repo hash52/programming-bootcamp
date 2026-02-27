@@ -1,0 +1,32 @@
+---
+id: "spring/01_web_basics#status_code_meaning"
+title: "HTTPステータスコードを読める"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "01_web_basics"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "200はリダイレクト、404はサーバーエラー、500はリクエスト成功を表す"
+  - id: "B"
+    text: "200はリクエスト成功、301はクライアントエラー、404はサーバーエラーを表す"
+  - id: "C"
+    text: "200はサーバーエラー、404はリクエスト成功、500はリダイレクトを表す"
+  - id: "D"
+    text: "200はリクエスト成功、404はリソースが見つからない、500はサーバー内部エラーを表す"
+answers:
+  correct: ["D"]
+explanation: |
+  HTTPステータスコードは3桁の数字で、先頭の数字によって意味が分類される。
+
+  - **2xx**: 成功（200 OK、201 Created）
+  - **3xx**: リダイレクト（301 Moved Permanently、302 Found）
+  - **4xx**: クライアントエラー（400 Bad Request、401 Unauthorized、404 Not Found）
+  - **5xx**: サーバーエラー（500 Internal Server Error、503 Service Unavailable）
+
+  よく見るコード：**200**（成功）・**404**（ページなし）・**500**（サーバーエラー）
+---
+
+主要なHTTPステータスコードの説明として、正しいものを選べ。

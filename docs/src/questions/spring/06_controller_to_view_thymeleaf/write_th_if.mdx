@@ -1,0 +1,32 @@
+---
+id: "spring/06_controller_to_view_thymeleaf#write_th_if"
+title: "th:ifで条件によって表示を変えられる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "06_controller_to_view_thymeleaf"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["th:if=\"${isLoggedIn}\""]
+sampleAnswer: "<p th:if=\"${isLoggedIn}\">ログイン中です</p>"
+explanation: |
+  `th:if="${条件}"` は条件が `true` の場合のみ要素を表示する。
+
+  条件が `false` の場合はその要素がHTMLから取り除かれる（コメントアウトではなく完全に削除）。
+
+  反対の条件には `th:unless="${条件}"` を使う（条件が `false` のときに表示）。
+
+  ```html
+  <p th:if="${isLoggedIn}">ログイン中です</p>
+  <p th:unless="${isLoggedIn}">ログインしていません</p>
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+モデルの `isLoggedIn` が `true` のときだけ「ログイン中です」を表示するHTMLを完成させよ。
+
+<CodeBlock language="html">
+{`<p `}<BlankInput id="blank1" />{`>ログイン中です</p>`}
+</CodeBlock>

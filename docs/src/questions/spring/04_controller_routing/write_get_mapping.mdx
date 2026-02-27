@@ -1,0 +1,30 @@
+---
+id: "spring/04_controller_routing#write_get_mapping"
+title: "@GetMappingでURLと処理を紐付けられる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_controller_routing"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@GetMapping(\"/items\")"]
+sampleAnswer: "@GetMapping(\"/items\")\npublic String itemList() {\n    return \"items/list\";\n}"
+explanation: |
+  `@GetMapping("/items")` は `/items` へのGETリクエストをこのメソッドに対応付ける。
+
+  メソッドの引数にはリクエストパラメータやモデルなどを受け取ることができる。
+
+  返り値の文字列はビュー名として扱われ、`templates/items/list.html` が描画される。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`/items` へのGETリクエストを処理するメソッドを完成させよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{`
+public String itemList() {
+    return "items/list";
+}`}
+</CodeBlock>

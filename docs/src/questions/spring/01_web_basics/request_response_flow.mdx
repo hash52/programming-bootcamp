@@ -1,0 +1,32 @@
+---
+id: "spring/01_web_basics#request_response_flow"
+title: "リクエストとレスポンスの流れを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "01_web_basics"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "ブラウザがHTTPリクエストを送信 → サーバーが処理 → HTTPレスポンスをブラウザに返す → ブラウザが画面を表示する"
+  - id: "B"
+    text: "サーバーがHTTPリクエストを送信 → ブラウザが処理 → HTTPレスポンスをサーバーに返す → サーバーが画面を表示する"
+  - id: "C"
+    text: "ブラウザがHTTPレスポンスを送信 → サーバーが処理 → HTTPリクエストをブラウザに返す → ブラウザが画面を表示する"
+  - id: "D"
+    text: "データベースがHTTPリクエストを送信 → ブラウザが処理 → HTTPレスポンスをデータベースに返す → データベースが画面を表示する"
+answers:
+  correct: ["A"]
+explanation: |
+  Webの基本的な通信はクライアント（ブラウザ）とサーバーの間で行われる。
+
+  1. ブラウザがURLにアクセス（HTTPリクエストを送信）
+  2. サーバーがリクエストを受け取り処理
+  3. サーバーがHTTPレスポンス（HTMLなど）を返す
+  4. ブラウザがレスポンスを解析して画面を表示
+
+  この「リクエスト → レスポンス」の繰り返しがWebの基本である。
+---
+
+WebブラウザでURLにアクセスしたときの、リクエストとレスポンスの基本的な流れとして、正しいものを選べ。

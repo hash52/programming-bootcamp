@@ -1,0 +1,36 @@
+---
+id: "spring/02_mvc_intro#mvc_code_organization"
+title: "MVCを意識してコードを整理できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "02_mvc_intro"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@Controller"]
+  blank2: ["@GetMapping"]
+  blank3: ["Model"]
+sampleAnswer: "@Controller\npublic class ProductController {\n    @GetMapping(\"/products\")\n    public String list(Model model) {\n        return \"products/list\";\n    }\n}"
+explanation: |
+  SpringMVCのコントローラの基本構造：
+
+  - `@Controller`: クラスをSpringMVCのコントローラとして登録する
+  - `@GetMapping("/products")`: `/products` へのGETリクエストをこのメソッドに対応付ける
+  - `Model model`: コントローラからViewにデータを渡すオブジェクト
+  - `return "products/list"`: `templates/products/list.html` を描画するビュー名を返す
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+SpringMVCのコントローラクラスの基本構造を完成させよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{`
+public class ProductController {
+    `}<BlankInput id="blank2" />{`("/products")
+    public String list(`}<BlankInput id="blank3" />{` model) {
+        return "products/list";
+    }
+}`}
+</CodeBlock>

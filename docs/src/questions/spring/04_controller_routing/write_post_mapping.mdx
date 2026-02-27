@@ -1,0 +1,32 @@
+---
+id: "spring/04_controller_routing#write_post_mapping"
+title: "@PostMappingでフォーム送信を受け取れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_controller_routing"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@PostMapping(\"/items\")"]
+sampleAnswer: "@PostMapping(\"/items\")\npublic String createItem() {\n    return \"redirect:/items\";\n}"
+explanation: |
+  `@PostMapping` はPOSTリクエストを処理するメソッドに付けるアノテーションである。
+
+  フォームのaction属性と一致するURLに `@PostMapping` を設定する。
+
+  処理後は通常 `"redirect:/xxx"` で別ページにリダイレクトする（PRGパターン：Post/Redirect/Get）。
+  これによりブラウザの再読み込みで二重送信を防ぐことができる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+フォームからのPOSTリクエストを受け取り、処理後にリダイレクトするメソッドを完成させよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{`
+public String createItem() {
+    // 登録処理
+    return "redirect:/items";
+}`}
+</CodeBlock>

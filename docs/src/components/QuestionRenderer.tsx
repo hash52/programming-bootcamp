@@ -18,6 +18,7 @@ import { MultipleChoiceInput } from "./question/inputs/MultipleChoiceInput";
 import { GradingFeedback } from "./question/GradingFeedback";
 import { AchievementCheckbox } from "./question/AchievementCheckbox";
 import { ChapterLink } from "./question/ChapterLink";
+import { QuestionErrorFallback } from "./question/QuestionErrorBoundary";
 import { gradeMultipleChoice, gradeFillInBlank } from "@site/src/lib/grading";
 import { useStoredProgress } from "@site/src/hooks/useStoredProgress";
 import {
@@ -374,13 +375,7 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = (props) => {
   const metadata: QuestionMetadata | undefined = Module?.frontMatter;
 
   if (!Module || !metadata) {
-    return (
-      <p style={{ color: "red" }}>
-        ❌ 問題ファイルが見つかりません: {id}
-        <br />
-        <small>期待されるパス: {filePath}</small>
-      </p>
-    );
+    return <QuestionErrorFallback questionId={id} />;
   }
 
   return (

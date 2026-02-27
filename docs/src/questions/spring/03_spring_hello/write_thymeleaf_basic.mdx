@@ -1,0 +1,38 @@
+---
+id: "spring/03_spring_hello#write_thymeleaf_basic"
+title: "Thymeleafでデータを表示できる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_spring_hello"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["model.addAttribute"]
+  blank2: ["th:text=\"${name}\""]
+sampleAnswer: "model.addAttribute(\"name\", \"Spring\");\n<p th:text=\"${name}\"></p>"
+explanation: |
+  コントローラからViewへのデータ受け渡しの手順：
+
+  1. コントローラで `model.addAttribute("キー", 値)` を呼び出してデータを登録する
+  2. ThymeleafのHTMLで `th:text="${キー}"` を使ってデータを表示する
+
+  `th:text` 属性は要素のテキストコンテンツをモデルの値で置き換える。
+  HTMLエスケープが自動的に行われるため、XSS対策にもなる。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+コントローラで `"name"` というキーで `"Spring"` をViewに渡し、HTMLで表示するコードを完成させよ。
+
+**コントローラ（Java）**
+
+<CodeBlock>
+<BlankInput id="blank1" />{`("name", "Spring");`}
+</CodeBlock>
+
+**テンプレート（HTML）**
+
+<CodeBlock language="html">
+{`<p `}<BlankInput id="blank2" />{`>ここに名前が表示される</p>`}
+</CodeBlock>

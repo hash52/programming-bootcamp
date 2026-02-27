@@ -1,0 +1,29 @@
+---
+id: "spring/04_controller_routing#write_controller_class"
+title: "@Controllerでコントローラクラスを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "04_controller_routing"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@Controller"]
+sampleAnswer: "@Controller\npublic class ShopController {\n}"
+explanation: |
+  `@Controller` アノテーションをクラスに付けることで、SpringMVCのコントローラとして機能する。
+
+  Springはコンポーネントスキャンによりこのアノテーションを持つクラスを自動検出し、Beanとして登録する。
+
+  クラス名は慣例として `〇〇Controller` という名前にすることが多い。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+ショップ機能を担当するコントローラクラスを作成せよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{`
+public class ShopController {
+}`}
+</CodeBlock>

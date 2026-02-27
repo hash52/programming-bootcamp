@@ -1,0 +1,37 @@
+---
+id: "spring/03_spring_hello#write_controller_basic"
+title: "@Controllerでビューを返すコントローラを作れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "03_spring_hello"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@Controller"]
+  blank2: ["@GetMapping(\"/home\")"]
+  blank3: ["\"home\""]
+sampleAnswer: "@Controller\npublic class HomeController {\n    @GetMapping(\"/home\")\n    public String home() {\n        return \"home\";\n    }\n}"
+explanation: |
+  基本的なSpringMVCコントローラの構成：
+
+  1. `@Controller`: クラスをSpringMVCのコントローラとして登録する
+  2. `@GetMapping("/home")`: `/home` へのGETリクエストをこのメソッドに対応付ける
+  3. `return "home"`: `templates/home.html` を描画することを示すビュー名
+
+  `@Controller` が付いたクラスはSpringが起動時に自動検出し、Beanとして管理する。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`/home` にアクセスしたとき `templates/home.html` を表示するコントローラを完成させよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{`
+public class HomeController {
+    `}<BlankInput id="blank2" />{`
+    public String home() {
+        return `}<BlankInput id="blank3" />{`;
+    }
+}`}
+</CodeBlock>

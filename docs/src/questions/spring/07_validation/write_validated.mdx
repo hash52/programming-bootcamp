@@ -1,0 +1,34 @@
+---
+id: "spring/07_validation#write_validated"
+title: "@Validatedでバリデーションを実行できる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "07_validation"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@Validated"]
+sampleAnswer: "@PostMapping(\"/register\")\npublic String register(@Validated UserForm form, BindingResult result) {\n    if (result.hasErrors()) {\n        return \"register/form\";\n    }\n    return \"redirect:/register/complete\";\n}"
+explanation: |
+  `@Validated`（または `@Valid`）をコントローラのメソッドの引数に付けると、その引数に対するバリデーションが実行される。
+
+  - `@Validated`: Spring独自のアノテーション（グループ検証も可能）
+  - `@Valid`: Jakarta標準のアノテーション（シンプルな場合はどちらでも可）
+
+  バリデーション結果は `BindingResult` で受け取る（`@Validated` の引数の直後に記述する）。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+コントローラのフォーム受け取りメソッドでバリデーションを実行するコードを完成させよ。
+
+<CodeBlock>
+{`@PostMapping("/register")
+public String register(`}<BlankInput id="blank1" />{` UserForm form, BindingResult result) {
+    if (result.hasErrors()) {
+        return "register/form";
+    }
+    return "redirect:/register/complete";
+}`}
+</CodeBlock>

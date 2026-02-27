@@ -1,0 +1,32 @@
+---
+id: "spring/08_spring_di#what_is_di"
+title: "DIとは何かを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "08_spring_di"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "データベースのテーブルとJavaオブジェクトを自動的に対応付ける技術のこと"
+  - id: "B"
+    text: "HTMLのフォームからJavaのフィールドに値を自動で設定する技術のこと"
+  - id: "C"
+    text: "クラスが必要とする依存オブジェクトを自分でnewせずに外部（DIコンテナ）から注入してもらう設計パターンのこと"
+  - id: "D"
+    text: "Javaのインターフェースを自動実装して、具象クラスを自動生成する技術のこと"
+answers:
+  correct: ["C"]
+explanation: |
+  DI（Dependency Injection：依存性注入）とは、クラスが必要とする他のオブジェクト（依存オブジェクト）を、自分で `new` して生成するのではなく、外部のDIコンテナが生成して注入する設計パターンである。
+
+  DIのメリット：
+  - **疎結合**: クラス間の依存関係が緩くなり、変更の影響が局所化される
+  - **テストしやすい**: モック（テスト用オブジェクト）に差し替えやすい
+  - **再利用性**: 同一のBeanを複数箇所で再利用できる
+
+  SpringはDIコンテナとして機能し、`@Autowired` などを使って依存関係を自動解決する。
+---
+
+DI（依存性注入）の説明として、最も適切なものを選べ。

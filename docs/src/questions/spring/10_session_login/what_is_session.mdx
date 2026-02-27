@@ -1,0 +1,34 @@
+---
+id: "spring/10_session_login#what_is_session"
+title: "セッションとは何かを説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "10_session_login"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "Webサーバーのログファイルに記録されるHTTPリクエストの履歴のこと"
+  - id: "B"
+    text: "ブラウザのキャッシュに保存されるHTMLやCSSのファイルのこと"
+  - id: "C"
+    text: "データベースに保存されるユーザーの個人情報のこと"
+  - id: "D"
+    text: "HTTPのステートレス性を補うために、サーバー側でユーザーごとの状態を保持する仕組みのこと"
+answers:
+  correct: ["D"]
+explanation: |
+  HTTPはステートレスなプロトコルであり、リクエストとリクエストの間に状態を保持しない。
+
+  セッションはこの問題を解決するため、サーバー側でユーザーごとの状態を保持する仕組みである。
+
+  仕組み：
+  1. ユーザーが初めてアクセスすると、サーバーがセッションIDを発行する
+  2. セッションIDはCookieとしてブラウザに保存される
+  3. 以降のリクエストでCookieにセッションIDが付加され、サーバーがユーザーを識別する
+
+  典型的な用途：ログイン状態の保持、ショッピングカート
+---
+
+Webアプリケーションにおける「セッション」の説明として、最も適切なものを選べ。

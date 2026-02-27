@@ -1,0 +1,33 @@
+---
+id: "spring/02_mvc_intro#controller_role"
+title: "Controllerの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_mvc_intro"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "データベースへの接続情報を管理し、SQLを実行してデータを取得する"
+  - id: "B"
+    text: "HTMLテンプレートにデータを埋め込み、ユーザーが見る画面を生成する"
+  - id: "C"
+    text: "ブラウザからのHTTPリクエストを受け取り、適切なModelに処理を依頼してViewを返す"
+  - id: "D"
+    text: "アプリケーション全体のエラーを検知して、ログファイルに記録する"
+answers:
+  correct: ["C"]
+explanation: |
+  MVCにおけるControllerは、ブラウザからのHTTPリクエストを受け取り処理を指揮する役割を担当する。
+
+  Controllerの流れ：
+  1. HTTPリクエストを受け取る（URLとHTTPメソッドに基づく）
+  2. 必要なModelに処理を依頼する（ビジネスロジックの実行）
+  3. 処理結果をViewに渡すどのViewを使うかを決める
+  4. ViewにデータとともにレスポンスのHTMLを生成させる
+
+  SpringではJavaクラスに `@Controller` アノテーションを付けることでコントローラとして機能させる。
+---
+
+MVCパターンにおけるControllerの役割として、最も適切なものを選べ。

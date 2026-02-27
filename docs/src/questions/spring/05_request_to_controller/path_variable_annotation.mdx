@@ -1,0 +1,40 @@
+---
+id: "spring/05_request_to_controller#path_variable_annotation"
+title: "@PathVariableの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "05_request_to_controller"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "URLパス内の変数部分（`{id}`など）をメソッドの引数として受け取るためのアノテーション"
+  - id: "B"
+    text: "クエリ文字列（`?id=1`）のパラメータをメソッドの引数として受け取るためのアノテーション"
+  - id: "C"
+    text: "HTTPリクエストヘッダーの値をメソッドの引数として受け取るためのアノテーション"
+  - id: "D"
+    text: "Cookieの値をメソッドの引数として受け取るためのアノテーション"
+answers:
+  correct: ["A"]
+explanation: |
+  `@PathVariable` はURLパスの一部として埋め込まれた変数を受け取るアノテーションである。
+
+  使用例：
+  ```java
+  // /products/5 にアクセスした場合
+  @GetMapping("/products/{id}")
+  public String detail(@PathVariable Long id) {
+      // id = 5
+  }
+  ```
+
+  RESTful APIのように `/users/1` の形式でリソースを識別する際によく使われる。
+
+  `@RequestParam`（クエリ文字列）との違い：
+  - `@PathVariable`: URLパス内に埋め込む → `/products/5`
+  - `@RequestParam`: クエリ文字列として付加 → `/products?id=5`
+---
+
+SpringMVCの `@PathVariable` アノテーションの役割として、最も適切なものを選べ。

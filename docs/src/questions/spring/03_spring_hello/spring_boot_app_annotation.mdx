@@ -1,0 +1,31 @@
+---
+id: "spring/03_spring_hello#spring_boot_app_annotation"
+title: "@SpringBootApplicationの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03_spring_hello"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "Springアプリケーションのエントリーポイントとなるメインクラスに付けるアノテーションで、自動設定・コンポーネントスキャン・設定クラスの機能を一括で有効にする"
+  - id: "B"
+    text: "Springアプリケーションのコントローラクラスに付けるアノテーションで、HTTPリクエストを受け取れるようにする"
+  - id: "C"
+    text: "Springアプリケーションのサービスクラスに付けるアノテーションで、ビジネスロジックを定義できるようにする"
+  - id: "D"
+    text: "Springアプリケーションのデータアクセスクラスに付けるアノテーションで、データベース接続を有効にする"
+answers:
+  correct: ["A"]
+explanation: |
+  `@SpringBootApplication` は以下の3つのアノテーションをまとめたものである。
+
+  - `@SpringBootConfiguration`: Springの設定クラスであることを示す
+  - `@EnableAutoConfiguration`: クラスパスに基づいてSpringを自動設定する
+  - `@ComponentScan`: 同パッケージ以下のコンポーネントを自動検出する
+
+  このアノテーションを付けたクラスに `main` メソッドを記述し、`SpringApplication.run()` を呼び出すことでSpringアプリが起動する。
+---
+
+Spring Bootアプリのエントリーポイントとなるクラスに付ける `@SpringBootApplication` の役割として、正しいものを選べ。

@@ -1,0 +1,41 @@
+---
+id: "spring/07_validation#cross_field_validation"
+title: "@AssertTrueで相関チェックができる"
+type: "WRITE"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "07_validation"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "`@AssertTrue` はフィールドの値が `true` であることを確認するアノテーションで、カスタムメソッドに付けると複数フィールドを組み合わせたチェックができる"
+  - id: "B"
+    text: "`@AssertTrue` はフォームオブジェクト全体を別サービスクラスに渡してチェックするアノテーションである"
+  - id: "C"
+    text: "`@AssertTrue` はデータベースの値と照合して一致するかチェックするアノテーションである"
+  - id: "D"
+    text: "`@AssertTrue` はHTMLフォームのボタンがクリックされたことを確認するアノテーションである"
+answers:
+  correct: ["D"]
+explanation: |
+  `@AssertTrue` はboolean型のフィールドやメソッドが `true` であることを検証するアノテーションである。
+
+  フォームオブジェクト内にメソッドとして定義することで、複数フィールドを組み合わせた相関チェックができる。
+
+  ```java
+  public class PasswordForm {
+      private String password;
+      private String confirmPassword;
+
+      @AssertTrue(message = "パスワードが一致しません")
+      public boolean isPasswordMatch() {
+          return password != null && password.equals(confirmPassword);
+      }
+  }
+  ```
+
+  相関チェックは `@AssertTrue` の他にも、カスタムバリデーターを作成する方法もある。
+---
+
+`@AssertTrue` アノテーションを使った相関チェックの説明として、正しいものを選べ。

@@ -1,0 +1,32 @@
+---
+id: "spring/02_mvc_intro#mvc_separation_benefit"
+title: "MVCで役割を分けるメリットを説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "02_mvc_intro"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "1つのファイルにすべてのコードをまとめることができ、管理が楽になる"
+  - id: "B"
+    text: "役割ごとにコードが分離されることで、修正・テスト・再利用がしやすくなる"
+  - id: "C"
+    text: "データベースへのアクセス速度が向上し、レスポンスが速くなる"
+  - id: "D"
+    text: "JavaScriptとJavaのコードを同一ファイルに記述できるようになる"
+answers:
+  correct: ["B"]
+explanation: |
+  MVCで役割を分けることにより、変更の影響範囲を最小限に抑えることができる。
+
+  具体的なメリット：
+  - **Viewのデザインを変更してもModelのロジックに影響しない**
+  - **ModelのビジネスロジックをViewと独立してテストできる**
+  - **同じModelを複数のViewで再利用できる**（例：同じデータをHTML表示とCSVダウンロードで使い回す）
+
+  コードの見通しが良くなり、チーム開発での分業もしやすくなる。
+---
+
+MVCアーキテクチャで役割を分けることによるメリットとして、最も適切なものを選べ。

@@ -1,0 +1,33 @@
+---
+id: "spring/03_spring_hello#pom_xml_role"
+title: "pom.xmlの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "03_spring_hello"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "Javaのソースコードをコンパイルする手順をJava言語で記述したファイル"
+  - id: "B"
+    text: "Mavenプロジェクトの設定ファイルで、プロジェクト情報・使用するライブラリ（依存関係）・ビルド設定などを記述するXMLファイル"
+  - id: "C"
+    text: "SpringアプリケーションのデータベーステーブルをSQLで定義したファイル"
+  - id: "D"
+    text: "ThymeleafのHTMLテンプレートに適用するCSSスタイルを定義したファイル"
+answers:
+  correct: ["B"]
+explanation: |
+  `pom.xml` はMaven（Javaのビルドツール）のプロジェクト設定ファイルである。
+
+  主な記述内容：
+  - **プロジェクト情報**: groupId、artifactId、version
+  - **依存関係** (`<dependencies>`): 使用するライブラリ（Spring Web、Thymeleaf、MyBatisなど）
+  - **Javaバージョン**: `<java.version>17</java.version>` など
+  - **ビルド設定**: プラグイン設定など
+
+  `<dependencies>` タグ内にライブラリを追加するだけで、Mavenが自動的にダウンロードして使えるようになる。
+---
+
+Spring BootプロジェクトにおけるpOM.xmlの役割として、最も適切なものを選べ。

@@ -1,0 +1,39 @@
+---
+id: "spring/06_controller_to_view_thymeleaf#model_object_role"
+title: "Modelオブジェクトの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "06_controller_to_view_thymeleaf"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "データベースのテーブルと対応するJavaクラスを自動生成するオブジェクト"
+  - id: "B"
+    text: "HTTPリクエストのヘッダーや本文を解析するためのオブジェクト"
+  - id: "C"
+    text: "SpringのDIコンテナからBeanを取得するためのオブジェクト"
+  - id: "D"
+    text: "コントローラからビュー（テンプレート）にデータを渡すためのオブジェクト"
+answers:
+  correct: ["D"]
+explanation: |
+  `Model` オブジェクトはコントローラからThymeleafなどのビューにデータを渡すための入れ物である。
+
+  使い方：
+  ```java
+  @GetMapping("/greeting")
+  public String greeting(Model model) {
+      model.addAttribute("name", "山田太郎");
+      model.addAttribute("age", 25);
+      return "greeting";
+  }
+  ```
+
+  ThymeleafのHTMLで `${name}` のように参照できる。
+
+  `ModelAndView` を使う方法もあるが、`Model` を引数として受け取る方法が一般的である。
+---
+
+SpringMVCにおける `Model` オブジェクトの役割として、最も適切なものを選べ。

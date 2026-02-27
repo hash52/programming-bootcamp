@@ -1,0 +1,30 @@
+---
+id: "spring/07_validation#write_not_null"
+title: "@NotBlankで必須チェックができる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "07_validation"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@NotBlank"]
+sampleAnswer: "@NotBlank\nprivate String name;"
+explanation: |
+  `@NotBlank` は文字列フィールドに対して、`null`・空文字（`""`）・空白のみ（`"   "`）を禁止するアノテーションである。
+
+  - `@NotNull`: nullのみ禁止（空文字は許可）
+  - `@NotEmpty`: nullと空文字を禁止（空白のみは許可）
+  - `@NotBlank`: null・空文字・空白のみをすべて禁止（最も厳格）
+
+  フォームの必須入力チェックには `@NotBlank` を使うのが一般的である。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+フォームオブジェクトの `name` フィールドに必須チェックを設定せよ。
+
+<CodeBlock>
+<BlankInput id="blank1" />{`
+private String name;`}
+</CodeBlock>

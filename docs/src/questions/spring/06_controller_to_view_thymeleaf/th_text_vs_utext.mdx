@@ -1,0 +1,34 @@
+---
+id: "spring/06_controller_to_view_thymeleaf#th_text_vs_utext"
+title: "th:textとth:utextの違いを説明できる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "06_controller_to_view_thymeleaf"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "`th:text`はHTMLエスケープして安全に表示し、`th:utext`はエスケープせずHTMLとして解釈して表示する"
+  - id: "B"
+    text: "`th:text`は文字列のみ表示でき、`th:utext`は数値・日付なども表示できる"
+  - id: "C"
+    text: "`th:text`はThymeleaf 2系の古い記法で、`th:utext`が現在の推奨記法である"
+  - id: "D"
+    text: "`th:text`はタグの属性値に使い、`th:utext`はタグのテキストコンテンツに使う"
+answers:
+  correct: ["A"]
+explanation: |
+  `th:text` と `th:utext` の違いはHTMLエスケープの有無である。
+
+  - **`th:text`**: 値をHTMLエスケープして表示（安全）
+    - `<script>` → `&lt;script&gt;` として表示される
+    - XSS攻撃を防ぐことができる
+  - **`th:utext`**: エスケープせずHTMLとして解釈（要注意）
+    - `<b>太字</b>` → 実際に **太字** として表示される
+    - ユーザー入力をそのまま使うとXSS危険
+
+  基本的には `th:text` を使い、HTMLを含む信頼できるデータにのみ `th:utext` を使う。
+---
+
+Thymeleafの `th:text` と `th:utext` の違いとして、正しいものを選べ。

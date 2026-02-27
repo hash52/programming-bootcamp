@@ -1,0 +1,34 @@
+---
+id: "spring/02_mvc_intro#request_to_response_flow"
+title: "ユーザー操作から画面表示までの流れを説明できる"
+type: "READ"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "02_mvc_intro"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "ブラウザ → View → Model → Controller → ブラウザの順に処理される"
+  - id: "B"
+    text: "ブラウザ → Model → Controller → View → ブラウザの順に処理される"
+  - id: "C"
+    text: "ブラウザ → View → Controller → Model → ブラウザの順に処理される"
+  - id: "D"
+    text: "ブラウザ → Controller → Model → Controller → View → ブラウザの順に処理される"
+answers:
+  correct: ["D"]
+explanation: |
+  SpringMVCの処理フローは以下の順で行われる。
+
+  1. ブラウザからHTTPリクエスト送信
+  2. **Controller** がリクエストを受信し、処理を指示
+  3. **Model**（Serviceなど）がビジネスロジックを実行
+  4. Controller がModelの結果を受け取り、Viewに渡す
+  5. **View**（Thymeleaf）がHTMLを生成
+  6. ブラウザが受け取り、画面を表示
+
+  ControllerがModelとViewの両方と通信する「橋渡し役」である点が重要である。
+---
+
+SpringMVCにおけるリクエストの処理フローとして、正しいものを選べ。

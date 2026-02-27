@@ -1,0 +1,38 @@
+---
+id: "spring/09_db_mybatis#write_result_map"
+title: "resultMapでテーブルとJavaオブジェクトを紐付けられる"
+type: "WRITE"
+difficulty: "Medium"
+format: "fillInBlank"
+topicId: "09_db_mybatis"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["resultMap=\"productResultMap\""]
+  blank2: ["column=\"product_name\" property=\"productName\""]
+sampleAnswer: "<resultMap id=\"productResultMap\" type=\"Product\"><id column=\"product_id\" property=\"productId\"/><result column=\"product_name\" property=\"productName\"/></resultMap>"
+explanation: |
+  `resultMap` はテーブルの列名とJavaオブジェクトのフィールド名が異なる場合に使う。
+
+  - `<id>`: 主キーのマッピング
+  - `<result>`: 通常の列のマッピング
+  - `column`: データベースの列名（スネークケース）
+  - `property`: Javaオブジェクトのフィールド名（キャメルケース）
+
+  列名とフィールド名が一致している場合は自動マッピングされるが、明示的に `resultMap` で定義する方が安全である。
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`product_name` 列を `productName` フィールドにマッピングするXMLマッパーを完成させよ。
+
+<CodeBlock language="xml">
+{`<resultMap id="productResultMap" type="Product">
+  <id column="product_id" property="productId"/>
+  <result `}<BlankInput id="blank2" />{`/>
+</resultMap>
+
+<select id="findAll" `}<BlankInput id="blank1" />{`>
+  SELECT product_id, product_name FROM products
+</select>`}
+</CodeBlock>

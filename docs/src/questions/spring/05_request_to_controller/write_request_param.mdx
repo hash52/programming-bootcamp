@@ -1,0 +1,36 @@
+---
+id: "spring/05_request_to_controller#write_request_param"
+title: "@RequestParamでクエリパラメータを受け取れる"
+type: "WRITE"
+difficulty: "Easy"
+format: "fillInBlank"
+topicId: "05_request_to_controller"
+category: "spring"
+fillInBlankAnswers:
+  blank1: ["@RequestParam"]
+sampleAnswer: "@GetMapping(\"/search\")\npublic String search(@RequestParam String keyword, Model model) {\n    model.addAttribute(\"keyword\", keyword);\n    return \"search/result\";\n}"
+explanation: |
+  `@RequestParam` をメソッドの引数の前に付けることで、URLのクエリパラメータを受け取ることができる。
+
+  `/search?keyword=spring` というURLにアクセスすると、`keyword` 引数に `"spring"` が渡される。
+
+  複数のパラメータも受け取れる：
+  ```java
+  public String search(
+      @RequestParam String keyword,
+      @RequestParam int page) { ... }
+  ```
+---
+
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+`/search?keyword=xxx` のクエリパラメータを受け取るメソッドを完成させよ。
+
+<CodeBlock>
+{`@GetMapping("/search")
+public String search(`}<BlankInput id="blank1" />{` String keyword, Model model) {
+    model.addAttribute("keyword", keyword);
+    return "search/result";
+}`}
+</CodeBlock>

@@ -1,0 +1,33 @@
+---
+id: "spring/08_spring_di#component_annotations"
+title: "各コンポーネントアノテーションの違いがわかる"
+type: "KNOW"
+difficulty: "Medium"
+format: "multipleChoice"
+topicId: "08_spring_di"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "`@Component`、`@Controller`、`@Service`、`@Repository` はすべて異なる基底クラスを持ち、使用できるメソッドが異なる"
+  - id: "B"
+    text: "`@Controller` はビジネスロジック用、`@Service` はWebリクエスト処理用、`@Repository` はキャッシュ管理用である"
+  - id: "C"
+    text: "`@Component` はDIの対象外であり、残りの3つ（`@Controller`、`@Service`、`@Repository`）だけがDIコンテナに登録される"
+  - id: "D"
+    text: "`@Controller`、`@Service`、`@Repository` はすべて `@Component` を継承しており、役割を明示するための意味的な区別がある"
+answers:
+  correct: ["D"]
+explanation: |
+  `@Controller`、`@Service`、`@Repository` はいずれも `@Component` のメタアノテーションを持つ派生アノテーションである。
+
+  機能的にはどれもDIコンテナへのBean登録という点では同じだが、以下の違いがある：
+
+  - 役割が明確になり、コードの可読性が上がる
+  - `@Repository` はデータアクセス例外の自動変換が有効になる
+  - Spring AOPなどでアノテーションを使ったポイントカット指定ができる
+
+  一般的には役割に応じた正しいアノテーションを選ぶことが推奨される。
+---
+
+`@Component`、`@Controller`、`@Service`、`@Repository` の関係として、正しいものを選べ。

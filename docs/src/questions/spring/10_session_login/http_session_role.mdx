@@ -1,0 +1,33 @@
+---
+id: "spring/10_session_login#http_session_role"
+title: "HttpSessionオブジェクトの役割を説明できる"
+type: "KNOW"
+difficulty: "Easy"
+format: "multipleChoice"
+topicId: "10_session_login"
+category: "spring"
+multipleSelect: false
+choices:
+  - id: "A"
+    text: "Javaのコードからセッションにデータを保存・取得・削除するためのインターフェース"
+  - id: "B"
+    text: "HTTPリクエストのヘッダー情報を解析するためのオブジェクト"
+  - id: "C"
+    text: "データベースに保存されたセッションデータを管理するリポジトリ"
+  - id: "D"
+    text: "ブラウザのCookieを直接読み書きするためのオブジェクト"
+answers:
+  correct: ["A"]
+explanation: |
+  `HttpSession` はJavaServlet APIで提供されるセッション管理用のインターフェースである。
+
+  主なメソッド：
+  - `session.setAttribute("key", value)`: セッションにデータを保存
+  - `session.getAttribute("key")`: セッションからデータを取得
+  - `session.removeAttribute("key")`: セッションからデータを削除
+  - `session.invalidate()`: セッションを無効化（ログアウト時に使う）
+
+  Springのコントローラメソッドの引数に `HttpSession session` と記述するだけで使える。
+---
+
+SpringMVCにおける `HttpSession` オブジェクトの役割として、最も適切なものを選べ。
