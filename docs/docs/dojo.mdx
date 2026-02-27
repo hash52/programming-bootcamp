@@ -5,7 +5,10 @@ hide_table_of_contents: true
 ---
 
 import { DojoContent } from '@site/src/components/dojo/DojoContent';
+import MuiDarkThemeProvider from '@site/src/components/theme/MuiDarkThemeProvider';
 
 # 演習問題道場
 
-<DojoContent />
+<MuiDarkThemeProvider>
+  <DojoContent />
+</MuiDarkThemeProvider>
