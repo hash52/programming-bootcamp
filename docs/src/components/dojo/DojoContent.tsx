@@ -74,6 +74,18 @@ export const DojoContent: React.FC = () => {
   const questionHistoryRef = useRef<Question[][]>([]);
   const retryCountRef = useRef(0);
 
+  // HACK: DocCategoryGeneratedIndexPage は DocProvider 外で DocBreadcrumbs をレンダリングするため、
+  // useDoc() ベースのswizzleを廃止し useLocation() に変更した。
+  // しかし useLocation() では frontMatter を参照できないため "/dojo" のパンくずを非表示にできない。
+  // そのためコンポーネント側で .breadcrumbs を CSS で非表示にすることで対処する。
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.dataset.hackId = 'dojo-hide-breadcrumbs';
+    style.textContent = '.breadcrumbs { display: none !important; }';
+    document.head.appendChild(style);
+    return () => { document.head.removeChild(style); };
+  }, []);
+
   /** 演習開始 */
   const handleStart = useCallback(() => {
     const questions = resolveDojoQuestions({

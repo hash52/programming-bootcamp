@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useState } from "react";
+import { FC, PropsWithChildren, useEffect, useState } from "react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useHistory } from "@docusaurus/router";
 import {
@@ -123,6 +123,24 @@ export const Dashboard: FC = () => {
   const { siteConfig } = useDocusaurusContext();
   const history = useHistory();
   const storedProgress = useStoredProgress();
+
+  // HACK: DocCategoryGeneratedIndexPage は DocProvider 外で DocBreadcrumbs をレンダリングするため、
+  // useDoc() ベースのswizzleを廃止し useLocation() に変更した。
+  // しかし useLocation() では frontMatter を参照できないため "/" のパンくずを非表示にできない。
+  // そのためコンポーネント側で .breadcrumbs を CSS で非表示にすることで対処する。
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.dataset.hackId = 'dashboard-hide-breadcrumbs';
+    // HACK: パンくずリスト非表示後に残る上部余白を除去する。
+    // Docusaurus の article 要素は breadcrumbs 用の上部余白を持つため、
+    // breadcrumbs 非表示と同時に article の padding-top / margin-top もリセットする。
+    style.textContent = [
+      '.breadcrumbs { display: none !important; }',
+      'article { padding-top: 0 !important; margin-top: 0 !important; }',
+    ].join('\n');
+    document.head.appendChild(style);
+    return () => { document.head.removeChild(style); };
+  }, []);
 
   /** 学習ガイドダイアログの開閉状態 */
   const [learningGuideOpen, setLearningGuideOpen] = useState(false);
@@ -408,6 +426,7 @@ export const Dashboard: FC = () => {
 
 const PageContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),
+  paddingTop: theme.spacing(1),
 }));
 
 /** 学習ガイドバナー */
