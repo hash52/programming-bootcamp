@@ -1,4 +1,5 @@
 import { TeachingCodeBlock } from "@site/src/components/TeachingCodeBlock";
+import { QuestionList } from "@site/src/components/question/QuestionList";
 
 # SpringのDI（依存性注入）
 
@@ -322,3 +323,7 @@ DBアクセスを担うクラスには `@Repository` を使うと、例外ハン
 - こうして「使う側を一切変えずに差し替え可能」にできるのがDIの大きなメリット
 - この仕組みのおかげで、後のMyBatisなどでも「コードに `new` がないのにインスタンスが用意されている」ように見える
 - 次章では、DIの仕組みを活かして **MyBatisでDBにアクセスする方法** を学ぶ
+
+---
+
+<QuestionList topicId="08_spring_di" category="spring" />
