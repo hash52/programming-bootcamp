@@ -177,9 +177,6 @@ export const Dashboard: FC = () => {
             </Typography>
           </Box>
         </Box>
-        <Button variant="outlined" size="small" sx={{ flexShrink: 0 }}>
-          開く
-        </Button>
       </GuideBanner>
 
       {/* 折れ線グラフ */}

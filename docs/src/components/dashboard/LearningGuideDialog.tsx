@@ -95,6 +95,10 @@ const RoadmapTab: FC = () => (
     <Typography variant="h6" fontWeight="bold" gutterBottom>
       学習の全体像
     </Typography>
+    <Typography variant="body1" paragraph>
+    このブートキャンプのゴールは、 <strong>チームで Web アプリケーションを開発できるようになること</strong>  である。
+    以下の図は、そのゴールに向けた学習の流れを示している。
+    </Typography>
     <Mermaid value={ROADMAP_CHART} />
     <Typography variant="body2" color="text.secondary" sx={{ mt: 1, mb: 2 }}>
       ※ 矢印は「この知識が次のステップの土台になる」という関係を示している。
@@ -276,7 +280,6 @@ const UsageGuideTab: FC = () => (
         道場には「最終チェックからの経過日数」でフィルターをかける機能がある。
         「7日以上前にチェックした問題だけ」を選んで出題し、忘れ始めた知識を効率よく復習できる。
         <strong>復習は義務ではなく、最速で力をつけるための戦略だ。</strong>
-        定期的に道場に戻ることを強くすすめる。
       </Typography>
     </Alert>
 
