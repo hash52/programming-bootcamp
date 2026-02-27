@@ -6,6 +6,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Button,
   Checkbox,
   Chip,
   IconButton,
@@ -24,6 +25,7 @@ import {
 } from "@site/src/structure";
 import { ChevronDown } from "mdi-material-ui";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { useStoredProgress } from "@site/src/hooks/useStoredProgress";
 import { ProgressBarWithLabel } from "./ProgressBarWithLabel";
 import { ProgressLineChart } from "./ProgressLineChart";
@@ -37,6 +39,7 @@ import {
 } from "../lib/calcProgressRate";
 import { daysAgo } from "../lib/date";
 import { QuestionDialog } from "../question/QuestionDialog";
+import { LearningGuideDialog } from "./LearningGuideDialog";
 
 /**
  * dateStringからの経過日数を文字列で返す
@@ -121,6 +124,9 @@ export const Dashboard: FC = () => {
   const history = useHistory();
   const storedProgress = useStoredProgress();
 
+  /** 学習ガイドダイアログの開閉状態 */
+  const [learningGuideOpen, setLearningGuideOpen] = useState(false);
+
   /** 選択された質問のコンテキスト情報（ダイアログ表示＋ナビゲーション用） */
   const [selectedQuestionContext, setSelectedQuestionContext] = useState<{
     questionId: string;
@@ -158,6 +164,24 @@ export const Dashboard: FC = () => {
 
   return (
     <PageContainer>
+      {/* 学習ガイドバナー */}
+      <GuideBanner onClick={() => setLearningGuideOpen(true)}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+          <MenuBookIcon sx={{ color: "#F57C00", fontSize: 28 }} />
+          <Box>
+            <Typography variant="subtitle1" fontWeight="bold">
+              はじめに読もう：学習ガイド
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              ロードマップ・ダッシュボードの使い方・学習のコツをまとめています
+            </Typography>
+          </Box>
+        </Box>
+        <Button variant="outlined" size="small" sx={{ flexShrink: 0 }}>
+          開く
+        </Button>
+      </GuideBanner>
+
       {/* 折れ線グラフ */}
       <OverAllProgressCard>
         <OverAllProgressTitle>全体達成率の推移</OverAllProgressTitle>
@@ -356,6 +380,12 @@ export const Dashboard: FC = () => {
         })}
       </MajorChapterStack>
 
+      {/* 学習ガイドダイアログ */}
+      <LearningGuideDialog
+        open={learningGuideOpen}
+        onClose={() => setLearningGuideOpen(false)}
+      />
+
       {/* QuestionDialog */}
       <QuestionDialog
         questionId={selectedQuestionContext?.questionId ?? null}
@@ -381,6 +411,26 @@ export const Dashboard: FC = () => {
 
 const PageContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),
+}));
+
+/** 学習ガイドバナー */
+const GuideBanner = styled(Paper)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: theme.spacing(1.5, 2),
+  marginBottom: theme.spacing(2),
+  cursor: "pointer",
+  borderLeft: `4px solid #F57C00`,
+  background:
+    theme.palette.mode === "dark"
+      ? "#1b263b"
+      : "linear-gradient(135deg, #FFF8F0, #FFF3E0)",
+  transition: "box-shadow 0.2s, transform 0.2s",
+  "&:hover": {
+    boxShadow: theme.shadows[4],
+    transform: "translateY(-1px)",
+  },
 }));
 
 /** 全体進捗の表示エリア */
