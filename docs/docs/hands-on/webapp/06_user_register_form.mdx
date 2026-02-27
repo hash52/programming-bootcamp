@@ -213,6 +213,7 @@ public class UserForm {
 ## 7. Controllerをリファクタする
 
 <CodeBlockWithDiff
+title="src/main/java/com/example/ecsample/controller/UserController.java"
 code={`- import org.springframework.web.bind.annotation.RequestParam;
 + import org.springframework.web.bind.annotation.ModelAttribute;
 + import com.example.ecsample.form.UserForm;
@@ -264,6 +265,7 @@ showLineNumbers={false}
 各項目には `th:field="*{プロパティ名}"` を指定する。
 
 <CodeBlockWithDiff
+title="src/main/resources/templates/user/register.html"
 code={`- <form th:action="@{/register}" method="post">
 -   <p>名前：<input type="text" name="name" /></p>
 -   <p>メールアドレス：<input type="email" name="email" /></p>
@@ -291,6 +293,7 @@ startLineNumber={13}
 ## 9. 結果画面の修正
 
 <CodeBlockWithDiff
+title="src/main/resources/templates/user/result.html"
 code={`- <li>名前：[[\${name}]]</li>
 - <li>メール：[[\${email}]]</li>
 - <li>パスワード：[[\${password}]]</li>

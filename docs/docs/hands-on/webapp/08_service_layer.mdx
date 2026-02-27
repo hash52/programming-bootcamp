@@ -1,1 +1,207 @@
-# Service 層を導入する（DIの活用）
+---
+sidebar_position: 8
+---
+
+import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
+
+# Service 層を導入する
+
+:::info 今回作ること
+- `UserService` インターフェースと `UserServiceImpl` 実装クラスを作成する
+- 登録ロジックを `UserController` から `UserService` に移動する
+- コンストラクタインジェクションで `UserService` を `UserController` に注入する
+:::
+
+---
+
+これまで、ユーザ登録処理はすべて `UserController` の中に書いていた。
+今回は「Service 層」を導入し、ビジネスロジックを Controller から分離する。
+
+---
+
+## なぜ Service 層が必要なのか
+
+`UserController` は「HTTP リクエストを受け取り、レスポンスを返す」役割に集中すべきである。
+現状のようにビジネスロジック（データの処理や保存）を Controller に書き続けると、次のような問題が起きる。
+
+- Controller が肥大化し、どこで何をしているか分かりにくくなる
+- ロジックを再利用しにくい（同じ処理を別の Controller から呼べない）
+- テストが書きにくくなる
+
+**Spring では、ビジネスロジックを Service クラスに書くのが一般的な設計**である。
+`@Service` を付けたクラスは、Spring が自動的に管理し、インジェクション（注入）して使える。
+
+---
+
+## 1. `service` パッケージを作成する
+
+`src/main/java/com/example/ecsample/` 配下に `service` パッケージを作成する。
+
+```
+ecsample/
+└─ src/main/java/com/example/ecsample/
+    ├─ controller/
+    ├─ form/
+    ├─ entity/
+    └─ service/          ← 新規作成
+```
+
+---
+
+## 2. `UserService` インターフェースを作成する
+
+`service/UserService.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.service;
+
+import com.example.ecsample.form.UserForm;
+
+public interface UserService {
+
+    /**
+     * ユーザを登録する。
+     * @param form 登録フォームの入力値
+     */
+    void register(UserForm form);
+}
+```
+
+> **ポイント**
+> インターフェースを定義することで、後で実装を差し替えやすくなる。
+> 現段階では「何ができるか」を宣言するだけで、具体的な処理は `UserServiceImpl` に書く。
+
+---
+
+## 3. `UserServiceImpl` 実装クラスを作成する
+
+`service/UserServiceImpl.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.service;
+
+import com.example.ecsample.form.UserForm;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+    @Override
+    public void register(UserForm form) {
+        // 現段階ではコンソールに出力するだけ
+        System.out.println("ユーザ登録：" + form.getName() + " <" + form.getEmail() + ">");
+    }
+}
+```
+
+> **ポイント**
+> - `@Service` を付けることで、Spring がこのクラスを管理するコンポーネントとして認識する。
+> - `implements UserService` により、`UserService` インターフェースの実装であることを宣言する。
+> - 今はコンソール出力だけだが、後の章でDB保存に置き換える。
+
+---
+
+## 4. `UserController` を修正してインジェクションする
+
+`UserController` を修正し、`UserService` をコンストラクタインジェクションで受け取る。
+
+<CodeBlockWithDiff
+title="src/main/java/com/example/ecsample/controller/UserController.java"
+code={`package com.example.ecsample.controller;
+
++import com.example.ecsample.service.UserService;
+ import com.example.ecsample.form.UserForm;
+ import org.springframework.stereotype.Controller;
+ import org.springframework.ui.Model;
+ import org.springframework.validation.BindingResult;
+ import org.springframework.validation.annotation.Validated;
+ import org.springframework.web.bind.annotation.GetMapping;
+ import org.springframework.web.bind.annotation.ModelAttribute;
+ import org.springframework.web.bind.annotation.PostMapping;
+
+ @Controller
+ public class UserController {
+
++   private final UserService userService;
++
++   public UserController(UserService userService) {
++       this.userService = userService;
++   }
++
+     @GetMapping("/register")
+     public String showForm(Model model) {
+         model.addAttribute("form", new UserForm());
+         return "user/register";
+     }
+
+     @PostMapping("/register")
+     public String submitForm(
+             @Validated @ModelAttribute("form") UserForm form,
+             BindingResult bindingResult,
+             Model model) {
+
+         if (bindingResult.hasErrors()) {
+             return "user/register";
+         }
+
+-        System.out.println("name = " + form.getName());
+-        System.out.println("email = " + form.getEmail());
+-        System.out.println("password = " + form.getPassword());
++        // ビジネスロジックを Service に委譲する
++        userService.register(form);
+
+         model.addAttribute("form", form);
+         return "user/result";
+     }
+ }
+`}
+language="java"
+startLineNumber={1}
+/>
+
+> **コンストラクタインジェクションとは**
+> コンストラクタの引数に型を書くだけで、Spring が自動的に対応する実装クラスを探して注入してくれる。
+> `@Autowired` アノテーションは Spring Boot 3 では省略できる。
+
+---
+
+## 5. 動作確認
+
+1. アプリを再起動する。
+2. `http://localhost:8080/register` にアクセスする。
+3. フォームに値を入力して送信する。
+4. コンソールに `ユーザ登録：山田太郎 <taro@example.com>` のように出力されれば成功。
+5. 画面の動作は変わっていないことを確認する（リファクタリングのため）。
+
+---
+
+## ファイル構成の確認
+
+```
+ecsample/
+└─ src/main/java/com/example/ecsample/
+    ├─ controller/
+    │   ├─ HomeController.java
+    │   ├─ ProductController.java
+    │   └─ UserController.java        ← 修正済み
+    ├─ entity/
+    │   └─ Product.java
+    ├─ form/
+    │   └─ UserForm.java
+    └─ service/
+        ├─ UserService.java            ← 新規作成
+        └─ UserServiceImpl.java        ← 新規作成
+```
+
+---
+
+## Gitコミット
+
+```bash
+git add .
+git commit -m "feat: UserService層を導入し、登録ロジックをControllerから分離"
+```
+
+---
+
+次の章では、商品データをデータベース（PostgreSQL）から取得するように変更する。

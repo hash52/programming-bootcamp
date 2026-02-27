@@ -1,0 +1,169 @@
+---
+sidebar_position: 4
+---
+
+# Spring開発環境の構築（Spring Tools 4）
+
+この章では、Spring Bootアプリを Eclipse で開発するための **Spring Tools 4** のインストールと、
+**Spring Initializr** を使ったプロジェクト作成・起動確認の手順を解説する。
+対象OS: **Windows**
+
+## 前提条件
+
+:::caution 01_java_setup.mdx が完了していること
+
+この章を進める前に、「Java開発環境の構築（JDK + Eclipse）」が完了している必要がある。
+JDK 21 と Eclipse がインストールされていることを確認してから進むこと。
+
+:::
+
+## 学習のゴール
+
+- [ ] Eclipse に Spring Tools 4 がインストールされている
+- [ ] Spring Initializr でプロジェクトを作成できる
+- [ ] DemoApplication.java を実行してSpring Bootが起動できる
+- [ ] ブラウザで `http://localhost:8080` にアクセスできる
+
+---
+
+## Step 1: Spring Tools 4 のインストール
+
+Spring Tools 4 は Eclipse の拡張プラグインで、Spring Boot プロジェクトの作成・開発を支援する。
+
+### Eclipse Marketplace からのインストール
+
+1. Eclipse を起動する
+2. メニューから「ヘルプ」→「Eclipse Marketplace...」を選択する
+3. 検索欄に `Spring Tools` と入力して「Go」をクリックする
+4. 検索結果に表示された **Spring Tools 4（aka Spring Tool Suite 4）** の「Install」をクリックする
+5. ライセンスに同意して「Finish」をクリックする
+6. インストールが完了したら Eclipse を再起動する
+
+:::info インストールには時間がかかる場合がある
+
+Eclipse Marketplace からのダウンロードは通信環境によっては数分かかる。
+「Installing Software」の進捗バーが完了するまで待つこと。
+
+:::
+
+### インストールの確認
+
+Eclipse を再起動後、「ファイル」→「新規」に **「Spring スターター・プロジェクト」** という項目が
+追加されていれば Spring Tools 4 のインストール成功である。
+
+---
+
+## Step 2: Spring Initializr でプロジェクト作成
+
+### プロジェクトの新規作成
+
+1. 「ファイル」→「新規」→「Spring スターター・プロジェクト」をクリックする
+2. プロジェクトの基本設定を入力する
+
+| 設定項目 | 値 |
+|----------|---|
+| **Name** | demo |
+| **Type** | Maven |
+| **Packaging** | Jar |
+| **Java Version** | 21 |
+| **Language** | Java |
+| **Group** | com.example |
+| **Artifact** | demo |
+| **Package** | com.example.demo |
+
+3. 「次へ」をクリックする
+
+---
+
+## Step 3: 依存関係の追加
+
+Spring Boot を使ったWebアプリ開発に必要な依存関係を選択する。
+
+### 基本的なWebアプリ開発に必要な依存関係
+
+検索欄で名前を検索してチェックを入れる。
+
+| 依存関係 | 用途 |
+|----------|------|
+| **Spring Web** | HTTPリクエストを処理するWebアプリ開発の基本（必須） |
+| **Thymeleaf** | HTMLテンプレートエンジン（必須） |
+| **Spring Boot DevTools** | ファイル変更時の自動再起動（開発効率向上） |
+
+### MyBatis・PostgreSQL を使う章（Spring教材9章）では追加で必要
+
+| 依存関係 | 用途 |
+|----------|------|
+| **MyBatis Framework** | O/Rマッパー（DBアクセス） |
+| **PostgreSQL Driver** | PostgreSQL接続用JDBCドライバ |
+
+:::tip 依存関係は後から pom.xml で追加できる
+
+プロジェクト作成後でも `pom.xml` に `<dependency>` タグを追記することで依存関係を追加できる。
+最初はSpring Web + Thymeleaf + DevToolsだけ選んでおき、必要になったタイミングで追加してもよい。
+
+:::
+
+「完了」をクリックするとプロジェクトが作成される。
+
+---
+
+## Step 4: アプリの起動確認
+
+### DemoApplication.java の実行
+
+1. プロジェクト・エクスプローラーで `src/main/java` → `com.example.demo` → `DemoApplication.java` を探す
+2. `DemoApplication.java` を右クリックする
+3. 「実行」→「Spring Bootアプリケーション」を選択する
+
+コンソールに以下のようなログが表示されれば起動成功である。
+
+```
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+...
+Started DemoApplication in x.xxx seconds (process running for x.xxx)
+```
+
+### ブラウザでの確認
+
+ブラウザで以下のURLにアクセスする。
+
+```
+http://localhost:8080
+```
+
+「Whitelabel Error Page」が表示されれば、Spring Boot が正常に起動している。
+（これはまだコントローラが存在しないため表示される画面であり、起動成功の証拠である。）
+
+:::warning ポート 8080 が使用中の場合
+
+`Web server failed to start. Port 8080 was already in use.` というエラーが出た場合は、
+`src/main/resources/application.properties` に以下を追加してポートを変更する。
+
+```properties
+server.port=8081
+```
+
+その場合は `http://localhost:8081` でアクセスする。
+
+:::
+
+### アプリの停止
+
+コンソールパネルの赤い「停止」ボタンをクリックすると Spring Boot アプリが停止する。
+
+---
+
+## まとめ
+
+| 確認項目 | 操作 |
+|----------|------|
+| Spring Tools 4 インストール | Eclipse Marketplace で「Spring Tools」を検索してインストール |
+| プロジェクト作成 | 「新規」→「Spring スターター・プロジェクト」 |
+| 依存関係（基本） | Spring Web + Thymeleaf + DevTools |
+| 依存関係（DB使用時） | + MyBatis Framework + PostgreSQL Driver |
+| アプリ起動 | `DemoApplication.java` → 右クリック → 「Spring Bootアプリケーション」 |
+| 起動確認 | `http://localhost:8080` にアクセス |
+
+これで Spring 開発環境の構築は完了である。
+Spring の使い方は「Spring」カテゴリの教材で学ぶ。

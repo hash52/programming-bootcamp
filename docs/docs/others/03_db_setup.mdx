@@ -1,0 +1,194 @@
+---
+sidebar_position: 3
+---
+
+# データベース環境の構築（PostgreSQL + pgAdmin）
+
+この章では、本研修で使用するデータベース **PostgreSQL** と、GUIツール **pgAdmin 4** のインストール・初期設定手順を解説する。
+対象OS: **Windows**
+
+## 学習のゴール
+
+- [ ] PostgreSQL がインストールされ、サービスが起動している
+- [ ] pgAdmin 4 で `localhost:5432` に接続できる
+- [ ] `demo` データベースを作成できる
+- [ ] `psql` コマンドラインツールでデータベース一覧を確認できる
+
+---
+
+## Step 1: PostgreSQL のインストール
+
+### ダウンロード
+
+以下のURLから **EDB（EnterpriseDB）インストーラ** をダウンロードする。
+
+```
+https://www.postgresql.org/download/windows/
+```
+
+「Download the installer」をクリックし、最新の **PostgreSQL 16.x** の Windows x86-64 用インストーラ（`.exe`）をダウンロードする。
+
+### インストール手順
+
+1. ダウンロードした `.exe` ファイルをダブルクリックして起動する
+2. 「Next」をクリックして進む
+
+**コンポーネントの選択画面** では以下を全て選択する。
+
+| コンポーネント | 説明 |
+|--------------|------|
+| ✅ PostgreSQL Server | データベース本体 |
+| ✅ pgAdmin 4 | GUIツール（必須） |
+| ✅ Stack Builder | 追加ツールのインストーラ（後で不要ならOFF可） |
+| ✅ Command Line Tools | `psql` などのCLIツール（必須） |
+
+3. **Data Directory** はデフォルトのまま進む
+4. **パスワードの設定**：`postgres` ユーザーのパスワードを設定する
+
+:::warning postgres ユーザーのパスワードを必ず控えておくこと
+
+ここで設定したパスワードは、pgAdminや `psql` での接続時に必要になる。
+本研修では便宜上 `postgres` を推奨する。
+本番環境では強固なパスワードを使用すること。
+
+:::
+
+5. **ポート番号**: `5432`（デフォルトのまま）
+6. **ロケール**: `Default locale`（デフォルトのまま）
+7. 「Next」→「Finish」でインストール完了
+
+:::tip Stack Builder は「Finish」画面でスキップしてよい
+
+インストール完了画面で「Stack Builder を起動する」のチェックが入っている場合、
+本研修では不要なのでチェックを外してから「Finish」をクリックしてよい。
+
+:::
+
+### インストールの確認
+
+インストール完了後、PostgreSQL のサービスが自動起動していることを確認する。
+
+タスクバーを右クリック → 「タスクマネージャー」→「サービス」タブで
+`postgresql-x64-16` が「実行中」になっていれば成功である。
+
+---
+
+## Step 2: pgAdmin 4 での接続確認
+
+pgAdmin 4 は PostgreSQL を GUI で操作するためのツールである。
+
+### 起動手順
+
+1. スタートメニューで「pgAdmin 4」と検索して起動する
+2. ブラウザで pgAdmin の画面が開く
+3. **マスターパスワード** の設定ダイアログが表示される
+   - pgAdmin 自体のパスワードを設定する（PostgreSQL のパスワードとは別）
+   - ここでも便宜上 `postgres` を推奨する
+
+### サーバーへの接続
+
+左サイドバーの「Servers」を展開すると `PostgreSQL 16` が表示される。
+
+1. `PostgreSQL 16` をクリックする
+2. パスワード入力ダイアログが表示される
+3. Step 1 で設定した `postgres` ユーザーのパスワードを入力する
+4. 「Save Password」にチェックを入れると次回から入力不要になる
+5. 「OK」をクリックする
+
+:::info 接続先の確認
+
+接続後、左サイドバーで以下のように表示されれば接続成功である。
+
+```
+Servers
+└─ PostgreSQL 16
+    └─ Databases
+        └─ postgres（デフォルトDB）
+        └─ template0
+        └─ template1
+```
+
+:::
+
+---
+
+## Step 3: データベースの作成
+
+本研修のSpring教材では `demo` というデータベースを使用する。pgAdmin で作成する。
+
+### 作成手順
+
+1. 左サイドバーで「Databases」を右クリックする
+2. 「Create」→「Database...」を選択する
+3. 「Database」欄に `demo` と入力する
+4. 「Save」をクリックする
+
+「Databases」を展開して `demo` が表示されれば作成成功である。
+
+:::tip データベース名の確認
+
+Spring の `application.properties` の接続URL に `demo` を指定しているため、
+データベース名は必ず **`demo`** にすること。
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/demo
+```
+
+:::
+
+---
+
+## Step 4: psql（コマンドライン）での確認
+
+`psql` はPostgreSQLのコマンドラインツールである。
+Git Bash を開いて以下を実行する。
+
+```bash
+psql -U postgres
+```
+
+パスワードを入力すると `postgres=#` というプロンプトが表示される。
+
+```sql
+-- データベース一覧を表示
+\l
+
+-- demo データベースに接続
+\c demo
+
+-- 接続中のデータベースを確認
+SELECT current_database();
+
+-- psql を終了
+\q
+```
+
+:::caution psql が見つからない場合
+
+`psql: command not found` と表示される場合は、PostgreSQL の `bin` フォルダにPATHが通っていない。
+
+コントロールパネル →「システム」→「システムの詳細設定」→「環境変数」→ `Path` に以下を追加する。
+
+```
+C:\Program Files\PostgreSQL\16\bin
+```
+
+追加後、Git Bash を再起動して再度試す。
+
+:::
+
+---
+
+## まとめ
+
+| 確認項目 | 操作 |
+|----------|------|
+| PostgreSQL サービス確認 | タスクマネージャー → サービスで `postgresql-x64-16` が「実行中」 |
+| pgAdmin接続 | pgAdmin 4 で `PostgreSQL 16` に接続 |
+| データベース作成 | pgAdmin で `demo` データベースを作成 |
+| psqlでの接続 | `psql -U postgres` |
+| データベース一覧表示 | `\l`（psql内） |
+
+これでデータベース環境の構築は完了である。
+データベースの学習は「DB基礎」カテゴリの教材で行う。
+次章では Spring 開発環境の構築を行う。

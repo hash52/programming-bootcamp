@@ -1,0 +1,152 @@
+---
+sidebar_position: 2
+---
+
+# Git環境の構築（Git Bash）
+
+この章では、バージョン管理ツール **Git** と、Windowsで使用する **Git Bash** のインストール・初期設定手順を解説する。
+対象OS: **Windows**
+
+## 学習のゴール
+
+- [ ] Git for Windows がインストールされ、Git Bash が使える
+- [ ] `git --version` でバージョンを確認できる
+- [ ] ユーザー名とメールアドレスの初期設定が完了している
+- [ ] `git config --list` で設定内容を確認できる
+
+---
+
+## Step 1: Git for Windows のインストール（Git Bash 同梱）
+
+### ダウンロード
+
+以下のURLから **Git for Windows** をダウンロードする。
+
+```
+https://git-scm.com/download/win
+```
+
+「Click here to download」をクリックすると最新の64bit版インストーラ（`.exe`）がダウンロードされる。
+
+### インストーラの設定
+
+インストーラを実行すると複数の設定画面が表示される。主要な設定箇所の推奨値を以下に示す。
+
+| 設定項目 | 推奨値 | 理由 |
+|----------|--------|------|
+| デフォルトエディタ | **Visual Studio Code** | 操作しやすくメモ帳より高機能 |
+| 初期ブランチ名 | **main**（または Let Git decide のまま） | GitHubのデフォルトに合わせる |
+| PATH 環境変数 | **Git from the command line and also from 3rd-party software** | コマンドプロンプトからも使えるようにする |
+| 改行コードの扱い | **Checkout Windows-style, commit Unix-style line endings** | Windowsとサーバー間の改行コード差異を吸収する |
+| ターミナルエミュレータ | **Use MinTTY** | Git Bash の標準ターミナル |
+
+:::tip 「PATH 環境変数」の設定は重要
+
+「Git from the command line and also from 3rd-party software」を選ぶと、
+コマンドプロンプトや他ツールからも `git` コマンドを使えるようになる。
+「Use Git from Git Bash only」を選ぶと Git Bash 以外では動作しないため注意する。
+
+:::
+
+:::info 改行コードの設定について
+
+Windowsは改行コードに `CRLF`（`\r\n`）を使うが、LinuxやmacOSは `LF`（`\n`）を使う。
+「Checkout Windows-style, commit Unix-style line endings」を選ぶと、
+ファイルをチェックアウトするときは `CRLF` に、コミットするときは `LF` に自動変換してくれる。
+これにより、チーム開発で改行コードが混在するトラブルを防げる。
+
+:::
+
+---
+
+## Step 2: Git Bash の起動確認
+
+インストール完了後、Git Bash が使えることを確認する。
+
+1. スタートメニューで「Git Bash」と検索して起動する
+2. 黒いターミナル画面が表示されれば起動成功である
+
+```bash
+git --version
+```
+
+以下のように表示されれば成功である。
+
+```
+git version 2.x.x.windows.x
+```
+
+:::caution Git Bash が見つからない場合
+
+インストールが正しく完了していれば、スタートメニューの「Git」フォルダ内に「Git Bash」がある。
+見当たらない場合は `C:\Program Files\Git\git-bash.exe` を直接起動する。
+
+:::
+
+---
+
+## Step 3: 初期設定
+
+Git では、コミット（変更の記録）に **「誰が変更したか」** の情報が付く。
+そのため、最初にユーザー名とメールアドレスを設定しておく必要がある。
+
+Git Bash を開き、以下のコマンドを実行する。
+
+```bash
+git config --global user.name "山田太郎"
+git config --global user.email "yamada@example.com"
+```
+
+:::warning user.name と user.email は実際の名前・メールアドレスに変更すること
+
+ここで設定した名前とメールアドレスは、すべてのコミットに記録される。
+チームで使用するリポジトリでは、**実名（またはチームで決めた表記）** と
+**実際のメールアドレス** を設定することを推奨する。
+
+:::
+
+また、Windows環境での改行コード自動変換を有効にするため、以下も設定する。
+
+```bash
+git config --global core.autocrlf true
+```
+
+---
+
+## Step 4: 設定確認
+
+設定が正しく保存されたか確認する。
+
+```bash
+git config --list
+```
+
+以下のような行が含まれていれば成功である。
+
+```
+user.name=山田太郎
+user.email=yamada@example.com
+core.autocrlf=true
+```
+
+:::tip 設定は `~/.gitconfig` ファイルに保存される
+
+`git config --global` で設定した内容は、ホームディレクトリの `.gitconfig` ファイルに保存される。
+Git Bash では `cat ~/.gitconfig` で確認できる。
+
+:::
+
+---
+
+## まとめ
+
+| 確認項目 | コマンド |
+|----------|---------|
+| Gitバージョン確認 | `git --version` |
+| ユーザー名設定 | `git config --global user.name "名前"` |
+| メールアドレス設定 | `git config --global user.email "メールアドレス"` |
+| 設定確認 | `git config --list` |
+
+これで Git 環境の構築は完了である。
+Git の使い方は「Git基礎」カテゴリの教材で学ぶ。
+次章ではデータベース（PostgreSQL）の環境構築を行う。

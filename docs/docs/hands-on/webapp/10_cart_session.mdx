@@ -1,1 +1,310 @@
+---
+sidebar_position: 10
+---
+
+import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
+
 # カート機能を実装する
+
+:::info 今回作ること
+- `CartItem` クラスを作成する（商品ID・名前・価格・数量）
+- `CartService` を作成し、`HttpSession` でカートを管理する
+- `CartController` を作成する（カート表示・追加・削除）
+- 商品一覧に「カートに追加」ボタンを追加する
+- カート画面（一覧・合計金額・削除）を作成する
+:::
+
+---
+
+## 1. `CartItem.java` を作成する
+
+`src/main/java/com/example/ecsample/entity/CartItem.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.entity;
+
+public class CartItem {
+    private int productId;
+    private String name;
+    private int price;
+    private int quantity;
+
+    public CartItem(int productId, String name, int price) {
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.quantity = 1;
+    }
+
+    public int getProductId() { return productId; }
+    public String getName() { return name; }
+    public int getPrice() { return price; }
+    public int getQuantity() { return quantity; }
+
+    public void incrementQuantity() {
+        this.quantity++;
+    }
+
+    public int getSubtotal() {
+        return price * quantity;
+    }
+}
+```
+
+---
+
+## 2. `CartService.java` を作成する
+
+`src/main/java/com/example/ecsample/service/CartService.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.service;
+
+import com.example.ecsample.entity.CartItem;
+import com.example.ecsample.entity.Product;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class CartService {
+
+    private static final String CART_KEY = "cart";
+
+    /** セッションからカートを取得する（存在しなければ空のリストを返す） */
+    @SuppressWarnings("unchecked")
+    public List<CartItem> getCart(HttpSession session) {
+        List<CartItem> cart = (List<CartItem>) session.getAttribute(CART_KEY);
+        if (cart == null) {
+            cart = new ArrayList<>();
+            session.setAttribute(CART_KEY, cart);
+        }
+        return cart;
+    }
+
+    /** カートに商品を追加する（同じ商品が既にあれば数量を増やす） */
+    public void addItem(HttpSession session, Product product) {
+        List<CartItem> cart = getCart(session);
+        for (CartItem item : cart) {
+            if (item.getProductId() == product.getId()) {
+                item.incrementQuantity();
+                return;
+            }
+        }
+        cart.add(new CartItem(product.getId(), product.getName(), product.getPrice()));
+    }
+
+    /** カートから商品を削除する */
+    public void removeItem(HttpSession session, int productId) {
+        List<CartItem> cart = getCart(session);
+        cart.removeIf(item -> item.getProductId() == productId);
+    }
+
+    /** カートを空にする */
+    public void clearCart(HttpSession session) {
+        session.removeAttribute(CART_KEY);
+    }
+}
+```
+
+> **ポイント**
+> `HttpSession` はリクエストをまたいでデータを保持できる仕組みである（Spring 教材 第10章参照）。
+> ここでは `"cart"` というキーでカートのリストをセッションに保存している。
+
+---
+
+## 3. `CartController.java` を作成する
+
+`src/main/java/com/example/ecsample/controller/CartController.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.controller;
+
+import com.example.ecsample.entity.CartItem;
+import com.example.ecsample.entity.Product;
+import com.example.ecsample.mapper.ProductMapper;
+import com.example.ecsample.service.CartService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/cart")
+public class CartController {
+
+    private final CartService cartService;
+    private final ProductMapper productMapper;
+
+    public CartController(CartService cartService, ProductMapper productMapper) {
+        this.cartService = cartService;
+        this.productMapper = productMapper;
+    }
+
+    /** カート一覧を表示する */
+    @GetMapping
+    public String showCart(HttpSession session, Model model) {
+        List<CartItem> cart = cartService.getCart(session);
+        int total = cart.stream().mapToInt(CartItem::getSubtotal).sum();
+        model.addAttribute("cart", cart);
+        model.addAttribute("total", total);
+        return "cart/index";
+    }
+
+    /** カートに商品を追加する */
+    @PostMapping("/add")
+    public String addToCart(@RequestParam("productId") int productId,
+                            HttpSession session) {
+        Product product = productMapper.findById(productId);
+        if (product != null) {
+            cartService.addItem(session, product);
+        }
+        return "redirect:/cart";
+    }
+
+    /** カートから商品を削除する */
+    @PostMapping("/remove")
+    public String removeFromCart(@RequestParam("productId") int productId,
+                                 HttpSession session) {
+        cartService.removeItem(session, productId);
+        return "redirect:/cart";
+    }
+}
+```
+
+---
+
+## 4. 商品一覧に「カートに追加」ボタンを追加する
+
+<CodeBlockWithDiff
+title="src/main/resources/templates/product/list.html"
+code={` <ul>
+   <li th:each="product : \${products}">
+     <a th:href="'/product/' + \${product.id}">
+       [[\${product.name}]]（[[\${\#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]円）
+     </a>
++    <form th:action="@{/cart/add}" method="post" style="display:inline">
++      <input type="hidden" name="productId" th:value="\${product.id}" />
++      <button type="submit">カートに追加</button>
++    </form>
+   </li>
+ </ul>
+`}
+language="html"
+showLineNumbers={false}
+/>
+
+---
+
+## 5. カート画面を作成する
+
+`src/main/resources/templates/cart/index.html` を新規作成する（`cart` フォルダも作成）。
+
+```html showLineNumbers
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>カート</title>
+</head>
+<body>
+  <header th:replace="layout/_header :: header"></header>
+
+  <main>
+  <h1>カート</h1>
+
+  <th:block th:if="${#lists.isEmpty(cart)}">
+    <p>カートに商品が入っていません。</p>
+  </th:block>
+
+  <th:block th:unless="${#lists.isEmpty(cart)}">
+    <table>
+      <tr>
+        <th>商品名</th>
+        <th>単価</th>
+        <th>数量</th>
+        <th>小計</th>
+        <th>操作</th>
+      </tr>
+      <tr th:each="item : ${cart}">
+        <td>[[${item.name}]]</td>
+        <td>[[${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')}]]円</td>
+        <td>[[${item.quantity}]]</td>
+        <td>[[${#numbers.formatDecimal(item.subtotal, 0, 'COMMA', 0, 'POINT')}]]円</td>
+        <td>
+          <form th:action="@{/cart/remove}" method="post">
+            <input type="hidden" name="productId" th:value="${item.productId}" />
+            <button type="submit">削除</button>
+          </form>
+        </td>
+      </tr>
+    </table>
+
+    <p><strong>合計：[[${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}]]円</strong></p>
+  </th:block>
+
+  <a href="/products">▶ 商品一覧に戻る</a>
+  </main>
+
+  <footer th:replace="layout/_footer :: footer"></footer>
+</body>
+</html>
+```
+
+---
+
+## 6. ナビゲーションバーのカートリンクを確認する
+
+第5章で作成した `layout/_header.html` には既に `<a href="/cart">カート</a>` が含まれている。
+このリンクをクリックするとカート画面に遷移できることを確認する。
+
+---
+
+## 7. 動作確認
+
+1. アプリを再起動する。
+2. `http://localhost:8080/products` にアクセスする。
+3. 商品の「カートに追加」ボタンをクリックする → カート画面にリダイレクトされ、商品が表示されることを確認する。
+4. 同じ商品を再度追加すると数量が増えることを確認する。
+5. 「削除」ボタンで商品が消えることを確認する。
+6. カートを空にした後、「カートに商品が入っていません。」が表示されることを確認する。
+
+---
+
+## ファイル構成の確認
+
+```
+ecsample/
+├─ src/main/java/com/example/ecsample/
+│   ├─ controller/
+│   │   └─ CartController.java         ← 新規作成
+│   ├─ entity/
+│   │   └─ CartItem.java               ← 新規作成
+│   └─ service/
+│       └─ CartService.java            ← 新規作成
+└─ src/main/resources/templates/
+    ├─ cart/
+    │   └─ index.html                   ← 新規作成
+    └─ product/
+        └─ list.html                    ← 修正済み
+```
+
+---
+
+## Gitコミット
+
+```bash
+git add .
+git commit -m "feat: HttpSessionを使ったカート機能を追加"
+```
+
+---
+
+次の章では、`HttpSession` を使ったログイン機能を実装する。

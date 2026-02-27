@@ -1,1 +1,213 @@
+---
+sidebar_position: 13
+---
+
+import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
+
 # 検索機能を実装する（これまでのまとめ）
+
+:::info 今回作ること
+- 商品一覧ページにキーワード検索フォームを追加する
+- `ProductMapper` にLIKE検索メソッドを追加する
+- `ProductController` でキーワードを受け取り検索結果を渡す
+:::
+
+---
+
+この章は最終章である。
+新しい概念はほとんど登場せず、これまでに学んだ **Model → Controller → Mapper → DB** の流れを総復習する形で進める。
+
+---
+
+## 1. 商品一覧に検索フォームを追加する
+
+<CodeBlockWithDiff
+title="src/main/resources/templates/product/list.html"
+code={` <main>
+ <h1>商品一覧ページ</h1>
++
++<form th:action="@{/products}" method="get">
++  <input type="text" name="keyword" th:value="\${keyword}" placeholder="商品名で検索" />
++  <button type="submit">検索</button>
++</form>
++
+ <ul>
+   <li th:each="product : \${products}">
+`}
+language="html"
+showLineNumbers={false}
+/>
+
+> **ポイント**
+> - `method="get"` により、キーワードは URLのクエリパラメータ（`?keyword=コーヒー`）として送信される。
+> - `th:value="${keyword}"` で、検索後に入力欄に検索ワードが残るようにする。
+
+---
+
+## 2. `ProductMapper` にキーワード検索メソッドを追加する
+
+<CodeBlockWithDiff
+title="src/main/java/com/example/ecsample/mapper/ProductMapper.java"
+code={` @Mapper
+ public interface ProductMapper {
+
+     List<Product> findAll();
+     Product findById(int id);
+
++    /** キーワードで商品を検索する（名前の部分一致） */
++    List<Product> findByKeyword(String keyword);
+ }
+`}
+language="java"
+showLineNumbers={false}
+/>
+
+---
+
+## 3. `ProductMapper.xml` にLIKE検索SQLを追加する
+
+<CodeBlockWithDiff
+title="src/main/resources/mapper/ProductMapper.xml"
+code={`   <select id="findById" resultType="com.example.ecsample.entity.Product">
+     SELECT id, name, price
+     FROM products
+     WHERE id = \#{id}
+   </select>
++
++  <select id="findByKeyword" resultType="com.example.ecsample.entity.Product">
++    SELECT id, name, price
++    FROM products
++    WHERE name LIKE \#{'%' + keyword + '%'}
++    ORDER BY id
++  </select>
+
+ </mapper>
+`}
+language="xml"
+showLineNumbers={false}
+/>
+
+> **ポイント**
+> - `LIKE '%キーワード%'` で部分一致検索ができる。
+> - MyBatis で `LIKE` を使う場合、`#{...}` の中で文字列連結して `%` を付ける。
+> - `${}` を使うとSQLインジェクションの危険があるため、必ず `#{}` を使うこと。
+
+---
+
+## 4. `ProductController` を更新する
+
+<CodeBlockWithDiff
+title="src/main/java/com/example/ecsample/controller/ProductController.java"
+code={`+import java.util.Optional;
++import org.springframework.web.bind.annotation.RequestParam;
+
+ @GetMapping("/products")
+- public String showList(Model model) {
++ public String showList(
++         @RequestParam(value = "keyword", required = false) String keyword,
++         Model model) {
++
++    List<Product> products;
++    if (keyword != null && !keyword.isBlank()) {
++        products = productMapper.findByKeyword(keyword);
++    } else {
++        products = productMapper.findAll();
++    }
+-    List<Product> products = productMapper.findAll();
+     model.addAttribute("products", products);
++    model.addAttribute("keyword", keyword);
+     return "product/list";
+ }
+`}
+language="java"
+showLineNumbers={false}
+/>
+
+> **ポイント**
+> `required = false` を付けると、`keyword` パラメータがない場合（通常の一覧表示）に `null` が渡される。
+
+---
+
+## 5. 動作確認
+
+1. アプリを再起動する。
+2. `http://localhost:8080/products` にアクセスする。
+3. 検索フォームに「カップ」と入力して「検索」をクリックする。
+4. 「コーヒーカップ」「マグカップ」が表示されることを確認する。
+5. 入力欄に「カップ」が残ることを確認する。
+6. 空欄で検索すると全商品が表示されることを確認する。
+
+---
+
+## Gitコミット
+
+```bash
+git add .
+git commit -m "feat: 商品名キーワード検索機能を追加"
+```
+
+---
+
+## ハンズオン完了！ これまでの振り返り
+
+おめでとうございます。Spring EC ショップが完成した。
+
+ここで、これまでに実装してきた機能を振り返ろう。
+
+### 実装した機能
+
+| 章 | 機能 | 使用した技術 |
+|----|------|-------------|
+| 02 | トップページ・商品一覧表示 | `@Controller`, Thymeleaf |
+| 03 | 商品詳細ページ | `@PathVariable` |
+| 04 | Modelでデータ渡し・Productクラス | `Model`, `th:each` |
+| 05 | 共通レイアウト | Thymeleaf フラグメント |
+| 06 | ユーザ登録フォーム | `@ModelAttribute`, `UserForm` |
+| 07 | 入力値バリデーション | `@Validated`, `BindingResult` |
+| 08 | Service層の導入 | `@Service`, コンストラクタインジェクション |
+| 09 | 商品データのDB連携 | MyBatis, `@Mapper`, XML Mapper |
+| 10 | カート機能 | `HttpSession` |
+| 11 | ログイン・ログアウト | `HttpSession`, `UserMapper` |
+| 12 | 購入処理・注文保存 | `@Transactional`, バルクインサート |
+| 13 | キーワード検索 | `@RequestParam`, LIKE検索 |
+
+---
+
+### MVC アーキテクチャの全体像
+
+```
+ブラウザ
+  ↕ HTTP リクエスト/レスポンス
+Controller（@Controller）
+  ↕ Model にデータを追加
+  ↕ Service に処理を委譲
+Service（@Service）
+  ↕ Mapper を呼び出す
+Mapper（@Mapper）
+  ↕ SQL を実行
+DB（PostgreSQL）
+  ↕ 結果を返す
+Mapper → Service → Controller → Model → View（Thymeleaf HTML）
+  ↓
+ブラウザに HTML を返す
+```
+
+---
+
+### 次のステップ
+
+このアプリをさらに発展させるアイデアを紹介する。
+取り組めるものから挑戦してみよう。
+
+- **パスワードのハッシュ化**：BCrypt を使ってパスワードを安全に保存する
+- **商品の管理画面**：管理者が商品を追加・編集・削除できるようにする
+- **注文履歴ページ**：ログインユーザの過去の注文を表示する
+- **在庫管理**：購入時に在庫数を減らす仕組みを追加する
+- **デザインの改善**：Bootstrap などのCSSフレームワークを導入する
+- **ページネーション**：商品一覧を複数ページに分割する
+
+---
+
+おつかれさまでした。Spring の基本構造を一通り体験できた。
+ここで身につけた「MVC の流れ」「DBとの連携」「セッション管理」の考え方は、
+どのフレームワークを使っても共通して活きるものである。

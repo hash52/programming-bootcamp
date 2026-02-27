@@ -1,0 +1,208 @@
+---
+sidebar_position: 1
+---
+
+# Java開発環境の構築（JDK + Eclipse）
+
+この章では、Java開発に必要な **JDK** と **Eclipse** のインストール手順を解説する。
+対象OS: **Windows**
+
+## 学習のゴール
+
+- [ ] JDK 21 がインストールされ、`java -version` で確認できる
+- [ ] Eclipse が起動できる
+- [ ] Eclipse が日本語化されている（Pleiades適用済み）
+- [ ] Hello World プログラムを作成・実行できる
+
+---
+
+## Step 1: JDK 21 のインストール
+
+### ダウンロード
+
+以下のURLから **Eclipse Temurin 21 LTS** をダウンロードする。
+
+```
+https://adoptium.net/temurin/releases/?version=21
+```
+
+| 項目 | 選択値 |
+|------|--------|
+| Version | **21 - LTS** |
+| OS | Windows |
+| Architecture | x64 |
+| Package Type | **JDK** |
+| File Type | **.msi**（インストーラ形式） |
+
+:::tip .msi を選ぶと PATH 設定が自動で行われる
+
+`.zip` 形式は手動でPATHを設定する必要があるため、初回インストールでは **`.msi`（インストーラ）** を選ぶこと。
+
+:::
+
+### インストール手順
+
+1. ダウンロードした `.msi` ファイルをダブルクリックして起動する
+2. 「Next」をクリックして進む
+3. 「Add to PATH」が選択されていることを確認する
+   （デフォルトでオンになっている）
+4. 「Install」をクリックしてインストールを完了する
+
+### インストール確認
+
+コマンドプロンプトを開いて以下を実行する。
+
+```bash
+java -version
+javac -version
+```
+
+以下のように表示されれば成功である。
+
+```
+openjdk version "21.x.x" ...
+javac 21.x.x
+```
+
+:::caution PATH が通らない場合
+
+`java` コマンドが見つからないと言われた場合は、以下を確認する。
+
+1. インストール時に「Add to PATH」オプションが有効になっていたか確認する
+2. コマンドプロンプトを一度閉じて再度開く（環境変数は起動時に読み込まれるため）
+3. それでも解決しない場合は、手動でシステム環境変数 `PATH` に `C:\Program Files\Eclipse Adoptium\jdk-21\bin` を追加する
+
+:::
+
+---
+
+## Step 2: Eclipse のインストール
+
+### ダウンロード
+
+以下のURLから **Eclipse IDE for Java Developers** をダウンロードする。
+
+```
+https://www.eclipse.org/downloads/packages/
+```
+
+| 項目 | 選択値 |
+|------|--------|
+| パッケージ | **Eclipse IDE for Java Developers** |
+| OS | Windows x86_64 |
+| 形式 | **zip**（インストーラなし） |
+
+:::info Eclipse は zip を解凍するだけで使える
+
+Eclipse はインストーラが不要で、zipを解凍したフォルダに `eclipse.exe` が含まれている。
+`C:\eclipse\` などのシンプルなパスに解凍することを推奨する。
+
+:::
+
+### セットアップ手順
+
+1. ダウンロードした zip ファイルを `C:\eclipse\` に解凍する
+2. `C:\eclipse\eclipse.exe` をダブルクリックして起動する
+3. Workspace の設定ダイアログが表示される
+
+**Workspace の推奨設定:**
+
+```
+C:\Users\<ユーザー名>\eclipse-workspace
+```
+
+「Use this as the default and do not ask again」にチェックを入れると、次回起動時にダイアログが表示されなくなる。
+
+---
+
+## Step 3: Eclipse の日本語化（Pleiades）
+
+Eclipse はデフォルトで英語表示のため、日本語化プラグイン **Pleiades** を適用する。
+
+### ダウンロード
+
+以下のURLから Pleiades プラグインをダウンロードする。
+
+```
+https://willbrains.jp/
+```
+
+「Pleiades プラグイン・ダウンロード」から **最新安定版** の zip をダウンロードする。
+
+### 適用手順
+
+1. ダウンロードした zip を解凍する
+2. 解凍して得られた `pleiadesフォルダ内` の `features` と `plugins` フォルダを、Eclipse の `features` と `plugins` フォルダに **上書きコピー** する
+   （コピー先: `C:\eclipse\features\` および `C:\eclipse\plugins\`）
+3. Eclipse を再起動する
+
+:::tip 日本語化が反映されない場合
+
+Eclipse の起動オプションファイル（`eclipse.ini`）の末尾に以下を追加して再起動する。
+
+```
+-Xverify:none
+-javaagent:plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar
+```
+
+:::
+
+### 日本語化の確認
+
+Eclipse を再起動してメニューが日本語になっていれば成功である。
+
+---
+
+## Step 4: 動作確認（Hello World）
+
+Eclipse が正しくインストールされたか確認するために、Hello World プログラムを作成・実行する。
+
+### プロジェクト作成
+
+1. 「ファイル」→「新規」→「Javaプロジェクト」をクリックする
+2. 「プロジェクト名」に `HelloWorld` と入力する
+3. 「JREの使用」で **JavaSE-21** が選択されていることを確認する
+4. 「完了」をクリックする
+
+### クラスの作成
+
+1. プロジェクト・エクスプローラーで `HelloWorld` プロジェクトを右クリック
+2. 「新規」→「クラス」を選択する
+3. 「名前」に `HelloWorld` と入力する
+4. 「public static void main(String[] args) を含める」にチェックを入れる
+5. 「完了」をクリックする
+
+以下のコードを入力する。
+
+```java title="HelloWorld.java"
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+
+### 実行確認
+
+1. `HelloWorld.java` を右クリック → 「実行」→「Javaアプリケーション」を選択する
+2. コンソールに `Hello, World!` と表示されれば成功である
+
+:::info コンソールが表示されない場合
+
+「ウィンドウ」→「ビューの表示」→「コンソール」からコンソールビューを表示できる。
+
+:::
+
+---
+
+## まとめ
+
+| 確認項目 | コマンド / 操作 |
+|----------|---------------|
+| JDKバージョン確認 | `java -version` |
+| Javacバージョン確認 | `javac -version` |
+| Eclipseの起動 | `C:\eclipse\eclipse.exe` |
+| Hello Worldの実行 | Eclipse からJavaアプリケーションとして実行 |
+
+これで Java 開発環境の構築は完了である。
+次章では Git 環境の構築を行う。

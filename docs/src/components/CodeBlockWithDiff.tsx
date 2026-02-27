@@ -14,15 +14,7 @@ type DiffLineType = "added" | "removed" | "context";
  * 差分1行を表すデータ型。
  */
 interface DiffLine {
-  /**
-   * 行の種類。
-   * - 追加/削除/文脈 のいずれか
-   */
   type: DiffLineType;
-
-  /**
-   * 行の本文（先頭の + / - を除いたコード本体）
-   */
   text: string;
 }
 
@@ -57,6 +49,13 @@ interface DiffCodeBlockProps {
    * デフォルトは true。
    */
   showLineNumbers?: boolean;
+
+  /**
+   * ファイル名タイトルバーに表示するタイトル。
+   * 省略時はタイトルバーを表示しない。
+   * 例: "src/main/java/com/example/ecsample/controller/HomeController.java"
+   */
+  title?: string;
 }
 
 /**
@@ -64,39 +63,35 @@ interface DiffCodeBlockProps {
  *
  * - 行頭の `+` / `-` を見た目だけで表示し、コピー時には含めない。
  * - Prismによる構文ハイライトを適用する。
- * - 追加行は緑背景、削除行は赤背景で表示。
- * - added / context のみ行番号を表示し、removed は非表示。
- * - 行番号の開始位置は props で指定可能。
- *
- * @example
- * ```tsx
- * <DiffCodeBlock
- *   code={`- return "Hello, " + name;
- * + var safe = (name == null ? "World" : name);
- * + return "Hello, " + safe + "!";`}
- *   language="java"
- *   startLineNumber={42}
- *   showLineNumbers={false}
- * />
- * ```
+ * - 追加行は薄緑背景 + 左ボーダー + 緑の`+`、削除行は薄赤背景 + 左ボーダー + 赤の`-`で表示。
+ * - added / context のみ行番号を表示し、removed は空白表示。
+ * - `title` prop 指定時はタイトルバーを表示する（TeachingCodeBlockと統一デザイン）。
+ * - コピー時は `+`行と`context`行のみコピーされ、`-`行は除外される。
  */
 export const CodeBlockWithDiff: React.FC<DiffCodeBlockProps> = ({
   code,
   language = "java",
-  startLineNumber = 1, // 行番号の開始位置（デフォルトは1）
-  showLineNumbers = true, // デフォルトで行番号を表示
+  startLineNumber = 1,
+  showLineNumbers = true,
+  title,
 }) => {
-  // Docusaurusのカラーモード（light/dark）を取得
   const { colorMode } = useColorMode();
-
-  // カラーモードに応じてテーマを切り替える
   const theme = colorMode === "dark" ? themes.dracula : themes.github;
 
-  // 改行コードを正規化して行ごとに分割
-  const lines = code.replace(/\r\n/g, "\n").split("\n");
+  const isDark = colorMode === "dark";
 
-  // 各行を差分として解析（+/-を除去して型付きの配列に変換）
-  const parsed: DiffLine[] = lines.map((line) => {
+  // 改行コードを正規化して行ごとに分割
+  const rawLines = code.replace(/\r\n/g, "\n").split("\n");
+
+  // 先頭・末尾の空行を除去（テンプレートリテラルの余白を吸収）
+  const trimmedLines = rawLines
+    .join("\n")
+    .replace(/^\n+/, "")
+    .replace(/\n+$/, "")
+    .split("\n");
+
+  // 各行を差分として解析
+  const parsed: DiffLine[] = trimmedLines.map((line) => {
     if (line.startsWith("+")) return { type: "added", text: line.slice(1) };
     if (line.startsWith("-")) return { type: "removed", text: line.slice(1) };
     return { type: "context", text: line };
@@ -105,101 +100,191 @@ export const CodeBlockWithDiff: React.FC<DiffCodeBlockProps> = ({
   // Prismに渡す純粋なコード（+/-除去済み）
   const pureCode = parsed.map((l) => l.text).join("\n");
 
-  // 現在の行番号カウンタ（added/context のみ増加）
+  // コピー用コード（added + context のみ）
+  const copyCode = parsed
+    .filter((l) => l.type !== "removed")
+    .map((l) => l.text)
+    .join("\n");
+
+  // 行番号カウンタ（added/context のみ増加）
   let currentLineNumber = startLineNumber;
 
-  // TODO: 前後のコードブロックの表示、かつ折りたたみ可能な別コンポーネントの実装。文字サイズも変えられるといいかも
+  // スタイル定義
+  const styles = {
+    wrapper: {
+      marginBottom: "1em",
+      borderRadius: "6px",
+      overflow: "hidden",
+      border: isDark ? "1px solid #444" : "1px solid #d0d7de",
+    } as React.CSSProperties,
+
+    titleBar: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "6px 12px",
+      backgroundColor: isDark ? "#2d2d2d" : "#f6f8fa",
+      borderBottom: isDark ? "1px solid #444" : "1px solid #d0d7de",
+      fontSize: "0.82em",
+      fontFamily: "monospace",
+    } as React.CSSProperties,
+
+    titleLeft: {
+      display: "flex",
+      alignItems: "center",
+      gap: "6px",
+      color: isDark ? "#cdd9e5" : "#57606a",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap" as const,
+    } as React.CSSProperties,
+
+    legend: {
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      flexShrink: 0,
+      fontSize: "0.9em",
+    } as React.CSSProperties,
+
+    legendAdded: {
+      color: isDark ? "#56d364" : "#1a7f37",
+      fontWeight: "bold" as const,
+    } as React.CSSProperties,
+
+    legendRemoved: {
+      color: isDark ? "#ff7b72" : "#cf222e",
+      fontWeight: "bold" as const,
+    } as React.CSSProperties,
+
+    pre: {
+      ...theme.plain,
+      padding: "0",
+      margin: "0",
+      overflowX: "auto" as const,
+      backgroundColor: isDark ? "#1e1e1e" : "#ffffff",
+      fontSize: "0.9em",
+      lineHeight: "1.5",
+    } as React.CSSProperties,
+
+    lineAdded: {
+      display: "grid",
+      gridTemplateColumns: "15px 40px 1fr",
+      backgroundColor: isDark ? "rgba(46,160,67,0.15)" : "rgba(46,160,67,0.08)",
+      borderLeft: isDark ? "3px solid #56d364" : "3px solid #2da44e",
+    } as React.CSSProperties,
+
+    lineRemoved: {
+      display: "grid",
+      gridTemplateColumns: "15px 40px 1fr",
+      backgroundColor: isDark ? "rgba(248,81,73,0.15)" : "rgba(255,129,130,0.1)",
+      borderLeft: isDark ? "3px solid #ff7b72" : "3px solid #cf222e",
+    } as React.CSSProperties,
+
+    lineContext: {
+      display: "grid",
+      gridTemplateColumns: "15px 40px 1fr",
+      borderLeft: "3px solid transparent",
+    } as React.CSSProperties,
+
+    markerAdded: {
+      color: isDark ? "#56d364" : "#1a7f37",
+      fontWeight: "bold" as const,
+      userSelect: "none" as const,
+      paddingLeft: "3px",
+      fontSize: "0.95em",
+    } as React.CSSProperties,
+
+    markerRemoved: {
+      color: isDark ? "#ff7b72" : "#cf222e",
+      fontWeight: "bold" as const,
+      userSelect: "none" as const,
+      paddingLeft: "3px",
+      fontSize: "0.95em",
+    } as React.CSSProperties,
+
+    markerContext: {
+      color: "transparent",
+      userSelect: "none" as const,
+      paddingLeft: "3px",
+    } as React.CSSProperties,
+
+    lineNumber: {
+      textAlign: "right" as const,
+      paddingRight: "8px",
+      userSelect: "none" as const,
+      color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
+      fontSize: "0.85em",
+    } as React.CSSProperties,
+
+    codeContent: {
+      paddingRight: "12px",
+      paddingLeft: "4px",
+      whiteSpace: "pre" as const,
+    } as React.CSSProperties,
+  };
+
   return (
-    <div style={{ marginBottom: "1em" }}>
-      {/* 簡潔な注釈（凡例） */}
-      <div
-        style={{
-          fontSize: "0.85em",
-          marginBottom: "0.5em",
-          opacity: 0.8,
-          display: "flex",
-          gap: "1em",
-        }}
-      >
-        <span style={{ color: "green" }}>緑：追加行</span>
-        <span style={{ color: "red" }}>赤：削除行</span>
+    <div style={styles.wrapper}>
+      {/* タイトルバー */}
+      <div style={styles.titleBar}>
+        <span style={styles.titleLeft}>
+          <span>📄</span>
+          <span>{title || ""}</span>
+        </span>
+        <span style={styles.legend}>
+          <span style={styles.legendAdded}>+ 追加</span>
+          <span style={styles.legendRemoved}>- 削除</span>
+        </span>
       </div>
 
       <Highlight code={pureCode} language={language} theme={theme}>
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <pre
-            className={className}
-            style={{
-              ...style,
-              padding: "1em",
-              overflowX: "auto",
-              backgroundColor: theme.plain.backgroundColor,
-              color: theme.plain.color,
-            }}
-          >
+        {({ className, tokens, getLineProps, getTokenProps }) => (
+          <pre className={className} style={styles.pre}>
             {tokens.map((line, i) => {
               const { type } = parsed[i];
 
-              // removed / context のみ行番号を表示する
-              const displayLineNumber =
-                type === "removed" || type === "context";
+              // 行番号の計算（added/context のみ増加、removed は空白）
+              const lineNum =
+                type === "removed" ? "" : String(currentLineNumber++);
 
-              // 表示する行番号を決定（removed行では空白のまま）
-              const lineNumber = displayLineNumber ? currentLineNumber++ : "";
+              const lineStyle =
+                type === "added"
+                  ? styles.lineAdded
+                  : type === "removed"
+                  ? styles.lineRemoved
+                  : styles.lineContext;
+
+              const markerStyle =
+                type === "added"
+                  ? styles.markerAdded
+                  : type === "removed"
+                  ? styles.markerRemoved
+                  : styles.markerContext;
+
+              const marker =
+                type === "added" ? "+" : type === "removed" ? "-" : " ";
 
               return (
                 <div
                   key={i}
                   {...getLineProps({ line })}
-                  style={{
-                    display: "flex",
-                    background:
-                      type === "added"
-                        ? "rgba(0,255,0,0.08)" // 追加行: 薄い緑
-                        : type === "removed"
-                        ? "rgba(255,0,0,0.08)" // 削除行: 薄い赤
-                        : undefined,
-                  }}
+                  style={lineStyle}
                 >
-                  {/* 差分記号 (+/-/空白) を見た目だけで表示。コピー対象には含めない */}
-                  <span
-                    style={{
-                      width: "1em",
-                      userSelect: "none",
-                      color:
-                        type === "added"
-                          ? "green"
-                          : type === "removed"
-                          ? "red"
-                          : "transparent",
-                    }}
-                    aria-hidden="true"
-                  >
-                    {type === "added" ? "+" : type === "removed" ? "-" : " "}
+                  {/* マーカー列（+/-/空白）*/}
+                  <span style={markerStyle} aria-hidden="true">
+                    {marker}
                   </span>
 
-                  {/* 行番号（removed / context のみ表示） */}
+                  {/* 行番号列 */}
                   {showLineNumbers && (
-                    <span
-                      style={{
-                        width: "3em",
-                        textAlign: "right",
-                        paddingRight: "0.5em",
-                        userSelect: "none",
-                        opacity: displayLineNumber ? 0.5 : 0, // removed行は透明化
-                        color:
-                          colorMode === "dark"
-                            ? "rgba(255,255,255,0.5)" // ダークモード: 明るい半透明
-                            : "rgba(0,0,0,0.5)", // ライトモード: 暗い半透明
-                      }}
-                      aria-hidden="true"
-                    >
-                      {lineNumber}
+                    <span style={styles.lineNumber} aria-hidden="true">
+                      {lineNum}
                     </span>
                   )}
 
-                  {/* Prismでハイライトされたコードトークン群 */}
-                  <span style={{ flex: 1 }}>
+                  {/* コード列（Prismトークン） */}
+                  <span style={styles.codeContent}>
                     {line.map((token, key) => (
                       <span key={key} {...getTokenProps({ token })} />
                     ))}

@@ -1,1 +1,442 @@
+---
+sidebar_position: 11
+---
+
+import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
+
 # ログイン機能を実装する
+
+:::info 今回作ること
+- `users` テーブルを作成し、ユーザをDBで管理する
+- `UserMapper` を作成してメールアドレスでユーザを検索する
+- `LoginForm` と `AuthController` でログイン・ログアウトを実装する
+- `HttpSession` でログイン状態を管理する
+- カート機能にログインチェックを追加する
+:::
+
+:::note Spring Security は使わない
+この章では Spring Security を使わず、`HttpSession` を使ってログイン状態を管理する。
+セッションに `loginUser` オブジェクトを保存し、それが存在するかどうかで「ログイン中かどうか」を判定する。
+:::
+
+---
+
+## 1. `users` テーブルを作成する
+
+psql またはDBクライアントで以下を実行する。
+
+```sql
+\c ecsample_db
+
+CREATE TABLE users (
+  id       SERIAL PRIMARY KEY,
+  name     VARCHAR(100) NOT NULL,
+  email    VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL
+);
+
+-- サンプルユーザ（パスワードは平文。本番では必ずハッシュ化すること）
+INSERT INTO users (name, email, password) VALUES
+  ('山田太郎', 'taro@example.com', 'password123'),
+  ('鈴木花子', 'hanako@example.com', 'password456');
+```
+
+:::caution パスワードの扱いについて
+この演習ではパスワードを平文で保存している。
+実際のシステムでは BCrypt などのハッシュアルゴリズムを使ってパスワードをハッシュ化して保存する必要がある。
+:::
+
+---
+
+## 2. `User.java` エンティティを作成する
+
+`src/main/java/com/example/ecsample/entity/User.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.entity;
+
+public class User {
+    private int id;
+    private String name;
+    private String email;
+    private String password;
+
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+}
+```
+
+---
+
+## 3. `UserMapper.java` を作成する
+
+`src/main/java/com/example/ecsample/mapper/UserMapper.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.mapper;
+
+import com.example.ecsample.entity.User;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Insert;
+
+@Mapper
+public interface UserMapper {
+
+    /** メールアドレスでユーザを検索する */
+    @Select("SELECT * FROM users WHERE email = #{email}")
+    User findByEmail(String email);
+
+    /** ユーザを登録する */
+    @Insert("INSERT INTO users (name, email, password) VALUES (#{name}, #{email}, #{password})")
+    void insert(User user);
+}
+```
+
+> **ポイント**
+> 今回は XML Mapper の代わりに `@Select` / `@Insert` アノテーションを使う方法で記述している。
+> シンプルなSQLはアノテーション、複雑なSQLはXML と使い分けるのが一般的である。
+
+---
+
+## 4. `UserServiceImpl` をDB保存に更新する
+
+<CodeBlockWithDiff
+title="src/main/java/com/example/ecsample/service/UserServiceImpl.java"
+code={` package com.example.ecsample.service;
+
+ import com.example.ecsample.form.UserForm;
++import com.example.ecsample.entity.User;
++import com.example.ecsample.mapper.UserMapper;
+ import org.springframework.stereotype.Service;
+
+ @Service
+ public class UserServiceImpl implements UserService {
+
++    private final UserMapper userMapper;
++
++    public UserServiceImpl(UserMapper userMapper) {
++        this.userMapper = userMapper;
++    }
++
+     @Override
+     public void register(UserForm form) {
+-        System.out.println("ユーザ登録：" + form.getName() + " <" + form.getEmail() + ">");
++        User user = new User();
++        user.setName(form.getName());
++        user.setEmail(form.getEmail());
++        user.setPassword(form.getPassword());
++        userMapper.insert(user);
+     }
+ }
+`}
+language="java"
+startLineNumber={1}
+/>
+
+---
+
+## 5. `LoginForm.java` を作成する
+
+`src/main/java/com/example/ecsample/form/LoginForm.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.form;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public class LoginForm {
+
+    @NotBlank(message = "メールアドレスを入力してください")
+    @Email(message = "メールアドレスの形式が正しくありません")
+    private String email;
+
+    @NotBlank(message = "パスワードを入力してください")
+    private String password;
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+}
+```
+
+---
+
+## 6. `AuthController.java` を作成する
+
+`src/main/java/com/example/ecsample/controller/AuthController.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.controller;
+
+import com.example.ecsample.entity.User;
+import com.example.ecsample.form.LoginForm;
+import com.example.ecsample.mapper.UserMapper;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+public class AuthController {
+
+    private final UserMapper userMapper;
+
+    public AuthController(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
+    /** ログイン画面を表示する */
+    @GetMapping("/login")
+    public String showLoginForm(Model model) {
+        model.addAttribute("form", new LoginForm());
+        return "auth/login";
+    }
+
+    /** ログイン処理を行う */
+    @PostMapping("/login")
+    public String login(
+            @Validated @ModelAttribute("form") LoginForm form,
+            BindingResult bindingResult,
+            HttpSession session,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "auth/login";
+        }
+
+        // DBからユーザを検索する
+        User user = userMapper.findByEmail(form.getEmail());
+
+        if (user == null || !user.getPassword().equals(form.getPassword())) {
+            model.addAttribute("loginError", "メールアドレスまたはパスワードが違います");
+            return "auth/login";
+        }
+
+        // ログイン成功：セッションにユーザ情報を保存する
+        session.setAttribute("loginUser", user);
+        return "redirect:/products";
+    }
+
+    /** ログアウト処理を行う */
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
+    }
+}
+```
+
+> **ポイント**
+> セッションに `loginUser` というキーで `User` オブジェクトを保存する。
+> ログイン中かどうかは `session.getAttribute("loginUser") != null` で判定できる。
+
+---
+
+## 7. ログイン画面を作成する
+
+`src/main/resources/templates/auth/login.html` を新規作成する（`auth` フォルダも作成）。
+
+```html showLineNumbers
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>ログイン</title>
+</head>
+<body>
+  <header th:replace="layout/_header :: header"></header>
+
+  <main>
+  <h1>ログイン</h1>
+
+  <p th:if="${loginError}" style="color:red">[[${loginError}]]</p>
+
+  <form th:action="@{/login}" th:object="${form}" method="post">
+    <p>
+      メールアドレス：<input type="email" th:field="*{email}" />
+      <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+    </p>
+    <p>
+      パスワード：<input type="password" th:field="*{password}" />
+      <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+    </p>
+    <p><button type="submit">ログイン</button></p>
+  </form>
+
+  <p><a href="/register">▶ 新規会員登録はこちら</a></p>
+  </main>
+
+  <footer th:replace="layout/_footer :: footer"></footer>
+</body>
+</html>
+```
+
+---
+
+## 8. `CartController` にログインチェックを追加する
+
+<CodeBlockWithDiff
+title="src/main/java/com/example/ecsample/controller/CartController.java"
+code={` package com.example.ecsample.controller;
+
++import com.example.ecsample.entity.User;
+ import com.example.ecsample.entity.CartItem;
+ import com.example.ecsample.entity.Product;
+ import com.example.ecsample.mapper.ProductMapper;
+ import com.example.ecsample.service.CartService;
+ import jakarta.servlet.http.HttpSession;
+ import org.springframework.stereotype.Controller;
+ import org.springframework.ui.Model;
+ import org.springframework.web.bind.annotation.*;
+
+ import java.util.List;
+
+ @Controller
+ @RequestMapping("/cart")
+ public class CartController {
+
+     private final CartService cartService;
+     private final ProductMapper productMapper;
+
+     public CartController(CartService cartService, ProductMapper productMapper) {
+         this.cartService = cartService;
+         this.productMapper = productMapper;
+     }
+
++    /** ログインチェック：未ログインはログインページにリダイレクト */
++    private boolean isLoggedIn(HttpSession session) {
++        return session.getAttribute("loginUser") != null;
++    }
++
+     @GetMapping
+     public String showCart(HttpSession session, Model model) {
++        if (!isLoggedIn(session)) return "redirect:/login";
+         List<CartItem> cart = cartService.getCart(session);
+         int total = cart.stream().mapToInt(CartItem::getSubtotal).sum();
+         model.addAttribute("cart", cart);
+         model.addAttribute("total", total);
+         return "cart/index";
+     }
+
+     @PostMapping("/add")
+     public String addToCart(@RequestParam("productId") int productId,
+                             HttpSession session) {
++        if (!isLoggedIn(session)) return "redirect:/login";
+         Product product = productMapper.findById(productId);
+         if (product != null) {
+             cartService.addItem(session, product);
+         }
+         return "redirect:/cart";
+     }
+
+     @PostMapping("/remove")
+     public String removeFromCart(@RequestParam("productId") int productId,
+                                  HttpSession session) {
++        if (!isLoggedIn(session)) return "redirect:/login";
+         cartService.removeItem(session, productId);
+         return "redirect:/cart";
+     }
+ }
+`}
+language="java"
+startLineNumber={1}
+/>
+
+---
+
+## 9. ナビゲーションバーにログイン状態を表示する
+
+<CodeBlockWithDiff
+title="src/main/resources/templates/layout/_header.html"
+code={` <header th:fragment="header">
+   <h1>EC Sample</h1>
+   <nav>
+     <a href="/">トップ</a> |
+     <a href="/products">商品一覧</a> |
+     <a href="/cart">カート</a> |
++    <th:block th:if="\${session.loginUser != null}">
++      [[\${session.loginUser.name}]]さん |
++      <form th:action="@{/logout}" method="post" style="display:inline">
++        <button type="submit">ログアウト</button>
++      </form>
++    </th:block>
++    <th:block th:unless="\${session.loginUser != null}">
++      <a href="/login">ログイン</a>
++    </th:block>
+   </nav>
+   <hr />
+ </header>
+`}
+language="html"
+showLineNumbers={false}
+/>
+
+> **ポイント**
+> Thymeleaf では `${session.loginUser}` でセッション属性に直接アクセスできる。
+
+---
+
+## 10. 動作確認
+
+1. アプリを再起動する。
+2. `http://localhost:8080/cart` にアクセスする → ログイン画面にリダイレクトされることを確認する。
+3. `taro@example.com` / `password123` でログインする → 商品一覧にリダイレクトされることを確認する。
+4. ヘッダーに「山田太郎さん」と表示されることを確認する。
+5. カートに商品を追加できることを確認する。
+6. ログアウトボタンをクリックする → ログイン画面に戻ることを確認する。
+7. 新規登録フォームから登録 → `users` テーブルにレコードが追加されることを確認する。
+
+---
+
+## ファイル構成の確認
+
+```
+ecsample/
+├─ src/main/java/com/example/ecsample/
+│   ├─ controller/
+│   │   ├─ AuthController.java          ← 新規作成
+│   │   └─ CartController.java          ← 修正済み
+│   ├─ entity/
+│   │   └─ User.java                    ← 新規作成
+│   ├─ form/
+│   │   └─ LoginForm.java               ← 新規作成
+│   ├─ mapper/
+│   │   └─ UserMapper.java              ← 新規作成
+│   └─ service/
+│       └─ UserServiceImpl.java         ← 修正済み
+└─ src/main/resources/templates/
+    ├─ auth/
+    │   └─ login.html                    ← 新規作成
+    └─ layout/
+        └─ _header.html                  ← 修正済み
+```
+
+---
+
+## Gitコミット
+
+```bash
+git add .
+git commit -m "feat: HttpSessionを使ったログイン・ログアウト機能を追加"
+```
+
+---
+
+次の章では、カートの内容を注文としてDBに保存する購入処理を実装する。

@@ -45,6 +45,7 @@ import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
 `UserForm` クラスに単項目チェックのアノテーションを追加する。
 
 <CodeBlockWithDiff
+title="src/main/java/com/example/ecsample/form/UserForm.java"
 code={` package com.example.ecsample.form;
 
 + import jakarta.validation.constraints.Email;
@@ -82,6 +83,7 @@ startLineNumber={1}
 `@Validated` を付けるだけで、`UserForm` に設定したアノテーションが自動でチェックされる。
 
 <CodeBlockWithDiff
+title="src/main/java/com/example/ecsample/controller/UserController.java"
 code={`+import org.springframework.validation.annotation.Validated;
 
 import org.springframework.stereotype.Controller;
@@ -121,6 +123,7 @@ showLineNumbers={false}
 ## 5. `BindingResult` を追加して、エラーをフォームへ戻す
 
 <CodeBlockWithDiff
+title="src/main/java/com/example/ecsample/controller/UserController.java"
 code={`@PostMapping("/register")
 - public String submitForm(@Validated @ModelAttribute UserForm form, Model model) {
 +public String submitForm(
@@ -159,6 +162,7 @@ showLineNumbers={false}
 ## 6. HTMLにエラーメッセージを表示する
 
 <CodeBlockWithDiff
+title="src/main/resources/templates/user/register.html"
 code={`- <p>名前：<input type="text" th:field="*{name}" /></p>
 + <p>
 +   名前：<input type="text" th:field="*{name}" />
@@ -202,6 +206,7 @@ startLineNumber={13}
 ### ① UserForm に確認用フィールドを追加
 
 <CodeBlockWithDiff
+title="src/main/java/com/example/ecsample/form/UserForm.java"
 code={` public class UserForm {
      @NotBlank(message = "名前は必須です")
      private String name;
@@ -247,6 +252,7 @@ startLineNumber={1}
 したがって、確認欄の下に以下のようにエラー出力を追加する。
 
 <CodeBlockWithDiff
+title="src/main/resources/templates/user/register.html"
 code={` <p>
      メールアドレス：<input type="email" th:field="*{email}" />
      <span th:if="\${#fields.hasErrors('email')}" th:errors="*{email}"></span>

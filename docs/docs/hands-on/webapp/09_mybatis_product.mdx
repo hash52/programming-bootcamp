@@ -1,1 +1,278 @@
+---
+sidebar_position: 9
+---
+
+import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
+
 # 商品データをDBから取得する
+
+:::info 今回作ること
+- PostgreSQL に `products` テーブルを作成する
+- MyBatis の `@Mapper` インターフェースとXML Mapper を作成する
+- `ProductController` がDBから商品一覧・詳細を取得するように変更する
+:::
+
+---
+
+これまで商品データはコード内にべた書きしていた。
+この章では、PostgreSQL にデータを格納し、MyBatis を使って取得できるように変更する。
+
+---
+
+## 1. `pom.xml` に依存を追加する
+
+`pom.xml` の `<dependencies>` に以下を追加する。
+
+```xml showLineNumbers
+<!-- PostgreSQL ドライバ -->
+<dependency>
+  <groupId>org.postgresql</groupId>
+  <artifactId>postgresql</artifactId>
+  <scope>runtime</scope>
+</dependency>
+
+<!-- MyBatis Spring Boot Starter -->
+<dependency>
+  <groupId>org.mybatis.spring.boot</groupId>
+  <artifactId>mybatis-spring-boot-starter</artifactId>
+  <version>3.0.3</version>
+</dependency>
+```
+
+追加後は Eclipse で **プロジェクトを右クリック → 実行 → Maven install** を実行して依存を取得する。
+
+---
+
+## 2. `application.properties` にDB設定を追加する
+
+`src/main/resources/application.properties` を開き、以下を追加する。
+
+```properties showLineNumbers
+spring.datasource.url=jdbc:postgresql://localhost:5432/ecsample_db
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+mybatis.mapper-locations=classpath:mapper/*.xml
+mybatis.configuration.map-underscore-to-camel-case=true
+```
+
+> **ポイント**
+> `map-underscore-to-camel-case=true` を設定すると、DBのカラム名 `created_at` を Java の `createdAt` に自動変換してくれる。
+
+---
+
+## 3. データベースとテーブルを作成する
+
+psql またはDBクライアント（pgAdmin など）を使って以下を実行する。
+
+```sql
+-- データベース作成（まだ存在しない場合）
+CREATE DATABASE ecsample_db;
+
+-- テーブル作成
+\c ecsample_db
+
+CREATE TABLE products (
+  id    SERIAL PRIMARY KEY,
+  name  VARCHAR(100) NOT NULL,
+  price INT          NOT NULL
+);
+
+-- サンプルデータ投入
+INSERT INTO products (name, price) VALUES
+  ('コーヒーカップ', 1200),
+  ('ティーポット',   2400),
+  ('マグカップ',     1500);
+```
+
+> **ポイント**
+> `SERIAL` は PostgreSQL の自動採番型である（MySQL の `AUTO_INCREMENT` に相当）。
+
+---
+
+## 4. `Product.java` を確認・更新する
+
+`src/main/java/com/example/ecsample/entity/Product.java` を確認する。
+DBのカラム（`id`, `name`, `price`）に合わせて次の内容にする。
+
+```java showLineNumbers
+package com.example.ecsample.entity;
+
+public class Product {
+    private int id;
+    private String name;
+    private int price;
+
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public int getPrice() { return price; }
+    public void setPrice(int price) { this.price = price; }
+}
+```
+
+> **ポイント**
+> コンストラクタは不要になる。MyBatis はデフォルトコンストラクタを使ってオブジェクトを生成し、setter で値を設定する。
+
+---
+
+## 5. `ProductMapper.java` を作成する
+
+`src/main/java/com/example/ecsample/mapper/ProductMapper.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.mapper;
+
+import com.example.ecsample.entity.Product;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+
+@Mapper
+public interface ProductMapper {
+
+    /** 全商品を取得する */
+    List<Product> findAll();
+
+    /** IDで商品を1件取得する */
+    Product findById(int id);
+}
+```
+
+---
+
+## 6. `ProductMapper.xml` を作成する
+
+`src/main/resources/mapper/ProductMapper.xml` を新規作成する（`mapper` フォルダも作成）。
+
+```xml showLineNumbers
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.ecsample.mapper.ProductMapper">
+
+  <select id="findAll" resultType="com.example.ecsample.entity.Product">
+    SELECT id, name, price
+    FROM products
+    ORDER BY id
+  </select>
+
+  <select id="findById" resultType="com.example.ecsample.entity.Product">
+    SELECT id, name, price
+    FROM products
+    WHERE id = #{id}
+  </select>
+
+</mapper>
+```
+
+> **ポイント**
+> - `namespace` にはMapper インターフェースの完全修飾クラス名を書く。
+> - `id` がメソッド名と一致する。
+> - `#{id}` は引数の値に置き換えられる（SQLインジェクション対策済み）。
+
+---
+
+## 7. `ProductController` を修正する
+
+<CodeBlockWithDiff
+title="src/main/java/com/example/ecsample/controller/ProductController.java"
+code={` package com.example.ecsample.controller;
+
++import com.example.ecsample.mapper.ProductMapper;
+ import com.example.ecsample.entity.Product;
+ import org.springframework.stereotype.Controller;
+ import org.springframework.ui.Model;
+ import org.springframework.web.bind.annotation.GetMapping;
+ import org.springframework.web.bind.annotation.PathVariable;
+-import java.util.List;
+-import java.util.Arrays;
+
+ @Controller
+ public class ProductController {
+
++   private final ProductMapper productMapper;
++
++   public ProductController(ProductMapper productMapper) {
++       this.productMapper = productMapper;
++   }
++
+     @GetMapping("/products")
+     public String showList(Model model) {
+-        List<Product> products = Arrays.asList(
+-            new Product(1, "コーヒーカップ", 1200),
+-            new Product(2, "ティーポット", 2400),
+-            new Product(3, "マグカップ", 1500)
+-        );
++        List<Product> products = productMapper.findAll();
+         model.addAttribute("products", products);
+         return "product/list";
+     }
+
+     @GetMapping("/product/{id}")
+     public String showDetail(@PathVariable("id") int id, Model model) {
+-        Product product;
+-        if (id == 1) {
+-            product = new Product(1, "コーヒーカップ", 1200);
+-        } else if (id == 2) {
+-            product = new Product(2, "ティーポット", 2400);
+-        } else {
+-            product = new Product(0, "未登録の商品", 0);
+-        }
++        Product product = productMapper.findById(id);
+         model.addAttribute("product", product);
+         return "product/detail";
+     }
+ }
+`}
+language="java"
+startLineNumber={1}
+/>
+
+---
+
+## 8. 動作確認
+
+1. アプリを再起動する。
+2. `http://localhost:8080/products` にアクセスする。
+3. DBに投入した商品（コーヒーカップ、ティーポット、マグカップ）が一覧表示されれば成功。
+4. 各商品リンクをクリックして詳細ページも確認する。
+5. psql で `INSERT INTO products (name, price) VALUES ('テスト商品', 500);` を実行後、一覧を再読み込みして反映されることを確認する。
+
+---
+
+## ファイル構成の確認
+
+```
+ecsample/
+├─ src/main/java/com/example/ecsample/
+│   ├─ controller/
+│   │   └─ ProductController.java    ← 修正済み
+│   ├─ entity/
+│   │   └─ Product.java              ← 更新済み
+│   └─ mapper/
+│       └─ ProductMapper.java         ← 新規作成
+└─ src/main/resources/
+    ├─ application.properties         ← 修正済み
+    └─ mapper/
+        └─ ProductMapper.xml           ← 新規作成
+```
+
+---
+
+## Gitコミット
+
+```bash
+git add .
+git commit -m "feat: MyBatisでProductをDBから取得するように変更"
+```
+
+---
+
+次の章では、`HttpSession` を使ってカート機能を実装する。

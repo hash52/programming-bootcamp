@@ -1,1 +1,367 @@
+---
+sidebar_position: 12
+---
+
+import { CodeBlockWithDiff } from "@site/src/components/CodeBlockWithDiff";
+
 # 購入処理と注文完了画面を作成する
+
+:::info 今回作ること
+- `orders` テーブルと `order_items` テーブルを作成する
+- `Order` / `OrderItem` エンティティを作成する
+- `OrderMapper` と `OrderMapper.xml` で注文をDBに保存する
+- `OrderController` で購入確定処理と完了画面を実装する
+- カート画面に「購入する」ボタンを追加する
+:::
+
+---
+
+## 1. テーブルを作成する
+
+psql で以下を実行する。
+
+```sql
+\c ecsample_db
+
+CREATE TABLE orders (
+  id         SERIAL PRIMARY KEY,
+  user_id    INT         NOT NULL REFERENCES users(id),
+  created_at TIMESTAMP   NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE order_items (
+  id         SERIAL PRIMARY KEY,
+  order_id   INT NOT NULL REFERENCES orders(id),
+  product_id INT NOT NULL,
+  name       VARCHAR(100) NOT NULL,
+  price      INT NOT NULL,
+  quantity   INT NOT NULL
+);
+```
+
+---
+
+## 2. `Order.java` を作成する
+
+`src/main/java/com/example/ecsample/entity/Order.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.entity;
+
+import java.time.LocalDateTime;
+
+public class Order {
+    private int id;
+    private int userId;
+    private LocalDateTime createdAt;
+
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+}
+```
+
+---
+
+## 3. `OrderItem.java` を作成する
+
+`src/main/java/com/example/ecsample/entity/OrderItem.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.entity;
+
+public class OrderItem {
+    private int orderId;
+    private int productId;
+    private String name;
+    private int price;
+    private int quantity;
+
+    public OrderItem(int orderId, int productId, String name, int price, int quantity) {
+        this.orderId = orderId;
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    public int getOrderId() { return orderId; }
+    public int getProductId() { return productId; }
+    public String getName() { return name; }
+    public int getPrice() { return price; }
+    public int getQuantity() { return quantity; }
+}
+```
+
+---
+
+## 4. `OrderMapper.java` を作成する
+
+`src/main/java/com/example/ecsample/mapper/OrderMapper.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.mapper;
+
+import com.example.ecsample.entity.Order;
+import com.example.ecsample.entity.OrderItem;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
+
+import java.util.List;
+
+@Mapper
+public interface OrderMapper {
+
+    /** 注文を保存し、生成されたIDをorderオブジェクトに設定する */
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insertOrder(Order order);
+
+    /** 注文明細を一括保存する */
+    void insertOrderItems(List<OrderItem> items);
+}
+```
+
+---
+
+## 5. `OrderMapper.xml` を作成する
+
+`src/main/resources/mapper/OrderMapper.xml` を新規作成する。
+
+```xml showLineNumbers
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.ecsample.mapper.OrderMapper">
+
+  <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO orders (user_id)
+    VALUES (#{userId})
+  </insert>
+
+  <insert id="insertOrderItems">
+    INSERT INTO order_items (order_id, product_id, name, price, quantity)
+    VALUES
+    <foreach collection="list" item="item" separator=",">
+      (#{item.orderId}, #{item.productId}, #{item.name}, #{item.price}, #{item.quantity})
+    </foreach>
+  </insert>
+
+</mapper>
+```
+
+> **ポイント**
+> `<foreach>` を使うと、リストの各要素を `INSERT` に展開できる（バルクインサート）。
+
+---
+
+## 6. `OrderService.java` を作成する
+
+`src/main/java/com/example/ecsample/service/OrderService.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.service;
+
+import com.example.ecsample.entity.CartItem;
+import com.example.ecsample.entity.Order;
+import com.example.ecsample.entity.OrderItem;
+import com.example.ecsample.mapper.OrderMapper;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class OrderService {
+
+    private final OrderMapper orderMapper;
+
+    public OrderService(OrderMapper orderMapper) {
+        this.orderMapper = orderMapper;
+    }
+
+    /**
+     * カートの内容を注文として保存する。
+     * @param userId    ログイン中のユーザID
+     * @param cartItems カートの商品リスト
+     * @return 保存された注文ID
+     */
+    @Transactional
+    public int placeOrder(int userId, List<CartItem> cartItems) {
+        // 注文ヘッダを保存
+        Order order = new Order();
+        order.setUserId(userId);
+        orderMapper.insertOrder(order);
+
+        // 注文明細を保存
+        List<OrderItem> items = cartItems.stream()
+            .map(c -> new OrderItem(order.getId(), c.getProductId(),
+                                   c.getName(), c.getPrice(), c.getQuantity()))
+            .collect(Collectors.toList());
+        orderMapper.insertOrderItems(items);
+
+        return order.getId();
+    }
+}
+```
+
+> **ポイント**
+> `@Transactional` を付けることで、注文ヘッダと注文明細の保存を1つのトランザクションとして扱う。
+> どちらかの保存が失敗した場合、両方がロールバックされる。
+
+---
+
+## 7. `OrderController.java` を作成する
+
+`src/main/java/com/example/ecsample/controller/OrderController.java` を新規作成する。
+
+```java showLineNumbers
+package com.example.ecsample.controller;
+
+import com.example.ecsample.entity.CartItem;
+import com.example.ecsample.entity.User;
+import com.example.ecsample.service.CartService;
+import com.example.ecsample.service.OrderService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/order")
+public class OrderController {
+
+    private final CartService cartService;
+    private final OrderService orderService;
+
+    public OrderController(CartService cartService, OrderService orderService) {
+        this.cartService = cartService;
+        this.orderService = orderService;
+    }
+
+    /** 購入を確定する */
+    @PostMapping("/confirm")
+    public String confirm(HttpSession session, Model model) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            return "redirect:/login";
+        }
+
+        List<CartItem> cart = cartService.getCart(session);
+        if (cart.isEmpty()) {
+            return "redirect:/cart";
+        }
+
+        int orderId = orderService.placeOrder(loginUser.getId(), cart);
+        cartService.clearCart(session);
+
+        model.addAttribute("orderId", orderId);
+        return "order/complete";
+    }
+}
+```
+
+---
+
+## 8. カート画面に「購入する」ボタンを追加する
+
+<CodeBlockWithDiff
+title="src/main/resources/templates/cart/index.html"
+code={`     <p><strong>合計：[[\${\#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}]]円</strong></p>
++
++    <form th:action="@{/order/confirm}" method="post">
++      <button type="submit">購入する</button>
++    </form>
+   </th:block>
+`}
+language="html"
+showLineNumbers={false}
+/>
+
+---
+
+## 9. 注文完了画面を作成する
+
+`src/main/resources/templates/order/complete.html` を新規作成する（`order` フォルダも作成）。
+
+```html showLineNumbers
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>注文完了</title>
+</head>
+<body>
+  <header th:replace="layout/_header :: header"></header>
+
+  <main>
+  <h1>ご注文ありがとうございます！</h1>
+  <p>注文番号：[[${orderId}]]</p>
+  <p>ご注文を受け付けました。</p>
+  <a href="/products">▶ 商品一覧に戻る</a>
+  </main>
+
+  <footer th:replace="layout/_footer :: footer"></footer>
+</body>
+</html>
+```
+
+---
+
+## 10. 動作確認
+
+1. アプリを再起動する。
+2. ログインする。
+3. 商品一覧からカートに商品を追加する。
+4. カート画面で「購入する」ボタンをクリックする。
+5. 注文完了画面（「ご注文ありがとうございます！」）が表示され、注文番号が表示されることを確認する。
+6. カートが空になっていることを確認する。
+7. psql で `SELECT * FROM orders;` と `SELECT * FROM order_items;` を実行し、レコードが保存されていることを確認する。
+
+---
+
+## ファイル構成の確認
+
+```
+ecsample/
+├─ src/main/java/com/example/ecsample/
+│   ├─ controller/
+│   │   └─ OrderController.java          ← 新規作成
+│   ├─ entity/
+│   │   ├─ Order.java                    ← 新規作成
+│   │   └─ OrderItem.java                ← 新規作成
+│   ├─ mapper/
+│   │   └─ OrderMapper.java              ← 新規作成
+│   └─ service/
+│       └─ OrderService.java             ← 新規作成
+└─ src/main/resources/
+    ├─ mapper/
+    │   └─ OrderMapper.xml                ← 新規作成
+    └─ templates/
+        └─ order/
+            └─ complete.html              ← 新規作成
+```
+
+---
+
+## Gitコミット
+
+```bash
+git add .
+git commit -m "feat: 購入処理と注文完了画面を追加"
+```
+
+---
+
+次の章では、商品名でキーワード検索する機能を追加し、これまでの内容を振り返る。
