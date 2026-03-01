@@ -1,0 +1,68 @@
+---
+id: "additional/comprehensive#bmi_calculator"
+title: "BMI 計算機を実装せよ"
+category: "comprehensive"
+difficulty: "Medium"
+tags: ["practical"]
+---
+
+## 問題
+
+体重（kg）と身長（m）を入力として受け取り、BMI を計算して判定結果とともに表示するプログラムを実装せよ。
+
+**BMI の計算式：**
+
+```
+BMI = 体重(kg) ÷ 身長(m)²
+```
+
+**BMI 判定基準（日本肥満学会）：**
+
+| BMI | 判定 |
+|-----|------|
+| 18.5 未満 | 低体重 |
+| 18.5 以上 25.0 未満 | 普通体重 |
+| 25.0 以上 30.0 未満 | 肥満（1度） |
+| 30.0 以上 35.0 未満 | 肥満（2度） |
+| 35.0 以上 | 肥満（3度以上） |
+
+**実行例：**
+
+```
+体重: 65.0 kg
+身長: 1.70 m
+BMI: 22.5
+判定: 普通体重
+```
+
+<details>
+<summary>模範解答を見る</summary>
+
+```java
+public class BmiCalculator {
+
+    static String classify(double bmi) {
+        if (bmi < 18.5) return "低体重";
+        if (bmi < 25.0) return "普通体重";
+        if (bmi < 30.0) return "肥満（1度）";
+        if (bmi < 35.0) return "肥満（2度）";
+        return "肥満（3度以上）";
+    }
+
+    public static void main(String[] args) {
+        double weight = 65.0; // kg
+        double height = 1.70; // m
+
+        double bmi = weight / (height * height);
+        String category = classify(bmi);
+
+        System.out.printf("BMI: %.1f%n", bmi);
+        System.out.println("判定: " + category);
+    }
+}
+```
+
+**ポイント：** `printf` の `%.1f` で小数点以下 1 桁の表示ができる。
+条件分岐は小さい値から順に判定すると、`else if` を使わなくてもシンプルに書ける。
+
+</details>

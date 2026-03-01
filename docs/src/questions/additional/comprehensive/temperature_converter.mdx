@@ -1,0 +1,57 @@
+---
+id: "additional/comprehensive#temperature_converter"
+title: "温度変換プログラムを実装せよ（摂氏 ↔ 華氏）"
+category: "comprehensive"
+difficulty: "Easy"
+tags: ["practical", "math"]
+---
+
+## 問題
+
+摂氏（℃）と華氏（℉）の相互変換を行う 2 つのメソッドを実装せよ。
+
+**変換式：**
+
+```
+華氏 = 摂氏 × 9 ÷ 5 + 32
+摂氏 = (華氏 - 32) × 5 ÷ 9
+```
+
+**実行例：**
+
+```
+celsiusToFahrenheit(0)   → 32.0
+celsiusToFahrenheit(100) → 212.0
+fahrenheitToCelsius(32)  → 0.0
+fahrenheitToCelsius(98.6) → 37.0
+```
+
+小数点以下 1 桁で表示すること。
+
+<details>
+<summary>模範解答を見る</summary>
+
+```java
+public class TemperatureConverter {
+
+    static double celsiusToFahrenheit(double celsius) {
+        return celsius * 9.0 / 5.0 + 32;
+    }
+
+    static double fahrenheitToCelsius(double fahrenheit) {
+        return (fahrenheit - 32) * 5.0 / 9.0;
+    }
+
+    public static void main(String[] args) {
+        System.out.printf("0℃ → %.1f℉%n", celsiusToFahrenheit(0));    // 32.0
+        System.out.printf("100℃ → %.1f℉%n", celsiusToFahrenheit(100)); // 212.0
+        System.out.printf("32℉ → %.1f℃%n", fahrenheitToCelsius(32));   // 0.0
+        System.out.printf("98.6℉ → %.1f℃%n", fahrenheitToCelsius(98.6)); // 37.0
+    }
+}
+```
+
+**ポイント：** `9 / 5` は整数除算で `1` になってしまうため、`9.0 / 5.0` と書くことで
+浮動小数点演算にする必要がある。
+
+</details>

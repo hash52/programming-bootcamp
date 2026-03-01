@@ -1,0 +1,106 @@
+---
+id: "trophy/java/basics/05_loops#ultra"
+title: "激ムズ：ループの達人"
+topicId: "05_loops"
+category: "java/basics"
+difficulty: "Hard"
+---
+
+## 🏆 激ムズ問題：ループの達人
+
+ループを使って、以下の図形を標準出力に表示するプログラムを実装せよ。
+
+**出題 1：直角三角形（n=5 の場合）**
+
+```
+*
+**
+***
+****
+*****
+```
+
+**出題 2：ピラミッド（n=5 の場合）**
+
+```
+    *
+   ***
+  *****
+ *******
+*********
+```
+
+**出題 3：数字の菱形（n=4 の場合）**
+
+```
+   1
+  121
+ 12321
+1234321
+ 12321
+  121
+   1
+```
+
+`n` を変えても正しく動作するよう、汎用的なコードを書くこと。
+
+<details>
+<summary>模範解答を見る</summary>
+
+```java
+public class LoopMaster {
+
+    // 直角三角形
+    static void rightTriangle(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+
+    // ピラミッド
+    static void pyramid(int n) {
+        for (int i = 1; i <= n; i++) {
+            // 空白
+            for (int j = 0; j < n - i; j++) System.out.print(" ");
+            // アスタリスク
+            for (int j = 0; j < 2 * i - 1; j++) System.out.print("*");
+            System.out.println();
+        }
+    }
+
+    // 数字の菱形
+    static void diamond(int n) {
+        // 上半分（n行）
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < n - i; j++) System.out.print(" ");
+            for (int j = 1; j <= i; j++) System.out.print(j);
+            for (int j = i - 1; j >= 1; j--) System.out.print(j);
+            System.out.println();
+        }
+        // 下半分（n-1行）
+        for (int i = n - 1; i >= 1; i--) {
+            for (int j = 0; j < n - i; j++) System.out.print(" ");
+            for (int j = 1; j <= i; j++) System.out.print(j);
+            for (int j = i - 1; j >= 1; j--) System.out.print(j);
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("=== 直角三角形 ===");
+        rightTriangle(5);
+        System.out.println("\n=== ピラミッド ===");
+        pyramid(5);
+        System.out.println("\n=== 数字の菱形 ===");
+        diamond(4);
+    }
+}
+```
+
+**ポイント：** ネストしたループでは、外側のループが「行」、内側のループが「列」を制御する。
+空白とアスタリスクの数が `i` に対してどのような関係にあるかをまず紙に書いて考えよう。
+
+</details>

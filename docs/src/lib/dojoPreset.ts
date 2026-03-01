@@ -17,6 +17,8 @@ export interface DojoPreset {
   orderMode: OrderMode;
   questionLimit: number | null;
   allQuestions: boolean;
+  selectedAdditionalIds: string[];
+  includeTrophy: boolean;
 }
 
 const STORAGE_KEY = "dojoPresets";
@@ -62,6 +64,8 @@ export interface CurrentConditions {
   orderMode: OrderMode;
   questionLimit: number | null;
   allQuestions: boolean;
+  selectedAdditionalIds: Set<string>;
+  includeTrophy: boolean;
 }
 
 export function buildPresetFromState(
@@ -80,5 +84,7 @@ export function buildPresetFromState(
     orderMode: state.orderMode,
     questionLimit: state.questionLimit,
     allQuestions: state.allQuestions,
+    selectedAdditionalIds: [...state.selectedAdditionalIds],
+    includeTrophy: state.includeTrophy,
   };
 }

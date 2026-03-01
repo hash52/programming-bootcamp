@@ -14,7 +14,7 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { decodeShareData } from "@site/src/lib/dojoShare";
 
 interface DojoImportPanelProps {
-  onImport: (questionIds: string[]) => void;
+  onImport: (questionIds: string[], additionalIds: string[]) => void;
 }
 
 export const DojoImportPanel: React.FC<DojoImportPanelProps> = ({
@@ -36,7 +36,7 @@ export const DojoImportPanel: React.FC<DojoImportPanelProps> = ({
       return;
     }
     setError(null);
-    onImport(result.questionIds);
+    onImport(result.questionIds, result.additionalIds);
   };
 
   return (

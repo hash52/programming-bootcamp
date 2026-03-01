@@ -100,6 +100,14 @@ export interface Question extends QuestionBase {
   //checkedAt: Date | null; ローカルストレージから引っ張る。マスタデータには持たせない
 }
 
+/** トロフィー問題（激ムズ問題）の定義 */
+export interface TrophyQuestion {
+  /** MDXファイルのid。例: "trophy/java/basics/05_loops#ultra" */
+  id: string;
+  /** ダッシュボード・道場で表示するタイトル */
+  title: string;
+}
+
 /** 各カテゴリのトピック */
 export interface Topic {
   /** ファイル名`01_{id}.mdx`のid部分。URLパスになる */
@@ -110,6 +118,8 @@ export interface Topic {
   category: Category; // 階層構造をCategory/Topic/QuestionではなくTopic/Questionの形にするため、カテゴリはTopicのプロパティとして持たせる
   /** このトピックに関連する設問一覧 */
   questions: Question[];
+  /** トロフィー問題（激ムズ問題）。任意：全トピックに設定不要 */
+  trophyQuestion?: TrophyQuestion;
 }
 
 /**
@@ -765,6 +775,10 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
         difficulty: Difficulty.Medium,
       },
     ],
+    trophyQuestion: {
+      id: "trophy/java/basics/05_loops#ultra",
+      title: "激ムズ：ループの達人（図形描画）",
+    },
   }),
   withAutoIds({
     id: "06_arrays",

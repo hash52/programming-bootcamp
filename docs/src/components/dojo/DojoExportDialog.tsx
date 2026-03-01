@@ -17,15 +17,17 @@ interface DojoExportDialogProps {
   open: boolean;
   onClose: () => void;
   questionIds: string[];
+  additionalIds?: string[];
 }
 
 export const DojoExportDialog: React.FC<DojoExportDialogProps> = ({
   open,
   onClose,
   questionIds,
+  additionalIds,
 }) => {
   const [copied, setCopied] = useState(false);
-  const jsonText = encodeShareData(questionIds);
+  const jsonText = encodeShareData(questionIds, additionalIds);
 
   const handleCopy = async () => {
     try {
@@ -49,7 +51,7 @@ export const DojoExportDialog: React.FC<DojoExportDialogProps> = ({
         <DialogTitle>この問題セットを共有</DialogTitle>
         <DialogContent>
           <Typography variant="body2" color="text.secondary" mb={1}>
-            以下のJSON文字列を共有してください（{questionIds.length}問）
+            以下のJSON文字列を共有してください（{questionIds.length + (additionalIds?.length ?? 0)}問）
           </Typography>
           <TextField
             multiline

@@ -1,0 +1,65 @@
+---
+id: "additional/java/basics#fizzbuzz"
+title: "FizzBuzz を実装せよ"
+category: "java/basics"
+difficulty: "Medium"
+prerequisiteTopicId: "05_loops"
+tags: ["loops", "conditionals"]
+---
+
+## 問題
+
+1 から 100 までの整数を順番に表示するプログラムを実装せよ。
+ただし、以下のルールに従うこと。
+
+- 3 の倍数のとき: 数字の代わりに **"Fizz"** と表示する
+- 5 の倍数のとき: 数字の代わりに **"Buzz"** と表示する
+- 3 と 5 の両方の倍数のとき: **"FizzBuzz"** と表示する
+
+**出力例（先頭の一部）：**
+
+```
+1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+FizzBuzz
+```
+
+IDEに直接コードを書いて実行し、出力を確認すること。
+
+<details>
+<summary>模範解答を見る</summary>
+
+```java
+public class FizzBuzz {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 100; i++) {
+            if (i % 15 == 0) {
+                System.out.println("FizzBuzz");
+            } else if (i % 3 == 0) {
+                System.out.println("Fizz");
+            } else if (i % 5 == 0) {
+                System.out.println("Buzz");
+            } else {
+                System.out.println(i);
+            }
+        }
+    }
+}
+```
+
+**ポイント：** `i % 15 == 0`（3かつ5の倍数）を最初に判定することが重要。
+先に `i % 3 == 0` を判定すると、15の倍数が "Fizz" と表示されてしまう。
+
+</details>

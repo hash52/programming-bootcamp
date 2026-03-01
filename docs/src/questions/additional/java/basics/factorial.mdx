@@ -1,0 +1,56 @@
+---
+id: "additional/java/basics#factorial"
+title: "階乗を計算するメソッドを実装せよ"
+category: "java/basics"
+difficulty: "Medium"
+prerequisiteTopicId: "05_loops"
+tags: ["loops", "methods"]
+---
+
+## 問題
+
+整数 `n` を受け取り、その階乗（n!）を返すメソッド `factorial(int n)` を実装せよ。
+
+**階乗の定義：**
+- 0! = 1
+- n! = n × (n-1) × ... × 2 × 1（n ≥ 1）
+
+**実行例：**
+
+```
+factorial(0) → 1
+factorial(1) → 1
+factorial(5) → 120
+factorial(10) → 3628800
+```
+
+メソッドを実装し、複数の値でテストして正しく動作することを確認すること。
+
+<details>
+<summary>模範解答を見る</summary>
+
+```java
+public class FactorialExample {
+
+    static long factorial(int n) {
+        long result = 1;
+        for (int i = 2; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(factorial(0));  // 1
+        System.out.println(factorial(1));  // 1
+        System.out.println(factorial(5));  // 120
+        System.out.println(factorial(10)); // 3628800
+    }
+}
+```
+
+**ポイント：** 0! = 1 を正しく扱うために `result = 1` で初期化し、
+ループを `i = 2` から開始している。
+大きな値では `int` の範囲を超えるため `long` を使用する。
+
+</details>

@@ -16,13 +16,18 @@ import {
   type QuestionType,
 } from "@site/src/structure";
 import { useStoredProgress } from "@site/src/hooks/useStoredProgress";
+import { useAdditionalExerciseProgress } from "@site/src/hooks/useAdditionalExerciseProgress";
+import { ALL_ADDITIONAL_EXERCISES } from "@site/src/additionalExercises";
 import {
   type AchievementFilter,
   type DaysAgoFilter,
   type OrderMode,
-  resolveDojoQuestions,
+  type DojoItem,
+  resolveDojoItems,
+  isTrophyUnlocked,
 } from "@site/src/lib/dojoFilter";
 import { DojoTopicSelector } from "./DojoTopicSelector";
+import { DojoAdditionalExerciseSelector } from "./DojoAdditionalExerciseSelector";
 import { DojoFilterPanel } from "./DojoFilterPanel";
 import { DojoImportPanel } from "./DojoImportPanel";
 import { DojoPresetPanel } from "./DojoPresetPanel";
@@ -34,6 +39,7 @@ type Screen = "settings" | "loading" | "questions";
 
 export const DojoContent: React.FC = () => {
   const { progress } = useStoredProgress();
+  const { additionalProgress } = useAdditionalExerciseProgress();
 
   // 画面遷移
   const [screen, setScreen] = useState<Screen>("settings");
@@ -44,7 +50,7 @@ export const DojoContent: React.FC = () => {
     new Set()
   );
 
-  // フィルター状態
+  // フィルター状態（通常設問）
   const [selectedTypes, setSelectedTypes] = useState<Set<QuestionType>>(
     new Set(["KNOW", "READ", "WRITE"])
   );
@@ -58,37 +64,50 @@ export const DojoContent: React.FC = () => {
   const [questionLimit, setQuestionLimit] = useState<number | null>(null);
   const [allQuestions, setAllQuestions] = useState(true);
 
-  // 出題された問題リスト
-  const [activeQuestions, setActiveQuestions] = useState<Question[]>([]);
+  // ── 追加演習フィルター ─────────────────────────────────────────
+  const [selectedAdditionalIds, setSelectedAdditionalIds] = useState<Set<string>>(new Set());
+  const [additionalSelectorOpen, setAdditionalSelectorOpen] = useState(false);
+  const [includeTrophy, setIncludeTrophy] = useState(false);
+
+  // 出題されたアイテムリスト（通常設問・追加演習・トロフィー問題の混在可）
+  const [activeItems, setActiveItems] = useState<DojoItem[]>([]);
   // インポートモードフラグ
   const [isImported, setIsImported] = useState(false);
-  // 入力リセット用カウンター（再出題時にインクリメントしてコンポーネントを再マウント）
+  // 入力リセット用カウンター
   const [resetKey, setResetKey] = useState(0);
-  // バックグラウンドレンダリング有効フラグ（オーバーレイ描画後に有効化してラグを防ぐ）
+  // バックグラウンドレンダリング有効フラグ
   const [bgRenderEnabled, setBgRenderEnabled] = useState(false);
   // QuestionView のマウント完了フラグ
   const [qvReady, setQvReady] = useState(false);
   // ブラウザバック確認ダイアログ
   const [browserBackConfirmOpen, setBrowserBackConfirmOpen] = useState(false);
-  // 再出題履歴スタック（popstateハンドラ内でstale closureを避けるためref）
-  const questionHistoryRef = useRef<Question[][]>([]);
+  // 再出題履歴スタック
+  const questionHistoryRef = useRef<DojoItem[][]>([]);
   const retryCountRef = useRef(0);
 
-  // HACK: DocCategoryGeneratedIndexPage は DocProvider 外で DocBreadcrumbs をレンダリングするため、
-  // useDoc() ベースのswizzleを廃止し useLocation() に変更した。
-  // しかし useLocation() では frontMatter を参照できないため "/dojo" のパンくずを非表示にできない。
-  // そのためコンポーネント側で .breadcrumbs を CSS で非表示にすることで対処する。
+  // HACK: パンくずリスト非表示
   useEffect(() => {
-    const style = document.createElement('style');
-    style.dataset.hackId = 'dojo-hide-breadcrumbs';
-    style.textContent = '.breadcrumbs { display: none !important; }';
+    const style = document.createElement("style");
+    style.dataset.hackId = "dojo-hide-breadcrumbs";
+    style.textContent = ".breadcrumbs { display: none !important; }";
     document.head.appendChild(style);
-    return () => { document.head.removeChild(style); };
+    return () => {
+      document.head.removeChild(style);
+    };
   }, []);
+
+  /** トロフィー問題の解放済み数・全体数 */
+  const { unlockedTrophyCount, totalTrophyCount } = useMemo(() => {
+    const trophyTopics = ALL_TOPIC_STRUCTURE.filter((t) => t.trophyQuestion);
+    const unlocked = trophyTopics.filter((t) =>
+      isTrophyUnlocked(t, progress)
+    ).length;
+    return { unlockedTrophyCount: unlocked, totalTrophyCount: trophyTopics.length };
+  }, [progress]);
 
   /** 演習開始 */
   const handleStart = useCallback(() => {
-    const questions = resolveDojoQuestions({
+    const items = resolveDojoItems({
       selectedQuestionIds: checkedQuestionIds,
       selectedTypes,
       selectedDifficulties,
@@ -97,11 +116,18 @@ export const DojoContent: React.FC = () => {
       orderMode,
       questionLimit: allQuestions ? null : questionLimit,
       progress,
+      selectedAdditionalIds,
+      additionalProgress,
+      includeTrophy,
     });
-    setActiveQuestions(questions);
+    setActiveItems(items);
     setIsImported(false);
     setSelectorOpen(false);
-    history.pushState(null, "", location.pathname + location.search + "#questions");
+    history.pushState(
+      null,
+      "",
+      location.pathname + location.search + "#questions"
+    );
     setScreen("loading");
   }, [
     checkedQuestionIds,
@@ -113,23 +139,36 @@ export const DojoContent: React.FC = () => {
     questionLimit,
     allQuestions,
     progress,
+    selectedAdditionalIds,
+    additionalProgress,
+    includeTrophy,
   ]);
 
-  /** インポートから直接問題表示 */
-  const handleImport = useCallback(
-    (questionIds: string[]) => {
-      // インポートされた問題IDで問題を取得（structure.ts定義順を保持）
-      const idSet = new Set(questionIds);
-      const questions = ALL_TOPIC_STRUCTURE.flatMap((t) =>
-        t.questions
-      ).filter((q) => idSet.has(q.id));
-      setActiveQuestions(questions);
-      setIsImported(true);
-      history.pushState(null, "", location.pathname + location.search + "#questions");
-      setScreen("loading");
-    },
-    []
-  );
+  /** インポートから直接問題表示（通常設問 + 追加演習対応） */
+  const handleImport = useCallback((questionIds: string[], additionalIds: string[]) => {
+    const idSet = new Set(questionIds);
+    const questions = ALL_TOPIC_STRUCTURE.flatMap((t) =>
+      t.questions
+    ).filter((q) => idSet.has(q.id));
+    const questionItems: DojoItem[] = questions.map((q) => ({
+      kind: "question" as const,
+      data: q,
+    }));
+
+    const additionalIdSet = new Set(additionalIds);
+    const additionalItems: DojoItem[] = ALL_ADDITIONAL_EXERCISES
+      .filter((ex) => additionalIdSet.has(ex.id))
+      .map((ex) => ({ kind: "additional" as const, data: ex }));
+
+    setActiveItems([...questionItems, ...additionalItems]);
+    setIsImported(true);
+    history.pushState(
+      null,
+      "",
+      location.pathname + location.search + "#questions"
+    );
+    setScreen("loading");
+  }, []);
 
   /** プリセット選択 */
   const handleSelectPreset = useCallback((preset: DojoPreset) => {
@@ -141,6 +180,8 @@ export const DojoContent: React.FC = () => {
     setOrderMode(preset.orderMode);
     setQuestionLimit(preset.questionLimit);
     setAllQuestions(preset.allQuestions);
+    setSelectedAdditionalIds(new Set(preset.selectedAdditionalIds ?? []));
+    setIncludeTrophy(preset.includeTrophy ?? false);
   }, []);
 
   /** 条件変更画面に戻る */
@@ -154,22 +195,24 @@ export const DojoContent: React.FC = () => {
     setIsImported(false);
   }, []);
 
-  /** 未達成の問題だけ再出題 */
+  /** 未達成の通常設問だけ再出題 */
   const handleRetryWrong = useCallback(
     (wrongIds: string[]) => {
-      // 現在の問題セットをスタックに保存
-      questionHistoryRef.current.push([...activeQuestions]);
+      questionHistoryRef.current.push([...activeItems]);
 
       const idSet = new Set(wrongIds);
       const questions = ALL_TOPIC_STRUCTURE.flatMap((t) =>
         t.questions
       ).filter((q) => idSet.has(q.id));
+      let items: DojoItem[] = questions.map((q) => ({
+        kind: "question" as const,
+        data: q,
+      }));
 
-      // ランダムモードだった場合はシャッフル
       if (orderMode === "random") {
-        for (let i = questions.length - 1; i > 0; i--) {
+        for (let i = items.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
-          [questions[i], questions[j]] = [questions[j], questions[i]];
+          [items[i], items[j]] = [items[j], items[i]];
         }
       }
 
@@ -177,20 +220,19 @@ export const DojoContent: React.FC = () => {
       history.pushState(
         null,
         "",
-        location.pathname + location.search + `#retry-${retryCountRef.current}`
+        location.pathname +
+          location.search +
+          `#retry-${retryCountRef.current}`
       );
 
-      setActiveQuestions(questions);
+      setActiveItems(items);
       setResetKey((prev) => prev + 1);
       setScreen("questions");
-
-      // ページ最上部にスクロール
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
-    [orderMode, activeQuestions]
+    [orderMode, activeItems]
   );
 
-  // ブラウザバック確認ダイアログのハンドラー
   const handleBrowserBackConfirmed = useCallback(() => {
     setBrowserBackConfirmOpen(false);
     handleBack();
@@ -200,41 +242,44 @@ export const DojoContent: React.FC = () => {
     setBrowserBackConfirmOpen(false);
   }, []);
 
-  // loading 画面：オーバーレイを先に描画してからバックグラウンドレンダリングを開始
   useEffect(() => {
     if (screen !== "loading") {
       setBgRenderEnabled(false);
       setQvReady(false);
       return;
     }
-    // rAF でオーバーレイが描画された後にバックグラウンドレンダリングを有効化
     const rafId = requestAnimationFrame(() => {
       setBgRenderEnabled(true);
     });
     return () => cancelAnimationFrame(rafId);
   }, [screen]);
 
-  // questions画面でのpopstateリスナー
   useEffect(() => {
     if (screen !== "questions") return;
 
     const handlePopState = () => {
       const stack = questionHistoryRef.current;
       if (stack.length > 0) {
-        // 前の問題セットに戻る
-        const prevQuestions = stack.pop()!;
+        const prevItems = stack.pop()!;
         retryCountRef.current = Math.max(0, retryCountRef.current - 1);
         const hash =
           retryCountRef.current > 0
             ? `#retry-${retryCountRef.current}`
             : "#questions";
-        history.replaceState(null, "", location.pathname + location.search + hash);
-        setActiveQuestions(prevQuestions);
+        history.replaceState(
+          null,
+          "",
+          location.pathname + location.search + hash
+        );
+        setActiveItems(prevItems);
         setResetKey((prev) => prev + 1);
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
-        // スタックが空 → settings に戻る確認ダイアログ
-        history.pushState(null, "", location.pathname + location.search + "#questions");
+        history.pushState(
+          null,
+          "",
+          location.pathname + location.search + "#questions"
+        );
         setBrowserBackConfirmOpen(true);
       }
     };
@@ -243,10 +288,10 @@ export const DojoContent: React.FC = () => {
     return () => window.removeEventListener("popstate", handlePopState);
   }, [screen]);
 
-  // #questions/#retry-*付きURLに直接アクセスした場合のハッシュ除去
   useEffect(() => {
     if (
-      (location.hash === "#questions" || location.hash.startsWith("#retry-")) &&
+      (location.hash === "#questions" ||
+        location.hash.startsWith("#retry-")) &&
       screen === "settings"
     ) {
       history.replaceState(null, "", location.pathname + location.search);
@@ -255,20 +300,15 @@ export const DojoContent: React.FC = () => {
 
   return (
     <Box maxWidth="1200px" mx="auto">
-      {/* Settings画面: settings と loading 両方で表示（loading時はオーバーレイが上に乗る） */}
       {(screen === "settings" || screen === "loading") && (
         <>
           <Typography variant="body1" color="text.secondary" mb={3}>
             出題範囲やフィルターを設定して、演習問題に取り組みましょう。
           </Typography>
 
-          {/* インポートパネル */}
           <DojoImportPanel onImport={handleImport} />
-
-          {/* プリセットパネル */}
           <DojoPresetPanel onSelect={handleSelectPreset} />
 
-          {/* フィルターパネル */}
           <DojoFilterPanel
             checkedQuestionIds={checkedQuestionIds}
             onOpenSelector={() => setSelectorOpen(true)}
@@ -288,22 +328,34 @@ export const DojoContent: React.FC = () => {
             onAllQuestionsChange={setAllQuestions}
             progress={progress}
             onStart={handleStart}
+            selectedAdditionalIds={selectedAdditionalIds}
+            onOpenAdditionalSelector={() => setAdditionalSelectorOpen(true)}
+            additionalProgress={additionalProgress}
+            includeTrophy={includeTrophy}
+            onIncludeTrophyChange={setIncludeTrophy}
+            unlockedTrophyCount={unlockedTrophyCount}
+            totalTrophyCount={totalTrophyCount}
           />
 
-          {/* ツリー選択ダイアログ */}
           <DojoTopicSelector
             open={selectorOpen}
             onClose={() => setSelectorOpen(false)}
             checkedQuestionIds={checkedQuestionIds}
             onConfirm={setCheckedQuestionIds}
           />
+
+          <DojoAdditionalExerciseSelector
+            open={additionalSelectorOpen}
+            onClose={() => setAdditionalSelectorOpen(false)}
+            selectedAdditionalIds={selectedAdditionalIds}
+            onConfirm={setSelectedAdditionalIds}
+            additionalProgress={additionalProgress}
+          />
         </>
       )}
 
-      {/* Loading中: Questions画面をvisibility:hiddenで先行レンダリング + オーバーレイ表示 */}
       {screen === "loading" && (
         <>
-          {/* オーバーレイが先に描画された後（rAF後）にバックグラウンドレンダリングを開始 */}
           {bgRenderEnabled && (
             <Box
               sx={{
@@ -316,7 +368,7 @@ export const DojoContent: React.FC = () => {
               }}
             >
               <DojoQuestionView
-                questions={activeQuestions}
+                items={activeItems}
                 onBack={handleBack}
                 isImported={isImported}
                 onRetryWrong={handleRetryWrong}
@@ -325,9 +377,8 @@ export const DojoContent: React.FC = () => {
               />
             </Box>
           )}
-          {/* ローディングオーバーレイ（position:fixed で全画面） */}
           <DojoLoadingOverlay
-            questionCount={activeQuestions.length}
+            questionCount={activeItems.length}
             triggerComplete={qvReady}
             onComplete={() => setScreen("questions")}
           />
@@ -336,14 +387,18 @@ export const DojoContent: React.FC = () => {
 
       {screen === "questions" && (
         <DojoQuestionView
-          questions={activeQuestions}
+          items={activeItems}
           onBack={handleBack}
           isImported={isImported}
           onRetryWrong={handleRetryWrong}
           resetKey={resetKey}
         />
       )}
-      <Dialog open={browserBackConfirmOpen} onClose={handleBrowserBackCancelled}>
+
+      <Dialog
+        open={browserBackConfirmOpen}
+        onClose={handleBrowserBackCancelled}
+      >
         <DialogTitle>条件設定に戻りますか？</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -352,7 +407,11 @@ export const DojoContent: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleBrowserBackCancelled}>キャンセル</Button>
-          <Button onClick={handleBrowserBackConfirmed} color="primary" variant="contained">
+          <Button
+            onClick={handleBrowserBackConfirmed}
+            color="primary"
+            variant="contained"
+          >
             戻る
           </Button>
         </DialogActions>

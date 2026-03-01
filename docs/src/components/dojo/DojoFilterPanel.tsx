@@ -45,6 +45,7 @@ import {
   countFilteredQuestions,
 } from "@site/src/lib/dojoFilter";
 import { type ProgressRecord } from "@site/src/hooks/useStoredProgress";
+import type { AdditionalExerciseProgressRecord } from "@site/src/hooks/useAdditionalExerciseProgress";
 
 interface DojoFilterPanelProps {
   /** 選択中の問題ID */
@@ -76,6 +77,20 @@ interface DojoFilterPanelProps {
   progress: ProgressRecord;
   /** 演習開始 */
   onStart: () => void;
+  // ── 追加演習フィルター ─────────────────────────────────────
+  /** 選択された追加演習IDのセット */
+  selectedAdditionalIds: Set<string>;
+  /** 追加演習選択ダイアログを開く */
+  onOpenAdditionalSelector: () => void;
+  /** 追加演習の進捗データ */
+  additionalProgress: AdditionalExerciseProgressRecord;
+  /** 激ムズ問題（トロフィー）を含める */
+  includeTrophy: boolean;
+  onIncludeTrophyChange: (val: boolean) => void;
+  /** トロフィー問題の解放済み数 */
+  unlockedTrophyCount: number;
+  /** トロフィー問題の全体数 */
+  totalTrophyCount: number;
 }
 
 const ALL_TYPES: QuestionType[] = ["KNOW", "READ", "WRITE"];
@@ -109,6 +124,13 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
   onAllQuestionsChange,
   progress,
   onStart,
+  selectedAdditionalIds,
+  onOpenAdditionalSelector,
+  additionalProgress,
+  includeTrophy,
+  onIncludeTrophyChange,
+  unlockedTrophyCount,
+  totalTrophyCount,
 }) => {
   // プリセット保存
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
@@ -126,6 +148,8 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
       orderMode,
       questionLimit,
       allQuestions,
+      selectedAdditionalIds,
+      includeTrophy,
     });
     savePreset(preset);
     setSavePresetName("");
@@ -142,6 +166,8 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
     orderMode,
     questionLimit,
     allQuestions,
+    selectedAdditionalIds,
+    includeTrophy,
   ]);
 
   /** 選択中の出題範囲を大章ごとに集計 */
@@ -186,6 +212,15 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
   }, [allQuestions, questionLimit, filteredCount]);
 
   const isSliderDisabled = allQuestions || filteredCount === 0;
+
+  /** 選択中の追加演習のうち達成済みの数 */
+  const achievedCount = useMemo(
+    () =>
+      [...selectedAdditionalIds].filter(
+        (id) => !!additionalProgress[id]?.lastSolvedAt
+      ).length,
+    [selectedAdditionalIds, additionalProgress]
+  );
 
   const toggleType = (type: QuestionType) => {
     const next = new Set(selectedTypes);
@@ -394,6 +429,65 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
 
         <Divider sx={{ my: 2 }} />
 
+        {/* 追加演習 */}
+        <SectionLabel>追加演習</SectionLabel>
+        <Box mb={2}>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={onOpenAdditionalSelector}
+          >
+            追加演習を選択する
+          </Button>
+          {selectedAdditionalIds.size > 0 && (
+            <Box display="flex" gap={0.5} flexWrap="wrap" mt={1}>
+              <Chip
+                label={`${selectedAdditionalIds.size}問選択中`}
+                size="small"
+                color="primary"
+                variant="outlined"
+              />
+              {achievedCount > 0 && (
+                <Chip
+                  label={`うち${achievedCount}問達成済み`}
+                  size="small"
+                  color="success"
+                  variant="outlined"
+                />
+              )}
+            </Box>
+          )}
+        </Box>
+        <Box mb={2}>
+          <Box>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={includeTrophy}
+                  onChange={(e) => onIncludeTrophyChange(e.target.checked)}
+                />
+              }
+              label={
+                <Box component="span" display="flex" alignItems="center" gap={0.5}>
+                  激ムズ問題（トロフィー）を含める
+                  {totalTrophyCount > 0 && (
+                    <Typography variant="caption" color="text.secondary">
+                      （解放済み: {unlockedTrophyCount}/{totalTrophyCount}）
+                    </Typography>
+                  )}
+                </Box>
+              }
+            />
+            {includeTrophy && unlockedTrophyCount < totalTrophyCount && (
+              <Typography variant="caption" color="text.secondary" sx={{ ml: 4 }}>
+                ※ 解放条件未達の問題は locked 表示になります
+              </Typography>
+            )}
+          </Box>
+        </Box>
+
+        <Divider sx={{ my: 2 }} />
+
         {/* サマリー */}
         <Box mb={2}>
           <Typography variant="body2" color="text.secondary">
@@ -425,7 +519,11 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
           size="large"
           fullWidth
           onClick={onStart}
-          disabled={filteredCount === 0}
+          disabled={
+            filteredCount === 0 &&
+            selectedAdditionalIds.size === 0 &&
+            !includeTrophy
+          }
           sx={{ py: 1.5, fontSize: "1.1rem" }}
         >
           演習を開始する

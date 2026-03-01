@@ -27,6 +27,7 @@ import { ChevronDown } from "mdi-material-ui";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { useStoredProgress } from "@site/src/hooks/useStoredProgress";
+import { useAdditionalExerciseProgress } from "@site/src/hooks/useAdditionalExerciseProgress";
 import { ProgressBarWithLabel } from "./ProgressBarWithLabel";
 import { ProgressLineChart } from "./ProgressLineChart";
 import {
@@ -37,9 +38,11 @@ import {
   calcCategoryProgressCount,
   calcMajorChapterProgressCount,
 } from "../lib/calcProgressRate";
+import { isTrophyUnlocked } from "@site/src/lib/dojoFilter";
 import { daysAgo } from "../lib/date";
 import { QuestionDialog } from "../question/QuestionDialog";
 import { LearningGuideDialog } from "./LearningGuideDialog";
+import { TrophyIcon, type TrophyState } from "./TrophyIcon";
 
 /**
  * dateStringからの経過日数を文字列で返す
@@ -123,6 +126,7 @@ export const Dashboard: FC = () => {
   const { siteConfig } = useDocusaurusContext();
   const history = useHistory();
   const storedProgress = useStoredProgress();
+  const { trophyProgress } = useAdditionalExerciseProgress();
 
   // HACK: DocCategoryGeneratedIndexPage は DocProvider 外で DocBreadcrumbs をレンダリングするため、
   // useDoc() ベースのswizzleを廃止し useLocation() に変更した。
@@ -144,6 +148,9 @@ export const Dashboard: FC = () => {
 
   /** 学習ガイドダイアログの開閉状態 */
   const [learningGuideOpen, setLearningGuideOpen] = useState(false);
+
+  /** トロフィー問題ダイアログで表示する問題ID */
+  const [trophyDialogId, setTrophyDialogId] = useState<string | null>(null);
 
   /** 選択された質問のコンテキスト情報（ダイアログ表示＋ナビゲーション用） */
   const [selectedQuestionContext, setSelectedQuestionContext] = useState<{
@@ -248,7 +255,7 @@ export const Dashboard: FC = () => {
                     <TopicProgressAccordion key={topic.id}>
                       <AccordionSummary expandIcon={<ChevronDown />}>
                         <TopicProgressBox>
-                          <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                             <TopicTitle>{topic.label}</TopicTitle>
                             <Tooltip title="教材を開く">
                               <IconButton
@@ -263,6 +270,26 @@ export const Dashboard: FC = () => {
                                 <ExitToAppIcon fontSize="small" />
                               </IconButton>
                             </Tooltip>
+                            {topic.trophyQuestion && (() => {
+                              const isUnlocked = isTrophyUnlocked(topic, storedProgress.progress);
+                              const isSolved = !!trophyProgress[topic.trophyQuestion!.id]?.solvedAt;
+                              const trophyState: TrophyState = !isUnlocked
+                                ? "locked"
+                                : isSolved
+                                ? "solved"
+                                : "unlocked";
+                              return (
+                                <Box
+                                  component="span"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setTrophyDialogId(topic.trophyQuestion!.id);
+                                  }}
+                                >
+                                  <TrophyIcon state={trophyState} />
+                                </Box>
+                              );
+                            })()}
                           </Box>
                           <ProgressWithCountBox>
                             <ProgressCountChip
@@ -323,14 +350,28 @@ export const Dashboard: FC = () => {
             );
           };
 
+          // 大章内の全トロフィー取得済みかチェック
+          const majorTrophyTopics = ALL_TOPIC_STRUCTURE.filter(
+            (t) => getMajorChapterFromCategory(t.category) === major && t.trophyQuestion
+          );
+          const allMajorTrophiesSolved =
+            majorTrophyTopics.length > 0 &&
+            majorTrophyTopics.every((t) => !!trophyProgress[t.trophyQuestion!.id]?.solvedAt);
+
           return (
             <MajorChapterAccordion key={major} >
               <AccordionSummary expandIcon={<ChevronDown />}>
                 <MajorChapterSummaryBox>
-                  <MajorChapterTitle>
-                    {MAJOR_CHAPTER_LABELS[major]}
-                  </MajorChapterTitle>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                    <MajorChapterTitle>
+                      {MAJOR_CHAPTER_LABELS[major]}
+                    </MajorChapterTitle>
+                    {allMajorTrophiesSolved && (
+                      <TrophyIcon state="solved" />
+                    )}
+                  </Box>
                   <ProgressWithCountBox>
+
                     <ProgressCountChip
                       label={`${majorCount.done} / ${majorCount.total}`}
                       size="small"
@@ -419,6 +460,13 @@ export const Dashboard: FC = () => {
               selectedQuestionContext.topicQuestions.length - 1
             : false
         }
+      />
+
+      {/* トロフィー問題ダイアログ */}
+      <QuestionDialog
+        questionId={trophyDialogId}
+        onClose={() => setTrophyDialogId(null)}
+        showNavigation={false}
       />
     </PageContainer>
   );

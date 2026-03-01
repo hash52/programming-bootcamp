@@ -4,6 +4,7 @@ import { ALL_TOPIC_STRUCTURE, Question } from "@site/src/structure";
 export interface DojoShareData {
   v: 1;
   ids: number[];
+  aids?: string[];
 }
 
 /** 全問題のフラットな配列（インデックス順） */
@@ -37,10 +38,14 @@ export function indicesToQuestionIds(indices: number[]): string[] {
 }
 
 /** DojoShareData を JSON 文字列にエンコード */
-export function encodeShareData(questionIds: string[]): string {
+export function encodeShareData(
+  questionIds: string[],
+  additionalIds?: string[]
+): string {
   const data: DojoShareData = {
     v: 1,
     ids: questionIdsToIndices(questionIds),
+    ...(additionalIds && additionalIds.length > 0 ? { aids: additionalIds } : {}),
   };
   return JSON.stringify(data);
 }
@@ -48,7 +53,7 @@ export function encodeShareData(questionIds: string[]): string {
 /** JSON 文字列を DojoShareData としてデコード・バリデーション */
 export function decodeShareData(
   json: string
-): { ok: true; questionIds: string[] } | { ok: false; error: string } {
+): { ok: true; questionIds: string[]; additionalIds: string[] } | { ok: false; error: string } {
   try {
     const parsed = JSON.parse(json);
 
@@ -69,11 +74,24 @@ export function decodeShareData(
     }
 
     const questionIds = indicesToQuestionIds(parsed.ids);
-    if (questionIds.length === 0) {
+
+    // aids の検証（省略可）
+    let additionalIds: string[] = [];
+    if (parsed.aids !== undefined) {
+      if (!Array.isArray(parsed.aids)) {
+        return { ok: false, error: "追加演習IDの形式が正しくありません" };
+      }
+      if (!parsed.aids.every((id: unknown) => typeof id === "string")) {
+        return { ok: false, error: "追加演習IDの形式が正しくありません" };
+      }
+      additionalIds = parsed.aids;
+    }
+
+    if (questionIds.length === 0 && additionalIds.length === 0) {
       return { ok: false, error: "有効な問題が見つかりません" };
     }
 
-    return { ok: true, questionIds };
+    return { ok: true, questionIds, additionalIds };
   } catch {
     return { ok: false, error: "JSONの形式が正しくありません" };
   }
