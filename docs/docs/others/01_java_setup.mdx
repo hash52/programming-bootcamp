@@ -2,158 +2,60 @@
 sidebar_position: 1
 ---
 
-# Java開発環境の構築（JDK + Eclipse）
 
-この章では、Java開発に必要な **JDK** と **Eclipse** のインストール手順を解説する。
+# Java開発環境の構築（Pleiades All in One）
+
+この章では、**Pleiades All in One（2025最新版）** を使った最も簡単なJava開発環境の構築手順を解説する。
 対象OS: **Windows**
 
 ## 学習のゴール
 
-- [ ] JDK 21 がインストールされ、`java -version` で確認できる
-- [ ] Eclipse が起動できる
-- [ ] Eclipse が日本語化されている（Pleiades適用済み）
+- [ ] Pleiades All in One（2025最新版）が起動できる
 - [ ] Hello World プログラムを作成・実行できる
 
 ---
 
-## Step 1: JDK 21 のインストール
+
+## Step 1: Pleiades All in One（2025最新版）のダウンロードとセットアップ
+
+Pleiades All in Oneは、**Eclipse本体・JDK・日本語化プラグイン**が全てセットになったパッケージである。これ一つでJava開発環境がすぐに整う。
 
 ### ダウンロード
 
-以下のURLから **Eclipse Temurin 21 LTS** をダウンロードする。
 
-```
-https://adoptium.net/temurin/releases/?version=21
-```
+[公式サイト（Pleiades公式）](https://willbrains.jp)から **Pleiades All in One（2025最新版）** をダウンロードする。
 
-| 項目 | 選択値 |
-|------|--------|
-| Version | **21 - LTS** |
-| OS | Windows |
-| Architecture | x64 |
-| Package Type | **JDK** |
-| File Type | **.msi**（インストーラ形式） |
+ダウンロードページで、
+- 「Eclipse 2025」
+- 「Windows x64」
+- 「Full Edition (Java)」
+を順に選択し、**最新版かつフル版**を取得する。
 
-:::tip .msi を選ぶと PATH 設定が自動で行われる
-
-`.zip` 形式は手動でPATHを設定する必要があるため、初回インストールでは **`.msi`（インストーラ）** を選ぶこと。
-
-:::
-
-### インストール手順
-
-1. ダウンロードした `.msi` ファイルをダブルクリックして起動する
-2. 「Next」をクリックして進む
-3. 「Add to PATH」が選択されていることを確認する
-   （デフォルトでオンになっている）
-4. 「Install」をクリックしてインストールを完了する
-
-### インストール確認
-
-コマンドプロンプトを開いて以下を実行する。
-
-```bash
-java -version
-javac -version
-```
-
-以下のように表示されれば成功である。
-
-```
-openjdk version "21.x.x" ...
-javac 21.x.x
-```
-
-:::caution PATH が通らない場合
-
-`java` コマンドが見つからないと言われた場合は、以下を確認する。
-
-1. インストール時に「Add to PATH」オプションが有効になっていたか確認する
-2. コマンドプロンプトを一度閉じて再度開く（環境変数は起動時に読み込まれるため）
-3. それでも解決しない場合は、手動でシステム環境変数 `PATH` に `C:\Program Files\Eclipse Adoptium\jdk-21\bin` を追加する
-
-:::
-
----
-
-## Step 2: Eclipse のインストール
-
-### ダウンロード
-
-以下のURLから **Eclipse IDE for Java Developers** をダウンロードする。
-
-```
-https://www.eclipse.org/downloads/packages/
-```
-
-| 項目 | 選択値 |
-|------|--------|
-| パッケージ | **Eclipse IDE for Java Developers** |
-| OS | Windows x86_64 |
-| 形式 | **zip**（インストーラなし） |
-
-:::info Eclipse は zip を解凍するだけで使える
-
-Eclipse はインストーラが不要で、zipを解凍したフォルダに `eclipse.exe` が含まれている。
-`C:\eclipse\` などのシンプルなパスに解凍することを推奨する。
-
+:::info JDKは最初から同梱
+Pleiades All in OneにはJDK（Java開発キット）が含まれているため、
+**追加のJDKインストールは不要**。
 :::
 
 ### セットアップ手順
 
-1. ダウンロードした zip ファイルを `C:\eclipse\` に解凍する
-2. `C:\eclipse\eclipse.exe` をダブルクリックして起動する
-3. Workspace の設定ダイアログが表示される
+1. ダウンロードしたzipファイルをダブルクリックし、「自己解凍書庫」ダイアログが表示されたら `C:\pleiades\2025-12` など分かりやすいパス（デフォルト値でOK）に解凍する
+2. 解凍後、`eclipse.exe`（例: `C:\pleiades\2025-12\eclipse\eclipse.exe`）をダブルクリックして起動する
+3. 初回起動時に「ワークスペースの選択」ダイアログが表示される
 
-**Workspace の推奨設定:**
+**ワークスペースの推奨設定:**
 
 ```
-C:\Users\<ユーザー名>\eclipse-workspace
+C:\Users\<ユーザー名>\workspace (例: C:\Users\yamada\workspace)
 ```
 
-「Use this as the default and do not ask again」にチェックを入れると、次回起動時にダイアログが表示されなくなる。
+「今後この質問を表示しない」にチェックを入れると、次回以降はダイアログが表示されない。
 
 ---
 
-## Step 3: Eclipse の日本語化（Pleiades）
 
-Eclipse はデフォルトで英語表示のため、日本語化プラグイン **Pleiades** を適用する。
 
-### ダウンロード
 
-以下のURLから Pleiades プラグインをダウンロードする。
-
-```
-https://willbrains.jp/
-```
-
-「Pleiades プラグイン・ダウンロード」から **最新安定版** の zip をダウンロードする。
-
-### 適用手順
-
-1. ダウンロードした zip を解凍する
-2. 解凍して得られた `pleiadesフォルダ内` の `features` と `plugins` フォルダを、Eclipse の `features` と `plugins` フォルダに **上書きコピー** する
-   （コピー先: `C:\eclipse\features\` および `C:\eclipse\plugins\`）
-3. Eclipse を再起動する
-
-:::tip 日本語化が反映されない場合
-
-Eclipse の起動オプションファイル（`eclipse.ini`）の末尾に以下を追加して再起動する。
-
-```
--Xverify:none
--javaagent:plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar
-```
-
-:::
-
-### 日本語化の確認
-
-Eclipse を再起動してメニューが日本語になっていれば成功である。
-
----
-
-## Step 4: 動作確認（Hello World）
+## Step 2: 動作確認（Hello World）
 
 Eclipse が正しくインストールされたか確認するために、Hello World プログラムを作成・実行する。
 
@@ -169,7 +71,7 @@ Eclipse が正しくインストールされたか確認するために、Hello 
 1. プロジェクト・エクスプローラーで `HelloWorld` プロジェクトを右クリック
 2. 「新規」→「クラス」を選択する
 3. 「名前」に `HelloWorld` と入力する
-4. 「public static void main(String[] args) を含める」にチェックを入れる
+4. 「どのメソッド・スタブを作成しますか?」の「public static void main(String[] args)(V)」にチェックを入れる
 5. 「完了」をクリックする
 
 以下のコードを入力する。
@@ -193,15 +95,14 @@ public class HelloWorld {
 
 :::
 
----
+
+
 
 ## まとめ
 
-| 確認項目 | コマンド / 操作 |
+| 確認項目 | 操作 |
 |----------|---------------|
-| JDKバージョン確認 | `java -version` |
-| Javacバージョン確認 | `javac -version` |
-| Eclipseの起動 | `C:\eclipse\eclipse.exe` |
+| Eclipse（Pleiades All in One）の起動 | `C:\pleiades\eclipse.exe` を実行 |
 | Hello Worldの実行 | Eclipse からJavaアプリケーションとして実行 |
 
 これで Java 開発環境の構築は完了である。

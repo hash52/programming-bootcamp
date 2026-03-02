@@ -26,7 +26,19 @@ sidebar_position: 3
 https://www.postgresql.org/download/windows/
 ```
 
-「Download the installer」をクリックし、最新の **PostgreSQL 16.x** の Windows x86-64 用インストーラ（`.exe`）をダウンロードする。
+「Download the installer」をクリックし、**PostgreSQL 16.x** の Windows x86-64 用インストーラ（`.exe`）をダウンロードする。
+
+:::info なぜ最新版（18系）ではなく16系なのか？
+
+PostgreSQLは頻繁に新バージョンがリリースされるが、研修用途では「枯れた安定バージョン」を推奨する。
+
+- 最新版（例: 18系）はJDBCドライバや各種ツールの対応が遅れる場合があり、
+    予期せぬエラーや原因不明の挙動でトラブルシュートに時間を浪費するリスクがある。
+- 16系は多くの現場で実績があり、情報も豊富であるため、学習や開発に集中できる。
+
+このため本研修では、安定した16系を指定している。
+
+:::
 
 ### インストール手順
 
