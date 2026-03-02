@@ -6,9 +6,14 @@ hide_title: true
 hide_table_of_contents: true
 ---
 
+import BrowserOnly from '@docusaurus/BrowserOnly';
 import {Dashboard} from '@site/src/components/dashboard/Dashboard';
 import MuiDarkThemeProvider from '@site/src/components/theme/MuiDarkThemeProvider';
 
-<MuiDarkThemeProvider>
-  <Dashboard />
-</MuiDarkThemeProvider>
+<BrowserOnly>
+  {() => (
+    <MuiDarkThemeProvider>
+      <Dashboard />
+    </MuiDarkThemeProvider>
+  )}
+</BrowserOnly>
