@@ -1,0 +1,67 @@
+---
+id: "extra/java/java_operators#four_operations"
+title: "四則演算と余りを表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  `+` は加算、`-` は減算、`*` は乗算、`/` は除算（int同士なら小数切り捨て）、`%` は余りを求める演算子である。
+  `System.out.println(a + " + " + b + " = " + (a + b))` のように、最後の計算部分を括弧で囲むことがポイント。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int a = 17;
+          int b = 5;
+          System.out.println(a + " + " + b + " = " + (a + b));
+          System.out.println(a + " - " + b + " = " + (a - b));
+          System.out.println(a + " * " + b + " = " + (a * b));
+          System.out.println(a + " / " + b + " = " + (a / b));
+          System.out.println(a + " % " + b + " = " + (a % b));
+      }
+  }
+explanation: |
+  **演算子の種類**：`+`（加算）・`-`（減算）・`*`（乗算）・`/`（除算）・`%`（余り）の5種類が基本的な算術演算子である。
+
+  **整数除算**：`int` 同士の `/` は小数点以下が切り捨てられる。`17 / 5` は `3.4` ではなく `3` になる。
+
+  **括弧の必要性**：`"= " + (a + b)` の括弧を外すと `"= " + a + b` となり、左から順に文字列連結が行われて `"= 175"` になってしまう。算術計算を先に行うために括弧で囲む必要がある。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `a = 17`、`b = 5` を使って、5種類の算術演算の結果をすべて表示するプログラムを実装せよ。
+
+**出力**：
+```
+17 + 5 = 22
+17 - 5 = 12
+17 * 5 = 85
+17 / 5 = 3
+17 % 5 = 2
+```
+
+**要件**：
+- `+`・`-`・`*`・`/`・`%` の5種類の演算子をすべて使う
+- 変数 `a`・`b` を直接使った計算式で表示する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int a = 17;
+        int b = 5;
+        // 下の例を参考に、残りの4行も実装してください
+        System.out.println(a + " + " + b + " = " + (a + b));
+        System.out.println(a + " - " + b + " = " + 0); // 0 を演算式に変えてください
+        System.out.println(a + " * " + b + " = " + 0);
+        System.out.println(a + " / " + b + " = " + 0);
+        System.out.println(a + " % " + b + " = " + 0);
+    }
+}`}
+/>

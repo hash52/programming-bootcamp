@@ -38,6 +38,7 @@ import {
   type QuestionType,
   type MajorChapter,
 } from "@site/src/structure";
+import { getAllExtraExerciseIds } from "@site/src/extraExercises";
 import {
   type AchievementFilter,
   type DaysAgoFilter,
@@ -158,6 +159,12 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
     return counts;
   }, [checkedQuestionIds]);
 
+  /** 選択中の追加演習数 */
+  const extraSelectedCount = useMemo(() => {
+    const extraIds = getAllExtraExerciseIds();
+    return extraIds.filter((id) => checkedQuestionIds.has(id)).length;
+  }, [checkedQuestionIds]);
+
   /** フィルタ適用後の問題数 */
   const filteredCount = useMemo(
     () =>
@@ -214,7 +221,7 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
           <Button variant="outlined" onClick={onOpenSelector}>
             出題範囲を選択する
           </Button>
-          {rangeSummary.size > 0 && (
+          {(rangeSummary.size > 0 || extraSelectedCount > 0) && (
             <Box display="flex" gap={0.5} flexWrap="wrap" mt={1}>
               {Array.from(rangeSummary.entries()).map(([major, count]) => (
                 <Chip
@@ -225,6 +232,15 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
                   variant="outlined"
                 />
               ))}
+              {extraSelectedCount > 0 && (
+                <Chip
+                  key="extra"
+                  label={`追加演習(${extraSelectedCount}問)`}
+                  size="small"
+                  color="secondary"
+                  variant="outlined"
+                />
+              )}
             </Box>
           )}
         </Box>
@@ -233,7 +249,7 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
 
         {/* 問題タイプ */}
         <SectionLabel>問題タイプ</SectionLabel>
-        <Box display="flex" gap={0.5} flexWrap="wrap" mb={2}>
+        <Box display="flex" gap={0.5} flexWrap="wrap" mb={0.5}>
           {ALL_TYPES.map((type) => {
             const isSelected = selectedTypes.has(type);
             return (
@@ -249,6 +265,9 @@ export const DojoFilterPanel: React.FC<DojoFilterPanelProps> = ({
             );
           })}
         </Box>
+        <Typography variant="caption" color="text.secondary" mb={2} display="block">
+          ※ WRITE にはコーディング問題（追加演習）も含まれます
+        </Typography>
 
         {/* 難易度 */}
         <SectionLabel>難易度</SectionLabel>

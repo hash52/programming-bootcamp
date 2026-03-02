@@ -15,6 +15,7 @@ import {
   type Question,
   type QuestionType,
 } from "@site/src/structure";
+import { getAllExtraQuestionsAsQuestion } from "@site/src/extraExercises";
 import { useStoredProgress } from "@site/src/hooks/useStoredProgress";
 import {
   type AchievementFilter,
@@ -118,11 +119,13 @@ export const DojoContent: React.FC = () => {
   /** インポートから直接問題表示 */
   const handleImport = useCallback(
     (questionIds: string[]) => {
-      // インポートされた問題IDで問題を取得（structure.ts定義順を保持）
+      // インポートされた問題IDで問題を取得（通常問題 + 追加演習）
       const idSet = new Set(questionIds);
-      const questions = ALL_TOPIC_STRUCTURE.flatMap((t) =>
-        t.questions
-      ).filter((q) => idSet.has(q.id));
+      const allPool: Question[] = [
+        ...ALL_TOPIC_STRUCTURE.flatMap((t) => t.questions),
+        ...getAllExtraQuestionsAsQuestion(),
+      ];
+      const questions = allPool.filter((q) => idSet.has(q.id));
       setActiveQuestions(questions);
       setIsImported(true);
       history.pushState(null, "", location.pathname + location.search + "#questions");
@@ -161,9 +164,11 @@ export const DojoContent: React.FC = () => {
       questionHistoryRef.current.push([...activeQuestions]);
 
       const idSet = new Set(wrongIds);
-      const questions = ALL_TOPIC_STRUCTURE.flatMap((t) =>
-        t.questions
-      ).filter((q) => idSet.has(q.id));
+      const allPool: Question[] = [
+        ...ALL_TOPIC_STRUCTURE.flatMap((t) => t.questions),
+        ...getAllExtraQuestionsAsQuestion(),
+      ];
+      const questions = allPool.filter((q) => idSet.has(q.id));
 
       // ランダムモードだった場合はシャッフル
       if (orderMode === "random") {
@@ -296,6 +301,7 @@ export const DojoContent: React.FC = () => {
             onClose={() => setSelectorOpen(false)}
             checkedQuestionIds={checkedQuestionIds}
             onConfirm={setCheckedQuestionIds}
+            progress={progress}
           />
         </>
       )}

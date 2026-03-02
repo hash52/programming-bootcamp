@@ -14,6 +14,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { QuestionMetadata, QuestionResult } from "@site/src/types/question";
 import { CodePenEmbed } from "@site/src/components/CodePenEmbed";
+import { OneCompilerCodeBlock } from "@site/src/components/OneCompilerCodeBlock";
 import { MultipleChoiceInput } from "./question/inputs/MultipleChoiceInput";
 import { GradingFeedback } from "./question/GradingFeedback";
 import { AchievementCheckbox } from "./question/AchievementCheckbox";
@@ -228,6 +229,19 @@ const QuestionRendererInner: React.FC<
         </Box>
       )}
 
+      {/* コーディング問題: 解答例を見るボタンのみ。達成判定はチェックボックスに委ねる */}
+      {metadata.format === "codingProblem" && (
+        <Box mt={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleShowExplanation}
+          >
+            解答例を見る
+          </Button>
+        </Box>
+      )}
+
       {/* 採点結果フィードバック */}
       {result && <GradingFeedback isCorrect={result.isCorrect} />}
 
@@ -269,6 +283,19 @@ const QuestionRendererInner: React.FC<
                     htmlCode={metadata.sampleHtmlCode}
                     cssCode={metadata.sampleCssCode}
                     jsCode={metadata.sampleJsCode}
+                  />
+                </Box>
+              ) : metadata.format === "codingProblem" && metadata.sampleAnswer ? (
+                // codingProblem: OneCompilerCodeBlock でシンタックスハイライト表示（オフラインモード固定）
+                <Box mb={2}>
+                  <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+                    解答例
+                  </Typography>
+                  <OneCompilerCodeBlock
+                    language={metadata.language ?? "java"}
+                    codeId="TODO"
+                    code={metadata.sampleAnswer}
+                    offline={true}
                   />
                 </Box>
               ) : (

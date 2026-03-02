@@ -8,8 +8,10 @@ import { ALL_TOPIC_STRUCTURE } from "../../structure"; //HACK: 相対パスでim
 /** 全体の進捗率を計算する */
 export function calcOverallProgressRate(progress: ProgressRecord) {
   const allQuestions = ALL_TOPIC_STRUCTURE.flatMap((t) => t.questions);
-  // 進捗が登録されている設問の数
-  const done = Object.keys(progress).length;
+  // 進捗が登録されている設問の数（追加演習 extra/ IDはダッシュボード計算から除外）
+  const done = Object.keys(progress).filter(
+    (id) => !id.startsWith("extra/")
+  ).length;
   return allQuestions.length > 0 ? done / allQuestions.length : 0;
 }
 

@@ -1,0 +1,66 @@
+---
+id: "extra/java/java_operators#tax_calculation"
+title: "税込み価格を計算する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  税込み価格 = 税抜き価格 × (1 + 税率)
+  `double` の計算結果を `int` に変換するには `(int)` でキャストする（小数点以下切り捨て）。
+  例: `int taxIncluded = (int)(price * (1 + taxRate));`
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int price = 1500;
+          double taxRate = 0.10;
+          int taxIncluded = (int)(price * (1 + taxRate));
+          System.out.println("税抜き価格: " + price + "円");
+          System.out.println("消費税率: " + (int)(taxRate * 100) + "%");
+          System.out.println("税込み価格: " + taxIncluded + "円");
+      }
+  }
+explanation: |
+  **計算式**：`price * (1 + taxRate)` で税込み価格を求める。`1500 * 1.10 = 1650.0`（double）となる。
+
+  **型キャスト**：`double` の計算結果を `(int)` でキャストすると小数点以下が切り捨てられる。`(int) 1650.0` → `1650`。
+
+  **演算子の優先順位**：`price * (1 + taxRate)` の括弧は必須。括弧がないと `price * 1 + taxRate` と解釈され、正しい結果にならない。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+税抜き価格と消費税率が変数として宣言されている。税込み価格を計算して出力するプログラムを実装せよ。
+
+**出力**（`price = 1500`、`taxRate = 0.10` のとき）：
+```
+税抜き価格: 1500円
+消費税率: 10%
+税込み価格: 1650円
+```
+
+**要件**：
+- 税込み価格の小数点以下は切り捨てること
+- 変数 `price`・`taxRate` は変更しない
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int price = 1500;
+        double taxRate = 0.10;
+
+        // 税込み価格を計算してください（小数点以下切り捨て）
+        int taxIncluded = 0; // ここを修正
+
+        System.out.println("税抜き価格: " + price + "円");
+        System.out.println("消費税率: " + (int)(taxRate * 100) + "%");
+        System.out.println("税込み価格: " + taxIncluded + "円");
+    }
+}`}
+/>

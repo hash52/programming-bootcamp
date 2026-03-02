@@ -4,6 +4,8 @@ import { ALL_TOPIC_STRUCTURE, Question } from "@site/src/structure";
 export interface DojoShareData {
   v: 1;
   ids: number[];
+  /** 追加演習の文字列IDリスト（"extra/" プレフィックス） */
+  extraIds?: string[];
 }
 
 /** 全問題のフラットな配列（インデックス順） */
@@ -38,9 +40,12 @@ export function indicesToQuestionIds(indices: number[]): string[] {
 
 /** DojoShareData を JSON 文字列にエンコード */
 export function encodeShareData(questionIds: string[]): string {
+  const regularIds = questionIds.filter((id) => !id.startsWith("extra/"));
+  const extraIds = questionIds.filter((id) => id.startsWith("extra/"));
   const data: DojoShareData = {
     v: 1,
-    ids: questionIdsToIndices(questionIds),
+    ids: questionIdsToIndices(regularIds),
+    ...(extraIds.length > 0 ? { extraIds } : {}),
   };
   return JSON.stringify(data);
 }
@@ -69,11 +74,30 @@ export function decodeShareData(
     }
 
     const questionIds = indicesToQuestionIds(parsed.ids);
-    if (questionIds.length === 0) {
+
+    // extraIds のバリデーションと復元
+    const extraIds: string[] = [];
+    if (parsed.extraIds !== undefined) {
+      if (!Array.isArray(parsed.extraIds)) {
+        return { ok: false, error: "追加演習IDの形式が正しくありません" };
+      }
+      if (
+        !parsed.extraIds.every(
+          (id: unknown) =>
+            typeof id === "string" && (id as string).startsWith("extra/")
+        )
+      ) {
+        return { ok: false, error: "追加演習IDの形式が正しくありません" };
+      }
+      extraIds.push(...parsed.extraIds);
+    }
+
+    const allIds = [...questionIds, ...extraIds];
+    if (allIds.length === 0) {
       return { ok: false, error: "有効な問題が見つかりません" };
     }
 
-    return { ok: true, questionIds };
+    return { ok: true, questionIds: allIds };
   } catch {
     return { ok: false, error: "JSONの形式が正しくありません" };
   }

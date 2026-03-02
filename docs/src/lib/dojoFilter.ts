@@ -6,6 +6,7 @@ import {
 } from "@site/src/structure";
 import { ProgressRecord } from "@site/src/hooks/useStoredProgress";
 import { daysAgo } from "@site/src/components/lib/date";
+import { getAllExtraQuestionsAsQuestion } from "@site/src/extraExercises";
 
 export type AchievementFilter = "all" | "achieved" | "unachieved";
 export type DaysAgoFilter = "all" | "3" | "7" | "14" | "30";
@@ -56,10 +57,12 @@ export function resolveDojoQuestions(options: DojoFilterOptions): Question[] {
     progress,
   } = options;
 
-  // ツリーで選択された問題を取得（structure.ts の定義順を保持）
-  let questions = ALL_TOPIC_STRUCTURE.flatMap((t) => t.questions).filter((q) =>
-    selectedQuestionIds.has(q.id)
-  );
+  // ツリーで選択された問題を取得（structure.ts の定義順を保持、追加演習も含む）
+  const allPool: Question[] = [
+    ...ALL_TOPIC_STRUCTURE.flatMap((t) => t.questions),
+    ...getAllExtraQuestionsAsQuestion(),
+  ];
+  let questions = allPool.filter((q) => selectedQuestionIds.has(q.id));
 
   // タイプフィルタ
   if (selectedTypes.size > 0) {

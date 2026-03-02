@@ -25,9 +25,11 @@ export interface QuestionMetadata {
   explanation?: string;
   // ヒント（採点前に表示可能）
   hint?: string;
+  // codingProblem フォーマットで解答表示に使う言語
+  language?: "java" | "mysql" | "postgresql" | "html";
 }
 
-export type QuestionFormat = "fillInBlank" | "multipleChoice" | "freeText";
+export type QuestionFormat = "fillInBlank" | "multipleChoice" | "freeText" | "codingProblem";
 
 export interface Choice {
   id: string;

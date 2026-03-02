@@ -1,0 +1,85 @@
+---
+id: "extra/java/java_if#season_judgment"
+title: "季節判定プログラムを実装する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  switch文は `case 3: case 4: case 5:` のように複数ケースをまとめられる。
+  12月・1月・2月を「冬」として正しくグループ化すること。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int month = 7;
+          String season;
+
+          switch (month) {
+              case 3: case 4: case 5:
+                  season = "春";
+                  break;
+              case 6: case 7: case 8:
+                  season = "夏";
+                  break;
+              case 9: case 10: case 11:
+                  season = "秋";
+                  break;
+              case 12: case 1: case 2:
+                  season = "冬";
+                  break;
+              default:
+                  season = "無効な月です";
+          }
+
+          System.out.println(month + "月は" + season + "です");
+      }
+  }
+explanation: |
+  **switch文の複数ケース**：`case 3: case 4: case 5:` のように `break` を省略したケースを並べると、複数の値に同じ処理を割り当てられる。
+
+  **文字列変数の活用**：`String season;` を先に宣言しておき、switch文の中で代入する。こうすると出力は最後の1行にまとめられる。
+
+  **defaultの重要性**：1〜12以外の値（例: 13）が入力されたとき `default` ブロックでエラーメッセージを出力することで、予期しない動作を防げる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `month`（整数）に月（1〜12）が入っている。その月が属する季節を出力するプログラムを実装せよ。
+
+**季節の定義**：
+
+| 月 | 季節 |
+|----|------|
+| 3・4・5月 | 春 |
+| 6・7・8月 | 夏 |
+| 9・10・11月 | 秋 |
+| 12・1・2月 | 冬 |
+| 1〜12以外 | 無効な月です |
+
+**出力例**（`month = 7` のとき）：
+```
+7月は夏です
+```
+
+**要件**：
+- `switch` 文を使って実装する
+- 変数 `month` の値は自由に変更して動作を確認すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int month = 7;
+        String season;
+
+        // ここにswitch文を書いてください
+
+        System.out.println(month + "月は" + season + "です");
+    }
+}`}
+/>
