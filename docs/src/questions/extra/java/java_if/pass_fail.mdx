@@ -1,0 +1,60 @@
+---
+id: "extra/java/java_if#pass_fail"
+title: "合否判定を実装する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  `if` と `else` を1つずつ使えば解ける。条件式は `score >= 60` のように書く。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int score = 72;
+
+          if (score >= 60) {
+              System.out.println("合格");
+          } else {
+              System.out.println("不合格");
+          }
+      }
+  }
+explanation: |
+  `if (score >= 60)` で「60点以上かどうか」を判定し、`else` で残り（60点未満）を処理する。
+
+  `score` の値を変えて色々な点数で動作を確認してみよう（例: 59, 60, 100）。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `score` に整数の点数が入っている。
+60点以上なら `合格`、そうでなければ `不合格` と出力するプログラムを完成させよ。
+
+**実行例**（`score = 72` の場合）：
+```
+合格
+```
+
+**実行例**（`score = 45` の場合）：
+```
+不合格
+```
+
+エディタで動かして確認しよう。
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int score = 72;
+
+        // ここに条件分岐を書いてください
+
+    }
+}`}
+/>

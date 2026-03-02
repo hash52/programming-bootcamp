@@ -1,0 +1,58 @@
+---
+id: "extra/java/java_for#sum_calculation"
+title: "合計計算プログラムを実装する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  合計を入れる変数（例: `sum`）を0で初期化してからループを始める。
+  ループのたびに `sum += i;` で加算する。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int sum = 0;
+          for (int i = 1; i <= 100; i++) {
+              sum += i;
+          }
+          System.out.println("合計: " + sum);
+      }
+  }
+explanation: |
+  **累積加算のパターン**：`sum = 0` と初期化した変数にループで `sum += i` を繰り返す。
+  この「変数を0で初期化 → ループで加算」というパターンは様々な集計処理の基本形である。
+
+  **答えの確認**：1〜100の合計は等差数列の公式 `n(n+1)/2 = 100×101/2 = 5050` で求められる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+1から100までの整数をすべて足した合計を計算して出力するプログラムを実装せよ。
+
+**出力**：
+```
+合計: 5050
+```
+
+**要件**：
+- `for` ループを使って1から100まで繰り返す
+- 合計値を変数に累積する
+- 出力形式は `合計: {値}` とする
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int sum = 0;
+
+        // ここにforループを書いてください
+
+        System.out.println("合計: " + sum);
+    }
+}`}
+/>

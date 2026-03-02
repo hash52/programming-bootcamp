@@ -1,0 +1,80 @@
+---
+id: "extra/java/java_for#fizzbuzz"
+title: "FizzBuzzを実装する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  `for` ループで1〜100を順に処理する。条件分岐の順番に注意。
+  「3の倍数かつ5の倍数」を **最初に** 判定しないと正しく動かない。
+  倍数の判定には `%`（余り）演算子を使う（例: `i % 3 == 0`）。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          for (int i = 1; i <= 100; i++) {
+              if (i % 3 == 0 && i % 5 == 0) {
+                  System.out.println("FizzBuzz");
+              } else if (i % 3 == 0) {
+                  System.out.println("Fizz");
+              } else if (i % 5 == 0) {
+                  System.out.println("Buzz");
+              } else {
+                  System.out.println(i);
+              }
+          }
+      }
+  }
+explanation: |
+  **判定の順序が鍵**：`i % 3 == 0 && i % 5 == 0`（15の倍数）を最初に判定しないと、15のような数が先に `Fizz` に引っかかってしまい `FizzBuzz` が出力されない。
+
+  **別解**：`i % 15 == 0` でも同じ意味になる。
+
+  **動作確認**：15, 30, 45 などが `FizzBuzz` になること、3, 6, 9 が `Fizz`、5, 10, 25 が `Buzz` になることを確認しよう。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+1から100までの整数を順番に処理し、以下のルールで出力するプログラムを実装せよ。
+
+**ルール**：
+- **3の倍数かつ5の倍数**のとき → `FizzBuzz`
+- **3の倍数**のとき（5の倍数を除く）→ `Fizz`
+- **5の倍数**のとき（3の倍数を除く）→ `Buzz`
+- **それ以外**のとき → 数字をそのまま出力
+
+**出力例（先頭部分）**：
+```
+1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+FizzBuzz
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 100; i++) {
+            // ここに条件分岐を書いてください
+
+        }
+    }
+}`}
+/>

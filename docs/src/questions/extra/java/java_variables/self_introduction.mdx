@@ -1,0 +1,63 @@
+---
+id: "extra/java/java_variables#self_introduction"
+title: "自己紹介を出力する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_variables"
+category: "extra/java"
+language: "java"
+hint: |
+  `String` 型は文字列、`int` 型は整数を格納できる。
+  `System.out.println()` の中で `+` を使うと、文字列と変数の値を連結して出力できる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          String name = "田中太郎";
+          int age = 20;
+          String hobby = "プログラミング";
+          System.out.println("名前: " + name);
+          System.out.println("年齢: " + age + "歳");
+          System.out.println("趣味: " + hobby);
+      }
+  }
+explanation: |
+  **変数宣言と型**：`String` は文字列、`int` は整数を格納する型である。変数に値を入れておけば、同じデータを何度でも再利用できる。
+
+  **文字列連結**：`"名前: " + name` のように `+` を使うと、文字列と変数の値をつなげて表示できる。`int` 型の変数も `+` で連結すると自動的に文字列として扱われる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+自分の名前・年齢・趣味を変数に格納し、以下の形式で自己紹介を出力するプログラムを実装せよ。
+
+**出力例**：
+```
+名前: 田中太郎
+年齢: 20歳
+趣味: プログラミング
+```
+
+**要件**：
+- `String` 型で名前と趣味を宣言する
+- `int` 型で年齢を宣言する
+- 出力形式は `名前: {値}`、`年齢: {値}歳`、`趣味: {値}` とする
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 変数を宣言して値を入れてください
+        String name = "";   // 名前
+        int age = 0;        // 年齢
+        String hobby = "";  // 趣味
+
+        System.out.println("名前: " + name);
+        System.out.println("年齢: " + age + "歳");
+        System.out.println("趣味: " + hobby);
+    }
+}`}
+/>
