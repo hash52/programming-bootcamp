@@ -1,0 +1,90 @@
+---
+id: "extra/java/java_for#prime_check"
+title: "素数かどうかを判定する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  素数: 1とその数自身しか約数を持たない2以上の整数。
+  2 〜 n-1 で割り切れるものがあれば素数ではない。
+  `boolean isPrime = true;` で初期値を「素数」とし、割り切れたら `false` にして `break` で抜ける。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 17;
+          boolean isPrime;
+          if (n < 2) {
+              isPrime = false;
+          } else {
+              isPrime = true;
+              for (int i = 2; i < n; i++) {
+                  if (n % i == 0) {
+                      isPrime = false;
+                      break;
+                  }
+              }
+          }
+          if (isPrime) {
+              System.out.println(n + " は素数です");
+          } else {
+              System.out.println(n + " は素数ではありません");
+          }
+      }
+  }
+explanation: |
+  **素数の定義**：1と自分自身以外に約数を持たない2以上の整数。2・3・5・7・11・13・17...が素数。1は素数ではない。
+
+  **フラグ変数のパターン**：`isPrime = true` で「素数と仮定」し、割り切れる数が見つかった時点で `false` に変える。`break` で不要なループを打ち切る。
+
+  **計算量の最適化**：本来は `i <= Math.sqrt(n)` まで調べれば十分だが、ここでは `i < n` でも正しく動作する。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `n = 17` が素数かどうかを判定して出力するプログラムを実装せよ。
+
+**出力**（`n = 17` のとき）：
+```
+17 は素数です
+```
+
+**要件**：
+- 2 〜 n-1 の範囲でループを回し、割り切れるものがあれば素数でないと判定する
+- `boolean` 型のフラグ変数を使う
+- `n` を `15` や `2` に変えても正しく動作すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 17;
+        boolean isPrime;
+
+        if (n < 2) {
+            isPrime = false;
+        } else {
+            isPrime = true;
+            for (int i = 2; i < n; i++) {
+                if (n % i == 0) {
+                    // 割り切れた → 素数ではない
+                    isPrime = false;
+                    break;
+                }
+            }
+        }
+
+        // isPrime を使って結果を出力してください
+        if (isPrime) {
+            // ここに処理を書いてください
+        } else {
+            // ここに処理を書いてください
+        }
+    }
+}`}
+/>

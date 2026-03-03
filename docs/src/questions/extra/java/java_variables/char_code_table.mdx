@@ -1,0 +1,68 @@
+---
+id: "extra/java/java_variables#char_code_table"
+title: "複数のcharの文字コードを表示する"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_variables"
+category: "extra/java"
+language: "java"
+hint: |
+  `char` 型の変数を `(int)` キャストするとその文字のASCIIコードが得られる。
+  `'A'` は 65、`'a'` は 97、`'0'` は 48 である。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          char upper = 'A';
+          char lower = 'a';
+          char digit = '0';
+          System.out.println(upper + " → " + (int) upper);
+          System.out.println(lower + " → " + (int) lower);
+          System.out.println(digit + " → " + (int) digit);
+      }
+  }
+explanation: |
+  **charとASCIIコード**：`char` 型は内部的に整数（文字コード）として格納されている。`(int)` キャストでその番号を取り出せる。
+
+  **代表的な文字コード**：
+  - `'A'`〜`'Z'` は 65〜90
+  - `'a'`〜`'z'` は 97〜122
+  - `'0'`〜`'9'` は 48〜57
+
+  **連結時の注意**：`upper + " → "` と書くと `char` 型の `upper` は文字列として連結される。しかし `upper + (int) upper` のように `char` と `int` を `+` でつなぐと数値同士の加算になるため注意が必要である。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+大文字・小文字・数字の `char` 変数を宣言し、それぞれの文字とASCIIコードを一覧で出力するプログラムを実装せよ。
+
+**出力**：
+```
+A → 65
+a → 97
+0 → 48
+```
+
+**要件**：
+- `char upper = 'A'`、`char lower = 'a'`、`char digit = '0'` を宣言する
+- `(int)` キャストで各文字のASCIIコードを取得する
+- `文字 → コード` の形式で出力する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        char upper = 'A';  // 大文字
+        char lower = 'a';  // 小文字
+        char digit = '0';  // 数字文字
+
+        // (int) キャストで文字コードを取得して出力してください
+        System.out.println(upper + " → " + 0); // 0 を (int)upper に変えてください
+        System.out.println(lower + " → " + 0);
+        System.out.println(digit + " → " + 0);
+    }
+}`}
+/>

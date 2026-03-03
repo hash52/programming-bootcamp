@@ -1,0 +1,68 @@
+---
+id: "extra/java/java_for#multiplication_table"
+title: "九九全体を表示する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  外側のループで段（i: 1〜9）、内側のループでかける数（j: 1〜9）を繰り返す。
+  ネストされたforループ（forの中にfor）を使う。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          for (int i = 1; i <= 9; i++) {
+              System.out.println("--- " + i + "の段 ---");
+              for (int j = 1; j <= 9; j++) {
+                  System.out.println(i + " × " + j + " = " + (i * j));
+              }
+          }
+      }
+  }
+explanation: |
+  **ネストされたループ**：`for` の中に別の `for` を書くことができる。外側のループが1回実行されるたびに、内側のループが最初からすべて実行される。
+
+  **実行回数**：外側9回 × 内側9回 = 合計81回の掛け算が実行される。
+
+  **応用**：ネストされたループはグリッド状の処理（表・行列・画像など）で非常によく使われるパターンである。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+九九の表全体（1の段〜9の段）を表示するプログラムを実装せよ。
+
+**出力（一部）**：
+```
+--- 1の段 ---
+1 × 1 = 1
+1 × 2 = 2
+...
+--- 2の段 ---
+2 × 1 = 2
+...
+--- 9の段 ---
+...
+9 × 9 = 81
+```
+
+**要件**：
+- ネストされた `for` ループを使う（外側: 段、内側: かける数）
+- 各段の前に `--- N の段 ---` を表示する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 外側のループ: 段（i = 1〜9）
+        for (int i = 1; i <= 9; i++) {
+            System.out.println("--- " + i + "の段 ---");
+            // 内側のループ: かける数（j = 1〜9）を書いてください
+        }
+    }
+}`}
+/>

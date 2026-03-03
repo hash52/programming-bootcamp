@@ -1,0 +1,71 @@
+---
+id: "extra/java/java_variables#student_profile"
+title: "学生情報を表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_variables"
+category: "extra/java"
+language: "java"
+hint: |
+  `String`・`int`・`double`・`boolean` の4つの型をそれぞれ宣言しよう。
+  `System.out.println()` の中で `+` を使うと、文字列と変数の値を連結して出力できる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          String name = "田中花子";
+          int age = 20;
+          double gpa = 3.5;
+          boolean isEnrolled = true;
+          System.out.println("名前: " + name);
+          System.out.println("年齢: " + age + "歳");
+          System.out.println("GPA: " + gpa);
+          System.out.println("在籍: " + isEnrolled);
+      }
+  }
+explanation: |
+  **4つの基本型**：`String`（文字列）・`int`（整数）・`double`（小数）・`boolean`（真偽値）はJavaで最もよく使う型である。
+
+  **文字列連結**：`"名前: " + name` のように `+` で文字列と変数をつなげて出力できる。`int` や `double`・`boolean` も自動的に文字列へ変換される。
+
+  **boolean の出力**：`true` または `false` がそのまま表示される。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+4種類の型を使って学生情報を宣言し、以下の形式で出力するプログラムを実装せよ。
+
+**出力**：
+```
+名前: 田中花子
+年齢: 20歳
+GPA: 3.5
+在籍: true
+```
+
+**要件**：
+- `String` 型で名前を宣言する
+- `int` 型で年齢を宣言する
+- `double` 型で GPA を宣言する
+- `boolean` 型で在籍状況を宣言する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 4種類の型で変数を宣言してください
+        String name = "";       // 名前
+        int age = 0;            // 年齢
+        double gpa = 0.0;       // GPA
+        boolean isEnrolled = false; // 在籍中かどうか
+
+        System.out.println("名前: " + name);
+        System.out.println("年齢: " + age + "歳");
+        System.out.println("GPA: " + gpa);
+        System.out.println("在籍: " + isEnrolled);
+    }
+}`}
+/>

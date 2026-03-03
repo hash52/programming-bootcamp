@@ -1,0 +1,72 @@
+---
+id: "extra/java/java_for#digit_sum"
+title: "整数の各桁の和を求める"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  `n % 10` で最後の桁（1の位）が取り出せる。
+  `n /= 10` で最後の桁を削除できる（12345 → 1234）。
+  `while (n > 0)` でこれを繰り返すと、全桁を処理できる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 12345;
+          int original = n;
+          int sum = 0;
+          while (n > 0) {
+              sum += n % 10;
+              n /= 10;
+          }
+          System.out.println(original + " の各桁の和: " + sum);
+      }
+  }
+explanation: |
+  **桁の取り出し**：`n % 10` で1の位が得られる（12345 % 10 = 5）。`n /= 10` で1の位を削除（12345 / 10 = 1234）。これを繰り返せば全桁を処理できる。
+
+  **`while` の選択理由**：桁数がわからない場合は `while` が適している。`n > 0` の間繰り返す。
+
+  **元の値を保存**：`n` はループ中に変化するため、最初に `int original = n;` として元の値を保存しておく。
+
+  **確認**：1+2+3+4+5 = 15 ✓
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+整数 `n = 12345` の各桁の数字をすべて足した合計を求めて出力するプログラムを実装せよ。
+
+**出力**：
+```
+12345 の各桁の和: 15
+```
+
+**計算過程**：1 + 2 + 3 + 4 + 5 = 15
+
+**要件**：
+- `while` ループを使う
+- `%10` で1の位を取り出し、`/=10` で桁を削除する
+- 元の値を別の変数に保存してから処理する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 12345;
+        int original = n; // 元の値を保存
+        int sum = 0;
+
+        while (n > 0) {
+            sum += n % 10; // 1の位を加算
+            n /= 10;       // 1の位を削除
+        }
+
+        System.out.println(original + " の各桁の和: " + sum);
+    }
+}`}
+/>

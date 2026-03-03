@@ -1,0 +1,90 @@
+---
+id: "extra/java/java_if#leap_year"
+title: "うるう年を判定する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  うるう年の条件（順番が重要）:
+  1. 400で割り切れる → うるう年
+  2. 100で割り切れる → うるう年ではない（400の条件で通らなかった場合）
+  3. 4で割り切れる → うるう年
+  4. それ以外 → うるう年ではない
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int year = 2024;
+          boolean isLeap;
+          if (year % 400 == 0) {
+              isLeap = true;
+          } else if (year % 100 == 0) {
+              isLeap = false;
+          } else if (year % 4 == 0) {
+              isLeap = true;
+          } else {
+              isLeap = false;
+          }
+          if (isLeap) {
+              System.out.println(year + "年はうるう年です");
+          } else {
+              System.out.println(year + "年はうるう年ではありません");
+          }
+      }
+  }
+explanation: |
+  **うるう年の規則**：① 400の倍数 → うるう年、② 100の倍数（400は除く）→ 平年、③ 4の倍数（100は除く）→ うるう年、④ それ以外 → 平年。
+
+  **条件の順序が重要**：400の倍数（例：2000年）は4の倍数でも100の倍数でもある。判定は「最も限定的な条件」から始めないと、誤判定になる。
+
+  **検証用の年**：2024（うるう年）、1900（平年）、2000（うるう年）、2023（平年）で確認しよう。1900は100の倍数だが400の倍数でないため平年である。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `year` に設定された年がうるう年かどうかを判定して出力するプログラムを実装せよ。
+
+**うるう年の条件**：
+1. 400で割り切れる年 → うるう年
+2. 100で割り切れる年（①を除く）→ 平年
+3. 4で割り切れる年（②を除く）→ うるう年
+4. それ以外 → 平年
+
+**出力**（`year = 2024` のとき）：
+```
+2024年はうるう年です
+```
+
+**確認用の値**：
+- 2024 → うるう年（4の倍数）
+- 1900 → 平年（100の倍数だが400でない）
+- 2000 → うるう年（400の倍数）
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int year = 2024;
+        boolean isLeap;
+
+        // 400 → 100 → 4 の順に判定してください
+        if (year % 400 == 0) {
+            isLeap = true;
+        } // else if と else を追加してください
+        else {
+            isLeap = false; // 仮
+        }
+
+        if (isLeap) {
+            System.out.println(year + "年はうるう年です");
+        } else {
+            System.out.println(year + "年はうるう年ではありません");
+        }
+    }
+}`}
+/>

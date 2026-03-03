@@ -1,0 +1,69 @@
+---
+id: "extra/java/java_if#age_category"
+title: "年齢から区分を判定する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  条件を「小さい値から」順に判定すると `else if` がシンプルに書ける。
+  例：`age < 13` → 子ども、`age < 18` → 中高生、`age < 65` → 大人、それ以外 → 高齢者
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int age = 25;
+          if (age < 13) {
+              System.out.println(age + "歳: 子ども");
+          } else if (age < 18) {
+              System.out.println(age + "歳: 中高生");
+          } else if (age < 65) {
+              System.out.println(age + "歳: 大人");
+          } else {
+              System.out.println(age + "歳: 高齢者");
+          }
+      }
+  }
+explanation: |
+  **条件を小さい値から判定**：`age < 13` を先に判定することで、次の `age < 18` は「13以上18未満」を意味する。わざわざ `age >= 13 && age < 18` と書かなくてよい。
+
+  **4分岐の構造**：`if` → `else if` → `else if` → `else` と連ねることで4つの場合分けができる。
+
+  **境界値のテスト**：`age` に 0・12・13・17・18・64・65 を代入して動作を確認しよう。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `age = 25` の年齢区分を以下の基準で判定して出力するプログラムを実装せよ。
+
+**判定基準**：
+
+| 年齢 | 区分 |
+|------|------|
+| 13歳未満 | 子ども |
+| 13歳以上18歳未満 | 中高生 |
+| 18歳以上65歳未満 | 大人 |
+| 65歳以上 | 高齢者 |
+
+**出力**（`age = 25` のとき）：
+```
+25歳: 大人
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int age = 25;
+
+        // 4つの区分をif / else if / else で判定してください
+        if (age < 13) {
+            System.out.println(age + "歳: 子ども");
+        } // else if と else を追加してください
+    }
+}`}
+/>

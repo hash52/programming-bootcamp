@@ -1,0 +1,65 @@
+---
+id: "extra/java/java_variables#boolean_variables"
+title: "boolean型の変数を使う"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_variables"
+category: "extra/java"
+language: "java"
+hint: |
+  `boolean` 型には `true` か `false` のどちらかだけ代入できる。
+  変数名は意味が伝わるよう `is〇〇` や `has〇〇` と命名するのが慣習である。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          boolean isStudent = true;
+          boolean hasLicense = false;
+          boolean canVote = true;
+          System.out.println("学生: " + isStudent);
+          System.out.println("免許: " + hasLicense);
+          System.out.println("投票権: " + canVote);
+      }
+  }
+explanation: |
+  **boolean型**：`true`（真）か `false`（偽）の2値のみを格納できる型である。条件を変数として保持したいときに使う。
+
+  **命名慣習**：`isStudent`（学生かどうか）・`hasLicense`（免許を持っているか）のように `is〜` や `has〜` で始めると、読んだだけで「はい/いいえ」を答える変数だと分かりやすい。
+
+  **出力**：`println` で `boolean` 型を出力すると `true` または `false` という文字列として表示される。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+3つの `boolean` 型変数を宣言し、以下の形式で出力するプログラムを実装せよ。
+
+**出力**：
+```
+学生: true
+免許: false
+投票権: true
+```
+
+**要件**：
+- `isStudent`（学生である）を `true` で宣言する
+- `hasLicense`（免許を持っている）を `false` で宣言する
+- `canVote`（投票権がある）を `true` で宣言する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // boolean型の変数を宣言してください
+        boolean isStudent = false;   // 学生かどうか
+        boolean hasLicense = false;  // 免許を持っているか
+        boolean canVote = false;     // 投票権があるか
+
+        System.out.println("学生: " + isStudent);
+        System.out.println("免許: " + hasLicense);
+        System.out.println("投票権: " + canVote);
+    }
+}`}
+/>

@@ -1,0 +1,79 @@
+---
+id: "extra/java/java_operators#calorie_calculator"
+title: "三大栄養素のカロリーを計算する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  炭水化物 1g = 4 kcal
+  タンパク質 1g = 4 kcal
+  脂質 1g = 9 kcal
+  合計カロリー = 炭水化物 × 4 + タンパク質 × 4 + 脂質 × 9
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          double carbs = 50.0;
+          double protein = 30.0;
+          double fat = 15.0;
+          double carbsCal = carbs * 4;
+          double proteinCal = protein * 4;
+          double fatCal = fat * 9;
+          double totalCalories = carbsCal + proteinCal + fatCal;
+          System.out.println("炭水化物: " + carbs + "g → " + carbsCal + "kcal");
+          System.out.println("タンパク質: " + protein + "g → " + proteinCal + "kcal");
+          System.out.println("脂質: " + fat + "g → " + fatCal + "kcal");
+          System.out.println("合計: " + totalCalories + "kcal");
+      }
+  }
+explanation: |
+  **栄養素とカロリー**：炭水化物・タンパク質は 1g あたり 4kcal、脂質は 1g あたり 9kcal のカロリーを持つ。
+
+  **各栄養素のカロリーを個別に計算**：`carbsCal = carbs * 4` のように変数に分けて計算すると、式が読みやすくなりデバッグもしやすい。
+
+  **計算の確認**：50×4=200、30×4=120、15×9=135。合計 200+120+135=455kcal。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+炭水化物 50g、タンパク質 30g、脂質 15g の食事の総カロリーを計算して表示するプログラムを実装せよ。
+
+**出力**：
+```
+炭水化物: 50.0g → 200.0kcal
+タンパク質: 30.0g → 120.0kcal
+脂質: 15.0g → 135.0kcal
+合計: 455.0kcal
+```
+
+**カロリー換算**：炭水化物・タンパク質 = 4 kcal/g、脂質 = 9 kcal/g
+
+**要件**：
+- 各栄養素のグラム数を `double` 型で宣言する
+- 各栄養素のカロリーをそれぞれ変数に格納してから合計を求める
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        double carbs = 50.0;
+        double protein = 30.0;
+        double fat = 15.0;
+
+        double carbsCal = 0;   // 炭水化物のカロリーを計算してください
+        double proteinCal = 0; // タンパク質のカロリーを計算してください
+        double fatCal = 0;     // 脂質のカロリーを計算してください
+        double totalCalories = 0; // 合計を計算してください
+
+        System.out.println("炭水化物: " + carbs + "g → " + carbsCal + "kcal");
+        System.out.println("タンパク質: " + protein + "g → " + proteinCal + "kcal");
+        System.out.println("脂質: " + fat + "g → " + fatCal + "kcal");
+        System.out.println("合計: " + totalCalories + "kcal");
+    }
+}`}
+/>

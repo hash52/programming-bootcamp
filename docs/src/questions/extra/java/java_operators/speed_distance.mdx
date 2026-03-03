@@ -1,0 +1,67 @@
+---
+id: "extra/java/java_operators#speed_distance"
+title: "速さと時間から距離を求める"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  距離 = 速さ × 時間
+  速さ（km/h）× 時間（h）= 距離（km）
+  `int` と `double` の演算結果は `double` になる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int speed = 60;
+          double time = 2.5;
+          double distance = speed * time;
+          int minutes = (int)(time * 60);
+          System.out.println("速さ: " + speed + " km/h");
+          System.out.println("走行時間: " + time + " 時間（" + minutes + "分）");
+          System.out.println("走行距離: " + distance + " km");
+      }
+  }
+explanation: |
+  **速さ・時間・距離**：「距離 = 速さ × 時間」は理科でも学ぶ基本的な公式である。単位に注意して計算する。
+
+  **時間を分に変換**：`time * 60` で時間を分に変換できる。`2.5 時間 = 150 分`。`(int)` でキャストして整数化する。
+
+  **int × double の自動変換**：`speed`（int 60）× `time`（double 2.5）の結果は自動的に `double` の `150.0` になる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+時速 60km で 2.5時間走ったときの走行距離を計算して表示するプログラムを実装せよ。
+
+**出力**：
+```
+速さ: 60 km/h
+走行時間: 2.5 時間（150分）
+走行距離: 150.0 km
+```
+
+**要件**：
+- `speed = 60`（int）・`time = 2.5`（double）を変数として宣言する
+- 距離（double）と走行時間の分換算（int）を計算する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int speed = 60;
+        double time = 2.5;
+
+        double distance = 0; // 距離を計算してください
+        int minutes = 0;     // 時間を分に変換してください
+
+        System.out.println("速さ: " + speed + " km/h");
+        System.out.println("走行時間: " + time + " 時間（" + minutes + "分）");
+        System.out.println("走行距離: " + distance + " km");
+    }
+}`}
+/>

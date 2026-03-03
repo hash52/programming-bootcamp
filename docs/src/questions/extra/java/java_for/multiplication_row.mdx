@@ -1,0 +1,65 @@
+---
+id: "extra/java/java_for#multiplication_row"
+title: "指定した段の九九を表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  変数 `dan` に段の数を入れ、`i` を1〜9まで繰り返す。
+  各行は `dan + " × " + i + " = " + (dan * i)` のように出力する。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int dan = 7;
+          for (int i = 1; i <= 9; i++) {
+              System.out.println(dan + " × " + i + " = " + (dan * i));
+          }
+      }
+  }
+explanation: |
+  **ループで繰り返す計算**：`dan * i` をループの中で毎回計算することで、9行分の九九を自動で出力できる。
+
+  **括弧の必要性**：`"= " + (dan * i)` の括弧がないと `"= " + dan + i` となり、文字列連結になって誤った出力になる。
+
+  **応用**：`dan` の値を変えれば任意の段の九九を表示できる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `dan = 7` を使って、7の段の九九を表示するプログラムを実装せよ。
+
+**出力**：
+```
+7 × 1 = 7
+7 × 2 = 14
+7 × 3 = 21
+7 × 4 = 28
+7 × 5 = 35
+7 × 6 = 42
+7 × 7 = 49
+7 × 8 = 56
+7 × 9 = 63
+```
+
+**要件**：
+- `for` ループで `i = 1` から `9` まで繰り返す
+- `dan * i` で積を計算する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int dan = 7;
+
+        for (int i = 1; i <= 9; i++) {
+            // dan × i の結果を表示してください
+        }
+    }
+}`}
+/>

@@ -71,16 +71,16 @@ export const ALL_EXTRA_THEMES: readonly ExtraTheme[] = [
         label: "変数と型",
         theme: "java",
         exercises: [
-          {
-            questionId: "self_introduction",
-            title: "自己紹介を出力する",
-            difficulty: "EASY",
-          },
-          {
-            questionId: "type_conversion",
-            title: "整数の割り算を小数で求める",
-            difficulty: "NORMAL",
-          },
+          { questionId: "self_introduction",      title: "自己紹介を出力する",                          difficulty: "EASY"   },
+          { questionId: "char_display",           title: "char型と文字コードを表示する",                difficulty: "EASY"   },
+          { questionId: "student_profile",        title: "学生情報を表示する",                         difficulty: "EASY"   },
+          { questionId: "boolean_variables",      title: "boolean型の変数を使う",                      difficulty: "EASY"   },
+          { questionId: "product_info",           title: "商品情報を表示する",                         difficulty: "EASY"   },
+          { questionId: "type_casting_narrowing", title: "(int)キャストで小数点以下の切り捨てを確認する", difficulty: "NORMAL" },
+          { questionId: "variable_swap",          title: "2つの変数の値を入れ替える",                  difficulty: "NORMAL" },
+          { questionId: "char_code_table",        title: "複数のcharの文字コードを表示する",            difficulty: "NORMAL" },
+          { questionId: "type_widening",          title: "widening変換とnarrowing変換を比べる",         difficulty: "NORMAL" },
+          { questionId: "type_representation",    title: "同じ値が型によって見え方が変わることを確認する", difficulty: "HARD"   },
         ],
       },
       {
@@ -91,16 +91,16 @@ export const ALL_EXTRA_THEMES: readonly ExtraTheme[] = [
         label: "演算子",
         theme: "java",
         exercises: [
-          {
-            questionId: "four_operations",
-            title: "四則演算と余りを表示する",
-            difficulty: "EASY",
-          },
-          {
-            questionId: "tax_calculation",
-            title: "税込み価格を計算する",
-            difficulty: "NORMAL",
-          },
+          { questionId: "four_operations",     title: "四則演算と余りを表示する",     difficulty: "EASY"   },
+          { questionId: "comparison_results",  title: "比較演算子の結果を表示する",   difficulty: "EASY"   },
+          { questionId: "circle_area",         title: "円の面積と円周を求める",       difficulty: "EASY"   },
+          { questionId: "quotient_remainder",  title: "商と余りで個数を表現する",     difficulty: "EASY"   },
+          { questionId: "logical_display",     title: "論理演算子の結果を表示する",   difficulty: "EASY"   },
+          { questionId: "tax_calculation",     title: "税込み価格を計算する",         difficulty: "NORMAL" },
+          { questionId: "discount_calculation",title: "割引後の支払い金額を計算する", difficulty: "NORMAL" },
+          { questionId: "speed_distance",      title: "速さと時間から距離を求める",   difficulty: "NORMAL" },
+          { questionId: "calorie_calculator",  title: "三大栄養素のカロリーを計算する",difficulty: "NORMAL" },
+          { questionId: "compound_interest",   title: "複利計算で3年後の元利合計を求める", difficulty: "HARD" },
         ],
       },
       {
@@ -112,36 +112,36 @@ export const ALL_EXTRA_THEMES: readonly ExtraTheme[] = [
         label: "if文",
         theme: "java",
         exercises: [
-          {
-            questionId: "pass_fail",
-            title: "合否判定を実装する",
-            difficulty: "EASY",
-          },
-          {
-            questionId: "season_judgment",
-            title: "季節判定プログラムを実装する",
-            difficulty: "NORMAL",
-          },
+          { questionId: "pass_fail",              title: "合否判定を実装する",           difficulty: "EASY"   },
+          { questionId: "positive_negative_zero", title: "正・負・ゼロを判定する",       difficulty: "EASY"   },
+          { questionId: "even_odd",               title: "偶数・奇数を判定する",         difficulty: "EASY"   },
+          { questionId: "max_of_two",             title: "2つの数の大きい方を表示する",  difficulty: "EASY"   },
+          { questionId: "age_category",           title: "年齢から区分を判定する",       difficulty: "EASY"   },
+          { questionId: "season_judgment",        title: "季節判定プログラムを実装する", difficulty: "NORMAL" },
+          { questionId: "bmi_category",           title: "BMIから体重区分を判定する",    difficulty: "NORMAL" },
+          { questionId: "triangle_type",          title: "三角形の種類を判定する",       difficulty: "NORMAL" },
+          { questionId: "score_grade",            title: "点数から成績と評価を出力する", difficulty: "NORMAL" },
+          { questionId: "leap_year",              title: "うるう年を判定する",           difficulty: "HARD"   },
         ],
       },
       {
         // 05_loops までの知識で解ける問題
-        // 利用可能: if文 + for/while ループ
+        // 利用可能: if文 + Scanner + for/while ループ
         // 利用不可: 配列・メソッド
         id: "java_for",
         label: "for文・while文",
         theme: "java",
         exercises: [
-          {
-            questionId: "sum_calculation",
-            title: "合計計算プログラムを実装する",
-            difficulty: "EASY",
-          },
-          {
-            questionId: "fizzbuzz",
-            title: "FizzBuzzを実装する",
-            difficulty: "NORMAL",
-          },
+          { questionId: "sum_calculation",    title: "合計計算プログラムを実装する",    difficulty: "EASY"   },
+          { questionId: "countdown",          title: "カウントダウンを表示する",        difficulty: "EASY"   },
+          { questionId: "even_numbers",       title: "1〜30の偶数をすべて表示する",     difficulty: "EASY"   },
+          { questionId: "multiplication_row", title: "指定した段の九九を表示する",      difficulty: "EASY"   },
+          { questionId: "sum_input",          title: "入力した数まで合計を求める",      difficulty: "EASY"   },
+          { questionId: "fizzbuzz",           title: "FizzBuzzを実装する",             difficulty: "NORMAL" },
+          { questionId: "prime_check",        title: "素数かどうかを判定する",          difficulty: "NORMAL" },
+          { questionId: "multiplication_table",title: "九九全体を表示する",            difficulty: "NORMAL" },
+          { questionId: "digit_sum",          title: "整数の各桁の和を求める",          difficulty: "NORMAL" },
+          { questionId: "collatz_sequence",   title: "コラッツ数列を表示する",          difficulty: "HARD"   },
         ],
       },
     ],

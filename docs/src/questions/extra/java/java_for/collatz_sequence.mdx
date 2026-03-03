@@ -1,0 +1,89 @@
+---
+id: "extra/java/java_for#collatz_sequence"
+title: "コラッツ数列を表示する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  コラッツ予想の操作:
+  - n が偶数 → n を 2 で割る（n /= 2）
+  - n が奇数 → n を 3倍して1を足す（n = n * 3 + 1）
+  これを n が 1 になるまで繰り返す（`while (n != 1)`）。
+  ステップ数をカウントするには別の変数を用意する。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 6;
+          int steps = 0;
+          System.out.print(n);
+          while (n != 1) {
+              if (n % 2 == 0) {
+                  n /= 2;
+              } else {
+                  n = n * 3 + 1;
+              }
+              System.out.print(" → " + n);
+              steps++;
+          }
+          System.out.println();
+          System.out.println(steps + "ステップで1に到達した");
+      }
+  }
+explanation: |
+  **コラッツ予想**：どんな正の整数から始めても、この操作を繰り返すと必ず1に到達するという未解決の予想（2026年現在、証明も反例もない）。
+
+  **`while` ループの使いどき**：「何回繰り返すか事前にわからない」場合は `while` が適している。`n != 1` を条件にすることで1になるまで繰り返せる。
+
+  **n = 6 の経過**：6 → 3 → 10 → 5 → 16 → 8 → 4 → 2 → 1（8ステップ）
+
+  **試してみよう**：`n = 27` にすると111ステップかかる。大きな数でも必ず終わる（という予想）。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`n = 6` から始めて、コラッツの操作を1になるまで繰り返し、数列とステップ数を表示するプログラムを実装せよ。
+
+**コラッツの操作**：
+- `n` が偶数 → `n ÷ 2`
+- `n` が奇数 → `n × 3 + 1`
+
+**出力**：
+```
+6 → 3 → 10 → 5 → 16 → 8 → 4 → 2 → 1
+8ステップで1に到達した
+```
+
+**要件**：
+- `while (n != 1)` でループする
+- ループ内で偶数・奇数を判定して操作を行う
+- ステップ数をカウントする
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 6;
+        int steps = 0;
+        System.out.print(n);
+
+        while (n != 1) {
+            if (n % 2 == 0) {
+                n /= 2; // 偶数なら半分に
+            } else {
+                n = n * 3 + 1; // 奇数なら3倍+1
+            }
+            System.out.print(" → " + n);
+            steps++;
+        }
+
+        System.out.println();
+        System.out.println(steps + "ステップで1に到達した");
+    }
+}`}
+/>

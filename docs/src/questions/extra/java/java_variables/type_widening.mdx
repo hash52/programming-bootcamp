@@ -1,0 +1,67 @@
+---
+id: "extra/java/java_variables#type_widening"
+title: "widening変換とnarrowing変換を比べる"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_variables"
+category: "extra/java"
+language: "java"
+hint: |
+  `int` を `double` に代入する（widening）は自動で行われ、キャスト不要である。
+  `double` を `int` に代入する（narrowing）は `(int)` キャストが必要で、小数部分が切り捨てられる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 7;
+          double widened = n;
+          System.out.println("widening: " + n + " → " + widened);
+
+          double d = 7.9;
+          int narrowed = (int) d;
+          System.out.println("narrowing: " + d + " → " + narrowed);
+      }
+  }
+explanation: |
+  **widening変換（拡大変換）**：`int` → `double` のように、より広い範囲の型へ変換する。情報は失われないため、Javaが自動的に変換する（明示的なキャスト不要）。`7` → `7.0`
+
+  **narrowing変換（縮小変換）**：`double` → `int` のように、より狭い範囲の型へ変換する。小数部分が失われるため、`(int)` と明示的なキャストが必要である。`7.9` → `7`
+
+  **どちらが安全か**：widening は情報損失なしで安全。narrowing は情報（小数部分）が失われるため注意が必要である。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`int` から `double` への widening 変換と、`double` から `int` への narrowing 変換を並べて表示するプログラムを実装せよ。
+
+**出力**：
+```
+widening: 7 → 7.0
+narrowing: 7.9 → 7
+```
+
+**要件**：
+- `int n = 7` を `double widened` に代入する（自動変換・キャスト不要）
+- `double d = 7.9` を `(int)` キャストして `int narrowed` に代入する
+- 変換前後の値を出力する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // widening: int → double（自動変換）
+        int n = 7;
+        double widened = 0.0; // n をそのまま代入してください（キャスト不要）
+
+        // narrowing: double → int（(int)キャストが必要）
+        double d = 7.9;
+        int narrowed = 0; // (int) キャストで d を変換してください
+
+        System.out.println("widening: " + n + " → " + widened);
+        System.out.println("narrowing: " + d + " → " + narrowed);
+    }
+}`}
+/>

@@ -1,0 +1,76 @@
+---
+id: "extra/java/java_if#score_grade"
+title: "点数から成績と評価を出力する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  まず範囲外チェック（0未満または100超）を最初に行う。
+  次に90点以上から順に高い方から判定する。
+  一致した `else if` だけが実行されるので、「90点以上かつ100点以下」と書かなくてよい。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int score = 78;
+          if (score < 0 || score > 100) {
+              System.out.println("無効な点数です");
+          } else if (score >= 90) {
+              System.out.println(score + "点: A（優）");
+          } else if (score >= 80) {
+              System.out.println(score + "点: B（良）");
+          } else if (score >= 70) {
+              System.out.println(score + "点: C（可）");
+          } else if (score >= 60) {
+              System.out.println(score + "点: D（要努力）");
+          } else {
+              System.out.println(score + "点: F（不可）");
+          }
+      }
+  }
+explanation: |
+  **入力バリデーション**：0〜100の範囲外をまず弾くことで、以降の条件が有効範囲内の値のみを扱える。
+
+  **高い方から判定**：90点以上を先に判定することで、`else if (score >= 80)` は「80点以上90点未満」を意味する。わざわざ `&& score < 90` と書かなくてよい。
+
+  **5分岐のパターン**：バリデーション + 4段階評価を合わせると5分岐。`if`-`else if`-`else` で表現できる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `score = 78` の点数から成績と評価を出力するプログラムを実装せよ。
+
+**判定基準**：
+
+| 点数 | 成績 |
+|------|------|
+| 90点以上 | A（優） |
+| 80点以上90点未満 | B（良） |
+| 70点以上80点未満 | C（可） |
+| 60点以上70点未満 | D（要努力） |
+| 60点未満 | F（不可） |
+| 0未満または100超 | 無効な点数です |
+
+**出力**（`score = 78` のとき）：
+```
+78点: C（可）
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int score = 78;
+
+        // まず範囲外チェック、次に90点以上から順に判定してください
+        if (score < 0 || score > 100) {
+            System.out.println("無効な点数です");
+        } // else if と else を追加してください
+    }
+}`}
+/>

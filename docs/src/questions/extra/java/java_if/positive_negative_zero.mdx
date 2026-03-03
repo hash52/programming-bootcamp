@@ -1,0 +1,62 @@
+---
+id: "extra/java/java_if#positive_negative_zero"
+title: "正・負・ゼロを判定する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  `if` / `else if` / `else` の3分岐で判定できる。
+  `n > 0` で正、`n < 0` で負、それ以外（`else`）はゼロである。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 7;
+          if (n > 0) {
+              System.out.println(n + " は正の数です");
+          } else if (n < 0) {
+              System.out.println(n + " は負の数です");
+          } else {
+              System.out.println(n + " はゼロです");
+          }
+      }
+  }
+explanation: |
+  **3分岐の構造**：`if` → `else if` → `else` の順に条件を評価する。最初に一致した分岐だけが実行される。
+
+  **ゼロを `else` で処理**：`n > 0` でも `n < 0` でもない場合は必ずゼロなので、`else` で受け取れる。
+
+  **値を変えて確認**：`n` に `7`・`-3`・`0` を代入して実行し、それぞれ正しく出力されることを確認しよう。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `n = 7` に対して、正の数・負の数・ゼロのいずれかを判定して出力するプログラムを実装せよ。
+
+**出力**（`n = 7` のとき）：
+```
+7 は正の数です
+```
+
+**要件**：
+- `if` / `else if` / `else` の3分岐を使う
+- `n` の値を `-3` や `0` に変えても正しく動作すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 7;
+
+        // if / else if / else で3分岐を実装してください
+        if (n > 0) {
+            System.out.println(n + " は正の数です");
+        } // else if と else を追加してください
+    }
+}`}
+/>

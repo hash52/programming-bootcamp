@@ -1,0 +1,62 @@
+---
+id: "extra/java/java_if#max_of_two"
+title: "2つの数の大きい方を表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  `a >= b` が `true` なら `a` の方が大きい（または等しい）。
+  `else` の場合は `b` の方が大きい。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int a = 15;
+          int b = 23;
+          if (a >= b) {
+              System.out.println("大きい方: " + a);
+          } else {
+              System.out.println("大きい方: " + b);
+          }
+      }
+  }
+explanation: |
+  **`>=` で等値を考慮**：`a > b` ではなく `a >= b` にすることで、`a == b` のとき（両方同じ値）も `a` を出力できる。どちらを出力しても正しいが、`>=` を使う方が一般的である。
+
+  **if-else の基本**：2択の判定は `if`-`else` の基本パターン。条件が `true` なら `if` ブロック、`false` なら `else` ブロックが実行される。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `a = 15`、`b = 23` のうち、大きい方の値を表示するプログラムを実装せよ。
+
+**出力**（`a = 15`、`b = 23` のとき）：
+```
+大きい方: 23
+```
+
+**要件**：
+- `if`-`else` を使って判定する
+- `a` と `b` の値を入れ替えても正しく動作すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int a = 15;
+        int b = 23;
+
+        // a と b を比較して、大きい方を出力してください
+        if (a >= b) {
+            // ここに処理を書いてください
+        } else {
+            // ここに処理を書いてください
+        }
+    }
+}`}
+/>

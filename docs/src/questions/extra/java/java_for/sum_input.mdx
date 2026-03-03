@@ -1,0 +1,70 @@
+---
+id: "extra/java/java_for#sum_input"
+title: "入力した数まで合計を求める"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  `Scanner` で整数を入力し、1からその数までをforループで合計する。
+  合計用変数を0で初期化してループ前に宣言し、ループ内で `sum += i;` を繰り返す。
+sampleAnswer: |
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+          System.out.print("整数を入力してください: ");
+          int n = scanner.nextInt();
+          int sum = 0;
+          for (int i = 1; i <= n; i++) {
+              sum += i;
+          }
+          System.out.println("1から" + n + "の合計: " + sum);
+      }
+  }
+explanation: |
+  **Scannerで入力を受け取る**：`scanner.nextInt()` でキーボードから整数を入力できる。ループに入力値を使うことで、汎用的なプログラムになる。
+
+  **累積加算パターン**：`sum = 0` で初期化し、ループ内で `sum += i` を繰り返す。これは集計処理の基本パターンである。
+
+  **等差数列の公式で確認**：`n = 10` のとき、1〜10の合計 = `10 × 11 / 2 = 55` で正しいかチェックできる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+キーボードから整数 `n` を入力し、1から `n` までの合計を計算して出力するプログラムを実装せよ。
+
+**実行例**（n = 10 のとき）：
+```
+整数を入力してください: 10
+1から10の合計: 55
+```
+
+**要件**：
+- `Scanner` を使って整数を入力する
+- `for` ループで1から `n` まで繰り返す
+- 累積変数 `sum` を使って合計を求める
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("整数を入力してください: ");
+        int n = scanner.nextInt();
+
+        int sum = 0;
+        // 1 から n まで合計するforループを書いてください
+
+        System.out.println("1から" + n + "の合計: " + sum);
+    }
+}`}
+/>

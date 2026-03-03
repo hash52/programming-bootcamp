@@ -1,0 +1,81 @@
+---
+id: "extra/java/java_variables#type_representation"
+title: "同じ値が型によって見え方が変わることを確認する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_variables"
+category: "extra/java"
+language: "java"
+hint: |
+  `int n = 65` を出発点にして、3つの別の型へ変換する。
+  - `char` へのキャスト：`(char) n` → 65 はASCIIで `'A'`
+  - `double` への代入：`double d = n` → widening 変換で `65.0`
+  - `String` への連結：`"" + n` → 文字列連結で `"65"`
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 65;
+          char asChar = (char) n;
+          double asDouble = n;
+          String asString = "" + n;
+          System.out.println("int    : " + n);
+          System.out.println("char   : " + asChar);
+          System.out.println("double : " + asDouble);
+          System.out.println("String : " + asString);
+      }
+  }
+explanation: |
+  **同じ値でも型で見え方が変わる**：`65` という整数は、型によってまったく異なる意味や表示になる。
+
+  **int → char**：`(char) 65` はASCIIコード 65 の文字 `'A'` として解釈される。
+
+  **int → double**：`double asDouble = n` は widening 変換（自動）で `65.0` になる。小数部分 `.0` が付く。
+
+  **int → String**：`"" + n` は空文字列と整数を連結することで `"65"` という文字列になる。数値ではなく文字列として扱われるようになる。
+
+  **型は「データをどう解釈するか」を決める**：コンピュータの中身はただのビット列であり、型がそのビットの意味を決定する。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`int n = 65` を `char`・`double`・`String` の3つの型に変換し、型によって表示が変わることを確認するプログラムを実装せよ。
+
+**出力**：
+```
+int    : 65
+char   : A
+double : 65.0
+String : 65
+```
+
+**要件**：
+- `(char) n` で `char asChar` に変換する（ASCIIコード 65 = `'A'`）
+- `double asDouble = n` で widening 変換する（`65.0` になる）
+- `"" + n` で `String asString` に変換する（`"65"` になる）
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 65;
+
+        // int → char（(char)キャスト）
+        char asChar = ' '; // (char) n に変えてください
+
+        // int → double（widening、キャスト不要）
+        double asDouble = 0.0; // n をそのまま代入してください
+
+        // int → String（文字列連結）
+        String asString = ""; // "" + n に変えてください
+
+        System.out.println("int    : " + n);
+        System.out.println("char   : " + asChar);
+        System.out.println("double : " + asDouble);
+        System.out.println("String : " + asString);
+    }
+}`}
+/>

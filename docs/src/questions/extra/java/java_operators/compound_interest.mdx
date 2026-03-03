@@ -1,0 +1,83 @@
+---
+id: "extra/java/java_operators#compound_interest"
+title: "複利計算で3年後の元利合計を求める"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  複利計算: n年後の元利合計 = 元金 × (1 + 年利)ⁿ
+  毎年の計算式: 前年の残高 × (1 + rate)
+  `(int)` キャストで1円未満を切り捨てる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int principal = 100000;
+          double rate = 0.03;
+          double year1 = principal * (1 + rate);
+          double year2 = year1 * (1 + rate);
+          double year3 = year2 * (1 + rate);
+          int interest = (int)year3 - principal;
+          System.out.println("元金: " + principal + "円");
+          System.out.println("年利: " + (int)(rate * 100) + "%");
+          System.out.println("1年後: " + (int)year1 + "円");
+          System.out.println("2年後: " + (int)year2 + "円");
+          System.out.println("3年後: " + (int)year3 + "円");
+          System.out.println("3年間の利息: " + interest + "円");
+      }
+  }
+explanation: |
+  **複利計算の仕組み**：「元金に利息がつき、その利息にさらに利息がつく」のが複利である。毎年「前年の残高 × (1 + 利率)」を繰り返す。
+
+  **単利との違い**：単利なら毎年 `principal * rate = 3000円` の利息。複利では利息が雪だるま式に増えていく。
+
+  **各年を変数に格納**：`year1`→`year2`→`year3` と連鎖させる。`year2 = year1 * (1 + rate)` のように前の年の結果を使う。
+
+  **計算の確認**：100000 × 1.03 = 103000、103000 × 1.03 = 106090、106090 × 1.03 ≈ 109272。利息 = 9272円。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+元金 100,000円を年利 3% で3年間複利運用したときの元利合計と利息を計算して表示するプログラムを実装せよ。
+
+**出力**：
+```
+元金: 100000円
+年利: 3%
+1年後: 103000円
+2年後: 106090円
+3年後: 109272円
+3年間の利息: 9272円
+```
+
+**要件**：
+- 各年の残高を `double` 型変数に格納する
+- 最終結果は `(int)` キャストで円未満を切り捨てる
+- `year2` を求めるときは `year1` の計算結果を使う（`year2 = year1 * (1 + rate)`）
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int principal = 100000;
+        double rate = 0.03;
+
+        double year1 = 0; // 1年後を計算してください
+        double year2 = 0; // year1 を使って計算してください
+        double year3 = 0; // year2 を使って計算してください
+        int interest = 0; // 3年間の利息を計算してください
+
+        System.out.println("元金: " + principal + "円");
+        System.out.println("年利: " + (int)(rate * 100) + "%");
+        System.out.println("1年後: " + (int)year1 + "円");
+        System.out.println("2年後: " + (int)year2 + "円");
+        System.out.println("3年後: " + (int)year3 + "円");
+        System.out.println("3年間の利息: " + interest + "円");
+    }
+}`}
+/>

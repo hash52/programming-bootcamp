@@ -1,0 +1,69 @@
+---
+id: "extra/java/java_variables#variable_swap"
+title: "2つの変数の値を入れ替える"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_variables"
+category: "extra/java"
+language: "java"
+hint: |
+  `a = b` と代入すると `a` の元の値が失われてしまう。
+  値を失わないよう、先に一時変数 `temp` に `a` の値を退避させてから入れ替えよう。
+  手順：① `temp = a` ② `a = b` ③ `b = temp`
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int a = 100;
+          int b = 200;
+          System.out.println("交換前: a=" + a + ", b=" + b);
+
+          int temp = a;
+          a = b;
+          b = temp;
+
+          System.out.println("交換後: a=" + a + ", b=" + b);
+      }
+  }
+explanation: |
+  **一時変数（temp）によるスワップ**：2変数の値を入れ替えるには、一方の値を一時的に別の変数に保存してから代入する。
+
+  **なぜ temp が必要か**：`a = b` とすると `a` の元の値（100）が上書きされて失われる。先に `temp = a` で退避させておくことで、後から `b = temp` で復元できる。
+
+  **代入のみで実現**：この問題は計算（`+`・`*` など）を一切使わず、**変数への代入だけ**で解ける。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+一時変数 `temp` を使って、`a` と `b` の値を入れ替えるプログラムを実装せよ。
+
+**出力**：
+```
+交換前: a=100, b=200
+交換後: a=200, b=100
+```
+
+**要件**：
+- `int a = 100`、`int b = 200` を宣言する
+- 一時変数 `temp` を使って `a` と `b` の値を入れ替える
+- 交換前と交換後の値を出力する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int a = 100;
+        int b = 200;
+        System.out.println("交換前: a=" + a + ", b=" + b);
+
+        // temp を使って a と b を入れ替えてください
+        int temp = 0;
+        // ここに入れ替えの処理を書く
+
+        System.out.println("交換後: a=" + a + ", b=" + b);
+    }
+}`}
+/>

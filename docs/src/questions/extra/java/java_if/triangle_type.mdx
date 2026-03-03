@@ -1,0 +1,75 @@
+---
+id: "extra/java/java_if#triangle_type"
+title: "三角形の種類を判定する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  正三角形: 3辺がすべて等しい（a == b && b == c）
+  二等辺三角形: 2辺が等しい（a == b || b == c || a == c）
+  不等辺三角形: すべて異なる（上記以外）
+  正三角形を先に判定しないと、二等辺三角形の条件にも一致してしまう。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int a = 5;
+          int b = 5;
+          int c = 8;
+          if (a == b && b == c) {
+              System.out.println("正三角形");
+          } else if (a == b || b == c || a == c) {
+              System.out.println("二等辺三角形");
+          } else {
+              System.out.println("不等辺三角形");
+          }
+      }
+  }
+explanation: |
+  **判定の順序が重要**：正三角形（3辺すべて等しい）は二等辺三角形（2辺が等しい）の条件も満たす。そのため正三角形を先に判定する必要がある。
+
+  **`&&` と `||` の使い分け**：「すべて等しい」→ `&&`（AND）、「いずれかが等しい」→ `||`（OR）。
+
+  **a = 5, b = 5, c = 5** のとき → 正三角形
+  **a = 5, b = 5, c = 8** のとき → 二等辺三角形
+  **a = 3, b = 4, c = 5** のとき → 不等辺三角形
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+3辺の長さ `a`・`b`・`c` から三角形の種類を判定して出力するプログラムを実装せよ。
+
+**判定基準**：
+- 3辺がすべて等しい → 正三角形
+- 2辺が等しい → 二等辺三角形
+- すべて異なる → 不等辺三角形
+
+**出力**（`a = 5`、`b = 5`、`c = 8` のとき）：
+```
+二等辺三角形
+```
+
+**要件**：
+- `&&`・`||` の論理演算子を使う
+- `a = 5, b = 5, c = 5` のとき → 正三角形 となることを確認すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int a = 5;
+        int b = 5;
+        int c = 8;
+
+        // 正三角形を最初に判定し、次に二等辺三角形を判定してください
+        if (a == b && b == c) {
+            System.out.println("正三角形");
+        } // else if と else を追加してください
+    }
+}`}
+/>

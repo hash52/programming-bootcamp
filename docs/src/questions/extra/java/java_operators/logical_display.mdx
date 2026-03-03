@@ -1,0 +1,70 @@
+---
+id: "extra/java/java_operators#logical_display"
+title: "論理演算子の結果を表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  `&&`（AND）: 両方が `true` のとき `true`
+  `||`（OR）: どちらかが `true` のとき `true`
+  `!`（NOT）: `true` なら `false`、`false` なら `true`
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          boolean a = true;
+          boolean b = false;
+          System.out.println("a = " + a + ", b = " + b);
+          System.out.println("a && b : " + (a && b));
+          System.out.println("a || b : " + (a || b));
+          System.out.println("!a     : " + !a);
+          System.out.println("!b     : " + !b);
+      }
+  }
+explanation: |
+  **AND（`&&`）**：両方が `true` のときだけ `true`。「かつ」の意味。`true && false = false`。
+
+  **OR（`||`）**：どちらか一方でも `true` なら `true`。「または」の意味。`true || false = true`。
+
+  **NOT（`!`）**：値を反転する。`!true = false`、`!false = true`。
+
+  **論理演算子の用途**：主にif文の条件式で使うが、このように `boolean` 変数と組み合わせて結果を表示することで、動作を確認できる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`a = true`、`b = false` を使って、3種類の論理演算子（`&&`・`||`・`!`）の結果をすべて表示するプログラムを実装せよ。
+
+**出力**：
+```
+a = true, b = false
+a && b : false
+a || b : true
+!a     : false
+!b     : true
+```
+
+**要件**：
+- `boolean` 型の変数 `a`・`b` を宣言する
+- `&&`・`||`・`!` の3種類をすべて使う
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        boolean a = true;
+        boolean b = false;
+        System.out.println("a = " + a + ", b = " + b);
+        // 3種類の論理演算の結果を表示してください
+        System.out.println("a && b : " + 0); // 0を正しい式に変えてください
+        System.out.println("a || b : " + 0);
+        System.out.println("!a     : " + 0);
+        System.out.println("!b     : " + 0);
+    }
+}`}
+/>

@@ -1,0 +1,69 @@
+---
+id: "extra/java/java_if#bmi_category"
+title: "BMIから体重区分を判定する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  WHO基準: BMI 18.5未満 → 低体重、18.5以上25.0未満 → 普通体重、25.0以上30.0未満 → 過体重、30.0以上 → 肥満
+  `double` 型の比較には `==` は使わず、`<` や `>=` を使う。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          double bmi = 22.5;
+          if (bmi < 18.5) {
+              System.out.println("BMI " + bmi + ": 低体重");
+          } else if (bmi < 25.0) {
+              System.out.println("BMI " + bmi + ": 普通体重");
+          } else if (bmi < 30.0) {
+              System.out.println("BMI " + bmi + ": 過体重");
+          } else {
+              System.out.println("BMI " + bmi + ": 肥満");
+          }
+      }
+  }
+explanation: |
+  **double型の比較**：`double` 型の変数も `<`・`>=` で比較できる。`==` は浮動小数点の誤差で意図しない動作になるため、範囲の比較には `<` や `>=` を使う。
+
+  **下から判定する利点**：`bmi < 18.5` を最初に判定することで、2番目の `bmi < 25.0` は「18.5以上25.0未満」を意味する。範囲を重ねて書く必要がない。
+
+  **境界値の確認**：BMI = 18.5・25.0・30.0 ちょうどの場合が正しく判定されるかテストしよう。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `bmi = 22.5` の体重区分を以下の基準（WHO基準）で判定して出力するプログラムを実装せよ。
+
+**判定基準**：
+
+| BMI | 区分 |
+|-----|------|
+| 18.5未満 | 低体重 |
+| 18.5以上25.0未満 | 普通体重 |
+| 25.0以上30.0未満 | 過体重 |
+| 30.0以上 | 肥満 |
+
+**出力**（`bmi = 22.5` のとき）：
+```
+BMI 22.5: 普通体重
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        double bmi = 22.5;
+
+        // 4段階の体重区分をif / else if / else で判定してください
+        if (bmi < 18.5) {
+            System.out.println("BMI " + bmi + ": 低体重");
+        } // else if と else を追加してください
+    }
+}`}
+/>

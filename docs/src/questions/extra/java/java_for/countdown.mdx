@@ -1,0 +1,68 @@
+---
+id: "extra/java/java_for#countdown"
+title: "カウントダウンを表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  `for` ループで `i` を 10 から始めて 1 まで繰り返す。
+  ループ変数を減らすには `i--` または `i -= 1` を使う。
+  条件式は `i >= 1` とする。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          for (int i = 10; i >= 1; i--) {
+              System.out.println(i);
+          }
+          System.out.println("スタート！");
+      }
+  }
+explanation: |
+  **デクリメントループ**：`for (int i = 10; i >= 1; i--)` の `i--` は毎回 `i` を1減らす。`i++`（インクリメント）の逆である。
+
+  **終了条件**：`i >= 1` でループを続ける。`i` が0になるとループを抜ける。`i > 0` と書いても同じ動作になる。
+
+  **ループ後の処理**：`for` ブロックの後に `System.out.println("スタート！")` を書くことで、ループ完了後に一度だけ実行される。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+10から1までカウントダウンを表示し、最後に「スタート！」と出力するプログラムを実装せよ。
+
+**出力**：
+```
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+スタート！
+```
+
+**要件**：
+- `for` ループを使う
+- ループ変数を減らしながら繰り返す（`i--`）
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        // 10から1まで表示するforループを書いてください
+        for (int i = 10; i >= 1; i--) {
+            // ここに処理を書いてください
+        }
+        System.out.println("スタート！");
+    }
+}`}
+/>

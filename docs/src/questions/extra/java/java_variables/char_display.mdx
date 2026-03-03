@@ -1,0 +1,59 @@
+---
+id: "extra/java/java_variables#char_display"
+title: "char型と文字コードを表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_variables"
+category: "extra/java"
+language: "java"
+hint: |
+  `char` 型は `'A'` のようにシングルクォートで1文字を格納する。
+  `(int) grade` とキャストすると、その文字のASCIIコード（文字コード）を取得できる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          char grade = 'A';
+          System.out.println("成績: " + grade);
+          System.out.println("文字コード: " + (int) grade);
+      }
+  }
+explanation: |
+  **char型**：1文字を格納する型。`'A'`（シングルクォート）で文字リテラルを表す。
+
+  **文字コードへの変換**：`(int) grade` と型キャストすると、その文字のASCII（文字コード）が得られる。`'A'` は 65、`'B'` は 66、`'a'` は 97 である。
+
+  **Stringとの違い**：`String` は文字「列」（複数文字可）で `"A"` と書く。`char` は文字「1つ」で `'A'` と書く。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`char` 型の変数 `grade` に `'A'` を格納し、その文字とASCIIコードを出力するプログラムを実装せよ。
+
+**出力**：
+```
+成績: A
+文字コード: 65
+```
+
+**要件**：
+- `char` 型の変数を宣言する
+- `(int)` キャストで文字コードを取得する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        char grade = 'A';
+
+        // grade の文字コードを (int) キャストで取得してください
+        int code = 0; // ここを修正
+
+        System.out.println("成績: " + grade);
+        System.out.println("文字コード: " + code);
+    }
+}`}
+/>

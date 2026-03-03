@@ -1,0 +1,71 @@
+---
+id: "extra/java/java_operators#comparison_results"
+title: "比較演算子の結果を表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  比較演算子（`>`、`>=`、`==`、`!=`、`<`、`<=`）を使うと `true` または `false` の `boolean` 値が得られる。
+  `boolean result = a > b;` のように変数に格納できる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int a = 10;
+          int b = 7;
+          System.out.println(a + " >  " + b + " : " + (a > b));
+          System.out.println(a + " >= " + b + " : " + (a >= b));
+          System.out.println(a + " == " + b + " : " + (a == b));
+          System.out.println(a + " != " + b + " : " + (a != b));
+          System.out.println(a + " <  " + b + " : " + (a < b));
+          System.out.println(a + " <= " + b + " : " + (a <= b));
+      }
+  }
+explanation: |
+  **比較演算子の戻り値**：比較演算子は計算結果として `boolean`（`true` か `false`）を返す。`int` や `double` とは異なり、2値しかとらない特別な型である。
+
+  **括弧の必要性**：`"" + (a > b)` の `()` が必要。括弧がないと `"" + a > b` となり、文字列と数値の比較をしようとしてコンパイルエラーになる。
+
+  **`==` と `=` の違い**：`==` は等しいかを「比較」する演算子。`=` は変数への「代入」演算子。混同しないよう注意する。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `a = 10`、`b = 7` を使って、6種類の比較演算子の結果をすべて表示するプログラムを実装せよ。
+
+**出力**：
+```
+10 >  7 : true
+10 >= 7 : true
+10 == 7 : false
+10 != 7 : true
+10 <  7 : false
+10 <= 7 : false
+```
+
+**要件**：
+- `>`・`>=`・`==`・`!=`・`<`・`<=` の6種類をすべて使う
+- 演算結果（`true`/`false`）を出力に含める
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int a = 10;
+        int b = 7;
+        // 6種類の比較演算子の結果を表示してください
+        // 例: System.out.println(a + " >  " + b + " : " + (a > b));
+        System.out.println(a + " >  " + b + " : " + (a > b));
+        System.out.println(a + " >= " + b + " : " + 0); // 0を正しい式に変えてください
+        System.out.println(a + " == " + b + " : " + 0);
+        System.out.println(a + " != " + b + " : " + 0);
+        System.out.println(a + " <  " + b + " : " + 0);
+        System.out.println(a + " <= " + b + " : " + 0);
+    }
+}`}
+/>

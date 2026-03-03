@@ -1,0 +1,70 @@
+---
+id: "extra/java/java_operators#discount_calculation"
+title: "割引後の支払い金額を計算する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  割引額 = 定価 × 割引率
+  支払い金額 = 定価 - 割引額
+  `double` の計算結果を `int` にキャストすると小数点以下が切り捨てられる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int originalPrice = 4800;
+          double discountRate = 0.20;
+          int discountAmount = (int)(originalPrice * discountRate);
+          int finalPrice = originalPrice - discountAmount;
+          System.out.println("定価: " + originalPrice + "円");
+          System.out.println("割引率: " + (int)(discountRate * 100) + "%");
+          System.out.println("割引額: " + discountAmount + "円");
+          System.out.println("支払い金額: " + finalPrice + "円");
+      }
+  }
+explanation: |
+  **割引計算の手順**：① 割引額 = 定価 × 割引率、② 支払い = 定価 - 割引額、の2段階で計算する。
+
+  **型キャストで整数化**：`(int)(originalPrice * discountRate)` で小数点以下を切り捨てる。小売店では通常、1円未満は切り捨てる。
+
+  **パーセント表示**：`(int)(discountRate * 100)` で `0.20 → 20` に変換できる。`discountRate * 100` は `20.0`（double）になるので `(int)` でキャストして整数にする。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+定価 4800円の商品を 20% 割引で購入したときの割引額と支払い金額を計算して表示するプログラムを実装せよ。
+
+**出力**：
+```
+定価: 4800円
+割引率: 20%
+割引額: 960円
+支払い金額: 3840円
+```
+
+**要件**：
+- `originalPrice = 4800`（int）・`discountRate = 0.20`（double）を変数として宣言する
+- 割引額は小数点以下を切り捨てる（`(int)` キャストを使う）
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int originalPrice = 4800;
+        double discountRate = 0.20;
+
+        int discountAmount = 0; // 割引額を計算してください（(int)キャストを使う）
+        int finalPrice = 0;     // 支払い金額を計算してください
+
+        System.out.println("定価: " + originalPrice + "円");
+        System.out.println("割引率: " + (int)(discountRate * 100) + "%");
+        System.out.println("割引額: " + discountAmount + "円");
+        System.out.println("支払い金額: " + finalPrice + "円");
+    }
+}`}
+/>

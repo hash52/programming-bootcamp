@@ -1,0 +1,77 @@
+---
+id: "extra/java/java_variables#type_casting_narrowing"
+title: "(int)キャストで小数点以下の切り捨てを確認する"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_variables"
+category: "extra/java"
+language: "java"
+hint: |
+  `(int) d` と書くと `double` 型の値を `int` に変換できる。
+  小数点以下は四捨五入ではなく「切り捨て（ゼロ方向への切り捨て）」になる点に注意しよう。
+  負の数 `-2.1` のキャストは `-2` になる（`-3` にはならない）。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          double d1 = 3.9;
+          int n1 = (int) d1;
+          System.out.println("3.9 → " + n1);
+
+          double d2 = -2.1;
+          int n2 = (int) d2;
+          System.out.println("-2.1 → " + n2);
+
+          double d3 = 7.0;
+          int n3 = (int) d3;
+          System.out.println("7.0 → " + n3);
+      }
+  }
+explanation: |
+  **(int)キャスト（narrowing変換）**：`double` を `int` に変換する。このとき小数部分は「ゼロ方向へ切り捨て」られる。四捨五入ではない点が重要である。
+
+  **正の数の例**：`3.9 → 3`（0.9 は切り捨て）
+
+  **負の数の例**：`-2.1 → -2`（絶対値で小さい方向、つまりゼロ方向に切り捨て）
+
+  **小数がない場合**：`7.0 → 7` のように、小数部分が 0 の場合はそのまま変換される。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+3つの `double` 型変数を `(int)` キャストして `int` に変換し、変換前後の値を出力するプログラムを実装せよ。
+
+**出力**：
+```
+3.9 → 3
+-2.1 → -2
+7.0 → 7
+```
+
+**要件**：
+- `double d1 = 3.9` を `(int)` キャストして `n1` に代入する
+- `double d2 = -2.1` を `(int)` キャストして `n2` に代入する
+- `double d3 = 7.0` を `(int)` キャストして `n3` に代入する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        double d1 = 3.9;
+        int n1 = 0; // (int) キャストで d1 を変換してください
+
+        double d2 = -2.1;
+        int n2 = 0; // (int) キャストで d2 を変換してください
+
+        double d3 = 7.0;
+        int n3 = 0; // (int) キャストで d3 を変換してください
+
+        System.out.println("3.9 → " + n1);
+        System.out.println("-2.1 → " + n2);
+        System.out.println("7.0 → " + n3);
+    }
+}`}
+/>

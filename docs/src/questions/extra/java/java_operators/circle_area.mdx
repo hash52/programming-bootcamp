@@ -1,0 +1,69 @@
+---
+id: "extra/java/java_operators#circle_area"
+title: "円の面積と円周を求める"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  面積 = π × r²（r は半径）
+  円周 = 2 × π × r
+  π（pi）を `double pi = 3.14;` として宣言し、`radius * radius` で r² を求める。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int radius = 5;
+          double pi = 3.14;
+          double area = pi * radius * radius;
+          double circumference = 2 * pi * radius;
+          System.out.println("半径: " + radius);
+          System.out.println("面積: " + area);
+          System.out.println("円周: " + circumference);
+      }
+  }
+explanation: |
+  **定数として変数を使う**：`double pi = 3.14;` のように、変わらない値も変数に入れておくと式が読みやすくなる。
+
+  **int × double = double**：`radius` が `int` でも、`pi`（double）との演算結果は自動的に `double` になる。
+
+  **浮動小数点の誤差**：`2 * pi * radius` の計算結果が `31.400000000000002` のように表示される場合がある。これはコンピュータが小数を2進数で表現する際に生じる微小な誤差で、仕様の範囲内である。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+半径 5 の円の面積と円周を計算して表示するプログラムを実装せよ。円周率は `3.14` を使うこと。
+
+**出力**：
+```
+半径: 5
+面積: 78.5
+円周: 31.400000000000002
+```
+
+※ 浮動小数点の誤差により、円周が `31.400000000000002` と表示される場合があるが正常である。
+
+**要件**：
+- `radius = 5`（int）、`pi = 3.14`（double）を変数として宣言する
+- 面積・円周をそれぞれ変数に格納してから出力する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int radius = 5;
+        double pi = 3.14;
+
+        double area = 0;          // 面積を計算してください
+        double circumference = 0; // 円周を計算してください
+
+        System.out.println("半径: " + radius);
+        System.out.println("面積: " + area);
+        System.out.println("円周: " + circumference);
+    }
+}`}
+/>

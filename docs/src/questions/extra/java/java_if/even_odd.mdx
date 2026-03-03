@@ -1,0 +1,62 @@
+---
+id: "extra/java/java_if#even_odd"
+title: "偶数・奇数を判定する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  `%`（余り）演算子を使う。
+  `n % 2 == 0` が `true` なら偶数、`false` なら奇数である。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 14;
+          if (n % 2 == 0) {
+              System.out.println(n + " は偶数です");
+          } else {
+              System.out.println(n + " は奇数です");
+          }
+      }
+  }
+explanation: |
+  **偶数の定義**：2で割り切れる数（余りが0）が偶数。`n % 2 == 0` で確認できる。
+
+  **`%` と if の組み合わせ**：余り演算子 `%` は if文の条件式の中で非常によく使われるパターンである。「〇の倍数か」の判定に応用できる。
+
+  **3の倍数の場合**：`n % 3 == 0` で判定できる。FizzBuzz問題でも同じパターンを使う。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `n = 14` が偶数か奇数かを判定して出力するプログラムを実装せよ。
+
+**出力**（`n = 14` のとき）：
+```
+14 は偶数です
+```
+
+**要件**：
+- `%`（余り）演算子を使って判定する
+- `n` を奇数（例：`7`）に変えても正しく動作すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 14;
+
+        // n % 2 を使って偶数・奇数を判定してください
+        if (n % 2 == 0) {
+            // ここに処理を書いてください
+        } else {
+            // ここに処理を書いてください
+        }
+    }
+}`}
+/>

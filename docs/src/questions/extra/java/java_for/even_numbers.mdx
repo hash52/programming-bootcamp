@@ -1,0 +1,61 @@
+---
+id: "extra/java/java_for#even_numbers"
+title: "1〜30の偶数をすべて表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  方法1: `i % 2 == 0` のときだけ表示する（for + if の組み合わせ）
+  方法2: 最初から `i = 2` で始めて `i += 2` で2ずつ増やす
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          for (int i = 1; i <= 30; i++) {
+              if (i % 2 == 0) {
+                  System.out.println(i);
+              }
+          }
+      }
+  }
+explanation: |
+  **for + if の組み合わせ**：ループの中で `if` を使うことで、条件に合う値だけを処理できる。
+
+  **2ずつ増やす別解**：`for (int i = 2; i <= 30; i += 2)` でも同じ結果が得られる。こちらの方がより効率的だが、`for + if` パターンはあらゆる条件に応用できるので覚えておくこと。
+
+  **出力の確認**：2・4・6・8・...・28・30 の15個が出力される。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+1から30までの整数のうち、偶数だけをすべて表示するプログラムを実装せよ。
+
+**出力**：
+```
+2
+4
+6
+...（中略）...
+28
+30
+```
+
+**要件**：
+- `for` ループで1〜30を繰り返す
+- `if` と `%` を使って偶数だけを表示する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 30; i++) {
+            // i が偶数のときだけ表示してください
+        }
+    }
+}`}
+/>

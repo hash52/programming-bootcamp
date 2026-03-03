@@ -1,0 +1,64 @@
+---
+id: "extra/java/java_operators#quotient_remainder"
+title: "商と余りで個数を表現する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  商（何箱できるか）= 個数 / 1箱の容量
+  余り（余る個数）= 個数 % 1箱の容量
+  `%` は余りを求める演算子である。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int apples = 23;
+          int perBox = 6;
+          int boxes = apples / perBox;
+          int remaining = apples % perBox;
+          System.out.println(apples + "個のりんごを" + perBox + "個入りの箱に詰める");
+          System.out.println(boxes + "箱できて、" + remaining + "個余る");
+      }
+  }
+explanation: |
+  **`/` は商、`%` は余り**：`23 / 6 = 3`（3箱分）、`23 % 6 = 5`（5個余り）となる。
+
+  **日常での応用**：「○○個を△個ずつ分けると何グループで何人余るか」という問題は、すべてこのパターンで解ける。
+
+  **整数除算の特性**：Java の `/` はint同士では小数を切り捨てた整数を返す。`23 / 6 = 3`（3.833...の小数部分は無視）。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+23個のりんごを1箱6個入りの箱に詰める。何箱できて何個余るかを計算して表示するプログラムを実装せよ。
+
+**出力**：
+```
+23個のりんごを6個入りの箱に詰める
+3箱できて、5個余る
+```
+
+**要件**：
+- `apples = 23`、`perBox = 6` を変数として宣言する
+- `/`（商）と `%`（余り）を使って計算する
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int apples = 23;
+        int perBox = 6;
+
+        int boxes = 0;     // 箱の数を計算してください（/を使う）
+        int remaining = 0; // 余りを計算してください（%を使う）
+
+        System.out.println(apples + "個のりんごを" + perBox + "個入りの箱に詰める");
+        System.out.println(boxes + "箱できて、" + remaining + "個余る");
+    }
+}`}
+/>
