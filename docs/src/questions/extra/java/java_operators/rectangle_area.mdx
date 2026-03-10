@@ -1,0 +1,59 @@
+---
+id: "extra/java/java_operators#rectangle_area"
+title: "長方形の面積と周囲長を計算する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  面積は `width * height`、周囲長は `(width + height) * 2` で求められる。
+  `println` 内で計算式を書くときは括弧で囲もう（例: `(width * height)`）。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int width = 8;
+          int height = 5;
+          int area = width * height;
+          int perimeter = (width + height) * 2;
+          System.out.println("面積: " + area);
+          System.out.println("周囲長: " + perimeter);
+      }
+  }
+explanation: |
+  **面積**：縦 × 横 = `width * height`。`8 * 5 = 40`。
+
+  **周囲長**：`(縦 + 横) * 2 = (width + height) * 2`。`(8 + 5) * 2 = 26`。
+
+  **括弧の重要性**：`width + height * 2` と書くと `*` が先に計算されて `8 + 10 = 18` になってしまう。正しい計算順序のために括弧が必要である。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+縦 `height = 5`、横 `width = 8` の長方形について、面積と周囲長を計算して出力するプログラムを実装せよ。
+
+**出力**：
+```
+面積: 40
+周囲長: 26
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int width = 8;
+        int height = 5;
+
+        int area = 0;      // width * height を計算してください
+        int perimeter = 0; // (width + height) * 2 を計算してください
+
+        System.out.println("面積: " + area);
+        System.out.println("周囲長: " + perimeter);
+    }
+}`}
+/>

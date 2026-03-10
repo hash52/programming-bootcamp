@@ -1,0 +1,72 @@
+---
+id: "extra/java/java_arrays#array_count_positive"
+title: "配列の正の要素の個数を数える"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_arrays"
+category: "extra/java"
+language: "java"
+hint: |
+  カウンタ変数 `count` を0で初期化する。
+  for-eachで各要素を見て、`n > 0` なら `count++` する。
+  最後に `count` を表示する。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int[] numbers = {-3, 5, 0, 8, -1, 4, -7, 2};
+          int count = 0;
+
+          for (int n : numbers) {
+              if (n > 0) {
+                  count++;
+              }
+          }
+
+          System.out.println("正の要素の個数: " + count);
+      }
+  }
+explanation: |
+  **0は正でも負でもない**：「正の数」は `n > 0`（0を除く）。`n >= 0` とすると0もカウントしてしまう。
+
+  **カウントパターン**：条件を満たす要素の個数を数えるときは `count = 0` で初期化し、条件が真のとき `count++` するパターンを使う。
+
+  **確認**：`numbers` 内の正の数は 5, 8, 4, 2 の4個。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+次の配列 `numbers` の中に正の数（0より大きい数）が何個あるかを数えて表示するプログラムを実装せよ。
+
+```java
+int[] numbers = {-3, 5, 0, 8, -1, 4, -7, 2};
+```
+
+**出力**：
+```
+正の要素の個数: 4
+```
+
+**要件**：
+- カウンタ変数を使うこと
+- 0は正の数に含めないこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int[] numbers = {-3, 5, 0, 8, -1, 4, -7, 2};
+        int count = 0;
+
+        for (int n : numbers) {
+            // n が正の数なら count を増やしてください
+
+        }
+
+        System.out.println("正の要素の個数: " + count);
+    }
+}`}
+/>

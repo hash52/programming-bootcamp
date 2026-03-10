@@ -1,0 +1,71 @@
+---
+id: "extra/java/java_arrays#array_max"
+title: "配列の最大値を求める"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_arrays"
+category: "extra/java"
+language: "java"
+hint: |
+  最大値を格納する変数 `max` を配列の先頭要素で初期化する（`max = values[0]`）。
+  ループで各要素と比較し、`max` より大きければ `max` を更新する。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int[] values = {23, 67, 12, 89, 45};
+          int max = values[0];
+
+          for (int v : values) {
+              if (v > max) {
+                  max = v;
+              }
+          }
+
+          System.out.println("最大値: " + max);
+      }
+  }
+explanation: |
+  **最大値探索パターン**：`max = values[0]`（先頭要素）で初期化し、残りの要素と順に比較して更新する。
+  `Integer.MIN_VALUE`（最小整数値）で初期化する方法もあるが、先頭要素での初期化が自然でわかりやすい。
+
+  **なぜ先頭要素で初期化？**：`max = 0` で初期化すると、配列が全て負の値の場合に誤った結果になる。
+  先頭要素なら必ず配列内の値なので安全。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+次の配列 `values` の最大値を求めて表示するプログラムを実装せよ。
+
+```java
+int[] values = {23, 67, 12, 89, 45};
+```
+
+**出力**：
+```
+最大値: 89
+```
+
+**要件**：
+- 最大値を格納する変数を用意し、配列の先頭要素で初期化すること
+- ループで全要素と比較して最大値を更新すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int[] values = {23, 67, 12, 89, 45};
+        int max = values[0];
+
+        for (int v : values) {
+            // max より大きければ更新してください
+
+        }
+
+        System.out.println("最大値: " + max);
+    }
+}`}
+/>

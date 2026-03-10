@@ -1,0 +1,75 @@
+---
+id: "extra/java/java_collections#hashmap_count"
+title: "HashMapで単語の出現回数を数える"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_collections"
+category: "extra/java"
+language: "java"
+hint: |
+  `HashMap<String, Integer>` で単語→回数を管理する。
+  単語が初めて登場する場合は 1 を追加、既存の場合は `get()` で取得して +1 して `put()` する。
+  `getOrDefault(key, defaultValue)` を使うと初登場チェックが不要になる。
+sampleAnswer: |
+  import java.util.HashMap;
+
+  public class Main {
+      public static void main(String[] args) {
+          String[] words = {"apple", "banana", "apple", "cherry", "banana", "apple"};
+
+          HashMap<String, Integer> count = new HashMap<>();
+          for (String word : words) {
+              count.put(word, count.getOrDefault(word, 0) + 1);
+          }
+
+          for (String word : count.keySet()) {
+              System.out.println(word + ": " + count.get(word) + "回");
+          }
+      }
+  }
+explanation: |
+  **`getOrDefault(key, default)`**：キーが存在する場合はその値、存在しない場合はデフォルト値を返す。
+  `count.getOrDefault(word, 0) + 1` で、初登場なら `0 + 1 = 1`、2回目なら `現在の値 + 1` になる。
+
+  **出現回数カウントのパターン**：データ分析でよく使う基本パターン。頻度の高い要素を見つけたり、ヒストグラムを作成したりする基礎になる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+文字列配列内の単語の出現回数を `HashMap` で数えて表示するプログラムを作れ。
+
+**出力**（順序は異なる場合あり）：
+```
+apple: 3回
+banana: 2回
+cherry: 1回
+```
+
+**要件**：
+- `HashMap<String, Integer>` を使うこと
+- `getOrDefault()` を使って出現回数をカウントすること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.util.HashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        String[] words = {"apple", "banana", "apple", "cherry", "banana", "apple"};
+
+        HashMap<String, Integer> count = new HashMap<>();
+        for (String word : words) {
+            // getOrDefault を使って出現回数をカウントしてください
+
+        }
+
+        for (String word : count.keySet()) {
+            System.out.println(word + ": " + count.get(word) + "回");
+        }
+    }
+}`}
+/>

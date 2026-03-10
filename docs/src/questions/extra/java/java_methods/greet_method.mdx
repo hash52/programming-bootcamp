@@ -1,0 +1,68 @@
+---
+id: "extra/java/java_methods#greet_method"
+title: "名前を受け取り挨拶を返すメソッド"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_methods"
+category: "extra/java"
+language: "java"
+hint: |
+  `static String greet(String name)` のようにメソッドを定義する。
+  メソッド内で `"こんにちは、" + name + "さん！"` を返す（`return`）。
+  `main` から `greet("田中")` のように呼び出す。
+sampleAnswer: |
+  public class Main {
+      static String greet(String name) {
+          return "こんにちは、" + name + "さん！";
+      }
+
+      public static void main(String[] args) {
+          System.out.println(greet("田中"));
+          System.out.println(greet("佐藤"));
+          System.out.println(greet("山田"));
+      }
+  }
+explanation: |
+  **メソッドの定義**：`static 戻り値型 メソッド名(引数型 引数名)` の形式。
+  `static` をつけることで `main` メソッドから直接呼び出せる。
+
+  **`return`**：メソッドから値を返すキーワード。`return` の後の式が戻り値になる。
+
+  **メソッドの利点**：同じ処理をまとめることで、コードの重複を減らせる。
+  名前が変わっても `greet()` の呼び出し側だけ変えればよい。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+文字列 `name` を引数に受け取り、`"こんにちは、○○さん！"` という文字列を返す `greet` メソッドを実装せよ。
+
+**出力**：
+```
+こんにちは、田中さん！
+こんにちは、佐藤さん！
+こんにちは、山田さん！
+```
+
+**要件**：
+- `static String greet(String name)` というシグネチャでメソッドを定義すること
+- `main` から3回呼び出すこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    // greet メソッドをここに定義してください
+    static String greet(String name) {
+
+    }
+
+    public static void main(String[] args) {
+        System.out.println(greet("田中"));
+        System.out.println(greet("佐藤"));
+        System.out.println(greet("山田"));
+    }
+}`}
+/>

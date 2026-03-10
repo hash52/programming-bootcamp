@@ -1,0 +1,72 @@
+---
+id: "extra/java/java_datetime#date_plus_minus"
+title: "plusDays/minusMonthsで日付の加減算を行う"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_datetime"
+category: "extra/java"
+language: "java"
+hint: |
+  `plusDays()`, `plusWeeks()`, `plusMonths()`, `plusYears()` で日付を加算する。
+  `minusDays()`, `minusMonths()` などで日付を減算する。
+  `LocalDate` は不変オブジェクトなので、加減算の結果は新しい `LocalDate` として返る。
+sampleAnswer: |
+  import java.time.LocalDate;
+
+  public class Main {
+      public static void main(String[] args) {
+          LocalDate today = LocalDate.of(2026, 3, 15);
+
+          System.out.println("今日: " + today);
+          System.out.println("1週間後: " + today.plusWeeks(1));
+          System.out.println("30日後: " + today.plusDays(30));
+          System.out.println("3ヶ月後: " + today.plusMonths(3));
+          System.out.println("1年前: " + today.minusYears(1));
+          System.out.println("10日前: " + today.minusDays(10));
+      }
+  }
+explanation: |
+  **不変性**：`LocalDate` は不変オブジェクト。`today.plusDays(7)` は `today` を変更せず、7日後の新しい `LocalDate` を返す。
+  `today = today.plusDays(7)` と再代入しないと `today` は変わらない。
+
+  **メソッドチェーン**：`today.plusMonths(1).minusDays(1)` のようにチェーンで書ける（来月末日の計算など）。
+
+  **月をまたぐ加算**：`plusMonths()` は月の最終日を自動調整する（1月31日の1ヶ月後は2月28日）。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`LocalDate.of(2026, 3, 15)` を基準に、日付の加算・減算を行って結果を表示するプログラムを作れ。
+
+**出力**：
+```
+今日: 2026-03-15
+1週間後: 2026-03-22
+30日後: 2026-04-14
+3ヶ月後: 2026-06-15
+1年前: 2025-03-15
+10日前: 2026-03-05
+```
+
+**要件**：
+- `plusWeeks()`, `plusDays()`, `plusMonths()` を使うこと
+- `minusYears()`, `minusDays()` を使うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.time.LocalDate;
+
+public class Main {
+    public static void main(String[] args) {
+        LocalDate today = LocalDate.of(2026, 3, 15);
+
+        System.out.println("今日: " + today);
+        // 1週間後・30日後・3ヶ月後・1年前・10日前を表示してください
+
+    }
+}`}
+/>

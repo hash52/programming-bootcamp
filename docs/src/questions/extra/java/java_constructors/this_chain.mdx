@@ -1,0 +1,120 @@
+---
+id: "extra/java/java_constructors#this_chain"
+title: "this()でコンストラクタから別コンストラクタを呼ぶ"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_constructors"
+category: "extra/java"
+language: "java"
+hint: |
+  `this(引数)` で同じクラスの別コンストラクタを呼べる。
+  `this()` はコンストラクタの先頭行に書く必要がある。
+  `Computer(String brand)` が `Computer(brand, "不明", 0)` に委譲するイメージ。
+sampleAnswer: |
+  class Computer {
+      String brand;
+      String os;
+      int memory;
+
+      // メインコンストラクタ
+      Computer(String brand, String os, int memory) {
+          this.brand = brand;
+          this.os = os;
+          this.memory = memory;
+      }
+
+      // ブランドとOSだけ（メモリは8GBデフォルト）
+      Computer(String brand, String os) {
+          this(brand, os, 8);
+      }
+
+      // ブランドだけ（OSとメモリはデフォルト）
+      Computer(String brand) {
+          this(brand, "Windows", 8);
+      }
+
+      void describe() {
+          System.out.println(brand + " [OS: " + os + ", Memory: " + memory + "GB]");
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Computer c1 = new Computer("Dell", "Windows", 16);
+          Computer c2 = new Computer("Apple", "macOS");
+          Computer c3 = new Computer("Lenovo");
+
+          c1.describe();
+          c2.describe();
+          c3.describe();
+      }
+  }
+explanation: |
+  **`this()` の連鎖（Constructor Chaining）**：複数のコンストラクタが互いに呼び合うことで、初期化ロジックの重複をなくせる。
+
+  **メインコンストラクタパターン**：最も引数が多いコンストラクタ（メインコンストラクタ）に全ての初期化をまとめ、他のコンストラクタから委譲する設計が一般的。
+
+  **`this()` の制約**：`this()` はコンストラクタの **最初の文** でなければならない。その前に他の文を書くとコンパイルエラーになる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`this()` でコンストラクタ委譲を使い、3パターンの初期化ができる `Computer` クラスを実装せよ。
+
+**出力**：
+```
+Dell [OS: Windows, Memory: 16GB]
+Apple [OS: macOS, Memory: 8GB]
+Lenovo [OS: Windows, Memory: 8GB]
+```
+
+**要件**：
+- 3つのコンストラクタを定義し、`this()` で委譲すること
+- デフォルト値：OS = "Windows"、Memory = 8GB
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Computer {
+    String brand;
+    String os;
+    int memory;
+
+    // メインコンストラクタ（全引数）
+    Computer(String brand, String os, int memory) {
+        this.brand = brand;
+        this.os = os;
+        this.memory = memory;
+    }
+
+    // ブランドとOSだけ（メモリは8GBデフォルト）
+    Computer(String brand, String os) {
+        this(brand, os, 8);
+    }
+
+    // ブランドだけ（OSは"Windows"、メモリは8GBデフォルト）
+    Computer(String brand) {
+        // this() でメインコンストラクタに委譲してください
+
+    }
+
+    void describe() {
+        System.out.println(brand + " [OS: " + os + ", Memory: " + memory + "GB]");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Computer c1 = new Computer("Dell", "Windows", 16);
+        Computer c2 = new Computer("Apple", "macOS");
+        Computer c3 = new Computer("Lenovo");
+
+        c1.describe();
+        c2.describe();
+        c3.describe();
+    }
+}`}
+/>

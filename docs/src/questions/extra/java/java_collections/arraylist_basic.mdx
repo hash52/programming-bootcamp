@@ -1,0 +1,77 @@
+---
+id: "extra/java/java_collections#arraylist_basic"
+title: "ArrayListに要素を追加・取得・表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_collections"
+category: "extra/java"
+language: "java"
+hint: |
+  `ArrayList<String>` を作り、`add()` で要素を追加する。
+  `get(index)` でインデックスを指定して取得、`size()` で要素数を取得する。
+  for-each 文で全要素を繰り返す。
+sampleAnswer: |
+  import java.util.ArrayList;
+
+  public class Main {
+      public static void main(String[] args) {
+          ArrayList<String> fruits = new ArrayList<>();
+          fruits.add("りんご");
+          fruits.add("バナナ");
+          fruits.add("みかん");
+
+          System.out.println("要素数: " + fruits.size());
+          System.out.println("0番目: " + fruits.get(0));
+
+          for (String fruit : fruits) {
+              System.out.println(fruit);
+          }
+      }
+  }
+explanation: |
+  **`ArrayList` の基本操作**：`add()` で末尾に追加、`get(i)` でインデックスアクセス、`size()` で要素数を取得。
+
+  **ジェネリクス**：`ArrayList<String>` の `<String>` で要素の型を指定する。型安全なコレクション操作が可能になる。
+
+  **for-each 文**：`for (String fruit : fruits)` で全要素を順に処理できる。配列と同じ記法が使える。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`ArrayList<String>` に果物の名前を3つ追加し、要素数・0番目の要素・全要素を表示するプログラムを作れ。
+
+**出力**：
+```
+要素数: 3
+0番目: りんご
+りんご
+バナナ
+みかん
+```
+
+**要件**：
+- `ArrayList<String>` を使うこと
+- `add()` で要素を追加すること
+- `size()`・`get()` を使うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> fruits = new ArrayList<>();
+        // "りんご", "バナナ", "みかん" を追加してください
+
+        System.out.println("要素数: " + fruits.size());
+        System.out.println("0番目: " + fruits.get(0));
+
+        // for-each で全要素を表示してください
+
+    }
+}`}
+/>

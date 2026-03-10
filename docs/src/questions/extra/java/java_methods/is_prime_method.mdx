@@ -1,0 +1,77 @@
+---
+id: "extra/java/java_methods#is_prime_method"
+title: "素数判定メソッドを使って100以下の素数を表示"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_methods"
+category: "extra/java"
+language: "java"
+hint: |
+  `static boolean isPrime(int n)` のようにメソッドを定義する。
+  1以下は素数でない。2以上で n の約数（2〜√n）が存在しないなら素数。
+  ループで2から n-1 まで試す（または2から √n まで）。
+  `main` で2から100をループし、`isPrime(i)` が `true` の数だけ表示する。
+sampleAnswer: |
+  public class Main {
+      static boolean isPrime(int n) {
+          if (n <= 1) return false;
+          for (int i = 2; i * i <= n; i++) {
+              if (n % i == 0) return false;
+          }
+          return true;
+      }
+
+      public static void main(String[] args) {
+          System.out.print("100以下の素数: ");
+          for (int i = 2; i <= 100; i++) {
+              if (isPrime(i)) {
+                  System.out.print(i + " ");
+              }
+          }
+          System.out.println();
+      }
+  }
+explanation: |
+  **素数判定の効率化**：2から n-1 まで全て試すと遅い。
+  n の約数は必ず √n 以下のものとペアを持つため、`i * i <= n` までチェックすれば十分。
+
+  **早期return**：約数が見つかった時点で `return false` でメソッドを抜けると効率的。
+
+  **メソッドの分離**：`isPrime` を別メソッドに分離することで、main の処理が「何をしているか」が明確になる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+整数 `n` が素数かどうかを返す `isPrime` メソッドを実装し、100以下の素数をすべて表示せよ。
+
+**出力**：
+```
+100以下の素数: 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97
+```
+
+**要件**：
+- `static boolean isPrime(int n)` というシグネチャでメソッドを定義すること
+- `i * i <= n` を使って効率的に判定すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    static boolean isPrime(int n) {
+        // 素数であればtrue、そうでなければfalseを返してください
+    }
+
+    public static void main(String[] args) {
+        System.out.print("100以下の素数: ");
+        for (int i = 2; i <= 100; i++) {
+            if (isPrime(i)) {
+                System.out.print(i + " ");
+            }
+        }
+        System.out.println();
+    }
+}`}
+/>

@@ -1,0 +1,124 @@
+---
+id: "extra/java/java_encapsulation#getter_setter"
+title: "getterとsetterを定義してフィールドにアクセスする"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_encapsulation"
+category: "extra/java"
+language: "java"
+hint: |
+  `private` フィールドを安全に読み書きするには getter/setter メソッドを使う。
+  getter：`public String getName() { return name; }`
+  setter：`public void setName(String name) { this.name = name; }`
+  フィールド名に "get"/"set" をつけた名前にするのが Java の慣習。
+sampleAnswer: |
+  class Person {
+      private String name;
+      private int age;
+
+      // getter
+      public String getName() { return name; }
+      public int getAge() { return age; }
+
+      // setter
+      public void setName(String name) { this.name = name; }
+      public void setAge(int age) { this.age = age; }
+
+      public void introduce() {
+          System.out.println("私は" + name + "（" + age + "歳）です");
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Person p = new Person();
+
+          // setter で値を設定
+          p.setName("田中");
+          p.setAge(25);
+
+          // getter で値を取得
+          System.out.println("名前: " + p.getName());
+          System.out.println("年齢: " + p.getAge());
+
+          p.introduce();
+
+          // setter で値を変更
+          p.setName("田中（更新）");
+          System.out.println("変更後: " + p.getName());
+      }
+  }
+explanation: |
+  **getter**：`getXxx()` の形式で private フィールドの値を返す。外部から読み取る窓口。
+
+  **setter**：`setXxx(型 値)` の形式で private フィールドに値を設定する。外部から書き込む窓口。
+
+  **命名規則**：フィールド名を大文字で始めて `get`/`set` をつける（`name` → `getName`, `setName`）。
+
+  **getter/setterの利点**：フィールドへのアクセスをメソッドで仲介することで、将来バリデーションやログ追加が容易になる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Person` クラスに `private` フィールドを定義し、getter/setter でアクセスするプログラムを実装せよ。
+
+**出力**：
+```
+名前: 田中
+年齢: 25
+私は田中（25歳）です
+変更後: 田中（更新）
+```
+
+**要件**：
+- `name` と `age` を `private` にすること
+- `getName()`, `getAge()`, `setName()`, `setAge()` を定義すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Person {
+    private String name;
+    private int age;
+
+    // getter を定義してください
+    public String getName() {
+
+    }
+    public int getAge() {
+
+    }
+
+    // setter を定義してください
+    public void setName(String name) {
+
+    }
+    public void setAge(int age) {
+
+    }
+
+    public void introduce() {
+        System.out.println("私は" + name + "（" + age + "歳）です");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person p = new Person();
+
+        p.setName("田中");
+        p.setAge(25);
+
+        System.out.println("名前: " + p.getName());
+        System.out.println("年齢: " + p.getAge());
+
+        p.introduce();
+
+        p.setName("田中（更新）");
+        System.out.println("変更後: " + p.getName());
+    }
+}`}
+/>

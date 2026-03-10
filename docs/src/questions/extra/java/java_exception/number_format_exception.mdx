@@ -1,0 +1,78 @@
+---
+id: "extra/java/java_exception#number_format_exception"
+title: "NumberFormatExceptionをキャッチして対処する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_exception"
+category: "extra/java"
+language: "java"
+hint: |
+  `Integer.parseInt("abc")` のように数字以外の文字列を変換しようとすると
+  `NumberFormatException` が発生する。
+  複数の文字列を変換するとき、失敗してもループが続くように try-catch をループ内に書く。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          String[] inputs = {"123", "abc", "456", "12.5", "789"};
+
+          for (String s : inputs) {
+              try {
+                  int value = Integer.parseInt(s);
+                  System.out.println(s + " → " + value);
+              } catch (NumberFormatException e) {
+                  System.out.println(s + " → 変換失敗（数値ではありません）");
+              }
+          }
+      }
+  }
+explanation: |
+  **`NumberFormatException`**：`Integer.parseInt()` などで数値に変換できない文字列が渡された場合に発生する。
+
+  **ループ内でのtry-catch**：ループの中に `try-catch` を書くことで、1つが失敗してもループが継続する。
+  try-catchをループの外に書くと、1つ失敗した時点でループが終了してしまう。
+
+  **よくある変換失敗の例**：
+  - アルファベット（`"abc"`）
+  - 小数点（`"12.5"` は `Integer.parseInt` で失敗する。`Double.parseDouble` なら成功）
+  - 空文字（`""`）
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+文字列の配列を順に `Integer.parseInt` で整数変換し、失敗した場合は「変換失敗」と表示するプログラムを実装せよ。
+
+**出力**：
+```
+123 → 123
+abc → 変換失敗（数値ではありません）
+456 → 456
+12.5 → 変換失敗（数値ではありません）
+789 → 789
+```
+
+**要件**：
+- `NumberFormatException` をループ内でキャッチすること
+- 変換成功と失敗の両方のケースを出力すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        String[] inputs = {"123", "abc", "456", "12.5", "789"};
+
+        for (String s : inputs) {
+            try {
+                int value = Integer.parseInt(s);
+                System.out.println(s + " → " + value);
+            } catch (NumberFormatException e) {
+                // 変換失敗のメッセージを表示してください
+
+            }
+        }
+    }
+}`}
+/>

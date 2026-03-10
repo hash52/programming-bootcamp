@@ -1,0 +1,76 @@
+---
+id: "extra/java/java_if#letter_grade"
+title: "点数からA〜Fの成績を判定する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  `if-else if-else` を使って、90点以上なら A、80点以上なら B、のように順に判定する。
+  条件を上から高い点数順に書くのがポイント。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int score = 85;
+          char grade;
+          if (score >= 90) {
+              grade = 'A';
+          } else if (score >= 80) {
+              grade = 'B';
+          } else if (score >= 70) {
+              grade = 'C';
+          } else if (score >= 60) {
+              grade = 'D';
+          } else {
+              grade = 'F';
+          }
+          System.out.println("点数: " + score);
+          System.out.println("成績: " + grade);
+      }
+  }
+explanation: |
+  **if-else if の連鎖**：条件を上から順に評価し、最初に合った条件だけが実行される。高い点数から判定することで、重複なくシンプルに書ける。
+
+  **char型の代入**：成績はA〜Fの1文字なので `char` 型が適切である。`'A'`（シングルクォート）で文字リテラルを表す。
+
+  **スコア85の場合**：`score >= 90` は偽 → `score >= 80` は真 → `grade = 'B'` で確定し、残りの条件は評価されない。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+点数に応じてA〜Fの成績を判定するプログラムを実装せよ。
+
+| 点数 | 成績 |
+|------|------|
+| 90点以上 | A |
+| 80点以上 | B |
+| 70点以上 | C |
+| 60点以上 | D |
+| 60点未満 | F |
+
+**実行例**（`score = 85` のとき）：
+```
+点数: 85
+成績: B
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int score = 85;
+        char grade;
+
+        // if-else if を使って成績を判定してください
+        grade = 'F';
+
+        System.out.println("点数: " + score);
+        System.out.println("成績: " + grade);
+    }
+}`}
+/>

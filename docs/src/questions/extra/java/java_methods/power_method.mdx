@@ -1,0 +1,66 @@
+---
+id: "extra/java/java_methods#power_method"
+title: "n乗を計算するメソッド"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_methods"
+category: "extra/java"
+language: "java"
+hint: |
+  `static int power(int base, int exp)` のようにメソッドを定義する。
+  `result = 1` で初期化し、`exp` 回だけ `result *= base` を繰り返す。
+  例：`power(2, 3)` → `1 * 2 * 2 * 2 = 8`
+sampleAnswer: |
+  public class Main {
+      static int power(int base, int exp) {
+          int result = 1;
+          for (int i = 0; i < exp; i++) {
+              result *= base;
+          }
+          return result;
+      }
+
+      public static void main(String[] args) {
+          System.out.println("2の3乗 = " + power(2, 3));
+          System.out.println("3の4乗 = " + power(3, 4));
+          System.out.println("5の0乗 = " + power(5, 0));
+      }
+  }
+explanation: |
+  **累積積パターン**：`result = 1`（掛け算の単位元）で初期化し、`exp` 回だけ `result *= base` を繰り返す。
+  0乗は `exp = 0` なのでループが一度も実行されず `result = 1` が返る（数学的にも正しい）。
+
+  **`Math.pow()`との違い**：`Math.pow(2, 3)` は `double` を返す。整数の累乗を整数で扱いたいときは自作メソッドが便利。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+底（`base`）を指数（`exp`）乗した値を返す `power` メソッドを実装せよ。
+
+**出力**：
+```
+2の3乗 = 8
+3の4乗 = 81
+5の0乗 = 1
+```
+
+**要件**：
+- `static int power(int base, int exp)` というシグネチャでメソッドを定義すること
+- ループで掛け算を繰り返すこと（`Math.pow()` を使わない）
+- 0乗の場合も正しく動くこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+  
+    public static void main(String[] args) {
+        System.out.println("2の3乗 = " + power(2, 3));
+        System.out.println("3の4乗 = " + power(3, 4));
+        System.out.println("5の0乗 = " + power(5, 0));
+    }
+}`}
+/>

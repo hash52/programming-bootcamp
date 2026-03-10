@@ -1,0 +1,129 @@
+---
+id: "extra/java/java_constructors#immutable_point"
+title: "コンストラクタのみで初期化し変更不可なPointクラスを作る"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_constructors"
+category: "extra/java"
+language: "java"
+hint: |
+  フィールドに `final` をつけると、コンストラクタで一度だけ代入でき、その後は変更不可になる。
+  `final int x;` → コンストラクタで `this.x = x;` とできるが、その後 `p.x = 5;` はコンパイルエラー。
+  新しい座標を返すメソッド（`translate`）は「新しいオブジェクトを返す」形にする。
+sampleAnswer: |
+  class ImmutablePoint {
+      final int x;
+      final int y;
+
+      ImmutablePoint(int x, int y) {
+          this.x = x;
+          this.y = y;
+      }
+
+      // 移動した新しいPointを返す（元のPointは変わらない）
+      ImmutablePoint translate(int dx, int dy) {
+          return new ImmutablePoint(x + dx, y + dy);
+      }
+
+      double distanceTo(ImmutablePoint other) {
+          int dx = this.x - other.x;
+          int dy = this.y - other.y;
+          return Math.sqrt(dx * dx + dy * dy);
+      }
+
+      void display() {
+          System.out.println("Point(" + x + ", " + y + ")");
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          ImmutablePoint p1 = new ImmutablePoint(0, 0);
+          ImmutablePoint p2 = new ImmutablePoint(3, 4);
+
+          p1.display();
+          p2.display();
+          System.out.printf("距離: %.2f%n", p1.distanceTo(p2));
+
+          ImmutablePoint p3 = p1.translate(1, 2);
+          p3.display();
+          System.out.println("p1は変わらない:");
+          p1.display();
+      }
+  }
+explanation: |
+  **`final` フィールド**：一度コンストラクタで代入されたら変更不可。イミュータブル（不変）なオブジェクトを実現できる。
+
+  **イミュータブルオブジェクトの利点**：スレッドセーフ、予期しない変更がない、理解しやすい。
+  `String` クラスもイミュータブルな有名な例（`"hello".toUpperCase()` は新しいStringを返す）。
+
+  **新しいオブジェクトを返す**：`translate()` は元のオブジェクトを変えるのではなく、新しいオブジェクトを作って返す。
+  これがイミュータブル設計の特徴的なパターン。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`final` フィールドを持つ不変な `ImmutablePoint` クラスを実装せよ。
+
+**出力**：
+```
+Point(0, 0)
+Point(3, 4)
+距離: 5.00
+Point(1, 2)
+p1は変わらない:
+Point(0, 0)
+```
+
+**要件**：
+- `final int x`, `final int y` を定義すること
+- `ImmutablePoint translate(int dx, int dy)` で新しいオブジェクトを返すこと
+- `double distanceTo(ImmutablePoint other)` で距離を計算すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class ImmutablePoint {
+    final int x;
+    final int y;
+
+    ImmutablePoint(int x, int y) {
+        // final フィールドを初期化してください
+
+    }
+
+    ImmutablePoint translate(int dx, int dy) {
+        // 新しい ImmutablePoint を返してください（元のオブジェクトは変えない）
+
+    }
+
+    double distanceTo(ImmutablePoint other) {
+        int dx = this.x - other.x;
+        int dy = this.y - other.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    void display() {
+        System.out.println("Point(" + x + ", " + y + ")");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        ImmutablePoint p1 = new ImmutablePoint(0, 0);
+        ImmutablePoint p2 = new ImmutablePoint(3, 4);
+
+        p1.display();
+        p2.display();
+        System.out.printf("距離: %.2f%n", p1.distanceTo(p2));
+
+        ImmutablePoint p3 = p1.translate(1, 2);
+        p3.display();
+        System.out.println("p1は変わらない:");
+        p1.display();
+    }
+}`}
+/>

@@ -1,0 +1,153 @@
+---
+id: "extra/java/java_interfaces#shape_interface"
+title: "Shapeインターフェースで面積・周囲のメソッドを定義する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_interfaces"
+category: "extra/java"
+language: "java"
+hint: |
+  `interface Shape { double area(); double perimeter(); }` のようにインターフェースを定義する。
+  `Circle` と `Rectangle` がこのインターフェースを `implements` する。
+  インターフェース型の変数で両方を統一的に扱える。
+sampleAnswer: |
+  interface Shape {
+      double area();
+      double perimeter();
+  }
+
+  class Circle implements Shape {
+      double radius;
+
+      Circle(double radius) {
+          this.radius = radius;
+      }
+
+      @Override
+      public double area() {
+          return Math.PI * radius * radius;
+      }
+
+      @Override
+      public double perimeter() {
+          return 2 * Math.PI * radius;
+      }
+  }
+
+  class Rectangle implements Shape {
+      double width;
+      double height;
+
+      Rectangle(double width, double height) {
+          this.width = width;
+          this.height = height;
+      }
+
+      @Override
+      public double area() {
+          return width * height;
+      }
+
+      @Override
+      public double perimeter() {
+          return 2 * (width + height);
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Shape[] shapes = {
+              new Circle(5.0),
+              new Rectangle(4.0, 6.0)
+          };
+
+          for (Shape s : shapes) {
+              System.out.printf("面積: %.2f, 周囲長: %.2f%n", s.area(), s.perimeter());
+          }
+      }
+  }
+explanation: |
+  **インターフェースによる契約**：`Shape` インターフェースは「全ての Shape 実装クラスは area() と perimeter() を持つ」という契約を定義する。
+
+  **インターフェース vs 継承**：インターフェースはクラスの継承ツリーに縛られない。異なる継承ツリーのクラスに同じインターフェースを実装させることができる。
+
+  **`implements` したメソッドは `public`**：インターフェースのメソッドは暗黙的に `public abstract`。実装クラスでは `public` をつけること。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Shape` インターフェースを定義し、`Circle` と `Rectangle` で実装するプログラムを作れ。
+
+**出力**：
+```
+面積: 78.54, 周囲長: 31.42
+面積: 24.00, 周囲長: 20.00
+```
+
+**要件**：
+- `interface Shape` に `area()` と `perimeter()` を定義すること
+- `Circle` と `Rectangle` で `implements Shape` すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`interface Shape {
+    double area();
+    double perimeter();
+}
+
+class Circle implements Shape {
+    double radius;
+
+    Circle(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+
+    @Override
+    public double perimeter() {
+        return 2 * Math.PI * radius;
+    }
+}
+
+class Rectangle implements Shape {
+    double width, height;
+
+    Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    @Override
+    public double area() {
+        // width * height を返してください
+
+    }
+
+    @Override
+    public double perimeter() {
+        // 2 * (width + height) を返してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Shape[] shapes = {
+            new Circle(5.0),
+            new Rectangle(4.0, 6.0)
+        };
+
+        for (Shape s : shapes) {
+            System.out.printf("面積: %.2f, 周囲長: %.2f%n", s.area(), s.perimeter());
+        }
+    }
+}`}
+/>

@@ -1,0 +1,169 @@
+---
+id: "extra/java/java_encapsulation#bank_account_encapsulation"
+title: "BankAccountの残高をprivateで管理して不正操作を防ぐ"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_encapsulation"
+category: "extra/java"
+language: "java"
+hint: |
+  `balance` を `private` にし、`deposit`/`withdraw` メソッドを通じてのみ変更できるようにする。
+  直接 `account.balance = 1000000;` とできないようにすることが目的。
+  取引履歴を `String[]` で管理するとより実践的な実装になる。
+sampleAnswer: |
+  class BankAccount {
+      private final String owner;
+      private int balance;
+      private String[] history = new String[100];
+      private int historyCount = 0;
+
+      BankAccount(String owner, int initialBalance) {
+          this.owner = owner;
+          this.balance = Math.max(0, initialBalance);
+      }
+
+      public String getOwner() { return owner; }
+      public int getBalance() { return balance; }
+
+      public void deposit(int amount) {
+          if (amount <= 0) {
+              System.out.println("入金額は正の整数でなければなりません");
+              return;
+          }
+          balance += amount;
+          addHistory("入金: +" + amount + "円 → 残高: " + balance + "円");
+      }
+
+      public void withdraw(int amount) {
+          if (amount <= 0) {
+              System.out.println("出金額は正の整数でなければなりません");
+              return;
+          }
+          if (amount > balance) {
+              System.out.println("残高不足です（残高: " + balance + "円）");
+              return;
+          }
+          balance -= amount;
+          addHistory("出金: -" + amount + "円 → 残高: " + balance + "円");
+      }
+
+      private void addHistory(String record) {
+          if (historyCount < history.length) {
+              history[historyCount++] = record;
+          }
+      }
+
+      public void printHistory() {
+          System.out.println("=== " + owner + "の取引履歴 ===");
+          for (int i = 0; i < historyCount; i++) {
+              System.out.println(history[i]);
+          }
+          System.out.println("現在残高: " + balance + "円");
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          BankAccount account = new BankAccount("田中", 10000);
+          account.deposit(5000);
+          account.withdraw(3000);
+          account.withdraw(20000);
+          account.deposit(-100);
+          account.printHistory();
+      }
+  }
+explanation: |
+  **`balance` の完全保護**：`private` にすることで `account.balance = 1000000;` のような不正操作が不可能になる。
+
+  **取引履歴の追跡**：`private String[] history` で取引履歴を内部管理。`addHistory()` は `private` なので外部から直接履歴改ざんはできない。
+
+  **`Math.max(0, initialBalance)`**：初期残高が負の場合は0に補正する簡潔な書き方。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`BankAccount` クラスで残高を完全にカプセル化し、取引履歴を管理するプログラムを実装せよ。
+
+**出力**：
+```
+=== 田中の取引履歴 ===
+入金: +5000円 → 残高: 15000円
+出金: -3000円 → 残高: 12000円
+残高不足です（残高: 12000円）
+入金額は正の整数でなければなりません
+現在残高: 12000円
+```
+
+**要件**：
+- `balance` を `private` にすること
+- `deposit`/`withdraw` を通じてのみ残高を変更できること
+- 取引履歴を記録すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class BankAccount {
+    private final String owner;
+    private int balance;
+    private String[] history = new String[100];
+    private int historyCount = 0;
+
+    BankAccount(String owner, int initialBalance) {
+        this.owner = owner;
+        this.balance = Math.max(0, initialBalance);
+    }
+
+    public String getOwner() { return owner; }
+    public int getBalance() { return balance; }
+
+    public void deposit(int amount) {
+        if (amount <= 0) {
+            System.out.println("入金額は正の整数でなければなりません");
+            return;
+        }
+        balance += amount;
+        addHistory("入金: +" + amount + "円 → 残高: " + balance + "円");
+    }
+
+    public void withdraw(int amount) {
+        if (amount <= 0) {
+            System.out.println("出金額は正の整数でなければなりません");
+            return;
+        }
+        if (amount > balance) {
+            System.out.println("残高不足です（残高: " + balance + "円）");
+            return;
+        }
+        // balance から amount を引き、履歴を追加してください
+
+    }
+
+    private void addHistory(String record) {
+        if (historyCount < history.length) {
+            history[historyCount++] = record;
+        }
+    }
+
+    public void printHistory() {
+        System.out.println("=== " + owner + "の取引履歴 ===");
+        for (int i = 0; i < historyCount; i++) {
+            System.out.println(history[i]);
+        }
+        System.out.println("現在残高: " + balance + "円");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount("田中", 10000);
+        account.deposit(5000);
+        account.withdraw(3000);
+        account.withdraw(20000);
+        account.deposit(-100);
+        account.printHistory();
+    }
+}`}
+/>

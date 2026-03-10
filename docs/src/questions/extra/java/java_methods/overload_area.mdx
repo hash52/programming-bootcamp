@@ -1,0 +1,88 @@
+---
+id: "extra/java/java_methods#overload_area"
+title: "オーバーロードで複数の図形の面積を計算する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_methods"
+category: "extra/java"
+language: "java"
+hint: |
+  同じ名前 `area` で引数の数・型が異なるメソッドを複数定義できる（オーバーロード）。
+  - 正方形：`static double area(double side)` → `side * side`
+  - 長方形：`static double area(double width, double height)` → `width * height`
+  - 円：`static double area(double radius, boolean isCircle)` → `Math.PI * radius * radius`
+sampleAnswer: |
+  public class Main {
+      // 正方形
+      static double area(double side) {
+          return side * side;
+      }
+
+      // 長方形
+      static double area(double width, double height) {
+          return width * height;
+      }
+
+      // 円（フラグで識別）
+      static double area(double radius, boolean isCircle) {
+          return Math.PI * radius * radius;
+      }
+
+      public static void main(String[] args) {
+          System.out.printf("正方形（辺5）の面積: %.2f%n", area(5.0));
+          System.out.printf("長方形（4×6）の面積: %.2f%n", area(4.0, 6.0));
+          System.out.printf("円（半径3）の面積: %.2f%n", area(3.0, true));
+      }
+  }
+explanation: |
+  **メソッドオーバーロード**：メソッド名が同じでも、引数の型・数・順序が異なれば別のメソッドとして定義できる。
+  Javaは呼び出し時の引数から適切なメソッドを自動的に選ぶ。
+
+  **`Math.PI`**：円周率π（3.14159...）を表す定数。`Math.pow()` など `Math` クラスには数学関連の定数・メソッドが揃っている。
+
+  **`System.out.printf`**：`%.2f` で小数点以下2桁に丸めて表示できる。`%n` は改行。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+同じ名前 `area` でオーバーロードした3つのメソッドを定義し、正方形・長方形・円の面積を計算せよ。
+
+**出力**：
+```
+正方形（辺5）の面積: 25.00
+長方形（4×6）の面積: 24.00
+円（半径3）の面積: 28.27
+```
+
+**要件**：
+- 同じ名前 `area` で引数が異なる3つのメソッドを定義すること
+- 円の面積は `Math.PI` を使うこと
+- `System.out.printf("%.2f")` で小数点以下2桁に揃えること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    // 正方形の面積（引数：辺の長さ）
+    static double area(double side) {
+
+    }
+
+    // 長方形の面積（引数：幅・高さ）
+    static double area(double width, double height) {
+
+    }
+
+    // 円の面積（引数：半径・isCircleフラグ）
+    
+
+    public static void main(String[] args) {
+        System.out.printf("正方形（辺5）の面積: %.2f%n", area(5.0));
+        System.out.printf("長方形（4×6）の面積: %.2f%n", area(4.0, 6.0));
+        System.out.printf("円（半径3）の面積: %.2f%n", area(3.0, true));
+    }
+}`}
+/>

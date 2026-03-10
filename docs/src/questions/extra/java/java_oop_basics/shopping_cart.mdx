@@ -1,0 +1,166 @@
+---
+id: "extra/java/java_oop_basics#shopping_cart"
+title: "ShoppingCartクラスで商品追加・合計計算を実装する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_oop_basics"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Item` を定義し、`name`（String）と `price`（int）フィールドを持たせる。
+  `class ShoppingCart` を定義し、`items`（Item[] 型、最大10件）と `itemCount`（int）フィールドを持たせる。
+  `addItem(Item item)` で配列に追加、`total()` で合計金額を返す、`showItems()` で一覧表示する。
+sampleAnswer: |
+  class Item {
+      String name;
+      int price;
+  }
+
+  class ShoppingCart {
+      Item[] items = new Item[10];
+      int itemCount = 0;
+
+      void addItem(Item item) {
+          if (itemCount < items.length) {
+              items[itemCount] = item;
+              itemCount++;
+              System.out.println(item.name + "（" + item.price + "円）をカートに追加");
+          } else {
+              System.out.println("カートが満杯です");
+          }
+      }
+
+      int total() {
+          int sum = 0;
+          for (int i = 0; i < itemCount; i++) {
+              sum += items[i].price;
+          }
+          return sum;
+      }
+
+      void showItems() {
+          System.out.println("=== カートの中身 ===");
+          for (int i = 0; i < itemCount; i++) {
+              System.out.println("- " + items[i].name + ": " + items[i].price + "円");
+          }
+          System.out.println("合計: " + total() + "円");
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          ShoppingCart cart = new ShoppingCart();
+
+          Item apple = new Item();
+          apple.name = "りんご";
+          apple.price = 150;
+
+          Item milk = new Item();
+          milk.name = "牛乳";
+          milk.price = 200;
+
+          Item bread = new Item();
+          bread.name = "食パン";
+          bread.price = 300;
+
+          cart.addItem(apple);
+          cart.addItem(milk);
+          cart.addItem(bread);
+
+          cart.showItems();
+      }
+  }
+explanation: |
+  **2クラスの連携**：`Item` でデータを保持し、`ShoppingCart` で `Item` を管理するという役割分担。
+
+  **配列ベースの動的追加**：最大サイズの配列を用意し、`itemCount` で現在の要素数を管理する。
+  `ArrayList` を使うとより簡単だが、配列で実装する練習として価値がある。
+
+  **合計金額の計算**：`total()` の中でフィールドの配列を走査して計算する。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Item` クラスと `ShoppingCart` クラスを実装し、商品の追加と合計金額の表示を行うプログラムを作れ。
+
+**出力**：
+```
+りんご（150円）をカートに追加
+牛乳（200円）をカートに追加
+食パン（300円）をカートに追加
+=== カートの中身 ===
+- りんご: 150円
+- 牛乳: 200円
+- 食パン: 300円
+合計: 650円
+```
+
+**要件**：
+- `Item` クラスに `name` と `price` フィールドを定義すること
+- `ShoppingCart` に `addItem`, `total`, `showItems` メソッドを定義すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Item {
+    String name;
+    int price;
+}
+
+class ShoppingCart {
+    Item[] items = new Item[10];
+    int itemCount = 0;
+
+    void addItem(Item item) {
+        if (itemCount < items.length) {
+            items[itemCount] = item;
+            itemCount++;
+            System.out.println(item.name + "（" + item.price + "円）をカートに追加");
+        } else {
+            System.out.println("カートが満杯です");
+        }
+    }
+
+    int total() {
+        int sum = 0;
+        for (int i = 0; i < itemCount; i++) {
+            sum += items[i].price;
+        }
+        return sum;
+    }
+
+    void showItems() {
+        System.out.println("=== カートの中身 ===");
+        // 全アイテムを表示してください
+
+        System.out.println("合計: " + total() + "円");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        ShoppingCart cart = new ShoppingCart();
+
+        Item apple = new Item();
+        apple.name = "りんご";
+        apple.price = 150;
+
+        Item milk = new Item();
+        milk.name = "牛乳";
+        milk.price = 200;
+
+        Item bread = new Item();
+        bread.name = "食パン";
+        bread.price = 300;
+
+        cart.addItem(apple);
+        cart.addItem(milk);
+        cart.addItem(bread);
+
+        cart.showItems();
+    }
+}`}
+/>

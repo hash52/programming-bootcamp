@@ -1,0 +1,86 @@
+---
+id: "extra/java/java_arrays#two_dim_sum"
+title: "2次元配列の全要素の合計を求める"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_arrays"
+category: "extra/java"
+language: "java"
+hint: |
+  2次元配列は「配列の配列」。外側のループで行（row）を、内側のループで列（column）を処理する。
+  `matrix.length` が行数、`matrix[i].length` が各行の列数。
+  for-eachを2重にする方法：`for (int[] row : matrix) { for (int n : row) { ... } }`
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int[][] matrix = {
+              {1, 2, 3},
+              {4, 5, 6},
+              {7, 8, 9}
+          };
+          int sum = 0;
+
+          for (int[] row : matrix) {
+              for (int n : row) {
+                  sum += n;
+              }
+          }
+
+          System.out.println("合計: " + sum);
+      }
+  }
+explanation: |
+  **2次元配列のループ**：外側のfor-eachで各行（`int[]`型）を取り出し、内側のfor-eachで各要素を処理する。
+
+  **`int[][] matrix`**：`int[][]` は「int配列の配列」を意味する。`matrix[0]` は `{1, 2, 3}` という1次元配列。
+
+  **合計の確認**：1+2+3+4+5+6+7+8+9 = 45
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+次の3×3の2次元配列 `matrix` の全要素の合計を求めて表示するプログラムを実装せよ。
+
+```java
+int[][] matrix = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+```
+
+**出力**：
+```
+合計: 45
+```
+
+**要件**：
+- 二重ループ（for-eachの入れ子）を使うこと
+- 全要素を漏れなく合計すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int[][] matrix = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        int sum = 0;
+
+        // 二重ループで全要素を合計してください
+        for (int[] row : matrix) {
+            for (int n : row) {
+
+            }
+        }
+
+        System.out.println("合計: " + sum);
+    }
+}`}
+/>

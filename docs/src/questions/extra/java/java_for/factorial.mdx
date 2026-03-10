@@ -1,0 +1,57 @@
+---
+id: "extra/java/java_for#factorial"
+title: "N!（階乗）を計算する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  階乗は1からnまでの整数をすべて掛け合わせた値。
+  `result = 1` で初期化し、ループ内で `result *= i` を繰り返す。
+  `result = 0` で初期化すると何を掛けても0になってしまうので注意。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 5;
+          int result = 1;
+          for (int i = 1; i <= n; i++) {
+              result *= i;
+          }
+          System.out.println(n + "! = " + result);
+      }
+  }
+explanation: |
+  **階乗（n!）**：1 × 2 × 3 × ... × n。5! = 1×2×3×4×5 = 120。
+
+  **初期値は1**：掛け算の初期値は1にする（0にするとどんな数を掛けても0になる）。加算の初期値が0なのと同じ理由で、乗算では1が「単位元」となる。
+
+  **`*=` 演算子**：`result *= i` は `result = result * i` の省略形である。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`n` の階乗（n!）を計算して出力するプログラムを実装せよ。
+
+**出力**（`n = 5` のとき）：
+```
+5! = 120
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 5;
+        int result = 1; // 掛け算の初期値は 1
+
+        // 1 から n まで順に result に掛けていってください
+
+        System.out.println(n + "! = " + result);
+    }
+}`}
+/>

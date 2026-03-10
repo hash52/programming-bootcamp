@@ -1,0 +1,74 @@
+---
+id: "extra/java/java_operators#compound_assignment"
+title: "複合代入演算子でスコアを変化させる"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  `score += 20` は `score = score + 20` の省略形である。
+  `+=`・`-=`・`*=`・`/=`・`%=` の5種類がある。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int score = 100;
+          System.out.println("初期値: " + score);
+          score += 20;
+          System.out.println("+=20 後: " + score);
+          score -= 15;
+          System.out.println("-=15 後: " + score);
+          score *= 2;
+          System.out.println("*=2 後: " + score);
+          score /= 3;
+          System.out.println("/=3 後: " + score);
+          score %= 9;
+          System.out.println("%=9 後: " + score);
+      }
+  }
+explanation: |
+  **複合代入演算子**：右辺の演算を変数に適用して結果を再代入する演算子である。
+
+  | 演算子 | 意味 |
+  |--------|------|
+  | `+=` | 加算して代入 |
+  | `-=` | 減算して代入 |
+  | `*=` | 乗算して代入 |
+  | `/=` | 除算して代入 |
+  | `%=` | 余りを代入 |
+
+  **順に追うと**：100 → 120（+20）→ 105（-15）→ 210（*2）→ 70（/3）→ 7（%9）
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `score = 100` に対して、5種類の複合代入演算子を順に適用し、各ステップの値を出力するプログラムを実装せよ。
+
+**出力**：
+```
+初期値: 100
++=20 後: 120
+-=15 後: 105
+*=2 後: 210
+/=3 後: 70
+%=9 後: 7
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int score = 100;
+        System.out.println("初期値: " + score);
+
+        // +=, -=, *=, /=, %= を順に適用して表示してください
+        score += 20;
+        System.out.println("+=20 後: " + score);
+        // 続きを実装してください
+    }
+}`}
+/>

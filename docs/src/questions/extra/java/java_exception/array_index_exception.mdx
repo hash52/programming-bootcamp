@@ -1,0 +1,78 @@
+---
+id: "extra/java/java_exception#array_index_exception"
+title: "ArrayIndexOutOfBoundsExceptionをキャッチする"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_exception"
+category: "extra/java"
+language: "java"
+hint: |
+  配列の範囲外（`arr.length` 以上、または負のインデックス）にアクセスすると
+  `ArrayIndexOutOfBoundsException` が発生する。
+  `catch (ArrayIndexOutOfBoundsException e)` でキャッチする。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int[] arr = {10, 20, 30};
+
+          try {
+              System.out.println(arr[0]);
+              System.out.println(arr[1]);
+              System.out.println(arr[5]); // 範囲外
+              System.out.println(arr[2]);
+          } catch (ArrayIndexOutOfBoundsException e) {
+              System.out.println("配列の範囲外にアクセスしました: " + e.getMessage());
+          }
+
+          System.out.println("処理を続けます");
+      }
+  }
+explanation: |
+  **`ArrayIndexOutOfBoundsException`**：配列の有効なインデックス範囲（0〜length-1）を超えるアクセスで発生する。
+
+  **例外発生後のtryブロック**：`arr[5]` で例外が発生すると、その後の `arr[2]` の行は実行されない。
+  例外が発生した行で `try` ブロックを抜けて `catch` に移る。
+
+  **`e.getMessage()`**：`"Index 5 out of bounds for length 3"` のようなメッセージが得られる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+配列の範囲外アクセスで発生する `ArrayIndexOutOfBoundsException` をキャッチするプログラムを実装せよ。
+
+**出力**：
+```
+10
+20
+配列の範囲外にアクセスしました: Index 5 out of bounds for length 3
+処理を続けます
+```
+
+**要件**：
+- `int[] arr = {10, 20, 30}` を用意し、`arr[5]` にアクセスすること
+- `ArrayIndexOutOfBoundsException` を `catch` すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int[] arr = {10, 20, 30};
+
+        try {
+            System.out.println(arr[0]);
+            System.out.println(arr[1]);
+            System.out.println(arr[5]); // 範囲外アクセス
+            System.out.println(arr[2]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // 例外メッセージを表示してください
+
+        }
+
+        System.out.println("処理を続けます");
+    }
+}`}
+/>

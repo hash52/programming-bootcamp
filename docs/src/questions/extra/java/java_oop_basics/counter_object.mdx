@@ -1,0 +1,104 @@
+---
+id: "extra/java/java_oop_basics#counter_object"
+title: "Counterオブジェクトでカウント・リセット・取得を実装する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_oop_basics"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Counter` を定義し、`count`（int）フィールドを持たせる。
+  `increment()`, `decrement()`, `reset()`, `getCount()` の4メソッドを実装する。
+  複数のカウンタインスタンスを作ることで、それぞれが独立してカウントできることを確認する。
+sampleAnswer: |
+  class Counter {
+      int count = 0;
+
+      void increment() { count++; }
+      void decrement() { count--; }
+      void reset() { count = 0; }
+      int getCount() { return count; }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Counter c1 = new Counter();
+          Counter c2 = new Counter();
+
+          c1.increment();
+          c1.increment();
+          c1.increment();
+          c2.increment();
+
+          System.out.println("カウンタ1: " + c1.getCount());
+          System.out.println("カウンタ2: " + c2.getCount());
+
+          c1.decrement();
+          System.out.println("カウンタ1（decrement後）: " + c1.getCount());
+
+          c1.reset();
+          System.out.println("カウンタ1（reset後）: " + c1.getCount());
+          System.out.println("カウンタ2（変化なし）: " + c2.getCount());
+      }
+  }
+explanation: |
+  **インスタンスの独立性**：`c1` と `c2` は別々のオブジェクトなので、それぞれが独立した `count` を持つ。
+  `c1` をリセットしても `c2` の `count` は変わらない。
+
+  **状態管理のカプセル化**：`count` フィールドをメソッドを通じてのみ変更することで、予期しない変更を防ぐ。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Counter` クラスを実装し、2つのカウンタインスタンスが独立して動作することを確認せよ。
+
+**出力**：
+```
+カウンタ1: 3
+カウンタ2: 1
+カウンタ1（decrement後）: 2
+カウンタ1（reset後）: 0
+カウンタ2（変化なし）: 1
+```
+
+**要件**：
+- `increment()`, `decrement()`, `reset()`, `getCount()` を定義すること
+- 2つのインスタンスを作り、それぞれ独立して動作することを示すこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Counter {
+    int count = 0;
+
+    void increment() { count++; }
+    void decrement() { count--; }
+    void reset() { count = 0; }
+    int getCount() { return count; }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Counter c1 = new Counter();
+        Counter c2 = new Counter();
+
+        c1.increment();
+        c1.increment();
+        c1.increment();
+        c2.increment();
+
+        System.out.println("カウンタ1: " + c1.getCount());
+        System.out.println("カウンタ2: " + c2.getCount());
+
+        c1.decrement();
+        System.out.println("カウンタ1（decrement後）: " + c1.getCount());
+
+        c1.reset();
+        System.out.println("カウンタ1（reset後）: " + c1.getCount());
+        System.out.println("カウンタ2（変化なし）: " + c2.getCount());
+    }
+}`}
+/>

@@ -1,0 +1,74 @@
+---
+id: "extra/java/java_datetime#local_time_basic"
+title: "LocalTime.now()で現在時刻を表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_datetime"
+category: "extra/java"
+language: "java"
+hint: |
+  `LocalTime.now()` で現在時刻を取得する。
+  `getHour()`, `getMinute()`, `getSecond()` で時・分・秒を個別取得できる。
+  `LocalTime.of(14, 30, 0)` で特定の時刻を作成できる。
+sampleAnswer: |
+  import java.time.LocalTime;
+
+  public class Main {
+      public static void main(String[] args) {
+          LocalTime now = LocalTime.now();
+
+          System.out.println("現在時刻: " + now);
+          System.out.println("時: " + now.getHour());
+          System.out.println("分: " + now.getMinute());
+          System.out.println("秒: " + now.getSecond());
+
+          LocalTime lunch = LocalTime.of(12, 0, 0);
+          System.out.println("ランチタイム: " + lunch);
+      }
+  }
+explanation: |
+  **`LocalTime`**：時刻（時・分・秒・ナノ秒）のみを表すクラス。日付情報は含まない。
+
+  **`toString()` の形式**：`LocalTime` の `toString()` は `HH:mm:ss.nnnnnnnnn` 形式。秒が0なら省略、ナノ秒が0なら省略される。
+
+  **`LocalTime.of(hour, minute, second)`**：特定の時刻を作成する。第3引数（秒）は省略可能（`LocalTime.of(12, 30)` で12時30分）。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`LocalTime.now()` で現在時刻を取得し、時・分・秒を表示するプログラムを作れ。さらに `LocalTime.of()` で特定の時刻を作成せよ。
+
+**出力例**（実行時刻によって変わる）：
+```
+現在時刻: 14:35:22.123456789
+時: 14
+分: 35
+秒: 22
+ランチタイム: 12:00
+```
+
+**要件**：
+- `LocalTime.now()` を使うこと
+- `getHour()`, `getMinute()`, `getSecond()` を使うこと
+- `LocalTime.of()` で特定の時刻を作成すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.time.LocalTime;
+
+public class Main {
+    public static void main(String[] args) {
+        LocalTime now = LocalTime.now();
+
+        System.out.println("現在時刻: " + now);
+        // 時・分・秒を表示してください
+
+        // LocalTime.of() で12時0分0秒を作成して表示してください
+
+    }
+}`}
+/>

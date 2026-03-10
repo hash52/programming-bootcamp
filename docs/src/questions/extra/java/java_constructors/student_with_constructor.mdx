@@ -1,0 +1,133 @@
+---
+id: "extra/java/java_constructors#student_with_constructor"
+title: "Studentクラスでコンストラクタ・フィールド・メソッドを組み合わせる"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_constructors"
+category: "extra/java"
+language: "java"
+hint: |
+  `Student(String name, int grade, int[] scores)` コンストラクタを定義する。
+  `average()` で平均点、`maxScore()` で最高点を計算するメソッドを定義する。
+  `showReport()` で成績証明書のような形式で出力する。
+sampleAnswer: |
+  class Student {
+      String name;
+      int grade;
+      int[] scores;
+
+      Student(String name, int grade, int[] scores) {
+          this.name = name;
+          this.grade = grade;
+          this.scores = scores;
+      }
+
+      double average() {
+          int sum = 0;
+          for (int s : scores) sum += s;
+          return (double) sum / scores.length;
+      }
+
+      int maxScore() {
+          int max = scores[0];
+          for (int s : scores) {
+              if (s > max) max = s;
+          }
+          return max;
+      }
+
+      void showReport() {
+          System.out.println("=== 成績報告 ===");
+          System.out.println("氏名: " + name + " (" + grade + "年生)");
+          System.out.printf("平均点: %.1f%n", average());
+          System.out.println("最高点: " + maxScore());
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Student s1 = new Student("田中", 2, new int[]{80, 75, 90, 85});
+          Student s2 = new Student("佐藤", 3, new int[]{65, 95, 70, 88});
+
+          s1.showReport();
+          s2.showReport();
+      }
+  }
+explanation: |
+  **コンストラクタで配列を受け取る**：`int[] scores` を引数に取るコンストラクタを定義できる。
+  呼び出し側では `new int[]{80, 75, 90}` のように配列リテラルを渡せる。
+
+  **メソッドでフィールドを活用**：`average()` や `maxScore()` がフィールドの `scores` を使って計算する。
+  コンストラクタで初期化したデータをメソッドで活用するのがOOPの典型パターン。
+
+  **コンストラクタ + メソッドの組み合わせ**：オブジェクトを「コンストラクタで初期化し、メソッドで操作する」という流れがOOPの基本。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+コンストラクタで名前・学年・点数配列を初期化する `Student` クラスを実装し、成績報告を表示せよ。
+
+**出力**：
+```
+=== 成績報告 ===
+氏名: 田中 (2年生)
+平均点: 82.5
+最高点: 90
+=== 成績報告 ===
+氏名: 佐藤 (3年生)
+平均点: 79.5
+最高点: 95
+```
+
+**要件**：
+- `Student(String name, int grade, int[] scores)` コンストラクタを定義すること
+- `double average()`, `int maxScore()`, `void showReport()` を定義すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Student {
+    String name;
+    int grade;
+    int[] scores;
+
+    Student(String name, int grade, int[] scores) {
+        // フィールドを初期化してください
+
+    }
+
+    double average() {
+        int sum = 0;
+        for (int s : scores) sum += s;
+        return (double) sum / scores.length;
+    }
+
+    int maxScore() {
+        int max = scores[0];
+        for (int s : scores) {
+            if (s > max) max = s;
+        }
+        return max;
+    }
+
+    void showReport() {
+        System.out.println("=== 成績報告 ===");
+        System.out.println("氏名: " + name + " (" + grade + "年生)");
+        System.out.printf("平均点: %.1f%n", average());
+        System.out.println("最高点: " + maxScore());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student("田中", 2, new int[]{80, 75, 90, 85});
+        Student s2 = new Student("佐藤", 3, new int[]{65, 95, 70, 88});
+
+        s1.showReport();
+        s2.showReport();
+    }
+}`}
+/>

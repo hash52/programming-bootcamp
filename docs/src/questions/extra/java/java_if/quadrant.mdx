@@ -1,0 +1,70 @@
+---
+id: "extra/java/java_if#quadrant"
+title: "座標がどの象限にあるかを判定する"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  x と y の符号の組み合わせで象限が決まる。
+  - 第1象限: x > 0 && y > 0
+  - 第2象限: x < 0 && y > 0
+  - 第3象限: x < 0 && y < 0
+  - 第4象限: x > 0 && y < 0
+  - どれにも当てはまらない場合は軸上（x = 0 または y = 0）
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int x = 3, y = -2;
+          if (x > 0 && y > 0) {
+              System.out.println("第1象限");
+          } else if (x < 0 && y > 0) {
+              System.out.println("第2象限");
+          } else if (x < 0 && y < 0) {
+              System.out.println("第3象限");
+          } else if (x > 0 && y < 0) {
+              System.out.println("第4象限");
+          } else {
+              System.out.println("軸上");
+          }
+      }
+  }
+explanation: |
+  **4つの象限**：XY平面は x と y の正負によって4つの領域（象限）に分かれる。
+
+  **`&&`（論理積）の使い方**：2つの条件を同時に満たすかどうかを `&&` で判定する。`x > 0 && y > 0` は「xが正 かつ yが正」を意味する。
+
+  **軸上の扱い**：x = 0 または y = 0 のときは象限上ではなく軸上に位置する。4つの象限条件のどれにも当てはまらない場合が軸上になる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+座標 `(x, y)` がXY平面のどの象限にあるかを判定して出力するプログラムを実装せよ。  
+x = 0 または y = 0 の場合は「軸上」と出力する。
+
+**実行例**（`x = 3, y = -2` のとき）：
+```
+第4象限
+```
+
+**実行例**（`x = -1, y = 4` のとき）：
+```
+第2象限
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int x = 3, y = -2;
+
+        // x と y の符号の組み合わせで象限を判定してください
+
+    }
+}`}
+/>

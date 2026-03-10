@@ -1,0 +1,84 @@
+---
+id: "extra/java/java_datetime#date_compare"
+title: "2つの日付を比較してどちらが先かを判定する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_datetime"
+category: "extra/java"
+language: "java"
+hint: |
+  `isBefore(other)` は `this` が `other` より前なら `true` を返す。
+  `isAfter(other)` は `this` が `other` より後なら `true` を返す。
+  `isEqual(other)` は同じ日付なら `true` を返す。
+sampleAnswer: |
+  import java.time.LocalDate;
+
+  public class Main {
+      public static void main(String[] args) {
+          LocalDate date1 = LocalDate.of(2026, 3, 15);
+          LocalDate date2 = LocalDate.of(2026, 6, 30);
+          LocalDate date3 = LocalDate.of(2026, 3, 15);
+
+          System.out.println("date1: " + date1);
+          System.out.println("date2: " + date2);
+
+          System.out.println("date1はdate2より前: " + date1.isBefore(date2));
+          System.out.println("date2はdate1より後: " + date2.isAfter(date1));
+          System.out.println("date1とdate3は同じ: " + date1.isEqual(date3));
+
+          if (date1.isBefore(date2)) {
+              System.out.println(date1 + " は " + date2 + " より前の日付");
+          }
+      }
+  }
+explanation: |
+  **`isBefore()` / `isAfter()`**：`==` や `equals()` ではなく専用メソッドで比較する。
+  `date1.compareTo(date2)` でも比較可能（負なら前、0なら等しい、正なら後）。
+
+  **`isEqual()` vs `equals()`**：`LocalDate` の `equals()` も日付が等しければ `true` を返すが、`isEqual()` の方が意図が明確。
+
+  **日付の大小**：過去の日付が「小さい」、未来の日付が「大きい」という直感的な順序。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+2つの `LocalDate` を作成し、`isBefore()`, `isAfter()`, `isEqual()` で比較するプログラムを作れ。
+
+**出力**：
+```
+date1: 2026-03-15
+date2: 2026-06-30
+date1はdate2より前: true
+date2はdate1より後: true
+date1とdate3は同じ: true
+2026-03-15 は 2026-06-30 より前の日付
+```
+
+**要件**：
+- `isBefore()`, `isAfter()`, `isEqual()` を使うこと
+- if 文で比較結果に応じたメッセージを表示すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.time.LocalDate;
+
+public class Main {
+    public static void main(String[] args) {
+        LocalDate date1 = LocalDate.of(2026, 3, 15);
+        LocalDate date2 = LocalDate.of(2026, 6, 30);
+        LocalDate date3 = LocalDate.of(2026, 3, 15);
+
+        System.out.println("date1: " + date1);
+        System.out.println("date2: " + date2);
+
+        // isBefore(), isAfter(), isEqual() で比較して表示してください
+
+        // date1 が date2 より前なら "date1 は date2 より前の日付" を表示してください
+
+    }
+}`}
+/>

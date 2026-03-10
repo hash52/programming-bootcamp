@@ -1,0 +1,138 @@
+---
+id: "extra/java/java_encapsulation#immutable_class"
+title: "すべてのフィールドをfinalにした不変クラスを作る"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_encapsulation"
+category: "extra/java"
+language: "java"
+hint: |
+  すべてのフィールドを `private final` にし、コンストラクタでのみ初期化する。
+  setter を定義せず、getter のみ提供する。
+  値を変えたい場合は新しいオブジェクトを返すメソッドを定義する（`withX()` パターン）。
+sampleAnswer: |
+  class Money {
+      private final int amount;
+      private final String currency;
+
+      Money(int amount, String currency) {
+          if (amount < 0) throw new IllegalArgumentException("金額は0以上でなければなりません");
+          this.amount = amount;
+          this.currency = currency;
+      }
+
+      public int getAmount() { return amount; }
+      public String getCurrency() { return currency; }
+
+      public Money add(Money other) {
+          if (!this.currency.equals(other.currency)) {
+              throw new IllegalArgumentException("通貨が異なります");
+          }
+          return new Money(this.amount + other.amount, this.currency);
+      }
+
+      public Money subtract(Money other) {
+          if (!this.currency.equals(other.currency)) {
+              throw new IllegalArgumentException("通貨が異なります");
+          }
+          if (this.amount < other.amount) {
+              throw new IllegalArgumentException("残高不足です");
+          }
+          return new Money(this.amount - other.amount, this.currency);
+      }
+
+      public String toString() {
+          return amount + currency;
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Money price = new Money(1000, "円");
+          Money tax = new Money(100, "円");
+          Money discount = new Money(200, "円");
+
+          Money total = price.add(tax);
+          System.out.println("小計+税: " + total);
+
+          Money afterDiscount = total.subtract(discount);
+          System.out.println("割引後: " + afterDiscount);
+
+          // 元のオブジェクトは変化しない
+          System.out.println("元の価格: " + price);
+      }
+  }
+explanation: |
+  **不変クラス（Immutableクラス）**：一度生成したらフィールドが変わらないクラス。スレッドセーフで、予期しない変更がない。
+
+  **`private final` の組み合わせ**：`private` でアクセスを制限し、`final` でコンストラクタ以降の変更を禁止する。
+
+  **新しいオブジェクトを返す設計**：`add()`/`subtract()` は `this` を変更せず、新しい `Money` オブジェクトを返す。
+  `String` クラスもこのパターン（`str.toUpperCase()` は新しい文字列を返す）。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Money` クラスをすべて `private final` フィールドで実装した不変クラスとして作り、加算・減算で新しいオブジェクトを返せ。
+
+**出力**：
+```
+小計+税: 1100円
+割引後: 900円
+元の価格: 1000円
+```
+
+**要件**：
+- すべてのフィールドを `private final` にすること
+- setter を定義しないこと
+- `add()`/`subtract()` は新しい `Money` オブジェクトを返すこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Money {
+    private final int amount;
+    private final String currency;
+
+    Money(int amount, String currency) {
+        this.amount = amount;
+        this.currency = currency;
+    }
+
+    public int getAmount() { return amount; }
+    public String getCurrency() { return currency; }
+
+    public Money add(Money other) {
+        // 新しい Money オブジェクトを返してください（amount の合計）
+
+    }
+
+    public Money subtract(Money other) {
+        // 新しい Money オブジェクトを返してください（amount の差）
+
+    }
+
+    public String toString() {
+        return amount + currency;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Money price = new Money(1000, "円");
+        Money tax = new Money(100, "円");
+        Money discount = new Money(200, "円");
+
+        Money total = price.add(tax);
+        System.out.println("小計+税: " + total);
+
+        Money afterDiscount = total.subtract(discount);
+        System.out.println("割引後: " + afterDiscount);
+
+        System.out.println("元の価格: " + price);
+    }
+}`}
+/>

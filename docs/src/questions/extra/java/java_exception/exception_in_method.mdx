@@ -1,0 +1,88 @@
+---
+id: "extra/java/java_exception#exception_in_method"
+title: "メソッドから例外をスローして呼び出し元でキャッチ"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_exception"
+category: "extra/java"
+language: "java"
+hint: |
+  `divide` メソッドを定義し、除数が0のとき `ArithmeticException` を `throw` する。
+  `throw new ArithmeticException("0で割ることはできません")` のように書く。
+  呼び出し元の `main` で `try-catch` してメッセージを表示する。
+sampleAnswer: |
+  public class Main {
+      static double divide(double a, double b) {
+          if (b == 0) {
+              throw new ArithmeticException("0で割ることはできません");
+          }
+          return a / b;
+      }
+
+      public static void main(String[] args) {
+          double[][] cases = {{10, 2}, {15, 3}, {8, 0}, {20, 4}};
+
+          for (double[] c : cases) {
+              try {
+                  double result = divide(c[0], c[1]);
+                  System.out.printf("%.0f ÷ %.0f = %.2f%n", c[0], c[1], result);
+              } catch (ArithmeticException e) {
+                  System.out.printf("%.0f ÷ %.0f : エラー - %s%n", c[0], c[1], e.getMessage());
+              }
+          }
+      }
+  }
+explanation: |
+  **`throw` でメソッドから例外を投げる**：`throw new 例外クラス(message)` で例外を発生させる。
+  `throw` が実行されると、そのメソッドの残りの処理はスキップされ、例外が呼び出し元に伝わる。
+
+  **`ArithmeticException` は非検査例外**：`RuntimeException` のサブクラスなので `throws` 宣言は不要だが、書いても良い。
+
+  **早期return の代替**：条件を満たさない場合に例外を投げることで、メソッドの残りを実行させないようにできる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+除算を行う `divide` メソッドを定義し、除数が0のとき `ArithmeticException` をスローするプログラムを実装せよ。
+
+**出力**：
+```
+10 ÷ 2 = 5.00
+15 ÷ 3 = 5.00
+8 ÷ 0 : エラー - 0で割ることはできません
+20 ÷ 4 = 5.00
+```
+
+**要件**：
+- `divide` メソッドで `b == 0` のとき `ArithmeticException` をスローすること
+- `main` で `try-catch` すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    static double divide(double a, double b) {
+        if (b == 0) {
+            // ArithmeticException をスローしてください
+
+        }
+        return a / b;
+    }
+
+    public static void main(String[] args) {
+        double[][] cases = {{10, 2}, {15, 3}, {8, 0}, {20, 4}};
+
+        for (double[] c : cases) {
+            try {
+                double result = divide(c[0], c[1]);
+                System.out.printf("%.0f ÷ %.0f = %.2f%n", c[0], c[1], result);
+            } catch (ArithmeticException e) {
+                System.out.printf("%.0f ÷ %.0f : エラー - %s%n", c[0], c[1], e.getMessage());
+            }
+        }
+    }
+}`}
+/>

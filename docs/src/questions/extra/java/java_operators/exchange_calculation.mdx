@@ -1,0 +1,62 @@
+---
+id: "extra/java/java_operators#exchange_calculation"
+title: "円をドルとユーロに換算する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  換算は `円 × レート` で求められる。
+  `int` 型の `yen` に `double` 型のレートを掛けると自動的に `double` になる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int yen = 10000;
+          double usdRate = 0.0067;
+          double eurRate = 0.0062;
+          double usd = yen * usdRate;
+          double eur = yen * eurRate;
+          System.out.println(yen + "円 = " + usd + " USD");
+          System.out.println(yen + "円 = " + eur + " EUR");
+      }
+  }
+explanation: |
+  **換算式**：`金額 × 為替レート` で換算後の金額が求まる。
+
+  **int × double の型変換**：`yen`（int）に `usdRate`（double）を掛けると、Javaは自動的に `int` を `double` へ widening 変換してから計算する。結果は `double` になる。
+
+  **実用上の注意**：為替レートは常に変動するため、実際のアプリではAPIから最新レートを取得する。この問題では学習用に固定値を使っている。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`yen = 10000`（円）を、ドルとユーロにそれぞれ換算して出力するプログラムを実装せよ。  
+ドルのレートは `0.0067`、ユーロのレートは `0.0062` とする。
+
+**出力**：
+```
+10000円 = 67.0 USD
+10000円 = 62.0 EUR
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int yen = 10000;
+        double usdRate = 0.0067;
+        double eurRate = 0.0062;
+
+        double usd = 0.0; // yen * usdRate を代入してください
+        double eur = 0.0; // yen * eurRate を代入してください
+
+        System.out.println(yen + "円 = " + usd + " USD");
+        System.out.println(yen + "円 = " + eur + " EUR");
+    }
+}`}
+/>

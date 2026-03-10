@@ -1,0 +1,181 @@
+---
+id: "extra/java/java_interfaces#strategy_pattern"
+title: "インターフェースで処理の切り替え（Strategyパターン）を実装する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_interfaces"
+category: "extra/java"
+language: "java"
+hint: |
+  `interface SortStrategy { void sort(int[] arr); }` のようにアルゴリズムをインターフェースで表現する。
+  `BubbleSortStrategy` と `SelectionSortStrategy` のように複数の実装を作る。
+  `Sorter` クラスが `SortStrategy` を持ち、どの戦略でソートするかを切り替えられる。
+sampleAnswer: |
+  interface SortStrategy {
+      void sort(int[] arr);
+      String getName();
+  }
+
+  class BubbleSortStrategy implements SortStrategy {
+      @Override
+      public void sort(int[] arr) {
+          for (int i = 0; i < arr.length - 1; i++) {
+              for (int j = 0; j < arr.length - 1 - i; j++) {
+                  if (arr[j] > arr[j + 1]) {
+                      int tmp = arr[j];
+                      arr[j] = arr[j + 1];
+                      arr[j + 1] = tmp;
+                  }
+              }
+          }
+      }
+
+      @Override
+      public String getName() { return "バブルソート"; }
+  }
+
+  class SelectionSortStrategy implements SortStrategy {
+      @Override
+      public void sort(int[] arr) {
+          for (int i = 0; i < arr.length - 1; i++) {
+              int minIdx = i;
+              for (int j = i + 1; j < arr.length; j++) {
+                  if (arr[j] < arr[minIdx]) minIdx = j;
+              }
+              int tmp = arr[i];
+              arr[i] = arr[minIdx];
+              arr[minIdx] = tmp;
+          }
+      }
+
+      @Override
+      public String getName() { return "選択ソート"; }
+  }
+
+  class Sorter {
+      SortStrategy strategy;
+
+      Sorter(SortStrategy strategy) {
+          this.strategy = strategy;
+      }
+
+      void setStrategy(SortStrategy strategy) {
+          this.strategy = strategy;
+      }
+
+      void sort(int[] arr) {
+          System.out.print(strategy.getName() + "でソート: ");
+          strategy.sort(arr);
+          for (int n : arr) System.out.print(n + " ");
+          System.out.println();
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          int[] data1 = {64, 25, 12, 22, 11};
+          int[] data2 = {64, 25, 12, 22, 11};
+
+          Sorter sorter = new Sorter(new BubbleSortStrategy());
+          sorter.sort(data1);
+
+          sorter.setStrategy(new SelectionSortStrategy());
+          sorter.sort(data2);
+      }
+  }
+explanation: |
+  **Strategyパターン**：アルゴリズムをインターフェースで定義し、実行時に切り替えられるデザインパターン。
+  `Sorter` クラスはソート方法の詳細を知らなくてよい（`strategy.sort()` を呼ぶだけ）。
+
+  **選択ソート**：未ソート部分の最小値を見つけて先頭と交換する操作を繰り返す。バブルソートと同様 O(n²)。
+
+  **インターフェースが実現する柔軟性**：新しいソートアルゴリズム（クイックソートなど）を追加したいとき、`SortStrategy` を実装した新クラスを作るだけでよい。`Sorter` クラスを修正する必要がない。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+Strategyパターンでソートアルゴリズムを切り替えられる `Sorter` クラスを実装せよ。
+
+**出力**：
+```
+バブルソートでソート: 11 12 22 25 64
+選択ソートでソート: 11 12 22 25 64
+```
+
+**要件**：
+- `SortStrategy` インターフェースを定義すること
+- `BubbleSortStrategy` と `SelectionSortStrategy` で実装すること
+- `Sorter` クラスで戦略を切り替えられること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`interface SortStrategy {
+    void sort(int[] arr);
+    String getName();
+}
+
+class BubbleSortStrategy implements SortStrategy {
+    @Override
+    public void sort(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int tmp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = tmp;
+                }
+            }
+        }
+    }
+
+    @Override
+    public String getName() { return "バブルソート"; }
+}
+
+class SelectionSortStrategy implements SortStrategy {
+    @Override
+    public void sort(int[] arr) {
+        // 選択ソートを実装してください（未ソート部分から最小値を選んで先頭と交換）
+
+    }
+
+    @Override
+    public String getName() { return "選択ソート"; }
+}
+
+class Sorter {
+    SortStrategy strategy;
+
+    Sorter(SortStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    void setStrategy(SortStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    void sort(int[] arr) {
+        System.out.print(strategy.getName() + "でソート: ");
+        strategy.sort(arr);
+        for (int n : arr) System.out.print(n + " ");
+        System.out.println();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        int[] data1 = {64, 25, 12, 22, 11};
+        int[] data2 = {64, 25, 12, 22, 11};
+
+        Sorter sorter = new Sorter(new BubbleSortStrategy());
+        sorter.sort(data1);
+
+        sorter.setStrategy(new SelectionSortStrategy());
+        sorter.sort(data2);
+    }
+}`}
+/>

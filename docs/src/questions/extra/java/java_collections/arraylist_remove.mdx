@@ -1,0 +1,86 @@
+---
+id: "extra/java/java_collections#arraylist_remove"
+title: "ArrayListから要素を削除して残りを表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_collections"
+category: "extra/java"
+language: "java"
+hint: |
+  `remove(index)` でインデックス指定、`remove(Object)` で値指定の削除ができる。
+  削除後は要素数が変わるので `size()` を確認するとよい。
+  `contains()` で特定の値が存在するか確認できる。
+sampleAnswer: |
+  import java.util.ArrayList;
+
+  public class Main {
+      public static void main(String[] args) {
+          ArrayList<String> list = new ArrayList<>();
+          list.add("A");
+          list.add("B");
+          list.add("C");
+          list.add("D");
+
+          System.out.println("削除前: " + list);
+
+          list.remove(1);  // インデックス1（"B"）を削除
+          System.out.println("インデックス1削除後: " + list);
+
+          list.remove("D");  // 値"D"を削除
+          System.out.println("\"D\"削除後: " + list);
+
+          System.out.println("要素数: " + list.size());
+      }
+  }
+explanation: |
+  **`remove(int index)`**：インデックスを指定して削除。削除後は後ろの要素がシフトする。
+
+  **`remove(Object o)`**：値を指定して最初に一致する要素を削除。`Integer` を削除する場合は `remove(Integer.valueOf(x))` と明示する。
+
+  **`toString()`**：`ArrayList` の `toString()` は `[A, C]` のように内容を表示するので、デバッグに便利。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`ArrayList` に "A", "B", "C", "D" を追加し、インデックス1の要素と値 "D" を削除して残りを表示するプログラムを作れ。
+
+**出力**：
+```
+削除前: [A, B, C, D]
+インデックス1削除後: [A, C, D]
+"D"削除後: [A, C]
+要素数: 2
+```
+
+**要件**：
+- `remove(int)` でインデックス指定削除をすること
+- `remove(String)` で値指定削除をすること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        list.add("D");
+
+        System.out.println("削除前: " + list);
+
+        // インデックス1の要素を削除してください
+        System.out.println("インデックス1削除後: " + list);
+
+        // 値"D"の要素を削除してください
+        System.out.println("\"D\"削除後: " + list);
+
+        System.out.println("要素数: " + list.size());
+    }
+}`}
+/>

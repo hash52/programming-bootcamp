@@ -1,0 +1,168 @@
+---
+id: "extra/java/java_interfaces#interface_vs_class"
+title: "インターフェースと継承を組み合わせたクラス設計を実装する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_interfaces"
+category: "extra/java"
+language: "java"
+hint: |
+  クラス継承（is-a）とインターフェース実装（can-do）を組み合わせる。
+  `Animal` を継承しつつ `Trainable` インターフェースを実装するクラスを作る。
+  `class Dog extends Animal implements Trainable` のように書く。
+sampleAnswer: |
+  interface Trainable {
+      void train(String command);
+      boolean canLearnTrick();
+  }
+
+  class Animal {
+      String name;
+
+      Animal(String name) {
+          this.name = name;
+      }
+
+      void eat() {
+          System.out.println(name + "が食事中");
+      }
+  }
+
+  class Dog extends Animal implements Trainable {
+      int intelligenceLevel;
+
+      Dog(String name, int intelligenceLevel) {
+          super(name);
+          this.intelligenceLevel = intelligenceLevel;
+      }
+
+      @Override
+      public void train(String command) {
+          System.out.println(name + "が「" + command + "」を学習した！");
+      }
+
+      @Override
+      public boolean canLearnTrick() {
+          return intelligenceLevel >= 5;
+      }
+  }
+
+  class Cat extends Animal {
+      Cat(String name) {
+          super(name);
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Dog dog = new Dog("ポチ", 8);
+          Cat cat = new Cat("タマ");
+
+          dog.eat();
+          dog.train("おすわり");
+          dog.train("握手");
+          System.out.println("トリックを学べる: " + dog.canLearnTrick());
+
+          cat.eat();
+          System.out.println("猫はTrainableではない: " + (cat instanceof Trainable));
+
+          // Trainable型としても扱える
+          Trainable trainable = dog;
+          trainable.train("ふせ");
+      }
+  }
+explanation: |
+  **継承 + インターフェースの組み合わせ**：`Dog extends Animal implements Trainable` で、`Dog` は「動物である（is-a）」かつ「訓練できる（can-do）」という2つの性質を表現できる。
+
+  **クラスと継承の限界**：継承は「種類」を表すが、全ての動物が訓練可能ではない。`Trainable` インターフェースで訓練可能な動物だけに能力を付与できる。
+
+  **`instanceof` でインターフェース確認**：`cat instanceof Trainable` は `false`。`Cat` は `Trainable` を実装していないため。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Animal` クラスを継承し、かつ `Trainable` インターフェースを実装する `Dog` クラスを設計せよ。
+
+**出力**：
+```
+ポチが食事中
+ポチが「おすわり」を学習した！
+ポチが「握手」を学習した！
+トリックを学べる: true
+タマが食事中
+猫はTrainableではない: false
+ポチが「ふせ」を学習した！
+```
+
+**要件**：
+- `class Dog extends Animal implements Trainable` で定義すること
+- `train()` と `canLearnTrick()` を実装すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`interface Trainable {
+    void train(String command);
+    boolean canLearnTrick();
+}
+
+class Animal {
+    String name;
+
+    Animal(String name) {
+        this.name = name;
+    }
+
+    void eat() {
+        System.out.println(name + "が食事中");
+    }
+}
+
+class Dog extends Animal implements Trainable {
+    int intelligenceLevel;
+
+    Dog(String name, int intelligenceLevel) {
+        super(name);
+        this.intelligenceLevel = intelligenceLevel;
+    }
+
+    @Override
+    public void train(String command) {
+        // "name が「command」を学習した！" を表示してください
+
+    }
+
+    @Override
+    public boolean canLearnTrick() {
+        // intelligenceLevel が 5 以上なら true を返してください
+
+    }
+}
+
+class Cat extends Animal {
+    Cat(String name) {
+        super(name);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog("ポチ", 8);
+        Cat cat = new Cat("タマ");
+
+        dog.eat();
+        dog.train("おすわり");
+        dog.train("握手");
+        System.out.println("トリックを学べる: " + dog.canLearnTrick());
+
+        cat.eat();
+        System.out.println("猫はTrainableではない: " + (cat instanceof Trainable));
+
+        Trainable trainable = dog;
+        trainable.train("ふせ");
+    }
+}`}
+/>

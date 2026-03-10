@@ -1,0 +1,85 @@
+---
+id: "extra/java/java_arrays#array_linear_search"
+title: "配列から特定の値を線形探索する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_arrays"
+category: "extra/java"
+language: "java"
+hint: |
+  インデックス付き for ループで全要素を順に調べる。
+  `data[i] == target` のとき「インデックスX で見つかった」と表示する。
+  ループが終わっても見つからなかった場合は「見つからなかった」と表示する。
+  見つかったかどうかを `boolean found` で管理すると便利。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int[] data = {15, 32, 8, 47, 23, 56};
+          int target = 47;
+          boolean found = false;
+
+          for (int i = 0; i < data.length; i++) {
+              if (data[i] == target) {
+                  System.out.println(target + " はインデックス " + i + " で見つかった");
+                  found = true;
+                  break;
+              }
+          }
+
+          if (!found) {
+              System.out.println(target + " は見つからなかった");
+          }
+      }
+  }
+explanation: |
+  **線形探索（リニアサーチ）**：先頭から順に1つずつ調べる最もシンプルな探索アルゴリズム。
+  計算量は O(n)（要素数に比例）。
+
+  **`break`**：見つかった時点でループを抜けると無駄な処理を省ける。
+
+  **`boolean found`**：見つかったかどうかを追跡するフラグ変数。ループ後に「見つからなかった」を判定するために使う。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+次の配列 `data` から `target = 47` を線形探索し、見つかったインデックスを表示するプログラムを実装せよ。
+見つからなかった場合は「見つからなかった」と表示すること。
+
+```java
+int[] data = {15, 32, 8, 47, 23, 56};
+int target = 47;
+```
+
+**出力**：
+```
+47 はインデックス 3 で見つかった
+```
+
+**要件**：
+- 先頭から順に探索すること（線形探索）
+- 見つかったら `break` でループを抜けること
+- 見つからなかった場合も考慮すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int[] data = {15, 32, 8, 47, 23, 56};
+        int target = 47;
+        boolean found = false;
+
+        for (int i = 0; i < data.length; i++) {
+            // target と一致したらインデックスを表示し、found = true にして break
+
+        }
+
+        if (!found) {
+            System.out.println(target + " は見つからなかった");
+        }
+    }
+}`}
+/>

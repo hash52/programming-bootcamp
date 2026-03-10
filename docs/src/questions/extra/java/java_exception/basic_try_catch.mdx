@@ -1,0 +1,68 @@
+---
+id: "extra/java/java_exception#basic_try_catch"
+title: "基本的なtry-catchで例外をキャッチする"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_exception"
+category: "extra/java"
+language: "java"
+hint: |
+  `try { ... } catch (例外型 e) { ... }` の構文で例外を捕捉できる。
+  `try` ブロック内で例外が発生すると、`catch` ブロックに処理が移る。
+  `e.getMessage()` で例外のメッセージを取得できる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          try {
+              int result = 10 / 0;
+              System.out.println("結果: " + result);
+          } catch (ArithmeticException e) {
+              System.out.println("例外が発生しました: " + e.getMessage());
+          }
+          System.out.println("プログラムを継続します");
+      }
+  }
+explanation: |
+  **例外とは**：プログラムの実行中に発生する予期しないエラー。例えば0除算、配列の範囲外アクセスなど。
+
+  **try-catchの役割**：例外が発生してもプログラムが強制終了しないように、エラーを「捕まえて」適切に処理する。
+
+  **`ArithmeticException`**：整数の0除算で発生する例外クラス。`e.getMessage()` で `"/ by zero"` というメッセージを取得できる。
+
+  **プログラムの継続**：`catch` ブロックで例外を処理した後、`catch` 以降の処理は通常通り続く。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+0除算を `try-catch` でキャッチし、例外メッセージを表示してプログラムを継続させよ。
+
+**出力**：
+```
+例外が発生しました: / by zero
+プログラムを継続します
+```
+
+**要件**：
+- `try` ブロック内で `10 / 0` を実行すること
+- `ArithmeticException` を `catch` すること
+- `catch` 後にプログラムが継続することを確認すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        try {
+            int result = 10 / 0;
+            System.out.println("結果: " + result);
+        } catch (ArithmeticException e) {
+            // 例外メッセージを表示してください
+
+        }
+        System.out.println("プログラムを継続します");
+    }
+}`}
+/>

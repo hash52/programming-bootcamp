@@ -1,0 +1,89 @@
+---
+id: "extra/java/java_exception#multi_catch"
+title: "複数の例外を個別にキャッチする"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_exception"
+category: "extra/java"
+language: "java"
+hint: |
+  `catch` ブロックを複数並べることで、例外の種類ごとに異なる処理ができる。
+  配列アクセスとinteger変換で発生する例外は種類が異なる。
+  複数の `catch` は上から順に評価される。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          String[] data = {"10", "abc", null, "30"};
+          int[] arr = {100, 200};
+
+          for (int i = 0; i < data.length; i++) {
+              try {
+                  int index = Integer.parseInt(data[i]);
+                  int value = arr[index];
+                  System.out.println("arr[" + index + "] = " + value);
+              } catch (NumberFormatException e) {
+                  System.out.println("数値変換失敗: " + data[i]);
+              } catch (ArrayIndexOutOfBoundsException e) {
+                  System.out.println("配列範囲外エラー: インデックス " + e.getMessage());
+              } catch (NullPointerException e) {
+                  System.out.println("nullが含まれていました");
+              }
+          }
+      }
+  }
+explanation: |
+  **複数のcatchブロック**：`try` ブロックに続けて複数の `catch` を書ける。
+  発生した例外の型と一致する最初の `catch` が実行される。
+
+  **例外の種類と発生原因**：
+  - `NumberFormatException`：`"abc"` を `parseInt` で変換しようとしたとき
+  - `ArrayIndexOutOfBoundsException`：`arr[10]` のように範囲外アクセスしたとき
+  - `NullPointerException`：`null` を `parseInt` に渡したとき
+
+  **`catch (Exception e)`**：全ての例外をまとめてキャッチできるが、種類ごとに適切に処理するのがベストプラクティス。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+複数の例外が発生しうる処理に対して、種類ごとに異なるメッセージを表示するプログラムを実装せよ。
+
+**出力**：
+```
+arr[10] = 100
+数値変換失敗: abc
+nullが含まれていました
+配列範囲外エラー: インデックス Index 30 out of bounds for length 2
+```
+
+**要件**：
+- `NumberFormatException`, `ArrayIndexOutOfBoundsException`, `NullPointerException` を個別にキャッチすること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        String[] data = {"10", "abc", null, "30"};
+        int[] arr = {100, 200};
+
+        for (int i = 0; i < data.length; i++) {
+            try {
+                int index = Integer.parseInt(data[i]);
+                int value = arr[index];
+                System.out.println("arr[" + index + "] = " + value);
+            } catch (NumberFormatException e) {
+                System.out.println("数値変換失敗: " + data[i]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                // 範囲外エラーのメッセージを表示してください
+
+            } catch (NullPointerException e) {
+                // null のメッセージを表示してください
+
+            }
+        }
+    }
+}`}
+/>

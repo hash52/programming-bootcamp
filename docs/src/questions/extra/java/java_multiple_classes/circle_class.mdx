@@ -1,0 +1,118 @@
+---
+id: "extra/java/java_multiple_classes#circle_class"
+title: "Circleクラスで面積・周囲・比較メソッドを実装する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_multiple_classes"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Circle` を定義し、`radius`（double）フィールドを持たせる。
+  `area()` → `Math.PI * radius * radius`
+  `circumference()` → `2 * Math.PI * radius`
+  `isLargerThan(Circle other)` → `this.radius > other.radius` で比較する。
+sampleAnswer: |
+  class Circle {
+      double radius;
+
+      double area() {
+          return Math.PI * radius * radius;
+      }
+
+      double circumference() {
+          return 2 * Math.PI * radius;
+      }
+
+      boolean isLargerThan(Circle other) {
+          return this.radius > other.radius;
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Circle c1 = new Circle();
+          c1.radius = 5.0;
+
+          Circle c2 = new Circle();
+          c2.radius = 3.0;
+
+          System.out.printf("円1（半径%.1f）: 面積=%.2f, 周囲=%.2f%n",
+              c1.radius, c1.area(), c1.circumference());
+          System.out.printf("円2（半径%.1f）: 面積=%.2f, 周囲=%.2f%n",
+              c2.radius, c2.area(), c2.circumference());
+
+          if (c1.isLargerThan(c2)) {
+              System.out.println("円1の方が大きい");
+          } else {
+              System.out.println("円2の方が大きい");
+          }
+      }
+  }
+explanation: |
+  **`this` キーワード**：`this.radius` は「このオブジェクト自身の `radius`」を意味する。
+  `isLargerThan(Circle other)` の中で `this.radius` と `other.radius` を比較することで、自分と相手の半径を区別できる。
+
+  **`Math.PI`**：`3.141592653589793` という定数。円の計算には必須。
+
+  **クラス同士の比較**：`isLargerThan` のように「別のインスタンスと自分を比べる」メソッドを作ることができる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Circle` クラスを定義し、面積・周囲長の計算と、2つの円の大小比較メソッドを実装せよ。
+
+**出力**：
+```
+円1（半径5.0）: 面積=78.54, 周囲=31.42
+円2（半径3.0）: 面積=28.27, 周囲=18.85
+円1の方が大きい
+```
+
+**要件**：
+- `double area()`, `double circumference()`, `boolean isLargerThan(Circle other)` を定義すること
+- `Math.PI` を使うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Circle {
+    double radius;
+
+    double area() {
+        return Math.PI * radius * radius;
+    }
+
+    double circumference() {
+        return 2 * Math.PI * radius;
+    }
+
+    boolean isLargerThan(Circle other) {
+        // this.radius と other.radius を比較してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Circle c1 = new Circle();
+        c1.radius = 5.0;
+
+        Circle c2 = new Circle();
+        c2.radius = 3.0;
+
+        System.out.printf("円1（半径%.1f）: 面積=%.2f, 周囲=%.2f%n",
+            c1.radius, c1.area(), c1.circumference());
+        System.out.printf("円2（半径%.1f）: 面積=%.2f, 周囲=%.2f%n",
+            c2.radius, c2.area(), c2.circumference());
+
+        if (c1.isLargerThan(c2)) {
+            System.out.println("円1の方が大きい");
+        } else {
+            System.out.println("円2の方が大きい");
+        }
+    }
+}`}
+/>

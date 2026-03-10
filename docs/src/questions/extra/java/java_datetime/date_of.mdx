@@ -1,0 +1,79 @@
+---
+id: "extra/java/java_datetime#date_of"
+title: "LocalDate.of()で特定の日付を作成して表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_datetime"
+category: "extra/java"
+language: "java"
+hint: |
+  `LocalDate.of(year, month, day)` で特定の日付を作成する。
+  `isBefore()`, `isAfter()`, `isEqual()` で日付を比較できる。
+  `getDayOfYear()` でその年の何日目かを取得できる。
+sampleAnswer: |
+  import java.time.LocalDate;
+
+  public class Main {
+      public static void main(String[] args) {
+          LocalDate birthday = LocalDate.of(2000, 1, 15);
+          LocalDate newYear = LocalDate.of(2026, 1, 1);
+          LocalDate today = LocalDate.now();
+
+          System.out.println("誕生日: " + birthday);
+          System.out.println("元日: " + newYear);
+          System.out.println("元日はtodayより前: " + newYear.isBefore(today));
+          System.out.println("誕生日の年: " + birthday.getYear());
+          System.out.println("誕生日はその年の第" + birthday.getDayOfYear() + "日");
+      }
+  }
+explanation: |
+  **`LocalDate.of(year, month, day)`**：年・月・日を指定して日付を作成する。存在しない日付（2月31日など）は `DateTimeException` がスローされる。
+
+  **日付の比較**：`isBefore()`, `isAfter()`, `isEqual()` で直感的に比較できる。`compareTo()` で数値比較も可能（負・0・正を返す）。
+
+  **`getDayOfYear()`**：1月1日が1、12月31日が365（うるう年は366）を返す。年の何日目かを計算する際に使う。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`LocalDate.of()` で特定の日付を2つ作成し、表示・比較・年の何日目かを出力するプログラムを作れ。
+
+**出力例**：
+```
+誕生日: 2000-01-15
+元日: 2026-01-01
+元日はtodayより前: true
+誕生日の年: 2000
+誕生日はその年の第15日
+```
+
+**要件**：
+- `LocalDate.of()` で少なくとも2つの日付を作成すること
+- `isBefore()` または `isAfter()` で日付を比較すること
+- `getDayOfYear()` を使うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.time.LocalDate;
+
+public class Main {
+    public static void main(String[] args) {
+        // LocalDate.of() で誕生日（2000年1月15日）と元日（2026年1月1日）を作成してください
+        LocalDate birthday = LocalDate.of(2000, 1, 15);
+        LocalDate newYear = LocalDate.of(2026, 1, 1);
+        LocalDate today = LocalDate.now();
+
+        System.out.println("誕生日: " + birthday);
+        System.out.println("元日: " + newYear);
+        // 元日が today より前かどうかを isBefore() で確認してください
+
+        System.out.println("誕生日の年: " + birthday.getYear());
+        // getDayOfYear() でその年の何日目かを表示してください
+
+    }
+}`}
+/>

@@ -1,0 +1,139 @@
+---
+id: "extra/java/java_inheritance#instanceof_check"
+title: "instanceofでオブジェクトの型を判定する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_inheritance"
+category: "extra/java"
+language: "java"
+hint: |
+  `obj instanceof ClassName` で `obj` が `ClassName` のインスタンス（またはそのサブクラス）かを `boolean` で返す。
+  `instanceof` で型を確認してからキャストする（`(ClassName) obj`）のが安全なパターン。
+  Java 16+ では `instanceof ClassName localVar` のパターンマッチングも使える。
+sampleAnswer: |
+  class Animal {
+      String name;
+
+      Animal(String name) {
+          this.name = name;
+      }
+  }
+
+  class Dog extends Animal {
+      String breed;
+
+      Dog(String name, String breed) {
+          super(name);
+          this.breed = breed;
+      }
+  }
+
+  class Cat extends Animal {
+      boolean isIndoor;
+
+      Cat(String name, boolean isIndoor) {
+          super(name);
+          this.isIndoor = isIndoor;
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Animal[] animals = {
+              new Dog("ポチ", "柴犬"),
+              new Cat("タマ", true),
+              new Dog("マックス", "ラブラドール"),
+              new Cat("ミケ", false)
+          };
+
+          for (Animal a : animals) {
+              System.out.print(a.name + ": ");
+              if (a instanceof Dog) {
+                  Dog d = (Dog) a;
+                  System.out.println("犬（" + d.breed + "）");
+              } else if (a instanceof Cat) {
+                  Cat c = (Cat) a;
+                  System.out.println("猫（" + (c.isIndoor ? "室内" : "外") + "）");
+              }
+          }
+      }
+  }
+explanation: |
+  **`instanceof`**：型チェックに使う演算子。`a instanceof Dog` は `a` が `Dog` のインスタンスなら `true`。
+
+  **キャスト**：`instanceof` で確認してから `(Dog) a` とキャストすることで、サブクラス固有のフィールドにアクセスできる。
+  確認なしでキャストすると `ClassCastException` が発生する可能性がある。
+
+  **ダウンキャスト**：親クラス型 → サブクラス型へのキャストをダウンキャストという。`instanceof` でチェックしてから行うのが安全。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Animal` 型の配列に `Dog` と `Cat` を混在させ、`instanceof` で型判定して固有情報を表示するプログラムを実装せよ。
+
+**出力**：
+```
+ポチ: 犬（柴犬）
+タマ: 猫（室内）
+マックス: 犬（ラブラドール）
+ミケ: 猫（外）
+```
+
+**要件**：
+- `instanceof` で型判定すること
+- キャストしてサブクラス固有のフィールドにアクセスすること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Animal {
+    String name;
+
+    Animal(String name) {
+        this.name = name;
+    }
+}
+
+class Dog extends Animal {
+    String breed;
+
+    Dog(String name, String breed) {
+        super(name);
+        this.breed = breed;
+    }
+}
+
+class Cat extends Animal {
+    boolean isIndoor;
+
+    Cat(String name, boolean isIndoor) {
+        super(name);
+        this.isIndoor = isIndoor;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal[] animals = {
+            new Dog("ポチ", "柴犬"),
+            new Cat("タマ", true),
+            new Dog("マックス", "ラブラドール"),
+            new Cat("ミケ", false)
+        };
+
+        for (Animal a : animals) {
+            System.out.print(a.name + ": ");
+            if (a instanceof Dog) {
+                Dog d = (Dog) a;
+                System.out.println("犬（" + d.breed + "）");
+            } else if (a instanceof Cat) {
+                // Cat にキャストして isIndoor を表示してください
+
+            }
+        }
+    }
+}`}
+/>

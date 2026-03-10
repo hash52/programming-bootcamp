@@ -1,0 +1,67 @@
+---
+id: "extra/java/java_operators#average_three"
+title: "3科目の平均点を計算する"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  合計は `math + english + science` で求められる。
+  平均は `合計 ÷ 3` だが、`int` 同士の割り算は小数が切り捨てられる。
+  `(double)(合計) / 3` のようにキャストして小数の平均を求めよう。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int math = 85, english = 72, science = 90;
+          int total = math + english + science;
+          double average = (double) total / 3;
+          System.out.println("数学: " + math);
+          System.out.println("英語: " + english);
+          System.out.println("理科: " + science);
+          System.out.println("合計: " + total);
+          System.out.println("平均: " + average);
+      }
+  }
+explanation: |
+  **合計**：3つの変数を `+` で加算する。`85 + 72 + 90 = 247`。
+
+  **平均（double）**：`(double) total / 3` で整数を double に変換してから割ることで `82.33...` が得られる。`total / 3` だけだと整数除算で `82` になってしまう。
+
+  **なぜ total を先にキャストするか**：`(double)(total / 3)` と書くと先に整数除算してしまうため正しい結果にならない。キャストは除算より前に行う必要がある。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+数学・英語・理科の3科目の点数から合計と平均点を計算して出力するプログラムを実装せよ。
+
+**出力**：
+```
+数学: 85
+英語: 72
+理科: 90
+合計: 247
+平均: 82.33333333333333
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int math = 85, english = 72, science = 90;
+
+        int total = 0;       // 3科目の合計を計算してください
+        double average = 0.0; // (double) キャストを使って平均を計算してください
+
+        System.out.println("数学: " + math);
+        System.out.println("英語: " + english);
+        System.out.println("理科: " + science);
+        System.out.println("合計: " + total);
+        System.out.println("平均: " + average);
+    }
+}`}
+/>

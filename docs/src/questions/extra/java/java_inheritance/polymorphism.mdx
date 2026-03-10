@@ -1,0 +1,191 @@
+---
+id: "extra/java/java_inheritance#polymorphism"
+title: "親クラス型の変数でサブクラスのメソッドを呼ぶ"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_inheritance"
+category: "extra/java"
+language: "java"
+hint: |
+  `Animal a = new Dog("ポチ");` のように親クラス型の変数でサブクラスのインスタンスを参照できる。
+  `a.speak()` を呼ぶと、実際のオブジェクトの型（`Dog`）のメソッドが実行される（動的ディスパッチ）。
+  これが「ポリモーフィズム」（多態性）。
+sampleAnswer: |
+  class Shape {
+      String color;
+
+      Shape(String color) {
+          this.color = color;
+      }
+
+      double area() {
+          return 0;
+      }
+
+      String describe() {
+          return color + "の図形（面積: " + String.format("%.2f", area()) + "）";
+      }
+  }
+
+  class Circle extends Shape {
+      double radius;
+
+      Circle(String color, double radius) {
+          super(color);
+          this.radius = radius;
+      }
+
+      @Override
+      double area() {
+          return Math.PI * radius * radius;
+      }
+  }
+
+  class Square extends Shape {
+      double side;
+
+      Square(String color, double side) {
+          super(color);
+          this.side = side;
+      }
+
+      @Override
+      double area() {
+          return side * side;
+      }
+  }
+
+  class Triangle extends Shape {
+      double base;
+      double height;
+
+      Triangle(String color, double base, double height) {
+          super(color);
+          this.base = base;
+          this.height = height;
+      }
+
+      @Override
+      double area() {
+          return base * height / 2;
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Shape[] shapes = {
+              new Circle("赤", 5.0),
+              new Square("青", 4.0),
+              new Triangle("緑", 6.0, 8.0)
+          };
+
+          for (Shape s : shapes) {
+              System.out.println(s.describe());
+          }
+      }
+  }
+explanation: |
+  **ポリモーフィズム（多態性）**：`Shape` 型の配列に異なる図形を入れて、同じ `s.describe()` を呼ぶと各図形に応じた結果が返る。
+
+  **動的ディスパッチ**：`s.area()` を呼んだとき、Javaは実行時に `s` が実際に指しているオブジェクトの型を確認し、そのクラスの `area()` を実行する。
+
+  **設計の柔軟性**：新しい図形クラスを追加しても、`for` ループのコードを変える必要がない。`Shape` を継承した新しいクラスを作るだけで自動的に対応できる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Shape` 型の配列に `Circle`, `Square`, `Triangle` を混在させ、ポリモーフィズムで面積を表示するプログラムを実装せよ。
+
+**出力**：
+```
+赤の図形（面積: 78.54）
+青の図形（面積: 16.00）
+緑の図形（面積: 24.00）
+```
+
+**要件**：
+- `Shape` 型の配列に異なる図形を入れること
+- 各サブクラスで `@Override double area()` を実装すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Shape {
+    String color;
+
+    Shape(String color) {
+        this.color = color;
+    }
+
+    double area() {
+        return 0;
+    }
+
+    String describe() {
+        return color + "の図形（面積: " + String.format("%.2f", area()) + "）";
+    }
+}
+
+class Circle extends Shape {
+    double radius;
+
+    Circle(String color, double radius) {
+        super(color);
+        this.radius = radius;
+    }
+
+    @Override
+    double area() {
+        return Math.PI * radius * radius;
+    }
+}
+
+class Square extends Shape {
+    double side;
+
+    Square(String color, double side) {
+        super(color);
+        this.side = side;
+    }
+
+    @Override
+    double area() {
+        // side * side を返してください
+
+    }
+}
+
+class Triangle extends Shape {
+    double base;
+    double height;
+
+    Triangle(String color, double base, double height) {
+        super(color);
+        this.base = base;
+        this.height = height;
+    }
+
+    @Override
+    double area() {
+        // base * height / 2 を返してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Shape[] shapes = {
+            new Circle("赤", 5.0),
+            new Square("青", 4.0),
+            new Triangle("緑", 6.0, 8.0)
+        };
+
+        for (Shape s : shapes) {
+            System.out.println(s.describe());
+        }
+    }
+}`}
+/>

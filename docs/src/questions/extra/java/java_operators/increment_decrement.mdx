@@ -1,0 +1,60 @@
+---
+id: "extra/java/java_operators#increment_decrement"
+title: "++/--演算子の動作を確認する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  `a++` はインクリメント（1を加算）、`a--` はデクリメント（1を減算）する演算子である。
+  `++` は `+= 1` と同じ意味だが、1ずつ変化させる場合により短く書ける。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int a = 5;
+          System.out.println("初期値: " + a);
+          a++;
+          System.out.println("a++ 後: " + a);
+          a++;
+          System.out.println("a++ 後: " + a);
+          a--;
+          System.out.println("a-- 後: " + a);
+      }
+  }
+explanation: |
+  **`++`（インクリメント）**：変数の値を1増やす演算子。`a++` は `a = a + 1` と同じ意味である。
+
+  **`--`（デクリメント）**：変数の値を1減らす演算子。`a--` は `a = a - 1` と同じ意味である。
+
+  **使い道**：ループのカウンタ変数（`i++`）や、個数を1ずつ増やす処理でよく使われる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `a = 5` から始めて、`++` と `--` を使って値を変化させ、各ステップの値を出力するプログラムを実装せよ。
+
+**出力**：
+```
+初期値: 5
+a++ 後: 6
+a++ 後: 7
+a-- 後: 6
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int a = 5;
+        System.out.println("初期値: " + a);
+
+        // a を ++ で増やして表示してください（2回）
+        // a を -- で減らして表示してください（1回）
+    }
+}`}
+/>

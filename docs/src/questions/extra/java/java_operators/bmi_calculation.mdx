@@ -1,0 +1,59 @@
+---
+id: "extra/java/java_operators#bmi_calculation"
+title: "BMIを計算して表示する"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  BMIの計算式は `体重(kg) ÷ 身長(m)²` である。
+  `height * height` で身長の2乗が得られる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          double weight = 65.0;
+          double height = 1.70;
+          double bmi = weight / (height * height);
+          System.out.println("体重: " + weight + "kg");
+          System.out.println("身長: " + height + "m");
+          System.out.println("BMI: " + bmi);
+      }
+  }
+explanation: |
+  **BMI（体格指数）**：`体重(kg) ÷ 身長(m)²` で計算する。18.5未満が低体重、18.5〜25未満が標準、25以上が肥満の目安である。
+
+  **括弧の必要性**：`weight / height * height` と書くと `(weight / height) * height = weight` になってしまう。`(height * height)` の括弧が必要である。
+
+  **小数の精度**：`double` の計算結果は `22.491...` のような長い小数になることがある。これはコンピュータの浮動小数点表現の特性である。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+体重 `weight = 65.0`(kg)、身長 `height = 1.70`(m) からBMIを計算して出力するプログラムを実装せよ。
+
+**出力**：
+```
+体重: 65.0kg
+身長: 1.7m
+BMI: 22.49134948096886
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        double weight = 65.0;
+        double height = 1.70;
+        double bmi = 0.0; // weight / (height * height) を代入してください
+
+        System.out.println("体重: " + weight + "kg");
+        System.out.println("身長: " + height + "m");
+        System.out.println("BMI: " + bmi);
+    }
+}`}
+/>

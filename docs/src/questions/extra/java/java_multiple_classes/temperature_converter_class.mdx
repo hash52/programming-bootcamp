@@ -1,0 +1,94 @@
+---
+id: "extra/java/java_multiple_classes#temperature_converter_class"
+title: "TemperatureConverterクラスで変換処理を分離する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_multiple_classes"
+category: "extra/java"
+language: "java"
+hint: |
+  `class TemperatureConverter` に変換メソッドを定義し、`main` から呼び出す。
+  変換のロジックをクラスに分離することで、`main` はデータを渡すだけでよくなる。
+  摂氏→華氏：`C * 9.0 / 5.0 + 32`、摂氏→ケルビン：`C + 273.15`
+sampleAnswer: |
+  class TemperatureConverter {
+      double celsiusToFahrenheit(double celsius) {
+          return celsius * 9.0 / 5.0 + 32;
+      }
+
+      double celsiusToKelvin(double celsius) {
+          return celsius + 273.15;
+      }
+
+      void showAll(double celsius) {
+          System.out.printf("摂氏 %.1f°C → 華氏 %.1f°F, ケルビン %.2fK%n",
+              celsius, celsiusToFahrenheit(celsius), celsiusToKelvin(celsius));
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          TemperatureConverter converter = new TemperatureConverter();
+          double[] temps = {0, 20, 37, 100};
+          for (double t : temps) {
+              converter.showAll(t);
+          }
+      }
+  }
+explanation: |
+  **クラスへの責務分離**：変換ロジックを `TemperatureConverter` に集約することで、`main` はシンプルになる。
+  「どう変換するか」を知っているのは `TemperatureConverter` だけでよい。
+
+  **メソッドの組み合わせ**：`showAll` が `celsiusToFahrenheit` と `celsiusToKelvin` を内部で呼ぶ。
+  クラス内のメソッド同士を呼び合うことができる。
+
+  **`printf` の活用**：`%.1f` で小数点以下1桁、`%.2f` で2桁に揃えられる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+温度変換のロジックを `TemperatureConverter` クラスにまとめ、摂氏・華氏・ケルビンを表示せよ。
+
+**出力**：
+```
+摂氏 0.0°C → 華氏 32.0°F, ケルビン 273.15K
+摂氏 20.0°C → 華氏 68.0°F, ケルビン 293.15K
+摂氏 37.0°C → 華氏 98.6°F, ケルビン 310.15K
+摂氏 100.0°C → 華氏 212.0°F, ケルビン 373.15K
+```
+
+**要件**：
+- `TemperatureConverter` クラスに変換メソッドを定義すること
+- 摂氏→ケルビン：`C + 273.15`
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class TemperatureConverter {
+    double celsiusToFahrenheit(double celsius) {
+
+    }
+
+    double celsiusToKelvin(double celsius) {
+
+    }
+
+    void showAll(double celsius) {
+        System.out.printf("摂氏 %.1f°C → 華氏 %.1f°F, ケルビン %.2fK%n",
+            celsius, celsiusToFahrenheit(celsius), celsiusToKelvin(celsius));
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        TemperatureConverter converter = new TemperatureConverter();
+        double[] temps = {0, 20, 37, 100};
+        for (double t : temps) {
+            converter.showAll(t);
+        }
+    }
+}`}
+/>

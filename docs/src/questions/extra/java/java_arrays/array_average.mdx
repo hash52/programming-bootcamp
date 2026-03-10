@@ -1,0 +1,75 @@
+---
+id: "extra/java/java_arrays#array_average"
+title: "配列の平均値を求める"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_arrays"
+category: "extra/java"
+language: "java"
+hint: |
+  合計を求めてから要素数で割る。
+  整数同士の割り算では小数が切り捨てられるため、`(double) sum / scores.length` のように
+  `double` にキャストしてから割り算すること。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int[] scores = {70, 85, 60, 90, 75};
+          int sum = 0;
+
+          for (int score : scores) {
+              sum += score;
+          }
+
+          double average = (double) sum / scores.length;
+          System.out.println("合計: " + sum);
+          System.out.println("平均: " + average);
+      }
+  }
+explanation: |
+  **整数除算の落とし穴**：`int / int` の結果は `int` になり小数点以下が切り捨てられる。
+  例えば `76 / 5` は `15` になってしまう。`(double) 76 / 5` で `15.2` が得られる。
+
+  **`.length` を活用**：要素数をハードコードせず `scores.length` を使うことで、配列のサイズが変わっても正しく動く。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+次の配列 `scores` の合計と平均値を求めて表示するプログラムを実装せよ。
+
+```java
+int[] scores = {70, 85, 60, 90, 75};
+```
+
+**出力**：
+```
+合計: 380
+平均: 76.0
+```
+
+**要件**：
+- 平均は小数で表示すること（`double` 型を使う）
+- 整数除算に注意すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int[] scores = {70, 85, 60, 90, 75};
+        int sum = 0;
+
+        for (int score : scores) {
+            sum += score;
+        }
+
+        // double にキャストして平均を計算してください
+        double average = 0;
+
+        System.out.println("合計: " + sum);
+        System.out.println("平均: " + average);
+    }
+}`}
+/>

@@ -1,0 +1,61 @@
+---
+id: "extra/java/java_methods#add_method"
+title: "2つの整数の和を返すメソッド"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_methods"
+category: "extra/java"
+language: "java"
+hint: |
+  `static int add(int a, int b)` のようにメソッドを定義する。
+  メソッド内で `return a + b;` とすることで合計を返せる。
+sampleAnswer: |
+  public class Main {
+      static int add(int a, int b) {
+          return a + b;
+      }
+
+      public static void main(String[] args) {
+          System.out.println("3 + 5 = " + add(3, 5));
+          System.out.println("10 + 20 = " + add(10, 20));
+          System.out.println("-4 + 7 = " + add(-4, 7));
+      }
+  }
+explanation: |
+  **引数が複数のメソッド**：`(int a, int b)` のようにカンマ区切りで複数の引数を受け取れる。
+
+  **戻り値の型**：`int add(int a, int b)` の先頭の `int` が戻り値の型。
+  `return a + b;` の結果が `int` なのでこれが戻り値型になる。
+
+  **メソッド呼び出しと文字列連結**：`"結果: " + add(3, 5)` のように、メソッドの戻り値を直接文字列連結に使える。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+2つの整数 `a` と `b` を受け取り、その和を返す `add` メソッドを実装せよ。
+
+**出力**：
+```
+3 + 5 = 8
+10 + 20 = 30
+-4 + 7 = 3
+```
+
+**要件**：
+- `static int add(int a, int b)` というシグネチャでメソッドを定義すること
+- `main` から3種類の引数で呼び出すこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        System.out.println("3 + 5 = " + add(3, 5));
+        System.out.println("10 + 20 = " + add(10, 20));
+        System.out.println("-4 + 7 = " + add(-4, 7));
+    }
+}`}
+/>

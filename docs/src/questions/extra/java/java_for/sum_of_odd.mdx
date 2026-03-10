@@ -1,0 +1,56 @@
+---
+id: "extra/java/java_for#sum_of_odd"
+title: "1〜Nの奇数の合計を求める"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  方法①：ループで `i += 2` として奇数だけをカウントする（1, 3, 5, ...）。
+  方法②：ループで全数を回し、`i % 2 != 0` のときだけ合計に加える。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 10;
+          int sum = 0;
+          for (int i = 1; i <= n; i += 2) {
+              sum += i;
+          }
+          System.out.println("1〜" + n + "の奇数の合計: " + sum);
+      }
+  }
+explanation: |
+  **奇数のみを足す**：`i = 1` から始め `i += 2` でループすると 1, 3, 5, 7, 9 と奇数だけを処理できる。
+
+  **別解（if文を使う）**：`for (int i = 1; i <= n; i++)` でループし、`if (i % 2 != 0) sum += i;` と書いても同じ結果になる。
+
+  **検算**：1+3+5+7+9 = 25。n個の奇数の和は `(n/2)²`（nが偶数のとき）で確認できる。`10/2 = 5` の2乗 = 25 ✓
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+1以上 `n` 以下の奇数をすべて合計して出力するプログラムを実装せよ。
+
+**出力**（`n = 10` のとき）：
+```
+1〜10の奇数の合計: 25
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 10;
+        int sum = 0;
+
+        // 1 から n までの奇数だけを sum に加算してください
+
+        System.out.println("1〜" + n + "の奇数の合計: " + sum);
+    }
+}`}
+/>

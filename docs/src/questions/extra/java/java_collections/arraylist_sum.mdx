@@ -1,0 +1,93 @@
+---
+id: "extra/java/java_collections#arraylist_sum"
+title: "ArrayListの数値要素の合計を求める"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_collections"
+category: "extra/java"
+language: "java"
+hint: |
+  `ArrayList<Integer>` で整数を管理する。
+  for-each で各要素を合計変数に加算していく。
+  最大値も同様にループで求めることができる。
+sampleAnswer: |
+  import java.util.ArrayList;
+
+  public class Main {
+      public static void main(String[] args) {
+          ArrayList<Integer> numbers = new ArrayList<>();
+          numbers.add(10);
+          numbers.add(25);
+          numbers.add(8);
+          numbers.add(43);
+          numbers.add(17);
+
+          int sum = 0;
+          int max = numbers.get(0);
+
+          for (int n : numbers) {
+              sum += n;
+              if (n > max) max = n;
+          }
+
+          System.out.println("合計: " + sum);
+          System.out.println("最大値: " + max);
+          System.out.println("平均: " + (double) sum / numbers.size());
+      }
+  }
+explanation: |
+  **`ArrayList<Integer>` と int**：ジェネリクスにはプリミティブ型（`int`）を使えない。ラッパー型 `Integer` を使う。
+  for-each で `int n` と書けるのは、自動アンボクシング（`Integer` → `int` の自動変換）のおかげ。
+
+  **初期値の設定**：最大値の初期値は `numbers.get(0)` にすることで、配列が全負数でも正しく動作する。`0` を初期値にすると負の数が最大の場合に誤る。
+
+  **平均の計算**：`sum / numbers.size()` だけでは整数除算になる。`(double) sum` でキャストしてから割る。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`ArrayList<Integer>` に5つの整数を追加し、合計・最大値・平均を計算して表示するプログラムを作れ。
+
+**出力**：
+```
+合計: 103
+最大値: 43
+平均: 20.6
+```
+
+**要件**：
+- `ArrayList<Integer>` を使うこと
+- for-each で合計と最大値を求めること
+- 平均を小数で表示すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<Integer> numbers = new ArrayList<>();
+        numbers.add(10);
+        numbers.add(25);
+        numbers.add(8);
+        numbers.add(43);
+        numbers.add(17);
+
+        int sum = 0;
+        int max = numbers.get(0);
+
+        for (int n : numbers) {
+            // 合計と最大値を求めてください
+
+        }
+
+        System.out.println("合計: " + sum);
+        System.out.println("最大値: " + max);
+        System.out.println("平均: " + (double) sum / numbers.size());
+    }
+}`}
+/>

@@ -1,0 +1,62 @@
+---
+id: "extra/java/java_if#right_triangle"
+title: "直角三角形かどうかを判定する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  ピタゴラスの定理：直角三角形では、最長辺を c とすると `a² + b² = c²` が成立する。
+  3辺のうちどれが最長辺かわからない場合、3パターン（aが最長・bが最長・cが最長）をすべて `||` で判定するとよい。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int a = 3, b = 4, c = 5;
+          if (a * a + b * b == c * c
+                  || a * a + c * c == b * b
+                  || b * b + c * c == a * a) {
+              System.out.println("直角三角形です");
+          } else {
+              System.out.println("直角三角形ではありません");
+          }
+      }
+  }
+explanation: |
+  **ピタゴラスの定理**：直角三角形の3辺を a, b, c（c が斜辺）とすると `a² + b² = c²` が成立する。`3² + 4² = 9 + 16 = 25 = 5²`。
+
+  **どの辺が斜辺かわからない場合**：3パターンを `||`（論理和）でまとめて書く。どれか一つが成立すれば直角三角形である。
+
+  **`||` の意味**：「または」。`cond1 || cond2 || cond3` は3つのうち少なくとも1つが `true` であれば全体が `true` になる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+3辺の長さ `a`・`b`・`c` が直角三角形を構成するかどうかを、ピタゴラスの定理で判定するプログラムを実装せよ。
+
+**出力**（`a = 3, b = 4, c = 5` のとき）：
+```
+直角三角形です
+```
+
+**出力**（`a = 3, b = 4, c = 6` のとき）：
+```
+直角三角形ではありません
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int a = 3, b = 4, c = 5;
+
+        // ピタゴラスの定理を使って直角三角形かどうかを判定してください
+        // ヒント: a*a + b*b == c*c || a*a + c*c == b*b || b*b + c*c == a*a
+
+    }
+}`}
+/>

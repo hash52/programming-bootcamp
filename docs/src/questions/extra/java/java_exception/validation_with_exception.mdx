@@ -1,0 +1,101 @@
+---
+id: "extra/java/java_exception#validation_with_exception"
+title: "入力値検証に独自例外を使う"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_exception"
+category: "extra/java"
+language: "java"
+hint: |
+  独自例外 `ValidationException extends Exception` を定義する。
+  `validateScore(int score)` メソッドで0未満または100超のとき `throw new ValidationException(...)` する。
+  `main` でいくつかのスコアを検証し、有効なものと無効なものを表示する。
+sampleAnswer: |
+  class ValidationException extends Exception {
+      ValidationException(String message) {
+          super(message);
+      }
+  }
+
+  public class Main {
+      static void validateScore(int score) throws ValidationException {
+          if (score < 0 || score > 100) {
+              throw new ValidationException("スコアは0〜100でなければなりません: " + score);
+          }
+          System.out.println("有効なスコア: " + score);
+      }
+
+      public static void main(String[] args) {
+          int[] scores = {85, -10, 100, 150, 0, 73};
+
+          for (int score : scores) {
+              try {
+                  validateScore(score);
+              } catch (ValidationException e) {
+                  System.out.println("検証エラー: " + e.getMessage());
+              }
+          }
+      }
+  }
+explanation: |
+  **独自例外によるバリデーション**：ビジネスルールの違反を独自例外で表現することで、エラーの意味を明確にできる。
+
+  **例外クラスの再利用**：`ValidationException` は汎用的な検証エラーとして複数のメソッドで使える。
+
+  **例外設計のポイント**：例外名はその状況を明確に表す名前にする。
+  `ValidationException`, `InsufficientFundsException`, `InvalidInputException` など。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+スコアの検証に独自例外 `ValidationException` を使い、0〜100の範囲外のスコアを検出するプログラムを実装せよ。
+
+**出力**：
+```
+有効なスコア: 85
+検証エラー: スコアは0〜100でなければなりません: -10
+有効なスコア: 100
+検証エラー: スコアは0〜100でなければなりません: 150
+有効なスコア: 0
+有効なスコア: 73
+```
+
+**要件**：
+- `ValidationException extends Exception` を定義すること
+- `validateScore` メソッドが `throws ValidationException` を宣言すること
+- `main` で複数のスコアを検証すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class ValidationException extends Exception {
+    ValidationException(String message) {
+        super(message);
+    }
+}
+
+public class Main {
+    static void validateScore(int score) throws ValidationException {
+        if (score < 0 || score > 100) {
+            // ValidationException をスローしてください
+
+        }
+        System.out.println("有効なスコア: " + score);
+    }
+
+    public static void main(String[] args) {
+        int[] scores = {85, -10, 100, 150, 0, 73};
+
+        for (int score : scores) {
+            try {
+                validateScore(score);
+            } catch (ValidationException e) {
+                System.out.println("検証エラー: " + e.getMessage());
+            }
+        }
+    }
+}`}
+/>

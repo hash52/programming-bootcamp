@@ -1,0 +1,76 @@
+---
+id: "extra/java/java_datetime#date_format"
+title: "DateTimeFormatterで日付を指定フォーマットで表示する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_datetime"
+category: "extra/java"
+language: "java"
+hint: |
+  `DateTimeFormatter.ofPattern("yyyy年MM月dd日")` でフォーマットを作成する。
+  `date.format(formatter)` で日付を文字列に変換する。
+  パターン：`yyyy`（4桁年）、`MM`（2桁月）、`dd`（2桁日）、`E`（曜日）。
+sampleAnswer: |
+  import java.time.LocalDate;
+  import java.time.format.DateTimeFormatter;
+
+  public class Main {
+      public static void main(String[] args) {
+          LocalDate date = LocalDate.of(2026, 3, 15);
+
+          DateTimeFormatter fmt1 = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
+          DateTimeFormatter fmt2 = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+          DateTimeFormatter fmt3 = DateTimeFormatter.ofPattern("MM-dd (E)");
+
+          System.out.println(date.format(fmt1));
+          System.out.println(date.format(fmt2));
+          System.out.println(date.format(fmt3));
+      }
+  }
+explanation: |
+  **`DateTimeFormatter.ofPattern()`**：文字列パターンでフォーマットを定義する。`y`（年）、`M`（月）、`d`（日）、`E`（曜日）、`H`（時）、`m`（分）などが使える。
+
+  **`format()` と `parse()`**：`date.format(formatter)` で日付→文字列に変換。逆に `LocalDate.parse("2026-03-15", formatter)` で文字列→日付に変換できる。
+
+  **2桁ゼロ埋め**：`MM`（2桁月）にすると 3月が "03" になる。`M`（1桁）では "3" になる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`DateTimeFormatter` を使って同じ日付を3種類のフォーマットで表示するプログラムを作れ。
+
+**出力**：
+```
+2026年03月15日
+2026/03/15
+03-15 (日)
+```
+
+**要件**：
+- `DateTimeFormatter.ofPattern()` でフォーマットを作成すること
+- `date.format(formatter)` で文字列に変換すること
+- `yyyy年MM月dd日` / `yyyy/MM/dd` / `MM-dd (E)` の3形式を使うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class Main {
+    public static void main(String[] args) {
+        LocalDate date = LocalDate.of(2026, 3, 15);
+
+        // DateTimeFormatter.ofPattern() で3種類のフォーマットを作成してください
+        DateTimeFormatter fmt1 = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
+        DateTimeFormatter fmt2 = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter fmt3 = DateTimeFormatter.ofPattern("MM-dd (E)");
+
+        // 各フォーマットで date を変換して表示してください
+
+    }
+}`}
+/>

@@ -1,0 +1,124 @@
+---
+id: "extra/java/java_collections#todo_list_collections"
+title: "ArrayListとHashMapを使ったToDoリストを実装する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_collections"
+category: "extra/java"
+language: "java"
+hint: |
+  `HashMap<String, Boolean>` でタスク名→完了フラグを管理する。
+  `ArrayList<String>` で追加順序を保持する（HashMap は順序を保証しないため）。
+  完了・未完了でフィルタリングして表示する。
+sampleAnswer: |
+  import java.util.ArrayList;
+  import java.util.HashMap;
+
+  public class Main {
+      static ArrayList<String> taskOrder = new ArrayList<>();
+      static HashMap<String, Boolean> tasks = new HashMap<>();
+
+      public static void main(String[] args) {
+          addTask("資料作成");
+          addTask("メール送信");
+          addTask("会議準備");
+          addTask("コードレビュー");
+
+          complete("メール送信");
+          complete("会議準備");
+
+          printAll();
+      }
+
+      static void addTask(String name) {
+          taskOrder.add(name);
+          tasks.put(name, false);
+      }
+
+      static void complete(String name) {
+          if (tasks.containsKey(name)) {
+              tasks.put(name, true);
+              System.out.println("完了: " + name);
+          }
+      }
+
+      static void printAll() {
+          System.out.println("\n=== ToDo一覧 ===");
+          for (String name : taskOrder) {
+              String status = tasks.get(name) ? "[完了]" : "[未完]";
+              System.out.println(status + " " + name);
+          }
+      }
+  }
+explanation: |
+  **ArrayList と HashMap の組み合わせ**：`ArrayList` で挿入順を保持し、`HashMap` でタスクの状態（完了/未完）を管理する。
+  2つのコレクションを組み合わせて、それぞれの長所を活かす設計。
+
+  **staticフィールドとstaticメソッド**：`main` と補助メソッドが同じクラス内でデータを共有するため、staticフィールドに格納する。
+
+  **`Boolean` → 三項演算子**：`tasks.get(name) ? "[完了]" : "[未完]"` で完了状態を文字列に変換する。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`ArrayList` と `HashMap` を組み合わせたToDoリストを実装し、タスクの追加・完了・一覧表示を行うプログラムを作れ。
+
+**出力**：
+```
+完了: メール送信
+完了: 会議準備
+
+=== ToDo一覧 ===
+[未完] 資料作成
+[完了] メール送信
+[完了] 会議準備
+[未完] コードレビュー
+```
+
+**要件**：
+- `ArrayList<String>` で追加順序を保持すること
+- `HashMap<String, Boolean>` でタスクの完了状態を管理すること
+- `addTask()`, `complete()`, `printAll()` をそれぞれ static メソッドとして実装すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Main {
+    static ArrayList<String> taskOrder = new ArrayList<>();
+    static HashMap<String, Boolean> tasks = new HashMap<>();
+
+    public static void main(String[] args) {
+        addTask("資料作成");
+        addTask("メール送信");
+        addTask("会議準備");
+        addTask("コードレビュー");
+
+        complete("メール送信");
+        complete("会議準備");
+
+        printAll();
+    }
+
+    static void addTask(String name) {
+        // taskOrder と tasks にタスクを追加してください
+
+    }
+
+    static void complete(String name) {
+        // tasks を更新してタスクを完了状態にし、"完了: name" を表示してください
+
+    }
+
+    static void printAll() {
+        System.out.println("\\n=== ToDo一覧 ===");
+        // taskOrder の順で各タスクの状態を表示してください
+
+    }
+}`}
+/>

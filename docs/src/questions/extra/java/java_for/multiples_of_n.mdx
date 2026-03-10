@@ -1,0 +1,56 @@
+---
+id: "extra/java/java_for#multiples_of_n"
+title: "100以下のNの倍数をすべて表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  方法①：`for (int i = n; i <= 100; i += n)` でnずつ増やしながら表示する。
+  方法②：1〜100をループして `i % n == 0` の条件で表示する。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 7;
+          System.out.print("100以下の" + n + "の倍数: ");
+          for (int i = n; i <= 100; i += n) {
+              System.out.print(i + " ");
+          }
+          System.out.println();
+      }
+  }
+explanation: |
+  **`i += n` でnずつ増加**：`i = n` から始め `i += n` でループすると、n, 2n, 3n, ... と倍数だけを処理できる。`i += 2` で偶数を処理するのと同じ発想である。
+
+  **`System.out.print` で横並び表示**：各数を改行せずに表示し、ループ終了後に `println()` で改行する。
+
+  **7の倍数**：7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91, 98（100以下）。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+100以下の `n` の倍数をすべて横に並べて表示するプログラムを実装せよ。
+
+**出力**（`n = 7` のとき）：
+```
+100以下の7の倍数: 7 14 21 28 35 42 49 56 63 70 77 84 91 98 
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 7;
+        System.out.print("100以下の" + n + "の倍数: ");
+
+        // n の倍数を 100 以下まで順に表示してください
+
+        System.out.println();
+    }
+}`}
+/>

@@ -1,0 +1,73 @@
+---
+id: "extra/java/java_if#ticket_price"
+title: "年齢区分によってチケット代を表示する"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  年齢の区分を `if-else if-else` で判定する。
+  小学生未満（6歳未満）・子ども（13歳未満）・シニア（65歳以上）・大人（それ以外）の順で考えてみよう。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int age = 12;
+          int price;
+          if (age < 6) {
+              price = 0;
+          } else if (age < 13) {
+              price = 600;
+          } else if (age >= 65) {
+              price = 800;
+          } else {
+              price = 1200;
+          }
+          System.out.println("年齢: " + age + "歳");
+          System.out.println("チケット代: " + price + "円");
+      }
+  }
+explanation: |
+  **複数区分の判定**：年齢のように連続する値を複数の区分に分けるときは `if-else if` を使う。
+
+  **条件の順序**：`age < 6`（幼児）→ `age < 13`（子ども）→ `age >= 65`（シニア）→ `else`（大人）の順で判定する。どの区分にも当てはまらない場合が `else` で処理される。
+
+  **`age = 12` の場合**：`age < 6` は偽 → `age < 13`（= `12 < 13`）は真 → `price = 600` で確定。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+年齢 `age` に応じてチケット代を判定して出力するプログラムを実装せよ。
+
+| 区分 | 条件 | 価格 |
+|------|------|------|
+| 幼児 | 6歳未満 | 0円 |
+| 子ども | 13歳未満 | 600円 |
+| 大人 | 65歳未満 | 1200円 |
+| シニア | 65歳以上 | 800円 |
+
+**実行例**（`age = 12` のとき）：
+```
+年齢: 12歳
+チケット代: 600円
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int age = 12;
+        int price;
+
+        // 年齢区分によって price を設定してください
+        price = 0;
+
+        System.out.println("年齢: " + age + "歳");
+        System.out.println("チケット代: " + price + "円");
+    }
+}`}
+/>

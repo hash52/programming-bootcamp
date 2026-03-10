@@ -1,0 +1,70 @@
+---
+id: "extra/java/java_if#body_temperature"
+title: "体温から状態を判定する"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  体温の区分を高い方から順に判定する。
+  `temp >= 38.5` → 高熱、`temp >= 37.5` → 発熱、`temp >= 37.0` → 微熱、それ以外 → 平熱。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          double temp = 37.8;
+          String status;
+          if (temp >= 38.5) {
+              status = "高熱";
+          } else if (temp >= 37.5) {
+              status = "発熱";
+          } else if (temp >= 37.0) {
+              status = "微熱";
+          } else {
+              status = "平熱";
+          }
+          System.out.println("体温: " + temp + "℃ → " + status);
+      }
+  }
+explanation: |
+  **double の比較**：`double` 型の変数も `>=`・`<` などで比較できる。体温のように小数点以下が重要な場合は `double` を使う。
+
+  **上から判定する理由**：`temp >= 37.5` を先に書くと、38.5℃が「発熱」として処理されてしまう。高い閾値から書くことで正しく分類できる。
+
+  **`String` への代入**：判定結果を `String` 型変数に入れて最後にまとめて出力する書き方は、コードをすっきりさせるテクニックである。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+体温 `temp` から状態を判定して出力するプログラムを実装せよ。
+
+| 体温 | 状態 |
+|------|------|
+| 38.5℃以上 | 高熱 |
+| 37.5℃以上 | 発熱 |
+| 37.0℃以上 | 微熱 |
+| 37.0℃未満 | 平熱 |
+
+**実行例**（`temp = 37.8` のとき）：
+```
+体温: 37.8℃ → 発熱
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        double temp = 37.8;
+        String status;
+
+        // 体温の区分を判定して status に代入してください
+        status = "平熱";
+
+        System.out.println("体温: " + temp + "℃ → " + status);
+    }
+}`}
+/>

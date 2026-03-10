@@ -1,0 +1,64 @@
+---
+id: "extra/java/java_for#fibonacci"
+title: "フィボナッチ数列を表示する"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  前の2つの数を足して次の数を作る。`a` と `b` の2変数を使い、毎回更新する。
+  手順：① `next = a + b` ② `a = b` ③ `b = next`
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 10;
+          int a = 0, b = 1;
+          System.out.print(a + " " + b);
+          for (int i = 2; i < n; i++) {
+              int next = a + b;
+              a = b;
+              b = next;
+              System.out.print(" " + next);
+          }
+          System.out.println();
+      }
+  }
+explanation: |
+  **フィボナッチ数列**：0, 1, 1, 2, 3, 5, 8, 13, 21, 34, ...。前の2項の和が次の項になる数列。
+
+  **2変数の更新**：`a` と `b` に直前の2つの値を保持する。次の値 `next = a + b` を計算したら、`a = b`・`b = next` で1つずつずらす。変数のスワップと同じパターンである。
+
+  **出力形式**：最初の2項 `0 1` を先に出力し、ループで3項目以降を追加する。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+フィボナッチ数列の最初の `n = 10` 項を空白区切りで表示するプログラムを実装せよ。
+
+**出力**：
+```
+0 1 1 2 3 5 8 13 21 34
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 10;
+        int a = 0, b = 1;
+        System.out.print(a + " " + b);
+
+        for (int i = 2; i < n; i++) {
+            int next = 0; // a + b を代入してください
+            // a と b を更新してください（a = b, b = next）
+            System.out.print(" " + next);
+        }
+        System.out.println();
+    }
+}`}
+/>

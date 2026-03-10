@@ -1,0 +1,75 @@
+---
+id: "extra/java/java_for#minimum_from_input"
+title: "5個の入力から最小値を求める"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  最初の入力を最小値の初期値として設定し、2個目以降の入力と比較して更新する。
+  `if (val < min) min = val;` のパターンを使う。
+sampleAnswer: |
+  import java.util.Scanner;
+
+  public class Main {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+          System.out.print("1個目: ");
+          int min = scanner.nextInt();
+          for (int i = 2; i <= 5; i++) {
+              System.out.print(i + "個目: ");
+              int val = scanner.nextInt();
+              if (val < min) {
+                  min = val;
+              }
+          }
+          System.out.println("最小値: " + min);
+      }
+  }
+explanation: |
+  **最小値の求め方**：最初の入力を暫定最小値として `min` に入れ、残りの入力と比較して更新する。
+
+  **なぜ最初の入力を初期値にするか**：「最初の入力が最小値とは限らない」が、少なくとも「5つの中の何か」は確実に入っている。`Integer.MAX_VALUE` などの大きな数を初期値にする方法もあるが、最初の入力を使うとシンプルになる。
+
+  **`if (val < min)` の動作**：新しい入力 `val` が現在の最小値 `min` より小さければ `min` を更新する。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+5個の整数をキーボードから入力し、その中の最小値を求めて出力するプログラムを実装せよ。
+
+**実行例**（3, 7, 1, 9, 4 を入力したとき）：
+```
+1個目: 3
+2個目: 7
+3個目: 1
+4個目: 9
+5個目: 4
+最小値: 1
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("1個目: ");
+        int min = scanner.nextInt(); // 最初の入力を最小値の初期値とする
+
+        for (int i = 2; i <= 5; i++) {
+            System.out.print(i + "個目: ");
+            int val = scanner.nextInt();
+            // val が min より小さければ min を更新してください
+        }
+
+        System.out.println("最小値: " + min);
+    }
+}`}
+/>

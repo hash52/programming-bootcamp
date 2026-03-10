@@ -1,0 +1,123 @@
+---
+id: "extra/java/java_constructors#default_constructor"
+title: "デフォルトコンストラクタと引数ありコンストラクタを比べる"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_constructors"
+category: "extra/java"
+language: "java"
+hint: |
+  引数なしのコンストラクタ（デフォルトコンストラクタ）はフィールドをデフォルト値で初期化する。
+  両方定義することでオーバーロードになる。
+  `new Box()` はデフォルト、`new Box(10, 5, 3)` は引数あり。
+sampleAnswer: |
+  class Box {
+      int width;
+      int height;
+      int depth;
+
+      // デフォルトコンストラクタ
+      Box() {
+          width = 1;
+          height = 1;
+          depth = 1;
+      }
+
+      // 引数ありコンストラクタ
+      Box(int width, int height, int depth) {
+          this.width = width;
+          this.height = height;
+          this.depth = depth;
+      }
+
+      int volume() {
+          return width * height * depth;
+      }
+
+      void describe() {
+          System.out.println("Box(" + width + "×" + height + "×" + depth + ") 体積=" + volume());
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Box defaultBox = new Box();
+          Box customBox = new Box(10, 5, 3);
+
+          System.out.println("デフォルトコンストラクタ:");
+          defaultBox.describe();
+
+          System.out.println("引数ありコンストラクタ:");
+          customBox.describe();
+      }
+  }
+explanation: |
+  **デフォルトコンストラクタ**：引数なしのコンストラクタ。クラスにコンストラクタが1つも定義されていない場合、Javaが自動的に引数なしのコンストラクタを用意する。
+  ただし引数ありコンストラクタを定義すると、自動生成がなくなるため、両方使いたい場合は明示的に定義する。
+
+  **コンストラクタのオーバーロード**：引数の組み合わせが異なるコンストラクタを複数定義できる。
+
+  **初期値の設定**：デフォルトコンストラクタで意味のある初期値を設定することで、オブジェクトを常に有効な状態に保てる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Box` クラスにデフォルトコンストラクタと引数ありコンストラクタを定義し、それぞれで生成したオブジェクトを比較せよ。
+
+**出力**：
+```
+デフォルトコンストラクタ:
+Box(1×1×1) 体積=1
+引数ありコンストラクタ:
+Box(10×5×3) 体積=150
+```
+
+**要件**：
+- 引数なしの `Box()` と `Box(int width, int height, int depth)` の2つのコンストラクタを定義すること
+- `int volume()` と `void describe()` を定義すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Box {
+    int width;
+    int height;
+    int depth;
+
+    // デフォルトコンストラクタ（各辺を1で初期化）
+    Box() {
+        // width, height, depth を 1 に設定してください
+
+    }
+
+    // 引数ありコンストラクタ
+    Box(int width, int height, int depth) {
+        // this を使ってフィールドを初期化してください
+
+    }
+
+    int volume() {
+        return width * height * depth;
+    }
+
+    void describe() {
+        System.out.println("Box(" + width + "×" + height + "×" + depth + ") 体積=" + volume());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Box defaultBox = new Box();
+        Box customBox = new Box(10, 5, 3);
+
+        System.out.println("デフォルトコンストラクタ:");
+        defaultBox.describe();
+
+        System.out.println("引数ありコンストラクタ:");
+        customBox.describe();
+    }
+}`}
+/>

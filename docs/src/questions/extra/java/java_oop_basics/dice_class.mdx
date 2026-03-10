@@ -1,0 +1,121 @@
+---
+id: "extra/java/java_oop_basics#dice_class"
+title: "Diceクラスでサイコロを振るメソッドを実装する（Random使用）"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_oop_basics"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Dice` を定義し、`sides`（int：面数）と `java.util.Random` を使う。
+  `roll()` メソッドで `random.nextInt(sides) + 1` を返す（1〜sides の乱数）。
+  `rollMultiple(int times)` で複数回振って合計を返す。
+sampleAnswer: |
+  import java.util.Random;
+
+  class Dice {
+      int sides;
+      Random random = new Random();
+
+      int roll() {
+          return random.nextInt(sides) + 1;
+      }
+
+      void rollMultiple(int times) {
+          int total = 0;
+          System.out.print(sides + "面サイコロを" + times + "回振った: ");
+          for (int i = 0; i < times; i++) {
+              int result = roll();
+              System.out.print(result);
+              if (i < times - 1) System.out.print(", ");
+              total += result;
+          }
+          System.out.println();
+          System.out.println("合計: " + total);
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Dice d6 = new Dice();
+          d6.sides = 6;
+
+          Dice d20 = new Dice();
+          d20.sides = 20;
+
+          System.out.println("6面サイコロ: " + d6.roll());
+          d6.rollMultiple(5);
+          System.out.println("20面サイコロ: " + d20.roll());
+      }
+  }
+explanation: |
+  **`Random` クラス**：`java.util.Random` を使うと乱数を生成できる。
+  `random.nextInt(n)` は 0〜n-1 の整数を返すため、`+1` で 1〜n になる。
+
+  **フィールドとしての `Random`**：`Random random = new Random();` でフィールドとして初期化することで、毎回のメソッド呼び出しで同じ `Random` インスタンスを使える。
+
+  **汎用的な設計**：`sides` を変えるだけで異なる面数のサイコロを作れる（6面・20面など）。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Dice` クラスを定義し、指定した面数のサイコロを振るメソッドを実装せよ。
+
+**出力例**（乱数なので毎回異なる）：
+```
+6面サイコロ: 4
+6面サイコロを5回振った: 2, 6, 1, 4, 3
+合計: 16
+20面サイコロ: 17
+```
+
+**要件**：
+- `int roll()` と `void rollMultiple(int times)` を定義すること
+- `java.util.Random` を使うこと
+- 6面と20面の2種類のサイコロを作ること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.util.Random;
+
+class Dice {
+    int sides;
+    Random random = new Random();
+
+    int roll() {
+        // 1 〜 sides の乱数を返してください
+
+    }
+
+    void rollMultiple(int times) {
+        int total = 0;
+        System.out.print(sides + "面サイコロを" + times + "回振った: ");
+        for (int i = 0; i < times; i++) {
+            int result = roll();
+            System.out.print(result);
+            if (i < times - 1) System.out.print(", ");
+            total += result;
+        }
+        System.out.println();
+        System.out.println("合計: " + total);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dice d6 = new Dice();
+        d6.sides = 6;
+
+        Dice d20 = new Dice();
+        d20.sides = 20;
+
+        System.out.println("6面サイコロ: " + d6.roll());
+        d6.rollMultiple(5);
+        System.out.println("20面サイコロ: " + d20.roll());
+    }
+}`}
+/>

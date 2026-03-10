@@ -1,0 +1,62 @@
+---
+id: "extra/java/java_operators#time_conversion"
+title: "秒数を時・分・秒に変換する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  `/ 3600` で時間、`% 3600` で時間を引いた残り秒数が求まる。
+  残り秒数に対して `/ 60` で分、`% 60` で秒を得る。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int totalSeconds = 7384;
+          int hours = totalSeconds / 3600;
+          int remaining = totalSeconds % 3600;
+          int minutes = remaining / 60;
+          int seconds = remaining % 60;
+          System.out.println(totalSeconds + "秒 = " + hours + "時間" + minutes + "分" + seconds + "秒");
+      }
+  }
+explanation: |
+  **時間の計算**：1時間 = 3600秒、1分 = 60秒の関係を使う。
+
+  **手順**：
+  1. `totalSeconds / 3600` → 時間（7384 / 3600 = **2** 時間）
+  2. `totalSeconds % 3600` → 残り秒数（7384 % 3600 = **184** 秒）
+  3. `remaining / 60` → 分（184 / 60 = **3** 分）
+  4. `remaining % 60` → 秒（184 % 60 = **4** 秒）
+
+  **答え**：7384秒 = 2時間3分4秒。`/`（商）と `%`（余り）を組み合わせるパターンは頻出である。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+合計秒数 `totalSeconds = 7384` を「時間・分・秒」に変換して出力するプログラムを実装せよ。
+
+**出力**：
+```
+7384秒 = 2時間3分4秒
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int totalSeconds = 7384;
+
+        int hours = 0;     // totalSeconds / 3600
+        int remaining = 0; // totalSeconds % 3600
+        int minutes = 0;   // remaining / 60
+        int seconds = 0;   // remaining % 60
+
+        System.out.println(totalSeconds + "秒 = " + hours + "時間" + minutes + "分" + seconds + "秒");
+    }
+}`}
+/>

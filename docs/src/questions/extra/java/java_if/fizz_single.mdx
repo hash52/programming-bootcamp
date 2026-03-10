@@ -1,0 +1,70 @@
+---
+id: "extra/java/java_if#fizz_single"
+title: "1つの数がFizz/Buzz/FizzBuzzか判定する"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  「3と5の両方の倍数」の判定を最初に書かないと、先に `Fizz` や `Buzz` で処理されてしまう。
+  `n % 3 == 0 && n % 5 == 0` を一番上の条件にしよう。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 15;
+          if (n % 3 == 0 && n % 5 == 0) {
+              System.out.println("FizzBuzz");
+          } else if (n % 3 == 0) {
+              System.out.println("Fizz");
+          } else if (n % 5 == 0) {
+              System.out.println("Buzz");
+          } else {
+              System.out.println(n);
+          }
+      }
+  }
+explanation: |
+  **FizzBuzz の判定順序**：「3と5の両方の倍数」（15, 30, 45...）を最初に判定する。これを後回しにすると、15が先に `Fizz` として処理されてしまう。
+
+  **`&&` 演算子**：`n % 3 == 0 && n % 5 == 0` は「3の倍数 かつ 5の倍数」。`n % 15 == 0` でも同じ意味になる。
+
+  **動作確認**：`n` の値を 3, 5, 15, 7 に変えて出力を確認してみよう。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+1つの整数 `n` が Fizz・Buzz・FizzBuzz・それ以外のどれかを判定して出力するプログラムを実装せよ。
+
+**ルール**：
+- 3と5の両方の倍数 → `FizzBuzz`
+- 3の倍数 → `Fizz`
+- 5の倍数 → `Buzz`
+- それ以外 → 数字をそのまま表示
+
+**実行例**（`n = 15` のとき）：
+```
+FizzBuzz
+```
+
+**実行例**（`n = 9` のとき）：
+```
+Fizz
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 15;
+
+        // FizzBuzz の条件分岐を実装してください
+        // ヒント: 3と5の両方の倍数の条件を最初に書くこと
+
+    }
+}`}
+/>

@@ -1,0 +1,60 @@
+---
+id: "extra/java/java_for#number_pattern"
+title: "数字のピラミッドを表示する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  外側のループで行数（1〜n）を制御し、内側のループで 1 から行番号まで数字を出力する。
+  `*` の三角形と同じ構造だが、`*` の代わりにループ変数 `j` の値を出力する。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 5;
+          for (int i = 1; i <= n; i++) {
+              for (int j = 1; j <= i; j++) {
+                  System.out.print(j);
+              }
+              System.out.println();
+          }
+      }
+  }
+explanation: |
+  **数字の三角形**：1行目は `1`、2行目は `12`、3行目は `123`、...、n行目は `123...n` と出力する。
+
+  **三角形の `*` との違い**：`System.out.print("*")` の代わりに `System.out.print(j)` とするだけで、同じ構造で数字のパターンが作れる。
+
+  **内側ループの変数**：内側ループの変数 `j` は1から始まり行番号 `i` まで増える。これを出力することで1, 12, 123, ... のパターンになる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+二重ループを使って、以下の数字のパターンを表示するプログラムを実装せよ。
+
+**出力**（`n = 5` のとき）：
+```
+1
+12
+123
+1234
+12345
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 5;
+        for (int i = 1; i <= n; i++) {
+            // 1 から i まで数字を横に並べてください
+            // 行末で改行してください
+        }
+    }
+}`}
+/>

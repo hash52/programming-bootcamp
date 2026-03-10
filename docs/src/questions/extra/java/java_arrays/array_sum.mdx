@@ -1,0 +1,66 @@
+---
+id: "extra/java/java_arrays#array_sum"
+title: "配列の合計を求める"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_arrays"
+category: "extra/java"
+language: "java"
+hint: |
+  合計を格納する変数 `sum` を0で初期化し、ループで各要素を足し続ける。
+  `sum += n;` と書くと `sum = sum + n;` と同じ意味になる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int[] numbers = {3, 7, 12, 5, 8};
+          int sum = 0;
+
+          for (int n : numbers) {
+              sum += n;
+          }
+
+          System.out.println("合計: " + sum);
+      }
+  }
+explanation: |
+  **累積和パターン**：`sum = 0` で初期化し、ループで `sum += 要素` を繰り返すのが基本パターン。
+  このパターンは配列の合計・最大値・カウントなど多くの場面で使う。
+
+  **初期値を忘れずに**：`int sum;` だけで初期化しないとコンパイルエラーになる。
+  合計なら0、最大値なら `Integer.MIN_VALUE`（または配列の先頭要素）が一般的な初期値。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+次の配列 `numbers` の全要素の合計を求め、表示するプログラムを実装せよ。
+
+```java
+int[] numbers = {3, 7, 12, 5, 8};
+```
+
+**出力**：
+```
+合計: 35
+```
+
+**要件**：
+- 合計を格納する変数を用意すること
+- for-each またはforループを使うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int[] numbers = {3, 7, 12, 5, 8};
+        int sum = 0;
+
+        // ループで合計を計算してください
+
+        System.out.println("合計: " + sum);
+    }
+}`}
+/>

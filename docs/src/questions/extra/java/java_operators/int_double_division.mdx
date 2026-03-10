@@ -1,0 +1,57 @@
+---
+id: "extra/java/java_operators#int_double_division"
+title: "整数除算とdouble除算の違いを確認する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  `int` 同士の除算は小数点以下が切り捨てられる。
+  `(double) a / b` のように片方を `double` にキャストすると小数の結果が得られる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int a = 10, b = 3;
+          int intResult = a / b;
+          double dblResult = (double) a / b;
+          System.out.println("int / int: " + intResult);
+          System.out.println("double / int: " + dblResult);
+      }
+  }
+explanation: |
+  **整数除算**：`int` 同士の `/` は小数点以下を切り捨てた整数になる。`10 / 3` は `3.333...` ではなく `3`。
+
+  **double除算**：`(double) a / b` のように一方を `double` にキャストすると、小数の結果が得られる。
+
+  **キャストの位置**：`(double)(a / b)` と書くと整数除算の後でキャストするため `3.0` になってしまう。`(double) a / b` のように除算の前にキャストすることが重要である。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`a = 10`、`b = 3` について、整数除算と `(double)` キャストを使った除算の結果を並べて出力するプログラムを実装せよ。
+
+**出力**：
+```
+int / int: 3
+double / int: 3.3333333333333335
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int a = 10, b = 3;
+
+        int intResult = a / b;              // 整数除算
+        double dblResult = 0.0;             // (double) キャストを使って計算してください
+
+        System.out.println("int / int: " + intResult);
+        System.out.println("double / int: " + dblResult);
+    }
+}`}
+/>

@@ -1,0 +1,75 @@
+---
+id: "extra/java/java_exception#null_pointer_exception"
+title: "NullPointerExceptionをキャッチして安全に処理する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_exception"
+category: "extra/java"
+language: "java"
+hint: |
+  `null` な変数のメソッドを呼び出すと `NullPointerException` が発生する。
+  例：`String s = null; s.length();` は NPE を発生させる。
+  `catch (NullPointerException e)` でキャッチするか、あらかじめ `null` チェックをするのが基本。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          String[] words = {"Hello", null, "World", null, "Java"};
+
+          for (String word : words) {
+              try {
+                  int len = word.length();
+                  System.out.println(word + " の長さ: " + len);
+              } catch (NullPointerException e) {
+                  System.out.println("(null) → スキップしました");
+              }
+          }
+      }
+  }
+explanation: |
+  **`NullPointerException`**：Java の最も頻出する例外の1つ。`null` 参照に対してメソッドを呼び出したり、フィールドにアクセスしようとすると発生する。
+
+  **null チェックの代替案**：`if (word != null)` で事前チェックする方が、例外を使うより効率的。
+  例外処理は「例外的な状況」に使い、予見できる null はチェックで対処するのが推奨。
+
+  **NullPointerException を防ぐ習慣**：参照型の変数を使う前に null でないか確認する。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+文字列配列に `null` が混在している場合、`NullPointerException` をキャッチして安全に処理するプログラムを実装せよ。
+
+**出力**：
+```
+Hello の長さ: 5
+(null) → スキップしました
+World の長さ: 5
+(null) → スキップしました
+Java の長さ: 4
+```
+
+**要件**：
+- `NullPointerException` を `catch` すること
+- null のとき「スキップしました」と表示すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        String[] words = {"Hello", null, "World", null, "Java"};
+
+        for (String word : words) {
+            try {
+                int len = word.length();
+                System.out.println(word + " の長さ: " + len);
+            } catch (NullPointerException e) {
+                // スキップのメッセージを表示してください
+
+            }
+        }
+    }
+}`}
+/>

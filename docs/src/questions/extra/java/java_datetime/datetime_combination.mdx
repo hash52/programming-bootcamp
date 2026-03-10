@@ -1,0 +1,84 @@
+---
+id: "extra/java/java_datetime#datetime_combination"
+title: "LocalDateTimeで日付と時刻を組み合わせて操作する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_datetime"
+category: "extra/java"
+language: "java"
+hint: |
+  `LocalDateTime.of(date, time)` または `LocalDateTime.of(year, month, day, hour, minute)` で作成する。
+  `toLocalDate()` / `toLocalTime()` で日付・時刻部分を取り出せる。
+  `plusHours()`, `minusMinutes()` なども使える。
+sampleAnswer: |
+  import java.time.LocalDate;
+  import java.time.LocalDateTime;
+  import java.time.LocalTime;
+  import java.time.format.DateTimeFormatter;
+
+  public class Main {
+      public static void main(String[] args) {
+          LocalDateTime meeting = LocalDateTime.of(2026, 3, 20, 14, 30, 0);
+
+          System.out.println("会議日時: " + meeting);
+          System.out.println("日付部分: " + meeting.toLocalDate());
+          System.out.println("時刻部分: " + meeting.toLocalTime());
+
+          LocalDateTime endTime = meeting.plusHours(2);
+          System.out.println("終了時刻: " + endTime.toLocalTime());
+
+          DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+          System.out.println("フォーマット: " + meeting.format(fmt));
+      }
+  }
+explanation: |
+  **`LocalDateTime`**：日付と時刻の両方を持つクラス。`LocalDate` + `LocalTime` を組み合わせたもの。
+
+  **変換**：`toLocalDate()` / `toLocalTime()` で個別の日付・時刻オブジェクトを取り出せる。逆に `LocalDate.atTime(LocalTime)` で `LocalDateTime` を作れる。
+
+  **`DateTimeFormatter` の適用**：`LocalDateTime` でも同様に `format()` が使える。パターンに時刻成分（`HH`=時、`mm`=分）も追加できる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`LocalDateTime` で会議の日時を作成し、日付部分・時刻部分の取り出し・2時間後の終了時刻・フォーマット表示を行うプログラムを作れ。
+
+**出力**：
+```
+会議日時: 2026-03-20T14:30
+日付部分: 2026-03-20
+時刻部分: 14:30
+終了時刻: 16:30
+フォーマット: 2026/03/20 14:30
+```
+
+**要件**：
+- `LocalDateTime.of()` で日時を作成すること
+- `toLocalDate()`, `toLocalTime()` を使うこと
+- `plusHours()` で2時間後を計算すること
+- `DateTimeFormatter` でフォーマットして表示すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class Main {
+    public static void main(String[] args) {
+        // 2026年3月20日14時30分の LocalDateTime を作成してください
+        LocalDateTime meeting = LocalDateTime.of(2026, 3, 20, 14, 30, 0);
+
+        System.out.println("会議日時: " + meeting);
+        // 日付部分・時刻部分を取り出して表示してください
+
+        // 2時間後の終了時刻を計算して表示してください
+
+        // "yyyy/MM/dd HH:mm" のフォーマットで表示してください
+
+    }
+}`}
+/>

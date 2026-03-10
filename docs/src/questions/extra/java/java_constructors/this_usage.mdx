@@ -1,0 +1,113 @@
+---
+id: "extra/java/java_constructors#this_usage"
+title: "thisキーワードでフィールドとパラメータを区別する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_constructors"
+category: "extra/java"
+language: "java"
+hint: |
+  コンストラクタの引数名とフィールド名が同じ場合、`this.フィールド名` でフィールドを明示する。
+  例：`this.name = name;` → 「このオブジェクトの name フィールド = 引数の name」
+  インスタンスメソッドでも `this.フィールド名` でフィールドを参照できる。
+sampleAnswer: |
+  class Product {
+      String name;
+      int price;
+      int quantity;
+
+      Product(String name, int price, int quantity) {
+          this.name = name;
+          this.price = price;
+          this.quantity = quantity;
+      }
+
+      int totalValue() {
+          return this.price * this.quantity;
+      }
+
+      void display() {
+          System.out.println(this.name + ": " + this.price + "円 × " + this.quantity + "個 = " + totalValue() + "円");
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Product p1 = new Product("りんご", 150, 3);
+          Product p2 = new Product("牛乳", 200, 2);
+          Product p3 = new Product("食パン", 300, 1);
+
+          p1.display();
+          p2.display();
+          p3.display();
+
+          int total = p1.totalValue() + p2.totalValue() + p3.totalValue();
+          System.out.println("合計: " + total + "円");
+      }
+  }
+explanation: |
+  **`this` の役割**：コンストラクタの中で `this.name = name;` と書くことで、フィールドと引数を明確に区別できる。
+  `this.name` は「このオブジェクトの name フィールド」、`name` だけでは「引数の name」。
+
+  **メソッド内の `this`**：`totalValue()` 内の `this.price` はフィールドを参照する。
+  `this.` は省略しても同じ意味だが、明示的に書くことで「フィールドである」という意図が伝わる。
+
+  **`this` の省略**：曖昧でなければ `this.` は省略できる（コンストラクタ以外では主に省略される）。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`this` を使ってフィールドとコンストラクタ引数を区別する `Product` クラスを実装せよ。
+
+**出力**：
+```
+りんご: 150円 × 3個 = 450円
+牛乳: 200円 × 2個 = 400円
+食パン: 300円 × 1個 = 300円
+合計: 1150円
+```
+
+**要件**：
+- コンストラクタで `this.name = name;` など `this` を使うこと
+- `int totalValue()` と `void display()` を定義すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Product {
+    String name;
+    int price;
+    int quantity;
+
+    Product(String name, int price, int quantity) {
+        // this を使ってフィールドと引数を区別して代入してください
+
+    }
+
+    int totalValue() {
+        return this.price * this.quantity;
+    }
+
+    void display() {
+        System.out.println(this.name + ": " + this.price + "円 × " + this.quantity + "個 = " + totalValue() + "円");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Product p1 = new Product("りんご", 150, 3);
+        Product p2 = new Product("牛乳", 200, 2);
+        Product p3 = new Product("食パン", 300, 1);
+
+        p1.display();
+        p2.display();
+        p3.display();
+
+        int total = p1.totalValue() + p2.totalValue() + p3.totalValue();
+        System.out.println("合計: " + total + "円");
+    }
+}`}
+/>

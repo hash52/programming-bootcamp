@@ -1,0 +1,101 @@
+---
+id: "extra/java/java_collections#collections_sort"
+title: "ArrayListをCollections.sort()で並び替える"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_collections"
+category: "extra/java"
+language: "java"
+hint: |
+  `Collections.sort(list)` で昇順ソートができる。
+  `Collections.reverse(list)` で逆順にする、または `Collections.sort(list, Collections.reverseOrder())` で降順ソート。
+  `Collections.max(list)`, `Collections.min(list)` で最大・最小値も取得できる。
+sampleAnswer: |
+  import java.util.ArrayList;
+  import java.util.Collections;
+
+  public class Main {
+      public static void main(String[] args) {
+          ArrayList<Integer> numbers = new ArrayList<>();
+          numbers.add(42);
+          numbers.add(15);
+          numbers.add(73);
+          numbers.add(8);
+          numbers.add(56);
+
+          System.out.println("ソート前: " + numbers);
+
+          Collections.sort(numbers);
+          System.out.println("昇順: " + numbers);
+
+          Collections.sort(numbers, Collections.reverseOrder());
+          System.out.println("降順: " + numbers);
+
+          ArrayList<String> names = new ArrayList<>();
+          names.add("田中");
+          names.add("鈴木");
+          names.add("佐藤");
+          Collections.sort(names);
+          System.out.println("名前の昇順: " + names);
+      }
+  }
+explanation: |
+  **`Collections.sort()`**：`java.util.Collections` クラスのstaticメソッド。`ArrayList` を自然順序（数値は昇順、文字列は辞書順）でソートする。
+
+  **`Collections.reverseOrder()`**：降順のソート順を表す `Comparator` を返す。`sort()` の第2引数に渡すことで降順ソートが可能。
+
+  **文字列のソート**：文字列は `Comparable` を実装しているので `Collections.sort()` で辞書順にソートできる。日本語は Unicode コードポイント順になる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`ArrayList<Integer>` を `Collections.sort()` で昇順・降順にソートして表示するプログラムを作れ。
+
+**出力**：
+```
+ソート前: [42, 15, 73, 8, 56]
+昇順: [8, 15, 42, 56, 73]
+降順: [73, 56, 42, 15, 8]
+名前の昇順: [佐藤, 田中, 鈴木]
+```
+
+**要件**：
+- `Collections.sort()` で昇順ソートをすること
+- `Collections.reverseOrder()` で降順ソートをすること
+- 文字列の `ArrayList` もソートすること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.util.ArrayList;
+import java.util.Collections;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<Integer> numbers = new ArrayList<>();
+        numbers.add(42);
+        numbers.add(15);
+        numbers.add(73);
+        numbers.add(8);
+        numbers.add(56);
+
+        System.out.println("ソート前: " + numbers);
+
+        // 昇順にソートして表示してください
+        System.out.println("昇順: " + numbers);
+
+        // 降順にソートして表示してください
+        System.out.println("降順: " + numbers);
+
+        ArrayList<String> names = new ArrayList<>();
+        names.add("田中");
+        names.add("鈴木");
+        names.add("佐藤");
+        // 名前を昇順にソートして表示してください
+        System.out.println("名前の昇順: " + names);
+    }
+}`}
+/>

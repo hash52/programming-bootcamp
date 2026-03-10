@@ -1,0 +1,107 @@
+---
+id: "extra/java/java_multiple_classes#calculator_class"
+title: "Calculatorクラスで四則演算メソッドを実装する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_multiple_classes"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Calculator` を定義し、`add`, `subtract`, `multiply`, `divide` の4つのメソッドを持たせる。
+  `divide` では0除算をチェックし、0の場合は `double` の `NaN` や特別な値を返すか、メッセージを表示する。
+sampleAnswer: |
+  class Calculator {
+      double add(double a, double b) {
+          return a + b;
+      }
+
+      double subtract(double a, double b) {
+          return a - b;
+      }
+
+      double multiply(double a, double b) {
+          return a * b;
+      }
+
+      double divide(double a, double b) {
+          if (b == 0) {
+              System.out.println("エラー: 0で割ることはできません");
+              return Double.NaN;
+          }
+          return a / b;
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Calculator calc = new Calculator();
+          System.out.println("10 + 3 = " + calc.add(10, 3));
+          System.out.println("10 - 3 = " + calc.subtract(10, 3));
+          System.out.println("10 × 3 = " + calc.multiply(10, 3));
+          System.out.println("10 ÷ 3 = " + calc.divide(10, 3));
+          System.out.println("10 ÷ 0 = " + calc.divide(10, 0));
+      }
+  }
+explanation: |
+  **0除算の対処**：`b == 0` のとき除算を行うと `ArithmeticException` が発生する（intの場合）。
+  `double` の場合は `Infinity` が返るが、チェックして明示的にエラーメッセージを出す方が丁寧。
+
+  **`Double.NaN`**：「Not a Number」を表す特別な値。エラー時の戻り値として使える。
+
+  **クラスへのまとめ方**：電卓の4機能をまとめることで、`calc.add(10, 3)` のように直感的に使えるAPIになる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+四則演算を行う `Calculator` クラスを実装せよ。
+
+**出力**：
+```
+10 + 3 = 13.0
+10 - 3 = 7.0
+10 × 3 = 30.0
+10 ÷ 3 = 3.3333333333333335
+エラー: 0で割ることはできません
+10 ÷ 0 = NaN
+```
+
+**要件**：
+- `add`, `subtract`, `multiply`, `divide` の4メソッドを `double` で実装すること
+- `divide` では0除算チェックを行うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Calculator {
+    double add(double a, double b) {
+
+    }
+
+    double subtract(double a, double b) {
+
+    }
+
+    double multiply(double a, double b) {
+
+    }
+
+    double divide(double a, double b) {
+        // b が 0 の場合はエラーメッセージを表示して Double.NaN を返す
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        System.out.println("10 + 3 = " + calc.add(10, 3));
+        System.out.println("10 - 3 = " + calc.subtract(10, 3));
+        System.out.println("10 × 3 = " + calc.multiply(10, 3));
+        System.out.println("10 ÷ 3 = " + calc.divide(10, 3));
+        System.out.println("10 ÷ 0 = " + calc.divide(10, 0));
+    }
+}`}
+/>

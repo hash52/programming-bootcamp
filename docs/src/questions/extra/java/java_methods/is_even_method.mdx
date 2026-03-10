@@ -1,0 +1,81 @@
+---
+id: "extra/java/java_methods#is_even_method"
+title: "偶数かどうかを返すbooleanメソッド"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_methods"
+category: "extra/java"
+language: "java"
+hint: |
+  `static boolean isEven(int n)` のようにメソッドを定義する。
+  `n % 2 == 0` が `true` なら偶数、`false` なら奇数。
+  `return n % 2 == 0;` と1行で書ける（条件式はboolean値を直接返せる）。
+sampleAnswer: |
+  public class Main {
+      static boolean isEven(int n) {
+          return n % 2 == 0;
+      }
+
+      public static void main(String[] args) {
+          int[] numbers = {1, 2, 3, 4, 5, 6};
+          for (int n : numbers) {
+              if (isEven(n)) {
+                  System.out.println(n + " は偶数");
+              } else {
+                  System.out.println(n + " は奇数");
+              }
+          }
+      }
+  }
+explanation: |
+  **boolean戻り値**：`boolean` を戻り値型にするとメソッドが `true`/`false` を返せる。
+  `if (isEven(n))` のように条件式としてそのまま使える。
+
+  **条件式をそのままreturn**：`return n % 2 == 0;` と書くと、条件が真なら `true`、偽なら `false` を返す。
+  `if-else` で書き直すより簡潔。
+
+  **is/has/can プレフィックス**：boolean を返すメソッドは `is~`、`has~`、`can~` という名前にするのが慣習。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+整数 `n` が偶数かどうかを返す `isEven` メソッドを実装し、1〜6の各数に適用して偶数・奇数を表示せよ。
+
+**出力**：
+```
+1 は奇数
+2 は偶数
+3 は奇数
+4 は偶数
+5 は奇数
+6 は偶数
+```
+
+**要件**：
+- `static boolean isEven(int n)` というシグネチャでメソッドを定義すること
+- `n % 2 == 0` を使うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    static boolean isEven(int n) {
+        // n が偶数なら true、奇数なら false を返してください
+
+    }
+
+    public static void main(String[] args) {
+        int[] numbers = {1, 2, 3, 4, 5, 6};
+        for (int n : numbers) {
+            if (isEven(n)) {
+                System.out.println(n + " は偶数");
+            } else {
+                System.out.println(n + " は奇数");
+            }
+        }
+    }
+}`}
+/>

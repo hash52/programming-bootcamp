@@ -1,0 +1,70 @@
+---
+id: "extra/java/java_datetime#local_date_basic"
+title: "LocalDate.now()で今日の日付を表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_datetime"
+category: "extra/java"
+language: "java"
+hint: |
+  `LocalDate.now()` で今日の日付を取得する。
+  `getYear()`, `getMonthValue()`, `getDayOfMonth()` で年・月・日を個別取得できる。
+  `getDayOfWeek()` で曜日を取得できる。
+sampleAnswer: |
+  import java.time.LocalDate;
+
+  public class Main {
+      public static void main(String[] args) {
+          LocalDate today = LocalDate.now();
+
+          System.out.println("今日: " + today);
+          System.out.println("年: " + today.getYear());
+          System.out.println("月: " + today.getMonthValue());
+          System.out.println("日: " + today.getDayOfMonth());
+          System.out.println("曜日: " + today.getDayOfWeek());
+      }
+  }
+explanation: |
+  **`LocalDate`**：日付（年・月・日）のみを表すクラス。時刻情報は含まない。`java.time` パッケージに属し、Java 8で導入された。
+
+  **`now()`**：実行時の現在日付を返す static メソッド。`LocalDate.of(2024, 3, 15)` で特定の日付も作れる。
+
+  **`getDayOfWeek()`**：`DayOfWeek` 列挙型（`MONDAY`, `TUESDAY`, ...）を返す。`toString()` で英語名が得られる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`LocalDate.now()` で今日の日付を取得し、年・月・日・曜日を表示するプログラムを作れ。
+
+**出力例**（実行日によって変わる）：
+```
+今日: 2026-03-07
+年: 2026
+月: 3
+日: 7
+曜日: SATURDAY
+```
+
+**要件**：
+- `LocalDate.now()` を使うこと
+- `getYear()`, `getMonthValue()`, `getDayOfMonth()` を使うこと
+- `getDayOfWeek()` で曜日を表示すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.time.LocalDate;
+
+public class Main {
+    public static void main(String[] args) {
+        LocalDate today = LocalDate.now();
+
+        System.out.println("今日: " + today);
+        // 年・月・日・曜日を表示してください
+
+    }
+}`}
+/>

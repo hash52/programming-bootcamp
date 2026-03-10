@@ -1,0 +1,59 @@
+---
+id: "extra/java/java_for#star_square"
+title: "＊でN×Nの四角形を表示する"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  外側のループで行数（n行）を制御し、内側のループで各行に `*` を n 個並べる。
+  各行の末尾で `System.out.println()` を忘れずに。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 4;
+          for (int i = 0; i < n; i++) {
+              for (int j = 0; j < n; j++) {
+                  System.out.print("*");
+              }
+              System.out.println();
+          }
+      }
+  }
+explanation: |
+  **二重ループで2次元パターンを描く**：行を外側ループ、列を内側ループで制御する。n×n の四角形では両方のループが n 回繰り返される。
+
+  **三角形との違い**：三角形は内側ループが `j <= i` まで（行によって個数が変わる）。四角形は内側ループが常に `j < n` まで（全行で同じ個数）。
+
+  **応用**：外枠だけ表示する（`i == 0 || i == n-1 || j == 0 || j == n-1` のときだけ `*`）などにも挑戦できる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+二重ループを使って、`n × n` の四角形を `*` で表示するプログラムを実装せよ。
+
+**出力**（`n = 4` のとき）：
+```
+****
+****
+****
+****
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 4;
+        for (int i = 0; i < n; i++) {
+            // 1行に n 個の * を並べてください
+            // 行末で改行してください
+        }
+    }
+}`}
+/>

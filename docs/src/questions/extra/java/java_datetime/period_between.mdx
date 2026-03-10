@@ -1,0 +1,79 @@
+---
+id: "extra/java/java_datetime#period_between"
+title: "Period.between()で年齢（年数）を計算する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_datetime"
+category: "extra/java"
+language: "java"
+hint: |
+  `Period.between(start, end)` で2つの日付の「期間」を取得する。
+  `period.getYears()` で年数、`period.getMonths()` で月数、`period.getDays()` で日数が取得できる。
+  これらを組み合わせて「○歳○ヶ月○日」を表示できる。
+sampleAnswer: |
+  import java.time.LocalDate;
+  import java.time.Period;
+
+  public class Main {
+      public static void main(String[] args) {
+          LocalDate birthDate = LocalDate.of(2000, 7, 20);
+          LocalDate today = LocalDate.of(2026, 3, 15);
+
+          Period period = Period.between(birthDate, today);
+
+          System.out.println("生年月日: " + birthDate);
+          System.out.println("今日: " + today);
+          System.out.println("年齢: " + period.getYears() + "歳");
+          System.out.println("詳細: " + period.getYears() + "歳" +
+              period.getMonths() + "ヶ月" + period.getDays() + "日");
+      }
+  }
+explanation: |
+  **`Period`**：年・月・日の期間を表すクラス。`ChronoUnit.DAYS.between()` は総日数を返すが、`Period` は「○年○ヶ月○日」として分解できる。
+
+  **`getYears()` の注意**：`period.getYears()` は期間の「年」コンポーネントのみを返す。25年と3ヶ月のうち「25」を返す。
+
+  **年齢計算への応用**：誕生日から今日までの `Period` を取得し、`getYears()` で現在の年齢（満年齢）を得る。
+  誕生日をまだ迎えていない場合も自動的に考慮される。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+生年月日から現在の年齢を `Period.between()` で計算し、「○歳○ヶ月○日」の形式で表示するプログラムを作れ。
+
+**出力**：
+```
+生年月日: 2000-07-20
+今日: 2026-03-15
+年齢: 25歳
+詳細: 25歳7ヶ月23日
+```
+
+**要件**：
+- `Period.between()` を使うこと
+- `getYears()`, `getMonths()`, `getDays()` を使うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.time.LocalDate;
+import java.time.Period;
+
+public class Main {
+    public static void main(String[] args) {
+        LocalDate birthDate = LocalDate.of(2000, 7, 20);
+        LocalDate today = LocalDate.of(2026, 3, 15);
+
+        // Period.between() で期間を取得してください
+        Period period = Period.between(birthDate, today);
+
+        System.out.println("生年月日: " + birthDate);
+        System.out.println("今日: " + today);
+        // 年齢と詳細を表示してください
+
+    }
+}`}
+/>

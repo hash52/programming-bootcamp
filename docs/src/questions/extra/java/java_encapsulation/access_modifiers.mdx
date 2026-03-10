@@ -1,0 +1,150 @@
+---
+id: "extra/java/java_encapsulation#access_modifiers"
+title: "public/private/protectedの違いを確認する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_encapsulation"
+category: "extra/java"
+language: "java"
+hint: |
+  アクセス修飾子の範囲：
+  - `public`：どこからでもアクセス可能
+  - `private`：同じクラスのみ
+  - `protected`：同じクラス + サブクラス + 同じパッケージ
+  - (なし)：同じパッケージのみ（パッケージプライベート）
+sampleAnswer: |
+  class Vehicle {
+      public String brand;       // どこからでも
+      protected int maxSpeed;    // このクラスとサブクラスから
+      private String secretKey;  // このクラスのみ
+
+      Vehicle(String brand, int maxSpeed) {
+          this.brand = brand;
+          this.maxSpeed = maxSpeed;
+          this.secretKey = "KEY-" + brand;
+      }
+
+      public void showPublicInfo() {
+          System.out.println("ブランド: " + brand);
+      }
+
+      protected void showProtectedInfo() {
+          System.out.println("最高速度: " + maxSpeed + "km/h");
+      }
+
+      private void showPrivateInfo() {
+          System.out.println("シークレット: " + secretKey);
+      }
+
+      // private メソッドは同じクラスから呼べる
+      public void showAll() {
+          showPublicInfo();
+          showProtectedInfo();
+          showPrivateInfo();
+      }
+  }
+
+  class Car extends Vehicle {
+      Car(String brand, int maxSpeed) {
+          super(brand, maxSpeed);
+      }
+
+      void showCarInfo() {
+          System.out.println("=== 車の情報 ===");
+          System.out.println(brand);      // public: アクセス可
+          System.out.println(maxSpeed);   // protected: サブクラスからアクセス可
+          // secretKey はアクセス不可（private）
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Vehicle v = new Vehicle("トヨタ", 200);
+          v.showAll();
+
+          System.out.println("---");
+          Car car = new Car("ホンダ", 180);
+          car.showCarInfo();
+          System.out.println(car.brand);  // public: Main からもアクセス可
+      }
+  }
+explanation: |
+  **アクセス修飾子の使い分け**：
+  - `public`：外部に公開するAPI（インターフェースとなるメソッド/フィールド）
+  - `private`：実装の詳細（外部に見せる必要のないもの）
+  - `protected`：サブクラスに公開するが一般には隠したいもの
+
+  **情報隠蔽の原則**：必要最小限の範囲でのみ公開する。デフォルトは `private` にして、必要なら `public`/`protected` に緩める。
+
+  **`private` と継承**：`private` フィールドはサブクラスからも直接アクセスできない。getter 経由でアクセスする。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Vehicle` クラスに `public`, `protected`, `private` フィールド/メソッドを定義し、`Car` サブクラスからのアクセス範囲を確認せよ。
+
+**出力**：
+```
+ブランド: トヨタ
+最高速度: 200km/h
+シークレット: KEY-トヨタ
+---
+=== 車の情報 ===
+ホンダ
+180
+ホンダ
+```
+
+**要件**：
+- `public`, `protected`, `private` の3種類のフィールドを定義すること
+- `Car` サブクラスで `protected` フィールドにアクセスできることを確認すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Vehicle {
+    public String brand;
+    protected int maxSpeed;
+    private String secretKey;
+
+    Vehicle(String brand, int maxSpeed) {
+        this.brand = brand;
+        this.maxSpeed = maxSpeed;
+        this.secretKey = "KEY-" + brand;
+    }
+
+    public void showAll() {
+        System.out.println("ブランド: " + brand);
+        System.out.println("最高速度: " + maxSpeed + "km/h");
+        System.out.println("シークレット: " + secretKey);
+    }
+}
+
+class Car extends Vehicle {
+    Car(String brand, int maxSpeed) {
+        super(brand, maxSpeed);
+    }
+
+    void showCarInfo() {
+        System.out.println("=== 車の情報 ===");
+        System.out.println(brand);    // public フィールドにアクセス
+        System.out.println(maxSpeed); // protected フィールドにアクセス
+        // secretKey には直接アクセスできない（private）
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Vehicle v = new Vehicle("トヨタ", 200);
+        v.showAll();
+
+        System.out.println("---");
+        Car car = new Car("ホンダ", 180);
+        car.showCarInfo();
+        System.out.println(car.brand); // public フィールドは Main からもアクセス可
+    }
+}`}
+/>

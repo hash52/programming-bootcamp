@@ -1,0 +1,57 @@
+---
+id: "extra/java/java_if#divisible_by_three"
+title: "3の倍数かどうかを判定する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  `%` 演算子で余りを求め、余りが0なら倍数である。
+  `n % 3 == 0` が3の倍数の条件式である。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 12;
+          if (n % 3 == 0) {
+              System.out.println(n + "は3の倍数です");
+          } else {
+              System.out.println(n + "は3の倍数ではありません");
+          }
+      }
+  }
+explanation: |
+  **余りで倍数を判定**：`n % 3` が 0 のとき、n は3で割り切れる（=3の倍数）。
+
+  **`%` 演算子の活用**：FizzBuzz や偶奇判定など、倍数の判定には `%` がよく使われる。偶数なら `n % 2 == 0`、5の倍数なら `n % 5 == 0` と同じパターンが使える。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `n` が3の倍数かどうかを判定して出力するプログラムを実装せよ。
+
+**実行例**（`n = 12` のとき）：
+```
+12は3の倍数です
+```
+
+**実行例**（`n = 7` のとき）：
+```
+7は3の倍数ではありません
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 12;
+
+        // n が3の倍数かどうかを判定してください
+
+    }
+}`}
+/>

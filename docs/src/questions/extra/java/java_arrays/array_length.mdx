@@ -1,0 +1,74 @@
+---
+id: "extra/java/java_arrays#array_length"
+title: "配列の要素数と各要素を番号付きで表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_arrays"
+category: "extra/java"
+language: "java"
+hint: |
+  `配列名.length` で要素数を取得できる。
+  インデックスを使うには通常の `for (int i = 0; i < 配列名.length; i++)` を使う。
+  `i` は0から始まるが、表示は1から始めたいので `i + 1` を使う。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          String[] fruits = {"apple", "banana", "cherry", "grape", "mango"};
+
+          System.out.println("要素数: " + fruits.length);
+
+          for (int i = 0; i < fruits.length; i++) {
+              System.out.println("No." + (i + 1) + ": " + fruits[i]);
+          }
+      }
+  }
+explanation: |
+  **`.length`**：配列の要素数を返すプロパティ。`fruits.length` は `5` となる。
+
+  **インデックスと表示番号の変換**：インデックスは0始まりだが、「No.1」から表示したい場合は `i + 1` を使う。
+
+  **`i + 1` の括弧**：`"No." + i + 1` と書くと `"No.01"` になってしまう（文字列連結が先に起きるため）。
+  `"No." + (i + 1)` と括弧をつけて先に計算させること。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+次の配列 `fruits` の要素数を表示し、各要素を `No.1: apple` の形式で表示するプログラムを実装せよ。
+
+```java
+String[] fruits = {"apple", "banana", "cherry", "grape", "mango"};
+```
+
+**出力**：
+```
+要素数: 5
+No.1: apple
+No.2: banana
+No.3: cherry
+No.4: grape
+No.5: mango
+```
+
+**要件**：
+- `.length` で要素数を取得すること
+- インデックス付きの for ループを使って番号を表示すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        String[] fruits = {"apple", "banana", "cherry", "grape", "mango"};
+
+        System.out.println("要素数: " + fruits.length);
+
+        for (int i = 0; i < fruits.length; i++) {
+            // "No.番号: 要素" の形式で表示してください
+
+        }
+    }
+}`}
+/>

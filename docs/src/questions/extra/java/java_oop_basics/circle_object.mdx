@@ -1,0 +1,101 @@
+---
+id: "extra/java/java_oop_basics#circle_object"
+title: "Circleクラスで半径・面積・周囲を計算するメソッドを実装する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_oop_basics"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Circle` を定義し、`radius`（double）フィールドを持たせる。
+  `area()` → `Math.PI * radius * radius`
+  `circumference()` → `2 * Math.PI * radius`
+  `describe()` で半径・面積・周囲長をまとめて表示する。
+sampleAnswer: |
+  class Circle {
+      double radius;
+
+      double area() {
+          return Math.PI * radius * radius;
+      }
+
+      double circumference() {
+          return 2 * Math.PI * radius;
+      }
+
+      void describe() {
+          System.out.printf("半径: %.1f, 面積: %.2f, 周囲長: %.2f%n",
+              radius, area(), circumference());
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          double[] radii = {1.0, 3.0, 5.0, 10.0};
+
+          for (double r : radii) {
+              Circle c = new Circle();
+              c.radius = r;
+              c.describe();
+          }
+      }
+  }
+explanation: |
+  **メソッドの相互呼び出し**：`describe()` の中で `area()` と `circumference()` を呼ぶことで、計算ロジックを再利用できる。
+
+  **ループでの生成**：`for` ループでさまざまな半径の円を順に生成して処理するパターン。
+
+  **`printf` のフォーマット**：`%.1f` で小数点以下1桁、`%.2f` で2桁に揃えられる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Circle` クラスを定義し、さまざまな半径の円の面積と周囲長を計算して表示せよ。
+
+**出力**：
+```
+半径: 1.0, 面積: 3.14, 周囲長: 6.28
+半径: 3.0, 面積: 28.27, 周囲長: 18.85
+半径: 5.0, 面積: 78.54, 周囲長: 31.42
+半径: 10.0, 面積: 314.16, 周囲長: 62.83
+```
+
+**要件**：
+- `double area()`, `double circumference()`, `void describe()` を定義すること
+- ループで4つの半径それぞれの円を生成して処理すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Circle {
+    double radius;
+
+    double area() {
+        return Math.PI * radius * radius;
+    }
+
+    double circumference() {
+        return 2 * Math.PI * radius;
+    }
+
+    void describe() {
+        // 半径・面積・周囲長を printf で表示してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        double[] radii = {1.0, 3.0, 5.0, 10.0};
+
+        for (double r : radii) {
+            Circle c = new Circle();
+            c.radius = r;
+            c.describe();
+        }
+    }
+}`}
+/>

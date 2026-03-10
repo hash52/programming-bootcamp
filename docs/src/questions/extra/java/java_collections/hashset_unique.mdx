@@ -1,0 +1,89 @@
+---
+id: "extra/java/java_collections#hashset_unique"
+title: "HashSetで重複のない要素集合を管理する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_collections"
+category: "extra/java"
+language: "java"
+hint: |
+  `HashSet<String>` は重複を自動的に排除する。
+  `add()` で追加、`contains()` で存在確認、`size()` で要素数を取得。
+  同じ値を2回 `add()` しても、セットには1つしか存在しない。
+sampleAnswer: |
+  import java.util.HashSet;
+
+  public class Main {
+      public static void main(String[] args) {
+          HashSet<String> tags = new HashSet<>();
+          tags.add("Java");
+          tags.add("Python");
+          tags.add("Java");   // 重複（追加されない）
+          tags.add("Ruby");
+          tags.add("Python"); // 重複（追加されない）
+
+          System.out.println("要素数: " + tags.size());
+          System.out.println("Javaが含まれるか: " + tags.contains("Java"));
+          System.out.println("PHPが含まれるか: " + tags.contains("PHP"));
+
+          System.out.println("タグ一覧:");
+          for (String tag : tags) {
+              System.out.println("- " + tag);
+          }
+      }
+  }
+explanation: |
+  **`HashSet` の重複排除**：`add()` を呼んでも、すでに同じ値が存在する場合は追加されない。戻り値は `boolean`（追加できたか）。
+
+  **順序の保証なし**：`HashSet` は要素の順序を保証しない。挿入順を保持したい場合は `LinkedHashSet` を使う。
+
+  **`contains()` の高速検索**：`HashSet` は内部でハッシュ関数を使うため、`contains()` がO(1)で実行できる（ArrayList の O(n) より高速）。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`HashSet<String>` に言語タグを追加し（重複あり）、重複が排除されることを確認するプログラムを作れ。
+
+**出力**（順序は異なる場合あり）：
+```
+要素数: 3
+Javaが含まれるか: true
+PHPが含まれるか: false
+タグ一覧:
+- Java
+- Python
+- Ruby
+```
+
+**要件**：
+- `HashSet<String>` を使うこと
+- 重複する要素を追加しても `size()` が正しい値を返すことを確認すること
+- `contains()` を使うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.util.HashSet;
+
+public class Main {
+    public static void main(String[] args) {
+        HashSet<String> tags = new HashSet<>();
+        tags.add("Java");
+        tags.add("Python");
+        tags.add("Java");    // 重複
+        tags.add("Ruby");
+        tags.add("Python");  // 重複
+
+        System.out.println("要素数: " + tags.size());
+        System.out.println("Javaが含まれるか: " + tags.contains("Java"));
+        System.out.println("PHPが含まれるか: " + tags.contains("PHP"));
+
+        // for-each でタグ一覧を表示してください
+        System.out.println("タグ一覧:");
+
+    }
+}`}
+/>

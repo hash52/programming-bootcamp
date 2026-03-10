@@ -1,0 +1,55 @@
+---
+id: "extra/java/java_if#max_of_three"
+title: "3つの数の最大値を求める"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  まず `max = a` と初期値を設定し、`b` や `c` が `max` より大きければ `max` を更新する方法が簡単である。
+  `if (b > max) max = b;` のように書ける。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int a = 15, b = 7, c = 22;
+          int max = a;
+          if (b > max) max = b;
+          if (c > max) max = c;
+          System.out.println("最大値: " + max);
+      }
+  }
+explanation: |
+  **最大値の求め方**：最初の値を最大値の候補として、残りの値と比較しながら更新する。
+
+  **なぜ `a` を初期値にするか**：3つのうちどれかが必ず最大値になるため、最初は `a` が最大値だと仮定しておき、`b`・`c` と比較して大きければ更新する。
+
+  **注意点**：`if-else if` では「最初に合う条件で止まる」が、この解法では `if` を独立して2つ使うことで順に比較できる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+3つの整数 `a = 15`、`b = 7`、`c = 22` のうち最大値を求めて出力するプログラムを実装せよ。
+
+**出力**：
+```
+最大値: 22
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int a = 15, b = 7, c = 22;
+
+        int max = a; // まず a を最大値の候補とする
+        // b, c と比較して必要なら max を更新してください
+
+        System.out.println("最大値: " + max);
+    }
+}`}
+/>

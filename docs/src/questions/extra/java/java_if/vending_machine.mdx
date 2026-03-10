@@ -1,0 +1,71 @@
+---
+id: "extra/java/java_if#vending_machine"
+title: "自動販売機のお釣りを計算する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  まず `inserted >= price` で購入できるか判定する。
+  購入できる場合は `inserted - price` でお釣りを計算する。
+  金額が足りない場合は不足金額を計算して「あと〇円必要」と表示してもよい。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int price = 120;
+          int inserted = 500;
+          if (inserted >= price) {
+              int change = inserted - price;
+              System.out.println("購入完了");
+              System.out.println("お釣り: " + change + "円");
+          } else {
+              int shortage = price - inserted;
+              System.out.println("金額が足りません");
+              System.out.println("あと " + shortage + "円 必要です");
+          }
+      }
+  }
+explanation: |
+  **購入可能かの判定**：`inserted >= price` で投入金額が商品価格以上かを判定する。
+
+  **お釣りの計算**：`inserted - price` で差額（お釣り）が求まる。`500 - 120 = 380円`。
+
+  **不足金額の計算**：`price - inserted` で足りない金額が求まる。例: 80円の商品に50円しか入れていない場合 `80 - 50 = 30円` 不足。
+
+  **条件分岐の活用**：この問題は演算子（`-`）とif文の組み合わせで解ける。if文は単なる条件判定だけでなく、計算結果を場合分けして処理するときにも使う。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+商品価格 `price` と投入金額 `inserted` をもとに、購入できるかどうかを判定し、  
+購入できる場合はお釣りを、できない場合は不足金額を出力するプログラムを実装せよ。
+
+**実行例**（`price = 120, inserted = 500` のとき）：
+```
+購入完了
+お釣り: 380円
+```
+
+**実行例**（`price = 120, inserted = 100` のとき）：
+```
+金額が足りません
+あと 20円 必要です
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int price = 120;
+        int inserted = 500;
+
+        // 購入可能かを判定し、お釣りまたは不足金額を出力してください
+
+    }
+}`}
+/>

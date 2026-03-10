@@ -1,0 +1,72 @@
+---
+id: "extra/java/java_methods#max_two_method"
+title: "2数の大きい方を返すメソッド"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_methods"
+category: "extra/java"
+language: "java"
+hint: |
+  `static int max(int a, int b)` のようにメソッドを定義する。
+  if-else で比較して大きい方を `return` する。
+  三項演算子を使うと `return a >= b ? a : b;` と1行で書ける。
+sampleAnswer: |
+  public class Main {
+      static int max(int a, int b) {
+          if (a >= b) {
+              return a;
+          } else {
+              return b;
+          }
+      }
+
+      public static void main(String[] args) {
+          System.out.println("max(3, 7) = " + max(3, 7));
+          System.out.println("max(10, 5) = " + max(10, 5));
+          System.out.println("max(4, 4) = " + max(4, 4));
+      }
+  }
+explanation: |
+  **複数のreturn文**：メソッドの中に `return` が複数あっても問題ない。
+  最初に実行された `return` でメソッドが終了する。
+
+  **等しい場合の扱い**：`a >= b` とすることで等しい場合は `a` を返す（`a > b` では等しい場合に `b` が返る）。
+
+  **三項演算子**：`a >= b ? a : b` は「a >= b なら a、そうでなければ b」という意味。
+  シンプルな条件分岐に便利。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+2つの整数 `a` と `b` を受け取り、大きい方を返す `max` メソッドを実装せよ。
+
+**出力**：
+```
+max(3, 7) = 7
+max(10, 5) = 10
+max(4, 4) = 4
+```
+
+**要件**：
+- `static int max(int a, int b)` というシグネチャでメソッドを定義すること
+- 等しい場合はどちらを返しても良い
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    static int max(int a, int b) {
+        // a と b の大きい方を返してください
+
+    }
+
+    public static void main(String[] args) {
+        System.out.println("max(3, 7) = " + max(3, 7));
+        System.out.println("max(10, 5) = " + max(10, 5));
+        System.out.println("max(4, 4) = " + max(4, 4));
+    }
+}`}
+/>

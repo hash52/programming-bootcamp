@@ -1,0 +1,80 @@
+---
+id: "extra/java/java_collections#hashmap_basic"
+title: "HashMapでキーと値のペアを管理する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_collections"
+category: "extra/java"
+language: "java"
+hint: |
+  `HashMap<String, Integer>` でキーを文字列、値を整数にした辞書を作る。
+  `put(key, value)` で追加、`get(key)` で取得、`containsKey(key)` で存在確認。
+  `keySet()` または `entrySet()` で全キーを列挙できる。
+sampleAnswer: |
+  import java.util.HashMap;
+
+  public class Main {
+      public static void main(String[] args) {
+          HashMap<String, Integer> scores = new HashMap<>();
+          scores.put("田中", 85);
+          scores.put("鈴木", 72);
+          scores.put("山田", 90);
+
+          System.out.println("田中の点数: " + scores.get("田中"));
+          System.out.println("要素数: " + scores.size());
+          System.out.println("鈴木が存在するか: " + scores.containsKey("鈴木"));
+
+          for (String name : scores.keySet()) {
+              System.out.println(name + ": " + scores.get(name) + "点");
+          }
+      }
+  }
+explanation: |
+  **`HashMap<K, V>`**：キーと値のペアを管理する。キーは重複不可で、同じキーで `put()` すると上書きされる。
+
+  **`get(key)` の注意**：存在しないキーを指定すると `null` が返る。`containsKey()` で事前確認するか、`getOrDefault()` を使うと安全。
+
+  **`keySet()` でのループ**：全キーを `Set` として取得し、for-each で繰り返す。順序は保証されない（挿入順を保証したい場合は `LinkedHashMap` を使う）。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`HashMap<String, Integer>` で名前と点数のペアを管理し、特定の生徒の点数取得・全員の点数表示を行うプログラムを作れ。
+
+**出力**（順序は異なる場合あり）：
+```
+田中の点数: 85
+要素数: 3
+鈴木が存在するか: true
+田中: 85点
+鈴木: 72点
+山田: 90点
+```
+
+**要件**：
+- `HashMap<String, Integer>` を使うこと
+- `put()`, `get()`, `containsKey()` を使うこと
+- `keySet()` で全要素を表示すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.util.HashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, Integer> scores = new HashMap<>();
+        // "田中"→85, "鈴木"→72, "山田"→90 を追加してください
+
+        System.out.println("田中の点数: " + scores.get("田中"));
+        System.out.println("要素数: " + scores.size());
+        System.out.println("鈴木が存在するか: " + scores.containsKey("鈴木"));
+
+        // keySet() で全員の点数を表示してください
+
+    }
+}`}
+/>

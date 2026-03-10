@@ -1,0 +1,122 @@
+---
+id: "extra/java/java_constructors#rectangle_constructor"
+title: "Rectangleクラスのコンストラクタで面積・周囲長を計算"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_constructors"
+category: "extra/java"
+language: "java"
+hint: |
+  `Rectangle(double width, double height)` コンストラクタで `width` と `height` を初期化する。
+  `area()` → `width * height`、`perimeter()` → `2 * (width + height)`
+  正方形用に `Rectangle(double side)` もオーバーロードで定義できる。
+sampleAnswer: |
+  class Rectangle {
+      double width;
+      double height;
+
+      Rectangle(double width, double height) {
+          this.width = width;
+          this.height = height;
+      }
+
+      // 正方形用コンストラクタ
+      Rectangle(double side) {
+          this(side, side);
+      }
+
+      double area() {
+          return width * height;
+      }
+
+      double perimeter() {
+          return 2 * (width + height);
+      }
+
+      void describe() {
+          System.out.printf("Rectangle(%.1f×%.1f): 面積=%.1f, 周囲長=%.1f%n",
+              width, height, area(), perimeter());
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Rectangle r1 = new Rectangle(4.0, 6.0);
+          Rectangle r2 = new Rectangle(3.0, 8.0);
+          Rectangle square = new Rectangle(5.0); // 正方形
+
+          r1.describe();
+          r2.describe();
+          square.describe();
+      }
+  }
+explanation: |
+  **コンストラクタによる正方形の表現**：`Rectangle(double side)` は `this(side, side)` に委譲することで、正方形を長方形クラスで扱える。
+
+  **DRY原則**：「Don't Repeat Yourself」= 同じコードを繰り返さない。
+  `this(side, side)` で委譲することで、初期化ロジックを1か所にまとめる。
+
+  **コンストラクタ設計**：どんな組み合わせで初期化したいかを考えてコンストラクタを設計する。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Rectangle` クラスに2つのコンストラクタ（長方形用・正方形用）を定義し、面積と周囲長を計算せよ。
+
+**出力**：
+```
+Rectangle(4.0×6.0): 面積=24.0, 周囲長=20.0
+Rectangle(3.0×8.0): 面積=24.0, 周囲長=22.0
+Rectangle(5.0×5.0): 面積=25.0, 周囲長=20.0
+```
+
+**要件**：
+- `Rectangle(double width, double height)` と `Rectangle(double side)` を定義すること
+- 正方形用コンストラクタは `this(side, side)` で委譲すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Rectangle {
+    double width;
+    double height;
+
+    Rectangle(double width, double height) {
+        // フィールドを初期化してください
+
+    }
+
+    // 正方形用コンストラクタ
+    Rectangle(double side) {
+        this(side, side);
+    }
+
+    double area() {
+        return width * height;
+    }
+
+    double perimeter() {
+        return 2 * (width + height);
+    }
+
+    void describe() {
+        System.out.printf("Rectangle(%.1f×%.1f): 面積=%.1f, 周囲長=%.1f%n",
+            width, height, area(), perimeter());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Rectangle r1 = new Rectangle(4.0, 6.0);
+        Rectangle r2 = new Rectangle(3.0, 8.0);
+        Rectangle square = new Rectangle(5.0);
+
+        r1.describe();
+        r2.describe();
+        square.describe();
+    }
+}`}
+/>

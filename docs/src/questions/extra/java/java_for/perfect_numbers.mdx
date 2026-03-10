@@ -1,0 +1,71 @@
+---
+id: "extra/java/java_for#perfect_numbers"
+title: "1〜1000の完全数をすべて表示する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  完全数とは「自分自身を除く約数の合計が自分と等しい数」。例：6 = 1+2+3。
+  外側のループで候補の数 `n` を調べ、内側のループで `n` の約数の合計 `sum` を求め、`sum == n` なら完全数。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          for (int n = 1; n <= 1000; n++) {
+              int sum = 0;
+              for (int i = 1; i < n; i++) {
+                  if (n % i == 0) {
+                      sum += i;
+                  }
+              }
+              if (sum == n) {
+                  System.out.println(n + " は完全数");
+              }
+          }
+      }
+  }
+explanation: |
+  **完全数**：自分自身を除く約数の総和が自分に等しい数。1000以下では 6・28・496 の3つがある。
+
+  **6の約数（自身を除く）**：1, 2, 3 → 合計 = 6 ✓  
+  **28の約数（自身を除く）**：1, 2, 4, 7, 14 → 合計 = 28 ✓
+
+  **二重ループの役割**：外側で候補 `n`（1〜1000）を順に確認し、内側で `n` の約数の合計 `sum` を計算する。`sum == n` なら出力する。
+
+  **`i < n` のポイント**：自分自身（n）は含めないので、内側ループは `i < n` までとする。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+1以上1000以下の完全数をすべて見つけて表示するプログラムを実装せよ。  
+完全数とは、自分自身を除く約数の合計が自分と等しい数である（例: 6 = 1+2+3）。
+
+**出力**：
+```
+6 は完全数
+28 は完全数
+496 は完全数
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        for (int n = 1; n <= 1000; n++) {
+            int sum = 0;
+
+            // n の約数（自分自身を除く）の合計を sum に求めてください
+            for (int i = 1; i < n; i++) {
+                // i が n の約数なら sum に加算してください
+            }
+
+            // sum == n なら完全数として表示してください
+        }
+    }
+}`}
+/>

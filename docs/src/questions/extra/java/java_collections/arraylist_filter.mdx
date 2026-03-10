@@ -1,0 +1,90 @@
+---
+id: "extra/java/java_collections#arraylist_filter"
+title: "ArrayListから条件に合う要素だけを抽出する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_collections"
+category: "extra/java"
+language: "java"
+hint: |
+  元のリストをfor-eachでループしながら、条件を満たす要素だけを別のリストに `add()` する。
+  50以上の要素、偶数の要素など、条件を変えることで様々な抽出ができる。
+sampleAnswer: |
+  import java.util.ArrayList;
+
+  public class Main {
+      public static void main(String[] args) {
+          ArrayList<Integer> numbers = new ArrayList<>();
+          numbers.add(34);
+          numbers.add(67);
+          numbers.add(12);
+          numbers.add(89);
+          numbers.add(45);
+          numbers.add(23);
+          numbers.add(78);
+
+          ArrayList<Integer> highScores = new ArrayList<>();
+          ArrayList<Integer> evenNumbers = new ArrayList<>();
+
+          for (int n : numbers) {
+              if (n >= 50) highScores.add(n);
+              if (n % 2 == 0) evenNumbers.add(n);
+          }
+
+          System.out.println("50以上: " + highScores);
+          System.out.println("偶数: " + evenNumbers);
+      }
+  }
+explanation: |
+  **フィルタリングパターン**：元のコレクションはそのままに、新しいリストに条件を満たす要素だけを追加する方法。
+  Java 8以降は `stream().filter()` でより簡潔に書けるが、基本は for-each + if のパターンを理解しておくとよい。
+
+  **複数条件の並行フィルタ**：1つのループ内で複数の条件を独立してチェックし、別々のリストに振り分けることができる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`ArrayList<Integer>` の要素から「50以上の要素」と「偶数の要素」をそれぞれ抽出して表示するプログラムを作れ。
+
+**出力**：
+```
+50以上: [67, 89, 78]
+偶数: [34, 12, 78]
+```
+
+**要件**：
+- for-each で元のリストをループすること
+- 別の `ArrayList` に条件を満たす要素を追加すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<Integer> numbers = new ArrayList<>();
+        numbers.add(34);
+        numbers.add(67);
+        numbers.add(12);
+        numbers.add(89);
+        numbers.add(45);
+        numbers.add(23);
+        numbers.add(78);
+
+        ArrayList<Integer> highScores = new ArrayList<>();
+        ArrayList<Integer> evenNumbers = new ArrayList<>();
+
+        for (int n : numbers) {
+            // 50以上なら highScores に、偶数なら evenNumbers に追加してください
+
+        }
+
+        System.out.println("50以上: " + highScores);
+        System.out.println("偶数: " + evenNumbers);
+    }
+}`}
+/>

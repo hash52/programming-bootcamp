@@ -1,0 +1,107 @@
+---
+id: "extra/java/java_multiple_classes#bank_account_class"
+title: "BankAccountクラスで入金・出金・残高表示"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_multiple_classes"
+category: "extra/java"
+language: "java"
+hint: |
+  `class BankAccount` を定義し、`balance`（int）フィールドを持たせる。
+  `deposit(int amount)` で `balance += amount`、
+  `withdraw(int amount)` で残高が足りる場合のみ `balance -= amount`。
+  `showBalance()` で残高を表示する。
+sampleAnswer: |
+  class BankAccount {
+      int balance;
+
+      void deposit(int amount) {
+          balance += amount;
+          System.out.println(amount + "円 入金しました。残高: " + balance + "円");
+      }
+
+      void withdraw(int amount) {
+          if (amount > balance) {
+              System.out.println("残高不足です。現在の残高: " + balance + "円");
+          } else {
+              balance -= amount;
+              System.out.println(amount + "円 出金しました。残高: " + balance + "円");
+          }
+      }
+
+      void showBalance() {
+          System.out.println("現在の残高: " + balance + "円");
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          BankAccount account = new BankAccount();
+          account.deposit(10000);
+          account.deposit(5000);
+          account.withdraw(3000);
+          account.withdraw(20000);
+          account.showBalance();
+      }
+  }
+explanation: |
+  **条件付き操作**：出金時に残高チェックを行うことで、不正な操作（残高以上の出金）を防げる。
+
+  **状態の整合性**：クラスのメソッドを通じてのみ状態を変えることで、常に正しい状態を保ちやすくなる。
+
+  **メッセージ出力をメソッド内で行う**：入金・出金の結果をメソッド内で出力することで、`main` をすっきり保てる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+銀行口座を表す `BankAccount` クラスを実装せよ。
+
+**出力**：
+```
+10000円 入金しました。残高: 10000円
+5000円 入金しました。残高: 15000円
+3000円 出金しました。残高: 12000円
+残高不足です。現在の残高: 12000円
+現在の残高: 12000円
+```
+
+**要件**：
+- `void deposit(int amount)`, `void withdraw(int amount)`, `void showBalance()` を定義すること
+- 出金時は残高不足チェックを行うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class BankAccount {
+    int balance;
+
+    void deposit(int amount) {
+        // balance に amount を足して、メッセージを表示してください
+
+    }
+
+    void withdraw(int amount) {
+        // 残高不足なら警告、そうでなければ balance から amount を引いてください
+
+    }
+
+    void showBalance() {
+        // 現在の残高を表示してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount();
+        account.deposit(10000);
+        account.deposit(5000);
+        account.withdraw(3000);
+        account.withdraw(20000);
+        account.showBalance();
+    }
+}`}
+/>

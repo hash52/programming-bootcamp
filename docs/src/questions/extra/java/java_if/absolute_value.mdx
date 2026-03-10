@@ -1,0 +1,64 @@
+---
+id: "extra/java/java_if#absolute_value"
+title: "絶対値をif文で求める"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_if"
+category: "extra/java"
+language: "java"
+hint: |
+  絶対値は「負の数のときだけ符号を反転する」と考えるとシンプルに書ける。
+  `n < 0` のとき `abs = -n`、それ以外は `abs = n` とすればよい。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = -8;
+          int abs;
+          if (n < 0) {
+              abs = -n;
+          } else {
+              abs = n;
+          }
+          System.out.println(n + "の絶対値: " + abs);
+      }
+  }
+explanation: |
+  **絶対値の定義**：数直線上での0からの距離。負の数は符号を反転、非負の数はそのまま。
+
+  **`-n` とは**：`n = -8` のとき `-n` は `-(-8) = 8`。Javaでは単項マイナス演算子 `-` を変数に付けると符号が反転する。
+
+  **標準ライブラリ**：実際には `Math.abs(n)` でも同じ結果が得られるが、if文の練習として自分で実装してみよう。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+変数 `n` の絶対値を `if` 文で求めて出力するプログラムを実装せよ。
+
+**実行例**（`n = -8` のとき）：
+```
+-8の絶対値: 8
+```
+
+**実行例**（`n = 5` のとき）：
+```
+5の絶対値: 5
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = -8;
+        int abs;
+
+        // n が負の場合と非負の場合で abs を設定してください
+        abs = 0;
+
+        System.out.println(n + "の絶対値: " + abs);
+    }
+}`}
+/>

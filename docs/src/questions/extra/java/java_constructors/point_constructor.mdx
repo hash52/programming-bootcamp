@@ -1,0 +1,96 @@
+---
+id: "extra/java/java_constructors#point_constructor"
+title: "コンストラクタでPointオブジェクトを初期化する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_constructors"
+category: "extra/java"
+language: "java"
+hint: |
+  コンストラクタはクラス名と同じ名前のメソッドで、戻り値型を書かない。
+  `Point(int x, int y)` のように定義し、`this.x = x;` でフィールドに代入する。
+  `new Point(3, 5)` のように引数を渡してインスタンスを作る。
+sampleAnswer: |
+  class Point {
+      int x;
+      int y;
+
+      Point(int x, int y) {
+          this.x = x;
+          this.y = y;
+      }
+
+      void display() {
+          System.out.println("Point(" + x + ", " + y + ")");
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Point p1 = new Point(3, 5);
+          Point p2 = new Point(-1, 7);
+          Point p3 = new Point(0, 0);
+
+          p1.display();
+          p2.display();
+          p3.display();
+      }
+  }
+explanation: |
+  **コンストラクタの目的**：オブジェクト生成時にフィールドを初期化する。
+  コンストラクタがあると `p.x = 3; p.y = 5;` のように後から設定する必要がなく、`new Point(3, 5)` で一度に初期化できる。
+
+  **`this` キーワード**：`this.x` は「このオブジェクトのフィールド `x`」を意味する。
+  引数名とフィールド名が同じ場合、`this.` を使って区別する（`this.x = x` は「フィールドxに引数xを代入」）。
+
+  **コンストラクタは戻り値型なし**：`void` も書かない。これがメソッドとの違い。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Point` クラスにコンストラクタを定義し、`new Point(x, y)` で初期化できるようにせよ。
+
+**出力**：
+```
+Point(3, 5)
+Point(-1, 7)
+Point(0, 0)
+```
+
+**要件**：
+- `Point(int x, int y)` コンストラクタを定義すること
+- `this.x = x;` で `this` を使うこと
+- 3つのインスタンスを生成して表示すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Point {
+    int x;
+    int y;
+
+    Point(int x, int y) {
+        // this.x と this.y に引数の値を代入してください
+
+    }
+
+    void display() {
+        System.out.println("Point(" + x + ", " + y + ")");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Point p1 = new Point(3, 5);
+        Point p2 = new Point(-1, 7);
+        Point p3 = new Point(0, 0);
+
+        p1.display();
+        p2.display();
+        p3.display();
+    }
+}`}
+/>

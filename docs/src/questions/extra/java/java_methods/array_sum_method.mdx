@@ -1,0 +1,72 @@
+---
+id: "extra/java/java_methods#array_sum_method"
+title: "int配列の合計を返すメソッド"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_methods"
+category: "extra/java"
+language: "java"
+hint: |
+  `static int sum(int[] arr)` のようにメソッドを定義する。
+  配列を引数として受け取れる（`int[] arr`）。
+  for-eachで全要素を合計して `return` する。
+sampleAnswer: |
+  public class Main {
+      static int sum(int[] arr) {
+          int total = 0;
+          for (int n : arr) {
+              total += n;
+          }
+          return total;
+      }
+
+      public static void main(String[] args) {
+          int[] a = {1, 2, 3, 4, 5};
+          int[] b = {10, 20, 30};
+          int[] c = {-5, 3, -2, 8};
+
+          System.out.println("配列aの合計: " + sum(a));
+          System.out.println("配列bの合計: " + sum(b));
+          System.out.println("配列cの合計: " + sum(c));
+      }
+  }
+explanation: |
+  **配列を引数に渡す**：`int[]` を引数の型として指定すると、配列をメソッドに渡せる。
+  Javaでは配列は参照渡しになる（配列自体が渡されるわけではなく、参照が渡される）。
+
+  **汎用性**：どんなサイズの配列でも動くメソッドを作ることで、複数の配列に対して同じ処理を適用できる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`int` 型の配列を受け取り、全要素の合計を返す `sum` メソッドを実装せよ。
+
+**出力**：
+```
+配列aの合計: 15
+配列bの合計: 60
+配列cの合計: 4
+```
+
+**要件**：
+- `static int sum(int[] arr)` というシグネチャでメソッドを定義すること
+- 3種類の配列に対して呼び出すこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int[] a = {1, 2, 3, 4, 5};
+        int[] b = {10, 20, 30};
+        int[] c = {-5, 3, -2, 8};
+
+        System.out.println("配列aの合計: " + sum(a));
+        System.out.println("配列bの合計: " + sum(b));
+        System.out.println("配列cの合計: " + sum(c));
+    }
+}`}
+/>

@@ -1,0 +1,100 @@
+---
+id: "extra/java/java_multiple_classes#person_display"
+title: "Personクラスを作り情報を表示するメソッドを定義する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_multiple_classes"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Person` を定義し、フィールド `name`（String）と `age`（int）を持たせる。
+  `display()` メソッドでフィールドの内容を表示する。
+  `main` で複数の `Person` インスタンスを作り、それぞれ `display()` を呼ぶ。
+sampleAnswer: |
+  class Person {
+      String name;
+      int age;
+
+      void display() {
+          System.out.println("名前: " + name + ", 年齢: " + age + "歳");
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Person p1 = new Person();
+          p1.name = "田中";
+          p1.age = 25;
+          p1.display();
+
+          Person p2 = new Person();
+          p2.name = "佐藤";
+          p2.age = 32;
+          p2.display();
+
+          Person p3 = new Person();
+          p3.name = "山田";
+          p3.age = 19;
+          p3.display();
+      }
+  }
+explanation: |
+  **クラスは設計図**：`Person` クラスは「名前と年齢を持つ人」の設計図。
+  `new Person()` で設計図を元に実際のオブジェクト（インスタンス）が作られる。
+
+  **フィールドは各インスタンスが独立して持つ**：`p1.name` と `p2.name` は別々の変数で、互いに影響しない。
+
+  **クラスによる情報のまとめ方**：関連する情報（名前・年齢）を1つのオブジェクトにまとめることで、扱いやすくなる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+名前（`name`）と年齢（`age`）を持つ `Person` クラスを定義し、`display()` メソッドで情報を表示せよ。
+
+**出力**：
+```
+名前: 田中, 年齢: 25歳
+名前: 佐藤, 年齢: 32歳
+名前: 山田, 年齢: 19歳
+```
+
+**要件**：
+- `Person` クラスに `String name` と `int age` フィールドを定義すること
+- `void display()` メソッドで情報を表示すること
+- `main` で3人分のインスタンスを作ること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Person {
+    String name;
+    int age;
+
+    void display() {
+        // "名前: ○○, 年齢: ○○歳" の形式で表示してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person p1 = new Person();
+        p1.name = "田中";
+        p1.age = 25;
+        p1.display();
+
+        Person p2 = new Person();
+        p2.name = "佐藤";
+        p2.age = 32;
+        p2.display();
+
+        Person p3 = new Person();
+        p3.name = "山田";
+        p3.age = 19;
+        p3.display();
+    }
+}`}
+/>

@@ -1,0 +1,130 @@
+---
+id: "extra/java/java_interfaces#simple_interface"
+title: "Greetableインターフェースを定義して実装する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_interfaces"
+category: "extra/java"
+language: "java"
+hint: |
+  `interface Greetable { String greet(); }` のようにインターフェースを定義する。
+  `class JapaneseGreeter implements Greetable { ... }` でインターフェースを実装する。
+  実装クラスは `greet()` メソッドを必ず定義しなければならない。
+sampleAnswer: |
+  interface Greetable {
+      String greet();
+  }
+
+  class JapaneseGreeter implements Greetable {
+      String name;
+
+      JapaneseGreeter(String name) {
+          this.name = name;
+      }
+
+      @Override
+      public String greet() {
+          return "こんにちは、" + name + "さん！";
+      }
+  }
+
+  class EnglishGreeter implements Greetable {
+      String name;
+
+      EnglishGreeter(String name) {
+          this.name = name;
+      }
+
+      @Override
+      public String greet() {
+          return "Hello, " + name + "!";
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Greetable[] greeters = {
+              new JapaneseGreeter("田中"),
+              new EnglishGreeter("Smith")
+          };
+
+          for (Greetable g : greeters) {
+              System.out.println(g.greet());
+          }
+      }
+  }
+explanation: |
+  **インターフェース**：メソッドのシグネチャのみを定義し、実装はしない（abstractメソッドのみ）。
+  `implements` キーワードでクラスがインターフェースを実装することを宣言する。
+
+  **実装の強制**：`Greetable` を `implements` したクラスは、`greet()` メソッドを必ず実装しなければならない（しないとコンパイルエラー）。
+
+  **インターフェース型変数**：`Greetable[] greeters` のようにインターフェース型で変数を宣言できる。これにより異なる実装クラスを同一の方法で扱える。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Greetable` インターフェースを定義し、日本語・英語の2つのGreeterクラスで実装するプログラムを作れ。
+
+**出力**：
+```
+こんにちは、田中さん！
+Hello, Smith!
+```
+
+**要件**：
+- `interface Greetable { String greet(); }` を定義すること
+- `JapaneseGreeter` と `EnglishGreeter` で `implements Greetable` すること
+- `Greetable[]` 型の配列で管理すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`interface Greetable {
+    String greet();
+}
+
+class JapaneseGreeter implements Greetable {
+    String name;
+
+    JapaneseGreeter(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String greet() {
+        // "こんにちは、name さん！" を返してください
+
+    }
+}
+
+class EnglishGreeter implements Greetable {
+    String name;
+
+    EnglishGreeter(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String greet() {
+        // "Hello, name!" を返してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Greetable[] greeters = {
+            new JapaneseGreeter("田中"),
+            new EnglishGreeter("Smith")
+        };
+
+        for (Greetable g : greeters) {
+            System.out.println(g.greet());
+        }
+    }
+}`}
+/>

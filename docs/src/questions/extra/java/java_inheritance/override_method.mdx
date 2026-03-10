@@ -1,0 +1,161 @@
+---
+id: "extra/java/java_inheritance#override_method"
+title: "@Overrideでメソッドをオーバーライドする"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_inheritance"
+category: "extra/java"
+language: "java"
+hint: |
+  スーパークラスと同じシグネチャのメソッドをサブクラスで定義するとオーバーライド（上書き）になる。
+  `@Override` アノテーションをつけることでオーバーライドであることを明示し、バグを防ぐ。
+  `Cat extends Animal` で `speak()` をオーバーライドする。
+sampleAnswer: |
+  class Animal {
+      String name;
+
+      Animal(String name) {
+          this.name = name;
+      }
+
+      String speak() {
+          return name + "が鳴いた";
+      }
+  }
+
+  class Dog extends Animal {
+      Dog(String name) {
+          super(name);
+      }
+
+      @Override
+      String speak() {
+          return name + "：ワンワン！";
+      }
+  }
+
+  class Cat extends Animal {
+      Cat(String name) {
+          super(name);
+      }
+
+      @Override
+      String speak() {
+          return name + "：ニャーニャー！";
+      }
+  }
+
+  class Cow extends Animal {
+      Cow(String name) {
+          super(name);
+      }
+
+      @Override
+      String speak() {
+          return name + "：モーモー！";
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Animal[] animals = {
+              new Dog("ポチ"),
+              new Cat("タマ"),
+              new Cow("のんちゃん")
+          };
+
+          for (Animal a : animals) {
+              System.out.println(a.speak());
+          }
+      }
+  }
+explanation: |
+  **`@Override` アノテーション**：オーバーライドであることを明示する。スペルミスや引数の違いで意図せず別メソッドになることを防ぐ（コンパイラがチェックする）。
+
+  **オーバーライドの条件**：メソッド名・引数リスト・戻り値型が全て同じであること（シグネチャが一致）。
+
+  **ポリモーフィズムの入り口**：`Animal` 型の配列に `Dog`, `Cat`, `Cow` を入れて `speak()` を呼ぶと、それぞれのオーバーライドされたメソッドが実行される（これがポリモーフィズム）。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Animal` クラスの `speak()` をサブクラス（`Dog`, `Cat`, `Cow`）でオーバーライドするプログラムを実装せよ。
+
+**出力**：
+```
+ポチ：ワンワン！
+タマ：ニャーニャー！
+のんちゃん：モーモー！
+```
+
+**要件**：
+- `@Override` アノテーションをつけること
+- `Animal` 型の配列に全動物を入れて for ループで処理すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Animal {
+    String name;
+
+    Animal(String name) {
+        this.name = name;
+    }
+
+    String speak() {
+        return name + "が鳴いた";
+    }
+}
+
+class Dog extends Animal {
+    Dog(String name) {
+        super(name);
+    }
+
+    @Override
+    String speak() {
+        return name + "：ワンワン！";
+    }
+}
+
+class Cat extends Animal {
+    Cat(String name) {
+        super(name);
+    }
+
+    @Override
+    String speak() {
+        // "name：ニャーニャー！" を返してください
+
+    }
+}
+
+class Cow extends Animal {
+    Cow(String name) {
+        super(name);
+    }
+
+    @Override
+    String speak() {
+        // "name：モーモー！" を返してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal[] animals = {
+            new Dog("ポチ"),
+            new Cat("タマ"),
+            new Cow("のんちゃん")
+        };
+
+        for (Animal a : animals) {
+            System.out.println(a.speak());
+        }
+    }
+}`}
+/>

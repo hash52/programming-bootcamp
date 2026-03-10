@@ -1,0 +1,59 @@
+---
+id: "extra/java/java_operators#triangle_area"
+title: "三角形の面積を計算する"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  三角形の面積は `底辺 × 高さ / 2` で求める。
+  `double` 型を使うと小数点以下も正しく表示できる。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          double base = 6.0;
+          double height = 4.0;
+          double area = base * height / 2;
+          System.out.println("底辺: " + base);
+          System.out.println("高さ: " + height);
+          System.out.println("面積: " + area);
+      }
+  }
+explanation: |
+  **三角形の面積**：`底辺 × 高さ ÷ 2`。`6.0 * 4.0 / 2 = 12.0`。
+
+  **演算子の優先順位**：`*` と `/` は左から順に計算される。`base * height / 2` は `(base * height) / 2` と同じ意味である。
+
+  **double型**：整数で `6 * 4 / 2 = 12` でも結果は同じだが、底辺や高さが小数のときも対応できるよう `double` を使うのがよい。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+底辺 `base = 6.0`、高さ `height = 4.0` の三角形の面積を計算して出力するプログラムを実装せよ。
+
+**出力**：
+```
+底辺: 6.0
+高さ: 4.0
+面積: 12.0
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        double base = 6.0;
+        double height = 4.0;
+        double area = 0.0; // base * height / 2 を代入してください
+
+        System.out.println("底辺: " + base);
+        System.out.println("高さ: " + height);
+        System.out.println("面積: " + area);
+    }
+}`}
+/>

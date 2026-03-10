@@ -1,0 +1,128 @@
+---
+id: "extra/java/java_constructors#constructor_overload"
+title: "コンストラクタをオーバーロードして複数の初期化方法を提供する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_constructors"
+category: "extra/java"
+language: "java"
+hint: |
+  引数の組み合わせが異なる複数のコンストラクタを定義できる（コンストラクタのオーバーロード）。
+  例：`Circle(double radius)` と `Circle()` を両方定義する。
+  どのコンストラクタを呼ぶかは `new` のときの引数で決まる。
+sampleAnswer: |
+  class Circle {
+      double radius;
+      String color;
+
+      // 半径と色を指定
+      Circle(double radius, String color) {
+          this.radius = radius;
+          this.color = color;
+      }
+
+      // 半径のみ指定（色はデフォルト）
+      Circle(double radius) {
+          this(radius, "白");
+      }
+
+      // デフォルト（半径1、白）
+      Circle() {
+          this(1.0, "白");
+      }
+
+      double area() {
+          return Math.PI * radius * radius;
+      }
+
+      void describe() {
+          System.out.printf("%s色の円（半径%.1f）: 面積=%.2f%n", color, radius, area());
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Circle c1 = new Circle();
+          Circle c2 = new Circle(5.0);
+          Circle c3 = new Circle(3.0, "赤");
+
+          c1.describe();
+          c2.describe();
+          c3.describe();
+      }
+  }
+explanation: |
+  **コンストラクタのオーバーロード**：引数の数・型が異なる複数のコンストラクタを定義できる。
+  呼び出し側が状況に応じて使いやすいコンストラクタを選べる。
+
+  **`this()` によるコンストラクタ委譲**：`this(radius, "白")` でそのクラスの別コンストラクタを呼べる。
+  共通の初期化ロジックを1か所にまとめるのに便利。
+  `this()` はコンストラクタの **最初の行** に書く必要がある。
+
+  **デフォルト値の提供**：オーバーロードにより、省略可能な引数をデフォルト値付きで提供できる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Circle` クラスにコンストラクタを3つオーバーロードし、引数の組み合わせで初期化できるようにせよ。
+
+**出力**：
+```
+白色の円（半径1.0）: 面積=3.14
+白色の円（半径5.0）: 面積=78.54
+赤色の円（半径3.0）: 面積=28.27
+```
+
+**要件**：
+- `Circle()`, `Circle(double radius)`, `Circle(double radius, String color)` の3つを定義すること
+- `this()` でコンストラクタ委譲を行うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Circle {
+    double radius;
+    String color;
+
+    // 半径と色を指定（メインコンストラクタ）
+    Circle(double radius, String color) {
+        this.radius = radius;
+        this.color = color;
+    }
+
+    // 半径のみ（色は"白"）
+    Circle(double radius) {
+        this(radius, "白"); // メインコンストラクタに委譲
+
+    }
+
+    // デフォルト（半径1.0、"白"）
+    Circle() {
+        // this() を使ってコンストラクタに委譲してください
+
+    }
+
+    double area() {
+        return Math.PI * radius * radius;
+    }
+
+    void describe() {
+        System.out.printf("%s色の円（半径%.1f）: 面積=%.2f%n", color, radius, area());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Circle c1 = new Circle();
+        Circle c2 = new Circle(5.0);
+        Circle c3 = new Circle(3.0, "赤");
+
+        c1.describe();
+        c2.describe();
+        c3.describe();
+    }
+}`}
+/>

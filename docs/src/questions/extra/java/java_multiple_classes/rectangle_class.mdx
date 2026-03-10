@@ -1,0 +1,94 @@
+---
+id: "extra/java/java_multiple_classes#rectangle_class"
+title: "Rectangleクラスで面積と周囲長を計算する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_multiple_classes"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Rectangle` を定義し、フィールド `width` と `height`（double型）を持たせる。
+  面積を返す `area()` メソッド：`return width * height;`
+  周囲長を返す `perimeter()` メソッド：`return 2 * (width + height);`
+sampleAnswer: |
+  class Rectangle {
+      double width;
+      double height;
+
+      double area() {
+          return width * height;
+      }
+
+      double perimeter() {
+          return 2 * (width + height);
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Rectangle r = new Rectangle();
+          r.width = 4.0;
+          r.height = 6.0;
+
+          System.out.println("幅: " + r.width + ", 高さ: " + r.height);
+          System.out.println("面積: " + r.area());
+          System.out.println("周囲長: " + r.perimeter());
+      }
+  }
+explanation: |
+  **インスタンスメソッド**：クラスに定義したメソッドは、インスタンスのフィールドを使って計算できる。
+  `area()` の中で `width` と `height` を参照するのは、そのインスタンス自身のフィールドを意味する。
+
+  **戻り値型の選択**：面積や周囲長は小数になり得るため `double` を使う。
+
+  **クラスの役割**：関連するデータ（幅・高さ）と操作（面積・周囲長の計算）をまとめることがクラスの目的。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+幅（`width`）と高さ（`height`）を持つ `Rectangle` クラスを定義し、面積と周囲長を計算するメソッドを実装せよ。
+
+**出力**（幅4、高さ6の場合）：
+```
+幅: 4.0, 高さ: 6.0
+面積: 24.0
+周囲長: 20.0
+```
+
+**要件**：
+- `double area()` と `double perimeter()` メソッドを定義すること
+- `main` でインスタンスを生成し幅・高さを設定してから各メソッドを呼ぶこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Rectangle {
+    double width;
+    double height;
+
+    double area() {
+        // 面積を返してください
+
+    }
+
+    double perimeter() {
+        // 周囲長を返してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Rectangle r = new Rectangle();
+        r.width = 4.0;
+        r.height = 6.0;
+
+        System.out.println("幅: " + r.width + ", 高さ: " + r.height);
+        System.out.println("面積: " + r.area());
+        System.out.println("周囲長: " + r.perimeter());
+    }
+}`}
+/>

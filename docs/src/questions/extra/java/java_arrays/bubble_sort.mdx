@@ -1,0 +1,95 @@
+---
+id: "extra/java/java_arrays#bubble_sort"
+title: "バブルソートで配列を昇順に並び替える"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_arrays"
+category: "extra/java"
+language: "java"
+hint: |
+  バブルソートは隣り合う要素を比較して、大きい方を右に移動させる操作を繰り返す。
+  外側のループ：N-1回繰り返す（パス数）
+  内側のループ：隣り合う2要素を比較し、左 > 右なら交換する
+  交換（swap）には一時変数 `tmp` を使う：`tmp = a[j]; a[j] = a[j+1]; a[j+1] = tmp;`
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int[] arr = {64, 34, 25, 12, 22, 11, 90};
+
+          System.out.print("ソート前: ");
+          for (int n : arr) System.out.print(n + " ");
+          System.out.println();
+
+          for (int i = 0; i < arr.length - 1; i++) {
+              for (int j = 0; j < arr.length - 1 - i; j++) {
+                  if (arr[j] > arr[j + 1]) {
+                      int tmp = arr[j];
+                      arr[j] = arr[j + 1];
+                      arr[j + 1] = tmp;
+                  }
+              }
+          }
+
+          System.out.print("ソート後: ");
+          for (int n : arr) System.out.print(n + " ");
+          System.out.println();
+      }
+  }
+explanation: |
+  **バブルソートの仕組み**：各パスで最大値が末尾に「浮かび上がる（バブル）」ように移動する。
+  1パス目で最大値(90)が末尾へ、2パス目で2番目の最大値(64)が末尾から2番目へ、と続く。
+
+  **交換（swap）パターン**：`tmp = a; a = b; b = tmp;` は変数の値を入れ替える定番の書き方。
+
+  **計算量**：O(n²)。要素数が多くなると遅いが、アルゴリズムを学ぶ上での基本として重要。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+次の配列 `arr` をバブルソートで昇順に並び替えて、ソート前後を表示するプログラムを実装せよ。
+
+```java
+int[] arr = {64, 34, 25, 12, 22, 11, 90};
+```
+
+**出力**：
+```
+ソート前: 64 34 25 12 22 11 90
+ソート後: 11 12 22 25 34 64 90
+```
+
+**要件**：
+- 二重ループを使うこと
+- 隣り合う要素を比較して大きい方を右に移動させること
+- 交換には一時変数（`tmp`）を使うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int[] arr = {64, 34, 25, 12, 22, 11, 90};
+
+        System.out.print("ソート前: ");
+        for (int n : arr) System.out.print(n + " ");
+        System.out.println();
+
+        // バブルソートを実装してください
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    // 隣り合う要素を交換する（tmp を使う）
+
+                }
+            }
+        }
+
+        System.out.print("ソート後: ");
+        for (int n : arr) System.out.print(n + " ");
+        System.out.println();
+    }
+}`}
+/>

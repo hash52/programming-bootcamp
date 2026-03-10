@@ -1,0 +1,71 @@
+---
+id: "extra/java/java_arrays#array_reverse_print"
+title: "配列を逆順に表示する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_arrays"
+category: "extra/java"
+language: "java"
+hint: |
+  通常のforループでインデックスを末尾から先頭に向けて動かす。
+  開始: `i = 配列名.length - 1`（最後の要素）
+  条件: `i >= 0`（先頭まで続ける）
+  更新: `i--`（1ずつ減らす）
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int[] data = {10, 20, 30, 40, 50};
+
+          System.out.println("逆順:");
+          for (int i = data.length - 1; i >= 0; i--) {
+              System.out.println(data[i]);
+          }
+      }
+  }
+explanation: |
+  **逆順ループ**：`for (int i = data.length - 1; i >= 0; i--)` が基本パターン。
+  `data.length - 1` が最後の要素のインデックス（5要素なら4）。
+
+  **for-eachでは逆順にできない**：for-eachは常に先頭から末尾の順で処理する。
+  逆順・飛び飛び・インデックスが必要な処理は通常の for ループを使う。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+次の配列 `data` の要素を逆順（末尾から先頭）に表示するプログラムを実装せよ。
+
+```java
+int[] data = {10, 20, 30, 40, 50};
+```
+
+**出力**：
+```
+逆順:
+50
+40
+30
+20
+10
+```
+
+**要件**：
+- インデックスを末尾から先頭に向けて動かす for ループを使うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int[] data = {10, 20, 30, 40, 50};
+
+        System.out.println("逆順:");
+        // インデックスを末尾から先頭に向けてループしてください
+        for (int i = data.length - 1; i >= 0; i--) {
+
+        }
+    }
+}`}
+/>

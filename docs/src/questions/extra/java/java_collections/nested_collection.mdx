@@ -1,0 +1,93 @@
+---
+id: "extra/java/java_collections#nested_collection"
+title: "HashMapのvalueをArrayListにしてグループ管理する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_collections"
+category: "extra/java"
+language: "java"
+hint: |
+  `HashMap<String, ArrayList<String>>` でグループ名→メンバーリストを管理する。
+  グループが存在しない場合は新しい `ArrayList` を作成してから `add()` する。
+  `getOrDefault()` を使うと、存在しない場合の初期化が簡潔に書ける。
+sampleAnswer: |
+  import java.util.ArrayList;
+  import java.util.HashMap;
+
+  public class Main {
+      public static void main(String[] args) {
+          HashMap<String, ArrayList<String>> groups = new HashMap<>();
+
+          addMember(groups, "Aチーム", "田中");
+          addMember(groups, "Bチーム", "鈴木");
+          addMember(groups, "Aチーム", "佐藤");
+          addMember(groups, "Bチーム", "山田");
+          addMember(groups, "Aチーム", "高橋");
+
+          for (String team : groups.keySet()) {
+              System.out.println(team + ": " + groups.get(team));
+          }
+      }
+
+      static void addMember(HashMap<String, ArrayList<String>> groups, String team, String name) {
+          if (!groups.containsKey(team)) {
+              groups.put(team, new ArrayList<>());
+          }
+          groups.get(team).add(name);
+      }
+  }
+explanation: |
+  **ネストされたコレクション**：`HashMap<String, ArrayList<String>>` で「グループ名」→「メンバーリスト」の関係を表現する。
+  データベースの 1対多 の関係をメモリ上で表現する際によく使うパターン。
+
+  **初期化チェック**：新しいキーに対して `ArrayList` がまだ存在しないため、`containsKey()` で確認してから `put()` する必要がある。
+  `computeIfAbsent()` を使えば `groups.computeIfAbsent(team, k -> new ArrayList<>()).add(name);` と1行で書ける。
+
+  **メソッドへの抽出**：繰り返すロジック（グループへのメンバー追加）をメソッドに切り出すことで、`main` が読みやすくなる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`HashMap<String, ArrayList<String>>` でチーム名とメンバーリストを管理するプログラムを実装せよ。
+
+**出力**（順序は異なる場合あり）：
+```
+Aチーム: [田中, 佐藤, 高橋]
+Bチーム: [鈴木, 山田]
+```
+
+**要件**：
+- `HashMap<String, ArrayList<String>>` を使うこと
+- グループが存在しない場合は新しい `ArrayList` を作成すること
+- メンバー追加ロジックをメソッドに切り出すこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, ArrayList<String>> groups = new HashMap<>();
+
+        addMember(groups, "Aチーム", "田中");
+        addMember(groups, "Bチーム", "鈴木");
+        addMember(groups, "Aチーム", "佐藤");
+        addMember(groups, "Bチーム", "山田");
+        addMember(groups, "Aチーム", "高橋");
+
+        for (String team : groups.keySet()) {
+            System.out.println(team + ": " + groups.get(team));
+        }
+    }
+
+    static void addMember(HashMap<String, ArrayList<String>> groups, String team, String name) {
+        // グループが存在しなければ新しいArrayListを作成し、メンバーを追加してください
+
+    }
+}`}
+/>

@@ -1,0 +1,162 @@
+---
+id: "extra/java/java_interfaces#interface_default_method"
+title: "defaultメソッドをインターフェースに定義して使う"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_interfaces"
+category: "extra/java"
+language: "java"
+hint: |
+  `interface` 内で `default` キーワードを使うと、メソッドにデフォルト実装を提供できる（Java 8以降）。
+  実装クラスはデフォルトメソッドをオーバーライドしなくてもよいが、必要なら上書きできる。
+  `default void greet() { System.out.println("こんにちは"); }` のように書く。
+sampleAnswer: |
+  interface Greeter {
+      String getName();
+
+      // デフォルトメソッド
+      default void greet() {
+          System.out.println("こんにちは、" + getName() + "です");
+      }
+
+      default void farewell() {
+          System.out.println("さようなら、" + getName() + "でした");
+      }
+  }
+
+  class FormalGreeter implements Greeter {
+      String name;
+
+      FormalGreeter(String name) {
+          this.name = name;
+      }
+
+      @Override
+      public String getName() {
+          return name;
+      }
+
+      // greet() をオーバーライドして丁寧な挨拶にする
+      @Override
+      public void greet() {
+          System.out.println("はじめまして、" + name + "と申します");
+      }
+  }
+
+  class CasualGreeter implements Greeter {
+      String name;
+
+      CasualGreeter(String name) {
+          this.name = name;
+      }
+
+      @Override
+      public String getName() {
+          return name;
+      }
+      // greet() はデフォルトのまま使う
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Greeter[] greeters = {
+              new FormalGreeter("田中"),
+              new CasualGreeter("佐藤")
+          };
+
+          for (Greeter g : greeters) {
+              g.greet();
+              g.farewell();
+              System.out.println("---");
+          }
+      }
+  }
+explanation: |
+  **defaultメソッド**：Java 8で追加。インターフェースにメソッドの実装を持たせることができる。
+  実装クラスは必要に応じてオーバーライドできるが、しなくてもデフォルト実装が使われる。
+
+  **後方互換性の維持**：既存のインターフェースに新しいメソッドを追加するとき、全実装クラスを変更しなくて済む。
+
+  **使い分け**：抽象メソッドは「必ず実装すること」、defaultメソッドは「デフォルト動作を提供するが変更も可」という使い分けが基本。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Greeter` インターフェースに `default` メソッドを定義し、一部のクラスでオーバーライドするプログラムを実装せよ。
+
+**出力**：
+```
+はじめまして、田中と申します
+さようなら、田中でした
+---
+こんにちは、佐藤です
+さようなら、佐藤でした
+---
+```
+
+**要件**：
+- `Greeter` インターフェースに `default void greet()` と `default void farewell()` を定義すること
+- `FormalGreeter` は `greet()` をオーバーライドし、`CasualGreeter` はデフォルトのまま使うこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`interface Greeter {
+    String getName();
+
+    default void greet() {
+        System.out.println("こんにちは、" + getName() + "です");
+    }
+
+    default void farewell() {
+        System.out.println("さようなら、" + getName() + "でした");
+    }
+}
+
+class FormalGreeter implements Greeter {
+    String name;
+
+    FormalGreeter(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() { return name; }
+
+    @Override
+    public void greet() {
+        // "はじめまして、name と申します" を表示してください
+
+    }
+}
+
+class CasualGreeter implements Greeter {
+    String name;
+
+    CasualGreeter(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() { return name; }
+    // greet() はデフォルト実装をそのまま使う
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Greeter[] greeters = {
+            new FormalGreeter("田中"),
+            new CasualGreeter("佐藤")
+        };
+
+        for (Greeter g : greeters) {
+            g.greet();
+            g.farewell();
+            System.out.println("---");
+        }
+    }
+}`}
+/>

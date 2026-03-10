@@ -1,0 +1,139 @@
+---
+id: "extra/java/java_inheritance#super_method_call"
+title: "super.メソッド()で親クラスの処理を再利用する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_inheritance"
+category: "extra/java"
+language: "java"
+hint: |
+  サブクラスでオーバーライドしたメソッドの中で `super.メソッド()` を呼ぶと、親クラスの処理を実行できる。
+  「親クラスの処理 + サブクラス固有の処理」という組み合わせが可能になる。
+sampleAnswer: |
+  class Employee {
+      String name;
+      int baseSalary;
+
+      Employee(String name, int baseSalary) {
+          this.name = name;
+          this.baseSalary = baseSalary;
+      }
+
+      int calculateSalary() {
+          return baseSalary;
+      }
+
+      void showSalary() {
+          System.out.println(name + "の給与: " + calculateSalary() + "円");
+      }
+  }
+
+  class Manager extends Employee {
+      int bonus;
+
+      Manager(String name, int baseSalary, int bonus) {
+          super(name, baseSalary);
+          this.bonus = bonus;
+      }
+
+      @Override
+      int calculateSalary() {
+          return super.calculateSalary() + bonus;
+      }
+
+      @Override
+      void showSalary() {
+          super.showSalary();
+          System.out.println("  (基本給: " + baseSalary + "円 + ボーナス: " + bonus + "円)");
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Employee emp = new Employee("田中", 300000);
+          Manager mgr = new Manager("佐藤", 400000, 100000);
+
+          emp.showSalary();
+          mgr.showSalary();
+      }
+  }
+explanation: |
+  **`super.メソッド()` の活用**：`Manager.calculateSalary()` が `super.calculateSalary()`（`baseSalary` を返す）を呼んで、それにボーナスを加える。
+  これにより「基本給の計算ロジック」を重複して書かなくて済む。
+
+  **オーバーライドと拡張**：親クラスの動作を完全に置き換えるのではなく、拡張したい場合に `super.メソッド()` が役立つ。
+
+  **`showSalary()` の連鎖**：`Manager.showSalary()` → `super.showSalary()`（Employee の表示）→ 追加情報の表示、という流れ。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Manager` が `Employee` を継承し、`super.calculateSalary()` を使ってボーナスを加算するプログラムを実装せよ。
+
+**出力**：
+```
+田中の給与: 300000円
+佐藤の給与: 500000円
+  (基本給: 400000円 + ボーナス: 100000円)
+```
+
+**要件**：
+- `Manager.calculateSalary()` が `super.calculateSalary() + bonus` を返すこと
+- `Manager.showSalary()` が `super.showSalary()` を呼ぶこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Employee {
+    String name;
+    int baseSalary;
+
+    Employee(String name, int baseSalary) {
+        this.name = name;
+        this.baseSalary = baseSalary;
+    }
+
+    int calculateSalary() {
+        return baseSalary;
+    }
+
+    void showSalary() {
+        System.out.println(name + "の給与: " + calculateSalary() + "円");
+    }
+}
+
+class Manager extends Employee {
+    int bonus;
+
+    Manager(String name, int baseSalary, int bonus) {
+        super(name, baseSalary);
+        this.bonus = bonus;
+    }
+
+    @Override
+    int calculateSalary() {
+        // super.calculateSalary() + bonus を返してください
+
+    }
+
+    @Override
+    void showSalary() {
+        super.showSalary(); // Employee の showSalary を呼ぶ
+        // 基本給とボーナスの内訳を表示してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Employee emp = new Employee("田中", 300000);
+        Manager mgr = new Manager("佐藤", 400000, 100000);
+
+        emp.showSalary();
+        mgr.showSalary();
+    }
+}`}
+/>

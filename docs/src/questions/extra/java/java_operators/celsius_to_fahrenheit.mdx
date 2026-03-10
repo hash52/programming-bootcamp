@@ -1,0 +1,52 @@
+---
+id: "extra/java/java_operators#celsius_to_fahrenheit"
+title: "摂氏を華氏に変換する"
+type: "WRITE"
+difficulty: "Normal"
+format: "codingProblem"
+topicId: "java_operators"
+category: "extra/java"
+language: "java"
+hint: |
+  変換式は `F = C × 9 / 5 + 32` である。
+  `double` 型で計算するため、`9.0 / 5` のように `.0` を付けて浮動小数点除算にしよう。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          double celsius = 100.0;
+          double fahrenheit = celsius * 9.0 / 5 + 32;
+          System.out.println(celsius + "℃ = " + fahrenheit + "°F");
+      }
+  }
+explanation: |
+  **変換式**：`F = C × 9 / 5 + 32`。水の沸点（100℃）は 212°F、氷点（0℃）は 32°F になる。
+
+  **演算子の優先順位**：`*` と `/` は `+` より先に計算される。式は左から `celsius * 9.0 → / 5 → + 32` の順に処理される。
+
+  **整数除算に注意**：`9 / 5` と書くと整数除算で `1` になる。`9.0 / 5` と書くことで `1.8` になり正しい結果が得られる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+摂氏（Celsius）を華氏（Fahrenheit）に変換するプログラムを実装せよ。  
+変換式は `F = C × 9 / 5 + 32` である。
+
+**出力**（`celsius = 100.0` のとき）：
+```
+100.0℃ = 212.0°F
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        double celsius = 100.0;
+        double fahrenheit = 0.0; // celsius * 9.0 / 5 + 32 を代入してください
+
+        System.out.println(celsius + "℃ = " + fahrenheit + "°F");
+    }
+}`}
+/>

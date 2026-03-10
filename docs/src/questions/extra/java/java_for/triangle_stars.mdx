@@ -1,0 +1,60 @@
+---
+id: "extra/java/java_for#triangle_stars"
+title: "＊で三角形を表示する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_for"
+category: "extra/java"
+language: "java"
+hint: |
+  外側のループで段数（1〜n）を制御し、内側のループで `*` の個数を制御する。
+  `System.out.print("*")` で改行なしに `*` を出力し、内側ループが終わったら `System.out.println()` で改行する。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          int n = 5;
+          for (int i = 1; i <= n; i++) {
+              for (int j = 1; j <= i; j++) {
+                  System.out.print("*");
+              }
+              System.out.println();
+          }
+      }
+  }
+explanation: |
+  **二重ループの仕組み**：外側ループの `i` が段数（1〜5）、内側ループの `j` が `*` の個数（1〜i個）を表す。
+
+  **`print` と `println` の使い分け**：`System.out.print` は改行せずに出力、`System.out.println()` は改行だけを出力する。内側ループで `*` を並べ、外側ループで改行する。
+
+  **1段目から5段目**：1段目は `*` が1個、2段目は2個、...、5段目は5個。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+二重ループを使って、以下の形の三角形を `*` で表示するプログラムを実装せよ。
+
+**出力**（`n = 5` のとき）：
+```
+*
+**
+***
+****
+*****
+```
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        int n = 5;
+        for (int i = 1; i <= n; i++) {
+            // i 個の * を横に並べて表示してください
+            // 最後に改行を忘れずに
+        }
+    }
+}`}
+/>

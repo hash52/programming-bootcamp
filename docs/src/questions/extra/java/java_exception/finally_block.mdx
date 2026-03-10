@@ -1,0 +1,95 @@
+---
+id: "extra/java/java_exception#finally_block"
+title: "try-catch-finallyで後処理を保証する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_exception"
+category: "extra/java"
+language: "java"
+hint: |
+  `finally` ブロックは、例外が発生しても発生しなくても **必ず** 実行される。
+  リソースの解放や後片付けの処理をここに書く。
+  `try { ... } catch (例外型 e) { ... } finally { ... }` の形式で使う。
+sampleAnswer: |
+  public class Main {
+      public static void main(String[] args) {
+          System.out.println("=== ケース1: 正常系 ===");
+          try {
+              int result = 10 / 2;
+              System.out.println("結果: " + result);
+          } catch (ArithmeticException e) {
+              System.out.println("例外発生: " + e.getMessage());
+          } finally {
+              System.out.println("finallyブロックを実行しました");
+          }
+
+          System.out.println("=== ケース2: 例外あり ===");
+          try {
+              int result = 10 / 0;
+              System.out.println("結果: " + result);
+          } catch (ArithmeticException e) {
+              System.out.println("例外発生: " + e.getMessage());
+          } finally {
+              System.out.println("finallyブロックを実行しました");
+          }
+      }
+  }
+explanation: |
+  **`finally` の役割**：例外が発生してもしなくても、必ず実行したい処理（ファイルのクローズ、DBの接続解除など）に使う。
+
+  **実行の流れ（正常系）**：try → finally
+  **実行の流れ（例外あり）**：try（例外発生） → catch → finally
+
+  **実際の使用例**：`try-with-resources` が登場する前は、ファイルやDB接続のクローズを `finally` で行うのが一般的だった。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`try-catch-finally` を使い、例外が発生する場合・しない場合の両方で `finally` が実行されることを確認せよ。
+
+**出力**：
+```
+=== ケース1: 正常系 ===
+結果: 5
+finallyブロックを実行しました
+=== ケース2: 例外あり ===
+例外発生: / by zero
+finallyブロックを実行しました
+```
+
+**要件**：
+- 正常系（10/2）と例外あり（10/0）の両ケースを実装すること
+- 両方のケースで `finally` が実行されることを確認すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`public class Main {
+    public static void main(String[] args) {
+        System.out.println("=== ケース1: 正常系 ===");
+        try {
+            int result = 10 / 2;
+            System.out.println("結果: " + result);
+        } catch (ArithmeticException e) {
+            System.out.println("例外発生: " + e.getMessage());
+        } finally {
+            // 必ず実行されるメッセージを表示してください
+
+        }
+
+        System.out.println("=== ケース2: 例外あり ===");
+        try {
+            int result = 10 / 0;
+            System.out.println("結果: " + result);
+        } catch (ArithmeticException e) {
+            System.out.println("例外発生: " + e.getMessage());
+        } finally {
+            // 必ず実行されるメッセージを表示してください
+
+        }
+    }
+}`}
+/>

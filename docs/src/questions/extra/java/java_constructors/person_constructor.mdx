@@ -1,0 +1,98 @@
+---
+id: "extra/java/java_constructors#person_constructor"
+title: "Personクラスにコンストラクタを追加して情報を初期化する"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_constructors"
+category: "extra/java"
+language: "java"
+hint: |
+  `Person(String name, int age)` コンストラクタを定義し、フィールドを初期化する。
+  `toString()` メソッドで情報を文字列として返す（後で継承と組み合わせるため）。
+  `new Person("田中", 25)` のように生成する。
+sampleAnswer: |
+  class Person {
+      String name;
+      int age;
+
+      Person(String name, int age) {
+          this.name = name;
+          this.age = age;
+      }
+
+      String introduce() {
+          return "私は" + name + "です。" + age + "歳です。";
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Person[] people = {
+              new Person("田中", 25),
+              new Person("佐藤", 32),
+              new Person("山田", 19)
+          };
+
+          for (Person p : people) {
+              System.out.println(p.introduce());
+          }
+      }
+  }
+explanation: |
+  **コンストラクタによる簡潔な生成**：`new Person("田中", 25)` と書くことで、名前と年齢を一度に設定できる。
+
+  **配列での一括生成**：`new Person[]{ ... }` ではなく `{}` で初期化しつつコンストラクタ呼び出しを並べることができる。
+
+  **`introduce()` メソッド**：自己紹介の文字列を返すメソッド。`void` で直接表示するのではなく `String` を返すことで、呼び出し元が柔軟に使える。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+`Person` クラスにコンストラクタを追加し、3人分のインスタンスを生成して自己紹介させよ。
+
+**出力**：
+```
+私は田中です。25歳です。
+私は佐藤です。32歳です。
+私は山田です。19歳です。
+```
+
+**要件**：
+- `Person(String name, int age)` コンストラクタを定義すること
+- `String introduce()` で自己紹介文字列を返すこと
+- 配列で3人分まとめて処理すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Person {
+    String name;
+    int age;
+
+    Person(String name, int age) {
+        // フィールドを初期化してください
+
+    }
+
+    String introduce() {
+        return "私は" + name + "です。" + age + "歳です。";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person[] people = {
+            new Person("田中", 25),
+            new Person("佐藤", 32),
+            new Person("山田", 19)
+        };
+
+        for (Person p : people) {
+            System.out.println(p.introduce());
+        }
+    }
+}`}
+/>
