@@ -1,0 +1,101 @@
+---
+id: "extra/java/java_constructors#item_constructor"
+title: "コンストラクタで商品名と価格を初期化するItemクラス"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_constructors"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Item` を定義し、`String name` と `int price` フィールドを持たせる。
+  コンストラクタで `name` と `price` を受け取り初期化する。
+  `display()` で「商品名: 〇〇, 価格: 〇〇円」を表示する。
+  `discountedPrice(int percent)` で割引後の価格（整数）を返す。
+sampleAnswer: |
+  class Item {
+      String name;
+      int price;
+
+      Item(String name, int price) {
+          this.name = name;
+          this.price = price;
+      }
+
+      void display() {
+          System.out.println("商品名: " + name + ", 価格: " + price + "円");
+      }
+
+      int discountedPrice(int percent) {
+          return price * (100 - percent) / 100;
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Item apple = new Item("りんご", 200);
+          Item shirt = new Item("Tシャツ", 3000);
+          apple.display();
+          shirt.display();
+          System.out.println("10%OFF: " + shirt.discountedPrice(10) + "円");
+      }
+  }
+explanation: |
+  **Stringフィールドのコンストラクタ**：`String name` の場合も `this.name = name` で代入できる。
+  数値型と同じ書き方でよい。
+
+  **引数付きメソッド**：`discountedPrice(int percent)` のように、メソッドに引数を渡してその場で計算することもできる。
+
+  **整数除算**：`price * (100 - percent) / 100` は整数演算になる。3000 × 90 / 100 = 270000 / 100 = 2700 円となる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+商品を表す `Item` クラスをコンストラクタで初期化し、割引価格の計算を実装せよ。
+
+**出力**：
+```
+商品名: りんご, 価格: 200円
+商品名: Tシャツ, 価格: 3000円
+10%OFF: 2700円
+```
+
+**要件**：
+- コンストラクタで `String name` と `int price` を受け取ること
+- `void display()` と `int discountedPrice(int percent)` を定義すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Item {
+    String name;
+    int price;
+
+    Item(String name, int price) {
+        // this.name, this.price に代入してください
+
+    }
+
+    void display() {
+        // "商品名: りんご, 価格: 200円" のように表示してください
+
+    }
+
+    int discountedPrice(int percent) {
+        // price * (100 - percent) / 100 を返してください
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Item apple = new Item("りんご", 200);
+        Item shirt = new Item("Tシャツ", 3000);
+        apple.display();
+        shirt.display();
+        System.out.println("10%OFF: " + shirt.discountedPrice(10) + "円");
+    }
+}`}
+/>

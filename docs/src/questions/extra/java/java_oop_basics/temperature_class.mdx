@@ -1,0 +1,106 @@
+---
+id: "extra/java/java_oop_basics#temperature_class"
+title: "Temperatureクラスで温度変換と比較を実装する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_oop_basics"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Temperature` を定義し、`double celsius`（摂氏）フィールドを持たせる。
+  `toFahrenheit()` で華氏に変換した値を返す（式: `celsius * 9 / 5 + 32`）。
+  `isHot()` で36.0度以上なら true を返す。
+  `display()` で摂氏と華氏の両方を表示する。
+sampleAnswer: |
+  class Temperature {
+      double celsius;
+
+      double toFahrenheit() {
+          return celsius * 9.0 / 5.0 + 32.0;
+      }
+
+      boolean isHot() {
+          return celsius >= 36.0;
+      }
+
+      void display() {
+          System.out.println("摂氏: " + celsius + "°C / 華氏: " + toFahrenheit() + "°F");
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Temperature t1 = new Temperature();
+          t1.celsius = 100.0;
+          t1.display();
+          System.out.println("熱い？ " + t1.isHot());
+
+          Temperature t2 = new Temperature();
+          t2.celsius = 25.0;
+          t2.display();
+          System.out.println("熱い？ " + t2.isHot());
+      }
+  }
+explanation: |
+  **double の演算精度**：`9.0 / 5.0` と書くことで浮動小数点演算になる。`9 / 5` だと整数除算で `1` になってしまう点に注意。
+
+  **boolean を返すメソッド**：`isHot()` のように真偽値を返すメソッドは「is〇〇」という命名が慣例である。
+
+  **メソッドの再利用**：`display()` の中から `toFahrenheit()` を呼ぶことで計算ロジックを1箇所にまとめている。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+温度を表す `Temperature` クラスを定義し、摂氏→華氏変換と高温判定を実装せよ。
+
+**出力**：
+```
+摂氏: 100.0°C / 華氏: 212.0°F
+熱い？ true
+摂氏: 25.0°C / 華氏: 77.0°F
+熱い？ false
+```
+
+**要件**：
+- `double celsius` フィールドを持つこと
+- `double toFahrenheit()`（摂氏×9/5+32）、`boolean isHot()`（36度以上でtrue）、`void display()` を定義すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Temperature {
+    double celsius;
+
+    double toFahrenheit() {
+        // celsius * 9.0 / 5.0 + 32.0 を返してください
+        return 0;
+    }
+
+    boolean isHot() {
+        // celsius が 36.0 以上なら true を返してください
+        return false;
+    }
+
+    void display() {
+        // "摂氏: 100.0°C / 華氏: 212.0°F" のように表示してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Temperature t1 = new Temperature();
+        t1.celsius = 100.0;
+        t1.display();
+        System.out.println("熱い？ " + t1.isHot());
+
+        Temperature t2 = new Temperature();
+        t2.celsius = 25.0;
+        t2.display();
+        System.out.println("熱い？ " + t2.isHot());
+    }
+}`}
+/>
