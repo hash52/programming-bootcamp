@@ -1,0 +1,96 @@
+---
+id: "extra/java/java_constructors#color_constructor"
+title: "コンストラクタでRGB値を持つColorクラスを作る"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_constructors"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Color` を定義し、`int r`・`int g`・`int b` フィールドを持たせる。
+  コンストラクタで `r`・`g`・`b` を受け取り初期化する。
+  `display()` で `RGB(r, g, b)` の形式で表示する。
+sampleAnswer: |
+  class Color {
+      int r;
+      int g;
+      int b;
+
+      Color(int r, int g, int b) {
+          this.r = r;
+          this.g = g;
+          this.b = b;
+      }
+
+      void display() {
+          System.out.println("RGB(" + r + ", " + g + ", " + b + ")");
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Color red = new Color(255, 0, 0);
+          Color green = new Color(0, 255, 0);
+          Color blue = new Color(0, 0, 255);
+          red.display();
+          green.display();
+          blue.display();
+      }
+  }
+explanation: |
+  **コンストラクタの基本形**：`Color(int r, int g, int b)` のように、クラス名と同じ名前・戻り値なしのメソッドがコンストラクタである。
+
+  **thisでフィールドを区別**：パラメータ名とフィールド名が同じとき、`this.r = r` でフィールドへの代入を明示する。
+
+  **複数フィールドの一括初期化**：コンストラクタで全フィールドを一度に初期化することで、生成直後から使える状態になる。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+RGB値を持つ `Color` クラスをコンストラクタを使って作成せよ。
+
+**出力**：
+```
+RGB(255, 0, 0)
+RGB(0, 255, 0)
+RGB(0, 0, 255)
+```
+
+**要件**：
+- `int r`・`int g`・`int b` フィールドを持つこと
+- コンストラクタで3つの値を受け取り初期化すること
+- `void display()` を定義すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Color {
+    int r;
+    int g;
+    int b;
+
+    Color(int r, int g, int b) {
+        // this.r, this.g, this.b に引数を代入してください
+
+    }
+
+    void display() {
+        // "RGB(255, 0, 0)" のように表示してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Color red = new Color(255, 0, 0);
+        Color green = new Color(0, 255, 0);
+        Color blue = new Color(0, 0, 255);
+        red.display();
+        green.display();
+        blue.display();
+    }
+}`}
+/>

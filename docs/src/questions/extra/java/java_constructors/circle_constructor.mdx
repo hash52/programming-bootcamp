@@ -1,0 +1,95 @@
+---
+id: "extra/java/java_constructors#circle_constructor"
+title: "コンストラクタで半径を受け取るCircleクラスを作る"
+type: "WRITE"
+difficulty: "Easy"
+format: "codingProblem"
+topicId: "java_constructors"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Circle` を定義し、`double radius` フィールドを持たせる。
+  コンストラクタで `radius` を受け取り初期化する。
+  `area()` で面積（π × radius²）を返し、`display()` で半径と面積を表示する。
+  π は `3.14159` を使ってよい。
+sampleAnswer: |
+  class Circle {
+      double radius;
+
+      Circle(double radius) {
+          this.radius = radius;
+      }
+
+      double area() {
+          return 3.14159 * radius * radius;
+      }
+
+      void display() {
+          System.out.println("半径: " + radius + " 面積: " + area());
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Circle c1 = new Circle(5.0);
+          Circle c2 = new Circle(3.0);
+          c1.display();
+          c2.display();
+      }
+  }
+explanation: |
+  **コンストラクタで値を強制**：コンストラクタがあると `new Circle()` とだけ書くとコンパイルエラーになる。
+  必要な値を強制的に渡させられるのがコンストラクタの利点である。
+
+  **計算メソッドとコンストラクタの組み合わせ**：コンストラクタで初期化したフィールドをメソッドで使う基本パターンである。
+
+  **Math.PI との比較**：より正確な円周率は `Math.PI` で使えるが、ここでは `3.14159` で十分である。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+コンストラクタで半径を受け取る `Circle` クラスを作成し、面積計算を実装せよ。
+
+**出力**：
+```
+半径: 5.0 面積: 78.53975
+半径: 3.0 面積: 28.27431
+```
+
+**要件**：
+- コンストラクタで `double radius` を受け取ること
+- `double area()`（π=3.14159）と `void display()` を定義すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Circle {
+    double radius;
+
+    Circle(double radius) {
+        // this.radius に引数を代入してください
+
+    }
+
+    double area() {
+        // 3.14159 * radius * radius を返してください
+        return 0;
+    }
+
+    void display() {
+        // "半径: 5.0 面積: 78.53975" のように表示してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Circle c1 = new Circle(5.0);
+        Circle c2 = new Circle(3.0);
+        c1.display();
+        c2.display();
+    }
+}`}
+/>

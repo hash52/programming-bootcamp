@@ -1,0 +1,136 @@
+---
+id: "extra/java/java_oop_basics#stack_class"
+title: "Stackクラスでpush/pop/peekを実装する"
+type: "WRITE"
+difficulty: "Hard"
+format: "codingProblem"
+topicId: "java_oop_basics"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Stack` を定義し、`int[] data`（最大10要素）と `int top`（現在の要素数）フィールドを持たせる。
+  `push(int v)` で要素を追加（満杯なら「スタックが満杯です」と表示）。
+  `pop()` で最上位の要素を取り出して返す（空なら -1 を返す）。
+  `peek()` で取り出さずに最上位の値を返す（空なら -1 を返す）。
+  `isEmpty()` で空かどうかを返す。
+sampleAnswer: |
+  class Stack {
+      int[] data = new int[10];
+      int top = 0;
+
+      void push(int v) {
+          if (top >= 10) {
+              System.out.println("スタックが満杯です");
+              return;
+          }
+          data[top] = v;
+          top++;
+      }
+
+      int pop() {
+          if (top == 0) return -1;
+          top--;
+          return data[top];
+      }
+
+      int peek() {
+          if (top == 0) return -1;
+          return data[top - 1];
+      }
+
+      boolean isEmpty() {
+          return top == 0;
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Stack s = new Stack();
+          s.push(10);
+          s.push(20);
+          s.push(30);
+          System.out.println("peek: " + s.peek());
+          System.out.println("pop: " + s.pop());
+          System.out.println("pop: " + s.pop());
+          System.out.println("isEmpty: " + s.isEmpty());
+          System.out.println("pop: " + s.pop());
+          System.out.println("isEmpty: " + s.isEmpty());
+      }
+  }
+explanation: |
+  **スタック構造**：後入れ先出し（LIFO: Last In First Out）のデータ構造である。
+  `top` インデックスで「次に挿入する位置」を管理するのが基本的な実装方法である。
+
+  **境界チェック**：`push()` では満杯チェック、`pop()`/`peek()` では空チェックを必ず行う。
+  境界外アクセスは `ArrayIndexOutOfBoundsException` につながるため重要である。
+
+  **pop()の実装**：`top--` して `data[top]` を返す（先に `top` を減らしてからアクセスする点に注意）。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+スタック（後入れ先出し）を表す `Stack` クラスを定義し、push/pop/peek を実装せよ。
+
+**出力**：
+```
+peek: 30
+pop: 30
+pop: 20
+isEmpty: false
+pop: 10
+isEmpty: true
+```
+
+**要件**：
+- `int[] data`（最大10要素）と `int top` フィールドを持つこと
+- `void push(int v)`、`int pop()`、`int peek()`、`boolean isEmpty()` を定義すること
+- 空スタックから pop/peek すると -1 を返すこと
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Stack {
+    int[] data = new int[10];
+    int top = 0;
+
+    void push(int v) {
+        // top が 10 以上なら「スタックが満杯です」と表示して return
+        // そうでなければ data[top] に v を入れて top を増やしてください
+
+    }
+
+    int pop() {
+        // top が 0 なら -1 を返す
+        // そうでなければ top を減らして data[top] を返してください
+        return -1;
+    }
+
+    int peek() {
+        // top が 0 なら -1 を返す
+        // そうでなければ data[top - 1] を返してください
+        return -1;
+    }
+
+    boolean isEmpty() {
+        // top が 0 なら true を返してください
+        return false;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Stack s = new Stack();
+        s.push(10);
+        s.push(20);
+        s.push(30);
+        System.out.println("peek: " + s.peek());
+        System.out.println("pop: " + s.pop());
+        System.out.println("pop: " + s.pop());
+        System.out.println("isEmpty: " + s.isEmpty());
+        System.out.println("pop: " + s.pop());
+        System.out.println("isEmpty: " + s.isEmpty());
+    }
+}`}
+/>

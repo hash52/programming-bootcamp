@@ -1,0 +1,119 @@
+---
+id: "extra/java/java_oop_basics#robot_class"
+title: "Robotクラスで位置と向きを管理する"
+type: "WRITE"
+difficulty: "Medium"
+format: "codingProblem"
+topicId: "java_oop_basics"
+category: "extra/java"
+language: "java"
+hint: |
+  `class Robot` を定義し、`int x`・`int y`・`String direction`（"N"/"E"/"S"/"W"）フィールドを持たせる。
+  `move()` で向きに応じてx/yを1変化させる。
+  `turnRight()` で向きを右に90度回転する（N→E→S→W→N）。
+  `status()` で現在位置と向きを表示する。
+sampleAnswer: |
+  class Robot {
+      int x;
+      int y;
+      String direction;
+
+      void move() {
+          if (direction.equals("N")) y++;
+          else if (direction.equals("E")) x++;
+          else if (direction.equals("S")) y--;
+          else if (direction.equals("W")) x--;
+      }
+
+      void turnRight() {
+          if (direction.equals("N")) direction = "E";
+          else if (direction.equals("E")) direction = "S";
+          else if (direction.equals("S")) direction = "W";
+          else if (direction.equals("W")) direction = "N";
+      }
+
+      void status() {
+          System.out.println("位置: (" + x + ", " + y + ") 向き: " + direction);
+      }
+  }
+
+  public class Main {
+      public static void main(String[] args) {
+          Robot r = new Robot();
+          r.x = 0;
+          r.y = 0;
+          r.direction = "N";
+          r.status();
+          r.move();
+          r.move();
+          r.turnRight();
+          r.move();
+          r.status();
+      }
+  }
+explanation: |
+  **String の比較**：`direction.equals("N")` のように、Stringはequals()で比較する。
+  `==` はオブジェクトの参照を比較するため、文字列内容の比較にはequals()を使う。
+
+  **状態機械**：向きの回転は `N→E→S→W→N` というサイクルで実装できる。
+  if-else ifを使って各状態から次の状態に遷移させる。
+
+  **座標系**：Nが+Y方向、Eが+X方向という一般的なゲーム的座標系を採用している。
+---
+
+import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
+
+## 問題
+
+ロボットを表す `Robot` クラスを定義し、位置と向きの管理・移動・回転を実装せよ。
+
+**出力**：
+```
+位置: (0, 0) 向き: N
+位置: (1, 2) 向き: E
+```
+
+**要件**：
+- `int x`・`int y`・`String direction` フィールドを持つこと
+- `void move()`（向きに応じて1マス進む）、`void turnRight()`（右90度回転）、`void status()` を定義すること
+
+<OneCompilerCodeBlock
+  language="java"
+  codeId="TODO"
+  code={`class Robot {
+    int x;
+    int y;
+    String direction;
+
+    void move() {
+        // direction に応じて x または y を ±1 してください
+        // N→y++, E→x++, S→y--, W→x--
+
+    }
+
+    void turnRight() {
+        // N→E→S→W→N の順に向きを変えてください
+
+    }
+
+    void status() {
+        // "位置: (x, y) 向き: direction" のように表示してください
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Robot r = new Robot();
+        r.x = 0;
+        r.y = 0;
+        r.direction = "N";
+        r.status();
+        r.move();
+        r.move();
+        r.turnRight();
+        r.move();
+        r.status();
+    }
+}`}
+/>
