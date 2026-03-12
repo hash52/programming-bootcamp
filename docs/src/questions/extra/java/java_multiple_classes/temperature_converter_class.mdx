@@ -46,7 +46,6 @@ explanation: |
   **`printf` の活用**：`%.1f` で小数点以下1桁、`%.2f` で2桁に揃えられる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -63,32 +62,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `TemperatureConverter` クラスに変換メソッドを定義すること
 - 摂氏→ケルビン：`C + 273.15`
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class TemperatureConverter {
-    double celsiusToFahrenheit(double celsius) {
-
-    }
-
-    double celsiusToKelvin(double celsius) {
-
-    }
-
-    void showAll(double celsius) {
-        System.out.printf("摂氏 %.1f°C → 華氏 %.1f°F, ケルビン %.2fK%n",
-            celsius, celsiusToFahrenheit(celsius), celsiusToKelvin(celsius));
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        TemperatureConverter converter = new TemperatureConverter();
-        double[] temps = {0, 20, 37, 100};
-        for (double t : temps) {
-            converter.showAll(t);
-        }
-    }
-}`}
-/>

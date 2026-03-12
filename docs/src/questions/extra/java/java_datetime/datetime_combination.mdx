@@ -40,7 +40,6 @@ explanation: |
   **`DateTimeFormatter` の適用**：`LocalDateTime` でも同様に `format()` が使える。パターンに時刻成分（`HH`=時、`mm`=分）も追加できる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -60,25 +59,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `toLocalDate()`, `toLocalTime()` を使うこと
 - `plusHours()` で2時間後を計算すること
 - `DateTimeFormatter` でフォーマットして表示すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-public class Main {
-    public static void main(String[] args) {
-        // 2026年3月20日14時30分の LocalDateTime を作成してください
-        LocalDateTime meeting = LocalDateTime.of(2026, 3, 20, 14, 30, 0);
-
-        System.out.println("会議日時: " + meeting);
-        // 日付部分・時刻部分を取り出して表示してください
-
-        // 2時間後の終了時刻を計算して表示してください
-
-        // "yyyy/MM/dd HH:mm" のフォーマットで表示してください
-
-    }
-}`}
-/>

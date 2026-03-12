@@ -60,7 +60,6 @@ explanation: |
   **不変オブジェクトの利点**：スレッドセーフ、値のコピーが不要、予期しない変更がない。`String`, `Integer` など標準ライブラリも不変クラスが多い。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -79,45 +78,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - フィールドを `private final` にすること
 - getter のみ定義し setter は定義しないこと
 - `isLeapYear()` でうるう年を判定すること（4で割り切れるかつ100で割り切れない、または400で割り切れる）
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class ImmutableDate {
-    private final int year;
-    private final int month;
-    private final int day;
-
-    ImmutableDate(int year, int month, int day) {
-        // final フィールドを初期化してください
-
-    }
-
-    public int getYear() { return year; }
-    public int getMonth() { return month; }
-    public int getDay() { return day; }
-
-    public String toString() {
-        return String.format("%d年%02d月%02d日", year, month, day);
-    }
-
-    public boolean isLeapYear() {
-        // うるう年の条件を実装してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        ImmutableDate d1 = new ImmutableDate(2024, 3, 15);
-        ImmutableDate d2 = new ImmutableDate(2025, 1, 1);
-
-        System.out.println(d1.toString());
-        System.out.println("年: " + d1.getYear());
-        System.out.println("うるう年: " + d1.isLeapYear());
-
-        System.out.println(d2.toString());
-        System.out.println("うるう年: " + d2.isLeapYear());
-    }
-}`}
-/>

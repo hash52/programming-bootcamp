@@ -45,7 +45,6 @@ explanation: |
   **日付とコレクションの組み合わせ**：実務でよく使うパターン。スケジュール管理・期限管理・締め切り計算など。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -66,30 +65,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `ArrayList<LocalDate>` でスケジュールを管理すること
 - `DateTimeFormatter` で `M月d日(E)` 形式で表示すること
 - `ChronoUnit.DAYS.between()` で今日からの日数を計算すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-
-public class Main {
-    public static void main(String[] args) {
-        LocalDate today = LocalDate.of(2026, 3, 15);
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("M月d日(E)");
-
-        ArrayList<LocalDate> schedule = new ArrayList<>();
-        // 3/20, 4/1, 4/15, 5/3 を追加してください
-
-        System.out.println("=== スケジュール一覧 ===");
-        System.out.println("（基準日: " + today.format(fmt) + ")\\n");
-
-        for (LocalDate date : schedule) {
-            // 今日から何日後かを計算して "M月d日(E) → X日後" の形式で表示してください
-
-        }
-    }
-}`}
-/>

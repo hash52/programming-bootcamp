@@ -49,7 +49,6 @@ explanation: |
   **`printf` のフォーマット**：`%.1f` で小数点以下1桁、`%.2f` で2桁に揃えられる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -66,36 +65,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `double area()`, `double circumference()`, `void describe()` を定義すること
 - ループで4つの半径それぞれの円を生成して処理すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Circle {
-    double radius;
-
-    double area() {
-        return Math.PI * radius * radius;
-    }
-
-    double circumference() {
-        return 2 * Math.PI * radius;
-    }
-
-    void describe() {
-        // 半径・面積・周囲長を printf で表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        double[] radii = {1.0, 3.0, 5.0, 10.0};
-
-        for (double r : radii) {
-            Circle c = new Circle();
-            c.radius = r;
-            c.describe();
-        }
-    }
-}`}
-/>

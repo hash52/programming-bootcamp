@@ -47,7 +47,6 @@ explanation: |
   **検査例外と非検査例外**：`Exception` を継承した独自例外は検査例外（呼び出し側で `try-catch` か `throws` が必要）。`RuntimeException` を継承すると非検査例外になる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -63,33 +62,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `NegativeAgeException extends Exception` を定義すること
 - `setAge` メソッドが `throws NegativeAgeException` で宣言されていること
 - `main` で `try-catch` を使うこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class NegativeAgeException extends Exception {
-    NegativeAgeException(String message) {
-        super(message);
-    }
-}
-
-public class Main {
-    static void setAge(int age) throws NegativeAgeException {
-        if (age < 0) {
-            throw new NegativeAgeException("年齢は0以上でなければなりません: " + age);
-        }
-        System.out.println("年齢を設定しました: " + age);
-    }
-
-    public static void main(String[] args) {
-        try {
-            setAge(25);
-            setAge(-5);
-            setAge(30);
-        } catch (NegativeAgeException e) {
-            // エラーメッセージを表示してください
-
-        }
-    }
-}`}
-/>

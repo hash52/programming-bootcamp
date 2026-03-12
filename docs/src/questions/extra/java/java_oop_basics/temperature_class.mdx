@@ -50,7 +50,6 @@ explanation: |
   **メソッドの再利用**：`display()` の中から `toFahrenheit()` を呼ぶことで計算ロジックを1箇所にまとめている。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -67,40 +66,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `double celsius` フィールドを持つこと
 - `double toFahrenheit()`（摂氏×9/5+32）、`boolean isHot()`（36度以上でtrue）、`void display()` を定義すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Temperature {
-    double celsius;
-
-    double toFahrenheit() {
-        // celsius * 9.0 / 5.0 + 32.0 を返してください
-        return 0;
-    }
-
-    boolean isHot() {
-        // celsius が 36.0 以上なら true を返してください
-        return false;
-    }
-
-    void display() {
-        // "摂氏: 100.0°C / 華氏: 212.0°F" のように表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Temperature t1 = new Temperature();
-        t1.celsius = 100.0;
-        t1.display();
-        System.out.println("熱い？ " + t1.isHot());
-
-        Temperature t2 = new Temperature();
-        t2.celsius = 25.0;
-        t2.display();
-        System.out.println("熱い？ " + t2.isHot());
-    }
-}`}
-/>

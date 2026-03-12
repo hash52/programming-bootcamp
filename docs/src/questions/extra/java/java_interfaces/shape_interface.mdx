@@ -75,7 +75,6 @@ explanation: |
   **`implements` したメソッドは `public`**：インターフェースのメソッドは暗黙的に `public abstract`。実装クラスでは `public` をつけること。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -90,64 +89,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `interface Shape` に `area()` と `perimeter()` を定義すること
 - `Circle` と `Rectangle` で `implements Shape` すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`interface Shape {
-    double area();
-    double perimeter();
-}
-
-class Circle implements Shape {
-    double radius;
-
-    Circle(double radius) {
-        this.radius = radius;
-    }
-
-    @Override
-    public double area() {
-        return Math.PI * radius * radius;
-    }
-
-    @Override
-    public double perimeter() {
-        return 2 * Math.PI * radius;
-    }
-}
-
-class Rectangle implements Shape {
-    double width, height;
-
-    Rectangle(double width, double height) {
-        this.width = width;
-        this.height = height;
-    }
-
-    @Override
-    public double area() {
-        // width * height を返してください
-
-    }
-
-    @Override
-    public double perimeter() {
-        // 2 * (width + height) を返してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Shape[] shapes = {
-            new Circle(5.0),
-            new Rectangle(4.0, 6.0)
-        };
-
-        for (Shape s : shapes) {
-            System.out.printf("面積: %.2f, 周囲長: %.2f%n", s.area(), s.perimeter());
-        }
-    }
-}`}
-/>

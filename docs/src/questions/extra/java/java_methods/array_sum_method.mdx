@@ -38,7 +38,6 @@ explanation: |
   **汎用性**：どんなサイズの配列でも動くメソッドを作ることで、複数の配列に対して同じ処理を適用できる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -52,21 +51,4 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 ```
 
 **要件**：
-- `static int sum(int[] arr)` というシグネチャでメソッドを定義すること
 - 3種類の配列に対して呼び出すこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-    public static void main(String[] args) {
-        int[] a = {1, 2, 3, 4, 5};
-        int[] b = {10, 20, 30};
-        int[] c = {-5, 3, -2, 8};
-
-        System.out.println("配列aの合計: " + sum(a));
-        System.out.println("配列bの合計: " + sum(b));
-        System.out.println("配列cの合計: " + sum(c));
-    }
-}`}
-/>

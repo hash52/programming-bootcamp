@@ -83,7 +83,6 @@ explanation: |
   **継承の深さとトレードオフ**：深い継承ツリーはコードの再利用を促すが、複雑さも増す。実際の設計では2〜3段階程度にとどめることが多い。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -100,71 +99,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - 3段階の継承チェーンを実装すること
 - 各クラスで `getInfo()` をオーバーライドし、`super.getInfo()` で上位の情報を引き継ぐこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class LivingThing {
-    String name;
-
-    LivingThing(String name) {
-        this.name = name;
-    }
-
-    void breathe() {
-        System.out.println(name + "は呼吸している");
-    }
-
-    String getInfo() {
-        return "生き物: " + name;
-    }
-}
-
-class Animal extends LivingThing {
-    String species;
-
-    Animal(String name, String species) {
-        super(name);
-        this.species = species;
-    }
-
-    void move() {
-        System.out.println(name + "が移動している");
-    }
-
-    @Override
-    String getInfo() {
-        return super.getInfo() + ", 種: " + species;
-    }
-}
-
-class Dog extends Animal {
-    String breed;
-
-    Dog(String name, String breed) {
-        super(name, "犬");
-        this.breed = breed;
-    }
-
-    void bark() {
-        System.out.println(name + "がワンワン！");
-    }
-
-    @Override
-    String getInfo() {
-        // super.getInfo() + ", 犬種: " + breed を返してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Dog dog = new Dog("ポチ", "柴犬");
-
-        System.out.println(dog.getInfo());
-        dog.breathe();
-        dog.move();
-        dog.bark();
-    }
-}`}
-/>

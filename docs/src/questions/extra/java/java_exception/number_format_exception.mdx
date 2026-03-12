@@ -38,7 +38,6 @@ explanation: |
   - 空文字（`""`）
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -56,23 +55,3 @@ abc → 変換失敗（数値ではありません）
 **要件**：
 - `NumberFormatException` をループ内でキャッチすること
 - 変換成功と失敗の両方のケースを出力すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-    public static void main(String[] args) {
-        String[] inputs = {"123", "abc", "456", "12.5", "789"};
-
-        for (String s : inputs) {
-            try {
-                int value = Integer.parseInt(s);
-                System.out.println(s + " → " + value);
-            } catch (NumberFormatException e) {
-                // 変換失敗のメッセージを表示してください
-
-            }
-        }
-    }
-}`}
-/>

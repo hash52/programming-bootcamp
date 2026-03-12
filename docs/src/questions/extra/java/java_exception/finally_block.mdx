@@ -44,7 +44,6 @@ explanation: |
   **実際の使用例**：`try-with-resources` が登場する前は、ファイルやDB接続のクローズを `finally` で行うのが一般的だった。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -63,33 +62,3 @@ finallyブロックを実行しました
 **要件**：
 - 正常系（10/2）と例外あり（10/0）の両ケースを実装すること
 - 両方のケースで `finally` が実行されることを確認すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-    public static void main(String[] args) {
-        System.out.println("=== ケース1: 正常系 ===");
-        try {
-            int result = 10 / 2;
-            System.out.println("結果: " + result);
-        } catch (ArithmeticException e) {
-            System.out.println("例外発生: " + e.getMessage());
-        } finally {
-            // 必ず実行されるメッセージを表示してください
-
-        }
-
-        System.out.println("=== ケース2: 例外あり ===");
-        try {
-            int result = 10 / 0;
-            System.out.println("結果: " + result);
-        } catch (ArithmeticException e) {
-            System.out.println("例外発生: " + e.getMessage());
-        } finally {
-            // 必ず実行されるメッセージを表示してください
-
-        }
-    }
-}`}
-/>

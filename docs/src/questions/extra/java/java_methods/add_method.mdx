@@ -31,7 +31,6 @@ explanation: |
   **メソッド呼び出しと文字列連結**：`"結果: " + add(3, 5)` のように、メソッドの戻り値を直接文字列連結に使える。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -47,15 +46,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `static int add(int a, int b)` というシグネチャでメソッドを定義すること
 - `main` から3種類の引数で呼び出すこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-    public static void main(String[] args) {
-        System.out.println("3 + 5 = " + add(3, 5));
-        System.out.println("10 + 20 = " + add(10, 20));
-        System.out.println("-4 + 7 = " + add(-4, 7));
-    }
-}`}
-/>

@@ -67,7 +67,6 @@ explanation: |
   **setter のバリデーション**：`setEmail` でメールアドレスの簡易チェック（`@` を含むか）を行う。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -84,54 +83,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `name` は `private final` にし getter のみ定義すること
 - `setEmail()` で `@` を含まないアドレスを拒否すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Person {
-    private final String name;
-    private int age;
-    private String email;
-
-    Person(String name, int age, String email) {
-        this.name = name;
-        this.age = age;
-        this.email = email;
-    }
-
-    public String getName() { return name; }
-    public int getAge() { return age; }
-    public String getEmail() { return email; }
-
-    public void setAge(int age) {
-        if (age >= 0) this.age = age;
-    }
-
-    public void setEmail(String email) {
-        if (email != null && email.contains("@")) {
-            this.email = email;
-        } else {
-            System.out.println("無効なメールアドレスです");
-        }
-    }
-
-    public void display() {
-        // "name | age歳 | email" の形式で表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Person p = new Person("田中太郎", 25, "tanaka@example.com");
-        p.display();
-
-        p.setAge(26);
-        p.setEmail("tanaka.new@example.com");
-        p.display();
-
-        p.setEmail("invalid-email");
-        p.display();
-    }
-}`}
-/>

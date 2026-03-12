@@ -45,7 +45,6 @@ explanation: |
   **クラスの役割**：関連するデータ（幅・高さ）と操作（面積・周囲長の計算）をまとめることがクラスの目的。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -61,34 +60,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `double area()` と `double perimeter()` メソッドを定義すること
 - `main` でインスタンスを生成し幅・高さを設定してから各メソッドを呼ぶこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Rectangle {
-    double width;
-    double height;
-
-    double area() {
-        // 面積を返してください
-
-    }
-
-    double perimeter() {
-        // 周囲長を返してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Rectangle r = new Rectangle();
-        r.width = 4.0;
-        r.height = 6.0;
-
-        System.out.println("幅: " + r.width + ", 高さ: " + r.height);
-        System.out.println("面積: " + r.area());
-        System.out.println("周囲長: " + r.perimeter());
-    }
-}`}
-/>

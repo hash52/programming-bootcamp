@@ -61,7 +61,6 @@ explanation: |
   **初期値の設定**：デフォルトコンストラクタで意味のある初期値を設定することで、オブジェクトを常に有効な状態に保てる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -78,46 +77,3 @@ Box(10×5×3) 体積=150
 **要件**：
 - 引数なしの `Box()` と `Box(int width, int height, int depth)` の2つのコンストラクタを定義すること
 - `int volume()` と `void describe()` を定義すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Box {
-    int width;
-    int height;
-    int depth;
-
-    // デフォルトコンストラクタ（各辺を1で初期化）
-    Box() {
-        // width, height, depth を 1 に設定してください
-
-    }
-
-    // 引数ありコンストラクタ
-    Box(int width, int height, int depth) {
-        // this を使ってフィールドを初期化してください
-
-    }
-
-    int volume() {
-        return width * height * depth;
-    }
-
-    void describe() {
-        System.out.println("Box(" + width + "×" + height + "×" + depth + ") 体積=" + volume());
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Box defaultBox = new Box();
-        Box customBox = new Box(10, 5, 3);
-
-        System.out.println("デフォルトコンストラクタ:");
-        defaultBox.describe();
-
-        System.out.println("引数ありコンストラクタ:");
-        customBox.describe();
-    }
-}`}
-/>

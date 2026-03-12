@@ -41,7 +41,6 @@ explanation: |
   **メソッドの分離**：`isPrime` を別メソッドに分離することで、main の処理が「何をしているか」が明確になる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -51,27 +50,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 ```
 100以下の素数: 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97
 ```
-
-**要件**：
-- `static boolean isPrime(int n)` というシグネチャでメソッドを定義すること
-- `i * i <= n` を使って効率的に判定すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-    static boolean isPrime(int n) {
-        // 素数であればtrue、そうでなければfalseを返してください
-    }
-
-    public static void main(String[] args) {
-        System.out.print("100以下の素数: ");
-        for (int i = 2; i <= 100; i++) {
-            if (isPrime(i)) {
-                System.out.print(i + " ");
-            }
-        }
-        System.out.println();
-    }
-}`}
-/>

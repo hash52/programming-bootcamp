@@ -49,7 +49,6 @@ explanation: |
   **戻り値のあるメソッド**：`total()` は `int` を返す。戻り値を使って計算結果を再利用できる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -64,38 +63,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `int value`（1枚の金額）と `int count`（枚数）フィールドを持つこと
 - `void add(int n)`、`int total()`、`void display()` を定義すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Coin {
-    int value;
-    int count;
-
-    void add(int n) {
-        // count を n 増やしてください
-
-    }
-
-    int total() {
-        // value * count を返してください
-        return 0;
-    }
-
-    void display() {
-        // "100円硬貨が3枚（合計300円）" のように表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Coin c = new Coin();
-        c.value = 100;
-        c.add(3);
-        c.display();
-        c.add(2);
-        c.display();
-    }
-}`}
-/>

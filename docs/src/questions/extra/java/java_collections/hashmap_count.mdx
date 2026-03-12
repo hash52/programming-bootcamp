@@ -35,7 +35,6 @@ explanation: |
   **出現回数カウントのパターン**：データ分析でよく使う基本パターン。頻度の高い要素を見つけたり、ヒストグラムを作成したりする基礎になる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -51,25 +50,3 @@ cherry: 1回
 **要件**：
 - `HashMap<String, Integer>` を使うこと
 - `getOrDefault()` を使って出現回数をカウントすること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.util.HashMap;
-
-public class Main {
-    public static void main(String[] args) {
-        String[] words = {"apple", "banana", "apple", "cherry", "banana", "apple"};
-
-        HashMap<String, Integer> count = new HashMap<>();
-        for (String word : words) {
-            // getOrDefault を使って出現回数をカウントしてください
-
-        }
-
-        for (String word : count.keySet()) {
-            System.out.println(word + ": " + count.get(word) + "回");
-        }
-    }
-}`}
-/>

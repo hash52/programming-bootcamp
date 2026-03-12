@@ -33,7 +33,6 @@ explanation: |
   **プログラムの継続**：`catch` ブロックで例外を処理した後、`catch` 以降の処理は通常通り続く。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -49,20 +48,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `try` ブロック内で `10 / 0` を実行すること
 - `ArithmeticException` を `catch` すること
 - `catch` 後にプログラムが継続することを確認すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-    public static void main(String[] args) {
-        try {
-            int result = 10 / 0;
-            System.out.println("結果: " + result);
-        } catch (ArithmeticException e) {
-            // 例外メッセージを表示してください
-
-        }
-        System.out.println("プログラムを継続します");
-    }
-}`}
-/>

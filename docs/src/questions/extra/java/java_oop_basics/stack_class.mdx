@@ -67,7 +67,6 @@ explanation: |
   **pop()の実装**：`top--` して `data[top]` を返す（先に `top` を減らしてからアクセスする点に注意）。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -87,50 +86,3 @@ isEmpty: true
 - `int[] data`（最大10要素）と `int top` フィールドを持つこと
 - `void push(int v)`、`int pop()`、`int peek()`、`boolean isEmpty()` を定義すること
 - 空スタックから pop/peek すると -1 を返すこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Stack {
-    int[] data = new int[10];
-    int top = 0;
-
-    void push(int v) {
-        // top が 10 以上なら「スタックが満杯です」と表示して return
-        // そうでなければ data[top] に v を入れて top を増やしてください
-
-    }
-
-    int pop() {
-        // top が 0 なら -1 を返す
-        // そうでなければ top を減らして data[top] を返してください
-        return -1;
-    }
-
-    int peek() {
-        // top が 0 なら -1 を返す
-        // そうでなければ data[top - 1] を返してください
-        return -1;
-    }
-
-    boolean isEmpty() {
-        // top が 0 なら true を返してください
-        return false;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Stack s = new Stack();
-        s.push(10);
-        s.push(20);
-        s.push(30);
-        System.out.println("peek: " + s.peek());
-        System.out.println("pop: " + s.pop());
-        System.out.println("pop: " + s.pop());
-        System.out.println("isEmpty: " + s.isEmpty());
-        System.out.println("pop: " + s.pop());
-        System.out.println("isEmpty: " + s.isEmpty());
-    }
-}`}
-/>

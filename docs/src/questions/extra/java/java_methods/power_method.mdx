@@ -34,7 +34,6 @@ explanation: |
   **`Math.pow()`との違い**：`Math.pow(2, 3)` は `double` を返す。整数の累乗を整数で扱いたいときは自作メソッドが便利。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -48,19 +47,4 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 ```
 
 **要件**：
-- `static int power(int base, int exp)` というシグネチャでメソッドを定義すること
-- ループで掛け算を繰り返すこと（`Math.pow()` を使わない）
 - 0乗の場合も正しく動くこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-  
-    public static void main(String[] args) {
-        System.out.println("2の3乗 = " + power(2, 3));
-        System.out.println("3の4乗 = " + power(3, 4));
-        System.out.println("5の0乗 = " + power(5, 0));
-    }
-}`}
-/>

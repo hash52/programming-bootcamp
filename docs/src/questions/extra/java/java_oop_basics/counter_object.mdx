@@ -49,7 +49,6 @@ explanation: |
   **状態管理のカプセル化**：`count` フィールドをメソッドを通じてのみ変更することで、予期しない変更を防ぐ。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -67,38 +66,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `increment()`, `decrement()`, `reset()`, `getCount()` を定義すること
 - 2つのインスタンスを作り、それぞれ独立して動作することを示すこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Counter {
-    int count = 0;
-
-    void increment() { count++; }
-    void decrement() { count--; }
-    void reset() { count = 0; }
-    int getCount() { return count; }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Counter c1 = new Counter();
-        Counter c2 = new Counter();
-
-        c1.increment();
-        c1.increment();
-        c1.increment();
-        c2.increment();
-
-        System.out.println("カウンタ1: " + c1.getCount());
-        System.out.println("カウンタ2: " + c2.getCount());
-
-        c1.decrement();
-        System.out.println("カウンタ1（decrement後）: " + c1.getCount());
-
-        c1.reset();
-        System.out.println("カウンタ1（reset後）: " + c1.getCount());
-        System.out.println("カウンタ2（変化なし）: " + c2.getCount());
-    }
-}`}
-/>

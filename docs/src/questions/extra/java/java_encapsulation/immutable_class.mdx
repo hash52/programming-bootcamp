@@ -72,7 +72,6 @@ explanation: |
   `String` クラスもこのパターン（`str.toUpperCase()` は新しい文字列を返す）。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -89,50 +88,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - すべてのフィールドを `private final` にすること
 - setter を定義しないこと
 - `add()`/`subtract()` は新しい `Money` オブジェクトを返すこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Money {
-    private final int amount;
-    private final String currency;
-
-    Money(int amount, String currency) {
-        this.amount = amount;
-        this.currency = currency;
-    }
-
-    public int getAmount() { return amount; }
-    public String getCurrency() { return currency; }
-
-    public Money add(Money other) {
-        // 新しい Money オブジェクトを返してください（amount の合計）
-
-    }
-
-    public Money subtract(Money other) {
-        // 新しい Money オブジェクトを返してください（amount の差）
-
-    }
-
-    public String toString() {
-        return amount + currency;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Money price = new Money(1000, "円");
-        Money tax = new Money(100, "円");
-        Money discount = new Money(200, "円");
-
-        Money total = price.add(tax);
-        System.out.println("小計+税: " + total);
-
-        Money afterDiscount = total.subtract(discount);
-        System.out.println("割引後: " + afterDiscount);
-
-        System.out.println("元の価格: " + price);
-    }
-}`}
-/>

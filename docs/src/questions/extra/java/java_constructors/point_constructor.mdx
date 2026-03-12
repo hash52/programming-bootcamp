@@ -47,7 +47,6 @@ explanation: |
   **コンストラクタは戻り値型なし**：`void` も書かない。これがメソッドとの違い。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -64,33 +63,3 @@ Point(0, 0)
 - `Point(int x, int y)` コンストラクタを定義すること
 - `this.x = x;` で `this` を使うこと
 - 3つのインスタンスを生成して表示すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Point {
-    int x;
-    int y;
-
-    Point(int x, int y) {
-        // this.x と this.y に引数の値を代入してください
-
-    }
-
-    void display() {
-        System.out.println("Point(" + x + ", " + y + ")");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Point p1 = new Point(3, 5);
-        Point p2 = new Point(-1, 7);
-        Point p3 = new Point(0, 0);
-
-        p1.display();
-        p2.display();
-        p3.display();
-    }
-}`}
-/>

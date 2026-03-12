@@ -36,7 +36,6 @@ explanation: |
   **メソッドの再利用**：ループの中で `factorial(i)` と呼び出すことで0〜7の階乗をまとめて表示できる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -53,20 +52,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 6! = 720
 7! = 5040
 ```
-
-**要件**：
-- `static int factorial(int n)` というシグネチャでメソッドを定義すること
-- ループで1から n まで掛け合わせること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-
-    public static void main(String[] args) {
-        for (int i = 0; i <= 7; i++) {
-            System.out.println(i + "! = " + factorial(i));
-        }
-    }
-}`}
-/>

@@ -36,7 +36,6 @@ explanation: |
   **2桁ゼロ埋め**：`MM`（2桁月）にすると 3月が "03" になる。`M`（1桁）では "3" になる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -53,24 +52,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `DateTimeFormatter.ofPattern()` でフォーマットを作成すること
 - `date.format(formatter)` で文字列に変換すること
 - `yyyy年MM月dd日` / `yyyy/MM/dd` / `MM-dd (E)` の3形式を使うこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-public class Main {
-    public static void main(String[] args) {
-        LocalDate date = LocalDate.of(2026, 3, 15);
-
-        // DateTimeFormatter.ofPattern() で3種類のフォーマットを作成してください
-        DateTimeFormatter fmt1 = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
-        DateTimeFormatter fmt2 = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        DateTimeFormatter fmt3 = DateTimeFormatter.ofPattern("MM-dd (E)");
-
-        // 各フォーマットで date を変換して表示してください
-
-    }
-}`}
-/>

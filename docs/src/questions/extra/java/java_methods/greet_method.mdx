@@ -33,7 +33,6 @@ explanation: |
   名前が変わっても `greet()` の呼び出し側だけ変えればよい。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -49,20 +48,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `static String greet(String name)` というシグネチャでメソッドを定義すること
 - `main` から3回呼び出すこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-    // greet メソッドをここに定義してください
-    static String greet(String name) {
-
-    }
-
-    public static void main(String[] args) {
-        System.out.println(greet("田中"));
-        System.out.println(greet("佐藤"));
-        System.out.println(greet("山田"));
-    }
-}`}
-/>

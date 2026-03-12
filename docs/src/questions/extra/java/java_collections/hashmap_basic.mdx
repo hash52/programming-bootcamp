@@ -38,7 +38,6 @@ explanation: |
   **`keySet()` でのループ**：全キーを `Set` として取得し、for-each で繰り返す。順序は保証されない（挿入順を保証したい場合は `LinkedHashMap` を使う）。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -58,23 +57,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `HashMap<String, Integer>` を使うこと
 - `put()`, `get()`, `containsKey()` を使うこと
 - `keySet()` で全要素を表示すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.util.HashMap;
-
-public class Main {
-    public static void main(String[] args) {
-        HashMap<String, Integer> scores = new HashMap<>();
-        // "田中"→85, "鈴木"→72, "山田"→90 を追加してください
-
-        System.out.println("田中の点数: " + scores.get("田中"));
-        System.out.println("要素数: " + scores.size());
-        System.out.println("鈴木が存在するか: " + scores.containsKey("鈴木"));
-
-        // keySet() で全員の点数を表示してください
-
-    }
-}`}
-/>

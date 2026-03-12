@@ -44,7 +44,6 @@ explanation: |
   **複数インスタンス**：同じクラスから複数のオブジェクトを作ることができ、それぞれが独立したフィールドを持つ。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -59,31 +58,3 @@ Point(-1, 7)
 **要件**：
 - `Point` クラスには `int x`, `int y` フィールドと `display()` メソッドを定義すること
 - `main` で2つのインスタンスを生成してフィールドに値を設定すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Point {
-    int x;
-    int y;
-
-    void display() {
-        // "Point(x, y)" の形式で表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Point p1 = new Point();
-        p1.x = 3;
-        p1.y = 5;
-        p1.display();
-
-        Point p2 = new Point();
-        p2.x = -1;
-        p2.y = 7;
-        p2.display();
-    }
-}`}
-/>

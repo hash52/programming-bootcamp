@@ -80,7 +80,6 @@ explanation: |
   **`instanceof` でインターフェース確認**：`cat instanceof Trainable` は `false`。`Cat` は `Trainable` を実装していないため。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -100,69 +99,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `class Dog extends Animal implements Trainable` で定義すること
 - `train()` と `canLearnTrick()` を実装すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`interface Trainable {
-    void train(String command);
-    boolean canLearnTrick();
-}
-
-class Animal {
-    String name;
-
-    Animal(String name) {
-        this.name = name;
-    }
-
-    void eat() {
-        System.out.println(name + "が食事中");
-    }
-}
-
-class Dog extends Animal implements Trainable {
-    int intelligenceLevel;
-
-    Dog(String name, int intelligenceLevel) {
-        super(name);
-        this.intelligenceLevel = intelligenceLevel;
-    }
-
-    @Override
-    public void train(String command) {
-        // "name が「command」を学習した！" を表示してください
-
-    }
-
-    @Override
-    public boolean canLearnTrick() {
-        // intelligenceLevel が 5 以上なら true を返してください
-
-    }
-}
-
-class Cat extends Animal {
-    Cat(String name) {
-        super(name);
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Dog dog = new Dog("ポチ", 8);
-        Cat cat = new Cat("タマ");
-
-        dog.eat();
-        dog.train("おすわり");
-        dog.train("握手");
-        System.out.println("トリックを学べる: " + dog.canLearnTrick());
-
-        cat.eat();
-        System.out.println("猫はTrainableではない: " + (cat instanceof Trainable));
-
-        Trainable trainable = dog;
-        trainable.train("ふせ");
-    }
-}`}
-/>

@@ -64,7 +64,6 @@ explanation: |
   **コンストラクタの検証**：コンストラクタでも検証を行うことで、オブジェクト生成時から有効な状態を保証する。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -83,48 +82,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `celsius` を `private` にすること
 - setter で-273.15未満の値を拒否すること
 - 華氏変換メソッド `getFahrenheit()` を実装すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Temperature {
-    private double celsius;
-
-    Temperature(double celsius) {
-        this.celsius = celsius;
-    }
-
-    public double getCelsius() { return celsius; }
-
-    public void setCelsius(double celsius) {
-        // -273.15未満なら拒否してください
-
-        this.celsius = celsius;
-    }
-
-    public double getFahrenheit() {
-        // 摂氏から華氏に変換して返してください（°F = °C × 9/5 + 32）
-
-    }
-
-    public void display() {
-        System.out.printf("%.1f°C / %.1f°F%n", celsius, getFahrenheit());
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Temperature t = new Temperature(25.0);
-        t.display();
-
-        t.setCelsius(100.0);
-        t.display();
-
-        t.setCelsius(-300.0);
-        t.display();
-
-        Temperature boiling = new Temperature(100.0);
-        System.out.println("沸点: " + boiling.getCelsius() + "°C");
-    }
-}`}
-/>

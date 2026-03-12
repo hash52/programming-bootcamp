@@ -53,7 +53,6 @@ explanation: |
   **クラスによるデータのモデリング**：現実の「本」という概念をクラスで表現する。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -70,43 +69,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `void describe()` と `boolean isThickBook()` を定義すること（300ページ以上が厚い本）
 - 2冊の本を配列で管理してfor-eachで処理すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Book {
-    String title;
-    String author;
-    int pages;
-
-    void describe() {
-        // "「title」著者: author, pagesページ" を表示してください
-
-    }
-
-    boolean isThickBook() {
-        // 300ページ以上なら true を返してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Book b1 = new Book();
-        b1.title = "Java入門";
-        b1.author = "山田太郎";
-        b1.pages = 350;
-
-        Book b2 = new Book();
-        b2.title = "アルゴリズム基礎";
-        b2.author = "佐藤花子";
-        b2.pages = 250;
-
-        Book[] books = {b1, b2};
-        for (Book book : books) {
-            book.describe();
-            System.out.println("厚い本: " + book.isThickBook());
-        }
-    }
-}`}
-/>

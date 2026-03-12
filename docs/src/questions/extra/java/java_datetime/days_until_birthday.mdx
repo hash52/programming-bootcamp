@@ -42,7 +42,6 @@ explanation: |
   **`between(start, end)`**：「start から end まで何日」を返す。`between(today, birthday)` は今日から誕生日までの日数。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -58,29 +57,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `ChronoUnit.DAYS.between()` で日数を計算すること
 - 今年の誕生日が過ぎていたら来年の誕生日を使うこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-
-public class Main {
-    public static void main(String[] args) {
-        LocalDate today = LocalDate.of(2026, 3, 15);
-        int birthMonth = 7;
-        int birthDay = 20;
-
-        // 今年の誕生日を作成してください
-        LocalDate birthday = LocalDate.of(today.getYear(), birthMonth, birthDay);
-
-        // 誕生日が today 以前なら来年に変更してください
-
-        // ChronoUnit.DAYS.between() で日数を計算してください
-        long daysUntil = 0;
-        System.out.println("今日: " + today);
-        System.out.println("次の誕生日: " + birthday);
-        System.out.println("誕生日まで: " + daysUntil + "日");
-    }
-}`}
-/>

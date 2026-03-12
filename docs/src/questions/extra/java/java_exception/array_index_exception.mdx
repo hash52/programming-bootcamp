@@ -37,7 +37,6 @@ explanation: |
   **`e.getMessage()`**：`"Index 5 out of bounds for length 3"` のようなメッセージが得られる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -54,25 +53,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `int[] arr = {10, 20, 30}` を用意し、`arr[5]` にアクセスすること
 - `ArrayIndexOutOfBoundsException` を `catch` すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-    public static void main(String[] args) {
-        int[] arr = {10, 20, 30};
-
-        try {
-            System.out.println(arr[0]);
-            System.out.println(arr[1]);
-            System.out.println(arr[5]); // 範囲外アクセス
-            System.out.println(arr[2]);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            // 例外メッセージを表示してください
-
-        }
-
-        System.out.println("処理を続けます");
-    }
-}`}
-/>

@@ -81,7 +81,6 @@ explanation: |
   **使い分け**：抽象メソッドは「必ず実装すること」、defaultメソッドは「デフォルト動作を提供するが変更も可」という使い分けが基本。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -100,63 +99,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `Greeter` インターフェースに `default void greet()` と `default void farewell()` を定義すること
 - `FormalGreeter` は `greet()` をオーバーライドし、`CasualGreeter` はデフォルトのまま使うこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`interface Greeter {
-    String getName();
-
-    default void greet() {
-        System.out.println("こんにちは、" + getName() + "です");
-    }
-
-    default void farewell() {
-        System.out.println("さようなら、" + getName() + "でした");
-    }
-}
-
-class FormalGreeter implements Greeter {
-    String name;
-
-    FormalGreeter(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() { return name; }
-
-    @Override
-    public void greet() {
-        // "はじめまして、name と申します" を表示してください
-
-    }
-}
-
-class CasualGreeter implements Greeter {
-    String name;
-
-    CasualGreeter(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() { return name; }
-    // greet() はデフォルト実装をそのまま使う
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Greeter[] greeters = {
-            new FormalGreeter("田中"),
-            new CasualGreeter("佐藤")
-        };
-
-        for (Greeter g : greeters) {
-            g.greet();
-            g.farewell();
-            System.out.println("---");
-        }
-    }
-}`}
-/>

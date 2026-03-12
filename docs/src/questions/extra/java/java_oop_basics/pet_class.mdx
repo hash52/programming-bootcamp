@@ -49,7 +49,6 @@ explanation: |
   **インクリメント/デクリメント**：`hunger--` は `hunger = hunger - 1` と同じである。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -64,36 +63,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `String name`・`String type`・`int hunger` フィールドを持つこと
 - `void feed()`（空腹度を1減らす、0未満にはしない）と `void status()` を定義すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Pet {
-    String name;
-    String type;
-    int hunger;
-
-    void feed() {
-        // hunger を1減らしてください（0未満にはしないこと）
-
-    }
-
-    void status() {
-        // "ミケ（猫）空腹度: 5" のように表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Pet p = new Pet();
-        p.name = "ミケ";
-        p.type = "猫";
-        p.hunger = 5;
-        p.status();
-        p.feed();
-        p.feed();
-        p.status();
-    }
-}`}
-/>

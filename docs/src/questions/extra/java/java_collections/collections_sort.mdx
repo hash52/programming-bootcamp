@@ -48,7 +48,6 @@ explanation: |
   **文字列のソート**：文字列は `Comparable` を実装しているので `Collections.sort()` で辞書順にソートできる。日本語は Unicode コードポイント順になる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -66,36 +65,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `Collections.sort()` で昇順ソートをすること
 - `Collections.reverseOrder()` で降順ソートをすること
 - 文字列の `ArrayList` もソートすること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.util.ArrayList;
-import java.util.Collections;
-
-public class Main {
-    public static void main(String[] args) {
-        ArrayList<Integer> numbers = new ArrayList<>();
-        numbers.add(42);
-        numbers.add(15);
-        numbers.add(73);
-        numbers.add(8);
-        numbers.add(56);
-
-        System.out.println("ソート前: " + numbers);
-
-        // 昇順にソートして表示してください
-        System.out.println("昇順: " + numbers);
-
-        // 降順にソートして表示してください
-        System.out.println("降順: " + numbers);
-
-        ArrayList<String> names = new ArrayList<>();
-        names.add("田中");
-        names.add("鈴木");
-        names.add("佐藤");
-        // 名前を昇順にソートして表示してください
-        System.out.println("名前の昇順: " + names);
-    }
-}`}
-/>

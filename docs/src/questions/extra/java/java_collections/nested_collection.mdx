@@ -47,7 +47,6 @@ explanation: |
   **メソッドへの抽出**：繰り返すロジック（グループへのメンバー追加）をメソッドに切り出すことで、`main` が読みやすくなる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -63,31 +62,3 @@ Bチーム: [鈴木, 山田]
 - `HashMap<String, ArrayList<String>>` を使うこと
 - グループが存在しない場合は新しい `ArrayList` を作成すること
 - メンバー追加ロジックをメソッドに切り出すこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.util.ArrayList;
-import java.util.HashMap;
-
-public class Main {
-    public static void main(String[] args) {
-        HashMap<String, ArrayList<String>> groups = new HashMap<>();
-
-        addMember(groups, "Aチーム", "田中");
-        addMember(groups, "Bチーム", "鈴木");
-        addMember(groups, "Aチーム", "佐藤");
-        addMember(groups, "Bチーム", "山田");
-        addMember(groups, "Aチーム", "高橋");
-
-        for (String team : groups.keySet()) {
-            System.out.println(team + ": " + groups.get(team));
-        }
-    }
-
-    static void addMember(HashMap<String, ArrayList<String>> groups, String team, String name) {
-        // グループが存在しなければ新しいArrayListを作成し、メンバーを追加してください
-
-    }
-}`}
-/>

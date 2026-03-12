@@ -63,7 +63,6 @@ explanation: |
   **継承の利点**：`describe()` のような共通メソッドを `Shape` にまとめることで、`Circle` と `Rectangle` 両方で使える。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -80,52 +79,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `Shape` クラスに `color` フィールドと `describe()` を定義すること
 - `Circle` と `Rectangle` で `area()` を定義すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Shape {
-    String color;
-
-    void describe() {
-        System.out.println("色: " + color);
-    }
-}
-
-class Circle extends Shape {
-    double radius;
-
-    double area() {
-        return Math.PI * radius * radius;
-    }
-}
-
-class Rectangle extends Shape {
-    double width;
-    double height;
-
-    double area() {
-        // 面積を返してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Circle c = new Circle();
-        c.color = "赤";
-        c.radius = 5.0;
-
-        Rectangle r = new Rectangle();
-        r.color = "青";
-        r.width = 4.0;
-        r.height = 6.0;
-
-        c.describe();
-        System.out.printf("円の面積: %.2f%n", c.area());
-
-        r.describe();
-        System.out.printf("長方形の面積: %.2f%n", r.area());
-    }
-}`}
-/>

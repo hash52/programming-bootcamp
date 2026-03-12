@@ -57,7 +57,6 @@ explanation: |
   **`subjects` 配列との対応**：インデックスを合わせることで科目名と点数を対応させる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -80,45 +79,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `double average()` と `void showReport()` を定義すること
 - `scores` フィールドは `int[]` 型にすること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Student {
-    String name;
-    int[] scores;
-
-    double average() {
-        int sum = 0;
-        for (int s : scores) {
-            sum += s;
-        }
-        return (double) sum / scores.length;
-    }
-
-    void showReport() {
-        System.out.println("=== " + name + " ===");
-        String[] subjects = {"国語", "数学", "英語"};
-        for (int i = 0; i < scores.length; i++) {
-            System.out.println(subjects[i] + ": " + scores[i]);
-        }
-        // 平均を printf で表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Student s1 = new Student();
-        s1.name = "鈴木";
-        s1.scores = new int[]{80, 75, 90};
-
-        Student s2 = new Student();
-        s2.name = "田中";
-        s2.scores = new int[]{65, 95, 70};
-
-        s1.showReport();
-        s2.showReport();
-    }
-}`}
-/>

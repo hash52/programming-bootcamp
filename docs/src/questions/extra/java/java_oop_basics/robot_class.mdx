@@ -61,7 +61,6 @@ explanation: |
   **座標系**：Nが+Y方向、Eが+X方向という一般的なゲーム的座標系を採用している。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -76,44 +75,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `int x`・`int y`・`String direction` フィールドを持つこと
 - `void move()`（向きに応じて1マス進む）、`void turnRight()`（右90度回転）、`void status()` を定義すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Robot {
-    int x;
-    int y;
-    String direction;
-
-    void move() {
-        // direction に応じて x または y を ±1 してください
-        // N→y++, E→x++, S→y--, W→x--
-
-    }
-
-    void turnRight() {
-        // N→E→S→W→N の順に向きを変えてください
-
-    }
-
-    void status() {
-        // "位置: (x, y) 向き: direction" のように表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Robot r = new Robot();
-        r.x = 0;
-        r.y = 0;
-        r.direction = "N";
-        r.status();
-        r.move();
-        r.move();
-        r.turnRight();
-        r.move();
-        r.status();
-    }
-}`}
-/>

@@ -62,7 +62,6 @@ explanation: |
   **int の戻り値**：お釣りをint型で返すことで呼び出し元が値を使える。エラーケースは -1 を返す慣例がある。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -79,42 +78,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `itemName`・`price`・`stock`・`sales` フィールドを持つこと
 - `int buy(int money)` でお釣りを返す（失敗時は -1）こと
 - `void status()` で現在の状態を表示すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class VendingMachine {
-    String itemName;
-    int price;
-    int stock;
-    int sales;
-
-    int buy(int money) {
-        // 在庫なし → 「在庫がありません」と表示して -1 を返す
-        // お金が足りない → 「お金が足りません」と表示して -1 を返す
-        // 購入成功 → stock を減らし sales に price を加え、お釣りを返す
-
-        return -1;
-    }
-
-    void status() {
-        // "コーラ 150円 在庫:2 売上:150円" のように表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        VendingMachine vm = new VendingMachine();
-        vm.itemName = "コーラ";
-        vm.price = 150;
-        vm.stock = 3;
-        vm.sales = 0;
-
-        int change = vm.buy(200);
-        System.out.println("お釣り: " + change + "円");
-        vm.buy(100);
-        vm.status();
-    }
-}`}
-/>

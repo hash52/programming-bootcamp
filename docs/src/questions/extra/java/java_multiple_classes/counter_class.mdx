@@ -59,7 +59,6 @@ explanation: |
   **戻り値なしのメソッド**：`void` は戻り値がないことを意味する。状態を変えるだけのメソッドは `void` にする。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -75,49 +74,3 @@ reset後: 0
 
 **要件**：
 - `void increment()`, `void decrement()`, `void reset()`, `int getCount()` メソッドを定義すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Counter {
-    int count = 0;
-
-    void increment() {
-        // count を1増やす
-
-    }
-
-    void decrement() {
-        // count を1減らす
-
-    }
-
-    void reset() {
-        // count を0に戻す
-
-    }
-
-    int getCount() {
-        // count を返す
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Counter c = new Counter();
-        System.out.println("初期値: " + c.getCount());
-
-        c.increment();
-        c.increment();
-        c.increment();
-        System.out.println("3回increment後: " + c.getCount());
-
-        c.decrement();
-        System.out.println("1回decrement後: " + c.getCount());
-
-        c.reset();
-        System.out.println("reset後: " + c.getCount());
-    }
-}`}
-/>

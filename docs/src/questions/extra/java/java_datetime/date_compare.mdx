@@ -41,7 +41,6 @@ explanation: |
   **日付の大小**：過去の日付が「小さい」、未来の日付が「大きい」という直感的な順序。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -60,25 +59,3 @@ date1とdate3は同じ: true
 **要件**：
 - `isBefore()`, `isAfter()`, `isEqual()` を使うこと
 - if 文で比較結果に応じたメッセージを表示すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.time.LocalDate;
-
-public class Main {
-    public static void main(String[] args) {
-        LocalDate date1 = LocalDate.of(2026, 3, 15);
-        LocalDate date2 = LocalDate.of(2026, 6, 30);
-        LocalDate date3 = LocalDate.of(2026, 3, 15);
-
-        System.out.println("date1: " + date1);
-        System.out.println("date2: " + date2);
-
-        // isBefore(), isAfter(), isEqual() で比較して表示してください
-
-        // date1 が date2 より前なら "date1 は date2 より前の日付" を表示してください
-
-    }
-}`}
-/>

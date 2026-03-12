@@ -35,7 +35,6 @@ explanation: |
   **NullPointerException を防ぐ習慣**：参照型の変数を使う前に null でないか確認する。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -53,23 +52,3 @@ Java の長さ: 4
 **要件**：
 - `NullPointerException` を `catch` すること
 - null のとき「スキップしました」と表示すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-    public static void main(String[] args) {
-        String[] words = {"Hello", null, "World", null, "Java"};
-
-        for (String word : words) {
-            try {
-                int len = word.length();
-                System.out.println(word + " の長さ: " + len);
-            } catch (NullPointerException e) {
-                // スキップのメッセージを表示してください
-
-            }
-        }
-    }
-}`}
-/>

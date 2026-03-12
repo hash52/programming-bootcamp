@@ -52,7 +52,6 @@ explanation: |
   **クラスへのまとめ方**：電卓の4機能をまとめることで、`calc.add(10, 3)` のように直感的に使えるAPIになる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -71,37 +70,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `add`, `subtract`, `multiply`, `divide` の4メソッドを `double` で実装すること
 - `divide` では0除算チェックを行うこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Calculator {
-    double add(double a, double b) {
-
-    }
-
-    double subtract(double a, double b) {
-
-    }
-
-    double multiply(double a, double b) {
-
-    }
-
-    double divide(double a, double b) {
-        // b が 0 の場合はエラーメッセージを表示して Double.NaN を返す
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Calculator calc = new Calculator();
-        System.out.println("10 + 3 = " + calc.add(10, 3));
-        System.out.println("10 - 3 = " + calc.subtract(10, 3));
-        System.out.println("10 × 3 = " + calc.multiply(10, 3));
-        System.out.println("10 ÷ 3 = " + calc.divide(10, 3));
-        System.out.println("10 ÷ 0 = " + calc.divide(10, 0));
-    }
-}`}
-/>

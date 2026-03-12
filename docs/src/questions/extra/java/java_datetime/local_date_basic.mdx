@@ -33,7 +33,6 @@ explanation: |
   **`getDayOfWeek()`**：`DayOfWeek` 列挙型（`MONDAY`, `TUESDAY`, ...）を返す。`toString()` で英語名が得られる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -52,19 +51,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `LocalDate.now()` を使うこと
 - `getYear()`, `getMonthValue()`, `getDayOfMonth()` を使うこと
 - `getDayOfWeek()` で曜日を表示すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.time.LocalDate;
-
-public class Main {
-    public static void main(String[] args) {
-        LocalDate today = LocalDate.now();
-
-        System.out.println("今日: " + today);
-        // 年・月・日・曜日を表示してください
-
-    }
-}`}
-/>

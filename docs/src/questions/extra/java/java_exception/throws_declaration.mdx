@@ -41,7 +41,6 @@ explanation: |
   **呼び出しチェーン**：A → B → C の呼び出し順で C で例外が発生した場合、B で `throws` 宣言があれば A まで伝搬できる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -58,28 +57,3 @@ abc は数値ではありません
 - `parseAndDouble` メソッドに `throws NumberFormatException` を宣言すること
 - メソッド内では `try-catch` せず、例外を呼び出し元に伝搬させること
 - `main` で `try-catch` すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-    static int parseAndDouble(String s) throws NumberFormatException {
-        // Integer.parseInt(s) で変換し、2倍にして return してください
-        // (try-catch は書かないこと)
-
-    }
-
-    public static void main(String[] args) {
-        String[] inputs = {"10", "abc", "20"};
-
-        for (String input : inputs) {
-            try {
-                int result = parseAndDouble(input);
-                System.out.println(input + " × 2 = " + result);
-            } catch (NumberFormatException e) {
-                System.out.println(input + " は数値ではありません");
-            }
-        }
-    }
-}`}
-/>

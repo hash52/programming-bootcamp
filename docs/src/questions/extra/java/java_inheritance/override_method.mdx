@@ -78,7 +78,6 @@ explanation: |
   **ポリモーフィズムの入り口**：`Animal` 型の配列に `Dog`, `Cat`, `Cow` を入れて `speak()` を呼ぶと、それぞれのオーバーライドされたメソッドが実行される（これがポリモーフィズム）。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -94,68 +93,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `@Override` アノテーションをつけること
 - `Animal` 型の配列に全動物を入れて for ループで処理すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Animal {
-    String name;
-
-    Animal(String name) {
-        this.name = name;
-    }
-
-    String speak() {
-        return name + "が鳴いた";
-    }
-}
-
-class Dog extends Animal {
-    Dog(String name) {
-        super(name);
-    }
-
-    @Override
-    String speak() {
-        return name + "：ワンワン！";
-    }
-}
-
-class Cat extends Animal {
-    Cat(String name) {
-        super(name);
-    }
-
-    @Override
-    String speak() {
-        // "name：ニャーニャー！" を返してください
-
-    }
-}
-
-class Cow extends Animal {
-    Cow(String name) {
-        super(name);
-    }
-
-    @Override
-    String speak() {
-        // "name：モーモー！" を返してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Animal[] animals = {
-            new Dog("ポチ"),
-            new Cat("タマ"),
-            new Cow("のんちゃん")
-        };
-
-        for (Animal a : animals) {
-            System.out.println(a.speak());
-        }
-    }
-}`}
-/>

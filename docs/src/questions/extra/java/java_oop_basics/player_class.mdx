@@ -61,7 +61,6 @@ explanation: |
   **`isAlive()` の活用**：`showStatus()` の中で `isAlive()` を呼ぶことで、生死を判定する処理を再利用できる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -80,51 +79,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 
 **要件**：
 - `void attack(Player target)`, `boolean isAlive()`, `void showStatus()` を定義すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Player {
-    String name;
-    int hp;
-    int attackPower;
-
-    void attack(Player target) {
-        System.out.println(name + "が" + target.name + "に" + attackPower + "ダメージ！");
-        target.hp -= attackPower;
-    }
-
-    boolean isAlive() {
-        // hp > 0 なら true を返してください
-
-    }
-
-    void showStatus() {
-        // "name HP: hp" を表示し、死亡なら "（死亡）" を追加してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Player hero = new Player();
-        hero.name = "勇者";
-        hero.hp = 100;
-        hero.attackPower = 30;
-
-        Player monster = new Player();
-        monster.name = "スライム";
-        monster.hp = 80;
-        monster.attackPower = 15;
-
-        hero.attack(monster);
-        monster.attack(hero);
-        hero.attack(monster);
-        monster.attack(hero);
-        hero.attack(monster);
-
-        hero.showStatus();
-        monster.showStatus();
-    }
-}`}
-/>

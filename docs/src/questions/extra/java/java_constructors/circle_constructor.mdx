@@ -46,7 +46,6 @@ explanation: |
   **Math.PI との比較**：より正確な円周率は `Math.PI` で使えるが、ここでは `3.14159` で十分である。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -61,35 +60,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - コンストラクタで `double radius` を受け取ること
 - `double area()`（π=3.14159）と `void display()` を定義すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Circle {
-    double radius;
-
-    Circle(double radius) {
-        // this.radius に引数を代入してください
-
-    }
-
-    double area() {
-        // 3.14159 * radius * radius を返してください
-        return 0;
-    }
-
-    void display() {
-        // "半径: 5.0 面積: 78.53975" のように表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Circle c1 = new Circle(5.0);
-        Circle c2 = new Circle(3.0);
-        c1.display();
-        c2.display();
-    }
-}`}
-/>

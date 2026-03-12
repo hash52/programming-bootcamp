@@ -62,7 +62,6 @@ explanation: |
   **tick方式**：実際のストップウォッチは時間経過を直接知るが、この例では `tick()` を明示的に呼ぶことで時間経過をシミュレートしている。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -77,47 +76,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `int seconds` と `boolean running` フィールドを持つこと
 - `void start()`、`void stop()`、`void tick()`（計測中のみ秒を増やす）、`void display()` を定義すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Stopwatch {
-    int seconds;
-    boolean running;
-
-    void start() {
-        // running を true にしてください
-
-    }
-
-    void stop() {
-        // running を false にしてください
-
-    }
-
-    void tick() {
-        // running が true のとき seconds を1増やしてください
-
-    }
-
-    void display() {
-        // "1分15秒" のように 分と秒 に変換して表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Stopwatch sw = new Stopwatch();
-        sw.start();
-        for (int i = 0; i < 75; i++) {
-            sw.tick();
-        }
-        sw.display();
-        sw.stop();
-        sw.tick();
-        sw.tick();
-        sw.display();
-    }
-}`}
-/>

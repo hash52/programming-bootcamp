@@ -58,7 +58,6 @@ explanation: |
   **クラス同士の比較**：`isLargerThan` のように「別のインスタンスと自分を比べる」メソッドを作ることができる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -74,45 +73,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `double area()`, `double circumference()`, `boolean isLargerThan(Circle other)` を定義すること
 - `Math.PI` を使うこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Circle {
-    double radius;
-
-    double area() {
-        return Math.PI * radius * radius;
-    }
-
-    double circumference() {
-        return 2 * Math.PI * radius;
-    }
-
-    boolean isLargerThan(Circle other) {
-        // this.radius と other.radius を比較してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Circle c1 = new Circle();
-        c1.radius = 5.0;
-
-        Circle c2 = new Circle();
-        c2.radius = 3.0;
-
-        System.out.printf("円1（半径%.1f）: 面積=%.2f, 周囲=%.2f%n",
-            c1.radius, c1.area(), c1.circumference());
-        System.out.printf("円2（半径%.1f）: 面積=%.2f, 周囲=%.2f%n",
-            c2.radius, c2.area(), c2.circumference());
-
-        if (c1.isLargerThan(c2)) {
-            System.out.println("円1の方が大きい");
-        } else {
-            System.out.println("円2の方が大きい");
-        }
-    }
-}`}
-/>

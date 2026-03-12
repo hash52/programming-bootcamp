@@ -47,7 +47,6 @@ explanation: |
   `ValidationException`, `InsufficientFundsException`, `InvalidInputException` など。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -67,35 +66,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `ValidationException extends Exception` を定義すること
 - `validateScore` メソッドが `throws ValidationException` を宣言すること
 - `main` で複数のスコアを検証すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class ValidationException extends Exception {
-    ValidationException(String message) {
-        super(message);
-    }
-}
-
-public class Main {
-    static void validateScore(int score) throws ValidationException {
-        if (score < 0 || score > 100) {
-            // ValidationException をスローしてください
-
-        }
-        System.out.println("有効なスコア: " + score);
-    }
-
-    public static void main(String[] args) {
-        int[] scores = {85, -10, 100, 150, 0, 73};
-
-        for (int score : scores) {
-            try {
-                validateScore(score);
-            } catch (ValidationException e) {
-                System.out.println("検証エラー: " + e.getMessage());
-            }
-        }
-    }
-}`}
-/>

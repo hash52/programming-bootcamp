@@ -48,7 +48,6 @@ explanation: |
   **クラスによる情報のまとめ方**：関連する情報（名前・年齢）を1つのオブジェクトにまとめることで、扱いやすくなる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -65,36 +64,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `Person` クラスに `String name` と `int age` フィールドを定義すること
 - `void display()` メソッドで情報を表示すること
 - `main` で3人分のインスタンスを作ること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Person {
-    String name;
-    int age;
-
-    void display() {
-        // "名前: ○○, 年齢: ○○歳" の形式で表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Person p1 = new Person();
-        p1.name = "田中";
-        p1.age = 25;
-        p1.display();
-
-        Person p2 = new Person();
-        p2.name = "佐藤";
-        p2.age = 32;
-        p2.display();
-
-        Person p3 = new Person();
-        p3.name = "山田";
-        p3.age = 19;
-        p3.display();
-    }
-}`}
-/>

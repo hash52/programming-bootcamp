@@ -44,7 +44,6 @@ explanation: |
   **`System.out.printf`**：`%.2f` で小数点以下2桁に丸めて表示できる。`%n` は改行。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -59,30 +58,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 
 **要件**：
 - 同じ名前 `area` で引数が異なる3つのメソッドを定義すること
-- 円の面積は `Math.PI` を使うこと
-- `System.out.printf("%.2f")` で小数点以下2桁に揃えること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-    // 正方形の面積（引数：辺の長さ）
-    static double area(double side) {
-
-    }
-
-    // 長方形の面積（引数：幅・高さ）
-    static double area(double width, double height) {
-
-    }
-
-    // 円の面積（引数：半径・isCircleフラグ）
-    
-
-    public static void main(String[] args) {
-        System.out.printf("正方形（辺5）の面積: %.2f%n", area(5.0));
-        System.out.printf("長方形（4×6）の面積: %.2f%n", area(4.0, 6.0));
-        System.out.printf("円（半径3）の面積: %.2f%n", area(3.0, true));
-    }
-}`}
-/>

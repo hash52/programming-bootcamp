@@ -42,7 +42,6 @@ explanation: |
   **早期return の代替**：条件を満たさない場合に例外を投げることで、メソッドの残りを実行させないようにできる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -59,30 +58,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `divide` メソッドで `b == 0` のとき `ArithmeticException` をスローすること
 - `main` で `try-catch` すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-    static double divide(double a, double b) {
-        if (b == 0) {
-            // ArithmeticException をスローしてください
-
-        }
-        return a / b;
-    }
-
-    public static void main(String[] args) {
-        double[][] cases = {{10, 2}, {15, 3}, {8, 0}, {20, 4}};
-
-        for (double[] c : cases) {
-            try {
-                double result = divide(c[0], c[1]);
-                System.out.printf("%.0f ÷ %.0f = %.2f%n", c[0], c[1], result);
-            } catch (ArithmeticException e) {
-                System.out.printf("%.0f ÷ %.0f : エラー - %s%n", c[0], c[1], e.getMessage());
-            }
-        }
-    }
-}`}
-/>

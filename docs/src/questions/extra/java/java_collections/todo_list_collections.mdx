@@ -60,7 +60,6 @@ explanation: |
   **`Boolean` → 三項演算子**：`tasks.get(name) ? "[完了]" : "[未完]"` で完了状態を文字列に変換する。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -82,43 +81,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `ArrayList<String>` で追加順序を保持すること
 - `HashMap<String, Boolean>` でタスクの完了状態を管理すること
 - `addTask()`, `complete()`, `printAll()` をそれぞれ static メソッドとして実装すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.util.ArrayList;
-import java.util.HashMap;
-
-public class Main {
-    static ArrayList<String> taskOrder = new ArrayList<>();
-    static HashMap<String, Boolean> tasks = new HashMap<>();
-
-    public static void main(String[] args) {
-        addTask("資料作成");
-        addTask("メール送信");
-        addTask("会議準備");
-        addTask("コードレビュー");
-
-        complete("メール送信");
-        complete("会議準備");
-
-        printAll();
-    }
-
-    static void addTask(String name) {
-        // taskOrder と tasks にタスクを追加してください
-
-    }
-
-    static void complete(String name) {
-        // tasks を更新してタスクを完了状態にし、"完了: name" を表示してください
-
-    }
-
-    static void printAll() {
-        System.out.println("\\n=== ToDo一覧 ===");
-        // taskOrder の順で各タスクの状態を表示してください
-
-    }
-}`}
-/>

@@ -56,7 +56,6 @@ explanation: |
   **`this` の省略**：曖昧でなければ `this.` は省略できる（コンストラクタ以外では主に省略される）。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -73,41 +72,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - コンストラクタで `this.name = name;` など `this` を使うこと
 - `int totalValue()` と `void display()` を定義すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Product {
-    String name;
-    int price;
-    int quantity;
-
-    Product(String name, int price, int quantity) {
-        // this を使ってフィールドと引数を区別して代入してください
-
-    }
-
-    int totalValue() {
-        return this.price * this.quantity;
-    }
-
-    void display() {
-        System.out.println(this.name + ": " + this.price + "円 × " + this.quantity + "個 = " + totalValue() + "円");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Product p1 = new Product("りんご", 150, 3);
-        Product p2 = new Product("牛乳", 200, 2);
-        Product p3 = new Product("食パン", 300, 1);
-
-        p1.display();
-        p2.display();
-        p3.display();
-
-        int total = p1.totalValue() + p2.totalValue() + p3.totalValue();
-        System.out.println("合計: " + total + "円");
-    }
-}`}
-/>

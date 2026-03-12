@@ -41,7 +41,6 @@ explanation: |
   **`contains()` の高速検索**：`HashSet` は内部でハッシュ関数を使うため、`contains()` がO(1)で実行できる（ArrayList の O(n) より高速）。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -62,28 +61,3 @@ PHPが含まれるか: false
 - `HashSet<String>` を使うこと
 - 重複する要素を追加しても `size()` が正しい値を返すことを確認すること
 - `contains()` を使うこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.util.HashSet;
-
-public class Main {
-    public static void main(String[] args) {
-        HashSet<String> tags = new HashSet<>();
-        tags.add("Java");
-        tags.add("Python");
-        tags.add("Java");    // 重複
-        tags.add("Ruby");
-        tags.add("Python");  // 重複
-
-        System.out.println("要素数: " + tags.size());
-        System.out.println("Javaが含まれるか: " + tags.contains("Java"));
-        System.out.println("PHPが含まれるか: " + tags.contains("PHP"));
-
-        // for-each でタグ一覧を表示してください
-        System.out.println("タグ一覧:");
-
-    }
-}`}
-/>

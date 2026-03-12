@@ -44,7 +44,6 @@ explanation: |
   **`catch (Exception e)`**：全ての例外をまとめてキャッチできるが、種類ごとに適切に処理するのがベストプラクティス。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -60,30 +59,3 @@ nullが含まれていました
 
 **要件**：
 - `NumberFormatException`, `ArrayIndexOutOfBoundsException`, `NullPointerException` を個別にキャッチすること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`public class Main {
-    public static void main(String[] args) {
-        String[] data = {"10", "abc", null, "30"};
-        int[] arr = {100, 200};
-
-        for (int i = 0; i < data.length; i++) {
-            try {
-                int index = Integer.parseInt(data[i]);
-                int value = arr[index];
-                System.out.println("arr[" + index + "] = " + value);
-            } catch (NumberFormatException e) {
-                System.out.println("数値変換失敗: " + data[i]);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                // 範囲外エラーのメッセージを表示してください
-
-            } catch (NullPointerException e) {
-                // null のメッセージを表示してください
-
-            }
-        }
-    }
-}`}
-/>

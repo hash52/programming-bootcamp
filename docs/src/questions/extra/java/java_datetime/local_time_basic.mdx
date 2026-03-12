@@ -35,7 +35,6 @@ explanation: |
   **`LocalTime.of(hour, minute, second)`**：特定の時刻を作成する。第3引数（秒）は省略可能（`LocalTime.of(12, 30)` で12時30分）。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -54,21 +53,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `LocalTime.now()` を使うこと
 - `getHour()`, `getMinute()`, `getSecond()` を使うこと
 - `LocalTime.of()` で特定の時刻を作成すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.time.LocalTime;
-
-public class Main {
-    public static void main(String[] args) {
-        LocalTime now = LocalTime.now();
-
-        System.out.println("現在時刻: " + now);
-        // 時・分・秒を表示してください
-
-        // LocalTime.of() で12時0分0秒を作成して表示してください
-
-    }
-}`}
-/>

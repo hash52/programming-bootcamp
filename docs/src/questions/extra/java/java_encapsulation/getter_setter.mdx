@@ -59,7 +59,6 @@ explanation: |
   **getter/setterの利点**：フィールドへのアクセスをメソッドで仲介することで、将来バリデーションやログ追加が容易になる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -76,49 +75,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `name` と `age` を `private` にすること
 - `getName()`, `getAge()`, `setName()`, `setAge()` を定義すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Person {
-    private String name;
-    private int age;
-
-    // getter を定義してください
-    public String getName() {
-
-    }
-    public int getAge() {
-
-    }
-
-    // setter を定義してください
-    public void setName(String name) {
-
-    }
-    public void setAge(int age) {
-
-    }
-
-    public void introduce() {
-        System.out.println("私は" + name + "（" + age + "歳）です");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Person p = new Person();
-
-        p.setName("田中");
-        p.setAge(25);
-
-        System.out.println("名前: " + p.getName());
-        System.out.println("年齢: " + p.getAge());
-
-        p.introduce();
-
-        p.setName("田中（更新）");
-        System.out.println("変更後: " + p.getName());
-    }
-}`}
-/>

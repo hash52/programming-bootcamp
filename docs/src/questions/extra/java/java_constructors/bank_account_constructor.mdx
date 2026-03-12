@@ -68,7 +68,6 @@ explanation: |
   **取引カウントの追跡**：`transactionCount` フィールドで操作回数を追跡できる。コンストラクタで0に初期化することで管理する。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -86,58 +85,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `BankAccount(String owner, int initialBalance)` コンストラクタを定義すること
 - 初期残高が負なら0に補正すること
 - 取引回数を追跡する `transactionCount` フィールドを持つこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class BankAccount {
-    String owner;
-    int balance;
-    int transactionCount;
-
-    BankAccount(String owner, int initialBalance) {
-        this.owner = owner;
-        // 初期残高が0以上なら設定、負なら0にしてください
-        this.balance = initialBalance >= 0 ? initialBalance : 0;
-        this.transactionCount = 0;
-    }
-
-    void deposit(int amount) {
-        if (amount > 0) {
-            balance += amount;
-            transactionCount++;
-        }
-    }
-
-    void withdraw(int amount) {
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            transactionCount++;
-        } else {
-            System.out.println("出金失敗（残高不足または無効な金額）");
-        }
-    }
-
-    void showBalance() {
-        // owner, balance, transactionCount を表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        BankAccount a1 = new BankAccount("田中", 10000);
-        BankAccount a2 = new BankAccount("佐藤", 0);
-        BankAccount a3 = new BankAccount("山田", -500);
-
-        a1.deposit(5000);
-        a1.withdraw(3000);
-        a2.deposit(20000);
-        a3.withdraw(100);
-
-        a1.showBalance();
-        a2.showBalance();
-        a3.showBalance();
-    }
-}`}
-/>

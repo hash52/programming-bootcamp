@@ -38,7 +38,6 @@ explanation: |
   誕生日をまだ迎えていない場合も自動的に考慮される。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -55,25 +54,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `Period.between()` を使うこと
 - `getYears()`, `getMonths()`, `getDays()` を使うこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.time.LocalDate;
-import java.time.Period;
-
-public class Main {
-    public static void main(String[] args) {
-        LocalDate birthDate = LocalDate.of(2000, 7, 20);
-        LocalDate today = LocalDate.of(2026, 3, 15);
-
-        // Period.between() で期間を取得してください
-        Period period = Period.between(birthDate, today);
-
-        System.out.println("生年月日: " + birthDate);
-        System.out.println("今日: " + today);
-        // 年齢と詳細を表示してください
-
-    }
-}`}
-/>

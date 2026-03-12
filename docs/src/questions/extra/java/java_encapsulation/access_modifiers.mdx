@@ -80,7 +80,6 @@ explanation: |
   **`private` と継承**：`private` フィールドはサブクラスからも直接アクセスできない。getter 経由でアクセスする。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -101,50 +100,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `public`, `protected`, `private` の3種類のフィールドを定義すること
 - `Car` サブクラスで `protected` フィールドにアクセスできることを確認すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Vehicle {
-    public String brand;
-    protected int maxSpeed;
-    private String secretKey;
-
-    Vehicle(String brand, int maxSpeed) {
-        this.brand = brand;
-        this.maxSpeed = maxSpeed;
-        this.secretKey = "KEY-" + brand;
-    }
-
-    public void showAll() {
-        System.out.println("ブランド: " + brand);
-        System.out.println("最高速度: " + maxSpeed + "km/h");
-        System.out.println("シークレット: " + secretKey);
-    }
-}
-
-class Car extends Vehicle {
-    Car(String brand, int maxSpeed) {
-        super(brand, maxSpeed);
-    }
-
-    void showCarInfo() {
-        System.out.println("=== 車の情報 ===");
-        System.out.println(brand);    // public フィールドにアクセス
-        System.out.println(maxSpeed); // protected フィールドにアクセス
-        // secretKey には直接アクセスできない（private）
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Vehicle v = new Vehicle("トヨタ", 200);
-        v.showAll();
-
-        System.out.println("---");
-        Car car = new Car("ホンダ", 180);
-        car.showCarInfo();
-        System.out.println(car.brand); // public フィールドは Main からもアクセス可
-    }
-}`}
-/>

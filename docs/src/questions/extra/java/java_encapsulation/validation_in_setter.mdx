@@ -73,7 +73,6 @@ explanation: |
   **カプセル化の本質**：「データの保護」がカプセル化の重要な目的。setter が「門番」の役割を果たす。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -92,56 +91,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `setScore()` で0〜100の範囲チェックをすること
 - `setAge()` で0〜150の範囲チェックをすること
 - `setName()` でnullおよび空文字チェックをすること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Student {
-    private String name;
-    private int score;
-    private int age;
-
-    public String getName() { return name; }
-    public int getScore() { return score; }
-    public int getAge() { return age; }
-
-    public void setName(String name) {
-        if (name == null || name.isEmpty()) {
-            System.out.println("名前は空にできません");
-            return;
-        }
-        this.name = name;
-    }
-
-    public void setScore(int score) {
-        // 0〜100の範囲外なら拒否してください
-
-        this.score = score;
-    }
-
-    public void setAge(int age) {
-        // 0〜150の範囲外なら拒否してください
-
-        this.age = age;
-    }
-
-    public void display() {
-        System.out.println(name + " (年齢:" + age + ", スコア:" + score + ")");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Student s = new Student();
-        s.setName("田中");
-        s.setAge(20);
-        s.setScore(85);
-        s.display();
-
-        s.setScore(150);
-        s.setAge(-5);
-        s.setName("");
-        s.display();
-    }
-}`}
-/>

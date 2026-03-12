@@ -57,7 +57,6 @@ explanation: |
   **内部からはアクセス可能**：`private` でも、そのクラスのメソッド内からは `this.secret` でアクセスできる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -75,43 +74,3 @@ TOP SECRET
 **要件**：
 - `secret` と `accessCount` フィールドを `private` にすること
 - パスワード `"1234"` が正しい場合のみ `secret` を返すこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class SecureBox {
-    private String secret;
-    private int accessCount = 0;
-
-    void storeSecret(String value) {
-        this.secret = value;
-        System.out.println("シークレットを保存しました");
-    }
-
-    String revealSecret(String password) {
-        if ("1234".equals(password)) {
-            accessCount++;
-            return secret;
-        } else {
-            return "パスワードが違います";
-        }
-    }
-
-    int getAccessCount() {
-        // accessCount を返してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        SecureBox box = new SecureBox();
-        box.storeSecret("TOP SECRET");
-
-        System.out.println(box.revealSecret("wrong"));
-        System.out.println(box.revealSecret("1234"));
-        System.out.println(box.revealSecret("1234"));
-        System.out.println("アクセス回数: " + box.getAccessCount());
-    }
-}`}
-/>

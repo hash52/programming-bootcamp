@@ -35,7 +35,6 @@ explanation: |
   **`getDayOfYear()`**：1月1日が1、12月31日が365（うるう年は366）を返す。年の何日目かを計算する際に使う。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -54,26 +53,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `LocalDate.of()` で少なくとも2つの日付を作成すること
 - `isBefore()` または `isAfter()` で日付を比較すること
 - `getDayOfYear()` を使うこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.time.LocalDate;
-
-public class Main {
-    public static void main(String[] args) {
-        // LocalDate.of() で誕生日（2000年1月15日）と元日（2026年1月1日）を作成してください
-        LocalDate birthday = LocalDate.of(2000, 1, 15);
-        LocalDate newYear = LocalDate.of(2026, 1, 1);
-        LocalDate today = LocalDate.now();
-
-        System.out.println("誕生日: " + birthday);
-        System.out.println("元日: " + newYear);
-        // 元日が today より前かどうかを isBefore() で確認してください
-
-        System.out.println("誕生日の年: " + birthday.getYear());
-        // getDayOfYear() でその年の何日目かを表示してください
-
-    }
-}`}
-/>

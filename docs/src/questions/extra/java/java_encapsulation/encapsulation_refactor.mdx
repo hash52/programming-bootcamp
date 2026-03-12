@@ -78,7 +78,6 @@ explanation: |
   **setter のバリデーション**：`setPrice(-100)` が拒否されることで、`product.price = -100;` のような不正操作が防止できる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -97,45 +96,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - すべてのフィールドを `private` にすること
 - `setPrice()` で負の値を拒否すること
 - `sell()` で在庫不足を検出して拒否すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`// カプセル化されていないクラス（これをリファクタリングしてください）
-class Product {
-    String name;   // public フィールド（悪い例）
-    int price;     // public フィールド（悪い例）
-    int stock;     // public フィールド（悪い例）
-
-    Product(String name, int price, int stock) {
-        this.name = name;
-        this.price = price;
-        this.stock = stock;
-    }
-
-    // getter/setter を追加してください
-
-    public boolean sell(int quantity) {
-        // 在庫チェックと在庫更新を実装してください
-
-    }
-
-    public void display() {
-        System.out.println(name + ": " + price + "円 (在庫: " + stock + ")");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Product p = new Product("りんご", 150, 10);
-        p.display();
-
-        p.sell(3);
-        p.display();
-
-        p.setPrice(-100);
-        p.sell(20);
-        p.display();
-    }
-}`}
-/>

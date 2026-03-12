@@ -45,7 +45,6 @@ explanation: |
   **平均の計算**：`sum / numbers.size()` だけでは整数除算になる。`(double) sum` でキャストしてから割る。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -62,32 +61,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `ArrayList<Integer>` を使うこと
 - for-each で合計と最大値を求めること
 - 平均を小数で表示すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.util.ArrayList;
-
-public class Main {
-    public static void main(String[] args) {
-        ArrayList<Integer> numbers = new ArrayList<>();
-        numbers.add(10);
-        numbers.add(25);
-        numbers.add(8);
-        numbers.add(43);
-        numbers.add(17);
-
-        int sum = 0;
-        int max = numbers.get(0);
-
-        for (int n : numbers) {
-            // 合計と最大値を求めてください
-
-        }
-
-        System.out.println("合計: " + sum);
-        System.out.println("最大値: " + max);
-        System.out.println("平均: " + (double) sum / numbers.size());
-    }
-}`}
-/>

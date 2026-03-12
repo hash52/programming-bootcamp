@@ -80,7 +80,6 @@ explanation: |
   **合計金額の計算**：`total()` の中でフィールドの配列を走査して計算する。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -101,66 +100,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `Item` クラスに `name` と `price` フィールドを定義すること
 - `ShoppingCart` に `addItem`, `total`, `showItems` メソッドを定義すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class Item {
-    String name;
-    int price;
-}
-
-class ShoppingCart {
-    Item[] items = new Item[10];
-    int itemCount = 0;
-
-    void addItem(Item item) {
-        if (itemCount < items.length) {
-            items[itemCount] = item;
-            itemCount++;
-            System.out.println(item.name + "（" + item.price + "円）をカートに追加");
-        } else {
-            System.out.println("カートが満杯です");
-        }
-    }
-
-    int total() {
-        int sum = 0;
-        for (int i = 0; i < itemCount; i++) {
-            sum += items[i].price;
-        }
-        return sum;
-    }
-
-    void showItems() {
-        System.out.println("=== カートの中身 ===");
-        // 全アイテムを表示してください
-
-        System.out.println("合計: " + total() + "円");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        ShoppingCart cart = new ShoppingCart();
-
-        Item apple = new Item();
-        apple.name = "りんご";
-        apple.price = 150;
-
-        Item milk = new Item();
-        milk.name = "牛乳";
-        milk.price = 200;
-
-        Item bread = new Item();
-        bread.name = "食パン";
-        bread.price = 300;
-
-        cart.addItem(apple);
-        cart.addItem(milk);
-        cart.addItem(bread);
-
-        cart.showItems();
-    }
-}`}
-/>

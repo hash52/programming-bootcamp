@@ -37,7 +37,6 @@ explanation: |
   **for-each 文**：`for (String fruit : fruits)` で全要素を順に処理できる。配列と同じ記法が使える。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -56,22 +55,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `ArrayList<String>` を使うこと
 - `add()` で要素を追加すること
 - `size()`・`get()` を使うこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.util.ArrayList;
-
-public class Main {
-    public static void main(String[] args) {
-        ArrayList<String> fruits = new ArrayList<>();
-        // "りんご", "バナナ", "みかん" を追加してください
-
-        System.out.println("要素数: " + fruits.size());
-        System.out.println("0番目: " + fruits.get(0));
-
-        // for-each で全要素を表示してください
-
-    }
-}`}
-/>

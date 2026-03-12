@@ -35,7 +35,6 @@ explanation: |
   **月をまたぐ加算**：`plusMonths()` は月の最終日を自動調整する（1月31日の1ヶ月後は2月28日）。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -54,19 +53,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 **要件**：
 - `plusWeeks()`, `plusDays()`, `plusMonths()` を使うこと
 - `minusYears()`, `minusDays()` を使うこと
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`import java.time.LocalDate;
-
-public class Main {
-    public static void main(String[] args) {
-        LocalDate today = LocalDate.of(2026, 3, 15);
-
-        System.out.println("今日: " + today);
-        // 1週間後・30日後・3ヶ月後・1年前・10日前を表示してください
-
-    }
-}`}
-/>

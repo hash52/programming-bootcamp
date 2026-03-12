@@ -61,7 +61,6 @@ explanation: |
   **三項演算子の活用**：`done ? "[✓]" : "[ ]"` で完了状態に応じたマークを簡潔に選べる。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -80,48 +79,3 @@ import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock'
 - `ToDoItem` クラスに `title`（String）と `done`（boolean、初期値false）フィールドを定義すること
 - `void complete()` で完了にし、`void display()` で `[✓]` or `[ ]` を表示すること
 - `main` で4つのアイテムを配列に入れて管理すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`class ToDoItem {
-    String title;
-    boolean done = false;
-
-    void complete() {
-        // done を true にしてください
-
-    }
-
-    void display() {
-        // done が true なら "[✓] title"、false なら "[ ] title" を表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        ToDoItem[] items = new ToDoItem[4];
-
-        items[0] = new ToDoItem();
-        items[0].title = "Javaの勉強";
-
-        items[1] = new ToDoItem();
-        items[1].title = "買い物";
-
-        items[2] = new ToDoItem();
-        items[2].title = "運動";
-
-        items[3] = new ToDoItem();
-        items[3].title = "メールの返信";
-
-        items[0].complete();
-        items[3].complete();
-
-        System.out.println("=== ToDoリスト ===");
-        for (ToDoItem item : items) {
-            item.display();
-        }
-    }
-}`}
-/>

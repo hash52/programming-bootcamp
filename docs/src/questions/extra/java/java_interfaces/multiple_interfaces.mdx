@@ -65,7 +65,6 @@ explanation: |
   **継承との違い**：クラスの継承（`extends`）は1つだけだが、インターフェースの実装（`implements`）は無制限。これがインターフェースの大きな利点。
 ---
 
-import { OneCompilerCodeBlock } from '@site/src/components/OneCompilerCodeBlock';
 
 ## 問題
 
@@ -84,52 +83,3 @@ R2D2「さようなら！」
 **要件**：
 - `Movable` と `Speakable` の2つのインターフェースを定義すること
 - `class Robot implements Movable, Speakable` で実装すること
-
-<OneCompilerCodeBlock
-  language="java"
-  codeId="TODO"
-  code={`interface Movable {
-    void move(String direction);
-}
-
-interface Speakable {
-    void speak(String message);
-}
-
-class Robot implements Movable, Speakable {
-    String name;
-
-    Robot(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public void move(String direction) {
-        // "name が direction に移動" を表示してください
-
-    }
-
-    @Override
-    public void speak(String message) {
-        // "name「message」" を表示してください
-
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Robot r = new Robot("R2D2");
-
-        r.speak("こんにちは！");
-        r.move("北");
-        r.move("東");
-        r.speak("目的地に到達しました");
-
-        Movable m = r;
-        m.move("南");
-
-        Speakable s = r;
-        s.speak("さようなら！");
-    }
-}`}
-/>
