@@ -17,7 +17,7 @@ const config: Config = {
   // 公開サイトのURL
   url: "https://hash52.github.io",
   // GitHub Pages での公開パス
-  baseUrl: "/programming-bootcamp/",
+  baseUrl: process.env.BASE_URL ?? "/programming-bootcamp/",
 
   // GitHub Pages デプロイ設定
   organizationName: "hash52", // GitHubユーザー名または組織名
