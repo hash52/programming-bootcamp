@@ -11,6 +11,6 @@ pages:
     paths:
       - public
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: '$CI_COMMIT_BRANCH == "main"'
   variables:
     BASE_URL: /pb/
