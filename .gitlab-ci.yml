@@ -13,4 +13,4 @@ pages:
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
   variables:
-    BASE_URL: /
+    BASE_URL: /hba2026/
