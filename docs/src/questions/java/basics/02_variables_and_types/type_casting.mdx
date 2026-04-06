@@ -1,47 +1,53 @@
 ---
 id: "java/basics/02_variables_and_types#type_casting"
-title: "わかりやすい変数名を付けられる"
+title: "型変換ができる"
 type: "WRITE"
-difficulty: "Easy"
-format: "multipleChoice"
+difficulty: "Medium"
+format: "fillInBlank"
 topicId: "02_variables_and_types"
 category: "java/basics"
-multipleSelect: false
-choices:
-  - id: "A"
-    text: "int a = 20;"
-  - id: "B"
-    text: "int studentAge = 20;"
-  - id: "C"
-    text: "int 年齢 = 20;"
-answers:
-  correct: ["B"]
+fillInBlankAnswers:
+  blank1: ["(double)", "(double) "]
+  blank2: ["(int)", "(int) "]
+sampleAnswer: |
+  int count = 5;
+  double average = (double) count / 2;
+
+  double price = 12.8;
+  int discountPrice = (int) price;
 explanation: |
-  **わかりやすい変数名**は、コードの可読性を大きく向上させます。
-
-  **良い変数名の原則**：
-  1. **役割が分かる名前**：何のデータかが一目でわかる
-  2. **英語を使う**：日本語は文字化けのリスクがある
-  3. **キャメルケース**：複数の単語は2語目から大文字（`studentAge`, `userName`）
-
-  **比較例**：
+  **型変換** とは、ある型の値を別の型として扱えるようにすることである。
 
   ```java
-  // ❌ 悪い例
-  int a = 20;        // 何の数字か分からない
-  int 年齢 = 20;      // 日本語は避ける
-  int x123 = 20;     // 意味不明
+  int count = 5;
+  double average = (double) count / 2;
 
-  // ✅ 良い例
-  int studentAge = 20;    // 学生の年齢と分かる
-  int temperature = 25;   // 温度と分かる
-  int itemCount = 5;      // アイテム数と分かる
+  double price = 12.8;
+  int discountPrice = (int) price;
   ```
 
-  **命名規則**：
-  - 小文字で始める（`age`, `userName`）
-  - 2語目以降は大文字（`studentAge`, `maxScore`）
-  - 数字は使えるが、先頭には使えない（`age1` はOK、`1age` はNG）
+  このコードでは、`count` を `double` に変換してから割り算しているため、結果は小数で扱われる。
+  ここで重要なのは、**代入先が `double` でも、先に `count / 2` が整数同士で計算される** 点である。
+  つまり、`double average = count / 2;` と書くと、`count / 2` は先に `2` になり、その後で `2.0` に変換されるだけである。
+
+  また、`price` を `int` に変換すると、小数部分は切り捨てられる。
+
+  **ポイント** ：
+  - `int` から `double` への代入は自動変換されることがある
+  - ただし、整数同士の割り算を小数で計算したい場合は、**割り算の前に** どちらかを `double` にする必要がある
+  - `double` から `int` への変換は、小数部分が失われるため注意が必要である
+  - 明示的に型を変えるときは、`(double)` や `(int)` のように書く
 ---
 
-学生の年齢を格納する変数として、最もわかりやすい変数名を選べ。
+import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
+import { CodeBlock } from '@site/src/components/question/CodeBlock';
+
+以下のコードの空欄を埋めて、整数同士の割り算を小数で計算する処理と、小数を整数に変換する処理を完成させよ。
+
+<CodeBlock>
+{`int count = 5;
+double average = `}<BlankInput id="blank1" />{` count / 2;
+
+double price = 12.8;
+int discountPrice = `}<BlankInput id="blank2" />{` price;`}
+</CodeBlock>

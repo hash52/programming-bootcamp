@@ -227,25 +227,25 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
       {
         questionId: "int_type_data",
-        title: "整数型が扱えるデータを説明できる",
+        title: "int型が扱えるデータを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
         questionId: "double_type_data",
-        title: "小数型が扱えるデータを説明できる",
+        title: "double型が扱えるデータを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
         questionId: "string_type_data",
-        title: "文字列型が扱えるデータを説明できる",
+        title: "String型が扱えるデータを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
       {
         questionId: "boolean_type_data",
-        title: "真偽値型が扱えるデータを説明できる",
+        title: "boolean型が扱えるデータを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Easy,
       },
@@ -1871,7 +1871,8 @@ export const ALL_TOPIC_STRUCTURE: readonly Topic[] = [
       },
       {
         questionId: "client_vs_server_validation",
-        title: "クライアントサイドとサーバーサイドのバリデーションの違いを説明できる",
+        title:
+          "クライアントサイドとサーバーサイドのバリデーションの違いを説明できる",
         type: "KNOW",
         difficulty: Difficulty.Medium,
       },

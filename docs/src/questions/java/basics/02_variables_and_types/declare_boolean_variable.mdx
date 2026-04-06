@@ -1,34 +1,35 @@
 ---
 id: "java/basics/02_variables_and_types#declare_boolean_variable"
-title: "小数型の変数を宣言できる"
+title: "真偽値型の変数を宣言できる"
 type: "WRITE"
 difficulty: "Easy"
 format: "fillInBlank"
 topicId: "02_variables_and_types"
 category: "java/basics"
 fillInBlankAnswers:
-  blank1: ["double", "Double"]
-  blank2: ["3.14", "3.14;"]
-sampleAnswer: "double pi = 3.14;"
+  blank1: ["boolean", "Boolean"]
+  blank2: ["true", "true;"]
+sampleAnswer: "boolean isStudent = true;"
 explanation: |
-  **double型**で小数を扱うには、変数宣言時に `double` を指定します。
+  **boolean型**で真偽値を扱うには、変数宣言時に `boolean` を指定します。
 
   ```java
-  double pi = 3.14;
+  boolean isStudent = true;
   ```
 
-  - `double`: 小数型の型名
-  - `pi`: 変数名
-  - `3.14`: 小数値
+  - `boolean`: 真偽値型の型名
+  - `isStudent`: 変数名
+  - `true`: 真（正しい）を表す値
 
-  **double型で扱える値の例**：
-  - 小数：`3.14`, `-0.5`, `99.99`
-  - 整数も代入可能：`100.0`, `0.0`
-  - 非常に大きな数や小さな数も扱える
+  **boolean型で扱える値**：
+  - `true`（真）
+  - `false`（偽）
+  - この2つの値のみ
 
-  **使い分け**：
-  - 小数が必要な場合（価格、温度など）：`double`
-  - 整数のみの場合（年齢、カウント数など）：`int`
+  **注意**：
+  - 小文字で書く（`True` や `FALSE` はエラー）
+  - ダブルクォートは付けない（`"true"` は文字列）
+  - 条件分岐やループで頻繁に使う
 ---
 
 import { BlankInput } from '@site/src/components/question/inputs/BlankInput';
@@ -36,8 +37,8 @@ import { CodeBlock } from '@site/src/components/question/CodeBlock';
 
 ## 問題
 
-以下のコードの空欄を埋めて、変数`pi`に小数値`3.14`を代入してください。
+以下のコードの空欄を埋めて、変数`isStudent`に真偽値`true`を代入してください。
 
 <CodeBlock>
-  <BlankInput id="blank1" /> pi = <BlankInput id="blank2" />;
+  <BlankInput id="blank1" /> isStudent = <BlankInput id="blank2" />;
 </CodeBlock>
