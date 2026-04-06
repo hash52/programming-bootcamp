@@ -35,6 +35,16 @@ export const QuestionDialog: React.FC<QuestionDialogProps> = ({
     if (!questionId || !showNavigation) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      // テキストフィールドにフォーカスがある場合は矢印キーナビゲーションを無効化
+      const active = document.activeElement;
+      if (
+        active instanceof HTMLInputElement ||
+        active instanceof HTMLTextAreaElement ||
+        (active instanceof HTMLElement && active.isContentEditable)
+      ) {
+        return;
+      }
+
       if (e.key === "ArrowLeft" && hasPrevious && onPrevious) {
         onPrevious();
       } else if (e.key === "ArrowRight" && hasNext && onNext) {
