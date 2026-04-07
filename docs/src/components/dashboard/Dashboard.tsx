@@ -6,7 +6,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
   Checkbox,
   Chip,
   IconButton,
@@ -24,7 +23,7 @@ import {
   getMajorChapterFromCategory,
 } from "@site/src/structure";
 import { ChevronDown } from "mdi-material-ui";
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { useStoredProgress } from "@site/src/hooks/useStoredProgress";
 import { ProgressBarWithLabel } from "./ProgressBarWithLabel";
@@ -129,17 +128,19 @@ export const Dashboard: FC = () => {
   // しかし useLocation() では frontMatter を参照できないため "/" のパンくずを非表示にできない。
   // そのためコンポーネント側で .breadcrumbs を CSS で非表示にすることで対処する。
   useEffect(() => {
-    const style = document.createElement('style');
-    style.dataset.hackId = 'dashboard-hide-breadcrumbs';
+    const style = document.createElement("style");
+    style.dataset.hackId = "dashboard-hide-breadcrumbs";
     // HACK: パンくずリスト非表示後に残る上部余白を除去する。
     // Docusaurus の article 要素は breadcrumbs 用の上部余白を持つため、
     // breadcrumbs 非表示と同時に article の padding-top / margin-top もリセットする。
     style.textContent = [
-      '.breadcrumbs { display: none !important; }',
-      'article { padding-top: 0 !important; margin-top: 0 !important; }',
-    ].join('\n');
+      ".breadcrumbs { display: none !important; }",
+      "article { padding-top: 0 !important; margin-top: 0 !important; }",
+    ].join("\n");
     document.head.appendChild(style);
-    return () => { document.head.removeChild(style); };
+    return () => {
+      document.head.removeChild(style);
+    };
   }, []);
 
   /** 学習ガイドダイアログの開閉状態 */
@@ -209,40 +210,40 @@ export const Dashboard: FC = () => {
         {ALL_MAJOR_CHAPTERS.map((major) => {
           const majorCategories = Array.from(
             new Set(
-              ALL_TOPIC_STRUCTURE
-                .filter((t) => getMajorChapterFromCategory(t.category) === major)
-                .map((t) => t.category)
-            )
+              ALL_TOPIC_STRUCTURE.filter(
+                (t) => getMajorChapterFromCategory(t.category) === major,
+              ).map((t) => t.category),
+            ),
           );
           if (majorCategories.length === 0) return null;
 
           const majorRatio = calcMajorChapterProgressRate(
             major,
-            storedProgress.progress
+            storedProgress.progress,
           );
           const majorValue = majorRatio * 100;
           const majorCount = calcMajorChapterProgressCount(
             major,
-            storedProgress.progress
+            storedProgress.progress,
           );
           const isSingleCategory = majorCategories.length === 1;
 
           /** トピック一覧のレンダリング（中章・単一カテゴリ共通） */
-          const renderTopics = (cat: typeof majorCategories[number]) => {
+          const renderTopics = (cat: (typeof majorCategories)[number]) => {
             const topics = ALL_TOPIC_STRUCTURE.filter(
-              (t) => t.category === cat
+              (t) => t.category === cat,
             );
             return (
               <TopicProgressStack>
                 {topics.map((topic) => {
                   const topicRatio = calcTopicProgressRate(
                     topic.id,
-                    storedProgress.progress
+                    storedProgress.progress,
                   );
                   const topicValue = topicRatio * 100;
                   const topicCount = calcTopicProgressCount(
                     topic.id,
-                    storedProgress.progress
+                    storedProgress.progress,
                   );
                   return (
                     <TopicProgressAccordion key={topic.id}>
@@ -256,7 +257,7 @@ export const Dashboard: FC = () => {
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   history.push(
-                                    `${siteConfig.baseUrl}${topic.category}/${topic.id.replace(/^\d+_/, "")}`
+                                    `${siteConfig.baseUrl}${topic.category}/${topic.id.replace(/^\d+_/, "")}`,
                                   );
                                 }}
                               >
@@ -288,7 +289,7 @@ export const Dashboard: FC = () => {
                                   onChange={(e) =>
                                     storedProgress.updateProgress(
                                       q.id,
-                                      e.target.checked
+                                      e.target.checked,
                                     )
                                   }
                                 />
@@ -297,7 +298,7 @@ export const Dashboard: FC = () => {
                                     const topicQuestions = topic.questions;
                                     const currentIndex =
                                       topicQuestions.findIndex(
-                                        (question) => question.id === q.id
+                                        (question) => question.id === q.id,
                                       );
                                     setSelectedQuestionContext({
                                       questionId: q.id,
@@ -324,7 +325,7 @@ export const Dashboard: FC = () => {
           };
 
           return (
-            <MajorChapterAccordion key={major} >
+            <MajorChapterAccordion key={major}>
               <AccordionSummary expandIcon={<ChevronDown />}>
                 <MajorChapterSummaryBox>
                   <MajorChapterTitle>
@@ -352,17 +353,15 @@ export const Dashboard: FC = () => {
                   <CategorySubStack>
                     {majorCategories.map((cat) => {
                       const catValue =
-                        calcCategoryProgressRate(
-                          cat,
-                          storedProgress.progress
-                        ) * 100;
+                        calcCategoryProgressRate(cat, storedProgress.progress) *
+                        100;
                       const catCount = calcCategoryProgressCount(
                         cat,
-                        storedProgress.progress
+                        storedProgress.progress,
                       );
 
                       return (
-                        <CategorySubAccordion key={cat} >
+                        <CategorySubAccordion key={cat}>
                           <AccordionSummary expandIcon={<ChevronDown />}>
                             <CategorySubSummaryBox>
                               <CategorySubTitle>
