@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useMemo, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  useRef,
+} from "react";
 import {
   Box,
   Typography,
@@ -42,12 +48,12 @@ export const DojoContent: React.FC = () => {
   // ツリー選択ダイアログ
   const [selectorOpen, setSelectorOpen] = useState(false);
   const [checkedQuestionIds, setCheckedQuestionIds] = useState<Set<string>>(
-    new Set()
+    new Set(),
   );
 
   // フィルター状態
   const [selectedTypes, setSelectedTypes] = useState<Set<QuestionType>>(
-    new Set(["KNOW", "READ", "WRITE"])
+    new Set(["KNOW", "READ", "WRITE"]),
   );
   const [selectedDifficulties, setSelectedDifficulties] = useState<
     Set<Difficulty>
@@ -80,11 +86,13 @@ export const DojoContent: React.FC = () => {
   // しかし useLocation() では frontMatter を参照できないため "/dojo" のパンくずを非表示にできない。
   // そのためコンポーネント側で .breadcrumbs を CSS で非表示にすることで対処する。
   useEffect(() => {
-    const style = document.createElement('style');
-    style.dataset.hackId = 'dojo-hide-breadcrumbs';
-    style.textContent = '.breadcrumbs { display: none !important; }';
+    const style = document.createElement("style");
+    style.dataset.hackId = "dojo-hide-breadcrumbs";
+    style.textContent = ".breadcrumbs { display: none !important; }";
     document.head.appendChild(style);
-    return () => { document.head.removeChild(style); };
+    return () => {
+      document.head.removeChild(style);
+    };
   }, []);
 
   /** 演習開始 */
@@ -102,7 +110,11 @@ export const DojoContent: React.FC = () => {
     setActiveQuestions(questions);
     setIsImported(false);
     setSelectorOpen(false);
-    history.pushState(null, "", location.pathname + location.search + "#questions");
+    history.pushState(
+      null,
+      "",
+      location.pathname + location.search + "#questions",
+    );
     setScreen("loading");
   }, [
     checkedQuestionIds,
@@ -117,22 +129,23 @@ export const DojoContent: React.FC = () => {
   ]);
 
   /** インポートから直接問題表示 */
-  const handleImport = useCallback(
-    (questionIds: string[]) => {
-      // インポートされた問題IDで問題を取得（通常問題 + 追加演習）
-      const idSet = new Set(questionIds);
-      const allPool: Question[] = [
-        ...ALL_TOPIC_STRUCTURE.flatMap((t) => t.questions),
-        ...getAllExtraQuestionsAsQuestion(),
-      ];
-      const questions = allPool.filter((q) => idSet.has(q.id));
-      setActiveQuestions(questions);
-      setIsImported(true);
-      history.pushState(null, "", location.pathname + location.search + "#questions");
-      setScreen("loading");
-    },
-    []
-  );
+  const handleImport = useCallback((questionIds: string[]) => {
+    // インポートされた問題IDで問題を取得（通常問題 + 追加演習）
+    const idSet = new Set(questionIds);
+    const allPool: Question[] = [
+      ...ALL_TOPIC_STRUCTURE.flatMap((t) => t.questions),
+      ...getAllExtraQuestionsAsQuestion(),
+    ];
+    const questions = allPool.filter((q) => idSet.has(q.id));
+    setActiveQuestions(questions);
+    setIsImported(true);
+    history.pushState(
+      null,
+      "",
+      location.pathname + location.search + "#questions",
+    );
+    setScreen("loading");
+  }, []);
 
   /** プリセット選択 */
   const handleSelectPreset = useCallback((preset: DojoPreset) => {
@@ -182,7 +195,7 @@ export const DojoContent: React.FC = () => {
       history.pushState(
         null,
         "",
-        location.pathname + location.search + `#retry-${retryCountRef.current}`
+        location.pathname + location.search + `#retry-${retryCountRef.current}`,
       );
 
       setActiveQuestions(questions);
@@ -192,7 +205,7 @@ export const DojoContent: React.FC = () => {
       // ページ最上部にスクロール
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
-    [orderMode, activeQuestions]
+    [orderMode, activeQuestions],
   );
 
   // ブラウザバック確認ダイアログのハンドラー
@@ -233,13 +246,21 @@ export const DojoContent: React.FC = () => {
           retryCountRef.current > 0
             ? `#retry-${retryCountRef.current}`
             : "#questions";
-        history.replaceState(null, "", location.pathname + location.search + hash);
+        history.replaceState(
+          null,
+          "",
+          location.pathname + location.search + hash,
+        );
         setActiveQuestions(prevQuestions);
         setResetKey((prev) => prev + 1);
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         // スタックが空 → settings に戻る確認ダイアログ
-        history.pushState(null, "", location.pathname + location.search + "#questions");
+        history.pushState(
+          null,
+          "",
+          location.pathname + location.search + "#questions",
+        );
         setBrowserBackConfirmOpen(true);
       }
     };
@@ -328,6 +349,14 @@ export const DojoContent: React.FC = () => {
                 onRetryWrong={handleRetryWrong}
                 resetKey={resetKey}
                 onReady={() => setQvReady(true)}
+                checkedQuestionIds={checkedQuestionIds}
+                selectedTypes={selectedTypes}
+                selectedDifficulties={selectedDifficulties}
+                achievementFilter={achievementFilter}
+                daysAgoFilter={daysAgoFilter}
+                orderMode={orderMode}
+                questionLimit={questionLimit}
+                allQuestions={allQuestions}
               />
             </Box>
           )}
@@ -347,9 +376,20 @@ export const DojoContent: React.FC = () => {
           isImported={isImported}
           onRetryWrong={handleRetryWrong}
           resetKey={resetKey}
+          checkedQuestionIds={checkedQuestionIds}
+          selectedTypes={selectedTypes}
+          selectedDifficulties={selectedDifficulties}
+          achievementFilter={achievementFilter}
+          daysAgoFilter={daysAgoFilter}
+          orderMode={orderMode}
+          questionLimit={questionLimit}
+          allQuestions={allQuestions}
         />
       )}
-      <Dialog open={browserBackConfirmOpen} onClose={handleBrowserBackCancelled}>
+      <Dialog
+        open={browserBackConfirmOpen}
+        onClose={handleBrowserBackCancelled}
+      >
         <DialogTitle>条件設定に戻りますか？</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -358,7 +398,11 @@ export const DojoContent: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleBrowserBackCancelled}>キャンセル</Button>
-          <Button onClick={handleBrowserBackConfirmed} color="primary" variant="contained">
+          <Button
+            onClick={handleBrowserBackConfirmed}
+            color="primary"
+            variant="contained"
+          >
             戻る
           </Button>
         </DialogActions>

@@ -4,6 +4,7 @@ import type {
   DaysAgoFilter,
   OrderMode,
 } from "@site/src/lib/dojoFilter";
+import type { ProgressRecord } from "@site/src/hooks/useStoredProgress";
 
 export interface DojoPreset {
   id: string;
@@ -17,6 +18,8 @@ export interface DojoPreset {
   orderMode: OrderMode;
   questionLimit: number | null;
   allQuestions: boolean;
+  /** 達成済みの問題を除外した状態でプリセットが作成されたか */
+  excludeAchieved?: boolean;
 }
 
 const STORAGE_KEY = "dojoPresets";
@@ -48,7 +51,7 @@ export function deletePreset(id: string): void {
 
 export function renamePreset(id: string, newName: string): void {
   const presets = loadPresets().map((p) =>
-    p.id === id ? { ...p, name: newName } : p
+    p.id === id ? { ...p, name: newName } : p,
   );
   saveAll(presets);
 }
@@ -66,13 +69,26 @@ export interface CurrentConditions {
 
 export function buildPresetFromState(
   name: string,
-  state: CurrentConditions
+  state: CurrentConditions,
+  options?: {
+    excludeAchieved?: boolean;
+    progress?: ProgressRecord;
+  },
 ): DojoPreset {
+  let checkedQuestionIds = [...state.checkedQuestionIds];
+
+  // 達成済み除外オプションが有効な場合、達成済みの問題を除外
+  if (options?.excludeAchieved && options?.progress) {
+    checkedQuestionIds = checkedQuestionIds.filter(
+      (id) => !options.progress![id],
+    );
+  }
+
   return {
     id: crypto.randomUUID(),
     name,
     createdAt: new Date().toISOString(),
-    checkedQuestionIds: [...state.checkedQuestionIds],
+    checkedQuestionIds,
     selectedTypes: [...state.selectedTypes],
     selectedDifficulties: [...state.selectedDifficulties],
     achievementFilter: state.achievementFilter,
@@ -80,5 +96,6 @@ export function buildPresetFromState(
     orderMode: state.orderMode,
     questionLimit: state.questionLimit,
     allQuestions: state.allQuestions,
+    excludeAchieved: options?.excludeAchieved,
   };
 }
