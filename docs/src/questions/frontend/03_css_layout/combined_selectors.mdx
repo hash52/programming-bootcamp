@@ -6,11 +6,22 @@ difficulty: "Medium"
 format: "freeText"
 topicId: "03_css_layout"
 category: "frontend"
-sampleCodepen: "ByKOEqx"
+sampleCodepen: "LERJBag"
 sampleHtmlCode: |
+  <h1 class="title">カード一覧</h1>
+  <p>これはカード一覧です</p>
+
   <div class="card">
-    <p class="title">タイトル</p>
-    <p>テキスト段落</p>
+    <h3 class="title">カード1</h3>
+    <p>説明文です。</p>
+  </div>
+  <div class="card">
+    <h3 class="title">カード2</h3>
+    <p>説明文です。</p>
+  </div>
+  <div class="card">
+    <h3 class="title">カード3</h3>
+    <p>説明文です。</p>
   </div>
 sampleCssCode: |
   .card p {
@@ -50,6 +61,6 @@ explanation: |
 
 import { CodePenEmbed } from '@site/src/components/CodePenEmbed';
 
-以下のプレビューと同じ見た目になるよう、`.card` クラスを持つ要素の中の `<p>` タグの文字色をグレーにし、さらに `.card` の中の `.title` クラスのフォントサイズを大きくするCSSを記述せよ。
+`.card` クラスを持つ要素の中の `<p>` タグの文字色をグレーにし、さらに `.card` の中の `.title` クラスのフォントサイズを大きくするCSSを記述せよ。
 
-<CodePenEmbed slugHash="ByKOEqx" defaultTab="result" editable={true} height={250} />
+<CodePenEmbed slugHash="bNwxjZV" defaultTab="result" editable={true} height={250} />
