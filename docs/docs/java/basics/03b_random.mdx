@@ -268,12 +268,12 @@ int number = random.nextInt(max - min + 1) + min;
 
 ### 小数の範囲指定
 
-**問題**：0.0〜100.0の範囲の小数を生成したい。
+**問題**：0.0以上100.0未満の範囲の小数を生成したい。
 
 **解決策**：`nextDouble()` の結果に倍率を掛ける。
 
 ```java
-double score = random.nextDouble() * 100;  // 0.0〜100.0
+double score = random.nextDouble() * 100;  // 0.0以上100.0未満
 ```
 
 ### 実践例
@@ -299,7 +299,7 @@ public class Main {
         int temperature = random.nextInt(26) + 10;
         System.out.println("気温: " + temperature + "度");
 
-        // 4. テストの点数（0.0〜100.0）
+        // 4. テストの点数（0.0以上100.0未満）
         double score = random.nextDouble() * 100;
         System.out.printf("点数: %.1f点\\n", score);
 
@@ -838,11 +838,28 @@ int number = random.nextInt(max - min + 1) + min;
 int number = random.nextInt(51) + 50;  // 50〜100
 ```
 
----
-
-### Q5: 配列からランダムに選ぶ時の注意点は？
+### Q5: 0.0〜100.0を含む小数を作る方法は？
 
 **A5:**
+
+`nextDouble()` だけでは上端の100.0を含められない。  
+100.0を含めたい場合は、**刻み幅を決めて整数で生成してから小数に変換する** 方法を使う。
+
+例えば0.1刻みで0.0〜100.0を含めたいなら、以下のように書く：
+
+```java
+double score = random.nextInt(1001) / 10.0;  // 0.0〜100.0（100.0を含む）
+```
+
+- `nextInt(1001)` は0〜1000を返す
+- `10.0` で割ると0.0〜100.0になる
+- 1000が出たとき、`1000 / 10.0 = 100.0` となる
+
+---
+
+### Q6: 配列からランダムに選ぶ時の注意点は？
+
+**A6:**
 
 配列の長さを超えないように注意する。
 
