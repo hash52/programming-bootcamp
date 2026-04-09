@@ -22,7 +22,7 @@ import { QuestionList } from "@site/src/components/question/QuestionList";
 
 <OneCompilerCodeBlock
   language="postgresql"
-  codeId="TODO"
+  codeId="44jvr34tm"
   code={`-- 制約がないテーブル
 CREATE TABLE employees_bad (
     emp_id INTEGER,
@@ -80,7 +80,7 @@ CREATE TABLE テーブル名 (
 
 <OneCompilerCodeBlock
   language="postgresql"
-  codeId="TODO"
+  codeId="44jvr8axr"
   code={`-- 最もシンプルなテーブル
 CREATE TABLE fruits (
     id INTEGER,
@@ -164,7 +164,7 @@ SELECT * FROM fruits;`}
 
 <OneCompilerCodeBlock
   language="postgresql"
-  codeId="TODO"
+  codeId="44jvrant8"
   code={`-- NOT NULL制約を付けたテーブル
 CREATE TABLE employees_v2 (
     emp_id INTEGER,
@@ -200,7 +200,7 @@ INSERT INTO employees_v2 VALUES (2, NULL, 300000);`}
 
 <OneCompilerCodeBlock
   language="postgresql"
-  codeId="TODO"
+  codeId="44jvrc2n9"
   code={`-- UNIQUE制約を付けたテーブル
 CREATE TABLE employees_v3 (
     emp_id INTEGER,
@@ -242,7 +242,7 @@ INSERT INTO employees_v3 VALUES (3, '鈴木一郎', 'tanaka@example.com');`}
 
 <OneCompilerCodeBlock
   language="postgresql"
-  codeId="TODO"
+  codeId="44jvrda7y"
   code={`-- PRIMARY KEYを設定したテーブル
 CREATE TABLE departments (
     dept_id INTEGER PRIMARY KEY,  -- 主キー
@@ -288,7 +288,7 @@ IDは一度割り当てたら変更しないため、安定した一意識別が
 
 <OneCompilerCodeBlock
   language="postgresql"
-  codeId="TODO"
+  codeId="44jvresfj"
   code={`-- 部門テーブル（参照される側）
 CREATE TABLE departments (
     dept_id INTEGER PRIMARY KEY,
@@ -341,7 +341,7 @@ INSERT INTO employees VALUES (3, '鈴木一郎', 99, 320000);`}
 
 <OneCompilerCodeBlock
   language="postgresql"
-  codeId="TODO"
+  codeId="44jvrg28y"
   code={`-- CHECK制約を設定したテーブル
 CREATE TABLE employees (
     emp_id INTEGER PRIMARY KEY,
@@ -386,7 +386,7 @@ INSERT INTO employees VALUES (3, '鈴木一郎', 300000, 10);`}
 
 <OneCompilerCodeBlock
   language="postgresql"
-  codeId="TODO"
+  codeId="44jvrhkmq"
   code={`-- ここに商品テーブルのCREATE TABLE文を書いてみよう
 -- 要件に合った型と制約を設定すること
 
