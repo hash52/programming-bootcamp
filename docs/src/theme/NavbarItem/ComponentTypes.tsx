@@ -1,15 +1,16 @@
-import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
-import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
-import LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
-import SearchNavbarItem from '@theme/NavbarItem/SearchNavbarItem';
-import HtmlNavbarItem from '@theme/NavbarItem/HtmlNavbarItem';
-import DocNavbarItem from '@theme/NavbarItem/DocNavbarItem';
-import DocSidebarNavbarItem from '@theme/NavbarItem/DocSidebarNavbarItem';
-import DocsVersionNavbarItem from '@theme/NavbarItem/DocsVersionNavbarItem';
-import DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
+import DefaultNavbarItem from "@theme/NavbarItem/DefaultNavbarItem";
+import DropdownNavbarItem from "@theme/NavbarItem/DropdownNavbarItem";
+import LocaleDropdownNavbarItem from "@theme/NavbarItem/LocaleDropdownNavbarItem";
+import SearchNavbarItem from "@theme/NavbarItem/SearchNavbarItem";
+import HtmlNavbarItem from "@theme/NavbarItem/HtmlNavbarItem";
+import DocNavbarItem from "@theme/NavbarItem/DocNavbarItem";
+import DocSidebarNavbarItem from "@theme/NavbarItem/DocSidebarNavbarItem";
+import DocsVersionNavbarItem from "@theme/NavbarItem/DocsVersionNavbarItem";
+import DocsVersionDropdownNavbarItem from "@theme/NavbarItem/DocsVersionDropdownNavbarItem";
 
-import type {ComponentTypesObject} from '@theme/NavbarItem/ComponentTypes';
-import OfflineModeToggle from '../../components/OfflineModeToggle';
+import type { ComponentTypesObject } from "@theme/NavbarItem/ComponentTypes";
+import OfflineModeToggle from "../../components/OfflineModeToggle";
+import LocalStorageExportButton from "../../components/LocalStorageExportButton";
 
 const ComponentTypes: ComponentTypesObject = {
   default: DefaultNavbarItem,
@@ -21,7 +22,8 @@ const ComponentTypes: ComponentTypesObject = {
   docSidebar: DocSidebarNavbarItem,
   docsVersion: DocsVersionNavbarItem,
   docsVersionDropdown: DocsVersionDropdownNavbarItem,
-  'custom-offlineModeToggle': OfflineModeToggle,
+  "custom-localStorageExport": LocalStorageExportButton,
+  "custom-offlineModeToggle": OfflineModeToggle,
 };
 
 export default ComponentTypes;

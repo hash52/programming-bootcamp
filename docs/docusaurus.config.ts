@@ -63,6 +63,10 @@ const config: Config = {
       },
       items: [
         {
+          type: "custom-localStorageExport" as any,
+          position: "right",
+        },
+        {
           type: "custom-offlineModeToggle" as any,
           position: "right",
         },
